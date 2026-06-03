@@ -34,3 +34,10 @@ stack is fixed.
 The sidecar should include process layer tuples, not only gdsfactory internal
 layer IDs. Use `port.layer_info.layer` and `port.layer_info.datatype` when
 available.
+
+## Assembled Seeds
+
+`lumped_element_jpa_seed` composes reviewed primitive PCells into a first-pass
+JPA/LJPA layout. Treat it as a prompt-to-artifact seed for iteration. Do not
+claim it meets gain, bandwidth, noise, or saturation targets until external
+simulation and process DRC have actually passed.

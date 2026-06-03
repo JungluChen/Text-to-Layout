@@ -38,6 +38,7 @@ certification unless the user also asks for local GDS layout artifacts.
 - Simulation report: `.simulation.json`.
 - Extraction report: `.extraction.json`.
 - Stack preview: `.stack3d.html` and `.stack3d.json`.
+- Browser workbench: `.workbench.html`.
 - Process layers are placeholders unless the user provides a real stack.
 - Prefer registered PCells over raw polygons.
 - For open-ended amplifier requests, run or mirror `plan_ljpa` first and ask
@@ -51,6 +52,7 @@ From a Text-to-GDS project or plugin root:
 py -3 -m uv sync
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py toolchain --output-name manhattan_jj.gds
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py plan-ljpa "Design a 5 GHz LJPA with wide bandwidth"
+py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_seed.gds
 py -3 -m uv run text-to-gds
 py -3 -m uv run mcp dev src/text_to_gds/server.py
 ```
@@ -59,12 +61,16 @@ The MCP server exposes:
 
 - `compile_layout` - writes `.gds`, `.layout.png`, and `.sidecar.json`.
 - `run_drc` - reads GDS with KLayout Python and writes `.drc.json`.
+- `run_process_drc` - attempts external `klayout -b` deck execution and parses
+  `.lyrdb` or JSON reports.
 - `extract_layout` - writes `.extraction.json` with dimensions, layers, and
   GDS shape boxes.
 - `list_simulators` - reports local JosephsonCircuits.jl and JoSIM availability.
 - `plan_ljpa` - returns clarifying questions, assumptions, PCells, and
   simulator choices for LJPA prompts.
 - `export_3d_preview` - writes `.stack3d.html` and `.stack3d.json`.
+- `run_design_workflow` - runs prompt planning, LJPA seed layout compile, DRC,
+  extraction, preview, simulation, and writes `.workbench.html`.
 - `run_simulation` - computes ideal JJ outputs and can prepare JoSIM or
   JosephsonCircuits.jl adapter artifacts.
 
@@ -84,7 +90,9 @@ The MCP server exposes:
    Josephson inductance, capacitance, or other circuit-level targets.
 7. Run `export_3d_preview` when the user asks to view the stack, UI, or 3D
    design.
-8. Report only artifacts and checks that were actually produced.
+8. Use `run_design_workflow` for prompt-to-artifact LJPA seed runs and return
+   the generated workbench path.
+9. Report only artifacts and checks that were actually produced.
 
 ## References
 

@@ -13,11 +13,17 @@ from text_to_gds.adapters import (
     list_simulation_adapters,
 )
 from text_to_gds.design import plan_ljpa_design
-from text_to_gds.extraction import layer_bounding_boxes_from_gds, summarize_sidecar_parameters
+from text_to_gds.drc import parse_drc_report, run_external_klayout_drc
+from text_to_gds.extraction import (
+    labels_from_gds,
+    layer_bounding_boxes_from_gds,
+    summarize_sidecar_parameters,
+)
 from text_to_gds.pcells import (
     cpw_straight,
     flux_bias_line,
     ground_plane,
+    lumped_element_jpa_seed,
     manhattan_josephson_junction,
     meander_inductor,
     via_stack,
@@ -25,6 +31,7 @@ from text_to_gds.pcells import (
 from text_to_gds.preview import write_stack_preview
 from text_to_gds.process import DEFAULT_PROCESS
 from text_to_gds.simulation import simulate_ideal_junction
+from text_to_gds.workbench import write_design_workbench
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 WORKSPACE_ROOT = Path(os.environ.get("TEXT_TO_GDS_WORKSPACE", PROJECT_ROOT / "workspace")).resolve()
@@ -36,6 +43,7 @@ PCELL_REGISTRY = {
     "cpw_straight": cpw_straight,
     "flux_bias_line": flux_bias_line,
     "ground_plane": ground_plane,
+    "lumped_element_jpa_seed": lumped_element_jpa_seed,
     "manhattan_josephson_junction": manhattan_josephson_junction,
     "meander_inductor": meander_inductor,
     "via_stack": via_stack,
@@ -65,6 +73,14 @@ def _existing_path(path_value: str) -> Path:
         if resolved.exists():
             return resolved
     raise FileNotFoundError(f"File not found: {path_value}")
+
+
+def _artifact_stem(name: str) -> str:
+    filename = Path(name).name
+    for suffix in (".sidecar.json", ".drc.json", ".simulation.json", ".extraction.json"):
+        if filename.endswith(suffix):
+            filename = filename[: -len(suffix)]
+    return filename.rsplit(".", 1)[0] if filename.endswith((".gds", ".lyrdb", ".json")) else filename
 
 
 def _port_to_dict(name: str, port: Any) -> dict[str, Any]:
@@ -103,6 +119,7 @@ def _component_sidecar(
         "screenshot_path": str(screenshot_path),
         "bbox_um": bbox,
         "ports": [_port_to_dict(name, port) for name, port in port_items],
+        "labels": labels_from_gds(gds_path),
         "info": dict(component.info),
         "process_stack": DEFAULT_PROCESS.to_dict(),
     }
@@ -160,6 +177,17 @@ def _render_layout_screenshot(
                         layer,
                     )
                 )
+
+    layer_order = {
+        (3, 0): 0,
+        (4, 0): 1,
+        (5, 0): 2,
+        (7, 0): 3,
+        (6, 0): 4,
+        (8, 0): 5,
+        (10, 0): 6,
+    }
+    shapes.sort(key=lambda item: layer_order.get((item[1][0], item[1][1]), 99))
 
     image = Image.new("RGBA", (image_size, image_size), (250, 251, 252, 255))
     draw = ImageDraw.Draw(image, "RGBA")
@@ -336,6 +364,58 @@ def run_drc(
 
 
 @mcp.tool()
+def run_process_drc(
+    gds_path: str,
+    deck_path: str = "drc/superconducting_min_width.drc",
+    output_name: str | None = None,
+    klayout_executable: str = "klayout",
+) -> dict[str, Any]:
+    """Run an external headless KLayout DRC deck and normalize its report."""
+    layout_path = _existing_path(gds_path)
+    deck = _existing_path(deck_path)
+    stem = _artifact_stem(output_name) if output_name else f"{layout_path.stem}.process"
+    lyrdb_path = _artifact_path(f"{stem}.lyrdb", ".lyrdb")
+    command_result = run_external_klayout_drc(
+        gds_path=layout_path,
+        deck_path=deck,
+        lyrdb_path=lyrdb_path,
+        klayout_executable=klayout_executable,
+    )
+
+    violations: list[dict[str, Any]] = []
+    warnings = list(command_result["warnings"])
+    if command_result["executed"] and command_result["returncode"] == 0:
+        if lyrdb_path.exists():
+            violations = parse_drc_report(lyrdb_path)
+        else:
+            warnings.append("KLayout command succeeded but did not write a .lyrdb report.")
+
+    report = {
+        "schema": "text-to-gds.drc.v0",
+        "engine": command_result["engine"],
+        "ruleset": str(deck),
+        "input_gds": str(layout_path),
+        "status": "skipped"
+        if not command_result["executed"]
+        else "passed"
+        if command_result["returncode"] == 0 and not violations
+        else "failed",
+        "checked_shapes": None,
+        "warnings": warnings,
+        "violations": violations,
+        "lyrdb_path": str(lyrdb_path),
+        "command": command_result["command"],
+        "returncode": command_result["returncode"],
+        "stdout": command_result["stdout"],
+        "stderr": command_result["stderr"],
+    }
+    report_path = _artifact_path(f"{stem}.drc.json", ".json")
+    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    report["report_path"] = str(report_path)
+    return report
+
+
+@mcp.tool()
 def list_pcells() -> dict[str, Any]:
     """List registered PCells and the active process-stack defaults."""
     return {
@@ -353,6 +433,7 @@ def extract_layout(sidecar_path: str, include_gds_shapes: bool = True) -> dict[s
     summary = summarize_sidecar_parameters(sidecar)
     if include_gds_shapes:
         summary["gds_shapes"] = layer_bounding_boxes_from_gds(sidecar["gds_path"])
+        summary["labels"] = labels_from_gds(sidecar["gds_path"])
 
     output_path = _artifact_path(f"{sidecar_file.stem}.extraction.json", ".json")
     output_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
@@ -379,10 +460,68 @@ def plan_ljpa(prompt: str) -> dict[str, Any]:
 def export_3d_preview(gds_path: str, output_name: str | None = None) -> dict[str, Any]:
     """Export a local 2.5D HTML/JSON process-stack preview from GDS layer boxes."""
     layout_path = _existing_path(gds_path)
-    stem = Path(output_name).stem if output_name else layout_path.stem
+    stem = _artifact_stem(output_name) if output_name else layout_path.stem
     html_path = _artifact_path(f"{stem}.stack3d.html", ".html")
     json_path = _artifact_path(f"{stem}.stack3d.json", ".json")
     return write_stack_preview(layout_path, html_path, json_path)
+
+
+@mcp.tool()
+def run_design_workflow(
+    prompt: str,
+    output_name: str = "ljpa_seed.gds",
+    parameters: dict[str, Any] | None = None,
+    jc_ua_per_um2: float = 2.0,
+) -> dict[str, Any]:
+    """Run a local prompt-to-layout workflow and write a browser workbench."""
+    plan = plan_ljpa_design(prompt)
+    target = plan["target"]
+    pcell_parameters = {
+        "center_frequency_ghz": target.get("center_frequency_ghz") or 5.0,
+        "target_bandwidth_mhz": target.get("bandwidth_mhz") or 500.0,
+        "target_gain_db": target.get("gain_db") or 20.0,
+    }
+    pcell_parameters.update(parameters or {})
+
+    compiled = compile_layout(
+        pcell="lumped_element_jpa_seed",
+        parameters=pcell_parameters,
+        output_name=output_name,
+    )
+    drc = run_drc(compiled["gds_path"])
+    process_drc = run_process_drc(compiled["gds_path"], output_name=f"{Path(output_name).stem}.process")
+    extraction = extract_layout(compiled["sidecar_path"])
+    preview = export_3d_preview(compiled["gds_path"])
+    simulation = run_simulation(compiled["sidecar_path"], jc_ua_per_um2=jc_ua_per_um2)
+
+    workbench_path = _artifact_path(f"{Path(output_name).stem}.workbench.html", ".html")
+    workbench = write_design_workbench(
+        prompt=prompt,
+        plan=plan,
+        compiled=compiled,
+        drc=drc,
+        process_drc=process_drc,
+        extraction=extraction,
+        preview=preview,
+        simulation=simulation,
+        html_path=workbench_path,
+    )
+
+    return {
+        "schema": "text-to-gds.design-workflow.v0",
+        "status": "completed_with_mock_simulation",
+        "prompt": prompt,
+        "plan": plan,
+        "pcell": "lumped_element_jpa_seed",
+        "parameters": pcell_parameters,
+        "compile": compiled,
+        "drc": drc,
+        "process_drc": process_drc,
+        "extraction": extraction,
+        "preview": preview,
+        "simulation": simulation,
+        "workbench": workbench,
+    }
 
 
 @mcp.tool()

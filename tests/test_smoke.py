@@ -1,8 +1,21 @@
 from __future__ import annotations
 
 import json
+import os
+import sys
+from pathlib import Path
 
-from text_to_gds.pcells import cpw_straight, manhattan_josephson_junction, meander_inductor
+import anyio
+from mcp.client.session import ClientSession
+from mcp.client.stdio import StdioServerParameters, stdio_client
+
+from text_to_gds.drc import parse_drc_report
+from text_to_gds.pcells import (
+    cpw_straight,
+    lumped_element_jpa_seed,
+    manhattan_josephson_junction,
+    meander_inductor,
+)
 from text_to_gds.server import (
     compile_layout,
     export_3d_preview,
@@ -10,6 +23,8 @@ from text_to_gds.server import (
     list_pcells,
     list_simulators,
     plan_ljpa,
+    run_process_drc,
+    run_design_workflow,
     run_drc,
     run_simulation,
 )
@@ -43,6 +58,19 @@ def test_passive_pcells_expose_performance_parameters(tmp_path):
     assert output.exists()
 
 
+def test_lumped_element_jpa_seed_writes_gds(tmp_path):
+    component = lumped_element_jpa_seed(center_frequency_ghz=5.0, target_bandwidth_mhz=500.0)
+    assert component.info["device_type"] == "lumped_element_jpa_seed"
+    assert component.info["center_frequency_ghz"] == 5.0
+    assert component.info["target_bandwidth_mhz"] == 500.0
+    assert "cpw_trace_width_um" in component.info
+    assert len(component.ports) == 6
+
+    output = tmp_path / "ljpa_seed.gds"
+    component.write_gds(output)
+    assert output.exists()
+
+
 def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
 
@@ -56,6 +84,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert sidecar["screenshot_path"] == compiled["screenshot_path"]
     assert sidecar["info"]["device_type"] == "manhattan_josephson_junction"
     assert sidecar["ports"][0]["layer"] == [3, 0]
+    assert sidecar["labels"][0]["text"].startswith("JJ area")
 
     drc = run_drc(compiled["gds_path"])
     assert drc["status"] == "passed"
@@ -75,6 +104,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert extraction["schema"] == "text-to-gds.extraction-summary.v0"
     assert extraction["parameters"]["junction_area_um2"] == sidecar["info"]["junction_area_um2"]
     assert extraction["gds_shapes"]
+    assert extraction["labels"][0]["layer"] == [10, 0]
 
     preview = export_3d_preview(compiled["gds_path"])
     assert preview["status"] == "previewed"
@@ -84,6 +114,27 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     josim = run_simulation(compiled["sidecar_path"], simulator="josim", jc_ua_per_um2=2.0)
     assert josim["adapter"] == "JoSIM"
     assert (tmp_path / "toolchain.sidecar.josim.cir").exists()
+
+    process_drc = run_process_drc(
+        compiled["gds_path"],
+        output_name="toolchain.process",
+        klayout_executable="definitely_missing_klayout_for_test",
+    )
+    assert process_drc["engine"] == "klayout_external"
+    assert process_drc["status"] == "skipped"
+    assert "definitely_missing_klayout_for_test" in process_drc["warnings"][0]
+    assert process_drc["report_path"].endswith("toolchain.process.drc.json")
+
+    workflow = run_design_workflow("Design a 5 Ghz LJPA with wilde bandwidth")
+    assert workflow["schema"] == "text-to-gds.design-workflow.v0"
+    assert workflow["pcell"] == "lumped_element_jpa_seed"
+    assert workflow["plan"]["target"]["center_frequency_ghz"] == 5.0
+    assert workflow["compile"]["gds_path"].endswith("ljpa_seed.gds")
+    assert workflow["process_drc"]["report_path"].endswith("ljpa_seed.process.drc.json")
+    assert (tmp_path / "ljpa_seed.workbench.html").exists()
+    assert "Text-to-GDS Workbench" in (tmp_path / "ljpa_seed.workbench.html").read_text(
+        encoding="utf-8"
+    )
 
 
 def test_registry_planner_and_adapter_metadata():
@@ -104,6 +155,73 @@ def test_registry_planner_and_adapter_metadata():
         "JosephsonCircuits.jl",
         "JoSIM",
     }
+
+
+def test_parse_lyrdb_report(tmp_path):
+    lyrdb = tmp_path / "sample.lyrdb"
+    lyrdb.write_text(
+        """<?xml version="1.0" encoding="utf-8"?>
+<report-database>
+  <categories>
+    <category id="c1"><name>M1_min_width</name><description>M1 width below limit</description></category>
+  </categories>
+  <cells>
+    <cell id="cell1"><name>TOP</name></cell>
+  </cells>
+  <items>
+    <item>
+      <category>c1</category>
+      <cell>cell1</cell>
+      <values><value><box>-1,-2;3,4</box></value></values>
+    </item>
+  </items>
+</report-database>
+""",
+        encoding="utf-8",
+    )
+
+    violations = parse_drc_report(lyrdb)
+    assert violations == [
+        {
+            "rule": "M1_min_width",
+            "message": "M1 width below limit",
+            "severity": "error",
+            "cell": "TOP",
+            "bbox_um": [-1.0, -2.0, 3.0, 4.0],
+            "geometry": ["-1,-2;3,4"],
+        }
+    ]
+
+
+def test_mcp_stdio_protocol_lists_and_calls_tools(tmp_path):
+    async def run_client() -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        env = {
+            **os.environ,
+            "TEXT_TO_GDS_WORKSPACE": str(tmp_path / "workspace"),
+        }
+        params = StdioServerParameters(
+            command=sys.executable,
+            args=["src/text_to_gds/server.py"],
+            cwd=repo_root,
+            env=env,
+        )
+        async with stdio_client(params) as (read_stream, write_stream):
+            async with ClientSession(read_stream, write_stream) as session:
+                await session.initialize()
+                tools = await session.list_tools()
+                names = {tool.name for tool in tools.tools}
+                assert {"compile_layout", "run_process_drc", "plan_ljpa", "run_design_workflow"} <= names
+
+                result = await session.call_tool(
+                    "plan_ljpa",
+                    {"prompt": "Design a 5 Ghz LJPA with wilde bandwidth"},
+                )
+                payload = json.loads(result.content[0].text)
+                assert payload["target"]["center_frequency_ghz"] == 5.0
+                assert payload["target"]["bandwidth_mhz"] == 500.0
+
+    anyio.run(run_client)
 
 
 def test_ideal_josephson_simulation_units():

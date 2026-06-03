@@ -23,6 +23,20 @@ Output uses schema `text-to-gds.drc.v0` and includes `engine`,
 engine uses KLayout Python to scan shape bounding boxes for simple min-width
 violations. It is not a replacement for a process-specific DRC deck.
 
+## `run_process_drc`
+
+Inputs:
+
+- `gds_path`
+- `deck_path`
+- `output_name`
+- `klayout_executable`
+
+Output uses schema `text-to-gds.drc.v0`, records the external command, writes a
+normalized `.process.drc.json`, and parses `.lyrdb` or JSON reports when the
+external KLayout command writes one. If the executable is not installed, status
+is `skipped` and the report includes a warning.
+
 ## `run_simulation`
 
 Inputs:
@@ -78,3 +92,17 @@ Inputs:
 
 Output includes `html_path`, `json_path`, and `shape_count`. The preview is a
 2.5D process-stack review aid, not an EM or field-solver result.
+
+## `run_design_workflow`
+
+Inputs:
+
+- `prompt`
+- `output_name`
+- `parameters`
+- `jc_ua_per_um2`
+
+Output uses schema `text-to-gds.design-workflow.v0` and includes plan,
+compile, built-in DRC, process DRC adapter report, extraction, 2.5D preview,
+simulation, and workbench sections. It writes a `.workbench.html` local browser
+dashboard.

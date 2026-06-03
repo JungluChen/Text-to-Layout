@@ -14,11 +14,13 @@ but replaces mechanical CAD operations with local EDA layout operations.
 | Inspection sidecar | `.sidecar.json` with ports, bbox, layers, and PCell metadata |
 | 3D/stack review aid | `.stack3d.html` and `.stack3d.json` 2.5D process-stack preview |
 | Validation loop | KLayout Python min-width scan and `.drc.json` reports |
+| Process DRC handoff | external `klayout -b` adapter with `.lyrdb`/JSON parser and normalized report shape |
 | Simulation handoff | ideal JJ `.simulation.json`, extraction summaries, JoSIM deck scaffold, and JosephsonCircuits.jl command plan |
 | Prompt planning | `plan_ljpa` turns short LJPA prompts into clarification questions, assumptions, registered PCells, and simulator choices |
+| Prompt-to-artifact run | `run_design_workflow` compiles an LJPA seed GDS and writes a local browser workbench |
 | Example outputs | `examples/example_output.md` |
 | Benchmark prompts | six prompt/layout screenshot benchmark rows under `benchmarks/` and `assets/` |
-| CI and local checks | `.github/workflows/test.yml`, pytest, ruff, compileall |
+| CI and local checks | `.github/workflows/test.yml`, pytest, ruff, compileall, MCP stdio protocol smoke test |
 
 ## Intentional Differences
 
@@ -32,4 +34,5 @@ but replaces mechanical CAD operations with local EDA layout operations.
   prompt, generated source artifact, visual review artifact, sidecar/metadata,
   validation report, examples, benchmarks, skill, plugin bundle, and local
   tests. Its remaining gaps are domain-specific signoff depth: real process DRC,
-  external simulator execution, EM extraction, and closed-loop optimization.
+  external simulator execution, EM extraction, live browser execution, and
+  closed-loop optimization.

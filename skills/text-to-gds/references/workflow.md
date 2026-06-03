@@ -21,6 +21,10 @@ Python to read GDS and scan shape bounding boxes for simple min-width findings.
 It preserves the schema `text-to-gds.drc.v0` so future process DRC decks can
 replace the internal scan without changing agent loops.
 
+Use `run_process_drc` when a process deck should be attempted. It invokes
+external `klayout -b -rd input=... -rd report=... -r deck.drc` when the binary
+is installed. If KLayout is unavailable, the result is `skipped`, not `passed`.
+
 ## Simulation
 
 Run `extract_layout` before simulator handoff. It makes layer/material,
@@ -45,6 +49,11 @@ actually executes the local tool.
 Use `plan_ljpa` for open-ended prompts such as "Design a 5 GHz LJPA with wide
 bandwidth". Ask the returned material, process, gain, bandwidth, noise, pump,
 and simulator questions before locking the design.
+
+Use `run_design_workflow` for a first-pass local artifact set. It compiles the
+`lumped_element_jpa_seed` PCell, runs built-in DRC, attempts process DRC, runs
+extraction, writes a stack preview, runs the deterministic JJ simulation, and
+writes a `.workbench.html` dashboard.
 
 ## 3D/Stack Preview
 

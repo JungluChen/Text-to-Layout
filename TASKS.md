@@ -20,7 +20,7 @@
   calculation from the semantic sidecar.
 - [x] Expose planning and inspection tools: `list_pcells`, `extract_layout`,
   `list_simulators`, `plan_ljpa`, and `export_3d_preview`.
-- [ ] Add an MCP client fixture or protocol-level integration test.
+- [x] Add an MCP client fixture or protocol-level integration test.
 - [x] Add `.mcp.json` for local plugin-backed MCP server startup.
 
 ## Phase 2: PCell Library
@@ -34,10 +34,10 @@
 ## Phase 3: KLayout DRC And Sidecars
 
 - [x] Replace mock DRC with KLayout Python GDS geometry execution.
-- [ ] Add external headless KLayout process-deck execution.
-- [ ] Parse `.lyrdb` or JSON DRC output into `text-to-gds.drc.v0`.
+- [x] Add external headless KLayout process-deck execution adapter.
+- [x] Parse `.lyrdb` or JSON DRC output into `text-to-gds.drc.v0`.
 - [x] Extract layer bounding boxes and process metadata from generated GDS.
-- [ ] Extract labels from generated GDS into the sidecar/extraction report.
+- [x] Extract labels from generated GDS into the sidecar/extraction report.
 - [x] Add sample superconducting DRC decks under `drc/`.
 
 ## Phase 4: Simulation Adapters
@@ -55,7 +55,9 @@
   bandwidth" and return clarification questions, assumptions, PCells, and
   simulator options.
 - [x] Add local 2.5D stack preview export for quick UI/UX review.
-- [ ] Add an interactive browser UI for prompt, plan, layout, DRC, 3D preview,
+- [x] Add a local browser workbench for prompt, plan, layout, DRC, 3D preview,
   and simulation result review.
+- [ ] Add a live interactive frontend that accepts prompt edits and runs the
+  workflow from the browser.
 - [ ] Add closed-loop optimization that adjusts geometry after simulation
   misses target gain/bandwidth/noise metrics.

@@ -77,6 +77,40 @@ def layer_bounding_boxes_from_gds(gds_path: str | Path) -> list[dict[str, Any]]:
     return boxes
 
 
+def labels_from_gds(gds_path: str | Path) -> list[dict[str, Any]]:
+    """Extract text labels from a GDS file with KLayout Python."""
+    import klayout.db as kdb
+
+    layout = kdb.Layout()
+    layout.read(str(gds_path))
+    dbu = float(layout.dbu)
+
+    labels: list[dict[str, Any]] = []
+    for layer_index in layout.layer_indices():
+        info = layout.get_info(layer_index)
+        layer = (int(info.layer), int(info.datatype))
+        layer_spec = _layer_spec_dict(layer)
+        for cell in layout.each_cell():
+            for shape in cell.shapes(layer_index).each():
+                if not shape.is_text():
+                    continue
+                text = shape.text
+                labels.append(
+                    {
+                        "cell": cell.name,
+                        "text": text.string,
+                        "layer": layer_to_list(layer),
+                        "layer_name": layer_spec["name"],
+                        "material": layer_spec["material"],
+                        "position_um": [
+                            float(text.trans.disp.x) * dbu,
+                            float(text.trans.disp.y) * dbu,
+                        ],
+                    }
+                )
+    return labels
+
+
 def summarize_sidecar_parameters(sidecar: dict[str, Any]) -> dict[str, Any]:
     """Return performance-relevant geometry/process parameters from a sidecar."""
     info = sidecar.get("info", {})
@@ -119,6 +153,7 @@ def summarize_sidecar_parameters(sidecar: dict[str, Any]) -> dict[str, Any]:
         "gds_path": sidecar.get("gds_path"),
         "bbox_um": sidecar.get("bbox_um"),
         "ports": sidecar.get("ports", []),
+        "labels": sidecar.get("labels", []),
         "parameters": parameters,
         "layer_stack": layer_stack,
         "performance_impacts": impacts,

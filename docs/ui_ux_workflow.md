@@ -1,6 +1,11 @@
 # UI/UX Workflow
 
 Text-to-GDS should feel like a local layout workbench, not a marketing page.
+The current `run_design_workflow` output writes a local HTML workbench under
+`workspace/artifacts/*.workbench.html`. The future live frontend should keep
+the same structure and make the prompt/parameter panels executable from the
+browser.
+
 The primary screen should be the active design session:
 
 1. Prompt panel: user enters a request such as "Design a 5 GHz LJPA with wide

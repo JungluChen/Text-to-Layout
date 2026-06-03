@@ -125,3 +125,28 @@ The benchmark prompts in [design_requests.md](design_requests.md) show the
 expected request format for area, layer-stack, and performance targets. These
 requests should still produce GDS, sidecar, DRC, and simulation or adapter
 reports, even when some performance targets require future simulator adapters.
+
+## Prompt-To-Workbench LJPA Example
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 Ghz LJPA with wilde bandwidth" --output-name ljpa_seed.gds --jc-ua-per-um2 2.0
+```
+
+Generated files:
+
+```text
+workspace/artifacts/ljpa_seed.gds
+workspace/artifacts/ljpa_seed.layout.png
+workspace/artifacts/ljpa_seed.sidecar.json
+workspace/artifacts/ljpa_seed.drc.json
+workspace/artifacts/ljpa_seed.process.drc.json
+workspace/artifacts/ljpa_seed.sidecar.extraction.json
+workspace/artifacts/ljpa_seed.sidecar.simulation.json
+workspace/artifacts/ljpa_seed.stack3d.html
+workspace/artifacts/ljpa_seed.stack3d.json
+workspace/artifacts/ljpa_seed.workbench.html
+```
+
+The workbench HTML contains the prompt, clarification questions, layout
+screenshot, 2.5D stack preview, DRC status, extracted layout parameters, and
+simulation result.

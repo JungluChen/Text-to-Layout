@@ -51,6 +51,12 @@ def main() -> None:
     plan_parser = subparsers.add_parser("plan-ljpa")
     plan_parser.add_argument("prompt")
 
+    workflow_parser = subparsers.add_parser("design-workflow")
+    workflow_parser.add_argument("prompt")
+    workflow_parser.add_argument("--output-name", default="ljpa_seed.gds")
+    workflow_parser.add_argument("--parameters-json")
+    workflow_parser.add_argument("--jc-ua-per-um2", type=float, default=2.0)
+
     compile_parser = subparsers.add_parser("compile")
     compile_parser.add_argument("--pcell", default="manhattan_josephson_junction")
     compile_parser.add_argument("--parameters-json")
@@ -95,6 +101,17 @@ def main() -> None:
 
     if args.command == "plan-ljpa":
         _print_json(server.plan_ljpa(args.prompt))
+        return
+
+    if args.command == "design-workflow":
+        _print_json(
+            server.run_design_workflow(
+                prompt=args.prompt,
+                output_name=args.output_name,
+                parameters=_parameters(args.parameters_json),
+                jc_ua_per_um2=args.jc_ua_per_um2,
+            )
+        )
         return
 
     if args.command == "compile":

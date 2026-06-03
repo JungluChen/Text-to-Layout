@@ -35,6 +35,8 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
 - External simulator adapter scaffolds for JosephsonCircuits.jl and JoSIM
 - Prompt planning for LJPA requests, including clarification questions and
   simulator selection
+- A local browser workbench that shows prompt, plan, layout screenshot, 2.5D
+  stack preview, DRC status, extraction parameters, and simulation output
 
 For a direct feature mapping against `earthtojake/text-to-cad`, see
 [docs/function_parity.md](docs/function_parity.md).
@@ -128,10 +130,12 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 | `list_pcells` | List registered PCells and process-stack defaults. | JSON |
 | `compile_layout` | Compile a registered PCell into GDS, screenshot, and semantic sidecar. | `.gds`, `.layout.png`, `.sidecar.json` |
 | `run_drc` | Read GDS with KLayout Python and report min-width style findings. | `.drc.json` |
+| `run_process_drc` | Attempt external `klayout -b` deck execution and normalize `.lyrdb`/JSON reports. | `.process.drc.json`, optional `.lyrdb` |
 | `extract_layout` | Summarize sidecar parameters and layer bounding boxes for simulation handoff. | `.extraction.json` |
 | `list_simulators` | Report local JosephsonCircuits.jl and JoSIM adapter availability. | JSON |
 | `plan_ljpa` | Convert prompts like "Design a 5 GHz LJPA with wide bandwidth" into questions, assumptions, PCells, and workflow. | JSON |
 | `export_3d_preview` | Export a local 2.5D process-stack preview from GDS layer boxes. | `.stack3d.html`, `.stack3d.json` |
+| `run_design_workflow` | Run the prompt-to-artifacts LJPA seed flow and write a local workbench. | `.gds`, `.layout.png`, `.sidecar.json`, `.drc.json`, `.extraction.json`, `.simulation.json`, `.stack3d.html`, `.workbench.html` |
 | `run_simulation` | Compute ideal JJ current/inductance and optionally write external adapter plans/decks. | `.simulation.json`, optional `.josim.cir` |
 
 ## Example Output
@@ -197,8 +201,20 @@ Constraint-driven design request examples are documented in
 Simulator selection and LJPA paper references are documented in
 [docs/simulation_tools.md](docs/simulation_tools.md).
 
+The built-in and external KLayout DRC paths are documented in
+[docs/klayout_drc.md](docs/klayout_drc.md).
+
 The intended local workbench UX is documented in
 [docs/ui_ux_workflow.md](docs/ui_ux_workflow.md).
+
+Run the first-pass LJPA workflow from the prompt in this README:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 Ghz LJPA with wilde bandwidth" --output-name ljpa_seed.gds --jc-ua-per-um2 2.0
+```
+
+That command writes `workspace/artifacts/ljpa_seed.workbench.html`, which can
+be opened locally in a browser.
 
 ## Benchmarks
 
@@ -284,6 +300,9 @@ Text-to-Layout/
 
 - `run_drc` is a built-in KLayout Python geometry scan, not a full process DRC
   deck. Add a real KLayout `.drc` deck before foundry use.
+- `run_process_drc` invokes external `klayout -b` only when the `klayout`
+  executable is installed. Without it, the report is marked `skipped` and the
+  command is still recorded.
 - `run_simulation` computes ideal JJ quantities by default. It can prepare
   JoSIM/JosephsonCircuits artifacts, but full phase bias, shunt dynamics,
   parasitics, CPW impedance, and microwave gain/noise response still require

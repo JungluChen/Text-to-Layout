@@ -1,7 +1,11 @@
 # Text-to-GDS sample KLayout DRC deck.
 # This is a starter deck for local development, not foundry signoff.
+#
+# Batch usage:
+#   klayout -b -rd input=layout.gds -rd report=layout.lyrdb -r superconducting_min_width.drc
 
-report("Text-to-GDS superconducting starter DRC")
+source($input)
+report("Text-to-GDS superconducting starter DRC", $report)
 
 m1 = input(3, 0)
 jj = input(4, 0)
