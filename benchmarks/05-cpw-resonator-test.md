@@ -23,6 +23,7 @@ above $1 \times 10^5$, and minimum CPW gap of 6 um.
 
 ```text
 Output layout: workspace/artifacts/cpw_resonator_test.gds
+Layout screenshot: workspace/artifacts/cpw_resonator_test.layout.png
 Semantic sidecar: workspace/artifacts/cpw_resonator_test.sidecar.json
 DRC report: workspace/artifacts/cpw_resonator_test.drc.json
 Simulation/analysis report: workspace/artifacts/cpw_resonator_test.simulation.json

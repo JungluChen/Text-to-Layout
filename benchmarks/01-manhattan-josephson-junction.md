@@ -30,6 +30,7 @@ josephson_inductance_ph = 3399.855149
 
 ```text
 Output layout: workspace/artifacts/manhattan_jj.gds
+Layout screenshot: workspace/artifacts/manhattan_jj.layout.png
 Semantic sidecar: workspace/artifacts/manhattan_jj.sidecar.json
 DRC report: workspace/artifacts/manhattan_jj.drc.json
 Simulation report: workspace/artifacts/manhattan_jj.sidecar.simulation.json

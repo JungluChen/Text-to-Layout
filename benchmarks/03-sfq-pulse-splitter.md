@@ -23,6 +23,7 @@ of 100 uA per branch, and no routing segment narrower than 0.25 um.
 
 ```text
 Output layout: workspace/artifacts/sfq_pulse_splitter.gds
+Layout screenshot: workspace/artifacts/sfq_pulse_splitter.layout.png
 Semantic sidecar: workspace/artifacts/sfq_pulse_splitter.sidecar.json
 DRC report: workspace/artifacts/sfq_pulse_splitter.drc.json
 Simulation/analysis report: workspace/artifacts/sfq_pulse_splitter.simulation.json

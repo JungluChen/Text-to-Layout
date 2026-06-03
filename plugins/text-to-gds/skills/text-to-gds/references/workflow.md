@@ -5,6 +5,7 @@
 Use `compile_layout` for registered PCells. It writes:
 
 - `.gds`: layout artifact.
+- `.layout.png`: layout screenshot for quick visual inspection.
 - `.sidecar.json`: schema, PCell name, GDS path, bounding box, ports, and PCell
   metadata.
 

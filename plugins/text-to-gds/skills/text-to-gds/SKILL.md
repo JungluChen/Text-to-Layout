@@ -32,6 +32,7 @@ certification unless the user also asks for local GDS layout artifacts.
 - Units: microns for geometry and `uA`, `pH`, `fF` for JJ calculations.
 - Output root: `workspace/artifacts/`.
 - Primary artifact: `.gds`.
+- Layout screenshot artifact: `.layout.png`.
 - Sidecar artifact: `.sidecar.json`.
 - DRC report: `.drc.json`.
 - Simulation report: `.simulation.json`.
@@ -53,7 +54,7 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 
 The MCP server exposes:
 
-- `compile_layout` - writes `.gds` and `.sidecar.json`.
+- `compile_layout` - writes `.gds`, `.layout.png`, and `.sidecar.json`.
 - `run_drc` - reads GDS with KLayout Python and writes `.drc.json`.
 - `run_simulation` - computes ideal JJ outputs and writes `.simulation.json`.
 
@@ -63,9 +64,10 @@ The MCP server exposes:
    paths, and validation gates.
 2. Prefer registered PCells from `text_to_gds.pcells` over raw polygons.
 3. Compile layouts through the MCP tool `compile_layout` or the skill helper
-   script so a `.gds` and `.sidecar.json` are produced together.
-4. Run `run_drc` before treating any layout as valid. The current adapter is
-   mock-shaped and should be replaced by KLayout once a process deck exists.
+   script so a `.gds`, `.layout.png`, and `.sidecar.json` are produced together.
+4. Run `run_drc` before treating any layout as valid. The current built-in
+   adapter is a KLayout-backed geometry scan and should be replaced by a full
+   process deck for signoff.
 5. Run `run_simulation` when the request includes junction critical current,
    Josephson inductance, capacitance, or other circuit-level targets.
 6. Report only artifacts and checks that were actually produced.

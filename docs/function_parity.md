@@ -10,6 +10,7 @@ but replaces mechanical CAD operations with local EDA layout operations.
 | Local deterministic toolchain | `py -3 -m uv run ...` commands and MCP server |
 | Source-controlled generators | gdsfactory PCells under `src/text_to_gds/pcells` |
 | Primary generated artifact | `.gds` instead of `.step` |
+| Visual review artifact | `.layout.png` screenshot generated from the GDS |
 | Inspection sidecar | `.sidecar.json` with ports, bbox, layers, and PCell metadata |
 | Validation loop | KLayout Python min-width scan and `.drc.json` reports |
 | Simulation handoff | ideal JJ `.simulation.json` report from sidecar metadata |

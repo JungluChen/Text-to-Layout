@@ -20,6 +20,7 @@ Expected outputs:
 
 ```text
 Output layout: workspace/artifacts/compact_cmos_logic.gds
+Layout screenshot: workspace/artifacts/compact_cmos_logic.layout.png
 Semantic sidecar: workspace/artifacts/compact_cmos_logic.sidecar.json
 DRC report: workspace/artifacts/compact_cmos_logic.drc.json
 Simulation/analysis report: workspace/artifacts/compact_cmos_logic.simulation.json
@@ -44,6 +45,7 @@ Expected outputs:
 
 ```text
 Output layout: workspace/artifacts/sfq_pulse_splitter.gds
+Layout screenshot: workspace/artifacts/sfq_pulse_splitter.layout.png
 Semantic sidecar: workspace/artifacts/sfq_pulse_splitter.sidecar.json
 DRC report: workspace/artifacts/sfq_pulse_splitter.drc.json
 Simulation/analysis report: workspace/artifacts/sfq_pulse_splitter.simulation.json
@@ -67,6 +69,7 @@ Expected outputs:
 
 ```text
 Output layout: workspace/artifacts/jj_ic_calibration_array.gds
+Layout screenshot: workspace/artifacts/jj_ic_calibration_array.layout.png
 Semantic sidecar: workspace/artifacts/jj_ic_calibration_array.sidecar.json
 DRC report: workspace/artifacts/jj_ic_calibration_array.drc.json
 Simulation/analysis report: workspace/artifacts/jj_ic_calibration_array.simulation.json
@@ -90,6 +93,7 @@ Expected outputs:
 
 ```text
 Output layout: workspace/artifacts/cpw_resonator_test.gds
+Layout screenshot: workspace/artifacts/cpw_resonator_test.layout.png
 Semantic sidecar: workspace/artifacts/cpw_resonator_test.sidecar.json
 DRC report: workspace/artifacts/cpw_resonator_test.drc.json
 Simulation/analysis report: workspace/artifacts/cpw_resonator_test.simulation.json
@@ -114,6 +118,7 @@ Expected outputs:
 
 ```text
 Output layout: workspace/artifacts/via_chain_monitor.gds
+Layout screenshot: workspace/artifacts/via_chain_monitor.layout.png
 Semantic sidecar: workspace/artifacts/via_chain_monitor.sidecar.json
 DRC report: workspace/artifacts/via_chain_monitor.drc.json
 Simulation/analysis report: workspace/artifacts/via_chain_monitor.simulation.json

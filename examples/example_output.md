@@ -10,10 +10,14 @@ py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py toolchain 
 
 ```text
 workspace/artifacts/manhattan_jj.gds
+workspace/artifacts/manhattan_jj.layout.png
 workspace/artifacts/manhattan_jj.sidecar.json
 workspace/artifacts/manhattan_jj.drc.json
 workspace/artifacts/manhattan_jj.sidecar.simulation.json
 ```
+
+The `.layout.png` file is a rendered layout screenshot generated from the GDS
+for quick review.
 
 ## Semantic Sidecar Excerpt
 
@@ -21,6 +25,7 @@ workspace/artifacts/manhattan_jj.sidecar.simulation.json
 {
   "schema": "text-to-gds.sidecar.v0",
   "pcell": "manhattan_josephson_junction",
+  "screenshot_path": "workspace/artifacts/manhattan_jj.layout.png",
   "bbox_um": [[-6.0, -6.0], [6.0, 6.0]],
   "ports": [
     {

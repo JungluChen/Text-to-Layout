@@ -22,6 +22,7 @@ expected critical current for $J_c = 2.0 uA/\mu m^2$.
 
 ```text
 Output layout: workspace/artifacts/jj_ic_calibration_array.gds
+Layout screenshot: workspace/artifacts/jj_ic_calibration_array.layout.png
 Semantic sidecar: workspace/artifacts/jj_ic_calibration_array.sidecar.json
 DRC report: workspace/artifacts/jj_ic_calibration_array.drc.json
 Simulation/analysis report: workspace/artifacts/jj_ic_calibration_array.simulation.json

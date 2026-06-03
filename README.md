@@ -26,6 +26,7 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
 - A reviewed starter superconducting PCell:
   `manhattan_josephson_junction`
 - GDSII artifact generation through gdsfactory
+- Layout screenshot PNG generation for quick visual inspection
 - Semantic sidecar JSON with ports, bounding boxes, layers, and PCell metadata
 - KLayout-backed local DRC shape scanning
 - Correct ideal Josephson Junction calculations for `Ic` and `Lj`
@@ -119,7 +120,7 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 
 | Tool | Purpose | Output |
 | --- | --- | --- |
-| `compile_layout` | Compile a registered PCell into GDS and a semantic sidecar. | `.gds`, `.sidecar.json` |
+| `compile_layout` | Compile a registered PCell into GDS, screenshot, and semantic sidecar. | `.gds`, `.layout.png`, `.sidecar.json` |
 | `run_drc` | Read GDS with KLayout Python and report min-width style findings. | `.drc.json` |
 | `run_simulation` | Compute ideal JJ current and inductance from sidecar metadata. | `.simulation.json` |
 
@@ -135,10 +136,15 @@ Generated files:
 
 ```text
 workspace/artifacts/manhattan_jj.gds
+workspace/artifacts/manhattan_jj.layout.png
 workspace/artifacts/manhattan_jj.sidecar.json
 workspace/artifacts/manhattan_jj.drc.json
 workspace/artifacts/manhattan_jj.sidecar.simulation.json
 ```
+
+Example layout screenshot:
+
+![Manhattan Josephson Junction layout screenshot](assets/manhattan_jj_layout.png)
 
 Representative output:
 
@@ -147,6 +153,7 @@ Representative output:
   "compile": {
     "status": "compiled",
     "gds_path": "workspace/artifacts/manhattan_jj.gds",
+    "screenshot_path": "workspace/artifacts/manhattan_jj.layout.png",
     "sidecar_path": "workspace/artifacts/manhattan_jj.sidecar.json"
   },
   "drc": {
@@ -183,12 +190,12 @@ simulation outputs instead of STEP or mesh previews.
 
 | # | Target | Prompt | Expected outputs |
 | --- | --- | --- | --- |
-| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ with default layers, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um^2`. | Output layout `.gds`, sidecar JSON, DRC JSON, simulation JSON |
-| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `$5 \mu m \times 5 \mu m$`, use M1/M2/M3 routing, and target sub-50 ps delay with under-100 nW leakage. | Output layout `.gds`, sidecar JSON, DRC JSON, adapter simulation JSON |
-| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | Output layout `.gds`, sidecar JSON, DRC JSON, JJ/adapter simulation JSON |
-| 4 | [JJ IC Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | Output layout `.gds`, sidecar JSON, DRC JSON, simulation JSON |
-| 5 | [CPW Resonator Test Structure](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | Output layout `.gds`, sidecar JSON, DRC JSON, EM-adapter report JSON |
-| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | Output layout `.gds`, sidecar JSON, DRC JSON, extraction-adapter report JSON |
+| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ with default layers, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um^2`. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, simulation JSON |
+| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `$5 \mu m \times 5 \mu m$`, use M1/M2/M3 routing, and target sub-50 ps delay with under-100 nW leakage. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, adapter simulation JSON |
+| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, JJ/adapter simulation JSON |
+| 4 | [JJ IC Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, simulation JSON |
+| 5 | [CPW Resonator Test Structure](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, EM-adapter report JSON |
+| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | Output layout `.gds`, layout screenshot `.layout.png`, sidecar JSON, DRC JSON, extraction-adapter report JSON |
 
 ## Simulation Model
 
@@ -234,6 +241,7 @@ Text-to-Layout/
 |-- .codex-plugin/
 |-- .claude-plugin/
 |-- .github/
+|-- assets/
 |-- benchmarks/
 |-- docs/
 |-- drc/

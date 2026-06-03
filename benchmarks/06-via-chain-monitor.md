@@ -24,6 +24,7 @@ sidecar.
 
 ```text
 Output layout: workspace/artifacts/via_chain_monitor.gds
+Layout screenshot: workspace/artifacts/via_chain_monitor.layout.png
 Semantic sidecar: workspace/artifacts/via_chain_monitor.sidecar.json
 DRC report: workspace/artifacts/via_chain_monitor.drc.json
 Simulation/analysis report: workspace/artifacts/via_chain_monitor.simulation.json

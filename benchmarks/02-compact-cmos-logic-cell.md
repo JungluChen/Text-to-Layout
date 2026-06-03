@@ -24,6 +24,7 @@ power under 100 nW at 1.8 V.
 
 ```text
 Output layout: workspace/artifacts/compact_cmos_logic.gds
+Layout screenshot: workspace/artifacts/compact_cmos_logic.layout.png
 Semantic sidecar: workspace/artifacts/compact_cmos_logic.sidecar.json
 DRC report: workspace/artifacts/compact_cmos_logic.drc.json
 Simulation/analysis report: workspace/artifacts/compact_cmos_logic.simulation.json

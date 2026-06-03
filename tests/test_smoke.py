@@ -23,10 +23,12 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
 
     compiled = compile_layout(output_name="toolchain.gds")
     assert compiled["status"] == "compiled"
+    assert (tmp_path / "toolchain.layout.png").exists()
 
     sidecar_path = tmp_path / "toolchain.sidecar.json"
     sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
     assert sidecar["schema"] == "text-to-gds.sidecar.v0"
+    assert sidecar["screenshot_path"] == compiled["screenshot_path"]
     assert sidecar["info"]["device_type"] == "manhattan_josephson_junction"
     assert sidecar["ports"][0]["layer"] == [3, 0]
 

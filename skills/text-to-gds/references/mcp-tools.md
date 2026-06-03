@@ -8,7 +8,7 @@ Inputs:
 - `parameters`: JSON object passed to the PCell.
 - `output_name`: artifact filename.
 
-Output includes `status`, `gds_path`, and `sidecar_path`.
+Output includes `status`, `gds_path`, `screenshot_path`, and `sidecar_path`.
 
 ## `run_drc`
 

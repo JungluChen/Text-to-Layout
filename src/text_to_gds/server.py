@@ -63,7 +63,12 @@ def _port_to_dict(name: str, port: Any) -> dict[str, Any]:
     }
 
 
-def _component_sidecar(component: Any, gds_path: Path, pcell: str) -> dict[str, Any]:
+def _component_sidecar(
+    component: Any,
+    gds_path: Path,
+    pcell: str,
+    screenshot_path: Path,
+) -> dict[str, Any]:
     try:
         port_items = component.ports.items()
     except AttributeError:
@@ -74,10 +79,100 @@ def _component_sidecar(component: Any, gds_path: Path, pcell: str) -> dict[str, 
         "schema": "text-to-gds.sidecar.v0",
         "pcell": pcell,
         "gds_path": str(gds_path),
+        "screenshot_path": str(screenshot_path),
         "bbox_um": bbox,
         "ports": [_port_to_dict(name, port) for name, port in port_items],
         "info": dict(component.info),
     }
+
+
+def _layer_color(layer: list[int]) -> tuple[int, int, int, int]:
+    palette = {
+        (3, 0): (56, 102, 214, 190),
+        (4, 0): (218, 73, 86, 210),
+        (5, 0): (48, 154, 103, 190),
+        (10, 0): (90, 90, 90, 170),
+    }
+    key = (layer[0], layer[1])
+    if key in palette:
+        return palette[key]
+    seed = (layer[0] * 97 + layer[1] * 53) % 255
+    return (80 + seed % 120, 80 + (seed * 3) % 120, 80 + (seed * 7) % 120, 180)
+
+
+def _render_layout_screenshot(
+    layout_path: Path,
+    screenshot_path: Path,
+    *,
+    image_size: int = 1000,
+) -> None:
+    import klayout.db as kdb
+    from PIL import Image, ImageDraw
+
+    layout = kdb.Layout()
+    layout.read(str(layout_path))
+    dbu = float(layout.dbu)
+
+    shapes: list[tuple[list[float], list[int]]] = []
+    for layer_index in layout.layer_indices():
+        layer_info = layout.get_info(layer_index)
+        layer = [int(layer_info.layer), int(layer_info.datatype)]
+        for cell in layout.each_cell():
+            for shape in cell.shapes(layer_index).each():
+                bbox = shape.bbox()
+                width_um = float(bbox.width()) * dbu
+                height_um = float(bbox.height()) * dbu
+                if width_um <= 0.0 or height_um <= 0.0:
+                    continue
+                shapes.append(
+                    (
+                        [
+                            float(bbox.left) * dbu,
+                            float(bbox.bottom) * dbu,
+                            float(bbox.right) * dbu,
+                            float(bbox.top) * dbu,
+                        ],
+                        layer,
+                    )
+                )
+
+    image = Image.new("RGBA", (image_size, image_size), (250, 251, 252, 255))
+    draw = ImageDraw.Draw(image, "RGBA")
+
+    if not shapes:
+        draw.text((24, 24), f"No drawable shapes in {layout_path.name}", fill=(30, 41, 59, 255))
+        image.convert("RGB").save(screenshot_path)
+        return
+
+    min_x = min(shape[0][0] for shape in shapes)
+    min_y = min(shape[0][1] for shape in shapes)
+    max_x = max(shape[0][2] for shape in shapes)
+    max_y = max(shape[0][3] for shape in shapes)
+    span_x = max(max_x - min_x, 1e-9)
+    span_y = max(max_y - min_y, 1e-9)
+    margin = max(image_size * 0.08, 24.0)
+    scale = min((image_size - 2 * margin) / span_x, (image_size - 2 * margin) / span_y)
+
+    def to_px(x_um: float, y_um: float) -> tuple[float, float]:
+        x_px = margin + (x_um - min_x) * scale
+        y_px = image_size - (margin + (y_um - min_y) * scale)
+        return x_px, y_px
+
+    for bbox_um, layer in shapes:
+        left, bottom, right, top = bbox_um
+        points = [
+            to_px(left, bottom),
+            to_px(right, bottom),
+            to_px(right, top),
+            to_px(left, top),
+        ]
+        fill = _layer_color(layer)
+        outline = (20, 31, 46, 220)
+        draw.polygon(points, fill=fill, outline=outline)
+
+    draw.rectangle((8, 8, image_size - 8, image_size - 8), outline=(148, 163, 184, 255), width=2)
+    draw.text((18, 18), layout_path.name, fill=(30, 41, 59, 255))
+    image.convert("RGB").save(screenshot_path)
 
 
 def _scan_min_width_violations(
@@ -154,13 +249,20 @@ def compile_layout(
 
     component = PCELL_REGISTRY[pcell](**(parameters or {}))
     gds_path = _artifact_path(output_name, ".gds")
+    screenshot_path = gds_path.with_suffix(".layout.png")
     component.write_gds(str(gds_path))
+    _render_layout_screenshot(gds_path, screenshot_path)
 
-    sidecar = _component_sidecar(component, gds_path, pcell)
+    sidecar = _component_sidecar(component, gds_path, pcell, screenshot_path)
     sidecar_path = gds_path.with_suffix(".sidecar.json")
     sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")
 
-    return {"status": "compiled", "gds_path": str(gds_path), "sidecar_path": str(sidecar_path)}
+    return {
+        "status": "compiled",
+        "gds_path": str(gds_path),
+        "screenshot_path": str(screenshot_path),
+        "sidecar_path": str(sidecar_path),
+    }
 
 
 @mcp.tool()
