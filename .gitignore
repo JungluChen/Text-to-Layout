@@ -4,12 +4,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
-text-to-gds/.venv/
-text-to-gds/.pytest_cache/
-text-to-gds/.ruff_cache/
-text-to-gds/workspace/artifacts/*
-!text-to-gds/workspace/artifacts/.gitkeep
-text-to-gds/plugins/*/.venv/
-text-to-gds/plugins/*/workspace/artifacts/*
-!text-to-gds/plugins/*/workspace/artifacts/.gitkeep
-
+workspace/artifacts/*
+!workspace/artifacts/.gitkeep
+plugins/*/workspace/artifacts/*
+!plugins/*/workspace/artifacts/.gitkeep

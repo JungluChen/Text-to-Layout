@@ -1,0 +1,6 @@
+*.gds binary
+*.oas binary
+*.lyrdb text
+*.json text
+*.md text
+*.py text

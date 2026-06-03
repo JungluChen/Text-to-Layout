@@ -1,0 +1,32 @@
+{
+  "name": "text-to-gds",
+  "owner": {
+    "name": "JungluChen"
+  },
+  "metadata": {
+    "description": "Local-first GDS, DRC, and superconducting layout skills."
+  },
+  "description": "Local-first GDS, DRC, and superconducting layout skills.",
+  "version": "0.1.0",
+  "plugins": [
+    {
+      "name": "text-to-gds",
+      "source": "./plugins/text-to-gds",
+      "description": "Local-first MCP tools and agent skill for superconducting GDS layout.",
+      "version": "0.1.0",
+      "author": {
+        "name": "JungluChen"
+      },
+      "license": "MIT",
+      "category": "productivity",
+      "tags": [
+        "gds",
+        "eda",
+        "gdsfactory",
+        "klayout",
+        "mcp",
+        "superconducting-circuits"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install uv
+        run: py -3 -m pip install uv
+      - name: Sync
+        run: py -3 -m uv sync
+      - name: Compile
+        run: py -3 -m uv run python -m compileall src scripts examples
+      - name: Test
+        run: py -3 -m uv run pytest
+      - name: Lint
+        run: py -3 -m uv run ruff check .
