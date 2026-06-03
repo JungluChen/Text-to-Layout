@@ -1,0 +1,21 @@
+{
+  "name": "text-to-gds",
+  "interface": {
+    "displayName": "Text to GDS"
+  },
+  "plugins": [
+    {
+      "name": "text-to-gds",
+      "source": {
+        "source": "local",
+        "path": "./plugins/text-to-gds"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+

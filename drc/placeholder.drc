@@ -1,0 +1,6 @@
+# Placeholder KLayout DRC deck.
+#
+# The Phase 1 MCP server returns a mock DRC report with the same JSON shape
+# intended for the future KLayout adapter. Replace this file with real process
+# rules once the superconducting stack and minimum feature rules are fixed.
+

@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+
+def _find_project_root() -> Path:
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        pyproject = parent / "pyproject.toml"
+        package_root = parent / "src" / "text_to_gds"
+        if pyproject.is_file() and package_root.is_dir():
+            return parent
+    raise RuntimeError("Could not find a Text-to-GDS project root.")
+
+
+def _load_server_module():
+    project_root = _find_project_root()
+    src_root = project_root / "src"
+    if str(src_root) not in sys.path:
+        sys.path.insert(0, str(src_root))
+    from text_to_gds import server
+
+    return server
+
+
+def _parameters(raw: str | None) -> dict[str, Any]:
+    if raw is None:
+        return {}
+    value = json.loads(raw)
+    if not isinstance(value, dict):
+        raise ValueError("--parameters-json must decode to a JSON object")
+    return value
+
+
+def _print_json(payload: dict[str, Any]) -> None:
+    print(json.dumps(payload, indent=2))
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run Text-to-GDS local tool helpers.")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    compile_parser = subparsers.add_parser("compile")
+    compile_parser.add_argument("--pcell", default="manhattan_josephson_junction")
+    compile_parser.add_argument("--parameters-json")
+    compile_parser.add_argument("--output-name", default="layout.gds")
+
+    drc_parser = subparsers.add_parser("drc")
+    drc_parser.add_argument("gds_path")
+    drc_parser.add_argument("--ruleset", default="mock_min_width")
+    drc_parser.add_argument("--min-width-um", type=float, default=0.1)
+
+    simulate_parser = subparsers.add_parser("simulate")
+    simulate_parser.add_argument("sidecar_path")
+    simulate_parser.add_argument("--simulator", default="mock_jj")
+    simulate_parser.add_argument("--jc-ua-per-um2", type=float, default=1.0)
+    simulate_parser.add_argument("--shunt-capacitance-ff", type=float, default=0.0)
+
+    toolchain_parser = subparsers.add_parser("toolchain")
+    toolchain_parser.add_argument("--pcell", default="manhattan_josephson_junction")
+    toolchain_parser.add_argument("--parameters-json")
+    toolchain_parser.add_argument("--output-name", default="layout.gds")
+    toolchain_parser.add_argument("--jc-ua-per-um2", type=float, default=1.0)
+    toolchain_parser.add_argument("--shunt-capacitance-ff", type=float, default=0.0)
+
+    args = parser.parse_args()
+    server = _load_server_module()
+
+    if args.command == "compile":
+        _print_json(
+            server.compile_layout(
+                pcell=args.pcell,
+                parameters=_parameters(args.parameters_json),
+                output_name=args.output_name,
+            )
+        )
+        return
+
+    if args.command == "drc":
+        _print_json(
+            server.run_drc(
+                gds_path=args.gds_path,
+                ruleset=args.ruleset,
+                min_width_um=args.min_width_um,
+            )
+        )
+        return
+
+    if args.command == "simulate":
+        _print_json(
+            server.run_simulation(
+                sidecar_path=args.sidecar_path,
+                simulator=args.simulator,
+                jc_ua_per_um2=args.jc_ua_per_um2,
+                shunt_capacitance_ff=args.shunt_capacitance_ff,
+            )
+        )
+        return
+
+    compiled = server.compile_layout(
+        pcell=args.pcell,
+        parameters=_parameters(args.parameters_json),
+        output_name=args.output_name,
+    )
+    drc = server.run_drc(compiled["gds_path"])
+    simulation = server.run_simulation(
+        compiled["sidecar_path"],
+        jc_ua_per_um2=args.jc_ua_per_um2,
+        shunt_capacitance_ff=args.shunt_capacitance_ff,
+    )
+    _print_json({"compile": compiled, "drc": drc, "simulation": simulation})
+
+
+if __name__ == "__main__":
+    main()
+

@@ -1,0 +1,20 @@
+{
+  "name": "text-to-gds",
+  "version": "0.1.0",
+  "description": "Local-first MCP tools and agent skill for superconducting GDS layout.",
+  "author": {
+    "name": "Text-to-GDS contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gds",
+    "eda",
+    "gdsfactory",
+    "klayout",
+    "mcp",
+    "superconducting-circuits"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
+

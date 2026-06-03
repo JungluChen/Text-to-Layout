@@ -1,0 +1,37 @@
+{
+  "name": "text-to-gds",
+  "version": "0.1.0",
+  "description": "Local-first MCP tools for superconducting GDS generation, DRC, and simulation loops.",
+  "author": {
+    "name": "Text-to-GDS contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gds",
+    "eda",
+    "gdsfactory",
+    "klayout",
+    "mcp",
+    "superconducting-circuits"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Text-to-GDS",
+    "shortDescription": "Generate and validate superconducting GDS layouts.",
+    "longDescription": "Text-to-GDS packages local MCP tools and agent workflows for compiling gdsfactory PCells into GDSII, emitting semantic sidecars, running DRC-shaped checks, and executing mock or adapter-backed superconducting circuit simulations.",
+    "developerName": "Text-to-GDS contributors",
+    "category": "Productivity",
+    "capabilities": [
+      "Write",
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "Create a Manhattan JJ GDS and run DRC.",
+      "Compile a superconducting PCell sidecar.",
+      "Estimate JJ current from a layout sidecar."
+    ],
+    "brandColor": "#1D4ED8"
+  }
+}
+
