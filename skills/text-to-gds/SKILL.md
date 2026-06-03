@@ -1,6 +1,6 @@
 ---
 name: text-to-gds
-description: Generate, compile, inspect, DRC-check, and simulate local GDSII layouts for superconducting and quantum IC work using Text-to-GDS, gdsfactory PCells, KLayout-compatible reports, MCP tools, semantic sidecars, and local artifact workflows. Use when Codex needs to create or modify parametric GDS layouts, route trusted superconducting PCells, run layout DRC, extract ports/metadata, or prepare local MCP-driven EDA iterations.
+description: Generate, compile, inspect, DRC-check, preview, plan, and simulate local GDSII layouts for superconducting and quantum IC work using Text-to-GDS, gdsfactory PCells, KLayout-compatible reports, MCP tools, semantic sidecars, 2.5D stack previews, LJPA planning, and local artifact workflows. Use when Codex needs to create or modify parametric GDS layouts, route trusted superconducting PCells, run layout DRC, extract ports/material/layer metadata, plan a Josephson parametric amplifier, or prepare local MCP-driven EDA iterations.
 ---
 
 # Text-to-GDS
