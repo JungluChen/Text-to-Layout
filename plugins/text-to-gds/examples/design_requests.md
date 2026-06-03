@@ -19,10 +19,10 @@ leakage power under 100 nW at 1.8 V.
 Expected outputs:
 
 ```text
-workspace/artifacts/compact_cmos_logic.gds
-workspace/artifacts/compact_cmos_logic.sidecar.json
-workspace/artifacts/compact_cmos_logic.drc.json
-workspace/artifacts/compact_cmos_logic.simulation.json
+Output layout: workspace/artifacts/compact_cmos_logic.gds
+Semantic sidecar: workspace/artifacts/compact_cmos_logic.sidecar.json
+DRC report: workspace/artifacts/compact_cmos_logic.drc.json
+Simulation/analysis report: workspace/artifacts/compact_cmos_logic.simulation.json
 ```
 
 Adapter note: layout generation and DRC are Text-to-GDS responsibilities.
@@ -43,10 +43,10 @@ of 100 uA per branch, and no routing segment narrower than 0.25 um.
 Expected outputs:
 
 ```text
-workspace/artifacts/sfq_pulse_splitter.gds
-workspace/artifacts/sfq_pulse_splitter.sidecar.json
-workspace/artifacts/sfq_pulse_splitter.drc.json
-workspace/artifacts/sfq_pulse_splitter.simulation.json
+Output layout: workspace/artifacts/sfq_pulse_splitter.gds
+Semantic sidecar: workspace/artifacts/sfq_pulse_splitter.sidecar.json
+DRC report: workspace/artifacts/sfq_pulse_splitter.drc.json
+Simulation/analysis report: workspace/artifacts/sfq_pulse_splitter.simulation.json
 ```
 
 Adapter note: the current ideal JJ calculation can report junction-derived
@@ -66,10 +66,10 @@ expected critical current for $J_c = 2.0 uA/\mu m^2$.
 Expected outputs:
 
 ```text
-workspace/artifacts/jj_ic_calibration_array.gds
-workspace/artifacts/jj_ic_calibration_array.sidecar.json
-workspace/artifacts/jj_ic_calibration_array.drc.json
-workspace/artifacts/jj_ic_calibration_array.simulation.json
+Output layout: workspace/artifacts/jj_ic_calibration_array.gds
+Semantic sidecar: workspace/artifacts/jj_ic_calibration_array.sidecar.json
+DRC report: workspace/artifacts/jj_ic_calibration_array.drc.json
+Simulation/analysis report: workspace/artifacts/jj_ic_calibration_array.simulation.json
 ```
 
 Adapter note: this is directly aligned with the current ideal JJ calculation
@@ -89,10 +89,10 @@ factor above $1 \times 10^5$, and minimum CPW gap of 6 um.
 Expected outputs:
 
 ```text
-workspace/artifacts/cpw_resonator_test.gds
-workspace/artifacts/cpw_resonator_test.sidecar.json
-workspace/artifacts/cpw_resonator_test.drc.json
-workspace/artifacts/cpw_resonator_test.simulation.json
+Output layout: workspace/artifacts/cpw_resonator_test.gds
+Semantic sidecar: workspace/artifacts/cpw_resonator_test.sidecar.json
+DRC report: workspace/artifacts/cpw_resonator_test.drc.json
+Simulation/analysis report: workspace/artifacts/cpw_resonator_test.simulation.json
 ```
 
 Adapter note: geometry and DRC are local Text-to-GDS outputs. Resonant
@@ -113,10 +113,10 @@ sidecar.
 Expected outputs:
 
 ```text
-workspace/artifacts/via_chain_monitor.gds
-workspace/artifacts/via_chain_monitor.sidecar.json
-workspace/artifacts/via_chain_monitor.drc.json
-workspace/artifacts/via_chain_monitor.simulation.json
+Output layout: workspace/artifacts/via_chain_monitor.gds
+Semantic sidecar: workspace/artifacts/via_chain_monitor.sidecar.json
+DRC report: workspace/artifacts/via_chain_monitor.drc.json
+Simulation/analysis report: workspace/artifacts/via_chain_monitor.simulation.json
 ```
 
 Adapter note: min-width and geometry checks are in scope for the current DRC

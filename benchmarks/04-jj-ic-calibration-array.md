@@ -21,8 +21,8 @@ expected critical current for $J_c = 2.0 uA/\mu m^2$.
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/jj_ic_calibration_array.gds
-workspace/artifacts/jj_ic_calibration_array.sidecar.json
-workspace/artifacts/jj_ic_calibration_array.drc.json
-workspace/artifacts/jj_ic_calibration_array.simulation.json
+Output layout: workspace/artifacts/jj_ic_calibration_array.gds
+Semantic sidecar: workspace/artifacts/jj_ic_calibration_array.sidecar.json
+DRC report: workspace/artifacts/jj_ic_calibration_array.drc.json
+Simulation/analysis report: workspace/artifacts/jj_ic_calibration_array.simulation.json
 ```

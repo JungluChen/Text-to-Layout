@@ -29,8 +29,8 @@ josephson_inductance_ph = 3399.855149
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/manhattan_jj.gds
-workspace/artifacts/manhattan_jj.sidecar.json
-workspace/artifacts/manhattan_jj.drc.json
-workspace/artifacts/manhattan_jj.sidecar.simulation.json
+Output layout: workspace/artifacts/manhattan_jj.gds
+Semantic sidecar: workspace/artifacts/manhattan_jj.sidecar.json
+DRC report: workspace/artifacts/manhattan_jj.drc.json
+Simulation report: workspace/artifacts/manhattan_jj.sidecar.simulation.json
 ```

@@ -22,8 +22,8 @@ of 100 uA per branch, and no routing segment narrower than 0.25 um.
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/sfq_pulse_splitter.gds
-workspace/artifacts/sfq_pulse_splitter.sidecar.json
-workspace/artifacts/sfq_pulse_splitter.drc.json
-workspace/artifacts/sfq_pulse_splitter.simulation.json
+Output layout: workspace/artifacts/sfq_pulse_splitter.gds
+Semantic sidecar: workspace/artifacts/sfq_pulse_splitter.sidecar.json
+DRC report: workspace/artifacts/sfq_pulse_splitter.drc.json
+Simulation/analysis report: workspace/artifacts/sfq_pulse_splitter.simulation.json
 ```

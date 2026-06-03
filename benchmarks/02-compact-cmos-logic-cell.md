@@ -23,8 +23,8 @@ power under 100 nW at 1.8 V.
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/compact_cmos_logic.gds
-workspace/artifacts/compact_cmos_logic.sidecar.json
-workspace/artifacts/compact_cmos_logic.drc.json
-workspace/artifacts/compact_cmos_logic.simulation.json
+Output layout: workspace/artifacts/compact_cmos_logic.gds
+Semantic sidecar: workspace/artifacts/compact_cmos_logic.sidecar.json
+DRC report: workspace/artifacts/compact_cmos_logic.drc.json
+Simulation/analysis report: workspace/artifacts/compact_cmos_logic.simulation.json
 ```

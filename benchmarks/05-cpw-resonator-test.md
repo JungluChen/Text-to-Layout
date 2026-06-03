@@ -22,8 +22,8 @@ above $1 \times 10^5$, and minimum CPW gap of 6 um.
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/cpw_resonator_test.gds
-workspace/artifacts/cpw_resonator_test.sidecar.json
-workspace/artifacts/cpw_resonator_test.drc.json
-workspace/artifacts/cpw_resonator_test.simulation.json
+Output layout: workspace/artifacts/cpw_resonator_test.gds
+Semantic sidecar: workspace/artifacts/cpw_resonator_test.sidecar.json
+DRC report: workspace/artifacts/cpw_resonator_test.drc.json
+Simulation/analysis report: workspace/artifacts/cpw_resonator_test.simulation.json
 ```

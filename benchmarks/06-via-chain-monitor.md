@@ -23,8 +23,8 @@ sidecar.
 ## Expected Artifact Family
 
 ```text
-workspace/artifacts/via_chain_monitor.gds
-workspace/artifacts/via_chain_monitor.sidecar.json
-workspace/artifacts/via_chain_monitor.drc.json
-workspace/artifacts/via_chain_monitor.simulation.json
+Output layout: workspace/artifacts/via_chain_monitor.gds
+Semantic sidecar: workspace/artifacts/via_chain_monitor.sidecar.json
+DRC report: workspace/artifacts/via_chain_monitor.drc.json
+Simulation/analysis report: workspace/artifacts/via_chain_monitor.simulation.json
 ```
