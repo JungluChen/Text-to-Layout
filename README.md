@@ -172,6 +172,9 @@ Representative output:
 The full example output shape is documented in
 [examples/example_output.md](examples/example_output.md).
 
+Constraint-driven design request examples are documented in
+[examples/design_requests.md](examples/design_requests.md).
+
 ## Benchmarks
 
 Benchmarks are lightweight text prompts plus expected artifact families. They
@@ -181,6 +184,11 @@ simulation outputs instead of STEP or mesh previews.
 | # | Target | Prompt | Expected outputs |
 | --- | --- | --- | --- |
 | 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ with default layers, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um^2`. | GDS, sidecar JSON, DRC JSON, simulation JSON |
+| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `$5 \mu m \times 5 \mu m$`, use M1/M2/M3 routing, and target sub-50 ps delay with under-100 nW leakage. | GDS, sidecar JSON, DRC JSON, adapter simulation JSON |
+| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | GDS, sidecar JSON, DRC JSON, JJ/adapter simulation JSON |
+| 4 | [JJ IC Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | GDS, sidecar JSON, DRC JSON, simulation JSON |
+| 5 | [CPW Resonator Test Structure](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | GDS, sidecar JSON, DRC JSON, EM-adapter report JSON |
+| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | GDS, sidecar JSON, DRC JSON, extraction-adapter report JSON |
 
 ## Simulation Model
 

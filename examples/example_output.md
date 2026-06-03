@@ -90,3 +90,10 @@ Representative violation:
   "min_dimension_um": 0.22
 }
 ```
+
+## Constraint-Driven Design Requests
+
+The benchmark prompts in [design_requests.md](design_requests.md) show the
+expected request format for area, layer-stack, and performance targets. These
+requests should still produce GDS, sidecar, DRC, and simulation or adapter
+reports, even when some performance targets require future simulator adapters.
