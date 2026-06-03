@@ -186,16 +186,17 @@ Constraint-driven design request examples are documented in
 
 Benchmarks are lightweight text prompts plus expected artifact families. They
 mirror the role of `text-to-cad` benchmarks, but use GDS, sidecar, DRC, and
-simulation outputs instead of STEP or mesh previews.
+simulation outputs instead of STEP or mesh previews. The `Expected layout`
+column renders the expected output layout screenshot PNG.
 
 | # | Target | Prompt | Expected layout |
 | --- | --- | --- | --- |
-| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ with default layers, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um^2`. | Output layout screenshot `.layout.png` |
-| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `$5 \mu m \times 5 \mu m$`, use M1/M2/M3 routing, and target sub-50 ps delay with under-100 nW leakage. | Output layout screenshot `.layout.png` |
-| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | Output layout screenshot `.layout.png` |
-| 4 | [JJ IC Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | Output layout screenshot `.layout.png` |
-| 5 | [CPW Resonator Test Structure](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | Output layout screenshot `.layout.png` |
-| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | Output layout screenshot `.layout.png` |
+| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ with default layers, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um^2`. | <img src="assets/benchmark_01_manhattan_jj_layout.png" alt="Manhattan Josephson Junction output layout screenshot" width="220"> |
+| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `$5 \mu m \times 5 \mu m$`, use M1/M2/M3 routing, and target sub-50 ps delay with under-100 nW leakage. | <img src="assets/benchmark_02_compact_cmos_logic_layout.png" alt="Compact CMOS logic output layout screenshot" width="220"> |
+| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | <img src="assets/benchmark_03_sfq_pulse_splitter_layout.png" alt="SFQ pulse splitter output layout screenshot" width="220"> |
+| 4 | [JJ IC Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | <img src="assets/benchmark_04_jj_ic_calibration_array_layout.png" alt="JJ critical-current calibration array output layout screenshot" width="220"> |
+| 5 | [CPW Resonator Test Structure](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | <img src="assets/benchmark_05_cpw_resonator_test_layout.png" alt="CPW resonator test output layout screenshot" width="220"> |
+| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | <img src="assets/benchmark_06_via_chain_monitor_layout.png" alt="Via-chain process monitor output layout screenshot" width="220"> |
 
 ## Simulation Model
 
