@@ -62,10 +62,10 @@
 - [x] Add closed-loop optimization that adjusts geometry after simulation
   misses target gain/bandwidth/noise metrics.
 
-## Phase 6: Signoff-Grade Extensions
+## Future Signoff Work
 
-- [ ] Install and validate Julia plus JosephsonCircuits.jl on at least one CI or
+- Install and validate Julia plus JosephsonCircuits.jl on at least one CI or
   release host.
-- [ ] Install and validate JoSIM on at least one CI or release host.
-- [ ] Replace the local surrogate optimizer with external gain/bandwidth/noise
+- Install and validate JoSIM on at least one CI or release host.
+- Replace the local surrogate optimizer with external gain/bandwidth/noise
   metrics from JosephsonCircuits.jl, JoSIM, or EM extraction.
