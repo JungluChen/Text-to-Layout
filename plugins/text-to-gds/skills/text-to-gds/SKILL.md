@@ -20,8 +20,8 @@ feeds extracted parameters into simulation adapters.
 
 Use this skill when the user asks for GDS, GDSII, gdsfactory layout code,
 superconducting PCells, Josephson Junction geometry, circuit sidecars, local
-DRC, KLayout checks, extracted ports, layer metadata, or ideal JJ current and
-inductance estimates.
+DRC, KLayout checks, extracted ports, layer/material/thickness metadata, 2.5D
+stack previews, LJPA planning, or ideal JJ current and inductance estimates.
 
 Do not use this skill for mechanical CAD, 3D mesh generation, analog circuit
 schematics without layout, foundry signoff claims, or electromagnetic
@@ -36,10 +36,12 @@ certification unless the user also asks for local GDS layout artifacts.
 - Sidecar artifact: `.sidecar.json`.
 - DRC report: `.drc.json`.
 - Simulation report: `.simulation.json`.
+- Extraction report: `.extraction.json`.
+- Stack preview: `.stack3d.html` and `.stack3d.json`.
 - Process layers are placeholders unless the user provides a real stack.
 - Prefer registered PCells over raw polygons.
-- Ask one focused clarification question only when missing process data or
-  dimensions would make the layout impossible or unsafe to interpret.
+- For open-ended amplifier requests, run or mirror `plan_ljpa` first and ask
+  the returned material/process/performance clarifications before designing.
 
 ## Available Tools
 
@@ -48,6 +50,7 @@ From a Text-to-GDS project or plugin root:
 ```bash
 py -3 -m uv sync
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py toolchain --output-name manhattan_jj.gds
+py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py plan-ljpa "Design a 5 GHz LJPA with wide bandwidth"
 py -3 -m uv run text-to-gds
 py -3 -m uv run mcp dev src/text_to_gds/server.py
 ```
@@ -56,21 +59,32 @@ The MCP server exposes:
 
 - `compile_layout` - writes `.gds`, `.layout.png`, and `.sidecar.json`.
 - `run_drc` - reads GDS with KLayout Python and writes `.drc.json`.
-- `run_simulation` - computes ideal JJ outputs and writes `.simulation.json`.
+- `extract_layout` - writes `.extraction.json` with dimensions, layers, and
+  GDS shape boxes.
+- `list_simulators` - reports local JosephsonCircuits.jl and JoSIM availability.
+- `plan_ljpa` - returns clarifying questions, assumptions, PCells, and
+  simulator choices for LJPA prompts.
+- `export_3d_preview` - writes `.stack3d.html` and `.stack3d.json`.
+- `run_simulation` - computes ideal JJ outputs and can prepare JoSIM or
+  JosephsonCircuits.jl adapter artifacts.
 
 ## Required Workflow
 
 1. Identify the requested circuit, process stack assumptions, target output
-   paths, and validation gates.
+   paths, and validation gates. For LJPA/JPA requests, start with `plan_ljpa`.
 2. Prefer registered PCells from `text_to_gds.pcells` over raw polygons.
 3. Compile layouts through the MCP tool `compile_layout` or the skill helper
    script so a `.gds`, `.layout.png`, and `.sidecar.json` are produced together.
 4. Run `run_drc` before treating any layout as valid. The current built-in
    adapter is a KLayout-backed geometry scan and should be replaced by a full
    process deck for signoff.
-5. Run `run_simulation` when the request includes junction critical current,
+5. Run `extract_layout` before simulation handoff so material/layer/geometry
+   parameters are explicit.
+6. Run `run_simulation` when the request includes junction critical current,
    Josephson inductance, capacitance, or other circuit-level targets.
-6. Report only artifacts and checks that were actually produced.
+7. Run `export_3d_preview` when the user asks to view the stack, UI, or 3D
+   design.
+8. Report only artifacts and checks that were actually produced.
 
 ## References
 

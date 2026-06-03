@@ -1,7 +1,7 @@
 {
   "name": "text-to-gds",
   "version": "0.1.0",
-  "description": "Local-first MCP tools and agent skill for superconducting GDS layout.",
+  "description": "Local-first MCP tools and agent skill for superconducting GDS layout, DRC, extraction, LJPA planning, stack preview, and simulation handoff.",
   "author": {
     "name": "JungluChen",
     "url": "https://github.com/JungluChen"

@@ -1,7 +1,7 @@
 {
   "name": "text-to-gds",
   "version": "0.1.0",
-  "description": "Local-first MCP tools for superconducting GDS generation, DRC, and simulation loops.",
+  "description": "Local-first MCP tools for superconducting GDS generation, DRC, extraction, LJPA planning, stack preview, and simulation loops.",
   "author": {
     "name": "JungluChen",
     "url": "https://github.com/JungluChen"
@@ -21,8 +21,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Text-to-GDS",
-    "shortDescription": "Generate and validate superconducting GDS layouts.",
-    "longDescription": "Text-to-GDS packages local MCP tools and agent workflows for compiling gdsfactory PCells into GDSII, emitting semantic sidecars, running KLayout-backed DRC-shaped checks, and executing ideal or adapter-backed superconducting circuit simulations.",
+    "shortDescription": "Generate, inspect, and simulate superconducting GDS layouts.",
+    "longDescription": "Text-to-GDS packages local MCP tools and agent workflows for compiling gdsfactory PCells into GDSII, emitting semantic sidecars, running KLayout-backed checks, extracting layout parameters, planning LJPA designs, exporting 2.5D stack previews, and preparing ideal or adapter-backed superconducting circuit simulations.",
     "developerName": "JungluChen",
     "category": "Productivity",
     "capabilities": [
@@ -31,8 +31,9 @@
     ],
     "defaultPrompt": [
       "Create a Manhattan JJ GDS and run DRC.",
-      "Compile a superconducting PCell sidecar.",
-      "Estimate JJ current from a layout sidecar."
+      "Design a 5 GHz LJPA with wide bandwidth.",
+      "Compile a CPW PCell, extract layout parameters, and export a 2.5D stack preview.",
+      "Estimate JJ current from a layout sidecar and prepare a JoSIM deck."
     ],
     "brandColor": "#1D4ED8"
   }

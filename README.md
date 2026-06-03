@@ -23,13 +23,18 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
 - A local MCP server: `text-to-gds`
 - A `$text-to-gds` skill for Codex and other skills-compatible agents
 - Codex and Claude plugin metadata
-- A reviewed starter superconducting PCell:
-  `manhattan_josephson_junction`
+- Reviewed starter superconducting PCells:
+  `manhattan_josephson_junction`, `cpw_straight`, `meander_inductor`,
+  `flux_bias_line`, `via_stack`, and `ground_plane`
 - GDSII artifact generation through gdsfactory
 - Layout screenshot PNG generation for quick visual inspection
-- Semantic sidecar JSON with ports, bounding boxes, layers, and PCell metadata
+- Semantic sidecar JSON with ports, bounding boxes, layers, process stack, and
+  PCell metadata
 - KLayout-backed local DRC shape scanning
 - Correct ideal Josephson Junction calculations for `Ic` and `Lj`
+- External simulator adapter scaffolds for JosephsonCircuits.jl and JoSIM
+- Prompt planning for LJPA requests, including clarification questions and
+  simulator selection
 
 For a direct feature mapping against `earthtojake/text-to-cad`, see
 [docs/function_parity.md](docs/function_parity.md).
@@ -120,9 +125,14 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 
 | Tool | Purpose | Output |
 | --- | --- | --- |
+| `list_pcells` | List registered PCells and process-stack defaults. | JSON |
 | `compile_layout` | Compile a registered PCell into GDS, screenshot, and semantic sidecar. | `.gds`, `.layout.png`, `.sidecar.json` |
 | `run_drc` | Read GDS with KLayout Python and report min-width style findings. | `.drc.json` |
-| `run_simulation` | Compute ideal JJ current and inductance from sidecar metadata. | `.simulation.json` |
+| `extract_layout` | Summarize sidecar parameters and layer bounding boxes for simulation handoff. | `.extraction.json` |
+| `list_simulators` | Report local JosephsonCircuits.jl and JoSIM adapter availability. | JSON |
+| `plan_ljpa` | Convert prompts like "Design a 5 GHz LJPA with wide bandwidth" into questions, assumptions, PCells, and workflow. | JSON |
+| `export_3d_preview` | Export a local 2.5D process-stack preview from GDS layer boxes. | `.stack3d.html`, `.stack3d.json` |
+| `run_simulation` | Compute ideal JJ current/inductance and optionally write external adapter plans/decks. | `.simulation.json`, optional `.josim.cir` |
 
 ## Example Output
 
@@ -139,7 +149,9 @@ workspace/artifacts/manhattan_jj.gds
 workspace/artifacts/manhattan_jj.layout.png
 workspace/artifacts/manhattan_jj.sidecar.json
 workspace/artifacts/manhattan_jj.drc.json
+workspace/artifacts/manhattan_jj.sidecar.extraction.json
 workspace/artifacts/manhattan_jj.sidecar.simulation.json
+workspace/artifacts/manhattan_jj.stack3d.html
 ```
 
 Example layout screenshot:
@@ -182,6 +194,12 @@ The full example output shape is documented in
 Constraint-driven design request examples are documented in
 [examples/design_requests.md](examples/design_requests.md).
 
+Simulator selection and LJPA paper references are documented in
+[docs/simulation_tools.md](docs/simulation_tools.md).
+
+The intended local workbench UX is documented in
+[docs/ui_ux_workflow.md](docs/ui_ux_workflow.md).
+
 ## Benchmarks
 
 Benchmarks are lightweight text prompts plus expected artifact families. They
@@ -200,10 +218,13 @@ column renders the expected output layout screenshot PNG.
 
 ## Simulation Model
 
-The current simulation is intentionally small and deterministic. It is a
+The default simulation is intentionally small and deterministic. It is a
 correct ideal Josephson Junction calculation for zero-phase, small-signal
-inductance. It is not a replacement for JosephsonCircuits.jl, JoSIM, WRSPICE,
-or EM extraction.
+inductance. JoSIM and JosephsonCircuits.jl are modeled as local external
+adapters: Text-to-GDS reports whether their executables are available, writes a
+JoSIM starter deck when requested, and emits a JosephsonCircuits.jl command
+plan for future harmonic-balance runs. It does not claim those tools ran unless
+they are actually executed locally.
 
 Inputs:
 
@@ -263,10 +284,14 @@ Text-to-Layout/
 
 - `run_drc` is a built-in KLayout Python geometry scan, not a full process DRC
   deck. Add a real KLayout `.drc` deck before foundry use.
-- `run_simulation` computes ideal JJ quantities only. It does not model phase
-  bias, shunt dynamics, parasitics, CPW impedance, or microwave response.
+- `run_simulation` computes ideal JJ quantities by default. It can prepare
+  JoSIM/JosephsonCircuits artifacts, but full phase bias, shunt dynamics,
+  parasitics, CPW impedance, and microwave gain/noise response still require
+  the external simulator adapters to be completed and run.
 - The layer map is a placeholder superconducting stack and must be replaced by
   a real process file before tapeout or publication of process-specific claims.
+- The 2.5D preview is a local UX/review aid based on layer bounding boxes, not a
+  field solver or electromagnetic model.
 
 ## Contributing
 

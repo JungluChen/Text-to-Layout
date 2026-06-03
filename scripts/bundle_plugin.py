@@ -23,8 +23,16 @@ def main() -> None:
         raise SystemExit(f"Missing plugin root: {PLUGIN_ROOT}")
 
     shutil.copy2(ROOT / "pyproject.toml", PLUGIN_ROOT / "pyproject.toml")
+    for filename in ["README.md", "TASKS.md", "AGENTS.md", "LICENSE", "CONTRIBUTING.md"]:
+        source = ROOT / filename
+        if source.is_file():
+            shutil.copy2(source, PLUGIN_ROOT / filename)
     if (ROOT / "uv.lock").is_file():
         shutil.copy2(ROOT / "uv.lock", PLUGIN_ROOT / "uv.lock")
+    for dirname in ["assets", "benchmarks", "docs"]:
+        source = ROOT / dirname
+        if source.is_dir():
+            _copytree(source, PLUGIN_ROOT / dirname)
     _copytree(ROOT / "src" / "text_to_gds", PLUGIN_ROOT / "src" / "text_to_gds")
     _copytree(ROOT / "skills" / "text-to-gds", PLUGIN_ROOT / "skills" / "text-to-gds")
     _copytree(ROOT / "examples", PLUGIN_ROOT / "examples")

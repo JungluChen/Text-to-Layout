@@ -1,0 +1,69 @@
+# Simulation Tools And LJPA References
+
+Text-to-GDS keeps the built-in simulator deterministic for tests, then hands
+off deeper circuit analysis to local adapters. The adapters should never claim
+success unless the external simulator actually ran on the user's machine.
+
+## Selected Tools
+
+| Tool | Use in Text-to-GDS | Source |
+| --- | --- | --- |
+| JosephsonCircuits.jl | Frequency-domain, multi-tone harmonic balance planning for gain, S-parameters, and noise in JJ circuits. | <https://github.com/kpobrien/JosephsonCircuits.jl> |
+| JoSIM | SPICE-like superconducting transient decks for JJ/RCSJ time-domain checks. | <https://github.com/JoeyDelp/JoSIM> |
+| KQCircuits | Reference point for KLayout-based superconducting quantum layout libraries and parameterized elements. | <https://github.com/iqm-finland/KQCircuits> |
+
+## Installation Notes
+
+Text-to-GDS does not vendor Julia, JosephsonCircuits.jl, or JoSIM. Keep those as
+local external tools:
+
+```powershell
+# Check availability from this project
+py -3 -m uv run python -c "from text_to_gds.adapters import list_simulation_adapters; print(list_simulation_adapters())"
+```
+
+JosephsonCircuits.jl path:
+
+```bash
+julia -e 'using Pkg; Pkg.add(url="https://github.com/kpobrien/JosephsonCircuits.jl")'
+```
+
+JoSIM path:
+
+```bash
+# Install a release binary, then verify:
+josim --help
+```
+
+## Academic Anchors
+
+- Mutus et al., "Design and characterization of a lumped element single-ended
+  superconducting microwave parametric amplifier with on-chip flux bias line",
+  reports tunable 5-7 GHz amplification, gain-bandwidth product above 500 MHz,
+  and an on-chip flux-bias line. Source: <https://arxiv.org/abs/1308.1376>
+- Elo et al., "Broadband lumped-element Josephson parametric amplifier with
+  single-step lithography", reports 20 dB gain with 95 MHz bandwidth around
+  5 GHz using a flux-pumped JPA. Source: <https://arxiv.org/abs/1812.07621>
+- Suri et al., "Impedance-Engineered Josephson Parametric Amplifier with
+  Single-Step Lithography", reports impedance engineering with a lumped-element
+  series LC circuit and 18 dB gain over 400 MHz bandwidth centered around
+  5.3 GHz. Source: <https://arxiv.org/abs/2507.09298>
+- JosephsonCircuits.jl cites use for gain/noise performance simulation of
+  ultra-low-noise amplifiers such as Josephson traveling-wave parametric
+  amplifiers. Source: <https://github.com/kpobrien/JosephsonCircuits.jl>
+
+## Parameter Contract
+
+The layout sidecar and extraction report must expose any parameter that can
+change circuit performance:
+
+- material system and layer name
+- metal thickness and kinetic inductance assumptions
+- junction width, height, area, and critical-current density
+- CPW trace width, gap, ground width, and length
+- shunt capacitance and dielectric assumptions
+- via size, enclosure, and routing layer transitions
+- line angle, pitch, turn count, and electrical length
+
+The planner should ask for missing process and target data before making
+signoff-style claims.

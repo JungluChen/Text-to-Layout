@@ -1,5 +1,4 @@
 interface:
   display_name: "Text-to-GDS"
-  short_description: "Generate and validate superconducting GDS layouts."
-  default_prompt: "Use $text-to-gds to compile a superconducting GDS layout, run DRC, and summarize the sidecar."
-
+  short_description: "Generate, inspect, and simulate superconducting GDS layouts."
+  default_prompt: "Use $text-to-gds to plan a 5 GHz LJPA, compile local GDS, run DRC/extraction, export a stack preview, and summarize simulation handoff."

@@ -37,3 +37,44 @@ critical current, Josephson inductance, and `result_path`.
 
 Keep all tool returns JSON-serializable. Add fields only in a backward-compatible
 way.
+
+## `list_pcells`
+
+Output uses schema `text-to-gds.pcells.v0` and includes registered PCell names
+plus the active process stack.
+
+## `extract_layout`
+
+Inputs:
+
+- `sidecar_path`
+- `include_gds_shapes`
+
+Output uses schema `text-to-gds.extraction-summary.v0` and includes
+performance-relevant PCell parameters, layer stack metadata, ports, and optional
+GDS layer bounding boxes.
+
+## `list_simulators`
+
+Output uses schema `text-to-gds.simulators.v0` and reports JosephsonCircuits.jl
+and JoSIM availability, executable names, source URLs, and install hints.
+
+## `plan_ljpa`
+
+Inputs:
+
+- `prompt`
+
+Output uses schema `text-to-gds.design-plan.v0` and includes target frequency,
+bandwidth/gain assumptions, clarification questions, recommended PCells,
+simulation adapters, and local workflow steps.
+
+## `export_3d_preview`
+
+Inputs:
+
+- `gds_path`
+- `output_name`
+
+Output includes `html_path`, `json_path`, and `shape_count`. The preview is a
+2.5D process-stack review aid, not an EM or field-solver result.

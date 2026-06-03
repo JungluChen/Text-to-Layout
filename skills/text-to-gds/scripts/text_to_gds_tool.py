@@ -45,6 +45,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run Text-to-GDS local tool helpers.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    subparsers.add_parser("pcells")
+    subparsers.add_parser("simulators")
+
+    plan_parser = subparsers.add_parser("plan-ljpa")
+    plan_parser.add_argument("prompt")
+
     compile_parser = subparsers.add_parser("compile")
     compile_parser.add_argument("--pcell", default="manhattan_josephson_junction")
     compile_parser.add_argument("--parameters-json")
@@ -61,6 +67,14 @@ def main() -> None:
     simulate_parser.add_argument("--jc-ua-per-um2", type=float, default=1.0)
     simulate_parser.add_argument("--shunt-capacitance-ff", type=float, default=0.0)
 
+    extract_parser = subparsers.add_parser("extract")
+    extract_parser.add_argument("sidecar_path")
+    extract_parser.add_argument("--no-gds-shapes", action="store_true")
+
+    preview_parser = subparsers.add_parser("preview")
+    preview_parser.add_argument("gds_path")
+    preview_parser.add_argument("--output-name")
+
     toolchain_parser = subparsers.add_parser("toolchain")
     toolchain_parser.add_argument("--pcell", default="manhattan_josephson_junction")
     toolchain_parser.add_argument("--parameters-json")
@@ -70,6 +84,18 @@ def main() -> None:
 
     args = parser.parse_args()
     server = _load_server_module()
+
+    if args.command == "pcells":
+        _print_json(server.list_pcells())
+        return
+
+    if args.command == "simulators":
+        _print_json(server.list_simulators())
+        return
+
+    if args.command == "plan-ljpa":
+        _print_json(server.plan_ljpa(args.prompt))
+        return
 
     if args.command == "compile":
         _print_json(
@@ -102,18 +128,41 @@ def main() -> None:
         )
         return
 
+    if args.command == "extract":
+        _print_json(
+            server.extract_layout(
+                sidecar_path=args.sidecar_path,
+                include_gds_shapes=not args.no_gds_shapes,
+            )
+        )
+        return
+
+    if args.command == "preview":
+        _print_json(server.export_3d_preview(args.gds_path, output_name=args.output_name))
+        return
+
     compiled = server.compile_layout(
         pcell=args.pcell,
         parameters=_parameters(args.parameters_json),
         output_name=args.output_name,
     )
     drc = server.run_drc(compiled["gds_path"])
+    extraction = server.extract_layout(compiled["sidecar_path"])
+    preview = server.export_3d_preview(compiled["gds_path"])
     simulation = server.run_simulation(
         compiled["sidecar_path"],
         jc_ua_per_um2=args.jc_ua_per_um2,
         shunt_capacitance_ff=args.shunt_capacitance_ff,
     )
-    _print_json({"compile": compiled, "drc": drc, "simulation": simulation})
+    _print_json(
+        {
+            "compile": compiled,
+            "drc": drc,
+            "extraction": extraction,
+            "preview": preview,
+            "simulation": simulation,
+        }
+    )
 
 
 if __name__ == "__main__":

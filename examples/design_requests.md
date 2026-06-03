@@ -24,6 +24,7 @@ Layout screenshot: workspace/artifacts/compact_cmos_logic.layout.png
 Semantic sidecar: workspace/artifacts/compact_cmos_logic.sidecar.json
 DRC report: workspace/artifacts/compact_cmos_logic.drc.json
 Simulation/analysis report: workspace/artifacts/compact_cmos_logic.simulation.json
+2.5D stack preview: workspace/artifacts/compact_cmos_logic.stack3d.html
 ```
 
 Adapter note: layout generation and DRC are Text-to-GDS responsibilities.
@@ -49,6 +50,7 @@ Layout screenshot: workspace/artifacts/sfq_pulse_splitter.layout.png
 Semantic sidecar: workspace/artifacts/sfq_pulse_splitter.sidecar.json
 DRC report: workspace/artifacts/sfq_pulse_splitter.drc.json
 Simulation/analysis report: workspace/artifacts/sfq_pulse_splitter.simulation.json
+2.5D stack preview: workspace/artifacts/sfq_pulse_splitter.stack3d.html
 ```
 
 Adapter note: the current ideal JJ calculation can report junction-derived
@@ -73,6 +75,7 @@ Layout screenshot: workspace/artifacts/jj_ic_calibration_array.layout.png
 Semantic sidecar: workspace/artifacts/jj_ic_calibration_array.sidecar.json
 DRC report: workspace/artifacts/jj_ic_calibration_array.drc.json
 Simulation/analysis report: workspace/artifacts/jj_ic_calibration_array.simulation.json
+2.5D stack preview: workspace/artifacts/jj_ic_calibration_array.stack3d.html
 ```
 
 Adapter note: this is directly aligned with the current ideal JJ calculation
@@ -97,6 +100,7 @@ Layout screenshot: workspace/artifacts/cpw_resonator_test.layout.png
 Semantic sidecar: workspace/artifacts/cpw_resonator_test.sidecar.json
 DRC report: workspace/artifacts/cpw_resonator_test.drc.json
 Simulation/analysis report: workspace/artifacts/cpw_resonator_test.simulation.json
+2.5D stack preview: workspace/artifacts/cpw_resonator_test.stack3d.html
 ```
 
 Adapter note: geometry and DRC are local Text-to-GDS outputs. Resonant
@@ -122,6 +126,7 @@ Layout screenshot: workspace/artifacts/via_chain_monitor.layout.png
 Semantic sidecar: workspace/artifacts/via_chain_monitor.sidecar.json
 DRC report: workspace/artifacts/via_chain_monitor.drc.json
 Simulation/analysis report: workspace/artifacts/via_chain_monitor.simulation.json
+2.5D stack preview: workspace/artifacts/via_chain_monitor.stack3d.html
 ```
 
 Adapter note: min-width and geometry checks are in scope for the current DRC

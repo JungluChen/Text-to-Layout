@@ -7,7 +7,23 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
-from text_to_gds.pcells import manhattan_josephson_junction
+from text_to_gds.adapters import (
+    josephsoncircuits_plan_from_sidecar,
+    josim_netlist_from_sidecar,
+    list_simulation_adapters,
+)
+from text_to_gds.design import plan_ljpa_design
+from text_to_gds.extraction import layer_bounding_boxes_from_gds, summarize_sidecar_parameters
+from text_to_gds.pcells import (
+    cpw_straight,
+    flux_bias_line,
+    ground_plane,
+    manhattan_josephson_junction,
+    meander_inductor,
+    via_stack,
+)
+from text_to_gds.preview import write_stack_preview
+from text_to_gds.process import DEFAULT_PROCESS
 from text_to_gds.simulation import simulate_ideal_junction
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -17,7 +33,12 @@ ARTIFACT_ROOT = WORKSPACE_ROOT / "artifacts"
 mcp = FastMCP("Text-to-GDS", json_response=True)
 
 PCELL_REGISTRY = {
+    "cpw_straight": cpw_straight,
+    "flux_bias_line": flux_bias_line,
+    "ground_plane": ground_plane,
     "manhattan_josephson_junction": manhattan_josephson_junction,
+    "meander_inductor": meander_inductor,
+    "via_stack": via_stack,
 }
 
 
@@ -83,6 +104,7 @@ def _component_sidecar(
         "bbox_um": bbox,
         "ports": [_port_to_dict(name, port) for name, port in port_items],
         "info": dict(component.info),
+        "process_stack": DEFAULT_PROCESS.to_dict(),
     }
 
 
@@ -91,6 +113,9 @@ def _layer_color(layer: list[int]) -> tuple[int, int, int, int]:
         (3, 0): (56, 102, 214, 190),
         (4, 0): (218, 73, 86, 210),
         (5, 0): (48, 154, 103, 190),
+        (6, 0): (124, 58, 237, 180),
+        (7, 0): (245, 158, 11, 210),
+        (8, 0): (249, 115, 22, 210),
         (10, 0): (90, 90, 90, 170),
     }
     key = (layer[0], layer[1])
@@ -311,6 +336,56 @@ def run_drc(
 
 
 @mcp.tool()
+def list_pcells() -> dict[str, Any]:
+    """List registered PCells and the active process-stack defaults."""
+    return {
+        "schema": "text-to-gds.pcells.v0",
+        "pcells": sorted(PCELL_REGISTRY),
+        "process_stack": DEFAULT_PROCESS.to_dict(),
+    }
+
+
+@mcp.tool()
+def extract_layout(sidecar_path: str, include_gds_shapes: bool = True) -> dict[str, Any]:
+    """Summarize performance-relevant parameters from a sidecar and optional GDS scan."""
+    sidecar_file = _existing_path(sidecar_path)
+    sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
+    summary = summarize_sidecar_parameters(sidecar)
+    if include_gds_shapes:
+        summary["gds_shapes"] = layer_bounding_boxes_from_gds(sidecar["gds_path"])
+
+    output_path = _artifact_path(f"{sidecar_file.stem}.extraction.json", ".json")
+    output_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    summary["result_path"] = str(output_path)
+    return summary
+
+
+@mcp.tool()
+def list_simulators() -> dict[str, Any]:
+    """List local external simulator adapters and installation hints."""
+    return {
+        "schema": "text-to-gds.simulators.v0",
+        "adapters": list_simulation_adapters(),
+    }
+
+
+@mcp.tool()
+def plan_ljpa(prompt: str) -> dict[str, Any]:
+    """Convert an LJPA prompt into clarification questions and a local design workflow."""
+    return plan_ljpa_design(prompt)
+
+
+@mcp.tool()
+def export_3d_preview(gds_path: str, output_name: str | None = None) -> dict[str, Any]:
+    """Export a local 2.5D HTML/JSON process-stack preview from GDS layer boxes."""
+    layout_path = _existing_path(gds_path)
+    stem = Path(output_name).stem if output_name else layout_path.stem
+    html_path = _artifact_path(f"{stem}.stack3d.html", ".html")
+    json_path = _artifact_path(f"{stem}.stack3d.json", ".json")
+    return write_stack_preview(layout_path, html_path, json_path)
+
+
+@mcp.tool()
 def run_simulation(
     sidecar_path: str,
     simulator: str = "mock_jj",
@@ -321,6 +396,7 @@ def run_simulation(
     sidecar_file = _existing_path(sidecar_path)
     sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
 
+    normalized_simulator = simulator.lower().replace(" ", "").replace("-", "").replace("_", "")
     result = {
         "schema": "text-to-gds.simulation.v0",
         "engine": simulator,
@@ -331,6 +407,25 @@ def run_simulation(
             shunt_capacitance_ff=shunt_capacitance_ff,
         ),
     }
+    if normalized_simulator in {"josim", "externalcli"}:
+        deck = josim_netlist_from_sidecar(
+            sidecar,
+            jc_ua_per_um2=jc_ua_per_um2,
+            shunt_capacitance_ff=shunt_capacitance_ff,
+        )
+        deck_path = _artifact_path(f"{sidecar_file.stem}.josim.cir", ".cir")
+        deck_path.write_text(deck, encoding="utf-8")
+        result["adapter"] = "JoSIM"
+        result["adapter_status"] = "deck_written"
+        result["adapter_deck_path"] = str(deck_path)
+        result["available_adapters"] = list_simulation_adapters()
+    elif normalized_simulator in {"josephsoncircuits.jl", "josephsoncircuits", "externaljulia"}:
+        result["adapter"] = "JosephsonCircuits.jl"
+        result["adapter_status"] = "command_plan_created"
+        result["adapter_plan"] = josephsoncircuits_plan_from_sidecar(
+            sidecar,
+            target_frequency_ghz=None,
+        )
 
     output_path = _artifact_path(f"{sidecar_file.stem}.simulation.json", ".json")
     output_path.write_text(json.dumps(result, indent=2), encoding="utf-8")

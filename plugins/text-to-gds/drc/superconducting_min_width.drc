@@ -1,0 +1,22 @@
+# Text-to-GDS sample KLayout DRC deck.
+# This is a starter deck for local development, not foundry signoff.
+
+report("Text-to-GDS superconducting starter DRC")
+
+m1 = input(3, 0)
+jj = input(4, 0)
+m2 = input(5, 0)
+m3 = input(6, 0)
+via12 = input(7, 0)
+via23 = input(8, 0)
+
+m1.width(0.20.um).output("M1_min_width", "M1 width below 0.20 um")
+m2.width(0.20.um).output("M2_min_width", "M2 width below 0.20 um")
+m3.width(0.50.um).output("M3_min_width", "M3 width below 0.50 um")
+jj.width(0.10.um).output("JJ_min_width", "JJ barrier width below 0.10 um")
+via12.width(0.30.um).output("VIA12_min_width", "VIA12 width below 0.30 um")
+via23.width(0.40.um).output("VIA23_min_width", "VIA23 width below 0.40 um")
+
+m1.space(0.20.um).output("M1_min_space", "M1 spacing below 0.20 um")
+m2.space(0.20.um).output("M2_min_space", "M2 spacing below 0.20 um")
+m3.space(0.50.um).output("M3_min_space", "M3 spacing below 0.50 um")

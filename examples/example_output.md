@@ -13,7 +13,10 @@ workspace/artifacts/manhattan_jj.gds
 workspace/artifacts/manhattan_jj.layout.png
 workspace/artifacts/manhattan_jj.sidecar.json
 workspace/artifacts/manhattan_jj.drc.json
+workspace/artifacts/manhattan_jj.sidecar.extraction.json
 workspace/artifacts/manhattan_jj.sidecar.simulation.json
+workspace/artifacts/manhattan_jj.stack3d.html
+workspace/artifacts/manhattan_jj.stack3d.json
 ```
 
 The `.layout.png` file is a rendered layout screenshot generated from the GDS
@@ -72,6 +75,26 @@ for quick review.
   "critical_current_ua": 0.0968,
   "josephson_inductance_ph": 3399.855149,
   "shunt_capacitance_ff": 0.0
+}
+```
+
+## Extraction Report Excerpt
+
+```json
+{
+  "schema": "text-to-gds.extraction-summary.v0",
+  "pcell": "manhattan_josephson_junction",
+  "parameters": {
+    "junction_area_um2": 0.0484,
+    "junction_width_um": 0.22,
+    "junction_height_um": 0.22,
+    "lead_width_um": 1.0,
+    "lead_length_um": 6.0
+  },
+  "performance_impacts": [
+    "junction_area_um2 sets critical current for a given Jc and therefore Lj",
+    "layer material and thickness affect inductance, loss, and DRC margins"
+  ]
 }
 ```
 
