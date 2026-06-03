@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import json
+import os
 import shutil
+import subprocess
+import sys
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any
 
 from text_to_gds.simulation import critical_current_ua, josephson_inductance_ph
@@ -58,6 +63,46 @@ def select_adapter(name: str) -> dict[str, Any]:
     raise ValueError(f"Unknown simulator adapter: {name}")
 
 
+def _resolved_executable(executable: str) -> str | None:
+    path = Path(executable)
+    if path.exists():
+        return str(path)
+    return shutil.which(executable)
+
+
+def _command_prefix(executable: str) -> list[str] | None:
+    resolved = _resolved_executable(executable)
+    if resolved is None:
+        return None
+    if resolved.endswith(".py"):
+        return [sys.executable, resolved]
+    return [resolved]
+
+
+def _parse_numeric_table(text: str) -> list[dict[str, float]]:
+    rows: list[dict[str, float]] = []
+    headers: list[str] | None = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith(("*", "#", ".")):
+            continue
+        parts = [part for part in line.replace(",", " ").split() if part]
+        if not parts:
+            continue
+        if any(any(char.isalpha() for char in part) for part in parts):
+            headers = [part.strip() for part in parts]
+            continue
+        try:
+            values = [float(part) for part in parts]
+        except ValueError:
+            continue
+        if headers and len(headers) == len(values):
+            rows.append(dict(zip(headers, values, strict=True)))
+        else:
+            rows.append({f"col_{index}": value for index, value in enumerate(values)})
+    return rows
+
+
 def josim_netlist_from_sidecar(
     sidecar: dict[str, Any],
     *,
@@ -85,6 +130,159 @@ def josim_netlist_from_sidecar(
             ".END",
         ]
     )
+
+
+def run_josim_transient(
+    *,
+    deck_path: str | Path,
+    output_path: str | Path,
+    josim_executable: str = "josim",
+    timeout_seconds: int = 120,
+) -> dict[str, Any]:
+    """Run JoSIM on a generated deck when the executable is available."""
+    command_prefix = _command_prefix(josim_executable)
+    command = (command_prefix or [josim_executable]) + [str(deck_path)]
+    if command_prefix is None:
+        return {
+            "adapter": "JoSIM",
+            "status": "skipped",
+            "executed": False,
+            "command": command,
+            "returncode": None,
+            "stdout": "",
+            "stderr": "",
+            "parsed_rows": [],
+            "warnings": [f"JoSIM executable not found: {josim_executable}"],
+        }
+
+    completed = subprocess.run(
+        command,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=timeout_seconds,
+    )
+    parsed_rows = _parse_numeric_table(completed.stdout)
+    payload = {
+        "schema": "text-to-gds.josim-transient.v0",
+        "adapter": "JoSIM",
+        "deck_path": str(deck_path),
+        "command": command,
+        "returncode": completed.returncode,
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+        "parsed_rows": parsed_rows,
+    }
+    Path(output_path).write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    return {
+        "adapter": "JoSIM",
+        "status": "executed" if completed.returncode == 0 else "failed",
+        "executed": True,
+        "command": command,
+        "returncode": completed.returncode,
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+        "parsed_rows": parsed_rows,
+        "result_path": str(output_path),
+        "warnings": [] if completed.returncode == 0 else ["JoSIM command failed."],
+    }
+
+
+def write_josephsoncircuits_script(
+    sidecar: dict[str, Any],
+    *,
+    script_path: str | Path,
+    result_path: str | Path,
+    target_frequency_ghz: float | None,
+    target_gain_db: float,
+    target_bandwidth_mhz: float | None,
+) -> None:
+    """Write a Julia command script for the JosephsonCircuits.jl adapter."""
+    plan = josephsoncircuits_plan_from_sidecar(
+        sidecar,
+        target_frequency_ghz=target_frequency_ghz,
+        target_gain_db=target_gain_db,
+        target_bandwidth_mhz=target_bandwidth_mhz,
+    )
+    payload = {
+        "schema": "text-to-gds.josephsoncircuits.v0",
+        "package_loaded": False,
+        "package_error": "",
+        "plan": plan,
+    }
+    result_literal = str(Path(result_path)).replace("\\", "\\\\")
+    payload_literal = json.dumps(payload).replace("\\", "\\\\").replace('"""', '\\"\\"\\"')
+    script = f'''# Text-to-GDS generated JosephsonCircuits.jl adapter script.
+package_loaded = false
+package_error = ""
+try
+    @eval using JosephsonCircuits
+    global package_loaded = true
+catch err
+    global package_error = sprint(showerror, err)
+end
+
+json = """{payload_literal}"""
+json = replace(json, "\\"package_loaded\\": false" => "\\"package_loaded\\": " * string(package_loaded))
+json = replace(json, "\\"package_error\\": \\"\\"" => "\\"package_error\\": \\"" * replace(package_error, "\\"" => "\\\\\\"") * "\\"")
+open("{result_literal}", "w") do io
+    write(io, json)
+end
+println(json)
+'''
+    Path(script_path).write_text(script, encoding="utf-8")
+
+
+def run_josephsoncircuits(
+    *,
+    script_path: str | Path,
+    result_path: str | Path,
+    julia_executable: str = "julia",
+    timeout_seconds: int = 120,
+) -> dict[str, Any]:
+    """Run a generated JosephsonCircuits.jl Julia script when Julia is available."""
+    command_prefix = _command_prefix(julia_executable)
+    command = (command_prefix or [julia_executable]) + [str(script_path)]
+    if command_prefix is None:
+        return {
+            "adapter": "JosephsonCircuits.jl",
+            "status": "skipped",
+            "executed": False,
+            "command": command,
+            "returncode": None,
+            "stdout": "",
+            "stderr": "",
+            "result": None,
+            "warnings": [f"Julia executable not found: {julia_executable}"],
+        }
+
+    completed = subprocess.run(
+        command,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=timeout_seconds,
+        env={**os.environ, "TEXT_TO_GDS_JC_RESULT": str(result_path)},
+    )
+    result_payload = None
+    result_file = Path(result_path)
+    if result_file.exists():
+        try:
+            result_payload = json.loads(result_file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            result_payload = {"raw": result_file.read_text(encoding="utf-8")}
+    return {
+        "adapter": "JosephsonCircuits.jl",
+        "status": "executed" if completed.returncode == 0 else "failed",
+        "executed": True,
+        "command": command,
+        "returncode": completed.returncode,
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+        "result_path": str(result_path),
+        "result": result_payload,
+        "warnings": [] if completed.returncode == 0 else ["JosephsonCircuits.jl command failed."],
+    }
 
 
 def josephsoncircuits_plan_from_sidecar(

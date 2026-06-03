@@ -44,9 +44,9 @@
 
 - [x] Add a netlist/extraction interface for layout-derived JJ and CPW elements.
 - [x] Add JosephsonCircuits.jl availability and command-plan scaffold.
-- [ ] Add a JosephsonCircuits.jl command-line adapter.
+- [x] Add a JosephsonCircuits.jl command-line adapter.
 - [x] Add JoSIM transient deck scaffold.
-- [ ] Add a JoSIM transient simulation adapter.
+- [x] Add a JoSIM transient simulation adapter.
 - [x] Preserve mock simulation for local smoke tests without Julia or JoSIM.
 
 ## Phase 5: Prompt-To-Layout UX
@@ -57,7 +57,15 @@
 - [x] Add local 2.5D stack preview export for quick UI/UX review.
 - [x] Add a local browser workbench for prompt, plan, layout, DRC, 3D preview,
   and simulation result review.
-- [ ] Add a live interactive frontend that accepts prompt edits and runs the
+- [x] Add a live interactive frontend that accepts prompt edits and runs the
   workflow from the browser.
-- [ ] Add closed-loop optimization that adjusts geometry after simulation
+- [x] Add closed-loop optimization that adjusts geometry after simulation
   misses target gain/bandwidth/noise metrics.
+
+## Phase 6: Signoff-Grade Extensions
+
+- [ ] Install and validate Julia plus JosephsonCircuits.jl on at least one CI or
+  release host.
+- [ ] Install and validate JoSIM on at least one CI or release host.
+- [ ] Replace the local surrogate optimizer with external gain/bandwidth/noise
+  metrics from JosephsonCircuits.jl, JoSIM, or EM extraction.

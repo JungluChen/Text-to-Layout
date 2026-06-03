@@ -150,3 +150,21 @@ workspace/artifacts/ljpa_seed.workbench.html
 The workbench HTML contains the prompt, clarification questions, layout
 screenshot, 2.5D stack preview, DRC status, extracted layout parameters, and
 simulation result.
+
+## Live UI And Optimization
+
+Start the local browser UI:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
+```
+
+Run the optimized prompt-to-layout flow without opening the UI:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py optimize-design "Design a 5 Ghz LJPA with wilde bandwidth" --output-name ljpa_optimized.gds
+```
+
+The optimized workflow writes the same artifact family as the normal workflow
+and adds an `optimization` section with target metrics, final parameters, final
+errors, and iteration history.

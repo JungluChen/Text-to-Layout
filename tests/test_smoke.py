@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+import threading
+import urllib.request
 from pathlib import Path
 
 import anyio
@@ -26,9 +28,11 @@ from text_to_gds.server import (
     run_process_drc,
     run_design_workflow,
     run_drc,
+    run_optimized_design_workflow,
     run_simulation,
 )
 from text_to_gds.simulation import critical_current_ua, josephson_inductance_ph
+from text_to_gds.ui import create_workbench_server
 
 
 def test_manhattan_josephson_junction_writes_gds(tmp_path):
@@ -113,6 +117,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
 
     josim = run_simulation(compiled["sidecar_path"], simulator="josim", jc_ua_per_um2=2.0)
     assert josim["adapter"] == "JoSIM"
+    assert josim["adapter_status"] == "skipped"
     assert (tmp_path / "toolchain.sidecar.josim.cir").exists()
 
     process_drc = run_process_drc(
@@ -137,6 +142,46 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     )
 
 
+def test_external_simulator_fake_executables(monkeypatch, tmp_path):
+    monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
+    compiled = compile_layout(output_name="adapter.gds")
+
+    fake_josim = tmp_path / "fake_josim.py"
+    fake_josim.write_text(
+        "print('time voltage')\nprint('0 0')\nprint('1 2')\n",
+        encoding="utf-8",
+    )
+    josim = run_simulation(
+        compiled["sidecar_path"],
+        simulator="josim",
+        adapter_executable=str(fake_josim),
+    )
+    assert josim["adapter_status"] == "executed"
+    assert josim["adapter_result"]["parsed_rows"] == [
+        {"time": 0.0, "voltage": 0.0},
+        {"time": 1.0, "voltage": 2.0},
+    ]
+
+    fake_julia = tmp_path / "fake_julia.py"
+    fake_julia.write_text(
+        "import json, os\n"
+        "result = os.environ['TEXT_TO_GDS_JC_RESULT']\n"
+        "open(result, 'w', encoding='utf-8').write(json.dumps({'package_loaded': True}))\n"
+        "print('josephsoncircuits ok')\n",
+        encoding="utf-8",
+    )
+    jc = run_simulation(
+        compiled["sidecar_path"],
+        simulator="JosephsonCircuits.jl",
+        adapter_executable=str(fake_julia),
+        target_frequency_ghz=5.0,
+        target_bandwidth_mhz=500.0,
+    )
+    assert jc["adapter_status"] == "executed"
+    assert jc["adapter_result"]["result"] == {"package_loaded": True}
+    assert (tmp_path / "adapter.sidecar.josephsoncircuits.jl").exists()
+
+
 def test_registry_planner_and_adapter_metadata():
     pcells = list_pcells()
     assert "manhattan_josephson_junction" in pcells["pcells"]
@@ -155,6 +200,48 @@ def test_registry_planner_and_adapter_metadata():
         "JosephsonCircuits.jl",
         "JoSIM",
     }
+
+
+def test_optimized_design_workflow_and_live_ui(monkeypatch, tmp_path):
+    monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
+    optimized = run_optimized_design_workflow(
+        "Design a 6 Ghz LJPA with 700 MHz bandwidth",
+        output_name="optimized.gds",
+        max_iterations=3,
+    )
+    assert optimized["status"] == "optimized_with_local_surrogate"
+    assert optimized["optimization"]["final_parameters"]["cpw_length"] != 210.0
+    assert (tmp_path / "optimized.workbench.html").exists()
+
+    httpd = create_workbench_server(host="127.0.0.1", port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base_url = f"http://127.0.0.1:{httpd.server_port}"
+        with urllib.request.urlopen(base_url, timeout=10) as response:
+            html = response.read().decode("utf-8")
+        assert "Text-to-GDS Live Workbench" in html
+
+        payload = json.dumps(
+            {
+                "prompt": "Design a 5 Ghz LJPA with wilde bandwidth",
+                "output_name": "ui_seed.gds",
+                "optimize": True,
+            }
+        ).encode("utf-8")
+        request = urllib.request.Request(
+            f"{base_url}/api/design-workflow",
+            data=payload,
+            headers={"content-type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            api_result = json.loads(response.read().decode("utf-8"))
+        assert api_result["status"] == "optimized_with_local_surrogate"
+        assert (tmp_path / "ui_seed.workbench.html").exists()
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
 
 
 def test_parse_lyrdb_report(tmp_path):

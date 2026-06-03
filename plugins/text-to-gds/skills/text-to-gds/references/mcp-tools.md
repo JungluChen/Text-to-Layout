@@ -45,9 +45,15 @@ Inputs:
 - `simulator`
 - `jc_ua_per_um2`
 - `shunt_capacitance_ff`
+- `adapter_executable`
+- `target_frequency_ghz`
+- `target_gain_db`
+- `target_bandwidth_mhz`
 
 Output uses schema `text-to-gds.simulation.v0` and includes junction area,
-critical current, Josephson inductance, and `result_path`.
+critical current, Josephson inductance, and `result_path`. For `simulator =
+"josim"` or `simulator = "JosephsonCircuits.jl"`, the tool writes adapter
+artifacts and executes the local command when the executable exists.
 
 Keep all tool returns JSON-serializable. Add fields only in a backward-compatible
 way.
@@ -106,3 +112,17 @@ Output uses schema `text-to-gds.design-workflow.v0` and includes plan,
 compile, built-in DRC, process DRC adapter report, extraction, 2.5D preview,
 simulation, and workbench sections. It writes a `.workbench.html` local browser
 dashboard.
+
+## `run_optimized_design_workflow`
+
+Inputs:
+
+- `prompt`
+- `output_name`
+- `parameters`
+- `jc_ua_per_um2`
+- `max_iterations`
+
+Output is the same shape as `run_design_workflow`, with an additional
+`optimization` section containing surrogate targets, final parameters, final
+metrics, final errors, and iteration history.

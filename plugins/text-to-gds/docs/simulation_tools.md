@@ -35,6 +35,18 @@ JoSIM path:
 josim --help
 ```
 
+## Adapter Execution
+
+When installed, adapters can be run through `run_simulation`:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulate workspace\artifacts\ljpa_seed.sidecar.json --simulator josim
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulate workspace\artifacts\ljpa_seed.sidecar.json --simulator JosephsonCircuits.jl --target-frequency-ghz 5.0 --target-bandwidth-mhz 500
+```
+
+If the executable is missing, the adapter status is `skipped`. If a custom
+binary or wrapper should be used, pass `--adapter-executable`.
+
 ## Academic Anchors
 
 - Mutus et al., "Design and characterization of a lumped element single-ended

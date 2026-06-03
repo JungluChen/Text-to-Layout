@@ -53,6 +53,8 @@ py -3 -m uv sync
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py toolchain --output-name manhattan_jj.gds
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py plan-ljpa "Design a 5 GHz LJPA with wide bandwidth"
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_seed.gds
+py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py optimize-design "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_optimized.gds
+py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
 py -3 -m uv run text-to-gds
 py -3 -m uv run mcp dev src/text_to_gds/server.py
 ```
@@ -71,8 +73,11 @@ The MCP server exposes:
 - `export_3d_preview` - writes `.stack3d.html` and `.stack3d.json`.
 - `run_design_workflow` - runs prompt planning, LJPA seed layout compile, DRC,
   extraction, preview, simulation, and writes `.workbench.html`.
+- `run_optimized_design_workflow` - adjusts geometry with a deterministic local
+  surrogate before running the design workflow.
 - `run_simulation` - computes ideal JJ outputs and can prepare JoSIM or
-  JosephsonCircuits.jl adapter artifacts.
+  JosephsonCircuits.jl adapter artifacts; when the executable is installed or
+  passed through `adapter_executable`, it executes the adapter.
 
 ## Required Workflow
 
@@ -92,7 +97,9 @@ The MCP server exposes:
    design.
 8. Use `run_design_workflow` for prompt-to-artifact LJPA seed runs and return
    the generated workbench path.
-9. Report only artifacts and checks that were actually produced.
+9. Use `run_optimized_design_workflow` when the user asks to iterate or optimize
+   geometry before external signoff.
+10. Report only artifacts and checks that were actually produced.
 
 ## References
 

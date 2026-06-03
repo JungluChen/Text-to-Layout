@@ -41,8 +41,10 @@ computes:
 Use `list_simulators` to check whether Julia/JosephsonCircuits.jl or JoSIM are
 available. `run_simulation(..., simulator="josim")` writes a starter JoSIM deck.
 `run_simulation(..., simulator="JosephsonCircuits.jl")` writes an adapter
-command plan. Do not claim either external simulator ran until the adapter
-actually executes the local tool.
+script. When the executable is installed or passed through `adapter_executable`,
+the adapter runs the local command and records stdout, stderr, return code, and
+parsed output. Do not claim either external simulator ran unless the result
+status is `executed`.
 
 ## Planning
 
@@ -54,6 +56,15 @@ Use `run_design_workflow` for a first-pass local artifact set. It compiles the
 `lumped_element_jpa_seed` PCell, runs built-in DRC, attempts process DRC, runs
 extraction, writes a stack preview, runs the deterministic JJ simulation, and
 writes a `.workbench.html` dashboard.
+
+Use `run_optimized_design_workflow` when the request asks to optimize or
+iterate. The current optimizer is a local surrogate loop over CPW length/gap
+and JJ dimensions; it must be replaced by external simulator metrics for
+signoff-grade optimization.
+
+Use `python skills/text-to-gds/scripts/text_to_gds_tool.py ui` to serve the
+live local workbench. The page accepts prompt edits and can run normal or
+optimized workflows from the browser.
 
 ## 3D/Stack Preview
 

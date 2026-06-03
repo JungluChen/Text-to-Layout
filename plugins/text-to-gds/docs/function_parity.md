@@ -18,6 +18,8 @@ but replaces mechanical CAD operations with local EDA layout operations.
 | Simulation handoff | ideal JJ `.simulation.json`, extraction summaries, JoSIM deck scaffold, and JosephsonCircuits.jl command plan |
 | Prompt planning | `plan_ljpa` turns short LJPA prompts into clarification questions, assumptions, registered PCells, and simulator choices |
 | Prompt-to-artifact run | `run_design_workflow` compiles an LJPA seed GDS and writes a local browser workbench |
+| Live workbench | standard-library HTTP server at `text_to_gds.ui` accepts prompt edits and runs local workflows from the browser |
+| Iteration loop | `run_optimized_design_workflow` adjusts geometry with a deterministic surrogate and records optimization history |
 | Example outputs | `examples/example_output.md` |
 | Benchmark prompts | six prompt/layout screenshot benchmark rows under `benchmarks/` and `assets/` |
 | CI and local checks | `.github/workflows/test.yml`, pytest, ruff, compileall, MCP stdio protocol smoke test |
@@ -34,5 +36,5 @@ but replaces mechanical CAD operations with local EDA layout operations.
   prompt, generated source artifact, visual review artifact, sidecar/metadata,
   validation report, examples, benchmarks, skill, plugin bundle, and local
   tests. Its remaining gaps are domain-specific signoff depth: real process DRC,
-  external simulator execution, EM extraction, live browser execution, and
-  closed-loop optimization.
+  EM extraction and signoff-grade optimization backed by installed external
+  simulator measurements.

@@ -28,6 +28,16 @@ def _load_server_module():
     return server
 
 
+def _load_ui_module():
+    project_root = _find_project_root()
+    src_root = project_root / "src"
+    if str(src_root) not in sys.path:
+        sys.path.insert(0, str(src_root))
+    from text_to_gds import ui
+
+    return ui
+
+
 def _parameters(raw: str | None) -> dict[str, Any]:
     if raw is None:
         return {}
@@ -57,6 +67,13 @@ def main() -> None:
     workflow_parser.add_argument("--parameters-json")
     workflow_parser.add_argument("--jc-ua-per-um2", type=float, default=2.0)
 
+    optimized_parser = subparsers.add_parser("optimize-design")
+    optimized_parser.add_argument("prompt")
+    optimized_parser.add_argument("--output-name", default="ljpa_optimized.gds")
+    optimized_parser.add_argument("--parameters-json")
+    optimized_parser.add_argument("--jc-ua-per-um2", type=float, default=2.0)
+    optimized_parser.add_argument("--max-iterations", type=int, default=4)
+
     compile_parser = subparsers.add_parser("compile")
     compile_parser.add_argument("--pcell", default="manhattan_josephson_junction")
     compile_parser.add_argument("--parameters-json")
@@ -72,6 +89,10 @@ def main() -> None:
     simulate_parser.add_argument("--simulator", default="mock_jj")
     simulate_parser.add_argument("--jc-ua-per-um2", type=float, default=1.0)
     simulate_parser.add_argument("--shunt-capacitance-ff", type=float, default=0.0)
+    simulate_parser.add_argument("--adapter-executable")
+    simulate_parser.add_argument("--target-frequency-ghz", type=float)
+    simulate_parser.add_argument("--target-gain-db", type=float, default=20.0)
+    simulate_parser.add_argument("--target-bandwidth-mhz", type=float)
 
     extract_parser = subparsers.add_parser("extract")
     extract_parser.add_argument("sidecar_path")
@@ -80,6 +101,10 @@ def main() -> None:
     preview_parser = subparsers.add_parser("preview")
     preview_parser.add_argument("gds_path")
     preview_parser.add_argument("--output-name")
+
+    ui_parser = subparsers.add_parser("ui")
+    ui_parser.add_argument("--host", default="127.0.0.1")
+    ui_parser.add_argument("--port", type=int, default=8765)
 
     toolchain_parser = subparsers.add_parser("toolchain")
     toolchain_parser.add_argument("--pcell", default="manhattan_josephson_junction")
@@ -114,6 +139,23 @@ def main() -> None:
         )
         return
 
+    if args.command == "optimize-design":
+        _print_json(
+            server.run_optimized_design_workflow(
+                prompt=args.prompt,
+                output_name=args.output_name,
+                parameters=_parameters(args.parameters_json),
+                jc_ua_per_um2=args.jc_ua_per_um2,
+                max_iterations=args.max_iterations,
+            )
+        )
+        return
+
+    if args.command == "ui":
+        ui = _load_ui_module()
+        ui.serve_workbench(host=args.host, port=args.port)
+        return
+
     if args.command == "compile":
         _print_json(
             server.compile_layout(
@@ -141,6 +183,10 @@ def main() -> None:
                 simulator=args.simulator,
                 jc_ua_per_um2=args.jc_ua_per_um2,
                 shunt_capacitance_ff=args.shunt_capacitance_ff,
+                adapter_executable=args.adapter_executable,
+                target_frequency_ghz=args.target_frequency_ghz,
+                target_gain_db=args.target_gain_db,
+                target_bandwidth_mhz=args.target_bandwidth_mhz,
             )
         )
         return

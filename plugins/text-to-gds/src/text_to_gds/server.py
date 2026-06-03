@@ -11,6 +11,9 @@ from text_to_gds.adapters import (
     josephsoncircuits_plan_from_sidecar,
     josim_netlist_from_sidecar,
     list_simulation_adapters,
+    run_josephsoncircuits,
+    run_josim_transient,
+    write_josephsoncircuits_script,
 )
 from text_to_gds.design import plan_ljpa_design
 from text_to_gds.drc import parse_drc_report, run_external_klayout_drc
@@ -19,6 +22,7 @@ from text_to_gds.extraction import (
     layer_bounding_boxes_from_gds,
     summarize_sidecar_parameters,
 )
+from text_to_gds.optimization import optimize_ljpa_parameters
 from text_to_gds.pcells import (
     cpw_straight,
     flux_bias_line,
@@ -525,13 +529,58 @@ def run_design_workflow(
 
 
 @mcp.tool()
+def run_optimized_design_workflow(
+    prompt: str,
+    output_name: str = "ljpa_optimized.gds",
+    parameters: dict[str, Any] | None = None,
+    jc_ua_per_um2: float = 2.0,
+    max_iterations: int = 4,
+) -> dict[str, Any]:
+    """Optimize first-pass LJPA geometry with a local surrogate, then run workflow."""
+    plan = plan_ljpa_design(prompt)
+    target = plan["target"]
+    optimization = optimize_ljpa_parameters(
+        target_frequency_ghz=float(target.get("center_frequency_ghz") or 5.0),
+        target_bandwidth_mhz=float(target.get("bandwidth_mhz") or 500.0),
+        target_gain_db=float(target.get("gain_db") or 20.0),
+        initial_parameters={key: float(value) for key, value in (parameters or {}).items()},
+        max_iterations=max_iterations,
+    )
+    final_parameters = {
+        "cpw_length": optimization["final_parameters"]["cpw_length"],
+        "cpw_trace_width": optimization["final_parameters"]["cpw_trace_width"],
+        "cpw_gap": optimization["final_parameters"]["cpw_gap"],
+        "junction_width": optimization["final_parameters"]["junction_width"],
+        "junction_height": optimization["final_parameters"]["junction_height"],
+        "flux_line_length": optimization["final_parameters"]["flux_line_length"],
+        "flux_line_width": optimization["final_parameters"]["flux_line_width"],
+        "inductor_segment_length": optimization["final_parameters"]["inductor_segment_length"],
+        "inductor_trace_width": optimization["final_parameters"]["inductor_trace_width"],
+        "inductor_pitch": optimization["final_parameters"]["inductor_pitch"],
+    }
+    workflow = run_design_workflow(
+        prompt=prompt,
+        output_name=output_name,
+        parameters=final_parameters,
+        jc_ua_per_um2=jc_ua_per_um2,
+    )
+    workflow["optimization"] = optimization
+    workflow["status"] = "optimized_with_local_surrogate"
+    return workflow
+
+
+@mcp.tool()
 def run_simulation(
     sidecar_path: str,
     simulator: str = "mock_jj",
     jc_ua_per_um2: float = 1.0,
     shunt_capacitance_ff: float = 0.0,
+    adapter_executable: str | None = None,
+    target_frequency_ghz: float | None = None,
+    target_gain_db: float = 20.0,
+    target_bandwidth_mhz: float | None = None,
 ) -> dict[str, Any]:
-    """Run a mock Josephson Junction calculation from the semantic sidecar."""
+    """Run ideal JJ simulation and optional local external simulator adapters."""
     sidecar_file = _existing_path(sidecar_path)
     sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
 
@@ -554,17 +603,43 @@ def run_simulation(
         )
         deck_path = _artifact_path(f"{sidecar_file.stem}.josim.cir", ".cir")
         deck_path.write_text(deck, encoding="utf-8")
+        josim_output_path = _artifact_path(f"{sidecar_file.stem}.josim.json", ".json")
+        adapter_result = run_josim_transient(
+            deck_path=deck_path,
+            output_path=josim_output_path,
+            josim_executable=adapter_executable or "josim",
+        )
         result["adapter"] = "JoSIM"
-        result["adapter_status"] = "deck_written"
+        result["adapter_status"] = adapter_result["status"]
         result["adapter_deck_path"] = str(deck_path)
+        result["adapter_result"] = adapter_result
         result["available_adapters"] = list_simulation_adapters()
     elif normalized_simulator in {"josephsoncircuits.jl", "josephsoncircuits", "externaljulia"}:
+        script_path = _artifact_path(f"{sidecar_file.stem}.josephsoncircuits.jl", ".jl")
+        jc_result_path = _artifact_path(f"{sidecar_file.stem}.josephsoncircuits.json", ".json")
+        write_josephsoncircuits_script(
+            sidecar,
+            script_path=script_path,
+            result_path=jc_result_path,
+            target_frequency_ghz=target_frequency_ghz,
+            target_gain_db=target_gain_db,
+            target_bandwidth_mhz=target_bandwidth_mhz,
+        )
+        adapter_result = run_josephsoncircuits(
+            script_path=script_path,
+            result_path=jc_result_path,
+            julia_executable=adapter_executable or "julia",
+        )
         result["adapter"] = "JosephsonCircuits.jl"
-        result["adapter_status"] = "command_plan_created"
+        result["adapter_status"] = adapter_result["status"]
+        result["adapter_script_path"] = str(script_path)
         result["adapter_plan"] = josephsoncircuits_plan_from_sidecar(
             sidecar,
-            target_frequency_ghz=None,
+            target_frequency_ghz=target_frequency_ghz,
+            target_gain_db=target_gain_db,
+            target_bandwidth_mhz=target_bandwidth_mhz,
         )
+        result["adapter_result"] = adapter_result
 
     output_path = _artifact_path(f"{sidecar_file.stem}.simulation.json", ".json")
     output_path.write_text(json.dumps(result, indent=2), encoding="utf-8")

@@ -37,6 +37,8 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
   simulator selection
 - A local browser workbench that shows prompt, plan, layout screenshot, 2.5D
   stack preview, DRC status, extraction parameters, and simulation output
+- A live local UI server for browser-driven prompt edits and workflow runs
+- A deterministic surrogate optimizer for first-pass LJPA geometry iteration
 
 For a direct feature mapping against `earthtojake/text-to-cad`, see
 [docs/function_parity.md](docs/function_parity.md).
@@ -136,6 +138,7 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 | `plan_ljpa` | Convert prompts like "Design a 5 GHz LJPA with wide bandwidth" into questions, assumptions, PCells, and workflow. | JSON |
 | `export_3d_preview` | Export a local 2.5D process-stack preview from GDS layer boxes. | `.stack3d.html`, `.stack3d.json` |
 | `run_design_workflow` | Run the prompt-to-artifacts LJPA seed flow and write a local workbench. | `.gds`, `.layout.png`, `.sidecar.json`, `.drc.json`, `.extraction.json`, `.simulation.json`, `.stack3d.html`, `.workbench.html` |
+| `run_optimized_design_workflow` | Run local surrogate geometry optimization before the LJPA seed workflow. | optimized GDS/workbench artifact set plus optimization history |
 | `run_simulation` | Compute ideal JJ current/inductance and optionally write external adapter plans/decks. | `.simulation.json`, optional `.josim.cir` |
 
 ## Example Output
@@ -215,6 +218,15 @@ py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-wor
 
 That command writes `workspace/artifacts/ljpa_seed.workbench.html`, which can
 be opened locally in a browser.
+
+Run the live local browser UI:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
+```
+
+Then open `http://127.0.0.1:8765`. The page accepts prompt edits and can run
+the normal or optimized local workflow.
 
 ## Benchmarks
 
@@ -304,13 +316,16 @@ Text-to-Layout/
   executable is installed. Without it, the report is marked `skipped` and the
   command is still recorded.
 - `run_simulation` computes ideal JJ quantities by default. It can prepare
-  JoSIM/JosephsonCircuits artifacts, but full phase bias, shunt dynamics,
-  parasitics, CPW impedance, and microwave gain/noise response still require
-  the external simulator adapters to be completed and run.
+  and execute JoSIM/JosephsonCircuits command-line adapters when their local
+  executables are installed. Full phase bias, shunt dynamics, parasitics, CPW
+  impedance, and microwave gain/noise response still require those external
+  tools and measured process models to be available.
 - The layer map is a placeholder superconducting stack and must be replaced by
   a real process file before tapeout or publication of process-specific claims.
 - The 2.5D preview is a local UX/review aid based on layer bounding boxes, not a
   field solver or electromagnetic model.
+- The optimizer is a deterministic local surrogate for first-pass geometry. It
+  is not a replacement for simulator-backed gain/noise/bandwidth optimization.
 
 ## Contributing
 
