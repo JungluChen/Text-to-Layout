@@ -8,7 +8,7 @@ success unless the external simulator actually ran on the user's machine.
 
 | Tool | Use in Text-to-GDS | Source |
 | --- | --- | --- |
-| JosephsonCircuits.jl | Frequency-domain, multi-tone harmonic balance planning for gain, S-parameters, and noise in JJ circuits. | <https://github.com/kpobrien/JosephsonCircuits.jl> |
+| JosephsonCircuits.jl | Frequency-domain harmonic balance for JJ circuits. Text-to-GDS runs a single-port reflection starter model and records gain-vs-frequency data. | <https://github.com/kpobrien/JosephsonCircuits.jl> |
 | JoSIM | SPICE-like superconducting transient decks for JJ/RCSJ time-domain checks. | <https://github.com/JoeyDelp/JoSIM> |
 | KQCircuits | Reference point for KLayout-based superconducting quantum layout libraries and parameterized elements. | <https://github.com/iqm-finland/KQCircuits> |
 
@@ -64,9 +64,12 @@ binary or wrapper should be used, pass `--adapter-executable`.
 
 The current JoSIM adapter runs a real transient starter deck and parses the CSV
 columns such as `time`, `V(BJJ)`, and `P(BJJ)`. The current
-JosephsonCircuits.jl adapter verifies Julia package loading and writes a
-layout-derived harmonic-balance command plan; building the full gain/noise model
-from extracted CPW/JJ networks is still future signoff work.
+JosephsonCircuits.jl adapter runs a real `hbsolve` single-port reflection
+starter model, deriving `Lj` from layout area and `Jc`, deriving default shunt
+capacitance from the requested center frequency when none is provided, and
+recording `frequencies_ghz`, `reflection_gain_db`, `peak_gain_db`,
+`center_gain_db`, and `bandwidth_3db_mhz`. A full multiport gain/noise model
+from extracted CPW/JJ/coupling networks is still future signoff work.
 
 ## Academic Anchors
 

@@ -662,6 +662,8 @@ def run_simulation(
             sidecar,
             script_path=script_path,
             result_path=jc_result_path,
+            jc_ua_per_um2=jc_ua_per_um2,
+            shunt_capacitance_ff=shunt_capacitance_ff,
             target_frequency_ghz=target_frequency_ghz,
             target_gain_db=target_gain_db,
             target_bandwidth_mhz=target_bandwidth_mhz,
@@ -676,6 +678,7 @@ def run_simulation(
         result["adapter_script_path"] = str(script_path)
         result["adapter_plan"] = josephsoncircuits_plan_from_sidecar(
             sidecar,
+            jc_ua_per_um2=jc_ua_per_um2,
             target_frequency_ghz=target_frequency_ghz,
             target_gain_db=target_gain_db,
             target_bandwidth_mhz=target_bandwidth_mhz,

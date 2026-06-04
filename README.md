@@ -33,7 +33,7 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
 - KLayout-backed local DRC shape scanning
 - Correct ideal Josephson Junction calculations for `Ic` and `Lj`
 - External simulator adapters for JoSIM transient runs and
-  JosephsonCircuits.jl package-load/command-plan runs
+  JosephsonCircuits.jl single-port harmonic-balance starter runs
 - Prompt planning for LJPA requests, including clarification questions and
   simulator selection
 - A local browser workbench that shows prompt, plan, layout screenshot, 2.5D
@@ -289,9 +289,9 @@ The default simulation is intentionally small and deterministic. It is a
 correct ideal Josephson Junction calculation for zero-phase, small-signal
 inductance. JoSIM and JosephsonCircuits.jl are local external adapters:
 Text-to-GDS reports whether their executables are available, writes and runs a
-JoSIM transient starter deck when requested, and emits/runs a
-JosephsonCircuits.jl package-load plus command-plan script. It does not claim
-those tools ran unless they are actually executed locally.
+JoSIM transient starter deck when requested, and writes/runs a
+JosephsonCircuits.jl single-port reflection harmonic-balance starter model. It
+does not claim those tools ran unless they are actually executed locally.
 
 Inputs:
 
@@ -355,10 +355,11 @@ Text-to-Layout/
   missing or cannot execute the deck, it falls back to headless KLayout Python
   process rules and records the external command/warnings in the JSON report.
 - `run_simulation` computes ideal JJ quantities by default. It can execute a
-  real JoSIM transient deck and a JosephsonCircuits.jl package-load/plan script
-  when the local tools are installed. Full phase bias, parasitics, CPW
-  impedance, and microwave gain/noise response still require a richer extracted
-  circuit model and measured process data.
+  real JoSIM transient deck and a JosephsonCircuits.jl single-port reflection
+  harmonic-balance starter model when the local tools are installed. Full phase
+  bias, parasitics, CPW impedance, multiport gain/noise response, and calibrated
+  pump operating points still require richer extracted circuit models and
+  measured process data.
 - The layer map is a placeholder superconducting stack and must be replaced by
   a real process file before tapeout or publication of process-specific claims.
 - The 2.5D preview is a local UX/review aid based on layer bounding boxes, not a

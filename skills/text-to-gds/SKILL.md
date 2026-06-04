@@ -78,9 +78,9 @@ The MCP server exposes:
 - `run_optimized_design_workflow` - adjusts geometry with a deterministic local
   surrogate before running the design workflow.
 - `run_simulation` - computes ideal JJ outputs, can execute a real JoSIM
-  transient starter deck, and can execute a JosephsonCircuits.jl package-load
-  and command-plan script when the executable is installed or passed through
-  `adapter_executable`.
+  transient starter deck, and can execute a JosephsonCircuits.jl single-port
+  reflection harmonic-balance starter model when the executable is installed or
+  passed through `adapter_executable`.
 
 ## Required Workflow
 

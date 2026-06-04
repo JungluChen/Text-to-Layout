@@ -45,14 +45,14 @@
 ## Phase 4: Simulation Adapters
 
 - [x] Add a netlist/extraction interface for layout-derived JJ and CPW elements.
-- [x] Add JosephsonCircuits.jl availability and command-plan scaffold.
+- [x] Add JosephsonCircuits.jl availability and harmonic-balance starter scaffold.
 - [x] Add a JosephsonCircuits.jl command-line adapter.
 - [x] Add JoSIM transient deck scaffold.
 - [x] Add a JoSIM transient simulation adapter.
 - [x] Add a reproducible local toolchain installer for KLayout, Julia,
   JosephsonCircuits.jl, and JoSIM.
 - [x] Validate real local JoSIM transient execution and JosephsonCircuits.jl
-  package-load execution.
+  harmonic-balance starter execution.
 - [x] Preserve mock simulation for local smoke tests without Julia or JoSIM.
 
 ## Phase 5: Prompt-To-Layout UX
@@ -72,7 +72,8 @@
 
 - Add CI/release-host jobs that run `scripts/install_toolchain.ps1` or cached
   equivalent installers.
-- Replace the JosephsonCircuits.jl package-load plan with a full
-  harmonic-balance circuit model generated from extracted JJ/CPW networks.
+- Replace the JosephsonCircuits.jl single-port starter model with a full
+  multiport harmonic-balance circuit model generated from extracted JJ/CPW
+  networks.
 - Replace the local surrogate optimizer with external gain/bandwidth/noise
   metrics from JosephsonCircuits.jl, JoSIM, or EM extraction.

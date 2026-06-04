@@ -56,7 +56,9 @@ Inputs:
 Output uses schema `text-to-gds.simulation.v0` and includes junction area,
 critical current, Josephson inductance, and `result_path`. For `simulator =
 "josim"` or `simulator = "JosephsonCircuits.jl"`, the tool writes adapter
-artifacts and executes the local command when the executable exists.
+artifacts and executes the local command when the executable exists. The
+JosephsonCircuits adapter writes a single-port reflection harmonic-balance
+starter script and returns the generated result JSON when Julia executes it.
 
 Keep all tool returns JSON-serializable. Add fields only in a backward-compatible
 way.

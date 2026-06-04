@@ -46,8 +46,10 @@ available. `run_simulation(..., simulator="josim")` writes and runs a JoSIM
 transient starter deck when `josim-cli` is available. It records stdout, stderr,
 return code, the `.josim.csv` path, and parsed transient rows.
 `run_simulation(..., simulator="JosephsonCircuits.jl")` writes and runs a Julia
-package-load/command-plan script when Julia is available. Do not claim either
-external simulator ran unless the result status is `executed`.
+single-port reflection harmonic-balance starter model when Julia is available.
+It records frequency points, reflection gain, peak gain, center gain, and 3 dB
+bandwidth. Do not claim either external simulator ran unless the result status
+is `executed`.
 
 ## Planning
 

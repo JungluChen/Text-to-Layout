@@ -186,7 +186,9 @@ def test_external_simulator_fake_executables(monkeypatch, tmp_path):
     )
     assert jc["adapter_status"] == "executed"
     assert jc["adapter_result"]["result"] == {"package_loaded": True}
-    assert (tmp_path / "adapter.sidecar.josephsoncircuits.jl").exists()
+    generated_julia = tmp_path / "adapter.sidecar.josephsoncircuits.jl"
+    assert generated_julia.exists()
+    assert "hbsolve" in generated_julia.read_text(encoding="utf-8")
 
 
 def test_registry_planner_and_adapter_metadata():

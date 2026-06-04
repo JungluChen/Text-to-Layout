@@ -15,7 +15,7 @@ but replaces mechanical CAD operations with local EDA layout operations.
 | 3D/stack review aid | `.stack3d.html` and `.stack3d.json` 2.5D process-stack preview |
 | Validation loop | KLayout Python min-width scan and `.drc.json` reports |
 | Process DRC handoff | external `klayout -b` adapter with `.lyrdb`/JSON parser plus KLayout Python process-rule fallback |
-| Simulation handoff | ideal JJ `.simulation.json`, extraction summaries, real JoSIM transient execution, and JosephsonCircuits.jl package-load/command-plan execution |
+| Simulation handoff | ideal JJ `.simulation.json`, extraction summaries, real JoSIM transient execution, and JosephsonCircuits.jl single-port harmonic-balance starter execution |
 | Prompt planning | `plan_ljpa` turns short LJPA prompts into clarification questions, assumptions, registered PCells, and simulator choices |
 | Prompt-to-artifact run | `run_design_workflow` compiles an LJPA seed GDS and writes a local browser workbench |
 | Live workbench | standard-library HTTP server at `text_to_gds.ui` accepts prompt edits and runs local workflows from the browser |
@@ -36,6 +36,6 @@ but replaces mechanical CAD operations with local EDA layout operations.
   prompt, generated source artifact, visual review artifact, sidecar/metadata,
   validation report, examples, benchmarks, skill, plugin bundle, and local
   tests. Its remaining gaps are domain-specific signoff depth: foundry-qualified
-  DRC decks, EM extraction, richer JosephsonCircuits harmonic-balance netlist
-  generation, and signoff-grade optimization backed by measured external
-  simulator metrics.
+  DRC decks, EM extraction, richer JosephsonCircuits multiport harmonic-balance
+  netlist generation, and signoff-grade optimization backed by measured
+  external simulator metrics.

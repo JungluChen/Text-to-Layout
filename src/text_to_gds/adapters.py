@@ -251,42 +251,158 @@ def write_josephsoncircuits_script(
     *,
     script_path: str | Path,
     result_path: str | Path,
+    jc_ua_per_um2: float,
+    shunt_capacitance_ff: float,
     target_frequency_ghz: float | None,
     target_gain_db: float,
     target_bandwidth_mhz: float | None,
 ) -> None:
-    """Write a Julia command script for the JosephsonCircuits.jl adapter."""
+    """Write a Julia harmonic-balance starter script for JosephsonCircuits.jl."""
     plan = josephsoncircuits_plan_from_sidecar(
         sidecar,
+        jc_ua_per_um2=jc_ua_per_um2,
         target_frequency_ghz=target_frequency_ghz,
         target_gain_db=target_gain_db,
         target_bandwidth_mhz=target_bandwidth_mhz,
     )
-    payload = {
-        "schema": "text-to-gds.josephsoncircuits.v0",
-        "package_loaded": False,
-        "package_error": "",
-        "plan": plan,
-    }
+    model = plan["layout_derived_parameters"]
+    center_ghz = float(target_frequency_ghz or 5.0)
+    lj_h = float(model["josephson_inductance_ph"]) * 1e-12
+    resonant_cap_f = 1.0 / ((2.0 * 3.141592653589793 * center_ghz * 1e9) ** 2 * lj_h)
+    cj_f = (
+        max(float(shunt_capacitance_ff), 1.0) * 1e-15
+        if shunt_capacitance_ff > 0.0
+        else resonant_cap_f
+    )
+    cc_f = max(cj_f * 0.1, 5.0e-15)
+    span_ghz = max(float(target_bandwidth_mhz or 500.0) / 1000.0, 0.1)
+    f_start_ghz = max(center_ghz - span_ghz / 2.0, 0.001)
+    f_stop_ghz = center_ghz + span_ghz / 2.0
+    pump_frequency_ghz = center_ghz + 0.00001
+    ic_a = float(model["critical_current_ua"]) * 1e-6
+    pump_current_a = max(ic_a * 0.017, 1e-12)
     result_literal = str(Path(result_path)).replace("\\", "\\\\")
-    payload_literal = json.dumps(payload).replace("\\", "\\\\").replace('"""', '\\"\\"\\"')
-    script = f'''# Text-to-GDS generated JosephsonCircuits.jl adapter script.
-package_loaded = false
-package_error = ""
-try
-    @eval using JosephsonCircuits
-    global package_loaded = true
-catch err
-    global package_error = sprint(showerror, err)
+    plan_literal = json.dumps(plan).replace("\\", "\\\\").replace('"""', '\\"\\"\\"')
+    script = f'''# Text-to-GDS generated JosephsonCircuits.jl harmonic-balance starter.
+using Printf
+
+result_path = "{result_literal}"
+plan_json = """{plan_literal}"""
+
+function json_escape(value)
+    text = string(value)
+    text = replace(text, "\\\\" => "\\\\\\\\")
+    text = replace(text, "\\"" => "\\\\\\"")
+    text = replace(text, "\\n" => "\\\\n")
+    return "\\"" * text * "\\""
 end
 
-json = """{payload_literal}"""
-json = replace(json, "\\"package_loaded\\": false" => "\\"package_loaded\\": " * string(package_loaded))
-json = replace(json, "\\"package_error\\": \\"\\"" => "\\"package_error\\": \\"" * replace(package_error, "\\"" => "\\\\\\"") * "\\"")
-open("{result_literal}", "w") do io
-    write(io, json)
+function json_number(value)
+    if isfinite(value)
+        return string(value)
+    end
+    return "null"
 end
-println(json)
+
+function json_array(values)
+    return "[" * join(map(json_number, values), ",") * "]"
+end
+
+function write_failure(package_loaded, package_error, simulation_error)
+    payload = "{{" *
+        "\\"schema\\":\\"text-to-gds.josephsoncircuits.v0\\"," *
+        "\\"adapter\\":\\"JosephsonCircuits.jl\\"," *
+        "\\"analysis_status\\":\\"failed\\"," *
+        "\\"package_loaded\\":" * string(package_loaded) * "," *
+        "\\"package_error\\":" * json_escape(package_error) * "," *
+        "\\"simulation_error\\":" * json_escape(simulation_error) * "," *
+        "\\"plan\\":" * plan_json *
+        "}}"
+    open(result_path, "w") do io
+        write(io, payload)
+    end
+    println(payload)
+end
+
+try
+    @eval using JosephsonCircuits
+catch err
+    write_failure(false, sprint(showerror, err), "")
+    exit(1)
+end
+
+try
+    @variables R Cc Lj Cj
+    circuit = [
+        ("P1","1","0",1),
+        ("R1","1","0",R),
+        ("C1","1","2",Cc),
+        ("Lj1","2","0",Lj),
+        ("C2","2","0",Cj),
+    ]
+    circuitdefs = Dict(
+        Lj => {lj_h:.16g},
+        Cc => {cc_f:.16g},
+        Cj => {cj_f:.16g},
+        R => 50.0,
+    )
+    f_ghz = collect(range({f_start_ghz:.16g}, {f_stop_ghz:.16g}; length=41))
+    ws = 2*pi .* f_ghz .* 1e9
+    wp = (2*pi*{pump_frequency_ghz:.16g}*1e9,)
+    sources = [(mode=(1,), port=1, current={pump_current_a:.16g})]
+    Npumpharmonics = (8,)
+    Nmodulationharmonics = (4,)
+
+    solved = hbsolve(ws, wp, sources, Nmodulationharmonics, Npumpharmonics, circuit, circuitdefs)
+    s11 = solved.linearized.S(
+        outputmode=(0,),
+        outputport=1,
+        inputmode=(0,),
+        inputport=1,
+        freqindex=:,
+    )
+    reflection_gain_db = 10 .* log10.(abs2.(s11))
+    peak_gain_db = maximum(reflection_gain_db)
+    peak_index = argmax(reflection_gain_db)
+    center_index = argmin(abs.(f_ghz .- {center_ghz:.16g}))
+    threshold = peak_gain_db - 3.0
+    bandwidth_points = count(x -> x >= threshold, reflection_gain_db)
+    step_mhz = length(f_ghz) > 1 ? (f_ghz[2] - f_ghz[1]) * 1000.0 : 0.0
+    bandwidth_3db_mhz = bandwidth_points * step_mhz
+
+    payload = "{{" *
+        "\\"schema\\":\\"text-to-gds.josephsoncircuits.v0\\"," *
+        "\\"adapter\\":\\"JosephsonCircuits.jl\\"," *
+        "\\"analysis_status\\":\\"executed\\"," *
+        "\\"analysis_type\\":\\"single_port_reflection_harmonic_balance\\"," *
+        "\\"package_loaded\\":true," *
+        "\\"target_frequency_ghz\\":{center_ghz:.16g}," *
+        "\\"target_gain_db\\":{target_gain_db:.16g}," *
+        "\\"target_bandwidth_mhz\\":{float(target_bandwidth_mhz or 0.0):.16g}," *
+        "\\"model\\":{{" *
+            "\\"lj_h\\":{lj_h:.16g}," *
+            "\\"cj_f\\":{cj_f:.16g}," *
+            "\\"cc_f\\":{cc_f:.16g}," *
+            "\\"pump_frequency_ghz\\":{pump_frequency_ghz:.16g}," *
+            "\\"pump_current_a\\":{pump_current_a:.16g}," *
+            "\\"source\\":\\"layout-derived JJ plus default coupling and shunt capacitance assumptions\\"" *
+        "}}," *
+        "\\"frequencies_ghz\\":" * json_array(f_ghz) * "," *
+        "\\"reflection_gain_db\\":" * json_array(reflection_gain_db) * "," *
+        "\\"peak_gain_db\\":" * json_number(peak_gain_db) * "," *
+        "\\"peak_frequency_ghz\\":" * json_number(f_ghz[peak_index]) * "," *
+        "\\"center_gain_db\\":" * json_number(reflection_gain_db[center_index]) * "," *
+        "\\"bandwidth_3db_mhz\\":" * json_number(bandwidth_3db_mhz) * "," *
+        "\\"plan\\":" * plan_json *
+        "}}"
+    open(result_path, "w") do io
+        write(io, payload)
+    end
+    println(payload)
+catch err
+    write_failure(true, "", sprint(showerror, err))
+    exit(1)
+end
 '''
     Path(script_path).write_text(script, encoding="utf-8")
 
@@ -346,16 +462,15 @@ def run_josephsoncircuits(
 def josephsoncircuits_plan_from_sidecar(
     sidecar: dict[str, Any],
     *,
+    jc_ua_per_um2: float = 1.0,
     target_frequency_ghz: float | None,
     target_gain_db: float = 20.0,
     target_bandwidth_mhz: float | None = None,
 ) -> dict[str, Any]:
-    """Return the command/data plan for a future JosephsonCircuits.jl run."""
+    """Return the command/data plan for a JosephsonCircuits.jl harmonic-balance run."""
     info = sidecar.get("info", {})
     area_um2 = float(info.get("junction_area_um2", 0.0))
-    ic_ua = float(info.get("critical_current_ua", 0.0))
-    if not ic_ua and area_um2:
-        ic_ua = critical_current_ua(area_um2, jc_ua_per_um2=1.0)
+    ic_ua = critical_current_ua(area_um2, jc_ua_per_um2=jc_ua_per_um2) if area_um2 else 0.0
     lj_ph = josephson_inductance_ph(ic_ua) if ic_ua else None
     return {
         "adapter": select_adapter("JosephsonCircuits.jl"),
@@ -364,8 +479,9 @@ def josephsoncircuits_plan_from_sidecar(
         "target_bandwidth_mhz": target_bandwidth_mhz,
         "layout_derived_parameters": {
             "junction_area_um2": area_um2,
-            "critical_current_ua_at_1ua_per_um2": ic_ua,
-            "josephson_inductance_ph_at_1ua_per_um2": lj_ph,
+            "jc_ua_per_um2": jc_ua_per_um2,
+            "critical_current_ua": ic_ua,
+            "josephson_inductance_ph": lj_ph,
             "ports": sidecar.get("ports", []),
         },
         "next_files": {
@@ -373,9 +489,9 @@ def josephsoncircuits_plan_from_sidecar(
             "simulation_json": "workspace/artifacts/<name>.josephsoncircuits.json",
         },
         "notes": [
-            "This adapter writes a package-load probe and command plan for "
-            "JosephsonCircuits.jl.",
-            "Use layout-extracted JJ, CPW, coupling, and shunt parameters to build the harmonic "
-            "balance circuit model.",
+            "This adapter runs a single-port reflection harmonic-balance starter model.",
+            "Coupling and shunt capacitance defaults are placeholders unless explicit "
+            "capacitance values are supplied.",
+            "Use layout-extracted CPW, coupling, and shunt networks for signoff-grade gain/noise.",
         ],
     }
