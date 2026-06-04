@@ -14,7 +14,7 @@ but replaces mechanical CAD operations with local EDA layout operations.
 | Inspection sidecar | `.sidecar.json` with ports, bbox, layers, and PCell metadata |
 | 3D/stack review aid | `.stack3d.html` and `.stack3d.json` 2.5D process-stack preview |
 | Validation loop | KLayout Python min-width scan and `.drc.json` reports |
-| Process DRC handoff | external `klayout -b` adapter with `.lyrdb`/JSON parser and normalized report shape |
+| Process DRC handoff | external `klayout -b` adapter with `.lyrdb`/JSON parser plus KLayout Python process-rule fallback |
 | Simulation handoff | ideal JJ `.simulation.json`, extraction summaries, real JoSIM transient execution, and JosephsonCircuits.jl package-load/command-plan execution |
 | Prompt planning | `plan_ljpa` turns short LJPA prompts into clarification questions, assumptions, registered PCells, and simulator choices |
 | Prompt-to-artifact run | `run_design_workflow` compiles an LJPA seed GDS and writes a local browser workbench |
@@ -35,6 +35,7 @@ but replaces mechanical CAD operations with local EDA layout operations.
 - Text-to-GDS now has the same high-level agent loop shape as text-to-cad:
   prompt, generated source artifact, visual review artifact, sidecar/metadata,
   validation report, examples, benchmarks, skill, plugin bundle, and local
-  tests. Its remaining gaps are domain-specific signoff depth: real process DRC,
-  EM extraction, richer JosephsonCircuits harmonic-balance netlist generation,
-  and signoff-grade optimization backed by measured external simulator metrics.
+  tests. Its remaining gaps are domain-specific signoff depth: foundry-qualified
+  DRC decks, EM extraction, richer JosephsonCircuits harmonic-balance netlist
+  generation, and signoff-grade optimization backed by measured external
+  simulator metrics.

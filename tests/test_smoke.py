@@ -130,9 +130,11 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
         output_name="toolchain.process",
         klayout_executable="definitely_missing_klayout_for_test",
     )
-    assert process_drc["engine"] == "klayout_external"
-    assert process_drc["status"] == "skipped"
+    assert process_drc["engine"] == "klayout_python_process_rules"
+    assert process_drc["status"] == "passed"
+    assert process_drc["checked_shapes"] == 3
     assert "definitely_missing_klayout_for_test" in process_drc["warnings"][0]
+    assert "KLayout Python process rules" in process_drc["warnings"][-1]
     assert process_drc["report_path"].endswith("toolchain.process.drc.json")
 
     workflow = run_design_workflow("Design a 5 Ghz LJPA with wilde bandwidth")

@@ -23,7 +23,10 @@ replace the internal scan without changing agent loops.
 
 Use `run_process_drc` when a process deck should be attempted. It invokes
 external `klayout -b -rd input=... -rd report=... -r deck.drc` when the binary
-is installed. If KLayout is unavailable, the result is `skipped`, not `passed`.
+is installed. If the binary is missing or cannot execute the deck, it falls
+back to KLayout Python process rules derived from `DEFAULT_PROCESS` and records
+the external command/warnings in the report. Treat this fallback as a local
+iteration gate, not foundry signoff.
 
 ## Simulation
 

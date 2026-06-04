@@ -16,7 +16,7 @@ from text_to_gds.adapters import (
     write_josephsoncircuits_script,
 )
 from text_to_gds.design import plan_ljpa_design
-from text_to_gds.drc import parse_drc_report, run_external_klayout_drc
+from text_to_gds.drc import parse_drc_report, run_external_klayout_drc, run_python_process_drc
 from text_to_gds.extraction import (
     labels_from_gds,
     layer_bounding_boxes_from_gds,
@@ -388,23 +388,44 @@ def run_process_drc(
 
     violations: list[dict[str, Any]] = []
     warnings = list(command_result["warnings"])
+    engine = command_result["engine"]
+    checked_shapes = None
+    checked_spacing_pairs = None
     if command_result["executed"] and command_result["returncode"] == 0:
         if lyrdb_path.exists():
             violations = parse_drc_report(lyrdb_path)
         else:
             warnings.append("KLayout command succeeded but did not write a .lyrdb report.")
+    else:
+        fallback = run_python_process_drc(layout_path)
+        if fallback["executed"]:
+            engine = fallback["engine"]
+            checked_shapes = fallback["checked_shapes"]
+            checked_spacing_pairs = fallback["checked_spacing_pairs"]
+            violations = fallback["violations"]
+            warnings.extend(fallback["warnings"])
+            warnings.append(
+                "External KLayout deck was unavailable or failed; used KLayout Python process "
+                "rules instead."
+            )
+        else:
+            warnings.extend(fallback["warnings"])
+
+    if engine == command_result["engine"] and not command_result["executed"]:
+        status = "skipped"
+    elif command_result["returncode"] not in (None, 0) and engine == command_result["engine"]:
+        status = "failed"
+    else:
+        status = "passed" if not violations else "failed"
 
     report = {
         "schema": "text-to-gds.drc.v0",
-        "engine": command_result["engine"],
+        "engine": engine,
         "ruleset": str(deck),
         "input_gds": str(layout_path),
-        "status": "skipped"
-        if not command_result["executed"]
-        else "passed"
-        if command_result["returncode"] == 0 and not violations
-        else "failed",
-        "checked_shapes": None,
+        "status": status,
+        "checked_shapes": checked_shapes,
+        "checked_spacing_pairs": checked_spacing_pairs,
         "warnings": warnings,
         "violations": violations,
         "lyrdb_path": str(lyrdb_path),

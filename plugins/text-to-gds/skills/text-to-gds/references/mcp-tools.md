@@ -34,8 +34,11 @@ Inputs:
 
 Output uses schema `text-to-gds.drc.v0`, records the external command, writes a
 normalized `.process.drc.json`, and parses `.lyrdb` or JSON reports when the
-external KLayout command writes one. If the executable is not installed, status
-is `skipped` and the report includes a warning.
+external KLayout command writes one. If the executable is not installed or the
+deck command fails, the tool falls back to KLayout Python process rules when
+the Python module is available. The report includes the external return code,
+warnings, checked shape counts, and spacing-pair counts when produced by the
+fallback.
 
 ## `run_simulation`
 
@@ -107,6 +110,7 @@ Inputs:
 - `output_name`
 - `parameters`
 - `jc_ua_per_um2`
+- `simulator`
 
 Output uses schema `text-to-gds.design-workflow.v0` and includes plan,
 compile, built-in DRC, process DRC adapter report, extraction, 2.5D preview,
@@ -122,6 +126,7 @@ Inputs:
 - `parameters`
 - `jc_ua_per_um2`
 - `max_iterations`
+- `simulator`
 
 Output is the same shape as `run_design_workflow`, with an additional
 `optimization` section containing surrogate targets, final parameters, final

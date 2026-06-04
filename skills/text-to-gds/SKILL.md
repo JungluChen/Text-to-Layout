@@ -64,8 +64,9 @@ The MCP server exposes:
 
 - `compile_layout` - writes `.gds`, `.layout.png`, and `.sidecar.json`.
 - `run_drc` - reads GDS with KLayout Python and writes `.drc.json`.
-- `run_process_drc` - attempts external `klayout -b` deck execution and parses
-  `.lyrdb` or JSON reports.
+- `run_process_drc` - attempts external `klayout -b` deck execution, parses
+  `.lyrdb`/JSON reports when produced, and falls back to KLayout Python
+  process rules when external deck execution is unavailable.
 - `extract_layout` - writes `.extraction.json` with dimensions, layers, and
   GDS shape boxes.
 - `list_simulators` - reports local JosephsonCircuits.jl and JoSIM availability.
@@ -88,9 +89,9 @@ The MCP server exposes:
 2. Prefer registered PCells from `text_to_gds.pcells` over raw polygons.
 3. Compile layouts through the MCP tool `compile_layout` or the skill helper
    script so a `.gds`, `.layout.png`, and `.sidecar.json` are produced together.
-4. Run `run_drc` before treating any layout as valid. The current built-in
-   adapter is a KLayout-backed geometry scan and should be replaced by a full
-   process deck for signoff.
+4. Run `run_drc` before treating any layout as valid. Use `run_process_drc`
+   when process-stack defaults should be checked. Treat both as local iteration
+   gates until a foundry-qualified deck is provided.
 5. Run `extract_layout` before simulation handoff so material/layer/geometry
    parameters are explicit.
 6. Run `run_simulation` when the request includes junction critical current,
@@ -117,8 +118,8 @@ The MCP server exposes:
 - Keep process layer tuples explicit in metadata and sidecars.
 - Do not claim full foundry signoff DRC, JosephsonCircuits.jl, JoSIM, WRSPICE,
   or EM extraction unless those adapters actually ran.
-- Treat the built-in DRC as a KLayout-backed geometry scan, not a full process
-  rule deck.
+- Treat built-in DRC and process-rule fallback reports as local iteration aids,
+  not foundry signoff.
 - Keep plugin-bundled skill resources self-contained; do not rely on sibling
   skill imports.
 

@@ -152,7 +152,7 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 | `list_pcells` | List registered PCells and process-stack defaults. | JSON |
 | `compile_layout` | Compile a registered PCell into GDS, screenshot, and semantic sidecar. | `.gds`, `.layout.png`, `.sidecar.json` |
 | `run_drc` | Read GDS with KLayout Python and report min-width style findings. | `.drc.json` |
-| `run_process_drc` | Attempt external `klayout -b` deck execution and normalize `.lyrdb`/JSON reports. | `.process.drc.json`, optional `.lyrdb` |
+| `run_process_drc` | Attempt external `klayout -b` deck execution, then fall back to KLayout Python process rules when needed. | `.process.drc.json`, optional `.lyrdb` |
 | `extract_layout` | Summarize sidecar parameters and layer bounding boxes for simulation handoff. | `.extraction.json` |
 | `list_simulators` | Report local JosephsonCircuits.jl and JoSIM adapter availability. | JSON |
 | `plan_ljpa` | Convert prompts like "Design a 5 GHz LJPA with wide bandwidth" into questions, assumptions, PCells, and workflow. | JSON |
@@ -351,9 +351,9 @@ Text-to-Layout/
 
 - `run_drc` is a built-in KLayout Python geometry scan, not a full process DRC
   deck. Add a real KLayout `.drc` deck before foundry use.
-- `run_process_drc` invokes external `klayout -b` only when the `klayout`
-  executable is installed. Without it, the report is marked `skipped` and the
-  command is still recorded.
+- `run_process_drc` attempts external `klayout -b` first. If that executable is
+  missing or cannot execute the deck, it falls back to headless KLayout Python
+  process rules and records the external command/warnings in the JSON report.
 - `run_simulation` computes ideal JJ quantities by default. It can execute a
   real JoSIM transient deck and a JosephsonCircuits.jl package-load/plan script
   when the local tools are installed. Full phase bias, parasitics, CPW

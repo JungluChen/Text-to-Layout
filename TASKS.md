@@ -35,6 +35,8 @@
 
 - [x] Replace mock DRC with KLayout Python GDS geometry execution.
 - [x] Add external headless KLayout process-deck execution adapter.
+- [x] Add KLayout Python process-rule fallback when external deck execution is
+  unavailable or host-runtime dependent.
 - [x] Parse `.lyrdb` or JSON DRC output into `text-to-gds.drc.v0`.
 - [x] Extract layer bounding boxes and process metadata from generated GDS.
 - [x] Extract labels from generated GDS into the sidecar/extraction report.
@@ -47,8 +49,8 @@
 - [x] Add a JosephsonCircuits.jl command-line adapter.
 - [x] Add JoSIM transient deck scaffold.
 - [x] Add a JoSIM transient simulation adapter.
-- [x] Add a reproducible local simulator installer for Julia, JosephsonCircuits.jl,
-  and JoSIM.
+- [x] Add a reproducible local toolchain installer for KLayout, Julia,
+  JosephsonCircuits.jl, and JoSIM.
 - [x] Validate real local JoSIM transient execution and JosephsonCircuits.jl
   package-load execution.
 - [x] Preserve mock simulation for local smoke tests without Julia or JoSIM.
