@@ -18,8 +18,8 @@ WORKBENCH_APP_HTML = """<!doctype html>
     body { margin: 0; }
     main { max-width: 1280px; margin: 0 auto; padding: 20px; }
     h1 { font-size: 24px; margin: 0 0 12px; }
-    form { display: grid; grid-template-columns: 1fr 180px 140px 120px; gap: 10px; margin-bottom: 14px; }
-    input, button { font: inherit; padding: 10px; border: 1px solid #94a3b8; background: white; }
+    form { display: grid; grid-template-columns: 1fr 180px 190px 140px 120px; gap: 10px; margin-bottom: 14px; }
+    input, select, button { font: inherit; padding: 10px; border: 1px solid #94a3b8; background: white; }
     button { background: #1d4ed8; color: white; border-color: #1d4ed8; cursor: pointer; }
     label { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #94a3b8; background: white; padding: 10px; }
     .grid { display: grid; grid-template-columns: 360px 1fr; gap: 14px; align-items: start; }
@@ -41,6 +41,11 @@ WORKBENCH_APP_HTML = """<!doctype html>
     <form id="design-form">
       <input id="prompt" value="Design a 5 Ghz LJPA with wilde bandwidth" aria-label="Design prompt">
       <input id="output" value="ljpa_seed.gds" aria-label="Output GDS name">
+      <select id="simulator" aria-label="Simulator">
+        <option value="mock_jj">Ideal JJ</option>
+        <option value="josim">JoSIM transient</option>
+        <option value="JosephsonCircuits.jl">JosephsonCircuits.jl</option>
+      </select>
       <label><input id="optimize" type="checkbox"> Optimize</label>
       <button type="submit">Run</button>
     </form>
@@ -88,6 +93,7 @@ WORKBENCH_APP_HTML = """<!doctype html>
         body: JSON.stringify({
           prompt: document.querySelector('#prompt').value,
           output_name: document.querySelector('#output').value,
+          simulator: document.querySelector('#simulator').value,
           optimize: document.querySelector('#optimize').checked
         })
       });
@@ -162,6 +168,7 @@ def make_workbench_handler() -> type[BaseHTTPRequestHandler]:
                     output_name=str(payload.get("output_name", "ljpa_seed.gds")),
                     parameters=payload.get("parameters") if isinstance(payload.get("parameters"), dict) else None,
                     jc_ua_per_um2=float(payload.get("jc_ua_per_um2", 2.0)),
+                    simulator=str(payload.get("simulator", "mock_jj")),
                 )
             except Exception as error:  # pragma: no cover - returned to browser/user
                 self._send_json({"error": str(error)}, HTTPStatus.INTERNAL_SERVER_ERROR)

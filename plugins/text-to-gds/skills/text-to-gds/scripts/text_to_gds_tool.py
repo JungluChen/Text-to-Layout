@@ -66,6 +66,7 @@ def main() -> None:
     workflow_parser.add_argument("--output-name", default="ljpa_seed.gds")
     workflow_parser.add_argument("--parameters-json")
     workflow_parser.add_argument("--jc-ua-per-um2", type=float, default=2.0)
+    workflow_parser.add_argument("--simulator", default="mock_jj")
 
     optimized_parser = subparsers.add_parser("optimize-design")
     optimized_parser.add_argument("prompt")
@@ -73,6 +74,7 @@ def main() -> None:
     optimized_parser.add_argument("--parameters-json")
     optimized_parser.add_argument("--jc-ua-per-um2", type=float, default=2.0)
     optimized_parser.add_argument("--max-iterations", type=int, default=4)
+    optimized_parser.add_argument("--simulator", default="mock_jj")
 
     compile_parser = subparsers.add_parser("compile")
     compile_parser.add_argument("--pcell", default="manhattan_josephson_junction")
@@ -135,6 +137,7 @@ def main() -> None:
                 output_name=args.output_name,
                 parameters=_parameters(args.parameters_json),
                 jc_ua_per_um2=args.jc_ua_per_um2,
+                simulator=args.simulator,
             )
         )
         return
@@ -147,6 +150,7 @@ def main() -> None:
                 parameters=_parameters(args.parameters_json),
                 jc_ua_per_um2=args.jc_ua_per_um2,
                 max_iterations=args.max_iterations,
+                simulator=args.simulator,
             )
         )
         return

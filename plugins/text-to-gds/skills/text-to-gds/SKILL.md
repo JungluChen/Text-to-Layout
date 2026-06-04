@@ -50,9 +50,10 @@ From a Text-to-GDS project or plugin root:
 
 ```bash
 py -3 -m uv sync
+./scripts/install_toolchain.ps1
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py toolchain --output-name manhattan_jj.gds
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py plan-ljpa "Design a 5 GHz LJPA with wide bandwidth"
-py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_seed.gds
+py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_seed.gds --simulator josim
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py optimize-design "Design a 5 GHz LJPA with wide bandwidth" --output-name ljpa_optimized.gds
 py -3 -m uv run python skills/text-to-gds/scripts/text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
 py -3 -m uv run text-to-gds
@@ -75,9 +76,10 @@ The MCP server exposes:
   extraction, preview, simulation, and writes `.workbench.html`.
 - `run_optimized_design_workflow` - adjusts geometry with a deterministic local
   surrogate before running the design workflow.
-- `run_simulation` - computes ideal JJ outputs and can prepare JoSIM or
-  JosephsonCircuits.jl adapter artifacts; when the executable is installed or
-  passed through `adapter_executable`, it executes the adapter.
+- `run_simulation` - computes ideal JJ outputs, can execute a real JoSIM
+  transient starter deck, and can execute a JosephsonCircuits.jl package-load
+  and command-plan script when the executable is installed or passed through
+  `adapter_executable`.
 
 ## Required Workflow
 

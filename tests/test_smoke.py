@@ -115,7 +115,12 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert (tmp_path / "toolchain.stack3d.html").exists()
     assert (tmp_path / "toolchain.stack3d.json").exists()
 
-    josim = run_simulation(compiled["sidecar_path"], simulator="josim", jc_ua_per_um2=2.0)
+    josim = run_simulation(
+        compiled["sidecar_path"],
+        simulator="josim",
+        jc_ua_per_um2=2.0,
+        adapter_executable="definitely_missing_josim_for_test",
+    )
     assert josim["adapter"] == "JoSIM"
     assert josim["adapter_status"] == "skipped"
     assert (tmp_path / "toolchain.sidecar.josim.cir").exists()

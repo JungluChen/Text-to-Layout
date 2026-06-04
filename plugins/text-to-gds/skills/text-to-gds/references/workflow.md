@@ -39,12 +39,12 @@ computes:
 - Josephson inductance from `Phi0 / (2*pi*Ic)`
 
 Use `list_simulators` to check whether Julia/JosephsonCircuits.jl or JoSIM are
-available. `run_simulation(..., simulator="josim")` writes a starter JoSIM deck.
-`run_simulation(..., simulator="JosephsonCircuits.jl")` writes an adapter
-script. When the executable is installed or passed through `adapter_executable`,
-the adapter runs the local command and records stdout, stderr, return code, and
-parsed output. Do not claim either external simulator ran unless the result
-status is `executed`.
+available. `run_simulation(..., simulator="josim")` writes and runs a JoSIM
+transient starter deck when `josim-cli` is available. It records stdout, stderr,
+return code, the `.josim.csv` path, and parsed transient rows.
+`run_simulation(..., simulator="JosephsonCircuits.jl")` writes and runs a Julia
+package-load/command-plan script when Julia is available. Do not claim either
+external simulator ran unless the result status is `executed`.
 
 ## Planning
 
@@ -56,6 +56,9 @@ Use `run_design_workflow` for a first-pass local artifact set. It compiles the
 `lumped_element_jpa_seed` PCell, runs built-in DRC, attempts process DRC, runs
 extraction, writes a stack preview, runs the deterministic JJ simulation, and
 writes a `.workbench.html` dashboard.
+Pass `simulator="josim"` or `simulator="JosephsonCircuits.jl"` when the
+prompt-to-layout run should include an external adapter result in the same
+workflow response.
 
 Use `run_optimized_design_workflow` when the request asks to optimize or
 iterate. The current optimizer is a local surrogate loop over CPW length/gap
@@ -63,8 +66,8 @@ and JJ dimensions; it must be replaced by external simulator metrics for
 signoff-grade optimization.
 
 Use `python skills/text-to-gds/scripts/text_to_gds_tool.py ui` to serve the
-live local workbench. The page accepts prompt edits and can run normal or
-optimized workflows from the browser.
+live local workbench. The page accepts prompt edits, simulator selection, and
+can run normal or optimized workflows from the browser.
 
 ## 3D/Stack Preview
 

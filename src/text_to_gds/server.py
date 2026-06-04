@@ -460,6 +460,15 @@ def plan_ljpa(prompt: str) -> dict[str, Any]:
     return plan_ljpa_design(prompt)
 
 
+def _workflow_status_from_simulation(simulation: dict[str, Any]) -> str:
+    adapter_status = simulation.get("adapter_status")
+    if adapter_status == "executed":
+        return "completed_with_external_simulation"
+    if adapter_status:
+        return f"completed_with_{adapter_status}_simulation_adapter"
+    return "completed_with_mock_simulation"
+
+
 @mcp.tool()
 def export_3d_preview(gds_path: str, output_name: str | None = None) -> dict[str, Any]:
     """Export a local 2.5D HTML/JSON process-stack preview from GDS layer boxes."""
@@ -476,6 +485,7 @@ def run_design_workflow(
     output_name: str = "ljpa_seed.gds",
     parameters: dict[str, Any] | None = None,
     jc_ua_per_um2: float = 2.0,
+    simulator: str = "mock_jj",
 ) -> dict[str, Any]:
     """Run a local prompt-to-layout workflow and write a browser workbench."""
     plan = plan_ljpa_design(prompt)
@@ -496,7 +506,14 @@ def run_design_workflow(
     process_drc = run_process_drc(compiled["gds_path"], output_name=f"{Path(output_name).stem}.process")
     extraction = extract_layout(compiled["sidecar_path"])
     preview = export_3d_preview(compiled["gds_path"])
-    simulation = run_simulation(compiled["sidecar_path"], jc_ua_per_um2=jc_ua_per_um2)
+    simulation = run_simulation(
+        compiled["sidecar_path"],
+        simulator=simulator,
+        jc_ua_per_um2=jc_ua_per_um2,
+        target_frequency_ghz=target.get("center_frequency_ghz"),
+        target_gain_db=target.get("gain_db") or 20.0,
+        target_bandwidth_mhz=target.get("bandwidth_mhz"),
+    )
 
     workbench_path = _artifact_path(f"{Path(output_name).stem}.workbench.html", ".html")
     workbench = write_design_workbench(
@@ -513,7 +530,7 @@ def run_design_workflow(
 
     return {
         "schema": "text-to-gds.design-workflow.v0",
-        "status": "completed_with_mock_simulation",
+        "status": _workflow_status_from_simulation(simulation),
         "prompt": prompt,
         "plan": plan,
         "pcell": "lumped_element_jpa_seed",
@@ -535,6 +552,7 @@ def run_optimized_design_workflow(
     parameters: dict[str, Any] | None = None,
     jc_ua_per_um2: float = 2.0,
     max_iterations: int = 4,
+    simulator: str = "mock_jj",
 ) -> dict[str, Any]:
     """Optimize first-pass LJPA geometry with a local surrogate, then run workflow."""
     plan = plan_ljpa_design(prompt)
@@ -563,9 +581,11 @@ def run_optimized_design_workflow(
         output_name=output_name,
         parameters=final_parameters,
         jc_ua_per_um2=jc_ua_per_um2,
+        simulator=simulator,
     )
     workflow["optimization"] = optimization
     workflow["status"] = "optimized_with_local_surrogate"
+    workflow["simulation_status"] = _workflow_status_from_simulation(workflow["simulation"])
     return workflow
 
 

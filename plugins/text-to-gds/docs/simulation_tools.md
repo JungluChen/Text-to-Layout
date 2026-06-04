@@ -14,24 +14,38 @@ success unless the external simulator actually ran on the user's machine.
 
 ## Installation Notes
 
-Text-to-GDS does not vendor Julia, JosephsonCircuits.jl, or JoSIM. Keep those as
-local external tools:
+Text-to-GDS does not vendor Julia, JosephsonCircuits.jl, or JoSIM into git. Use
+the local installer to place portable tools under `.tools/`, or install them
+globally and make them available on PATH:
 
 ```powershell
-# Check availability from this project
+.\scripts\install_toolchain.ps1
+```
+
+Check availability from this project:
+
+```powershell
 py -3 -m uv run python -c "from text_to_gds.adapters import list_simulation_adapters; print(list_simulation_adapters())"
 ```
 
-JosephsonCircuits.jl path:
+Manual JosephsonCircuits.jl path:
 
-```bash
-julia -e 'using Pkg; Pkg.add(url="https://github.com/kpobrien/JosephsonCircuits.jl")'
+```powershell
+$env:JULIA_DEPOT_PATH = "$PWD\.tools\julia-depot"
+.tools\julia-1.12.6\bin\julia.exe -e 'using Pkg; Pkg.add(url="https://github.com/kpobrien/JosephsonCircuits.jl")'
 ```
 
-JoSIM path:
+Manual JoSIM path:
 
-```bash
+```powershell
 # Install a release binary, then verify:
+.tools\josim-v2.7\bin\josim-cli.exe --help
+```
+
+Global install alternatives:
+
+```powershell
+julia -e 'using Pkg; Pkg.add(url="https://github.com/kpobrien/JosephsonCircuits.jl")'
 josim --help
 ```
 
@@ -42,10 +56,17 @@ When installed, adapters can be run through `run_simulation`:
 ```powershell
 py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulate workspace\artifacts\ljpa_seed.sidecar.json --simulator josim
 py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulate workspace\artifacts\ljpa_seed.sidecar.json --simulator JosephsonCircuits.jl --target-frequency-ghz 5.0 --target-bandwidth-mhz 500
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 Ghz LJPA with wilde bandwidth" --output-name ljpa_josim.gds --simulator josim
 ```
 
 If the executable is missing, the adapter status is `skipped`. If a custom
 binary or wrapper should be used, pass `--adapter-executable`.
+
+The current JoSIM adapter runs a real transient starter deck and parses the CSV
+columns such as `time`, `V(BJJ)`, and `P(BJJ)`. The current
+JosephsonCircuits.jl adapter verifies Julia package loading and writes a
+layout-derived harmonic-balance command plan; building the full gain/noise model
+from extracted CPW/JJ networks is still future signoff work.
 
 ## Academic Anchors
 

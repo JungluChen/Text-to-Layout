@@ -12,8 +12,9 @@ The live local server is available through:
 py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
 ```
 
-It serves a prompt form, output-name field, optimize checkbox, artifact links,
-layout screenshot, generated workbench iframe, and raw JSON result.
+It serves a prompt form, output-name field, simulator selector, optimize
+checkbox, artifact links, layout screenshot, generated workbench iframe, and
+raw JSON result.
 
 The primary screen should be the active design session:
 

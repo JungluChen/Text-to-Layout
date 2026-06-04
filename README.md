@@ -32,7 +32,8 @@ agent prompt -> Python/gdsfactory PCell -> GDSII -> semantic sidecar -> DRC -> s
   PCell metadata
 - KLayout-backed local DRC shape scanning
 - Correct ideal Josephson Junction calculations for `Ic` and `Lj`
-- External simulator adapter scaffolds for JosephsonCircuits.jl and JoSIM
+- External simulator adapters for JoSIM transient runs and
+  JosephsonCircuits.jl package-load/command-plan runs
 - Prompt planning for LJPA requests, including clarification questions and
   simulator selection
 - A local browser workbench that shows prompt, plan, layout screenshot, 2.5D
@@ -105,6 +106,25 @@ cd Text-to-Layout
 py -3 -m uv sync
 ```
 
+Install the optional local simulator toolchain:
+
+```powershell
+# Installs portable Julia 1.12.6, JosephsonCircuits.jl, and JoSIM v2.7 under .tools/
+.\scripts\install_toolchain.ps1
+
+# Or install one adapter at a time
+.\scripts\install_toolchain.ps1 -InstallJulia
+.\scripts\install_toolchain.ps1 -InstallJoSIM
+```
+
+The `.tools/` directory is intentionally ignored by git. The adapters discover
+those local tools automatically, so no global PATH change is required. Check
+what the project can see:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulators
+```
+
 Run the checks:
 
 ```powershell
@@ -139,7 +159,7 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 | `export_3d_preview` | Export a local 2.5D process-stack preview from GDS layer boxes. | `.stack3d.html`, `.stack3d.json` |
 | `run_design_workflow` | Run the prompt-to-artifacts LJPA seed flow and write a local workbench. | `.gds`, `.layout.png`, `.sidecar.json`, `.drc.json`, `.extraction.json`, `.simulation.json`, `.stack3d.html`, `.workbench.html` |
 | `run_optimized_design_workflow` | Run local surrogate geometry optimization before the LJPA seed workflow. | optimized GDS/workbench artifact set plus optimization history |
-| `run_simulation` | Compute ideal JJ current/inductance and optionally write external adapter plans/decks. | `.simulation.json`, optional `.josim.cir` |
+| `run_simulation` | Compute ideal JJ current/inductance and optionally execute JoSIM or JosephsonCircuits.jl adapters. | `.simulation.json`, optional `.josim.cir`, `.josim.csv`, `.josephsoncircuits.jl` |
 
 ## Example Output
 
@@ -204,6 +224,15 @@ Constraint-driven design request examples are documented in
 Simulator selection and LJPA paper references are documented in
 [docs/simulation_tools.md](docs/simulation_tools.md).
 
+Run a real JoSIM transient after compiling a layout:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py simulate workspace\artifacts\manhattan_jj.sidecar.json --simulator josim --jc-ua-per-um2 2.0
+```
+
+That writes a `.josim.cir` starter deck, a `.josim.csv` transient output file,
+and records parsed voltage/phase rows in `.josim.json`.
+
 The built-in and external KLayout DRC paths are documented in
 [docs/klayout_drc.md](docs/klayout_drc.md).
 
@@ -219,14 +248,24 @@ py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-wor
 That command writes `workspace/artifacts/ljpa_seed.workbench.html`, which can
 be opened locally in a browser.
 
+Run the same prompt-to-layout workflow with the real JoSIM adapter:
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 Ghz LJPA with wilde bandwidth" --output-name ljpa_josim.gds --jc-ua-per-um2 2.0 --simulator josim
+```
+
+When JoSIM is installed, the workflow status is
+`completed_with_external_simulation` and the simulation result includes parsed
+transient rows from `.josim.csv`.
+
 Run the live local browser UI:
 
 ```powershell
 py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py ui --host 127.0.0.1 --port 8765
 ```
 
-Then open `http://127.0.0.1:8765`. The page accepts prompt edits and can run
-the normal or optimized local workflow.
+Then open `http://127.0.0.1:8765`. The page accepts prompt edits, simulator
+selection, and can run the normal or optimized local workflow.
 
 ## Benchmarks
 
@@ -248,11 +287,11 @@ column renders the expected output layout screenshot PNG.
 
 The default simulation is intentionally small and deterministic. It is a
 correct ideal Josephson Junction calculation for zero-phase, small-signal
-inductance. JoSIM and JosephsonCircuits.jl are modeled as local external
-adapters: Text-to-GDS reports whether their executables are available, writes a
-JoSIM starter deck when requested, and emits a JosephsonCircuits.jl command
-plan for future harmonic-balance runs. It does not claim those tools ran unless
-they are actually executed locally.
+inductance. JoSIM and JosephsonCircuits.jl are local external adapters:
+Text-to-GDS reports whether their executables are available, writes and runs a
+JoSIM transient starter deck when requested, and emits/runs a
+JosephsonCircuits.jl package-load plus command-plan script. It does not claim
+those tools ran unless they are actually executed locally.
 
 Inputs:
 
@@ -315,11 +354,11 @@ Text-to-Layout/
 - `run_process_drc` invokes external `klayout -b` only when the `klayout`
   executable is installed. Without it, the report is marked `skipped` and the
   command is still recorded.
-- `run_simulation` computes ideal JJ quantities by default. It can prepare
-  and execute JoSIM/JosephsonCircuits command-line adapters when their local
-  executables are installed. Full phase bias, shunt dynamics, parasitics, CPW
-  impedance, and microwave gain/noise response still require those external
-  tools and measured process models to be available.
+- `run_simulation` computes ideal JJ quantities by default. It can execute a
+  real JoSIM transient deck and a JosephsonCircuits.jl package-load/plan script
+  when the local tools are installed. Full phase bias, parasitics, CPW
+  impedance, and microwave gain/noise response still require a richer extracted
+  circuit model and measured process data.
 - The layer map is a placeholder superconducting stack and must be replaced by
   a real process file before tapeout or publication of process-specific claims.
 - The 2.5D preview is a local UX/review aid based on layer bounding boxes, not a

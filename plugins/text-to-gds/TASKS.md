@@ -47,6 +47,10 @@
 - [x] Add a JosephsonCircuits.jl command-line adapter.
 - [x] Add JoSIM transient deck scaffold.
 - [x] Add a JoSIM transient simulation adapter.
+- [x] Add a reproducible local simulator installer for Julia, JosephsonCircuits.jl,
+  and JoSIM.
+- [x] Validate real local JoSIM transient execution and JosephsonCircuits.jl
+  package-load execution.
 - [x] Preserve mock simulation for local smoke tests without Julia or JoSIM.
 
 ## Phase 5: Prompt-To-Layout UX
@@ -64,8 +68,9 @@
 
 ## Future Signoff Work
 
-- Install and validate Julia plus JosephsonCircuits.jl on at least one CI or
-  release host.
-- Install and validate JoSIM on at least one CI or release host.
+- Add CI/release-host jobs that run `scripts/install_toolchain.ps1` or cached
+  equivalent installers.
+- Replace the JosephsonCircuits.jl package-load plan with a full
+  harmonic-balance circuit model generated from extracted JJ/CPW networks.
 - Replace the local surrogate optimizer with external gain/bandwidth/noise
   metrics from JosephsonCircuits.jl, JoSIM, or EM extraction.
