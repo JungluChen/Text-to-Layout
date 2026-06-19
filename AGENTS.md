@@ -1,60 +1,58 @@
 # AGENTS.md
 
-This repository is a local-first EDA harness for generating superconducting
-GDS layouts through registered PCells and exposing layout tools through MCP.
-
-## Operating Model
-
-- Keep all layout generation, DRC, and simulation execution local. Do not add a
-  cloud backend or remote service dependency for core workflows.
-- Treat generated `.gds`, sidecar JSON, DRC reports, and simulation outputs as
-  artifacts. Write them under `workspace/artifacts/` unless a user explicitly
-  requests another path.
-- Prefer trusted registered PCells over raw polygons in agent-generated layout
-  code. Raw polygons are acceptable inside reviewed PCell implementations.
-- Keep fab/process data explicit: layer maps, material constants, critical
-  current density, kinetic inductance, and DRC thresholds must be named inputs
-  or documented defaults.
-- Treat KLayout, JosephsonCircuits.jl, JoSIM, and future extraction engines as
-  adapters around the core Python package. Mock adapters should preserve the
-  final report shape.
-
-## Project Layout
-
-- `src/text_to_gds/server.py`: MCP server entry point and tool registration.
-- `src/text_to_gds/pcells/`: reviewed superconducting PCell library.
-- `skills/text-to-gds/`: source skill used by local agents.
-- `plugins/text-to-gds/`: bundled Codex/Claude plugin copy.
-- `drc/`: KLayout DRC decks and placeholders.
-- `examples/`: runnable examples that exercise the package.
-- `tests/`: package smoke and regression tests.
-- `workspace/artifacts/`: local generated outputs.
-
-## Development Rules
-
-- Use `uv` for dependency management when available. If `uv` is missing on
-  Windows, bootstrap it with `py -3 -m pip install uv`.
-- Keep public tools typed and return JSON-serializable dictionaries.
-- Add or update tests whenever MCP tool behavior or PCell parameters change.
-- Keep `plugins/text-to-gds/skills/text-to-gds` and
-  `plugins/text-to-gds/src/text_to_gds` refreshed from the root source before
-  plugin validation or publishing.
-- Do not commit `.venv/`, caches, local credentials, or large generated
-  artifacts unless they are deliberate fixtures.
+Local-first EDA harness for superconducting GDS layout via registered PCells
+and MCP tools. Python 3.11+, gdsfactory, KLayout, optional JosephsonCircuits.jl
+and openEMS adapters.
 
 ## Checks
 
-Run the smallest check that covers the change:
-
 ```bash
-py -3 -m uv run python -m compileall src
+py -3 -m uv run python -m compileall src scripts examples
 py -3 -m uv run pytest
 py -3 -m uv run ruff check .
 ```
 
-Validate plugin metadata after changing plugin files:
+Ruff config: line-length 100, target-version py311.
 
+Full test suite (`tests/`, 15 files) requires optional extras:
+`py -3 -m uv run pytest` runs the pure-Python core without extras. Some tests
+(e.g. `test_paper_benchmarks.py`) need `--extra research` for upstream adapters.
+
+After changing plugin or skill files, validate:
 ```bash
 py -3 C:/Users/justi/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py plugins/text-to-gds
 py -3 C:/Users/justi/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/text-to-gds
 ```
+
+## Project Layout
+
+- `src/text_to_gds/server.py` — MCP server entry point (2300+ lines, all tool registration).
+- `src/text_to_gds/pcells/` — reviewed superconducting PCell library.
+- `src/text_to_gds/improvements.py` / `next_improvements.py` / `third_wave.py` — three registries of 340 callable improvement functions.
+- `skills/text-to-gds/` — primary agent skill (source of truth).
+- `skills/text-to-gds-simulation/`, `skills/text-to-gds-circuit-design/`, `skills/text-to-gds-layout-design/`, `skills/text-to-gds-signoff/` — task-specific skills.
+- `plugins/text-to-gds/` — bundled Codex/Claude plugin copy (keep synced from root).
+- `process/` — versioned PDK YAML files (`ncu_alox_2026`, `mit_ll_sfq`, `ibm_nb`, `custom_process`).
+- `drc/` — KLayout DRC decks.
+- `examples/` — runnable examples.
+- `tests/` — smoke and regression tests.
+- `workspace/artifacts/` — generated outputs (gitignored).
+
+## Operating Model
+
+- All layout, DRC, and simulation execution stays local. No cloud backends.
+- Generated `.gds`, sidecar JSON, DRC reports, and simulation outputs are
+  artifacts — write under `workspace/artifacts/` unless user says otherwise.
+- Prefer trusted registered PCells over raw polygons in agent-generated code.
+  Raw polygons are acceptable inside reviewed PCell implementations.
+- Fab/process data (layer maps, material constants, Jc, kinetic inductance,
+  DRC thresholds) must be named inputs or documented defaults.
+
+## Development Rules
+
+- Use `uv` for dependency management: `py -3 -m uv sync` (core) or
+  `py -3 -m uv sync --extra research` (all optional adapters).
+- Keep public tools typed; return JSON-serializable dictionaries.
+- `.tools/` is gitignored and contains portable Julia, JoSIM, ngspice, and
+  Magic WSL wrappers discovered automatically by adapters.
+- Do not commit `.venv/`, caches, or large generated artifacts.
