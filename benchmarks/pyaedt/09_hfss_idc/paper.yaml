@@ -1,0 +1,12 @@
+schema: text-to-gds.pyaedt-benchmark.v1
+benchmark_id: 09_hfss_idc
+title: Q3D interdigital capacitor extraction qualification
+analysis: q3d_capacitance
+source_kind: solver_qualification
+metrics:
+  - name: differential capacitance
+    result_key: metrics.capacitance_pf
+    target: 0.6
+    unit: pF
+    tolerance_fraction: 0.03
+validity: Requires reviewed Q3D nets, terminals, dielectric geometry, and meshing.

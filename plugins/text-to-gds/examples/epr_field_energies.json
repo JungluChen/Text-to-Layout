@@ -1,0 +1,13 @@
+{
+  "schema": "text-to-gds.field-energy-export.v1",
+  "mode_frequency_ghz": 6.0,
+  "total_electric_energy_j": 1e-18,
+  "total_magnetic_energy_j": 1e-18,
+  "junctions": [
+    {"name": "j1", "inductive_energy_j": 1e-19, "lj_h": 8.2e-9}
+  ],
+  "dielectrics": [
+    {"name": "substrate", "electric_energy_j": 2e-19, "loss_tangent": 1e-5},
+    {"name": "interface", "electric_energy_j": 5e-20, "loss_tangent": 5e-4}
+  ]
+}

@@ -13,8 +13,31 @@ authors = [{ name = "Text-to-GDS contributors" }]
 dependencies = [
   "gdsfactory>=8.0",
   "klayout>=0.29",
+  "matplotlib>=3.9",
   "mcp[cli]>=1.2.0",
+  "numpy>=1.26",
   "pillow>=10.0",
+  "pyyaml>=6.0",
+  "trimesh>=4.0",
+]
+
+[project.optional-dependencies]
+optimization = ["optuna>=4.0"]
+rf = ["scikit-rf>=1.0"]
+measurement = ["qcodes>=0.50"]
+quantum = ["scqubits>=4.0"]
+metal = ["quantum-metal>=0.7"]
+epr = ["pyEPR-quantum"]
+hfss = ["pyaedt>=1.1"]
+mesh = ["gmsh>=4.11"]
+research = [
+  "optuna>=4.0",
+  "scikit-rf>=1.0",
+  "qcodes>=0.50",
+  "scqubits>=4.0",
+  "pyEPR-quantum",
+  "pyaedt>=1.1",
+  "gmsh>=4.11",
 ]
 
 [project.urls]

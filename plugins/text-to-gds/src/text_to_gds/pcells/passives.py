@@ -11,6 +11,7 @@ from text_to_gds.process import (
     M3,
     MARKER,
     VIA12,
+    VIA23,
     Layer,
     require_minimum,
     require_positive,
@@ -324,4 +325,142 @@ def ground_plane(
     c.info["clearance_um"] = clearance
     c.info["layer_height_nm"] = _layer_height_nm(layer)
     c.info["layers"] = {"ground": layer, "marker": MARKER}
+    return c
+
+
+@gf.cell
+def via_chain_monitor(
+    stage_count: int = 100,
+    pitch: float = 1.0,
+    row_offset: float = 5.0,
+    metal_width: float = 0.4,
+    via_size: float = 0.4,
+    enclosure: float = 0.2,
+    input_pad_size: float = 5.0,
+    output_pad_size: float = 5.0,
+    estimated_via_resistance_ohm: float = 0.25,
+) -> gf.Component:
+    """100-stage Manhattan via-chain process monitor with explicit I/O ports."""
+    if stage_count < 2:
+        raise ValueError(f"stage_count must be >= 2, got {stage_count}")
+    for name, value in {
+        "pitch": pitch,
+        "row_offset": row_offset,
+        "metal_width": metal_width,
+        "via_size": via_size,
+        "enclosure": enclosure,
+        "input_pad_size": input_pad_size,
+        "output_pad_size": output_pad_size,
+        "estimated_via_resistance_ohm": estimated_via_resistance_ohm,
+    }.items():
+        require_positive(name, value)
+    require_minimum("metal_width", metal_width, DEFAULT_PROCESS.rules.min_trace_width_um)
+    require_minimum("via_size", via_size, DEFAULT_PROCESS.rules.via_min_size_um)
+    require_minimum("enclosure", enclosure, DEFAULT_PROCESS.rules.via_enclosure_um)
+
+    pad_size = via_size + 2.0 * enclosure
+    c = gf.Component()
+
+    layer_sequence = [M1, M2, M3, M2]
+    via_layers = {
+        frozenset((M1, M2)): VIA12,
+        frozenset((M2, M3)): VIA23,
+    }
+
+    def point(index: int) -> tuple[float, float]:
+        return index * pitch, row_offset if index % 2 == 0 else -row_offset
+
+    def add_segment(
+        start: tuple[float, float],
+        end: tuple[float, float],
+        layer: Layer,
+    ) -> float:
+        x1, y1 = start
+        x2, y2 = end
+        length = 0.0
+        if abs(x2 - x1) > 1e-12:
+            cx = (x1 + x2) / 2.0
+            c.add_polygon(
+                _rotated_rectangle(cx, y1, abs(x2 - x1) + metal_width, metal_width, 0.0),
+                layer=layer,
+            )
+            length += abs(x2 - x1)
+        if abs(y2 - y1) > 1e-12:
+            cy = (y1 + y2) / 2.0
+            c.add_polygon(
+                _rotated_rectangle(x2, cy, metal_width, abs(y2 - y1) + metal_width, 0.0),
+                layer=layer,
+            )
+            length += abs(y2 - y1)
+        return length
+
+    input_center = (-input_pad_size, 0.0)
+    output_center = ((stage_count - 1) * pitch + output_pad_size, 0.0)
+    c.add_polygon(
+        _rotated_rectangle(input_center[0], input_center[1], input_pad_size, input_pad_size, 0.0),
+        layer=M1,
+    )
+    c.add_polygon(
+        _rotated_rectangle(output_center[0], output_center[1], output_pad_size, output_pad_size, 0.0),
+        layer=layer_sequence[stage_count % len(layer_sequence)],
+    )
+
+    metal_length_um = add_segment(input_center, point(0), M1)
+    current_layer = M1
+    for index in range(stage_count):
+        x, y = point(index)
+        next_layer = layer_sequence[(index + 1) % len(layer_sequence)]
+        via_layer = via_layers[frozenset((current_layer, next_layer))]
+        c.add_polygon(_rotated_rectangle(x, y, pad_size, pad_size, 0.0), layer=current_layer)
+        c.add_polygon(_rotated_rectangle(x, y, via_size, via_size, 0.0), layer=via_layer)
+        c.add_polygon(_rotated_rectangle(x, y, pad_size, pad_size, 0.0), layer=next_layer)
+        current_layer = next_layer
+        if index < stage_count - 1:
+            metal_length_um += add_segment(point(index), point(index + 1), current_layer)
+
+    metal_length_um += add_segment(point(stage_count - 1), output_center, current_layer)
+
+    c.add_port(
+        name="input",
+        center=input_center,
+        width=input_pad_size,
+        orientation=180.0,
+        layer=M1,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="output",
+        center=output_center,
+        width=output_pad_size,
+        orientation=0.0,
+        layer=current_layer,
+        port_type="electrical",
+    )
+    c.add_label(f"{stage_count}-stage via-chain monitor", position=(stage_count * pitch / 2, 0.0), layer=MARKER)
+
+    estimated_metal_resistance_ohm = metal_length_um / metal_width * 0.001
+    c.info["device_type"] = "via_chain_monitor"
+    c.info["stage_count"] = stage_count
+    c.info["pitch_um"] = pitch
+    c.info["row_offset_um"] = row_offset
+    c.info["metal_width_um"] = metal_width
+    c.info["via_size_um"] = via_size
+    c.info["enclosure_um"] = enclosure
+    c.info["pad_size_um"] = pad_size
+    c.info["route_style"] = "manhattan_ladder"
+    c.info["metal_length_um"] = metal_length_um
+    c.info["estimated_via_resistance_ohm"] = estimated_via_resistance_ohm
+    c.info["estimated_metal_resistance_ohm"] = estimated_metal_resistance_ohm
+    c.info["estimated_total_resistance_ohm"] = (
+        stage_count * estimated_via_resistance_ohm + estimated_metal_resistance_ohm
+    )
+    c.info["open_chain_detected"] = False
+    c.info["layers"] = {
+        "m1": M1,
+        "m2": M2,
+        "m3": M3,
+        "via12": VIA12,
+        "via23": VIA23,
+        "marker": MARKER,
+    }
     return c

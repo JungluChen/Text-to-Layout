@@ -1,0 +1,77 @@
+schema: text-to-gds.superconducting-pdk.v1
+process_id: ibm_nb
+name: IBM-style Nb multilayer reference
+version: 0.1.0
+status: illustrative-reference
+materials:
+  Nb:
+    kind: superconductor
+    critical_temperature_k: 9.2
+    penetration_depth_nm: 90.0
+    kinetic_inductance_ph_per_square: 0.1
+    gap_frequency_ghz: 670.0
+    surface_resistance_microohm: 0.02
+  AlOx:
+    kind: tunnel_barrier
+    relative_permittivity: 9.0
+    loss_tangent: 0.0001
+    kinetic_inductance_ph_per_square: 0.0
+  SiO2:
+    kind: dielectric
+    relative_permittivity: 3.9
+    loss_tangent: 0.0005
+    kinetic_inductance_ph_per_square: 0.0
+layers:
+  M1:
+    gds: [3, 0]
+    purpose: base wiring
+    material: Nb
+    thickness_nm: 180.0
+    min_width_um: 0.4
+    min_spacing_um: 0.4
+    overlay_tolerance_um: 0.12
+  JJ:
+    gds: [4, 0]
+    purpose: Josephson tunnel junction
+    material: AlOx
+    thickness_nm: 2.0
+    min_width_um: 0.5
+    min_spacing_um: 0.5
+    overlay_tolerance_um: 0.12
+    critical_current_density_ua_per_um2: 50.0
+  M2:
+    gds: [5, 0]
+    purpose: signal wiring
+    material: Nb
+    thickness_nm: 200.0
+    min_width_um: 0.4
+    min_spacing_um: 0.4
+    overlay_tolerance_um: 0.12
+  M3:
+    gds: [6, 0]
+    purpose: microwave and clock wiring
+    material: Nb
+    thickness_nm: 300.0
+    min_width_um: 0.6
+    min_spacing_um: 0.6
+    overlay_tolerance_um: 0.12
+  VIA12:
+    gds: [7, 0]
+    purpose: M1 to M2 contact
+    material: Nb
+    thickness_nm: 200.0
+    min_width_um: 0.6
+    min_spacing_um: 0.6
+    overlay_tolerance_um: 0.12
+constraints:
+  min_junction_width_um: 0.5
+  min_junction_height_um: 0.5
+  min_trace_width_um: 0.4
+  min_trace_spacing_um: 0.4
+  min_cpw_gap_um: 1.5
+  via_min_size_um: 0.6
+  via_enclosure_um: 0.25
+  overlay_tolerance_um: 0.12
+provenance:
+  calibration_status: illustrative reference; not an official IBM PDK
+

@@ -15,10 +15,21 @@ sidecar.
 ## Expected Workflow
 
 1. Generate alternating M1/M2/M3 route segments and via-stack markers.
-2. Emit a sidecar with ordered chain nodes and expected connectivity.
-3. Run DRC with a 0.4 um landing-pad threshold.
-4. Record resistance and open-chain checks as requiring extraction if no
-   connectivity adapter is installed.
+2. Emit a sidecar with `input` and `output` ports.
+3. Run DRC and verify the generated 100-stage topology.
+4. Record first-order resistance and open-chain checks in
+   `physical_performance`.
+
+## Expected Values
+
+```text
+stage_count = 100
+checked_shapes = 504
+input_port = input on layer [3, 0] at [-5.0, 0.0]
+output_port = output on layer [3, 0] at [104.0, 0.0]
+estimated_total_resistance_ohm = 27.7725
+open_chain_detected = false
+```
 
 ## Expected Artifact Family
 

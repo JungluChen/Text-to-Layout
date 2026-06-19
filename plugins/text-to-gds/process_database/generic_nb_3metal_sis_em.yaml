@@ -1,0 +1,53 @@
+schema: text-to-gds.em-process.v1
+name: Generic Nb 3-metal SIS EM stack
+substrate:
+  material_name: TextToGDS_HR_Silicon
+  relative_permittivity: 11.45
+  loss_tangent: 0.000001
+  thickness_um: 500.0
+  lateral_margin_um: 100.0
+process_stack:
+  name: generic_nb_3metal_sis_v0
+  layers:
+    M1:
+      name: M1
+      layer: [3, 0]
+      material: Nb
+      thickness_nm: 180.0
+    JJ:
+      name: JJ
+      layer: [4, 0]
+      material: AlOx
+      thickness_nm: 2.0
+    M2:
+      name: M2
+      layer: [5, 0]
+      material: Nb
+      thickness_nm: 200.0
+    M3:
+      name: M3
+      layer: [6, 0]
+      material: Nb
+      thickness_nm: 350.0
+    VIA12:
+      name: VIA12
+      layer: [7, 0]
+      material: Nb
+      thickness_nm: 200.0
+    VIA23:
+      name: VIA23
+      layer: [8, 0]
+      material: Nb
+      thickness_nm: 250.0
+  materials:
+    Nb:
+      relative_permittivity: null
+      conductivity_s_per_m: null
+    AlOx:
+      relative_permittivity: 9.0
+      loss_tangent: 0.0001
+      conductivity_s_per_m: null
+validity:
+  calibration_status: Replace substrate loss and superconducting surface impedance before signoff.
+  hfss_conductor_model: PEC geometry-only default
+  q3d_conductor_model: copper numerical default

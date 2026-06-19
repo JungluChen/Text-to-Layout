@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
-from text_to_gds.pcells.junction import manhattan_josephson_junction
+from text_to_gds.pcells.junction import dc_squid_pair
 from text_to_gds.pcells.passives import cpw_straight, flux_bias_line, ground_plane, meander_inductor
 from text_to_gds.process import M1, M2, M3, JJ, require_positive
 
@@ -60,13 +60,14 @@ def lumped_element_jpa_seed(
     )
     feedline.move((0.0, 0.0))
 
-    junction = c << manhattan_josephson_junction(
+    squid = c << dc_squid_pair(
         junction_width=junction_width,
         junction_height=junction_height,
         lead_width=1.0,
-        lead_length=6.0,
+        loop_width=14.0,
+        loop_height=10.0,
     )
-    junction.move((0.0, -28.0))
+    squid.move((0.0, -28.0))
 
     inductor = c << meander_inductor(
         num_turns=inductor_turns,
@@ -90,10 +91,12 @@ def lumped_element_jpa_seed(
     c.add_port(name="rf_out", port=feedline.ports["east"])
     c.add_port(name="flux_in", port=flux.ports["bias_west"])
     c.add_port(name="flux_out", port=flux.ports["bias_east"])
-    c.add_port(name="jj_bottom", port=junction.ports["bottom_west"])
-    c.add_port(name="jj_top", port=junction.ports["top_north"])
+    c.add_port(name="squid_bottom", port=squid.ports["bottom"])
+    c.add_port(name="squid_top", port=squid.ports["top"])
 
-    junction_area_um2 = junction_width * junction_height
+    single_junction_area_um2 = junction_width * junction_height
+    junction_area_um2 = 2.0 * single_junction_area_um2
+    squid_loop_area_um2 = (14.0 - 1.0) * (10.0 - 1.0)
     estimated_resonator_length_um = 75_000.0 / center_frequency_ghz
 
     c.info["device_type"] = "lumped_element_jpa_seed"
@@ -102,9 +105,16 @@ def lumped_element_jpa_seed(
     c.info["target_gain_db"] = target_gain_db
     c.info["active_width_um"] = active_width_um
     c.info["active_height_um"] = active_height_um
+    c.info["squid_enabled"] = True
+    c.info["squid_model"] = "low_loop_inductance_dc_squid"
+    c.info["squid_junction_count"] = 2
+    c.info["single_junction_area_um2"] = single_junction_area_um2
     c.info["junction_area_um2"] = junction_area_um2
     c.info["junction_width_um"] = junction_width
     c.info["junction_height_um"] = junction_height
+    c.info["squid_loop_area_um2"] = squid_loop_area_um2
+    c.info["squid_loop_width_um"] = 14.0
+    c.info["squid_loop_height_um"] = 10.0
     c.info["cpw_length_um"] = cpw_length
     c.info["cpw_trace_width_um"] = cpw_trace_width
     c.info["cpw_gap_um"] = cpw_gap
@@ -118,7 +128,7 @@ def lumped_element_jpa_seed(
     c.info["design_notes"] = [
         "Seed layout for agent iteration; not a signoff LJPA.",
         "Use extracted sidecar parameters to build external harmonic-balance/transient models.",
-        "Tune CPW, shunt capacitance, SQUID/JJ parameters, and coupling after simulation.",
+        "Tune CPW, shunt capacitance, SQUID flux bias, JJ parameters, and coupling after simulation.",
     ]
     c.info["layers"] = {
         "ground": M1,

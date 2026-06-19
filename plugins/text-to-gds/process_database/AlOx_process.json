@@ -1,0 +1,25 @@
+{
+  "schema": "text-to-gds.fabrication-process.v1",
+  "process_id": "ncu_2025_alox",
+  "name": "NCU 2025 AlOx process",
+  "institution": "NCU",
+  "process_family": "Al/AlOx/Al shadow evaporation",
+  "oxidation_pressure_mbar": 18.0,
+  "oxidation_time_s": 720.0,
+  "room_temperature_c": 23.0,
+  "target_Jc_ua_per_um2": 2.0,
+  "measured_Jc_ua_per_um2": 2.06,
+  "sigma_Jc_ua_per_um2": 0.103,
+  "wafer_position": "center",
+  "wafer_radial_gradient_fraction": 0.035,
+  "lithography_sigma_fraction": 0.02,
+  "capacitance_sigma_fraction": 0.03,
+  "acceptance_tolerance_fraction": 0.088,
+  "sample_count": 96,
+  "measurement_temperature_k": 0.02,
+  "provenance": {
+    "kind": "example_lab_process_record",
+    "calibration_status": "replace with measured NCU run data before fabrication",
+    "created_for": "closed-loop process-aware design demonstration"
+  }
+}

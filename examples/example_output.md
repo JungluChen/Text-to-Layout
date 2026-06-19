@@ -15,8 +15,21 @@ workspace/artifacts/manhattan_jj.sidecar.json
 workspace/artifacts/manhattan_jj.drc.json
 workspace/artifacts/manhattan_jj.sidecar.extraction.json
 workspace/artifacts/manhattan_jj.sidecar.simulation.json
+workspace/artifacts/manhattan_jj.sidecar.simulation.png
+workspace/artifacts/manhattan_jj.sidecar.scientific.png
+workspace/artifacts/manhattan_jj.sidecar.scientific.svg
+workspace/artifacts/manhattan_jj.sidecar.scientific.csv
+workspace/artifacts/manhattan_jj.s2p
+workspace/artifacts/manhattan_jj.rf.png
+workspace/artifacts/manhattan_jj.rf.csv
+workspace/artifacts/manhattan_jj.rf.json
 workspace/artifacts/manhattan_jj.stack3d.html
 workspace/artifacts/manhattan_jj.stack3d.json
+workspace/artifacts/manhattan_jj.layout.svg
+workspace/artifacts/manhattan_jj.layout.dxf
+workspace/artifacts/manhattan_jj.stack.stl
+workspace/artifacts/manhattan_jj.stack.glb
+workspace/artifacts/manhattan_jj.cad.json
 ```
 
 The `.layout.png` file is a rendered layout screenshot generated from the GDS
@@ -74,9 +87,54 @@ for quick review.
   "jc_ua_per_um2": 2.0,
   "critical_current_ua": 0.0968,
   "josephson_inductance_ph": 3399.855149,
-  "shunt_capacitance_ff": 0.0
+  "shunt_capacitance_ff": 0.0,
+  "plot_path": "workspace/artifacts/manhattan_jj.sidecar.simulation.png",
+  "scientific_plot_path": "workspace/artifacts/manhattan_jj.sidecar.scientific.png",
+  "physical_performance": {
+    "analysis_type": "ideal_jj_small_signal",
+    "ports": {
+      "input": {
+        "name": "bottom_west",
+        "center": [-6.0, 0.0],
+        "layer": [3, 0]
+      },
+      "output": {
+        "name": "bottom_east",
+        "center": [6.0, 0.0],
+        "layer": [3, 0]
+      }
+    }
+  }
 }
 ```
+
+## CAD Export Excerpt
+
+```json
+{
+  "schema": "text-to-gds.cad-export.v0",
+  "source_gds": "workspace/artifacts/manhattan_jj.gds",
+  "units": "microns",
+  "shape_count": 3,
+  "outputs": {
+    "layout_svg": "workspace/artifacts/manhattan_jj.layout.svg",
+    "layout_dxf": "workspace/artifacts/manhattan_jj.layout.dxf",
+    "stack_stl": "workspace/artifacts/manhattan_jj.stack.stl",
+    "stack_glb": "workspace/artifacts/manhattan_jj.stack.glb"
+  }
+}
+```
+
+## Scientific Plot And Sweep Examples
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py scientific-plot workspace\artifacts\manhattan_jj.sidecar.simulation.json
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py sweep workspace\artifacts\manhattan_jj.sidecar.json --sweep-parameter jc_ua_per_um2 --start 1 --stop 4 --points 7
+```
+
+The scientific plot command writes PNG, SVG, CSV, and JSON metadata. The sweep
+command writes a `.parameter-sweep.v0` JSON file plus PNG, SVG, and CSV trends
+for `Ic`, `Lj`, bandwidth, and saturation power.
 
 ## Extraction Report Excerpt
 
@@ -142,14 +200,133 @@ workspace/artifacts/ljpa_seed.drc.json
 workspace/artifacts/ljpa_seed.process.drc.json
 workspace/artifacts/ljpa_seed.sidecar.extraction.json
 workspace/artifacts/ljpa_seed.sidecar.simulation.json
+workspace/artifacts/ljpa_seed.sidecar.simulation.png
+workspace/artifacts/ljpa_seed.sidecar.scientific.png
+workspace/artifacts/ljpa_seed.sidecar.scientific.svg
+workspace/artifacts/ljpa_seed.sidecar.scientific.csv
+workspace/artifacts/ljpa_seed.s2p
+workspace/artifacts/ljpa_seed.rf.png
+workspace/artifacts/ljpa_seed.rf.csv
+workspace/artifacts/ljpa_seed.rf.json
 workspace/artifacts/ljpa_seed.stack3d.html
 workspace/artifacts/ljpa_seed.stack3d.json
+workspace/artifacts/ljpa_seed.layout.svg
+workspace/artifacts/ljpa_seed.layout.dxf
+workspace/artifacts/ljpa_seed.stack.stl
+workspace/artifacts/ljpa_seed.stack.glb
+workspace/artifacts/ljpa_seed.cad.json
 workspace/artifacts/ljpa_seed.workbench.html
 ```
 
 The workbench HTML contains the prompt, clarification questions, layout
 screenshot, 2.5D stack preview, DRC status, extracted layout parameters, and
-simulation result.
+simulation result, scientific plot, and CAD export report.
+
+## Research Handoff Example
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py research-integrations
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py rf-export workspace\artifacts\ljpa_seed.sidecar.simulation.json --output-name ljpa_seed
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py openems-project workspace\artifacts\ljpa_seed.sidecar.json --output-name ljpa_seed
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py measurement-plan workspace\artifacts\ljpa_seed.sidecar.json --simulation-path workspace\artifacts\ljpa_seed.sidecar.simulation.json --output-name ljpa_seed
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py hamiltonian-model workspace\artifacts\ljpa_seed.sidecar.json --jc-ua-per-um2 2.0 --flux-bias-phi0 0.25 --output-name ljpa_seed
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py quantum-metal-bridge workspace\artifacts\ljpa_seed.sidecar.json --output-name ljpa_seed
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py research-optimize workspace\artifacts\ljpa_seed.sidecar.json --n-trials 16 --target-gain-db 20 --target-bandwidth-mhz 500 --min-p1db-dbm -100 --output-name ljpa_seed
+```
+
+Generated files include `.s2p`, `.rf.png`, `.openems.py`,
+`.measurement.json`, `.qcodes.py`, `.hamiltonian.json`, `.scqubits.py`,
+`.qmetal.json`, `.optuna.json`, `.optuna.csv`, and `.optuna.png`.
+
+## Verified ngspice LJPA Example
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with 500 MHz bandwidth, 20 dB gain, and report input/output ports" --output-name ljpa_ngspice_verified.gds --jc-ua-per-um2 2.0 --simulator ngspice
+```
+
+Representative verified metrics:
+
+```json
+{
+  "status": "completed_with_external_simulation",
+  "ngspice_status": "executed",
+  "ngspice_rows": 81,
+  "ports": {
+    "input": { "name": "rf_in", "center": [-105.0, 0.0], "layer": [6, 0] },
+    "output": { "name": "rf_out", "center": [105.0, 0.0], "layer": [6, 0] }
+  },
+  "estimated_peak_gain_db": 20.0,
+  "bandwidth_3db_mhz": 500.0,
+  "loaded_q": 10.0,
+  "estimated_saturation_power_dbm": -112.141,
+  "quantum_limited_noise_temperature_k": 0.119981
+}
+```
+
+## Flux-Tuned SQUID LJPA Example
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py design-workflow "Design a 5 GHz LJPA with flux tuning and 500 MHz bandwidth" --output-name flux_tuned_ljpa.gds --jc-ua-per-um2 2.0 --flux-bias-phi0 0.25 --squid-asymmetry 0.05 --flux-period-current-ma 2.0
+```
+
+Generated files include:
+
+```text
+workspace/artifacts/flux_tuned_ljpa.gds
+workspace/artifacts/flux_tuned_ljpa.layout.png
+workspace/artifacts/flux_tuned_ljpa.sidecar.simulation.json
+workspace/artifacts/flux_tuned_ljpa.sidecar.scientific.png
+workspace/artifacts/flux_tuned_ljpa.sidecar.scientific.csv
+workspace/artifacts/flux_tuned_ljpa.validation.json
+workspace/artifacts/flux_tuned_ljpa.workbench.html
+```
+
+Representative flux-tuned physical values:
+
+```json
+{
+  "zero_flux_critical_current_ua": 0.1936,
+  "critical_current_ua": 0.13706688586234095,
+  "josephson_inductance_ph": 2401.061177770266,
+  "flux_tuning": {
+    "model": "low_loop_inductance_dc_squid",
+    "flux_bias_phi0": 0.25,
+    "squid_asymmetry": 0.05,
+    "flux_period_current_ma": 2.0,
+    "operating_point": {
+      "coil_current_ma": 0.5,
+      "resonant_frequency_ghz": 4.207107417589058
+    },
+    "tuning_range_ghz": [1.118033988749895, 5.0]
+  }
+}
+```
+
+## Verified Via-Chain Monitor Example
+
+```powershell
+py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py compile --pcell via_chain_monitor --output-name via_chain_monitor.gds
+```
+
+Generated layout screenshot:
+
+![100-stage via-chain monitor layout](../assets/benchmark_06_via_chain_monitor_layout.png)
+
+Representative verified sidecar/simulation values:
+
+```json
+{
+  "device_type": "via_chain_monitor",
+  "stage_count": 100,
+  "ports": [
+    { "name": "input", "center": [-5.0, 0.0], "layer": [3, 0] },
+    { "name": "output", "center": [104.0, 0.0], "layer": [3, 0] }
+  ],
+  "checked_shapes": 504,
+  "estimated_total_resistance_ohm": 27.7725,
+  "open_chain_detected": false
+}
+```
 
 ## Live UI And Optimization
 

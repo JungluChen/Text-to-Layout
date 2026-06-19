@@ -70,18 +70,18 @@ def write_stack_preview(
     width = 980
     height = 640
     scaled = _scale_boxes(boxes, width, height)
-    rects = []
+    blocks = []
     legend_items = []
     seen_layers = set()
     for index, box in enumerate(scaled):
-        z_offset = layer_order.get(str(box["layer_name"]), index) * 10
+        z_offset = layer_order.get(str(box["layer_name"]), index) * 18
+        z_height = max(float(box.get("thickness_nm", 100.0)) / 35.0, 4.0)
         color = LAYER_COLORS.get(str(box["layer_name"]), "#64748b")
         label = html.escape(f'{box["layer_name"]} {box["material"]} {box["thickness_nm"]} nm')
-        rects.append(
-            f'<rect x="{box["x"] + z_offset:.2f}" y="{box["y"] - z_offset:.2f}" '
-            f'width="{box["width"]:.2f}" height="{box["height"]:.2f}" rx="1" '
-            f'fill="{color}" fill-opacity="0.62" stroke="#0f172a" stroke-width="1">'
-            f"<title>{label}</title></rect>"
+        blocks.append(
+            f'<div class="block" title="{label}" style="--x:{box["x"]:.2f}; '
+            f'--y:{box["y"]:.2f}; --w:{box["width"]:.2f}; --h:{box["height"]:.2f}; '
+            f'--z:{z_offset:.2f}; --t:{z_height:.2f}; --c:{color};"></div>'
         )
         layer_name = str(box["layer_name"])
         if layer_name not in seen_layers:
@@ -98,28 +98,97 @@ def write_stack_preview(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text-to-GDS Stack Preview</title>
   <style>
-    :root {{ color-scheme: light; font-family: Arial, sans-serif; }}
-    body {{ margin: 0; background: #f8fafc; color: #0f172a; }}
+    :root {{ color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif; }}
+    body {{ margin: 0; background: #f5f5f7; color: #1d1d1f; }}
     main {{ max-width: 1120px; margin: 0 auto; padding: 24px; }}
-    h1 {{ font-size: 24px; margin: 0 0 6px; }}
-    p {{ margin: 0 0 18px; color: #475569; }}
-    svg {{ width: 100%; height: auto; background: white; border: 1px solid #cbd5e1; }}
+    h1 {{ font-size: 24px; margin: 0 0 6px; letter-spacing: 0; }}
+    p {{ margin: 0 0 18px; color: #6e6e73; }}
+    .viewer {{
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fff, #fbfbfd);
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.10);
+    }}
+    .toolbar {{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(160px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }}
+    label {{ color: #6e6e73; font-size: 13px; }}
+    input {{ width: 100%; accent-color: #0071e3; }}
+    .stage {{
+      height: 680px;
+      overflow: hidden;
+      perspective: 1200px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0,0,0,0.035) 1px, transparent 1px),
+        #ffffff;
+      background-size: 36px 36px;
+    }}
+    .scene {{
+      position: relative;
+      width: {width}px;
+      height: {height}px;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -34deg)) scale(0.82);
+      transition: transform 180ms ease;
+    }}
+    .block {{
+      position: absolute;
+      left: calc(var(--x) * 1px);
+      top: calc(var(--y) * 1px);
+      width: calc(var(--w) * 1px);
+      height: calc(var(--h) * 1px);
+      min-width: 3px;
+      min-height: 3px;
+      background: color-mix(in srgb, var(--c), white 14%);
+      border: 1px solid rgba(0,0,0,0.32);
+      transform: translateZ(calc(var(--z) * 1px));
+      box-shadow:
+        calc(var(--t) * 1px) calc(var(--t) * 1px) 0 color-mix(in srgb, var(--c), black 22%),
+        0 12px 24px rgba(0,0,0,0.10);
+      opacity: 0.86;
+    }}
     .legend {{ display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }}
     .legend span {{ display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }}
-    .legend i {{ width: 14px; height: 14px; border: 1px solid #0f172a; display: inline-block; }}
+    .legend i {{ width: 14px; height: 14px; border: 1px solid #1d1d1f; display: inline-block; border-radius: 4px; }}
   </style>
 </head>
 <body>
   <main>
-    <h1>Text-to-GDS Stack Preview</h1>
+    <h1>Text-to-GDS 3D Stack Preview</h1>
     <p>{html.escape(gds_path.name)} - {len(boxes)} extracted layer boxes</p>
-    <svg viewBox="0 0 {width} {height}" role="img" aria-label="2.5D process stack preview">
-      <g transform="skewY(-10) rotate(0)">
-        {''.join(rects)}
-      </g>
-    </svg>
+    <div class="viewer">
+      <div class="toolbar">
+        <label>Rotate X<input id="rx" type="range" min="35" max="75" value="58"></label>
+        <label>Rotate Z<input id="rz" type="range" min="-58" max="-12" value="-34"></label>
+      </div>
+      <div class="stage" role="img" aria-label="3D process stack preview">
+        <div id="scene" class="scene">
+          {''.join(blocks)}
+        </div>
+      </div>
+    </div>
     <div class="legend">{''.join(legend_items)}</div>
   </main>
+  <script>
+    const scene = document.querySelector("#scene");
+    const rx = document.querySelector("#rx");
+    const rz = document.querySelector("#rz");
+    function update() {{
+      scene.style.setProperty("--rx", `${{rx.value}}deg`);
+      scene.style.setProperty("--rz", `${{rz.value}}deg`);
+    }}
+    rx.addEventListener("input", update);
+    rz.addEventListener("input", update);
+    update();
+  </script>
 </body>
 </html>
 """

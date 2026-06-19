@@ -1,0 +1,55 @@
+schema: text-to-gds.superconducting-pdk.v1
+process_id: custom_process
+name: Custom superconducting process template
+version: 0.1.0
+status: template
+materials:
+  Nb:
+    kind: superconductor
+    critical_temperature_k: 9.2
+    penetration_depth_nm: 90.0
+    kinetic_inductance_ph_per_square: 0.1
+    gap_frequency_ghz: 670.0
+    surface_resistance_microohm: 0.02
+  AlOx:
+    kind: tunnel_barrier
+    relative_permittivity: 9.0
+    loss_tangent: 0.0001
+    kinetic_inductance_ph_per_square: 0.0
+layers:
+  M1:
+    gds: [3, 0]
+    purpose: lower wiring
+    material: Nb
+    thickness_nm: 180.0
+    min_width_um: 0.2
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+  JJ:
+    gds: [4, 0]
+    purpose: Josephson tunnel junction
+    material: AlOx
+    thickness_nm: 2.0
+    min_width_um: 0.1
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+    critical_current_density_ua_per_um2: 2.0
+  M2:
+    gds: [5, 0]
+    purpose: upper wiring
+    material: Nb
+    thickness_nm: 200.0
+    min_width_um: 0.2
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+constraints:
+  min_junction_width_um: 0.1
+  min_junction_height_um: 0.1
+  min_trace_width_um: 0.2
+  min_trace_spacing_um: 0.2
+  min_cpw_gap_um: 1.0
+  via_min_size_um: 0.3
+  via_enclosure_um: 0.2
+  overlay_tolerance_um: 0.1
+provenance:
+  calibration_status: template values only; replace every value before fabrication
