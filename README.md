@@ -1,57 +1,32 @@
+<div align="center">
+
 # Text-to-GDS
 
-**An open-source-first, agentic platform for superconducting quantum-device
-layout — that proves a layout works before handing it to you.**
+**A skills library for superconducting quantum-device layout, simulation, and signoff agents**
+
+[Docs](docs/open_platform_roadmap.md) · [Roadmap](docs/open_platform_roadmap.md) · [Benchmarks](#-benchmarks)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
+[![gdsfactory](https://img.shields.io/badge/gdsfactory-GDSII-00A676?style=flat-square)](https://github.com/gdsfactory/gdsfactory)
+[![KLayout](https://img.shields.io/badge/KLayout-DRC-4A5568?style=flat-square)](https://www.klayout.de/)
+[![Open EM](https://img.shields.io/badge/EM-openEMS%20%7C%20Palace%20%7C%20Elmer%20%7C%20MEEP-6B46C1?style=flat-square)](docs/opensource_em_solvers.md)
+[![MCP](https://img.shields.io/badge/MCP-Tools-6B46C1?style=flat-square)](src/text_to_gds/server.py)
+
+</div>
 
 Text-to-GDS turns a natural-language request into a fabrication-ready GDSII
-layout through a closed loop of physics feasibility checking, open-source EM
-simulation, and a rule-based AI review committee. It is local-first and offline:
-every solver, check, and reviewer runs on your machine, and commercial EDA
-(HFSS / Q3D / Sonnet) is optional — used only for industrial cross-validation,
-never on the critical path.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](pyproject.toml)
-[![gdsfactory](https://img.shields.io/badge/gdsfactory-GDSII-00A676?style=for-the-badge)](https://github.com/gdsfactory/gdsfactory)
-[![Open EM](https://img.shields.io/badge/EM-openEMS%20%7C%20Palace%20%7C%20Elmer%20%7C%20MEEP-4A5568?style=for-the-badge)](docs/opensource_em_solvers.md)
-[![MCP](https://img.shields.io/badge/MCP-Tools-6B46C1?style=for-the-badge)](src/text_to_gds/server.py)
+layout through a closed loop of physics feasibility checking, **open-source** EM
+simulation, and a rule-based AI review committee. It is inspired by
+[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad), but
+targets multi-layer superconducting quantum ICs instead of mechanical CAD.
 
 > The promise is not "here is a layout." It is **"here is a layout proven to
 > work"** — feasibility-checked before generation, simulated on open solvers,
 > cross-validated by solver agreement, and passed by every review agent.
+> Commercial EDA (HFSS / Q3D / Sonnet) is optional, validation-only.
 
----
-
-## The pipeline
-
-```text
-            natural-language prompt ("Design a 6 GHz JPA")
-                              |
-                              v
-              Feasibility gate — "can this exist?"
-        Bode-Fano · Manley-Rowe · Kerr · quantum limit
-                              |  (reject impossible specs here)
-                              v
-              gdsfactory PCell  ->  GDSII + semantic sidecar
-                              |
-                              v
-         Open Solver Manager (open-source first, validation-only commercial)
-   openEMS · Palace · Elmer · FastHenry/FastCap · MEEP · JosephsonCircuits.jl
-                              |
-                              v
-               Solver Agreement Engine  (>=2 sources + theory -> confidence %)
-                              |
-                              v
-              Rule-based AI Review Committee
-       Physics · Microwave · Fabrication · Measurement
-                              |
-                       score < 90 ? --> Auto-Repair loop --+
-                              |  (regenerate -> review -> fix)
-                              v
-        Research-readiness score  ->  validated GDS + review report
-```
-
-Run the whole thing with one call:
+## ⚡ Example
 
 ```python
 from text_to_gds.server import run_ai_scientist
@@ -61,247 +36,160 @@ result = run_ai_scientist(
     device="JPA",
     targets_json='{"frequency_ghz": 6.0, "gain_db": 10, "bandwidth_mhz": 100, "quality_factor": 10}',
 )
-print(result["verdict"])                       # "validated" or "rejected_infeasible"
-print(result["assessment"]["readiness"]["aggregate"])
-print(result["artifacts"]["review_report"])    # Markdown review report
+print(result["verdict"])                     # "validated" or "rejected_infeasible"
+print(result["artifacts"]["review_report"])  # Markdown review report
 ```
 
-An infeasible request (for example *20 dB gain with 2 GHz bandwidth from a single
-JPA*) is **rejected at the feasibility stage before any layout is generated**.
+```text
+prompt -> feasibility gate -> gdsfactory PCell -> open EM solve
+       -> solver agreement -> AI review committee -> auto-repair
+       -> research-readiness verdict -> validated GDS + review report
+```
 
----
+An infeasible request (e.g. *20 dB gain with 2 GHz bandwidth from a single JPA*)
+is **rejected at the feasibility stage before any layout is generated**.
 
-## Open-source-first architecture
+## 🧰 Skills
 
-Every analysis type has a first-class open-source backend. Commercial solvers
-are demoted to optional validation. `recommend_em_solver` always ranks open
-backends above commercial ones and tags the latter `role: validation_only`.
+Install the library to give agents focused, local workflows for superconducting
+layout generation, DRC, simulation, and signoff.
 
-| Analysis | Open backend (default) | Commercial analog (validation only) |
+| Skill | Summary | Source |
 | --- | --- | --- |
-| RF S-parameters / Z0 / eps_eff | **openEMS** (FDTD) | HFSS driven-modal |
-| Eigenmode f0 / Q / participation | **Palace** (3D FEM) | HFSS eigenmode |
-| Capacitance matrix | **Elmer** / **FastCap** | Q3D Extractor |
-| Inductance | **FastHenry** | Q3D |
-| Field / photonics | **MEEP** (FDTD) | — |
-| Nonlinear JPA/JTWPA gain & noise | **JosephsonCircuits.jl** | — |
-| Qubit spectra | **scqubits** | — |
+| **Text-to-GDS** | Generates and validates local GDS layouts with trusted gdsfactory PCells, semantic sidecars, KLayout DRC, and JJ simulation outputs. | [skills/text-to-gds](skills/text-to-gds/SKILL.md) |
+| **Simulation** | Runs and interprets ideal JJ, JosephsonCircuits.jl, JoSIM, and ngspice simulation handoffs. | [skills/text-to-gds-simulation](skills/text-to-gds-simulation/SKILL.md) |
+| **Circuit Design** | Plans LJPA / JJ / CPW circuit targets before layout. | [skills/text-to-gds-circuit-design](skills/text-to-gds-circuit-design/SKILL.md) |
+| **Layout Design** | Compiles, routes, DRC-checks, extracts, and reviews GDS layouts. | [skills/text-to-gds-layout-design](skills/text-to-gds-layout-design/SKILL.md) |
+| **Signoff** | Audits generated artifacts, DRC status, simulation, plots, and release validation. | [skills/text-to-gds-signoff](skills/text-to-gds-signoff/SKILL.md) |
 
-- **`open_solver_manager.py`** routes a device to its open backends and runs the
-  ones whose binaries are installed (`SolverManager.solve(device, target_accuracy)`).
-  `publication` accuracy requires ≥2 open backends to agree; `iteration` requires 1.
-- **`solver_agreement.py`** cross-checks a quantity across ≥2 sources plus theory
-  and returns a confidence score. **A single solver is never trusted.**
-- **`open_q3d.py`** unifies Elmer + FastCap + FastHenry into a Q3D-style C/L
-  matrix extractor, with an IDC auto-tune loop that hits a target capacitance
-  within tolerance.
+## 💻 Installation
 
-See [docs/opensource_em_solvers.md](docs/opensource_em_solvers.md) and, for the
-licensed cross-check path, [docs/pyaedt_hfss_q3d.md](docs/pyaedt_hfss_q3d.md).
-
----
-
-## AI review committee (rule-based, deterministic)
-
-Before a layout is accepted, four reviewers inspect its evidence (sidecar,
-simulation, DRC, extracted circuit). They are deterministic Python rules — no
-LLM, no API, no network — so every verdict is reproducible and offline.
-
-| Reviewer | Checks |
-| --- | --- |
-| **Physics** | topology/ports, CPW ground-gap (is Z0 even definable?), impedance realism, frequency match, junction presence in the extracted GDS |
-| **Microwave** | S-parameter passivity `|S11|^2+|S21|^2<=1` (skipped for active amplifiers), reciprocity, port count |
-| **Fabrication** | DRC violations → a tapeout-readiness score |
-| **Measurement** | probe / pump / flux / readout interfaces present and probe-able |
-
-The committee score is the **minimum** across reviewers, so a single error keeps
-it below the 90 acceptance threshold — the committee can never approve a layout
-that has an error. The **auto-repair loop** (`auto_repair.py`) iterates
-generate → review → fix until the committee accepts, the iteration budget is
-spent, or a repair stalls (it always terminates and never accepts with an error).
-
----
-
-## Feasibility gate and device templates
-
-The platform refuses to waste compute on impossible designs. Before generation,
-`feasibility_gate.check_design_feasibility(device, targets)` combines a device
-physics template (validity ranges + applicable limits) with the physics
-constraint engine and returns an ACCEPT/REJECT verdict with reasons.
-
-Device templates live in
-[`device_templates/`](src/text_to_gds/device_templates) (CPW, Resonator, JPA,
-JTWPA, SFQ, Transmon) and declare each device's must-have features, governing
-equations, validity ranges, and which physical limits apply.
-
----
-
-## What it provides
-
-- A Python package `text_to_gds` and a local **MCP server** with 80+ tools.
-- A `text-to-gds` skill (plus simulation / circuit-design / layout-design /
-  signoff skills) for Codex, Claude Code, and other skills-compatible agents.
-- Reviewed superconducting **PCells**: Manhattan JJ, dc-SQUID, CPW resonator,
-  meander inductor, flux-bias line, via chain, ground plane, JJ calibration
-  array, lumped-element JPA seed, photonic-crystal STWPA.
-- Versioned superconducting **PDKs** (materials, layers, GDS maps, DRC rules) —
-  illustrative templates, not signoff data.
-- GDS + semantic sidecar, KLayout DRC, equivalent-circuit extraction, LVS, and
-  wafer-mask generation.
-- Open EM/circuit simulation handoffs that **execute the real upstream library
-  when installed** and report `skipped` otherwise — never a fabricated result.
-- CAD exports (SVG/DXF/STL/GLB), RF Touchstone export, 3D stack preview, and
-  publication-style scientific plots and reports.
-- Three callable improvement registries — 340 catalogued capabilities mapping to
-  285 distinct implementations (see [docs/improvement_registries.md](docs/improvement_registries.md)).
-
----
-
-## Installation
-
-### As a skill or plugin
+**Skills CLI** (preferred):
 
 ```bash
-# Skills CLI (preferred)
 npx skills install JungluChen/Text-to-Layout
+```
 
-# Claude Code plugin
+**Plugins** for Codex and Claude Code:
+
+```bash
+# Claude Code
 claude plugin marketplace add JungluChen/Text-to-Layout
 claude plugin install text-to-gds@text-to-gds
 
-# Codex plugin
+# Codex
 codex plugin marketplace add JungluChen/Text-to-Layout
 codex plugin add text-to-gds@text-to-gds
 ```
 
-### For local development
-
-Use Python 3.11+. On Windows the launcher is usually `py -3`.
+**Local development** (Python 3.11+; on Windows the launcher is usually `py -3`):
 
 ```powershell
 git clone https://github.com/JungluChen/Text-to-Layout.git
 cd Text-to-Layout
 py -3 -m uv sync                     # core
-py -3 -m uv sync --extra research    # optional: Optuna, scikit-rf, QCoDeS, scqubits, pyEPR, PyAEDT, gmsh
+py -3 -m uv sync --extra research    # Optuna, scikit-rf, QCoDeS, scqubits, pyEPR, PyAEDT, gmsh
+
+py -3 -m uv run pytest               # checks
+py -3 -m uv run ruff check .
 ```
 
 Optional local solver toolchains (Julia/JosephsonCircuits.jl, JoSIM, ngspice,
 Magic, openEMS, Palace/Elmer) install under a git-ignored `.tools/` and are
-discovered automatically. See [docs/simulation_tools.md](docs/simulation_tools.md).
+discovered automatically — see [docs/simulation_tools.md](docs/simulation_tools.md).
+Contributions are welcome on the `main` branch; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Run the checks:
+## 📸 Screenshots
 
-```powershell
-py -3 -m uv run python -m compileall src scripts examples
-py -3 -m uv run pytest
-py -3 -m uv run ruff check .
-```
+<table>
+  <tr>
+    <td align="center"><b>Layout (Manhattan JJ)</b><br><img src="assets/manhattan_jj_layout.png" alt="Manhattan JJ layout" width="240"></td>
+    <td align="center"><b>3D process stack</b><br><img src="assets/hfss_stack_3d.png" alt="3D process stack" width="240"></td>
+    <td align="center"><b>openEMS FDTD extraction</b><br><img src="assets/openems_extraction_example.png" alt="openEMS extraction" width="240"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Scientific report</b><br><img src="assets/scientific_report_example.png" alt="Scientific report" width="240"></td>
+    <td align="center"><b>JPA pump sweep</b><br><img src="assets/jpa_analysis_example.png" alt="JPA analysis" width="240"></td>
+    <td align="center"><b>Qubit spectrum (scqubits)</b><br><img src="assets/scqubits_spectrum_example.png" alt="scqubits spectrum" width="240"></td>
+  </tr>
+</table>
 
----
+## 🧪 Benchmarks
 
-## MCP tools
+Benchmarks are lightweight text prompts plus expected artifact families (GDS,
+sidecar, DRC, and simulation outputs). The previews are screenshots rendered
+from the compiled GDS polygons — regenerate them with the named registered PCell.
 
-Start the server over stdio:
+| # | Target | Prompt | Preview |
+| --- | --- | --- | --- |
+| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um²`. | <img src="assets/benchmark_01_manhattan_jj_layout.png" alt="Manhattan JJ" width="200"> |
+| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `5 µm × 5 µm`, M1/M2/M3 routing, sub-50 ps delay, <100 nW leakage. | <img src="assets/benchmark_02_compact_cmos_logic_layout.png" alt="CMOS logic" width="200"> |
+| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | <img src="assets/benchmark_03_sfq_pulse_splitter_layout.png" alt="SFQ splitter" width="200"> |
+| 4 | [JJ Ic Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | <img src="assets/benchmark_04_jj_ic_calibration_array_layout.png" alt="Calibration array" width="200"> |
+| 5 | [CPW Resonator Test](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | <img src="assets/benchmark_05_cpw_resonator_test_layout.png" alt="CPW resonator" width="200"> |
+| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | <img src="assets/benchmark_06_via_chain_monitor_layout.png" alt="Via chain" width="200"> |
 
-```powershell
-py -3 -m uv run text-to-gds
-```
+Functional benchmarks that assert **physical quantities** (not "a file exists")
+run via `run_open_benchmarks`: CPW Z0 = 50 Ω / f0 = 6 GHz, IDC C = 0.6 pF (±1%),
+and JPA gain — solver-backed rows skip cleanly when a binary is absent.
 
-The tools group into the platform stages:
+## ⚙️ How it works
+
+**Open-source-first solvers.** Every analysis type has a first-class open
+backend; commercial solvers are validation-only and never ranked primary.
+
+| Analysis | Open backend (default) | Commercial analog (validation only) |
+| --- | --- | --- |
+| RF S-parameters / Z0 | **openEMS** (FDTD) | HFSS driven-modal |
+| Eigenmode f0 / Q | **Palace** (3D FEM) | HFSS eigenmode |
+| Capacitance / inductance | **Elmer / FastCap / FastHenry** | Q3D Extractor |
+| Field / photonics | **MEEP** (FDTD) | — |
+| Nonlinear JPA/JTWPA | **JosephsonCircuits.jl** | — |
+
+The **Solver Agreement Engine** cross-checks a quantity across ≥2 sources plus
+theory and returns a confidence score — a single solver is never trusted.
+
+**Rule-based AI review committee.** Four deterministic reviewers (no LLM, no
+network) gate every layout: **Physics** (topology, CPW ground-gap, impedance,
+junction presence in the extracted GDS), **Microwave** (passivity, reciprocity),
+**Fabrication** (DRC → tapeout readiness), and **Measurement** (probe/pump/flux
+ports). The committee score is the minimum across reviewers, so any error stays
+below the 90 acceptance threshold; an **auto-repair loop** iterates
+generate → review → fix until it accepts or the budget is spent.
+
+See [docs/open_platform_roadmap.md](docs/open_platform_roadmap.md) for the full
+architecture and per-component status.
+
+## 🧠 MCP tools
+
+Start the local server (`py -3 -m uv run text-to-gds`). 80+ tools grouped by stage:
 
 | Group | Representative tools |
 | --- | --- |
-| **Orchestration** | `run_ai_scientist`, `run_design_workflow`, `run_optimized_design_workflow` |
+| **Orchestration** | `run_ai_scientist`, `run_design_workflow` |
 | **Feasibility & templates** | `check_design_feasibility`, `list_physics_templates`, `validate_device_template` |
-| **Open solvers** | `route_open_solver`, `cross_validate_solvers`, `export_open_eigenmode`, `extract_open_q3d`, `tune_idc_capacitance`, `list_em_solvers`, `recommend_em_solver` |
+| **Open solvers** | `route_open_solver`, `cross_validate_solvers`, `export_open_eigenmode`, `extract_open_q3d`, `tune_idc_capacitance` |
 | **Review** | `review_layout`, `understand_layout`, `run_open_benchmarks` |
-| **Layout & DRC** | `compile_layout`, `run_drc`, `run_process_drc`, `extract_layout`, `run_lvs`, `generate_wafer_level_mask` |
-| **Simulation & EM** | `run_simulation`, `export_openems_project`, `export_palace_project`, `export_elmer_project`, `export_jpa_analysis`, `export_hamiltonian_model` |
-| **Exports & reports** | `export_cad_artifacts`, `export_rf_network`, `export_3d_preview`, `export_scientific_report`, `run_validation_checklist` |
+| **Layout & DRC** | `compile_layout`, `run_drc`, `extract_layout`, `run_lvs`, `generate_wafer_level_mask` |
+| **Simulation & EM** | `run_simulation`, `export_openems_project`, `export_palace_project`, `export_jpa_analysis` |
 
-The function table is the contract. List every public function with its
-signature and one-line description:
+List every public function with its signature: `py -3 -m uv run python examples\run_function_demo.py list`.
 
-```powershell
-py -3 -m uv run python examples\run_function_demo.py list
-```
+## 🔬 Validity boundaries
 
----
+Adapters run the **real** upstream tool when installed and report `skipped`
+otherwise — never a fabricated result. Open EM/circuit models are layout-derived
+starters; the review committee encodes deterministic rules, not learned judgment;
+and bundled PDK / process / cryostat values are demonstration data. Publication
+or tapeout still needs calibrated process data, extracted parasitics, mesh
+validation, and measured device data.
 
-## PCells, PDKs, and a quick example
-
-```powershell
-# Compile a Manhattan Josephson junction, render it, run DRC, estimate Ic/Lj.
-py -3 -m uv run python skills\text-to-gds\scripts\text_to_gds_tool.py toolchain --output-name manhattan_jj.gds --jc-ua-per-um2 2.0
-```
-
-![Manhattan Josephson Junction layout](assets/manhattan_jj_layout.png)
-
-Load and inspect a PDK:
-
-```python
-from text_to_gds.pdk import PDKDatabase
-
-pdk = PDKDatabase("process").get("ncu_alox_2026")
-print(pdk.validate_geometry("JJ", width_um=0.08, spacing_um=0.15))
-print(pdk.materials["Al"].surface_impedance(6e9))
-```
-
-PDK values are illustrative templates — replace them with released foundry or
-measured lab data before tapeout.
-
----
-
-## Functional benchmarks
-
-`run_open_benchmarks` asserts **physical quantities**, never "a file exists":
-
-| Benchmark | Target | Backend |
-| --- | --- | --- |
-| `01_CPW` | Z0 = 50 ohm, f0 = 6 GHz | analytical + openEMS/Palace agreement |
-| `02_IDC` | C = 0.6 pF (+/-1%) | IDC auto-tune -> Elmer/FastCap |
-| `03_JPA` | gain 20 dB, BW 500 MHz | JosephsonCircuits.jl (skips without Julia) |
-
-Solver-backed rows **skip cleanly** when a binary is absent — the suite never
-turns missing evidence into a pass.
-
----
-
-## Roadmap and design
-
-The full open-platform plan, with per-item status and acceptance criteria, is in
-[docs/open_platform_roadmap.md](docs/open_platform_roadmap.md). Phases 1–6
-(open-solver-first stack, feasibility gate, review committee, layout
-understanding, functional benchmarks, and the AI-scientist orchestrator) are
-implemented; learning device rules from a real reference-layout corpus is
-deliberately left data-gated.
-
-Architecture and validity boundaries are documented in
-[docs/closed_loop_research.md](docs/closed_loop_research.md) and
-[docs/closed_loop_extensions.md](docs/closed_loop_extensions.md).
-
----
-
-## Validity boundaries (honesty)
-
-- Adapters run the **real** upstream tool when installed and report `skipped`
-  otherwise — they never claim a result a tool did not produce.
-- Open EM/circuit models are layout-derived **starters**: publication or tapeout
-  still needs calibrated process data, extracted parasitics, mesh validation, and
-  measured device data.
-- The review committee encodes deterministic **rules**, not learned judgment — it
-  is a falsifiable gate, not an oracle.
-- Bundled PDK / process / cryostat values are demonstration data.
-
----
-
-## Contributing
+## 🛠️ Contributing
 
 Issues, PRs, PCell contributions, process-deck adapters, and solver adapters are
-welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) for the
-local workflow (note: the `plugins/text-to-gds/` copy is generated by
-`scripts/bundle_plugin.py` and verified in CI — edit the source tree, not the
-bundle).
+welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md). The
+`plugins/text-to-gds/` copy is generated by `scripts/bundle_plugin.py` and
+verified in CI — edit the source tree, not the bundle.
 
 ## License
 
