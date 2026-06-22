@@ -176,7 +176,7 @@ NEXT_IMPROVEMENTS = {
 
 
 def list_next_improvements() -> dict[str, Any]:
-    return {"schema": "text-to-gds.next-improvement-registry.v1", "count": len(NEXT_IMPROVEMENTS), "features": [asdict(NEXT_IMPROVEMENTS[index]) for index in sorted(NEXT_IMPROVEMENTS)]}
+    return {"schema": "text-to-gds.next-improvement-registry.v1", "count": len(NEXT_IMPROVEMENTS), "unique_implementations": len({item.implementation for item in NEXT_IMPROVEMENTS.values()}), "features": [asdict(NEXT_IMPROVEMENTS[index]) for index in sorted(NEXT_IMPROVEMENTS)]}
 
 
 def validate_next_improvement_registry() -> dict[str, Any]:

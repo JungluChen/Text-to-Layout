@@ -13,11 +13,13 @@ above $1 \times 10^5$, and minimum CPW gap of 6 um.
 
 ## Expected Workflow
 
-1. Generate trace, gap, feedline, and marker geometry.
+1. Compile the registered `cpw_quarter_wave_resonator` PCell with trace,
+   boolean ground clearance, feedline, and short-via geometry.
 2. Store resonator length, trace width, gap, and coupling region in the sidecar.
 3. Run DRC for min-width and min-gap constraints where supported.
-4. Record resonator frequency and quality factor as requiring microwave or EM
-   extraction if no adapter is installed.
+4. Record the synthesized length from
+   $l=c/(4f\sqrt{\varepsilon_{eff}})$ and mark quality factor as requiring
+   microwave or EM extraction if no adapter is installed.
 
 ## Expected Artifact Family
 

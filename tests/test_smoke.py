@@ -15,8 +15,10 @@ from mcp.client.stdio import StdioServerParameters, stdio_client
 from text_to_gds.adapters import resolve_josephsoncircuits_analysis_mode
 from text_to_gds.drc import parse_drc_report
 from text_to_gds.pcells import (
+    cpw_quarter_wave_resonator,
     cpw_straight,
     dc_squid_pair,
+    jj_ic_calibration_array,
     lumped_element_jpa_seed,
     manhattan_josephson_junction,
     meander_inductor,
@@ -90,6 +92,28 @@ def test_passive_pcells_expose_performance_parameters(tmp_path):
     assert via_chain.info["stage_count"] == 100
     assert via_chain.info["estimated_total_resistance_ohm"] < 50.0
     assert {port.name for port in via_chain.ports} == {"input", "output"}
+
+    resonator = cpw_quarter_wave_resonator(target_frequency_ghz=6.0)
+    assert resonator.info["device_type"] == "cpw_quarter_wave_resonator"
+    assert resonator.info["electrical_length_um"] > 4_000
+    assert resonator.info["gap_um"] == 6.0
+    assert {port.name for port in resonator.ports} == {
+        "feed_in",
+        "feed_out",
+        "resonator_open",
+    }
+
+
+def test_jj_ic_calibration_array_has_per_device_metadata(tmp_path):
+    array = jj_ic_calibration_array()
+    junctions = array.info["junctions"]
+    assert array.info["active_region_um"] == [60.0, 12.0]
+    assert len(junctions) == 16
+    assert junctions[0]["expected_ic_ua"] == 0.08
+    assert junctions[-1]["expected_ic_ua"] == 0.4
+    output = tmp_path / "jj_calibration.gds"
+    array.write_gds(output)
+    assert output.exists()
 
 
 def test_lumped_element_jpa_seed_writes_gds(tmp_path):
@@ -470,6 +494,8 @@ def test_registry_planner_and_adapter_metadata():
     assert "dc_squid_pair" in pcells["pcells"]
     assert "manhattan_josephson_junction" in pcells["pcells"]
     assert "cpw_straight" in pcells["pcells"]
+    assert "cpw_quarter_wave_resonator" in pcells["pcells"]
+    assert "jj_ic_calibration_array" in pcells["pcells"]
     assert "via_chain_monitor" in pcells["pcells"]
 
     plan = plan_ljpa("Design a 5 Ghz LJPA with wilde bandwidth")

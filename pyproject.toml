@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "text-to-gds"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local-first MCP tools for agentic GDS generation, DRC, and superconducting circuit layout."
 readme = "README.md"
 requires-python = ">=3.11"

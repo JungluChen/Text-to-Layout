@@ -160,17 +160,29 @@ p0.CalcPort(sim_dir, f, ref_impedance=50)
 p1.CalcPort(sim_dir, f, ref_impedance=50)
 s11 = p0.uf_ref / p0.uf_inc
 s21 = p1.uf_ref / p0.uf_inc
-beta = np.real(p0.beta)
-eps_eff = (beta * C0 / (2 * np.pi * f)) ** 2
+beta = np.abs(np.real(p0.beta))
+omega = 2 * np.pi * f
+# p0.beta is the phase constant in rad/m.  Therefore beta*c/omega is
+# dimensionless and eps_eff = (c/v_phase)^2 = (beta*c/omega)^2.
+eps_eff = (beta * C0 / omega) ** 2
 z0_est = np.abs(p0.uf_tot / p0.if_tot)
 s11_db = (20 * np.log10(np.maximum(np.abs(s11), 1e-12))).tolist()
 s21_db = (20 * np.log10(np.maximum(np.abs(s21), 1e-12))).tolist()
 mid = len(f) // 2
+power_sum = np.abs(s11) ** 2 + np.abs(s21) ** 2
+passivity_residual = 1.0 - power_sum
+valid_frequency_min_hz = max(0.5e9, 0.1 * f_max)
+valid_band = f >= valid_frequency_min_hz
+valid_eps = np.isfinite(eps_eff) & valid_band
+passivity_passed = bool(np.min(passivity_residual[valid_band]) >= -0.02)
+permittivity_passed = bool(
+    np.all((eps_eff[valid_eps] >= 1.0) & (eps_eff[valid_eps] <= epr))
+)
 field_files = sorted(glob.glob(os.path.join(sim_dir, "Et*")))
 result = {
     "schema": "text-to-gds.openems-project.v0",
     "adapter": "openEMS",
-    "analysis_status": "executed",
+    "analysis_status": "validated" if passivity_passed and permittivity_passed else "invalid",
     "engine": "openEMS FDTD (microstrip-port impedance/S-parameter extraction)",
     "geometry": {
         "trace_width_um": w,
@@ -188,12 +200,31 @@ result = {
     "return_loss_db_midband": float(s11_db[mid]),
     "insertion_loss_db_midband": float(s21_db[mid]),
     "guided_wavelength_um_midband": float(2 * np.pi / beta[mid] / 1e-6) if beta[mid] else None,
+    "power_conservation_residual": passivity_residual.tolist(),
+    "passivity_check": {
+        "valid_frequency_min_ghz": float(valid_frequency_min_hz / 1e9),
+        "maximum_power_sum": float(np.max(power_sum[valid_band])),
+        "minimum_residual": float(np.min(passivity_residual[valid_band])),
+        "passed": passivity_passed,
+    },
+    "effective_permittivity_check": {
+        "valid_frequency_min_ghz": float(valid_frequency_min_hz / 1e9),
+        "minimum": float(np.min(eps_eff[valid_eps])),
+        "maximum": float(np.max(eps_eff[valid_eps])),
+        "expected_bounds": [1.0, epr],
+        "passed": permittivity_passed,
+    },
+    "equations": {
+        "angular_frequency": "omega = 2*pi*f",
+        "effective_permittivity": "epsilon_eff = (c0*beta/omega)^2",
+        "passive_power_bound": "|S11|^2 + |S21|^2 <= 1",
+    },
     "sim_dir": sim_dir,
     "field_dump_files": field_files,
     "model_validity": (
-        "Real openEMS FDTD run using a microstrip-port approximation of the CPW trace. "
-        "Effective permittivity from the propagation constant is calibrated; S-parameters, "
-        "Z0, and field dumps are line-extraction estimates pending coplanar ports and a "
+        "Real openEMS FDTD run using a microstrip-port approximation of the requested trace. "
+        "Effective permittivity is extracted from the simulated propagation constant; "
+        "S-parameters, Z0, and field dumps are line-extraction estimates pending coplanar ports and a "
         "superconducting-metal (kinetic-inductance) model."
     ),
 }
@@ -203,23 +234,31 @@ if PLOT_PATH:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.4), constrained_layout=True)
+    fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.4), constrained_layout=True)
     axes[0].plot(f / 1e9, s21_db, linewidth=1.8, label="S21")
     axes[0].plot(f / 1e9, s11_db, linewidth=1.8, label="S11")
     axes[0].set_xlabel("Frequency (GHz)")
     axes[0].set_ylabel("Magnitude (dB)")
     axes[0].set_title("openEMS S-parameters")
     axes[0].legend(loc="best")
-    # eps_eff = (beta*c/(2*pi*f))^2 is ill-conditioned as f -> 0, so mask the DC region.
-    mask = f > 0.5e9
+    # eps_eff = (beta*c/omega)^2 is ill-conditioned as f -> 0, so mask low frequency.
+    mask = valid_eps
     axes[1].plot(f[mask] / 1e9, eps_eff[mask], linewidth=1.8, color="#ff9f0a")
     if mask.any():
-        mid = float(np.median(eps_eff[mask]))
-        axes[1].set_ylim(0.0, max(mid * 2.0, 1.0))
+        eps_mid = float(np.median(eps_eff[mask]))
+        axes[1].set_ylim(0.0, max(epr * 1.1, eps_mid * 1.2, 1.0))
     axes[1].set_xlabel("Frequency (GHz)")
-    axes[1].set_ylabel("effective permittivity")
-    axes[1].set_title("openEMS effective permittivity")
-    fig.suptitle("Text-to-GDS openEMS EM extraction")
+    axes[1].set_ylabel("Effective permittivity")
+    axes[1].set_title("epsilon_eff = (c0 * beta / omega)^2")
+    axes[2].plot(f / 1e9, power_sum, linewidth=1.8, color="#7c3aed")
+    axes[2].axhline(1.0, color="#dc2626", linestyle="--", linewidth=1.2, label="passive bound")
+    axes[2].axvspan(0.0, valid_frequency_min_hz / 1e9, color="#94a3b8", alpha=0.2,
+                    label="below validated band")
+    axes[2].set_xlabel("Frequency (GHz)")
+    axes[2].set_ylabel("|S11|^2 + |S21|^2")
+    axes[2].set_title("Power-conservation check")
+    axes[2].legend(loc="best")
+    fig.suptitle("openEMS microstrip extraction (requested geometry)")
     fig.savefig(PLOT_PATH, dpi=220)
 print("text_to_gds_openems_done", RESULT_PATH)
 '''
@@ -260,9 +299,9 @@ def write_openems_project(
     info = sidecar.get("info", {})
     center_ghz = _target_value(sidecar, "center_frequency_ghz", target_frequency_ghz, 5.0)
     requested_width = float(info.get("cpw_trace_width_um", info.get("trace_width_um", 10.0)))
-    # Clamp to a numerically-resolvable representative microstrip width so the FDTD run is
-    # both stable and fast; the as-drawn sub-micron CPW trace is recorded for transparency.
-    sim_width = max(requested_width, 200.0)
+    # Preserve the requested geometry.  Replacing a narrow trace by a 200 um surrogate changes
+    # impedance and invalidates any claim that the result belongs to the source layout.
+    sim_width = requested_width
     f_max_hz = max(2.0 * center_ghz, 12.0) * 1e9
     line_length_um = min(max(60.0 * sim_width, 15000.0), 24000.0)
     config = {
@@ -273,7 +312,7 @@ def write_openems_project(
         "substrate_epsilon": float(substrate_epsilon),
         "f_max_hz": f_max_hz,
         "mesh_div": int(mesh_div),
-        "nrts": 30000,
+        "nrts": 60000,
         "freq_points": 201,
         "center_frequency_ghz": center_ghz,
     }

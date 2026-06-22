@@ -66,8 +66,25 @@ THIRD_WAVE_IMPROVEMENTS = {
 }
 
 
+def _unique_platform_implementations() -> int:
+    """Count distinct implementation targets across all three registries.
+
+    The catalog has 340 numbered entries, but several entries intentionally
+    map to the same underlying function (e.g. wafer dicing lanes and alignment
+    marks both resolve to ``generate_wafer_mask``). This reports the honest
+    number of distinct callables behind the catalog.
+    """
+    from text_to_gds.improvements import IMPROVEMENTS
+    from text_to_gds.next_improvements import NEXT_IMPROVEMENTS
+
+    targets = {item.implementation for item in IMPROVEMENTS.values()}
+    targets |= {item.implementation for item in NEXT_IMPROVEMENTS.values()}
+    targets |= {item.implementation for item in THIRD_WAVE_IMPROVEMENTS.values()}
+    return len(targets)
+
+
 def list_third_wave_improvements() -> dict[str, Any]:
-    return {"schema": "text-to-gds.third-wave-registry.v1", "count": len(THIRD_WAVE_IMPROVEMENTS), "total_platform_capabilities": 157 + 146 + len(THIRD_WAVE_IMPROVEMENTS), "features": [asdict(THIRD_WAVE_IMPROVEMENTS[index]) for index in sorted(THIRD_WAVE_IMPROVEMENTS)]}
+    return {"schema": "text-to-gds.third-wave-registry.v1", "count": len(THIRD_WAVE_IMPROVEMENTS), "total_platform_capabilities": 157 + 146 + len(THIRD_WAVE_IMPROVEMENTS), "unique_platform_implementations": _unique_platform_implementations(), "features": [asdict(THIRD_WAVE_IMPROVEMENTS[index]) for index in sorted(THIRD_WAVE_IMPROVEMENTS)]}
 
 
 def validate_third_wave_registry() -> dict[str, Any]:

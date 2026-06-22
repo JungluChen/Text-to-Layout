@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: Text-to-GDS
+message: Please cite this software and the reproduced source papers.
+type: software
+authors:
+  - name: Text-to-GDS contributors
+repository-code: https://github.com/JungluChen/Text-to-Layout
+license: MIT
+version: 0.2.0
+date-released: 2026-06-22

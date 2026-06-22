@@ -1,0 +1,8 @@
+{
+  "title": "Text-to-GDS",
+  "description": "Local-first superconducting quantum-device layout, simulation, verification, and research infrastructure.",
+  "license": "MIT",
+  "upload_type": "software",
+  "creators": [{"name": "Text-to-GDS contributors"}],
+  "related_identifiers": [{"identifier": "https://github.com/JungluChen/Text-to-Layout", "relation": "isSupplementTo", "scheme": "url"}]
+}

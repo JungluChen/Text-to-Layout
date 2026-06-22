@@ -7,13 +7,13 @@
     "description": "Local-first GDS, DRC, extraction, LJPA planning, stack preview, simulation plots, RF exports, and superconducting research handoff skills."
   },
   "description": "Local-first GDS, DRC, extraction, LJPA planning, stack preview, simulation plots, RF exports, and superconducting research handoff skills.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "plugins": [
     {
       "name": "text-to-gds",
       "source": "./plugins/text-to-gds",
       "description": "Local-first MCP tools and agent skills for superconducting GDS layout, extraction, preview, RF/Touchstone export, simulation plots, and research handoffs.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "JungluChen"
       },

@@ -1,0 +1,9 @@
+name: Benchmark submission
+description: Submit a reproducible device benchmark
+body:
+  - type: input
+    attributes: {label: Device and source DOI}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Evidence, description: GDS hash, PDK version, solver settings, metrics and uncertainty.}
+    validations: {required: true}

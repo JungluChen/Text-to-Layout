@@ -1,6 +1,12 @@
+# Normalize all text files to LF in the repository so the bundled plugin copy
+# (a byte-for-byte copy of the source tree) compares identically across
+# platforms in the CI bundle-sync guard.
+* text=auto eol=lf
+
 *.gds binary
 *.oas binary
 *.png binary
+*.glb binary
 *.lyrdb text
 *.json text
 *.md text

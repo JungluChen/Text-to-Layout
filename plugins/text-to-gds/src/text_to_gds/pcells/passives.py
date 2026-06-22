@@ -120,6 +120,169 @@ def cpw_straight(
 
 
 @gf.cell
+def cpw_quarter_wave_resonator(
+    target_frequency_ghz: float = 6.0,
+    effective_permittivity: float = 6.2,
+    trace_width: float = 10.0,
+    gap: float = 6.0,
+    footprint_width: float = 2000.0,
+    footprint_height: float = 2000.0,
+    meander_runs: int = 5,
+    meander_pitch: float = 200.0,
+    signal_layer: Layer = M2,
+    ground_layer: Layer = M1,
+    short_via_layer: Layer = VIA12,
+    marker_layer: Layer = M3,
+) -> gf.Component:
+    """Meandered quarter-wave CPW resonator with a ground-plane clearance.
+
+    The resonator length follows c/(4*f*sqrt(eps_eff)).  The M1 ground plane
+    is boolean-cut around the M2 feedline and resonator trace; a VIA12 marker
+    identifies the shorted end.
+    """
+    for name, value in {
+        "target_frequency_ghz": target_frequency_ghz,
+        "effective_permittivity": effective_permittivity,
+        "trace_width": trace_width,
+        "gap": gap,
+        "footprint_width": footprint_width,
+        "footprint_height": footprint_height,
+        "meander_pitch": meander_pitch,
+    }.items():
+        require_positive(name, value)
+    if meander_runs < 2:
+        raise ValueError("meander_runs must be >= 2")
+    require_minimum("trace_width", trace_width, DEFAULT_PROCESS.rules.min_trace_width_um)
+    require_minimum("gap", gap, DEFAULT_PROCESS.rules.min_cpw_gap_um)
+
+    c0_um_per_s = 299_792_458.0 * 1e6
+    electrical_length = c0_um_per_s / (
+        4.0 * target_frequency_ghz * 1e9 * math.sqrt(effective_permittivity)
+    )
+    connector_length = (meander_runs - 1) * meander_pitch
+    run_length = (electrical_length - connector_length) / meander_runs
+    if run_length <= 0 or run_length + 2 * (trace_width + gap) > footprint_width:
+        raise ValueError("resonator does not fit footprint_width with the requested meander")
+    total_height = (meander_runs - 1) * meander_pitch
+    if total_height + 4 * (trace_width + gap) > footprint_height:
+        raise ValueError("resonator does not fit footprint_height with the requested meander")
+
+    signal = gf.Component()
+    clearance = gf.Component()
+    clear_width = trace_width + 2.0 * gap
+
+    def add_route_box(
+        target: gf.Component,
+        p1: tuple[float, float],
+        p2: tuple[float, float],
+        width: float,
+        layer: Layer,
+    ) -> None:
+        x1, y1 = p1
+        x2, y2 = p2
+        if abs(x2 - x1) > 1e-12:
+            target.add_polygon(
+                _rotated_rectangle((x1 + x2) / 2.0, y1, abs(x2 - x1) + width, width, 0),
+                layer=layer,
+            )
+        if abs(y2 - y1) > 1e-12:
+            target.add_polygon(
+                _rotated_rectangle(x1, (y1 + y2) / 2.0, width, abs(y2 - y1) + width, 0),
+                layer=layer,
+            )
+
+    half_run = run_length / 2.0
+    y0 = -total_height / 2.0
+    points: list[tuple[float, float]] = []
+    for row in range(meander_runs):
+        y = y0 + row * meander_pitch
+        start_x, end_x = (-half_run, half_run) if row % 2 == 0 else (half_run, -half_run)
+        if not points:
+            points.append((start_x, y))
+        points.append((end_x, y))
+        if row < meander_runs - 1:
+            points.append((end_x, y + meander_pitch))
+
+    for p1, p2 in zip(points, points[1:]):
+        add_route_box(signal, p1, p2, trace_width, signal_layer)
+        add_route_box(clearance, p1, p2, clear_width, ground_layer)
+
+    feed_y = y0 - trace_width - gap
+    feed_start = (-footprint_width * 0.42, feed_y)
+    feed_end = (footprint_width * 0.42, feed_y)
+    add_route_box(signal, feed_start, feed_end, trace_width, signal_layer)
+    add_route_box(clearance, feed_start, feed_end, clear_width, ground_layer)
+
+    ground = gf.components.rectangle(
+        size=(footprint_width, footprint_height),
+        layer=ground_layer,
+        centered=True,
+    )
+    ground_with_clearance = gf.boolean(ground, clearance, operation="not", layer=ground_layer)
+    c = gf.Component()
+    c.add_ref(ground_with_clearance)
+    c.add_ref(signal)
+
+    short_x, short_y = points[-1]
+    short_size = trace_width + 2.0 * gap
+    c.add_polygon(
+        _rotated_rectangle(short_x, short_y, short_size, short_size, 0),
+        layer=short_via_layer,
+    )
+    c.add_polygon(
+        _rotated_rectangle(short_x, short_y, short_size * 1.5, short_size * 1.5, 0),
+        layer=marker_layer,
+    )
+    c.add_port(
+        name="feed_in",
+        center=feed_start,
+        width=trace_width,
+        orientation=180,
+        layer=signal_layer,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="feed_out",
+        center=feed_end,
+        width=trace_width,
+        orientation=0,
+        layer=signal_layer,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="resonator_open",
+        center=points[0],
+        width=trace_width,
+        orientation=180,
+        layer=signal_layer,
+        port_type="electrical",
+    )
+    c.add_label(
+        f"lambda/4 CPW {target_frequency_ghz:g} GHz, L={electrical_length:.1f} um",
+        position=(0.0, footprint_height / 2.0 - 30.0),
+        layer=marker_layer,
+    )
+    c.info["device_type"] = "cpw_quarter_wave_resonator"
+    c.info["target_frequency_ghz"] = target_frequency_ghz
+    c.info["effective_permittivity"] = effective_permittivity
+    c.info["electrical_length_um"] = electrical_length
+    c.info["meander_run_length_um"] = run_length
+    c.info["meander_runs"] = meander_runs
+    c.info["trace_width_um"] = trace_width
+    c.info["gap_um"] = gap
+    c.info["footprint_um"] = [footprint_width, footprint_height]
+    c.info["boundary_condition"] = "open_at_coupler_shorted_at_via12"
+    c.info["frequency_model"] = "c/(4*f*sqrt(effective_permittivity))"
+    c.info["layers"] = {
+        "signal": signal_layer,
+        "ground": ground_layer,
+        "short_via": short_via_layer,
+        "marker": marker_layer,
+    }
+    return c
+
+
+@gf.cell
 def meander_inductor(
     num_turns: int = 6,
     segment_length: float = 20.0,

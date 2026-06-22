@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import gdsfactory as gf
 
 from text_to_gds.process import DEFAULT_PROCESS, JJ, M1, M2, MARKER, Layer, require_minimum, require_positive
@@ -106,6 +108,125 @@ def manhattan_josephson_junction(
         "marker": marker_layer,
     }
 
+    return c
+
+
+@gf.cell
+def jj_ic_calibration_array(
+    junction_count: int = 16,
+    min_area_um2: float = 0.04,
+    max_area_um2: float = 0.20,
+    jc_ua_per_um2: float = 2.0,
+    columns: int = 8,
+    column_pitch: float = 7.5,
+    row_pitch: float = 6.0,
+    lead_width: float = 0.4,
+    probe_width: float = 0.5,
+    pad_size: float = 3.0,
+    bottom_layer: Layer = BOTTOM_ELECTRODE,
+    barrier_layer: Layer = BARRIER,
+    top_layer: Layer = TOP_ELECTRODE,
+    probe_layer: Layer = (6, 0),
+    marker_layer: Layer = MARKER_LAYER,
+) -> gf.Component:
+    """Area-swept JJ calibration array with per-device Ic metadata.
+
+    The default 8 x 2 placement occupies a 60 um x 12 um active region.  M1
+    and M2 form each crossed junction; M3 probe rails and pads remain outside
+    the active junction rows.
+    """
+    if junction_count < 2:
+        raise ValueError("junction_count must be >= 2")
+    if columns < 1 or columns > junction_count:
+        raise ValueError("columns must be between 1 and junction_count")
+    for name, value in {
+        "min_area_um2": min_area_um2,
+        "max_area_um2": max_area_um2,
+        "jc_ua_per_um2": jc_ua_per_um2,
+        "column_pitch": column_pitch,
+        "row_pitch": row_pitch,
+        "lead_width": lead_width,
+        "probe_width": probe_width,
+        "pad_size": pad_size,
+    }.items():
+        require_positive(name, value)
+    if max_area_um2 < min_area_um2:
+        raise ValueError("max_area_um2 must be >= min_area_um2")
+    require_minimum("lead_width", lead_width, DEFAULT_PROCESS.rules.min_trace_width_um)
+    require_minimum("probe_width", probe_width, DEFAULT_PROCESS.layers["M3"].min_width_um)
+
+    rows = math.ceil(junction_count / columns)
+    c = gf.Component()
+    entries: list[dict[str, float | int | list[float]]] = []
+    x_origin = -(columns - 1) * column_pitch / 2.0
+    y_origin = -(rows - 1) * row_pitch / 2.0
+    pad_y = rows * row_pitch / 2.0 + pad_size
+
+    for index in range(junction_count):
+        row, column = divmod(index, columns)
+        x = x_origin + column * column_pitch
+        y = y_origin + row * row_pitch
+        fraction = index / (junction_count - 1)
+        area = min_area_um2 + fraction * (max_area_um2 - min_area_um2)
+        side = math.sqrt(area)
+
+        c.add_polygon(_rectangle(x, y, column_pitch * 0.68, lead_width), layer=bottom_layer)
+        c.add_polygon(_rectangle(x, y, lead_width, row_pitch * 0.68), layer=top_layer)
+        c.add_polygon(_rectangle(x, y, side, side), layer=barrier_layer)
+
+        rail_y = pad_y if row % 2 else -pad_y
+        c.add_polygon(
+            _rectangle(x, (y + rail_y) / 2.0, probe_width, abs(rail_y - y) + probe_width),
+            layer=probe_layer,
+        )
+        c.add_polygon(_rectangle(x, rail_y, pad_size, pad_size), layer=probe_layer)
+        entries.append(
+            {
+                "index": index,
+                "center_um": [x, y],
+                "area_um2": area,
+                "junction_side_um": side,
+                "expected_ic_ua": jc_ua_per_um2 * area,
+            }
+        )
+
+    c.add_port(
+        name="probe_bottom",
+        center=(x_origin, -pad_y - pad_size / 2.0),
+        width=pad_size,
+        orientation=270,
+        layer=probe_layer,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="probe_top",
+        center=(x_origin + (columns - 1) * column_pitch, pad_y + pad_size / 2.0),
+        width=pad_size,
+        orientation=90,
+        layer=probe_layer,
+        port_type="electrical",
+    )
+    c.add_label(
+        f"JJ Ic calibration: {junction_count} devices, Jc={jc_ua_per_um2:g} uA/um2",
+        position=(0.0, pad_y + pad_size),
+        layer=marker_layer,
+    )
+    c.info["device_type"] = "jj_ic_calibration_array"
+    c.info["junction_count"] = junction_count
+    c.info["array_shape"] = [rows, columns]
+    c.info["active_region_um"] = [columns * column_pitch, rows * row_pitch]
+    c.info["min_area_um2"] = min_area_um2
+    c.info["max_area_um2"] = max_area_um2
+    c.info["jc_ua_per_um2"] = jc_ua_per_um2
+    c.info["probe_width_um"] = probe_width
+    c.info["junctions"] = entries
+    c.info["layers"] = {
+        "bottom_electrode": bottom_layer,
+        "barrier": barrier_layer,
+        "top_electrode": top_layer,
+        "probe": probe_layer,
+        "marker": marker_layer,
+    }
     return c
 
 

@@ -81,7 +81,8 @@ architecture and validity boundaries.
 - A `$text-to-gds` skill for Codex and other skills-compatible agents
 - Codex and Claude plugin metadata
 - Reviewed starter superconducting PCells:
-  `manhattan_josephson_junction`, `dc_squid_pair`, `cpw_straight`, `meander_inductor`,
+  `manhattan_josephson_junction`, `jj_ic_calibration_array`, `dc_squid_pair`,
+  `cpw_straight`, `cpw_quarter_wave_resonator`, `meander_inductor`,
   `flux_bias_line`, `via_stack`, `via_chain_monitor`, and `ground_plane`
 - GDSII artifact generation through gdsfactory
 - Layout screenshot PNG generation for quick visual inspection
@@ -328,141 +329,13 @@ replace them with released foundry or measured lab values before tapeout.
 
 ## Improvement Function Registry
 
-The package exposes every item in the 157-point improvement list through
-[`text_to_gds.improvements`](src/text_to_gds/improvements.py). The registry maps
-each numbered capability to a concrete Python implementation and validates that
-the target can be imported:
+Text-to-GDS ships three callable registries cataloguing 340 numbered
+capabilities (157 + 146 + 37) that map to 285 distinct implementations.
+Each `list_*` result reports both `count` and `unique_implementations`, and
+`validate_*_registry()` confirms every target is importable and callable.
 
-```python
-from text_to_gds.improvements import (
-    call_improvement,
-    list_improvements,
-    validate_improvement_registry,
-)
-
-assert list_improvements()["count"] == 157
-assert validate_improvement_registry()["passed"]
-
-materials = call_improvement(21)
-cpw = call_improvement(31, target_ohm=50.0, epsilon_r=11.45)
-```
-
-The implementations are grouped by responsibility:
-
-- [`verification.py`](src/text_to_gds/verification.py): superconducting LVS,
-  GDS circuit extraction, SPICE/Julia generation, design and GDS diffs, and
-  wafer-mask generation.
-- [`fabrication.py`](src/text_to_gds/fabrication.py): wafer runs, oxidation
-  recipes, JJ history, wafer-position Ic prediction, process yield, and SEM
-  metrology.
-- [`physics_extensions.py`](src/text_to_gds/physics_extensions.py): material,
-  loss, vortex, magnetic-field, CPW/IDC/coupling, transmission-line, and
-  chip-package models.
-- [`em_extensions.py`](src/text_to_gds/em_extensions.py): universal 3D stack,
-  solver comparison, convergence, uncertainty, rational fitting, reduced-order
-  models, feedback, and caching.
-- [`quantum_extensions.py`](src/text_to_gds/quantum_extensions.py) and
-  [`nonlinear_extensions.py`](src/text_to_gds/nonlinear_extensions.py):
-  Hamiltonian/BBQ/Kerr/lifetime and JPA/JTWPA nonlinear models.
-- [`measurement_extensions.py`](src/text_to_gds/measurement_extensions.py):
-  transport-neutral SCPI drivers, calibration, automated extraction, IQ,
-  squeezing, Wigner proxy, and drift analysis.
-- [`platform_extensions.py`](src/text_to_gds/platform_extensions.py): cryogenic
-  budgets, review/iteration agents, searchable records, publication helpers,
-  plugin/API/project generators, permissions, and closed-loop orchestration.
-
-`level: prepared_adapter` means the package creates a complete job or interface
-contract but does not claim that an external cloud worker, fabrication tool,
-instrument, licensed solver, or literature service executed. Real hardware
-control requires an explicitly supplied SCPI/VISA transport and configured
-safety limits. SEM-to-GDS comparison requires a registered GDS reference image
-at the SEM scale and orientation.
-
-### Next Improvement List
-
-The second 146-item list has a separate callable registry in
-[`text_to_gds.next_improvements`](src/text_to_gds/next_improvements.py):
-
-```python
-from text_to_gds.next_improvements import (
-    call_next_improvement,
-    list_next_improvements,
-    validate_next_improvement_registry,
-)
-
-assert list_next_improvements()["count"] == 146
-assert validate_next_improvement_registry()["passed"]
-
-route = call_next_improvement(
-    8,
-    start_um=(0.0, 0.0),
-    end_um=(1000.0, 500.0),
-    target_impedance_ohm=50.0,
-)
-```
-
-New implementation modules:
-
-- [`layout_automation.py`](src/text_to_gds/layout_automation.py): A* microwave
-  and CPW routing, ground planes, airbridges, crossovers, package placement,
-  floorplanning, hierarchy, labels, and alignment marks.
-- [`foundry_extensions.py`](src/text_to_gds/foundry_extensions.py): local PCell
-  marketplace, community library, project/notebook templates, foundry PDK
-  import, process migration, cost/schedule/inventory, drift, recipes, and
-  fabrication reports.
-- [`junction_physics.py`](src/text_to_gds/junction_physics.py):
-  Ambegaokar-Baratoff, temperature/aging/tunneling/capacitance/subgap,
-  quasiparticle/TLS, magnetic degradation, and reliability models.
-- [`research_automation.py`](src/text_to_gds/research_automation.py): EM setup
-  and surrogates, circuit/network synthesis, JPA/TWPA effects, Lindblad
-  dynamics, experiment scheduling and safety, and research-agent contracts.
-- [`delivery_extensions.py`](src/text_to_gds/delivery_extensions.py): FAIR/DOI
-  data, LaTeX/Overleaf/publication outputs, job queues, Kubernetes/HPC
-  manifests, authentication, collaborative editing, SDKs, VS Code, CLI, and
-  continuous benchmark artifacts.
-
-Remote instrument control never bypasses authentication, allowlists, safety
-interlocks, or the local controller. Kubernetes, HPC, foundry, DOI deposition,
-and remote literature features generate validated handoff artifacts but do not
-claim that an external service executed.
-
-### Third-Wave Autonomous Scientist Functions
-
-The third-wave registry adds 37 capabilities, bringing the three registries to
-340 total functions:
-
-```python
-from text_to_gds.third_wave import (
-    call_third_wave_improvement,
-    list_third_wave_improvements,
-    validate_third_wave_registry,
-)
-
-registry = list_third_wave_improvements()
-assert registry["count"] == 37
-assert registry["total_platform_capabilities"] == 340
-assert validate_third_wave_registry()["passed"]
-```
-
-[`inverse_design.py`](src/text_to_gds/inverse_design.py) implements controlled
-EM Jacobians, projected trainable-GDS optimization, exact discrete adjoints for
-linear systems, Fourier neural operators, and a multimodal microwave-model
-baseline. A backend must expose a deterministic parameter-to-result evaluator;
-finite-difference gradients are labelled separately from discrete adjoints.
-
-[`scientist_extensions.py`](src/text_to_gds/scientist_extensions.py) implements
-topology invention/evolution, symbolic regression and model selection, complete
-cryostat/shielding/vibration/cooldown models, SEM understanding and registration,
-yield/root-cause intelligence, literature and claim checks, Bayesian/RL
-experiment functions, tapeout/mask/DFM review, leaderboards, reproduction
-scores, the multi-agent research lab, and the final autonomous-scientist
-orchestration contract.
-
-The final loop cannot authorize fabrication, operate instruments, publish, or
-access literature by itself. Those stages require configured adapters, user
-authority, source provenance, uncertainty evidence, safety interlocks, and
-reviewer approval. “Nobel-level” is treated as an aspiration, not a verifiable
-software capability or performance claim.
+See [docs/improvement_registries.md](docs/improvement_registries.md) for the
+full catalog, module groupings, and usage examples.
 
 ## MCP Tools
 
@@ -544,6 +417,62 @@ py -3 -m uv run mcp dev src/text_to_gds/server.py
 | `run_design_workflow` | Run the prompt-to-artifacts LJPA seed flow and write a local workbench. | `.gds`, `.layout.png`, `.sidecar.json`, `.drc.json`, `.extraction.json`, `.magic.json`, `.simulation.json`, scientific plot/data, CAD exports, `.stack3d.html`, `.workbench.html` |
 | `run_optimized_design_workflow` | Run local surrogate geometry optimization before the LJPA seed workflow. | optimized GDS/workbench artifact set plus optimization history |
 | `run_simulation` | Compute ideal JJ current/inductance, draw quick and scientific plots, and optionally execute JoSIM, ngspice, or JosephsonCircuits.jl adapters. | `.simulation.json`, `.simulation.png`, `.scientific.png`, `.scientific.svg`, `.scientific.csv`, optional `.josim.cir`, `.josim.csv`, `.ngspice.cir`, `.ngspice.dat`, `.josephsoncircuits.jl` |
+| `record_quantum_device` | Store a device design, process, simulation, and measurement record in the local quantum-device database. | JSON/SQLite record |
+| `query_quantum_devices` | Query local device records by type, process, frequency, or performance. | JSON records |
+| `export_device_training_data` | Export normalized local device records for surrogate-model training. | JSON/CSV dataset |
+| `check_physics_constraints` | Evaluate geometry and requested performance against explicit physical constraints. | JSON findings |
+| `predict_device_performance` | Run the local device-performance predictor with uncertainty metadata. | JSON prediction |
+| `score_layout_quality` | Score DRC, connectivity, geometry, and metadata completeness. | JSON scorecard |
+| `tokenize_layout` | Convert layout geometry and metadata to model-ready tokens. | JSON tokens |
+| `list_quantum_devices` | List supported quantum-device families and required parameters. | JSON |
+
+## All-Function Demo Runner
+
+Every public function in `text_to_gds.server` can be listed and called from one
+runnable interface. This includes all MCP tools in the table above; it does not
+silently execute optional external solvers unless the selected function and
+arguments request execution.
+
+```powershell
+# List every public function, signature, and one-line description.
+py -3 -m uv run python examples\run_function_demo.py list
+
+# Call any function with JSON keyword arguments.
+py -3 -m uv run python examples\run_function_demo.py list_pcells
+py -3 -m uv run python examples\run_function_demo.py compile_layout '{"pcell":"via_chain_monitor","parameters":{"stage_count":100},"output_name":"function_demo.gds"}'
+py -3 -m uv run python examples\run_function_demo.py inspect_process_design_kit '{"name":"ncu_alox_2026"}'
+
+# The 340 improvement functions use the same public dispatch functions.
+py -3 -m uv run python examples\run_function_demo.py list_improvement_functions
+py -3 -m uv run python examples\run_function_demo.py list_next_improvement_functions
+py -3 -m uv run python examples\run_function_demo.py list_third_wave_improvement_functions
+```
+
+The function table is the contract: it lists the role and artifact type for
+every MCP function. Use the runner's `list` output as the source of truth for
+current Python signatures.
+
+## Five Zero-to-One Demos
+
+These examples start from device requirements and finish with inspectable local
+artifacts. Run all five or select one by name:
+
+```powershell
+py -3 -m uv run python examples\zero_to_one_demos.py all
+py -3 -m uv run python examples\zero_to_one_demos.py junction
+py -3 -m uv run python examples\zero_to_one_demos.py calibration-array
+py -3 -m uv run python examples\zero_to_one_demos.py cpw
+py -3 -m uv run python examples\zero_to_one_demos.py via-chain
+py -3 -m uv run python examples\zero_to_one_demos.py jpa
+```
+
+| Demo | Starts from | Executes | Final evidence |
+| --- | --- | --- | --- |
+| `junction` | 0.22 um x 0.22 um JJ and Jc | PCell compile, GDS render, DRC, ideal JJ simulation | GDS, PNG, DRC status, Ic, Lj |
+| `calibration-array` | 16 areas from 0.04 to 0.20 um2 | Array compile and semantic extraction | GDS, PNG, per-device expected Ic |
+| `cpw` | 6 GHz, 10 um trace, 6 um gap | Quarter-wave synthesis, GDS, DRC, openEMS project preparation | GDS, PNG, extraction JSON, runnable openEMS script |
+| `via-chain` | 100-stage process monitor | Alternating M1/M2/M3 chain compile, DRC, extraction | GDS, PNG, topology and resistance checks |
+| `jpa` | "6 GHz, 20 dB, 500 MHz" | Prompt planning through layout, DRC, extraction, simulation, CAD, and workbench | Complete local LJPA artifact family |
 
 ## Paper Example: Photonic-Crystal STWPA
 
@@ -636,195 +565,24 @@ backends are available; the suite never converts missing evidence into a pass.
 
 ## PyAEDT HFSS And Q3D Simulation
 
-This is the industry-EM path: GDS geometry is mapped onto the process stack and
-handed to Ansys HFSS and Q3D through PyAEDT 1.1+. Generation is license-free and
-returns `status: prepared`; populating the *solved* fields below requires a
-licensed Ansys Electronics Desktop install (`run=True, solve=True`). The numbers
-and figures in this section that do **not** need a license were produced for real
-on the bundled `readiness_demo` LJPA; the solved HFSS/Q3D quantities are shown as
-their result schema plus the published benchmark targets they are checked
-against, and cross-checked with the open-source openEMS FDTD solver.
+The licensed industry-EM path maps GDS geometry onto the process stack and
+hands it to Ansys HFSS and Q3D through PyAEDT. Generation is license-free
+(`status: prepared`); solving requires a licensed Ansys Electronics Desktop.
+An open-source openEMS FDTD cross-check is available with no license.
 
-### Functions
-
-| Function | Role | Key output |
-| --- | --- | --- |
-| `export_hfss_project` | HFSS driven-modal + eigenmode script for the GDS | `f0`, `Q`, S-parameters |
-| `export_pyaedt_project` | Full HFSS + Q3D automation bundle | S-parameters, eigenmodes, C-matrix, field images |
-| `export_q3d_extract` | Q3D Maxwell/coupling capacitance extraction | $C_{ij}$ matrix (pF) |
-| `recommend_pyaedt_design_correction` | Turn EM error into a geometry seed | length/cap/gap scale factors |
-| `run_pyaedt_design_iteration` | Apply one correction, regenerate GDS, run DRC | corrected `.gds` + DRC |
-| `run_pyaedt_benchmarks` | Compare a solved result against paper targets | pass / fail / skip |
-
-### Equations
-
-GDS-to-3D stack mapping (`import_gds_3d`): layer $n$ is extruded at elevation
-$z_n=\sum_{i<n} t_i$ with thickness $t_n$; metals become PEC in HFSS and copper
-in Q3D, dielectrics keep $(\varepsilon_r,\tan\delta)$.
-
-CPW propagation extracted from the solved field (driven-modal / openEMS):
-
-$$\varepsilon_{\text{eff}}=\left(\frac{c\,\beta}{\omega}\right)^{2},\qquad v_p=\frac{c}{\sqrt{\varepsilon_{\text{eff}}}},\qquad Z_0=\sqrt{\frac{L}{C}},\qquad \lambda_g=\frac{v_p}{f}$$
-
-HFSS eigenmode resonance, quality factor, and dielectric participation:
-
-$$f_0=\frac{1}{2\pi\sqrt{LC}},\qquad Q=\frac{\omega_0 U}{P_{\text{loss}}},\qquad \frac{1}{Q}=\sum_i p_i\tan\delta_i,\qquad p_i=\frac{U_i}{U_{\text{tot}}}$$
-
-Q3D Maxwell capacitance matrix (`export_q3d_extract`):
-
-$$Q_i=\sum_j C_{ij}V_j,\qquad C_{ij}=C_{ji}$$
-
-EM geometry correction (`recommend_pyaedt_design_correction`): since
-$f_0\propto 1/\sqrt{LC}$ and $Z_0\propto\sqrt{L/C}$,
-
-$$s_{\text{length}}=\frac{f_{\text{extracted}}}{f_{\text{target}}},\qquad s_{C}=\left(\frac{f_{\text{extracted}}}{f_{\text{target}}}\right)^{2},\qquad s_{\text{gap}}=\sqrt{\frac{Z_{\text{target}}}{Z_{\text{extracted}}}}$$
-
-For example, a solved $f_0=5.18$ GHz against a 5.0 GHz target with $Z_0=46\,\Omega$
-returns a +3.6% frequency error, a 1.036 CPW-length scale, and a 1.043 gap seed.
-
-### 3D model (HFSS import geometry)
-
-`export_pyaedt_project` extrudes each GDS layer onto the process stack before
-`import_gds_3d` builds it in HFSS/Q3D. The render below is the real
-`readiness_demo` geometry (25 shapes) on the generic Nb/SIS stack; the vertical
-axis is exaggerated 60x so the sub-micron films are visible.
-
-![HFSS import 3D stack model](assets/hfss_stack_3d.png)
-
-| GDS layer | Name | Elevation (um) | Thickness (um) | HFSS material | Q3D material |
-| --- | --- | --- | --- | --- | --- |
-| 3 | M1 | 0.000 | 0.180 | PEC | copper |
-| 4 | JJ | 0.180 | 0.002 | AlOx ($\varepsilon_r$ 9) | AlOx |
-| 5 | M2 | 0.182 | 0.200 | PEC | copper |
-| 6 | M3 | 0.382 | 0.350 | PEC | copper |
-| 7 | VIA12 | 0.732 | 0.200 | PEC | copper |
-| 8 | VIA23 | 0.932 | 0.250 | PEC | copper |
-
-Substrate: high-resistivity silicon, $\varepsilon_r$ 11.45, 500 um.
-
-### Generated project (real, license-free)
-
-```powershell
-py -3 -m uv sync --extra hfss
-py -3 -m uv run python -c "from text_to_gds.server import export_pyaedt_project; print(export_pyaedt_project('workspace/artifacts/readiness_demo.gds', sidecar_path='workspace/artifacts/readiness_demo.sidecar.json', output_name='readiness_demo'))"
-```
-
-Returns `status: prepared` and writes a config plus two PyAEDT scripts that
-compile and embed the current API (`import_gds_3d`, `create_setup`,
-`create_linear_count_sweep`, `export_touchstone`, `create_fieldplot_volume`;
-`Q3d` + `export_matrix_data`). The generated setup for `readiness_demo`:
-
-- Ports: `rf_in`, `rf_out` (lumped, 50 ohm), flagged `review_required`.
-- Driven sweep: 1-12 GHz, 221 points, 12 adaptive passes, $\Delta S$ 0.02.
-- Eigenmode: 4 modes from 3 GHz.
-
-### Simulation result (requires licensed AEDT)
-
-A `run=True, solve=True` run populates this schema; the targets are what
-`run_pyaedt_benchmarks` checks a solved result against (from published devices):
-
-| Benchmark | Analysis | Result key | Target | Tolerance |
-| --- | --- | --- | --- | --- |
-| `07_hfss_resonator` | HFSS eigenmode | `frequency_ghz`, `quality_factor` | 6.0 GHz, 20000 | 1% / 10% |
-| `08_hfss_jpa` | HFSS driven-modal | `frequency_ghz`, `impedance_ohm` | 6.0 GHz, 50 ohm | 1% / 5% |
-| `09_hfss_idc` | Q3D capacitance | `capacitance_pf` | 0.6 pF | 3% |
-
-Without a license the suite is honest about it:
-
-```text
-run_pyaedt_benchmarks -> status: prepared, counts: {passed: 0, failed: 0, skipped: 3}
-```
-
-Solved runs also export `.s2p` (driven-modal S-parameters), an eigenmode JSON
-(`f0`, `Q`), a Q3D capacitance CSV, and `Efield.png` / `Hfield.png` /
-`current_density.png` field images.
-
-### openEMS FDTD cross-check (real, no license)
-
-The same CPW geometry runs on the open-source openEMS FDTD solver, which produces
-the same class of S-parameter / impedance outputs that HFSS driven-modal does.
-This is the runnable validation of the EM path on an unlicensed machine:
-
-![openEMS FDTD extraction for the same geometry](assets/hfss_openems_cross_check.png)
-
-| Quantity | openEMS FDTD (`readiness_demo`) |
-| --- | --- |
-| Effective permittivity (mid-band) | 7.48 |
-| Characteristic impedance $Z_0$ (estimate) | 49.7 ohm |
-| Return loss $S_{11}$ (mid-band) | -44.7 dB |
-| Insertion loss $S_{21}$ (mid-band) | -0.047 dB |
-| Frequency band / points | 0-12 GHz / 201 |
-| E-field VTK dumps written | 73 |
-
-Generated lumped-port sheets, mesh convergence, substrate loss tangents, and the
-default PEC/copper conductor substitutions are mandatory review gates. They are
-not signoff evidence until replaced with calibrated process models, and openEMS
-uses a microstrip-port approximation of the CPW pending coplanar ports and a
-kinetic-inductance metal model (see `export_superconducting_material`).
+See [docs/pyaedt_hfss_q3d.md](docs/pyaedt_hfss_q3d.md) for the functions,
+equations, 3D import model, generated project details, benchmark targets, and
+the openEMS cross-check.
 
 ## Open-Source EM Solvers (Palace, Elmer, FastHenry/FastCap, gmsh)
 
-Beyond openEMS, Text-to-GDS routes to a full open-source EM stack so the HFSS/Q3D
-functions have a free counterpart for every analysis type. All share the same
-GDS-on-process-stack contract. gmsh is pip-installable and runs locally; the
-FEM/parasitic solvers generate runnable inputs and execute when their binaries are
-present, skipping cleanly otherwise (the same contract as HFSS).
+Beyond openEMS, Text-to-GDS routes to a full open-source EM stack so the
+HFSS/Q3D functions have a free counterpart for every analysis type, all
+sharing the same GDS-on-process-stack contract.
 
-| Backend | Method | Commercial analog | Output | Runs here? |
-| --- | --- | --- | --- | --- |
-| openEMS | FDTD | HFSS driven-modal | S-params, $Z_0$, $\varepsilon_{\text{eff}}$, E-field | yes |
-| Palace | 3D FEM eigenmode | HFSS eigenmode | $f_0$, $Q$, energy, participation | mesh yes / solve via WSL |
-| Elmer | electrostatic FEM | Q3D Extractor | capacitance matrix $C_{ij}$ | mesh yes / solve when installed |
-| FastHenry | partial-element | Q3D (inductance) | $L$, $R$ | when installed |
-| FastCap | BEM panels | Q3D (capacitance) | $C$ matrix | when installed |
-| gmsh | mesher | (HFSS mesher) | `.msh` tet mesh | yes |
-
-### gmsh mesh (real, runs here)
-
-`export_mesh` extrudes the GDS layers onto the process stack and tetrahedralizes
-them with gmsh (`uv pip install gmsh`). On `readiness_demo` it produced a real mesh
-that Palace and Elmer consume:
-
-| Quantity | Value |
-| --- | --- |
-| Nodes | 3665 |
-| Tetrahedra | 13004 |
-| Meshed layers | M1, JJ, M2, M3 |
-| Mesh file | `.msh` (v2.2), ~0.8 MB |
-
-### Palace eigenmode (HFSS-eigenmode analog)
-
-Palace solves the generalized Maxwell FEM eigenproblem $(K-\omega^2 M)\,x=0$ for the
-modal frequency, quality factor $Q=\omega_0 U/P_{\text{loss}}$, and dielectric
-participation $p_i=U_i/U_{\text{tot}}$ - the eigenmode quantities openEMS cannot
-provide. `export_palace_project` writes a Palace JSON config plus the real gmsh mesh
-and returns `status: prepared` (Palace itself solves under WSL/Linux+MPI):
-
-```powershell
-py -3 -m uv run python -c "from text_to_gds.server import export_palace_project; print(export_palace_project('workspace/artifacts/readiness_demo.gds', sidecar_path='workspace/artifacts/readiness_demo.sidecar.json', output_name='readiness_demo', target_frequency_ghz=5.0))"
-```
-
-### Elmer capacitance (Q3D analog)
-
-Elmer's electrostatic solver evaluates $\nabla\cdot(\varepsilon\nabla\varphi)=0$ and
-returns the Maxwell capacitance matrix $C_{ij}=Q_i/V_j$ with stored energy
-$W=\tfrac12\sum_{ij}C_{ij}V_iV_j$. `export_elmer_project` writes a `.sif` deck
-(one capacitance body per metal) plus the gmsh mesh; `ElmerSolver` populates
-`CapacitanceMatrix.dat` when installed.
-
-### FastHenry / FastCap parasitics
-
-FastHenry partitions a conductor into segments and returns $Z=R+j\omega L$ with the
-partial inductance $L=\frac{\mu_0 l}{2\pi}\left[\ln\frac{2l}{r}-0.75\right]$; FastCap
-solves the BEM panel system $q=P^{-1}\varphi$ for the capacitance matrix.
-`export_fasthenry` and `export_fastcap` write the decks (`.inp`, `.lst` + `.qui`
-panels) and parse results when the FastFieldSolvers binaries are on PATH.
-
-### Routing
-
-`recommend_em_solver` orders backends by device geometry. A CPW resonator ranks
-Sonnet > openEMS > Palace > HFSS > Elmer; a package model puts HFSS and Palace
-first. Any backend can run any structure - the order is typical suitability only.
+See [docs/opensource_em_solvers.md](docs/opensource_em_solvers.md) for the
+backend table, gmsh meshing, Palace eigenmode, Elmer capacitance,
+FastHenry/FastCap parasitics, and solver routing.
 
 ## Example Output
 
@@ -1210,16 +968,27 @@ gain and quantum efficiency into the parametric-amplifier figures.
 ### openEMS EM extraction (real FDTD)
 
 `export_openems_project` runs a microstrip-port FDTD model and extracts the
-S-parameters and effective permittivity (plus E-field VTK dumps to disk).
+S-parameters and effective permittivity (plus E-field VTK dumps to disk). The
+adapter now preserves the requested trace width; it no longer substitutes a
+200 um trace for a 10 um source trace.
 
 ![openEMS S-parameters and effective permittivity](assets/openems_extraction_example.png)
 
 | Metric | Value |
 | --- | --- |
-| Effective permittivity (mid-band) | 7.48 (silicon, epr 11.45) |
-| Insertion loss S21 | -0.05 dB |
-| Characteristic impedance (estimate) | 49.7 ohm |
-| E-field VTK dumps written | 72 files |
+| Effective permittivity (6.0005 GHz) | 6.558 (silicon, epr 11.45) |
+| Insertion loss S21 (6.0005 GHz) | -5.67 dB |
+| Return loss S11 (6.0005 GHz) | -6.64 dB |
+| Characteristic impedance (estimate) | 133.0 ohm |
+| Passive-power check | Passes from 1.2 to 12 GHz |
+| E-field VTK dumps written | 98 files |
+
+The extraction uses
+$\omega=2\pi f$ and
+$\varepsilon_{\mathrm{eff}}=(c_0\beta/\omega)^2$. This equation is correct
+for a phase constant $\beta$ in rad/m. The earlier figure was wrong because its
+geometry had been silently widened, not because the propagation equation was
+missing a factor of $2\pi$.
 
 ### scqubits Hamiltonian spectrum (real diagonalization)
 
@@ -1239,7 +1008,8 @@ plots the energy levels and the flux-dispersion spectrum.
 Benchmarks are lightweight text prompts plus expected artifact families. They
 mirror the role of `text-to-cad` benchmarks, but use GDS, sidecar, DRC, and
 simulation outputs instead of STEP or mesh previews. The `Expected layout`
-column renders the expected output layout screenshot PNG.
+column contains screenshots rendered from compiled GDS polygons. These are not
+hand-drawn schematics; regenerate them with the named registered PCell.
 
 | # | Target | Prompt | Expected layout |
 | --- | --- | --- | --- |

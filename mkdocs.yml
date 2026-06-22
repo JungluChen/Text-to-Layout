@@ -1,0 +1,12 @@
+site_name: Text-to-GDS
+docs_dir: .
+theme: readthedocs
+nav:
+  - Home: README.md
+  - Simulation: docs/simulation_tools.md
+  - Research: docs/closed_loop_research.md
+  - Improvement registries: docs/improvement_registries.md
+  - PyAEDT HFSS/Q3D: docs/pyaedt_hfss_q3d.md
+  - Open-source EM solvers: docs/opensource_em_solvers.md
+  - Reproducibility: docs/reproducibility.md
+plugins: [search]

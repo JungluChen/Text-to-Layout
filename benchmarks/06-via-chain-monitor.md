@@ -14,7 +14,8 @@ sidecar.
 
 ## Expected Workflow
 
-1. Generate alternating M1/M2/M3 route segments and via-stack markers.
+1. Compile the registered `via_chain_monitor` PCell with alternating M1/M2/M3
+   route segments and real VIA12/VIA23 landing geometry.
 2. Emit a sidecar with `input` and `output` ports.
 3. Run DRC and verify the generated 100-stage topology.
 4. Record first-order resistance and open-chain checks in

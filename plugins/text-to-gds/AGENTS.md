@@ -14,7 +14,7 @@ py -3 -m uv run ruff check .
 
 Ruff config: line-length 100, target-version py311.
 
-Full test suite (`tests/`, 15 files) requires optional extras:
+Full test suite (`tests/`, 19 files) requires optional extras:
 `py -3 -m uv run pytest` runs the pure-Python core without extras. Some tests
 (e.g. `test_paper_benchmarks.py`) need `--extra research` for upstream adapters.
 
@@ -26,9 +26,10 @@ py -3 C:/Users/justi/.codex/skills/.system/skill-creator/scripts/quick_validate.
 
 ## Project Layout
 
-- `src/text_to_gds/server.py` — MCP server entry point (2300+ lines, all tool registration).
+- `src/text_to_gds/server.py` — MCP server entry point (~2,370 lines, all tool registration).
+- `src/text_to_gds/rendering.py` — pure layout-screenshot/geometry-scan helpers used by the server.
 - `src/text_to_gds/pcells/` — reviewed superconducting PCell library.
-- `src/text_to_gds/improvements.py` / `next_improvements.py` / `third_wave.py` — three registries of 340 callable improvement functions.
+- `src/text_to_gds/improvements.py` / `next_improvements.py` / `third_wave.py` — three registries cataloguing 340 numbered improvement entries that map to 285 distinct callables.
 - `skills/text-to-gds/` — primary agent skill (source of truth).
 - `skills/text-to-gds-simulation/`, `skills/text-to-gds-circuit-design/`, `skills/text-to-gds-layout-design/`, `skills/text-to-gds-signoff/` — task-specific skills.
 - `plugins/text-to-gds/` — bundled Codex/Claude plugin copy (keep synced from root).

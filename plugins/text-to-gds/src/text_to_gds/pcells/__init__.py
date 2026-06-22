@@ -1,8 +1,13 @@
 """Reviewed superconducting PCells for Text-to-GDS."""
 
 from text_to_gds.pcells.amplifiers import lumped_element_jpa_seed
-from text_to_gds.pcells.junction import dc_squid_pair, manhattan_josephson_junction
+from text_to_gds.pcells.junction import (
+    dc_squid_pair,
+    jj_ic_calibration_array,
+    manhattan_josephson_junction,
+)
 from text_to_gds.pcells.passives import (
+    cpw_quarter_wave_resonator,
     cpw_straight,
     flux_bias_line,
     ground_plane,
@@ -17,10 +22,12 @@ from text_to_gds.pcells.traveling_wave import (
 
 __all__ = [
     "cpw_straight",
+    "cpw_quarter_wave_resonator",
     "dc_squid_pair",
     "flux_bias_line",
     "ground_plane",
     "lumped_element_jpa_seed",
+    "jj_ic_calibration_array",
     "manhattan_josephson_junction",
     "meander_inductor",
     "periodically_loaded_kit_unit_cell",

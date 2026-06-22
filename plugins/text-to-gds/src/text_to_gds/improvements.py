@@ -190,6 +190,7 @@ def list_improvements() -> dict[str, Any]:
     return {
         "schema": "text-to-gds.improvement-registry.v1",
         "count": len(IMPROVEMENTS),
+        "unique_implementations": len({item.implementation for item in IMPROVEMENTS.values()}),
         "features": [asdict(IMPROVEMENTS[index]) for index in sorted(IMPROVEMENTS)],
     }
 

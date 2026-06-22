@@ -23,7 +23,15 @@ def main() -> None:
         raise SystemExit(f"Missing plugin root: {PLUGIN_ROOT}")
 
     shutil.copy2(ROOT / "pyproject.toml", PLUGIN_ROOT / "pyproject.toml")
-    for filename in ["README.md", "TASKS.md", "AGENTS.md", "LICENSE", "CONTRIBUTING.md"]:
+    for filename in [
+        "README.md",
+        "TASKS.md",
+        "AGENTS.md",
+        "LICENSE",
+        "CONTRIBUTING.md",
+        "CHANGELOG.md",
+        "CITATION.cff",
+    ]:
         source = ROOT / filename
         if source.is_file():
             shutil.copy2(source, PLUGIN_ROOT / filename)

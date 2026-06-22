@@ -13,7 +13,8 @@ expected critical current for $J_c = 2.0 uA/\mu m^2$.
 
 ## Expected Workflow
 
-1. Generate a repeated PCell array with unique sidecar entries for each JJ.
+1. Compile the registered `jj_ic_calibration_array` PCell with unique sidecar
+   entries for each JJ.
 2. Preserve area and layer metadata per junction.
 3. Run DRC on all active shapes.
 4. Report ideal critical current for each area point.
