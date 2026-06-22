@@ -3,6 +3,7 @@ docs_dir: .
 theme: readthedocs
 nav:
   - Home: README.md
+  - Open platform roadmap: docs/open_platform_roadmap.md
   - Simulation: docs/simulation_tools.md
   - Research: docs/closed_loop_research.md
   - Improvement registries: docs/improvement_registries.md
