@@ -31,6 +31,8 @@ from text_to_gds.extraction import (
 from text_to_gds.em_bridges import write_hfss_project_bridge, write_sonnet_project_bridge
 from text_to_gds.em_solvers import list_em_solvers as list_em_solver_metadata
 from text_to_gds.em_solvers import recommend_em_solver as recommend_em_solver_for_sidecar
+from text_to_gds.open_solver_manager import route as route_open_solver_plan
+from text_to_gds.solver_agreement import cross_validate
 from text_to_gds.epr import write_epr_analysis
 from text_to_gds.experiment_database import record_experiment
 from text_to_gds.fitting import measurement_from_fit, write_measurement_fit
@@ -842,7 +844,7 @@ def recommend_em_solver(
     sidecar_path: str | None = None,
     device_type: str | None = None,
 ) -> dict[str, Any]:
-    """Route a device to the best EM backend (planar->Sonnet, 3D->HFSS, OSS default->openEMS)."""
+    """Route a device to the best EM backend, open-first (commercial = validation-only)."""
     if sidecar_path:
         sidecar = json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8"))
     elif device_type:
@@ -850,6 +852,35 @@ def recommend_em_solver(
     else:
         raise ValueError("Provide sidecar_path or device_type")
     return recommend_em_solver_for_sidecar(sidecar)
+
+
+@mcp.tool()
+def route_open_solver(
+    device: str,
+    target_accuracy: str = "iteration",
+    validation: bool = False,
+) -> dict[str, Any]:
+    """Plan the open-source solver backends for a device (CPW/JPA/qubit/...).
+
+    target_accuracy 'publication' requires >=2 open backends to agree; 'iteration'
+    requires 1. Commercial solvers are listed only when validation=True.
+    """
+    return route_open_solver_plan(device, target_accuracy=target_accuracy, validation=validation)
+
+
+@mcp.tool()
+def cross_validate_solvers(
+    sources: list[dict[str, Any]],
+    quantity: str = "value",
+    tolerance_pct: float = 5.0,
+) -> dict[str, Any]:
+    """Cross-check one quantity across >=2 solver/theory sources and score confidence.
+
+    `sources` is a list of {"source": str, "value": float}. Returns reference value,
+    max relative error, PASS/FAIL against tolerance, and a confidence percentage.
+    A single source can never produce non-zero confidence.
+    """
+    return cross_validate(sources, quantity=quantity, tolerance_pct=tolerance_pct)
 
 
 @mcp.tool()

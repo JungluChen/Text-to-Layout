@@ -274,15 +274,19 @@ SOLVERS: dict[str, EMSolver] = {
     for solver in (OpenEMSSolver(), HFSSSolver(), SonnetSolver(), PalaceSolver(), ElmerSolver())
 }
 
+# Open-source-first priority: every open backend ranks strictly above every
+# commercial backend. Commercial solvers (HFSS/Sonnet) are validation-only and
+# are never recommended as the primary solver. Within each tier, ordering still
+# follows typical geometric suitability.
 _SCORES: dict[str, dict[str, float]] = {
-    "planar": {"Sonnet": 1.0, "openEMS": 0.8, "Palace": 0.7, "HFSS": 0.6, "Elmer": 0.5},
-    "volumetric": {"HFSS": 1.0, "Palace": 0.95, "openEMS": 0.7, "Elmer": 0.5, "Sonnet": 0.3},
-    "lumped": {"openEMS": 0.9, "Palace": 0.8, "HFSS": 0.7, "Elmer": 0.6, "Sonnet": 0.55},
+    "planar": {"openEMS": 1.0, "Palace": 0.85, "Elmer": 0.6, "Sonnet": 0.45, "HFSS": 0.4},
+    "volumetric": {"Palace": 1.0, "openEMS": 0.8, "Elmer": 0.55, "HFSS": 0.45, "Sonnet": 0.3},
+    "lumped": {"openEMS": 0.95, "Palace": 0.8, "Elmer": 0.6, "HFSS": 0.45, "Sonnet": 0.4},
 }
 
 _REASONS: dict[str, str] = {
-    "planar": "stratified planar geometry is best matched by a method-of-moments / planar solver",
-    "volumetric": "true 3D / packaging geometry needs a full 3D field solver",
+    "planar": "stratified planar geometry handled by the open FDTD/FEM stack (openEMS, then Palace)",
+    "volumetric": "true 3D / packaging geometry handled by the open 3D FEM stack (Palace, then openEMS)",
     "lumped": "lumped/unknown geometry defaults to the open-source EM backend",
 }
 
@@ -314,18 +318,22 @@ def recommend_em_solver(sidecar: dict[str, Any]) -> dict[str, Any]:
                 "score": score,
                 "available": solver.available(),
                 "open_source": solver.open_source,
+                "role": "primary" if solver.open_source else "validation_only",
                 "method": solver.method,
                 "reason": _REASONS[geometry_class],
             }
         )
+    recommended = next(entry["solver"] for entry in ranking if entry["open_source"])
     return {
         "schema": "text-to-gds.em-solver-routing.v1",
         "device_type": device_type,
         "geometry_class": geometry_class,
-        "recommended": ranking[0]["solver"],
+        "recommended": recommended,
+        "recommended_open_source": True,
         "ranking": ranking,
         "model_validity": (
-            "Routing heuristic from device geometry class. Any backend can run any "
-            "structure; this only orders them by typical suitability."
+            "Open-source-first routing from device geometry class. Open backends are "
+            "always preferred; commercial backends (HFSS/Sonnet) are validation-only "
+            "and never recommended as primary. Any backend can run any structure."
         ),
     }
