@@ -1,0 +1,17 @@
+device: Resonator
+description: Quarter/half-wave CPW resonator with coupling.
+must_have:
+  - signal_conductor
+  - ground_planes
+  - gap
+  - coupling_capacitor
+  - readout_port
+equations:
+  resonance: "f0 = 1 / (2*pi*sqrt(L*C))"
+  loaded_q: "1/Q_l = 1/Q_i + 1/Q_c"
+  quarter_wave_length: "L = c / (4 * f0 * sqrt(eps_eff))"
+validity:
+  frequency_ghz: [1.0, 20.0]
+  quality_factor: [10.0, 10000000.0]
+constraints:
+  - quantum_noise

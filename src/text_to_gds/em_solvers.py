@@ -269,9 +269,51 @@ class ElmerSolver(EMSolver):
         )
 
 
+class MeepSolver(EMSolver):
+    name = "MEEP"
+    backend = "MEEP FDTD (MIT)"
+    method = "fdtd"
+    open_source = True
+    license_required = False
+    best_for = ("field/photonics FDTD", "dispersion", "field maps", "optical and microwave")
+    notes = "Open-source FDTD; runs when the meep Python package is importable (Linux/conda)."
+
+    def available(self) -> bool:
+        from text_to_gds.meep_bridge import meep_available
+
+        return meep_available()
+
+    def prepare(
+        self,
+        gds_path: str | Path,
+        *,
+        output_stem: str | Path,
+        sidecar: dict[str, Any] | None = None,
+        process_path: str | Path | None = None,
+        setup_frequency_ghz: float = 6.0,
+    ) -> dict[str, Any]:
+        from text_to_gds.meep_bridge import write_meep_project
+
+        stem = Path(output_stem)
+        return write_meep_project(
+            gds_path,
+            script_path=stem.with_suffix(".meep.py"),
+            report_path=stem.with_suffix(".meep.json"),
+            target_frequency_ghz=setup_frequency_ghz,
+            run=False,
+        )
+
+
 SOLVERS: dict[str, EMSolver] = {
     solver.name: solver
-    for solver in (OpenEMSSolver(), HFSSSolver(), SonnetSolver(), PalaceSolver(), ElmerSolver())
+    for solver in (
+        OpenEMSSolver(),
+        HFSSSolver(),
+        SonnetSolver(),
+        PalaceSolver(),
+        ElmerSolver(),
+        MeepSolver(),
+    )
 }
 
 # Open-source-first priority: every open backend ranks strictly above every
@@ -279,9 +321,9 @@ SOLVERS: dict[str, EMSolver] = {
 # are never recommended as the primary solver. Within each tier, ordering still
 # follows typical geometric suitability.
 _SCORES: dict[str, dict[str, float]] = {
-    "planar": {"openEMS": 1.0, "Palace": 0.85, "Elmer": 0.6, "Sonnet": 0.45, "HFSS": 0.4},
-    "volumetric": {"Palace": 1.0, "openEMS": 0.8, "Elmer": 0.55, "HFSS": 0.45, "Sonnet": 0.3},
-    "lumped": {"openEMS": 0.95, "Palace": 0.8, "Elmer": 0.6, "HFSS": 0.45, "Sonnet": 0.4},
+    "planar": {"openEMS": 1.0, "Palace": 0.85, "MEEP": 0.7, "Elmer": 0.6, "Sonnet": 0.45, "HFSS": 0.4},
+    "volumetric": {"Palace": 1.0, "openEMS": 0.8, "MEEP": 0.6, "Elmer": 0.55, "HFSS": 0.45, "Sonnet": 0.3},
+    "lumped": {"openEMS": 0.95, "Palace": 0.8, "MEEP": 0.65, "Elmer": 0.6, "HFSS": 0.45, "Sonnet": 0.4},
 }
 
 _REASONS: dict[str, str] = {

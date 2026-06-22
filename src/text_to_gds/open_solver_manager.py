@@ -91,6 +91,60 @@ def route(device: str, *, target_accuracy: str = "iteration", validation: bool =
     return plan
 
 
+def open_eigenmode(
+    gds_path: str | Path,
+    *,
+    output_stem: str | Path,
+    sidecar_path: str | Path | None = None,
+    process_path: str | Path | None = None,
+    target_frequency_ghz: float = 6.0,
+    num_modes: int = 4,
+    run: bool = False,
+) -> dict[str, Any]:
+    """Open HFSS-eigenmode analog: gmsh -> Palace, normalized to the HFSS schema.
+
+    Returns the same shape an HFSS eigenmode run would: ``frequency``, ``Q``,
+    ``participation``, ``fields``, ``convergence`` (values are populated only
+    once Palace actually solves; otherwise they are ``None`` with status
+    ``prepared``/``skipped``).
+    """
+    from text_to_gds.palace_bridge import write_palace_project
+
+    stem = Path(output_stem)
+    palace = write_palace_project(
+        gds_path,
+        config_path=stem.with_suffix(".palace.json"),
+        report_path=stem.with_suffix(".palace.report.json"),
+        mesh_path=stem.with_suffix(".msh"),
+        mesh_report_path=stem.with_suffix(".mesh.json"),
+        sidecar_path=sidecar_path,
+        process_path=process_path,
+        problem_type="Eigenmode",
+        target_frequency_ghz=target_frequency_ghz,
+        num_modes=num_modes,
+        run=run,
+    )
+    modes = palace.get("eigenmodes") or []
+    first = modes[0] if modes else {}
+    convergence = {"returncode": palace["returncode"]} if "returncode" in palace else None
+    return {
+        "schema": "text-to-gds.open-eigenmode.v1",
+        "backend": "Palace",
+        "method": "fem_3d_eigenmode",
+        "status": palace.get("status"),
+        "frequency": first.get("frequency_ghz"),
+        "Q": first.get("quality_factor"),
+        "participation": first.get("participation"),
+        "fields": palace.get("fields"),
+        "convergence": convergence,
+        "modes": modes,
+        "mesh": palace.get("mesh"),
+        "hfss_equivalent_schema": ["frequency", "Q", "participation", "fields", "convergence"],
+        "report_path": palace.get("report_path"),
+        "model_validity": palace.get("model_validity"),
+    }
+
+
 class SolverManager:
     """Routes and runs open-source solvers for a device."""
 

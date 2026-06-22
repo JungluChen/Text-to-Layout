@@ -1,0 +1,18 @@
+device: JTWPA
+description: Josephson traveling-wave parametric amplifier (broadband, many cells).
+must_have:
+  - signal_conductor
+  - ground_planes
+  - junction_array
+  - input_port
+  - output_port
+  - phase_matching
+equations:
+  phase_matching: "k_s + k_i = k_p (3WM) or 2*k_p = k_s + k_i (4WM)"
+  gain_per_cell: "G ~ exp(g * N) for N cells above threshold"
+validity:
+  frequency_ghz: [1.0, 20.0]
+  gain_db: [0.0, 40.0]
+  bandwidth_mhz: [100.0, 8000.0]
+constraints:
+  - quantum_noise

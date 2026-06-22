@@ -9,7 +9,8 @@ from text_to_gds.em_solvers import (
 
 def test_list_em_solvers_reports_all_backends():
     solvers = {entry["name"] for entry in list_em_solvers()}
-    assert solvers == {"openEMS", "HFSS", "Sonnet", "Palace", "Elmer"}
+    assert solvers == {"openEMS", "HFSS", "Sonnet", "Palace", "Elmer", "MEEP"}
+    assert get_em_solver("meep").open_source and get_em_solver("meep").method == "fdtd"
     hfss = get_em_solver("hfss")
     assert hfss.license_required and not hfss.open_source
     assert get_em_solver("openems").open_source

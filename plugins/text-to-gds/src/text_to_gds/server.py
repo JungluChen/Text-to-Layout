@@ -31,7 +31,14 @@ from text_to_gds.extraction import (
 from text_to_gds.em_bridges import write_hfss_project_bridge, write_sonnet_project_bridge
 from text_to_gds.em_solvers import list_em_solvers as list_em_solver_metadata
 from text_to_gds.em_solvers import recommend_em_solver as recommend_em_solver_for_sidecar
+from text_to_gds.open_solver_manager import open_eigenmode as run_open_eigenmode
 from text_to_gds.open_solver_manager import route as route_open_solver_plan
+from text_to_gds.open_q3d import OpenQ3D, tune_idc_capacitance as run_idc_tuning
+from text_to_gds.feasibility_gate import check_design_feasibility as run_design_feasibility
+from text_to_gds.physics_templates import (
+    list_templates as list_device_templates,
+    validate_sidecar as validate_device_template_sidecar,
+)
 from text_to_gds.solver_agreement import cross_validate
 from text_to_gds.epr import write_epr_analysis
 from text_to_gds.experiment_database import record_experiment
@@ -881,6 +888,64 @@ def cross_validate_solvers(
     A single source can never produce non-zero confidence.
     """
     return cross_validate(sources, quantity=quantity, tolerance_pct=tolerance_pct)
+
+
+@mcp.tool()
+def export_open_eigenmode(
+    gds_path: str,
+    output_name: str | None = None,
+    sidecar_path: str | None = None,
+    process_path: str | None = None,
+    target_frequency_ghz: float = 6.0,
+    run: bool = False,
+) -> dict[str, Any]:
+    """Open HFSS-eigenmode analog (gmsh -> Palace) in the HFSS schema (f0/Q/participation)."""
+    gds = _existing_path(gds_path)
+    stem = _artifact_path(output_name or Path(gds_path).stem, ".gds").with_suffix("")
+    return run_open_eigenmode(
+        gds,
+        output_stem=stem,
+        sidecar_path=_existing_path(sidecar_path) if sidecar_path else None,
+        process_path=process_path,
+        target_frequency_ghz=target_frequency_ghz,
+        run=run,
+    )
+
+
+@mcp.tool()
+def extract_open_q3d(
+    gds_path: str,
+    output_name: str | None = None,
+    sidecar_path: str | None = None,
+    process_path: str | None = None,
+    run: bool = False,
+) -> dict[str, Any]:
+    """Open Q3D analog: C matrix (Elmer/FastCap) + L (FastHenry) + coupling."""
+    gds = _existing_path(gds_path)
+    stem = _artifact_path(output_name or Path(gds_path).stem, ".gds").with_suffix("")
+    return OpenQ3D().extract(
+        gds,
+        output_stem=stem,
+        sidecar_path=_existing_path(sidecar_path) if sidecar_path else None,
+        process_path=process_path,
+        run=run,
+    )
+
+
+@mcp.tool()
+def tune_idc_capacitance(
+    target_pf: float,
+    epsilon_r: float = 11.45,
+    min_feature_um: float = 0.2,
+    tolerance_pct: float = 1.0,
+) -> dict[str, Any]:
+    """Auto-tune interdigital-capacitor finger geometry to hit a target capacitance."""
+    return run_idc_tuning(
+        target_pf,
+        epsilon_r=epsilon_r,
+        min_feature_um=min_feature_um,
+        tolerance_pct=tolerance_pct,
+    )
 
 
 @mcp.tool()
@@ -2290,6 +2355,35 @@ def check_physics_constraints(
     specs = json.loads(specs_json) if isinstance(specs_json, str) else specs_json
     report = check_all_constraints(specs, device_id=device_id)
     return report.to_dict()
+
+
+@mcp.tool()
+def check_design_feasibility(
+    device: str,
+    targets_json: str,
+    device_id: str = "",
+) -> dict[str, Any]:
+    """Pre-layout 'can this exist?' gate: ACCEPT/REJECT a spec before generating GDS.
+
+    Combines the device template's validity ranges with the physics constraint
+    engine (Bode-Fano, Manley-Rowe, Kerr, quantum noise). Returns blockers and a
+    feasible/infeasible verdict. `device` is e.g. 'JPA', 'CPW', 'transmon'.
+    """
+    targets = json.loads(targets_json) if isinstance(targets_json, str) else targets_json
+    return run_design_feasibility(device, targets, device_id=device_id)
+
+
+@mcp.tool()
+def list_physics_templates() -> dict[str, Any]:
+    """List device physics templates (CPW, Resonator, JPA, JTWPA, SFQ, Transmon)."""
+    return {"schema": "text-to-gds.physics-templates.v1", "templates": list_device_templates()}
+
+
+@mcp.tool()
+def validate_device_template(sidecar_path: str, device: str) -> dict[str, Any]:
+    """Check a layout sidecar against a device template's must-have feature list."""
+    sidecar = json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8"))
+    return validate_device_template_sidecar(sidecar, device)
 
 
 @mcp.tool()

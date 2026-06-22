@@ -33,6 +33,16 @@ cross-validated by solver agreement, and passed by every review agent.
    claiming a tool ran; surrogate vs. real values stay labelled; the platform
    never fabricates reference data (see Phase 6 data-gating).
 
+## Implementation status
+
+- **Phase 1 — DONE.** 1.1 `open_solver_manager.py`, 1.2 open-first priority in
+  `em_solvers.py`, 1.3 `open_eigenmode` (HFSS schema), 1.4 `open_q3d.py`
+  (C/L matrix + IDC auto-tune), 1.5 `solver_agreement.py`, 1.6 `meep_bridge.py`.
+- **Phase 2 — DONE.** 2.1 `device_templates/*.yaml` + `physics_templates.py`,
+  2.2 `feasibility_gate.py` with the `check_design_feasibility` MCP tool.
+- **Phases 3-6 — pending** (review committee, layout understanding wiring,
+  functional benchmarks, report/confidence/orchestration).
+
 ## Status legend
 
 - **EXISTS** — already implemented and reusable as-is.
