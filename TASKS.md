@@ -146,3 +146,206 @@
   available for the target runner.
 - Add STEP export only if a real packaging/mechanical co-design workflow needs
   a STEP source model; keep GDS as the IC-layout source of truth.
+
+---
+
+## Phase 8: Fifth-Wave — Open Quantum Hardware Research Infrastructure
+
+Goal: Move from AI Superconducting EDA Platform to Open Quantum Hardware Research Infrastructure.
+
+### 8.1 Repository / Engineering Quality
+
+- [ ] Add GitHub Actions CI pipeline.
+- [ ] Add nightly regression benchmark.
+- [ ] Add automatic solver compatibility test.
+- [ ] Add performance benchmark dashboard.
+- [ ] Add documentation website using MkDocs.
+- [ ] Add API documentation generation.
+- [ ] Add executable tutorials.
+- [ ] Add Google Colab examples.
+- [ ] Add Docker images: minimal, research, full solver.
+- [ ] Add VS Code devcontainer.
+- [ ] Add release automation.
+- [ ] Add semantic versioning.
+- [ ] Add changelog generator.
+- [ ] Add package publishing to PyPI.
+- [ ] Add Zenodo DOI archive.
+- [ ] Add citation metadata.
+- [ ] Add contribution workflow.
+- [ ] Add issue templates.
+- [ ] Add benchmark submission template.
+- [ ] Add reproducibility checklist.
+
+### 8.2 Scientific Verification Layer
+
+- [x] Add physics unit-test framework.
+- [x] Add equation verification tests.
+- [x] Add dimensional analysis checker.
+- [ ] Add conservation law checker.
+- [ ] Add microwave causality checker.
+- [ ] Add passivity verification.
+- [ ] Add reciprocity verification.
+- [ ] Add S-parameter sanity checker.
+- [ ] Add Kramers-Kronig validation.
+- [ ] Add quantum limit validation.
+- [ ] Add uncertainty propagation engine.
+- [ ] Add confidence interval calculation.
+- [ ] Add automatic error bar generation.
+- [ ] Add measurement repeatability score.
+- [ ] Add simulation credibility score.
+
+### 8.3 Literature Reproduction System
+
+- [ ] Add paper-to-benchmark pipeline.
+- [ ] Add DOI importer.
+- [ ] Add arXiv importer.
+- [ ] Add automatic parameter extraction.
+- [ ] Add figure digitization.
+- [ ] Add plot-to-data extraction.
+- [ ] Add equation extraction.
+- [ ] Add device reconstruction.
+- [ ] Add paper reproduction report.
+- [ ] Add reproduction leaderboard.
+
+### 8.4 Quantum Device Dataset
+
+- [x] Add open device dataset format.
+- [x] Add device metadata standard.
+- [x] Add GDS hash tracking.
+- [ ] Add process hash tracking.
+- [ ] Add measurement hash tracking.
+- [ ] Add dataset version control.
+- [x] Add HuggingFace dataset export.
+- [x] Add device similarity search.
+- [ ] Add failed-device database.
+- [ ] Add negative training examples.
+
+### 8.5 Layout Foundation Model
+
+- [x] Add GDS tokenizer.
+- [ ] Add polygon encoder.
+- [ ] Add layer embedding.
+- [ ] Add port embedding.
+- [ ] Add netlist graph encoder.
+- [ ] Add circuit graph neural network.
+- [x] Add layout transformer.
+- [ ] Add masked layout pretraining.
+- [ ] Add geometry embedding search.
+- [ ] Add layout generation model.
+
+### 8.6 AI Physics Model
+
+- [ ] Add physics foundation model.
+- [ ] Add microwave surrogate model.
+- [ ] Add neural S-parameter predictor.
+- [ ] Add neural capacitance extractor.
+- [ ] Add neural inductance extractor.
+- [ ] Add neural gain predictor.
+- [ ] Add neural noise predictor.
+- [ ] Add neural yield predictor.
+- [ ] Add uncertainty-aware prediction.
+- [ ] Add active learning loop.
+
+### 8.7 Differentiable EDA
+
+- [ ] Add differentiable geometry engine.
+- [ ] Add PyTorch GDS parameters.
+- [ ] Add differentiable PCell.
+- [ ] Add differentiable circuit solver.
+- [ ] Add differentiable microwave model.
+- [ ] Add differentiable JPA gain model.
+- [ ] Add automatic gradient optimization.
+- [ ] Add adjoint EM workflow.
+- [ ] Add topology optimization.
+- [ ] Add gradient-based inverse design.
+
+### 8.8 Advanced Device Discovery
+
+- [ ] Add topology search.
+- [ ] Add circuit evolution.
+- [ ] Add genetic superconducting circuit design.
+- [ ] Add symbolic circuit discovery.
+- [ ] Add automatic Hamiltonian discovery.
+- [ ] Add automatic Lagrangian derivation.
+- [ ] Add new amplifier topology generator.
+- [ ] Add new qubit topology generator.
+- [ ] Add novelty score.
+- [ ] Add patent similarity search.
+
+### 8.9 Fabrication Digital Twin 2.0
+
+- [ ] Add cleanroom workflow tracking.
+- [ ] Add fabrication recipe optimizer.
+- [ ] Add process anomaly detector.
+- [ ] Add wafer map AI.
+- [ ] Add SEM foundation model.
+- [ ] Add TEM image analysis.
+- [ ] Add AFM roughness extraction.
+- [ ] Add film thickness prediction.
+- [ ] Add oxidation model.
+- [ ] Add yield learning system.
+
+### 8.10 Measurement Intelligence 2.0
+
+- [ ] Add autonomous experiment planner.
+- [ ] Add experiment scheduler.
+- [ ] Add adaptive measurement.
+- [ ] Add Bayesian measurement selection.
+- [ ] Add automatic calibration selection.
+- [ ] Add VNA trace classifier.
+- [ ] Add failed measurement diagnosis.
+- [ ] Add anomaly detector.
+- [ ] Add cooldown memory.
+- [ ] Add lab notebook AI.
+
+### 8.11 Cryogenic System Intelligence
+
+- [ ] Add fridge digital twin.
+- [ ] Add cooldown prediction.
+- [ ] Add thermal simulation.
+- [ ] Add heat-load optimizer.
+- [ ] Add cable configuration optimizer.
+- [ ] Add microwave-chain generator.
+- [ ] Add noise budget optimizer.
+- [ ] Add magnetic shielding optimizer.
+- [ ] Add vibration model.
+- [ ] Add reliability model.
+
+### 8.12 Collaboration Platform
+
+- [ ] Add web-based layout editor.
+- [ ] Add multiplayer design.
+- [ ] Add cloud simulation queue.
+- [ ] Add design review workflow.
+- [ ] Add permission management.
+- [ ] Add lab/project workspace.
+- [ ] Add experiment sharing.
+- [ ] Add public benchmark portal.
+- [ ] Add device model marketplace.
+- [ ] Add community PDK repository.
+
+### 8.13 Industrial Signoff
+
+- [ ] Add superconducting tapeout checklist.
+- [ ] Add manufacturing readiness level.
+- [ ] Add reliability qualification.
+- [ ] Add lifetime prediction.
+- [ ] Add automated design review.
+- [ ] Add compliance report.
+- [ ] Add process compatibility check.
+- [ ] Add foundry handoff package.
+- [ ] Add mask order generation.
+- [ ] Add production tracking.
+
+### 8.14 AI Research Scientist Layer
+
+- [ ] Add research hypothesis generator.
+- [ ] Add automatic experiment proposal.
+- [ ] Add grant proposal generator.
+- [ ] Add research roadmap planner.
+- [ ] Add reviewer simulation.
+- [ ] Add weakness finder.
+- [ ] Add missing experiment detector.
+- [ ] Add automatic paper drafting.
+- [ ] Add result interpretation.
+- [ ] Add next-device recommendation.
