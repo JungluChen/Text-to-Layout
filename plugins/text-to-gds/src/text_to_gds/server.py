@@ -40,6 +40,9 @@ from text_to_gds.physics_templates import (
     validate_sidecar as validate_device_template_sidecar,
 )
 from text_to_gds.review import review_committee
+from text_to_gds.ai_scientist import assess_design, write_review_report
+from text_to_gds.layout_understanding import summarize_layout as summarize_layout_circuit
+from text_to_gds.open_benchmarks import run_open_benchmarks as run_open_benchmark_suite
 from text_to_gds.solver_agreement import cross_validate
 from text_to_gds.epr import write_epr_analysis
 from text_to_gds.experiment_database import record_experiment
@@ -2410,6 +2413,95 @@ def review_layout(
     if device:
         evidence["device"] = device
     return review_committee(evidence)
+
+
+@mcp.tool()
+def understand_layout(gds_path: str, sidecar_path: str | None = None) -> dict[str, Any]:
+    """Parse a GDS into circuit elements and classify the device drawn."""
+    gds = _existing_path(gds_path)
+    sidecar = (
+        json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8")) if sidecar_path else None
+    )
+    return summarize_layout_circuit(gds, sidecar=sidecar)
+
+
+@mcp.tool()
+def run_open_benchmarks() -> dict[str, Any]:
+    """Run the open functional benchmark suite (CPW Z0/f0, IDC 0.6 pF, JPA gain)."""
+    return run_open_benchmark_suite()
+
+
+@mcp.tool()
+def run_ai_scientist(
+    prompt: str,
+    device: str = "JPA",
+    targets_json: str | None = None,
+    output_name: str = "ai_scientist.gds",
+    jc_ua_per_um2: float = 2.0,
+) -> dict[str, Any]:
+    """End-to-end open-source pipeline: feasibility -> generate -> review -> readiness.
+
+    Rejects an infeasible spec before any layout is generated. Otherwise runs the
+    local open workflow, reviews the result with the committee, and returns a
+    research-readiness verdict plus a Markdown review report. Uses no commercial
+    solvers.
+    """
+    if targets_json:
+        targets = json.loads(targets_json)
+    else:
+        plan = plan_ljpa(prompt)
+        t = plan["target"]
+        targets = {
+            key: value
+            for key, value in {
+                "frequency_ghz": t.get("center_frequency_ghz"),
+                "gain_db": t.get("gain_db"),
+                "bandwidth_mhz": t.get("bandwidth_mhz"),
+                "quality_factor": t.get("quality_factor"),
+            }.items()
+            if value is not None
+        }
+
+    feasibility = run_design_feasibility(device, targets)
+    if not feasibility["accepted"]:
+        return {
+            "schema": "text-to-gds.ai-scientist.v1",
+            "accepted": False,
+            "stage": "feasibility",
+            "verdict": "rejected_infeasible",
+            "device": device,
+            "targets": targets,
+            "feasibility": feasibility,
+            "recommendation": "Rejected before layout generation; adjust the targets.",
+        }
+
+    workflow = run_design_workflow(prompt, output_name=output_name, jc_ua_per_um2=jc_ua_per_um2)
+    sidecar = json.loads(_existing_path(workflow["compile"]["sidecar_path"]).read_text(encoding="utf-8"))
+    simulation = json.loads(_existing_path(workflow["simulation"]["result_path"]).read_text(encoding="utf-8"))
+    evidence = {
+        "device": device,
+        "sidecar": sidecar,
+        "simulation": simulation,
+        "drc": workflow["drc"],
+    }
+    assessment = assess_design(device, targets, evidence)
+    report_path = _artifact_path(f"{Path(output_name).stem}.review_report.md", ".md")
+    report = write_review_report(assessment, report_path)
+    return {
+        "schema": "text-to-gds.ai-scientist.v1",
+        "accepted": assessment["accepted"],
+        "stage": assessment["stage"],
+        "verdict": assessment["verdict"],
+        "device": device,
+        "targets": targets,
+        "assessment": assessment,
+        "workflow_status": workflow["status"],
+        "artifacts": {
+            "gds": workflow["compile"]["gds_path"],
+            "sidecar": workflow["compile"]["sidecar_path"],
+            "review_report": report["report_path"],
+        },
+    }
 
 
 @mcp.tool()

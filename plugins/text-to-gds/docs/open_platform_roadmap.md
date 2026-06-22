@@ -44,8 +44,17 @@ cross-validated by solver agreement, and passed by every review agent.
   fabrication, measurement) + `auto_repair.py` bounded loop, exposed via the
   `review_layout` MCP tool. Committee score is the per-reviewer minimum, so any
   error stays below the 90 acceptance threshold.
-- **Phases 4-6 — pending** (layout-understanding wiring, functional benchmarks,
-  report/confidence/orchestration).
+- **Phase 4 — DONE** (except data-gated 4.2). `layout_understanding.py`:
+  GDS->circuit summary + device classification + corpus similarity/novelty
+  (`understand_layout` tool). 4.2 (learning from a real corpus) remains
+  DATA-GATED until permitted reference layouts are supplied.
+- **Phase 5 — DONE.** `open_benchmarks.py`: functional benchmarks asserting
+  physical quantities (CPW Z0/f0, IDC 0.6 pF, JPA gain) with skip-not-fail for
+  absent solvers (`run_open_benchmarks` tool).
+- **Phase 6 — DONE.** `research_readiness.py` (gated aggregate),
+  `ai_scientist.py` (`assess_design` + `write_review_report`), and the
+  `run_ai_scientist` MCP tool: feasibility -> generate -> review -> readiness,
+  using only open solvers; rejects infeasible specs before layout.
 
 ## Status legend
 
