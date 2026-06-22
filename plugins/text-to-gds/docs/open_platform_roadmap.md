@@ -40,8 +40,12 @@ cross-validated by solver agreement, and passed by every review agent.
   (C/L matrix + IDC auto-tune), 1.5 `solver_agreement.py`, 1.6 `meep_bridge.py`.
 - **Phase 2 — DONE.** 2.1 `device_templates/*.yaml` + `physics_templates.py`,
   2.2 `feasibility_gate.py` with the `check_design_feasibility` MCP tool.
-- **Phases 3-6 — pending** (review committee, layout understanding wiring,
-  functional benchmarks, report/confidence/orchestration).
+- **Phase 3 — DONE.** Rule-based `review/` committee (physics, microwave,
+  fabrication, measurement) + `auto_repair.py` bounded loop, exposed via the
+  `review_layout` MCP tool. Committee score is the per-reviewer minimum, so any
+  error stays below the 90 acceptance threshold.
+- **Phases 4-6 — pending** (layout-understanding wiring, functional benchmarks,
+  report/confidence/orchestration).
 
 ## Status legend
 

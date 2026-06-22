@@ -39,6 +39,7 @@ from text_to_gds.physics_templates import (
     list_templates as list_device_templates,
     validate_sidecar as validate_device_template_sidecar,
 )
+from text_to_gds.review import review_committee
 from text_to_gds.solver_agreement import cross_validate
 from text_to_gds.epr import write_epr_analysis
 from text_to_gds.experiment_database import record_experiment
@@ -2384,6 +2385,31 @@ def validate_device_template(sidecar_path: str, device: str) -> dict[str, Any]:
     """Check a layout sidecar against a device template's must-have feature list."""
     sidecar = json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8"))
     return validate_device_template_sidecar(sidecar, device)
+
+
+@mcp.tool()
+def review_layout(
+    sidecar_path: str,
+    simulation_path: str | None = None,
+    drc_path: str | None = None,
+    device: str | None = None,
+) -> dict[str, Any]:
+    """Run the rule-based review committee on a layout's evidence.
+
+    Aggregates the Physics, Microwave, Fabrication, and Measurement reviewers
+    into a single approved/score verdict. The committee score is the minimum
+    across reviewers, so any error keeps it below the 90 acceptance threshold.
+    """
+    evidence: dict[str, Any] = {
+        "sidecar": json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8"))
+    }
+    if simulation_path:
+        evidence["simulation"] = json.loads(_existing_path(simulation_path).read_text(encoding="utf-8"))
+    if drc_path:
+        evidence["drc"] = json.loads(_existing_path(drc_path).read_text(encoding="utf-8"))
+    if device:
+        evidence["device"] = device
+    return review_committee(evidence)
 
 
 @mcp.tool()
