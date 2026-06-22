@@ -43,6 +43,38 @@ def test_physics_passes_cpw_with_ground():
     assert result["score"] == 100
 
 
+def test_physics_uses_layout_summary_for_topology():
+    # JPA device whose extracted GDS has no junction -> topology error.
+    evidence = {
+        "device": "jpa",
+        "sidecar": {"info": {"device_type": "jpa", "has_ground_plane": True},
+                    "ports": [{"name": "rf_in"}, {"name": "rf_out"}]},
+        "layout_summary": {
+            "device_class": "jpa", "junction_count": 0, "net_count": 2,
+            "element_kinds": [], "polygon_connectivity_complete": True,
+        },
+    }
+    result = review_physics(evidence)
+    assert result["passed"] is False
+    assert any("no Josephson junction" in f["finding"] for f in result["findings"])
+    assert result["topology"]["junction_count"] == 0
+
+
+def test_physics_passes_jpa_with_detected_junction():
+    evidence = {
+        "device": "jpa",
+        "sidecar": {"info": {"device_type": "jpa", "has_ground_plane": True},
+                    "ports": [{"name": "rf_in"}, {"name": "rf_out"}]},
+        "layout_summary": {
+            "device_class": "jpa", "junction_count": 2, "net_count": 3,
+            "element_kinds": ["josephson_junction"], "polygon_connectivity_complete": True,
+        },
+    }
+    result = review_physics(evidence)
+    assert result["passed"] is True
+    assert result["topology"]["junction_count"] == 2
+
+
 def test_physics_flags_unphysical_impedance():
     evidence = {
         "device": "cpw",

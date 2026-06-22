@@ -69,4 +69,46 @@ def review_physics(evidence: dict[str, Any]) -> dict[str, Any]:
                         "Tune resonator length or shunt capacitance.")
             )
 
-    return review_result(_AGENT, findings)
+    # Richer topology checks from the actual extracted GDS, when available.
+    summary = _layout_summary(evidence, sidecar)
+    if summary is not None:
+        junction_based = any(k in text for k in ("jpa", "squid", "transmon", "sfq", "junction", "jj")) \
+            or summary["device_class"] in {"jpa", "dc_squid", "transmon", "josephson_junction"}
+        if junction_based and summary.get("junction_count", 0) == 0:
+            findings.append(
+                finding(_AGENT, "error",
+                        "Device is junction-based but no Josephson junction was detected in the GDS.",
+                        "Verify the JJ barrier layer overlaps both M1 and M2.")
+            )
+        if summary.get("polygon_connectivity_complete") is False:
+            findings.append(
+                finding(_AGENT, "warning",
+                        "GDS extraction left unresolved devices; the topology is incomplete.",
+                        "Check via and junction-barrier overlaps in the layout.")
+            )
+
+    result = review_result(_AGENT, findings)
+    if summary is not None:
+        result["topology"] = {
+            "device_class": summary["device_class"],
+            "junction_count": summary["junction_count"],
+            "net_count": summary["net_count"],
+            "element_kinds": summary["element_kinds"],
+        }
+    return result
+
+
+def _layout_summary(evidence: dict[str, Any], sidecar: dict[str, Any]) -> dict[str, Any] | None:
+    """Use a precomputed layout summary, or derive one from a GDS path if given."""
+    summary = evidence.get("layout_summary")
+    if summary is not None:
+        return summary
+    gds_path = evidence.get("gds_path")
+    if not gds_path:
+        return None
+    try:
+        from text_to_gds.layout_understanding import summarize_layout
+
+        return summarize_layout(gds_path, sidecar=sidecar)
+    except Exception:  # noqa: BLE001 - topology enrichment is best-effort, never fatal
+        return None

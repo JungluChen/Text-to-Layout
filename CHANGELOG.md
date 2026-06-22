@@ -12,10 +12,18 @@ First tracked release. Consolidates the work previously described informally as
 the first through fifth "waves" into a versioned baseline.
 
 ### Added
+- Open research platform (roadmap Phases 1-6): open-source-first solver routing
+  (`open_solver_manager`), the Solver Agreement Engine (`solver_agreement`),
+  `open_q3d` (Elmer/FastCap/FastHenry + IDC auto-tune), a MEEP FDTD adapter,
+  device physics templates + a pre-layout feasibility gate, a rule-based AI
+  review committee (physics/microwave/fabrication/measurement) with an
+  auto-repair loop, layout understanding, functional open benchmarks, a gated
+  research-readiness score, and the end-to-end `run_ai_scientist` orchestrator.
+  Commercial EM (HFSS/Q3D/Sonnet) is demoted to optional validation-only.
 - Reviewed superconducting PCell library (Manhattan JJ, dc-SQUID, CPW resonator,
   meander inductor, flux-bias line, via chain, ground plane, calibration array).
-- Local MCP server exposing 72 tools for layout, DRC, extraction, EM/circuit
-  simulation handoff, planning, and reporting.
+- Local MCP server exposing 80+ tools for layout, DRC, extraction, EM/circuit
+  simulation handoff, planning, review, and reporting.
 - Three callable improvement registries (340 numbered catalog entries mapping to
   285 distinct implementations), each with import/callable validation.
 - Versioned superconducting PDK loader and bundled illustrative process files.

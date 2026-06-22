@@ -2483,6 +2483,7 @@ def run_ai_scientist(
         "sidecar": sidecar,
         "simulation": simulation,
         "drc": workflow["drc"],
+        "gds_path": workflow["compile"]["gds_path"],
     }
     assessment = assess_design(device, targets, evidence)
     report_path = _artifact_path(f"{Path(output_name).stem}.review_report.md", ".md")
