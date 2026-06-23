@@ -30,6 +30,16 @@ def test_solver_result_skipped() -> None:
     assert result.execution_time_s == 0.0
 
 
+def test_josephsoncircuits_adapter_availability() -> None:
+    from text_to_gds.simulation.josephsoncircuits_adapter import JosephsonCircuitsAdapter
+
+    adapter = JosephsonCircuitsAdapter()
+    assert adapter.name == "JosephsonCircuits"
+    result = adapter.execute({})
+    assert result.status in ("skipped", "success", "failed")
+    assert result.solver == "JosephsonCircuits"
+
+
 def test_openems_adapter_availability() -> None:
     from text_to_gds.simulation.openems_adapter import OpenEMSAdapter
 
