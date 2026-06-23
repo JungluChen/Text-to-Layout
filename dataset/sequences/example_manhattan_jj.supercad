@@ -1,0 +1,10 @@
+DEVICE manhattan_jj
+TECH ncu_nb_alox_v1
+
+ADD manhattan_jj width=0.22um height=0.22um layer_stack=M1/JJ/M2
+ADD port name=bias_pos type=dc location=top
+ADD port name=bias_neg type=dc location=bottom
+
+CONSTRAINT jc=2.0uA/um2
+CONSTRAINT min_spacing=1.0um
+CONSTRAINT process=ncu_nb_alox_v1

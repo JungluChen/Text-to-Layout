@@ -1,0 +1,248 @@
+# physics_methods.yaml
+# Every formula used in Text-to-GDS extraction and estimation.
+# Each entry defines validity boundaries; values outside these bounds must fail.
+#
+# method_label values:
+#   estimated   — analytical or rule-of-thumb formula (no GDS measurement, no solver)
+#   extracted   — derived from GDS geometry measurement
+#   simulated   — produced by a real solver output file
+#   measured    — imported from experiment data
+#
+# Reports must display the method_label on every numeric result.
+# Never call an estimated value simulated.
+
+methods:
+
+  josephson_inductance:
+    equation: "Lj = Phi0 / (2 * pi * Ic)"
+    assumptions:
+      - "Zero-temperature limit"
+      - "No kinetic inductance contribution (Lk << Lj)"
+      - "Tunnel junction in classical regime (EJ >> EC)"
+    required_inputs:
+      - name: Ic
+        source: extracted_or_measured
+        unit: "A"
+        constraint: "> 0"
+    invalid_cases:
+      - "Ic <= 0"
+      - "Ic not derived from extracted GDS area or measured data"
+      - "Ic guessed or estimated from target frequency"
+    output_unit: "H"
+    confidence_level: analytical
+    method_label: estimated
+    constants:
+      Phi0: "2.067833848e-15 Wb"
+
+  critical_current_from_jc:
+    equation: "Ic = Jc * area"
+    assumptions:
+      - "Uniform current density across junction"
+      - "Junction area is intersection: M1 ∩ JJ ∩ M2 layers"
+    required_inputs:
+      - name: Jc
+        source: explicit_process_input
+        unit: "A/m^2"
+        constraint: "> 0"
+      - name: area
+        source: extracted_from_gds
+        unit: "m^2"
+        constraint: "> process_minimum_junction_area"
+    invalid_cases:
+      - "Jc not from explicit named process input"
+      - "area <= 0"
+      - "area below process minimum feature size squared"
+    output_unit: "A"
+    confidence_level: analytical
+    method_label: extracted
+
+  cpw_impedance_conformal:
+    equation: "Z0 = (30*pi / sqrt(epsilon_eff)) * K(k_prime) / K(k)"
+    assumptions:
+      - "Conformal mapping approximation (Wheeler / Hammerstad-Jensen)"
+      - "Infinite ground plane extent"
+      - "No kinetic inductance (Lk = 0)"
+      - "Quasistatic approximation (width << lambda/10)"
+    required_inputs:
+      - name: width
+        source: extracted_from_gds
+        unit: "m"
+        constraint: "> 0"
+      - name: gap
+        source: extracted_from_gds
+        unit: "m"
+        constraint: "> 0"
+      - name: substrate_thickness
+        source: explicit_process_input
+        unit: "m"
+        constraint: "> 0"
+      - name: epsilon_r
+        source: explicit_process_input
+        constraint: "> 1"
+    invalid_cases:
+      - "width <= 0 or gap <= 0"
+      - "epsilon_r not supplied from named process"
+      - "width >= substrate_thickness (thick-substrate assumption violated)"
+    output_unit: "Ohm"
+    confidence_level: analytical
+    method_label: estimated
+    notes: "This is an estimate. Use EM solver for fabrication-signoff impedance."
+
+  cpw_phase_velocity:
+    equation: "vp = c / sqrt(epsilon_eff)"
+    assumptions:
+      - "Same quasistatic assumption as cpw_impedance_conformal"
+    required_inputs:
+      - name: epsilon_eff
+        source: derived_from_cpw_impedance_conformal
+        constraint: ">= 1"
+    output_unit: "m/s"
+    confidence_level: analytical
+    method_label: estimated
+
+  cpw_quarter_wave_length:
+    equation: "length = vp / (4 * f0)"
+    assumptions:
+      - "Lossless CPW, no coupling corrections"
+    required_inputs:
+      - name: vp
+        source: derived_from_cpw_phase_velocity
+        constraint: "> 0"
+      - name: f0
+        source: design_intent_target
+        constraint: "> 0"
+    invalid_cases:
+      - "f0 used as extracted result (it is a target/validation bound only)"
+    output_unit: "m"
+    confidence_level: analytical
+    method_label: estimated
+    notes: >
+      The target frequency f0 may be used to SIZE the geometry but must NOT
+      be written into extraction.json as an extracted result. Extracted f0
+      comes from sqrt(LC) with extracted L and C.
+
+  lc_resonance:
+    equation: "f0 = 1 / (2 * pi * sqrt(L * C))"
+    assumptions:
+      - "Lumped element approximation valid (physical size << lambda)"
+      - "No parasitic coupling or radiation loss"
+    required_inputs:
+      - name: L
+        source: extracted_or_estimated
+        unit: "H"
+        constraint: "> 0"
+      - name: C
+        source: extracted_or_estimated
+        unit: "F"
+        constraint: "> 0"
+    invalid_cases:
+      - "L <= 0 or C <= 0"
+      - "target_frequency_ghz supplied as either L or C input"
+      - "L or C not present in extraction.json"
+    output_unit: "Hz"
+    confidence_level: analytical
+    method_label: estimated
+    notes: >
+      Target frequency is a validation bound only. It is compared against
+      the extracted f0 but never copied into extraction.json as a result.
+
+  josephson_ej:
+    equation: "EJ = Phi0 * Ic / (2 * pi)"
+    assumptions:
+      - "Zero-temperature limit"
+      - "No kinetic inductance correction"
+    required_inputs:
+      - name: Ic
+        source: extracted
+        unit: "A"
+        constraint: "> 0"
+    invalid_cases:
+      - "Ic not extracted from GDS geometry"
+      - "EJ derived from target frequency or assumed EJ/EC ratio"
+    output_unit: "J"
+    confidence_level: analytical
+    method_label: extracted
+    constants:
+      Phi0: "2.067833848e-15 Wb"
+
+  charging_energy:
+    equation: "EC = e^2 / (2 * C)"
+    assumptions:
+      - "Single island, no offset charge"
+      - "C includes all shunt and parasitic capacitances"
+    required_inputs:
+      - name: C
+        source: extracted
+        unit: "F"
+        constraint: "> 0"
+    invalid_cases:
+      - "C not extracted from GDS"
+      - "EC derived from assumed EJ/EC ratio"
+    output_unit: "J"
+    confidence_level: analytical
+    method_label: extracted
+    constants:
+      e: "1.602176634e-19 C"
+
+  s_parameter_passivity:
+    equation: "max_singular_value(S)^2 <= 1 + epsilon"
+    assumptions:
+      - "Network is passive (no internal gain)"
+    required_inputs:
+      - name: S_matrix
+        source: solver_output_touchstone
+        constraint: "real solver file, not generated"
+    invalid_cases:
+      - "S-matrix not from a real solver Touchstone file"
+      - "S-matrix generated analytically without solver"
+    confidence_level: physics_constraint
+    method_label: simulated
+
+  s_parameter_reciprocity:
+    equation: "S21 = S12 (within tolerance)"
+    assumptions:
+      - "Network is reciprocal (no circulators, no amplifiers)"
+    required_inputs:
+      - name: S_matrix
+        source: solver_output_touchstone
+        constraint: "2-port, real solver file"
+    invalid_cases:
+      - "S-matrix not from a real solver Touchstone file"
+    confidence_level: physics_constraint
+    method_label: simulated
+
+  cpw_equivalent_capacitance:
+    equation: "Ceq = (C_per_length * length) / 2"
+    assumptions:
+      - "Quarter-wave resonator with one open, one coupled end"
+      - "Uniform transmission line, no taper"
+    required_inputs:
+      - name: C_per_length
+        source: derived_from_cpw_impedance_conformal
+        unit: "F/m"
+        constraint: "> 0"
+      - name: length
+        source: extracted_from_gds
+        unit: "m"
+        constraint: "> 0"
+    output_unit: "F"
+    confidence_level: analytical
+    method_label: estimated
+
+  cpw_equivalent_inductance:
+    equation: "Leq = (8 / pi^2) * L_per_length * length"
+    assumptions:
+      - "Quarter-wave resonator with one open, one coupled end"
+      - "Uniform transmission line, no taper"
+    required_inputs:
+      - name: L_per_length
+        source: derived_from_cpw_impedance_conformal
+        unit: "H/m"
+        constraint: "> 0"
+      - name: length
+        source: extracted_from_gds
+        unit: "m"
+        constraint: "> 0"
+    output_unit: "H"
+    confidence_level: analytical
+    method_label: estimated

@@ -44,39 +44,6 @@ def _finite_values(values: list[Any]) -> list[float]:
 
 
 def _line_series(simulation: dict[str, Any]) -> tuple[list[Series], str, str, str]:
-    physical = simulation.get("physical_performance")
-    if isinstance(physical, dict):
-        flux_tuning = physical.get("flux_tuning")
-        if isinstance(flux_tuning, dict):
-            rows = flux_tuning.get("sweep")
-            if isinstance(rows, list) and rows:
-                frequency_pairs = [
-                    (float(row["flux_phi0"]), float(row["resonant_frequency_ghz"]))
-                    for row in rows
-                    if isinstance(row, dict)
-                    and row.get("flux_phi0") is not None
-                    and row.get("resonant_frequency_ghz") is not None
-                ]
-                if frequency_pairs:
-                    flux = [item[0] for item in frequency_pairs]
-                    frequency = [item[1] for item in frequency_pairs]
-                    return [
-                        ("Resonance", flux, frequency, "GHz")
-                    ], "SQUID Flux Tuning", "Flux bias (Phi/Phi0)", "Frequency (GHz)"
-                current_pairs = [
-                    (float(row["flux_phi0"]), float(row["critical_current_ua"]))
-                    for row in rows
-                    if isinstance(row, dict)
-                    and row.get("flux_phi0") is not None
-                    and row.get("critical_current_ua") is not None
-                ]
-                if current_pairs:
-                    flux = [item[0] for item in current_pairs]
-                    critical_current = [item[1] for item in current_pairs]
-                    return [
-                        ("Ic_eff", flux, critical_current, "uA")
-                    ], "SQUID Critical Current Modulation", "Flux bias (Phi/Phi0)", "Ic (uA)"
-
     payload = _adapter_payload(simulation)
     frequencies = _finite_values(payload.get("frequencies_ghz", []))
     s_parameters = payload.get("s_parameters_db")
@@ -119,7 +86,7 @@ def _line_series(simulation: dict[str, Any]) -> tuple[list[Series], str, str, st
                         (keys[1], x_values, y_values, "")
                     ], title, keys[0], keys[1]
 
-    return [], "Ideal Josephson Junction", "", ""
+    return [], "Solver unavailable", "", ""
 
 
 def _nice_bounds(values: list[float]) -> tuple[float, float]:
@@ -211,13 +178,13 @@ def _draw_summary(
     title_font = _font(30, bold=True)
     label_font = _font(18)
     value_font = _font(28, bold=True)
-    draw.text((left, top - 58), "Ideal Josephson Junction", fill="#1d1d1f", font=title_font)
+    draw.text((left, top - 58), "Solver unavailable", fill="#1d1d1f", font=title_font)
     draw.rounded_rectangle((left, top, right, bottom), radius=24, fill="#ffffff", outline="#d2d2d7")
     cards = [
-        ("Junction area", simulation.get("junction_area_um2"), "um^2"),
-        ("Critical current", simulation.get("critical_current_ua"), "uA"),
-        ("Josephson inductance", simulation.get("josephson_inductance_ph"), "pH"),
-        ("Shunt capacitance", simulation.get("shunt_capacitance_ff"), "fF"),
+        ("Status", simulation.get("status"), ""),
+        ("Solver", simulation.get("engine"), ""),
+        ("Message", simulation.get("reason") or "Analytical estimate only", ""),
+        ("Output", simulation.get("result_path"), ""),
     ]
     card_width = (right - left - 72) / 2
     card_height = (bottom - top - 72) / 2
@@ -230,7 +197,10 @@ def _draw_summary(
         y1 = y0 + card_height
         draw.rounded_rectangle((x0, y0, x1, y1), radius=20, fill="#f5f5f7")
         draw.text((x0 + 22, y0 + 22), label, fill="#515154", font=label_font)
-        rendered = "n/a" if value is None else f"{float(value):.6g} {unit}"
+        if isinstance(value, (int, float)):
+            rendered = f"{float(value):.6g} {unit}".strip()
+        else:
+            rendered = "n/a" if value is None else str(value)[:42]
         draw.text((x0 + 22, y0 + 60), rendered, fill="#1d1d1f", font=value_font)
 
 

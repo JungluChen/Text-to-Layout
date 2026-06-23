@@ -91,7 +91,37 @@ def test_optuna_executes(tmp_path):
 
 
 @pytest.mark.skipif(find_spec("skrf") is None, reason="scikit-rf not installed")
-def test_scikit_rf_reads_touchstone(tmp_path):
+def test_scikit_rf_reads_real_touchstone(tmp_path):
+    """scikit-rf integration requires a real Touchstone file — no synthetic fallback."""
+    from text_to_gds.rf import write_rf_network_artifacts
+
+    # Write a real passive Touchstone file as the solver would produce
+    ts_path = tmp_path / "solver.s2p"
+    ts_path.write_text(
+        "# GHZ S DB R 50\n"
+        "5.0 -20.0 0 -1.0 0 -1.0 0 -20.0 0\n"
+        "5.5 -22.0 0 -1.2 0 -1.2 0 -22.0 0\n",
+        encoding="utf-8",
+    )
+
+    result = write_rf_network_artifacts(
+        {"touchstone_path": str(ts_path)},
+        touchstone_path=tmp_path / "n.s2p",
+        report_path=tmp_path / "n.json",
+        plot_path=tmp_path / "n.png",
+        csv_path=tmp_path / "n.csv",
+    )
+    assert result["status"] == "ok"
+    assert result["source"] == "solver_touchstone"
+    skrf = result["scikit_rf"]
+    assert skrf is not None
+    assert skrf.get("available") is True
+    assert skrf.get("nports") == 2
+
+
+@pytest.mark.skipif(find_spec("skrf") is None, reason="scikit-rf not installed")
+def test_synthetic_simulation_returns_skipped(tmp_path):
+    """Simulation data without real S-parameters must return status=skipped, never fake curves."""
     from text_to_gds.rf import write_rf_network_artifacts
 
     simulation = {
@@ -108,10 +138,10 @@ def test_scikit_rf_reads_touchstone(tmp_path):
         plot_path=tmp_path / "n.png",
         csv_path=tmp_path / "n.csv",
     )
-    skrf = result["scikit_rf"]
-    assert skrf is not None
-    assert skrf.get("available") is True
-    assert skrf.get("nports") == 2
+    assert result["status"] == "skipped"
+    assert "synthetic" in result["reason"].lower() or "no real" in result["reason"].lower()
+    # No Touchstone file must be written
+    assert not (tmp_path / "n.s2p").exists()
 
 
 def test_qiskit_metal_executes_or_skips_cleanly(tmp_path):

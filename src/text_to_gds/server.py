@@ -7,6 +7,7 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
+from text_to_gds.backends import get_backend, list_backends as list_backend_registry
 from text_to_gds.adapters import (
     josephsoncircuits_plan_from_sidecar,
     josim_netlist_from_sidecar,
@@ -211,6 +212,31 @@ def compile_layout(
         "screenshot_path": str(screenshot_path),
         "sidecar_path": str(sidecar_path),
     }
+
+
+@mcp.tool()
+def list_professional_backends() -> list[dict[str, object]]:
+    """List professional EDA/simulation backends and their local availability."""
+    return list_backend_registry()
+
+
+@mcp.tool()
+def run_backend_operation(
+    backend_name: str,
+    operation: str,
+    request: dict[str, Any] | None = None,
+    output_name: str = "backend_run",
+) -> dict[str, Any]:
+    """Run a universal backend operation: generate, simulate, or extract."""
+    backend = get_backend(backend_name)
+    output_dir = _artifact_path(output_name, ".json").with_suffix("")
+    if operation == "generate":
+        return backend.generate(request or {}, output_dir=output_dir)
+    if operation == "simulate":
+        return backend.simulate(request or {}, output_dir=output_dir)
+    if operation == "extract":
+        return backend.extract(request or {}, output_dir=output_dir)
+    raise ValueError("operation must be one of: generate, simulate, extract")
 
 
 @mcp.tool()
@@ -1859,7 +1885,7 @@ def run_design_workflow(
     prompt: str,
     output_name: str = "ljpa_seed.gds",
     parameters: dict[str, Any] | None = None,
-    jc_ua_per_um2: float = 2.0,
+    jc_ua_per_um2: float | None = 2.0,
     simulator: str = "mock_jj",
     analysis_mode: str = "auto",
     pump_current_fraction: float = 0.017,
@@ -1871,8 +1897,86 @@ def run_design_workflow(
     flux_sweep_points: int = 101,
     flux_period_current_ma: float | None = None,
     flux_mutual_inductance_ph: float | None = None,
+    # Design-intent physics inputs
+    substrate: str | None = None,
+    epsilon_r: float | None = None,
+    substrate_thickness_um: float | None = None,
+    ground_width_um: float | None = None,
+    package_clearance_um: float | None = None,
+    pump_frequency_ghz: float | None = None,
+    pump_power_dbm: float | None = None,
+    pump_mode: str | None = None,
+    impedance_tolerance_ohm: float = 2.5,
+    literature_comparison: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Run a local prompt-to-layout workflow and write a browser workbench."""
+    """Run a local prompt-to-layout workflow and write a browser workbench.
+
+    Phase 1 — design_intent: synthesize traceable physics targets.
+    If design_intent fails (missing Jc or geometry), returns immediately
+    with stage="design_intent" and writes {stem}.design_intent.json.
+    No GDS is written unless design_intent passes.
+
+    Phase 2 — compile, simulate, review.
+    """
+    from text_to_gds.design_intent import synthesize_design_intent, write_design_intent
+
+    output_stem = Path(output_name).stem
+    intent_path = ARTIFACT_ROOT / f"{output_stem}.design_intent.json"
+    ARTIFACT_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # Build inputs dict for design_intent
+    intent_inputs: dict[str, Any] = {}
+    if jc_ua_per_um2 is not None:
+        intent_inputs["jc_ua_per_um2"] = jc_ua_per_um2
+    if substrate is not None:
+        intent_inputs["substrate"] = substrate
+    if epsilon_r is not None:
+        intent_inputs["epsilon_r"] = epsilon_r
+    if substrate_thickness_um is not None:
+        intent_inputs["substrate_thickness_um"] = substrate_thickness_um
+    if ground_width_um is not None:
+        intent_inputs["ground_width_um"] = ground_width_um
+    if package_clearance_um is not None:
+        intent_inputs["package_clearance_um"] = package_clearance_um
+    if pump_frequency_ghz is not None:
+        intent_inputs["pump_frequency_ghz"] = pump_frequency_ghz
+    if pump_power_dbm is not None:
+        intent_inputs["pump_power_dbm"] = pump_power_dbm
+    if pump_mode is not None:
+        intent_inputs["pump_mode"] = pump_mode
+    intent_inputs["impedance_tolerance_ohm"] = impedance_tolerance_ohm
+    if parameters:
+        intent_inputs.update(parameters)
+
+    # Map pcell-parameter naming conventions to design_intent naming conventions.
+    _param_aliases = {
+        "junction_width": "junction_width_um",
+        "junction_height": "junction_height_um",
+        "cpw_trace_width": "center_width_um",
+        "cpw_gap": "gap_um",
+    }
+    for src, dst in _param_aliases.items():
+        if src in intent_inputs and dst not in intent_inputs:
+            intent_inputs[dst] = intent_inputs[src]
+
+    # Default wirebond_pads when package_clearance_um is provided (implies wired packaging).
+    if "package_clearance_um" in intent_inputs and "wirebond_pads" not in intent_inputs:
+        intent_inputs["wirebond_pads"] = True
+
+    design_intent = synthesize_design_intent(prompt, inputs=intent_inputs or None)
+    write_design_intent(design_intent, intent_path)
+
+    if design_intent["status"] == "failed":
+        return {
+            "schema": "text-to-gds.design-workflow.v1",
+            "stage": "design_intent",
+            "status": "failed",
+            "reason": "design_intent failed; see blockers",
+            "blockers": design_intent.get("blockers", []),
+            "design_intent": design_intent,
+            "design_intent_path": str(intent_path),
+        }
+
     plan = plan_ljpa(prompt)
     target = plan["target"]
     pcell_parameters = {
@@ -1880,9 +1984,21 @@ def run_design_workflow(
         "target_bandwidth_mhz": target.get("bandwidth_mhz") or 500.0,
         "target_gain_db": target.get("gain_db") or 20.0,
     }
-    effective_jc = jc_ua_per_um2
+    effective_jc = jc_ua_per_um2 if jc_ua_per_um2 is not None else 2.0
     process_plan = plan.get("fabrication_process")
-    provided_parameters = parameters or {}
+    # Strip design-intent-only physics keys that are not valid PCell parameters.
+    _DESIGN_INTENT_ONLY_KEYS = {
+        "epsilon_r", "substrate_thickness_um", "ground_width_um",
+        "center_width_um", "gap_um", "substrate",
+        "junction_width_um", "junction_height_um",
+        "pump_frequency_ghz", "pump_power_dbm", "pump_mode",
+        "package_clearance_um", "wirebond_pads", "jc_ua_per_um2",
+        "impedance_tolerance_ohm",
+    }
+    provided_parameters = {
+        k: v for k, v in (parameters or {}).items()
+        if k not in _DESIGN_INTENT_ONLY_KEYS
+    }
     if process_plan:
         effective_jc = float(process_plan["process"]["measured_Jc_ua_per_um2"])
         if not {"junction_width", "junction_height"}.intersection(provided_parameters):
@@ -1904,24 +2020,35 @@ def run_design_workflow(
     magic = run_magic_extract(compiled["gds_path"], output_name=f"{Path(output_name).stem}.magic")
     preview = export_3d_preview(compiled["gds_path"])
     cad = export_cad_artifacts(compiled["gds_path"])
-    simulation = run_simulation(
-        compiled["sidecar_path"],
-        simulator=simulator,
-        jc_ua_per_um2=effective_jc,
-        analysis_mode=analysis_mode,
-        pump_current_fraction=pump_current_fraction,
-        coupling_capacitance_ff=coupling_capacitance_ff,
-        resonator_capacitance_ff=resonator_capacitance_ff,
-        target_frequency_ghz=target.get("center_frequency_ghz"),
-        target_gain_db=target.get("gain_db") or 20.0,
-        target_bandwidth_mhz=target.get("bandwidth_mhz"),
-        flux_bias_phi0=flux_bias_phi0,
-        squid_asymmetry=squid_asymmetry,
-        flux_sweep_span_phi0=flux_sweep_span_phi0,
-        flux_sweep_points=flux_sweep_points,
-        flux_period_current_ma=flux_period_current_ma,
-        flux_mutual_inductance_ph=flux_mutual_inductance_ph,
-    )
+    if simulator == "none":
+        simulation = {
+            "status": "skipped",
+            "reason": "solver execution unavailable",
+            "result_path": str(ARTIFACT_ROOT / f"{output_stem}.simulation_skipped.json"),
+        }
+        import json as _json
+        Path(simulation["result_path"]).write_text(
+            _json.dumps(simulation), encoding="utf-8"
+        )
+    else:
+        simulation = run_simulation(
+            compiled["sidecar_path"],
+            simulator=simulator,
+            jc_ua_per_um2=effective_jc,
+            analysis_mode=analysis_mode,
+            pump_current_fraction=pump_current_fraction,
+            coupling_capacitance_ff=coupling_capacitance_ff,
+            resonator_capacitance_ff=resonator_capacitance_ff,
+            target_frequency_ghz=target.get("center_frequency_ghz"),
+            target_gain_db=target.get("gain_db") or 20.0,
+            target_bandwidth_mhz=target.get("bandwidth_mhz"),
+            flux_bias_phi0=flux_bias_phi0,
+            squid_asymmetry=squid_asymmetry,
+            flux_sweep_span_phi0=flux_sweep_span_phi0,
+            flux_sweep_points=flux_sweep_points,
+            flux_period_current_ma=flux_period_current_ma,
+            flux_mutual_inductance_ph=flux_mutual_inductance_ph,
+        )
     rf = export_rf_network(
         simulation["result_path"],
         output_name=Path(output_name).stem,
@@ -1935,6 +2062,27 @@ def run_design_workflow(
         cad_path=cad["report_path"],
         output_name=f"{Path(output_name).stem}.validation.json",
     )
+
+    # Review committee — includes literature reviewer if literature_comparison is provided.
+    import json as _json
+    from text_to_gds.review.committee import review_committee as _review_committee
+    sidecar_dict = {}
+    try:
+        sidecar_dict = _json.loads(Path(compiled["sidecar_path"]).read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        pass
+    review_evidence = {
+        "device": "lumped_element_jpa_seed",
+        "sidecar": sidecar_dict,
+        "drc": drc,
+        "simulation": simulation,
+    }
+    if literature_comparison is not None:
+        review_evidence["literature_comparison"] = literature_comparison
+    committee_result = _review_committee(review_evidence)
+    review_report_path = ARTIFACT_ROOT / f"{output_stem}.review.json"
+    review_report_path.write_text(_json.dumps(committee_result, indent=2), encoding="utf-8")
+    committee_result["result_path"] = str(review_report_path)
 
     workbench_path = _artifact_path(f"{Path(output_name).stem}.workbench.html", ".html")
     workbench = write_design_workbench(
@@ -1953,9 +2101,16 @@ def run_design_workflow(
         rf=rf,
     )
 
+    workflow_status = _workflow_status_from_simulation(simulation)
+    if simulation.get("status") == "skipped":
+        workflow_status = "failed"
+
     return {
-        "schema": "text-to-gds.design-workflow.v0",
-        "status": _workflow_status_from_simulation(simulation),
+        "schema": "text-to-gds.design-workflow.v1",
+        "status": workflow_status,
+        "stage": "complete",
+        "design_intent": design_intent,
+        "review": committee_result,
         "prompt": prompt,
         "plan": plan,
         "pcell": "lumped_element_jpa_seed",
@@ -1992,6 +2147,16 @@ def run_optimized_design_workflow(
     flux_sweep_points: int = 101,
     flux_period_current_ma: float | None = None,
     flux_mutual_inductance_ph: float | None = None,
+    # Design-intent physics inputs (forwarded to run_design_workflow)
+    substrate: str | None = None,
+    epsilon_r: float | None = None,
+    substrate_thickness_um: float | None = None,
+    ground_width_um: float | None = None,
+    package_clearance_um: float | None = None,
+    pump_frequency_ghz: float | None = None,
+    pump_power_dbm: float | None = None,
+    pump_mode: str | None = None,
+    impedance_tolerance_ohm: float = 8.0,
 ) -> dict[str, Any]:
     """Optimize first-pass LJPA geometry with a local surrogate, then run workflow."""
     plan = plan_ljpa(prompt)
@@ -2043,10 +2208,20 @@ def run_optimized_design_workflow(
         flux_sweep_points=flux_sweep_points,
         flux_period_current_ma=flux_period_current_ma,
         flux_mutual_inductance_ph=flux_mutual_inductance_ph,
+        substrate=substrate,
+        epsilon_r=epsilon_r,
+        substrate_thickness_um=substrate_thickness_um,
+        ground_width_um=ground_width_um,
+        package_clearance_um=package_clearance_um,
+        pump_frequency_ghz=pump_frequency_ghz,
+        pump_power_dbm=pump_power_dbm,
+        pump_mode=pump_mode,
+        impedance_tolerance_ohm=impedance_tolerance_ohm,
     )
     workflow["optimization"] = optimization
     workflow["status"] = "optimized_with_local_surrogate"
-    workflow["simulation_status"] = _workflow_status_from_simulation(workflow["simulation"])
+    simulation_result = workflow.get("simulation", {"status": "skipped"})
+    workflow["simulation_status"] = _workflow_status_from_simulation(simulation_result)
     return workflow
 
 

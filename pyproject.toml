@@ -17,21 +17,25 @@ dependencies = [
   "mcp[cli]>=1.2.0",
   "numpy>=1.26",
   "pillow>=10.0",
+  "pydantic>=2.0",
   "pyyaml>=6.0",
   "trimesh>=4.0",
 ]
 
 [project.optional-dependencies]
+layout = ["kqcircuits", "qiskit-metal"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
-metal = ["quantum-metal>=0.7"]
+metal = ["qiskit-metal"]
 epr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
 mesh = ["gmsh>=4.11"]
 research = [
+  "kqcircuits",
   "optuna>=4.0",
+  "qiskit-metal",
   "scikit-rf>=1.0",
   "qcodes>=0.50",
   "scqubits>=4.0",

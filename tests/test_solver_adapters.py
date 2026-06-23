@@ -36,7 +36,7 @@ def test_josephsoncircuits_adapter_availability() -> None:
     adapter = JosephsonCircuitsAdapter()
     assert adapter.name == "JosephsonCircuits"
     result = adapter.execute({})
-    assert result.status in ("skipped", "success", "failed")
+    assert result.status in ("SKIPPED", "EXECUTED", "FAILED")
     assert result.solver == "JosephsonCircuits"
 
 
@@ -46,5 +46,5 @@ def test_openems_adapter_availability() -> None:
     adapter = OpenEMSAdapter()
     assert adapter.name == "openEMS"
     result = adapter.execute({})
-    assert result.status in ("skipped", "success", "failed")
+    assert result.status in ("SKIPPED", "EXECUTED", "FAILED")
     assert result.solver == "openEMS"

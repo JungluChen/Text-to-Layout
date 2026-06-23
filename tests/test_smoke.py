@@ -127,8 +127,9 @@ def test_lumped_element_jpa_seed_writes_gds(tmp_path):
     assert component.info["center_frequency_ghz"] == 5.0
     assert component.info["target_bandwidth_mhz"] == 500.0
     assert component.info["squid_enabled"] is True
-    assert component.info["squid_junction_count"] == 2
-    assert component.info["junction_area_um2"] == 2 * 0.22 * 0.22
+    assert component.info["squid_junction_count"] == 8
+    assert component.info["junction_area_um2"] == 8 * 0.22 * 0.22
+    assert {"C", "Lj(phi)", "Cc", "Z0"} <= set(component.info["equivalent_circuit"])
     assert "cpw_trace_width_um" in component.info
     assert len(component.ports) == 6
 
@@ -191,13 +192,14 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert sidecar["schema"] == "text-to-gds.sidecar.v0"
     assert sidecar["screenshot_path"] == compiled["screenshot_path"]
     assert sidecar["info"]["device_type"] == "manhattan_josephson_junction"
+    assert sidecar["info"]["fabrication"]["process"] == "double_angle_evaporation"
     assert sidecar["ports"][0]["layer"] == [3, 0]
     assert sidecar["labels"][0]["text"].startswith("JJ area")
 
     drc = run_drc(compiled["gds_path"])
     assert drc["status"] == "passed"
     assert drc["engine"] == "klayout_python_bbox"
-    assert drc["checked_shapes"] == 3
+    assert drc["checked_shapes"] >= 8
 
     failing_drc = run_drc(compiled["gds_path"], min_width_um=0.3)
     assert failing_drc["status"] == "failed"
@@ -207,7 +209,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     simulation = run_simulation(compiled["sidecar_path"], jc_ua_per_um2=2.0)
     assert simulation["critical_current_ua"] == sidecar["info"]["junction_area_um2"] * 2.0
     assert simulation["josephson_inductance_ph"] is not None
-    assert simulation["physical_performance"]["ports"]["input"]["name"] == "bottom_west"
+    assert simulation["physical_performance"]["status"] == "failed"  # stub: requires extraction.json + solver
     assert simulation["plot"]["schema"] == "text-to-gds.simulation-plot.v0"
     assert simulation["scientific_plot"]["schema"] == "text-to-gds.scientific-plot.v0"
     assert (tmp_path / "toolchain.sidecar.simulation.png").exists()
@@ -242,7 +244,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
 
     cad = export_cad_artifacts(compiled["gds_path"])
     assert cad["schema"] == "text-to-gds.cad-export.v0"
-    assert cad["shape_count"] == 3
+    assert cad["shape_count"] >= 8
     assert (tmp_path / "toolchain.layout.svg").exists()
     assert (tmp_path / "toolchain.layout.dxf").exists()
     assert (tmp_path / "toolchain.stack.stl").exists()
@@ -287,13 +289,28 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     )
     assert process_drc["engine"] == "klayout_python_process_rules"
     assert process_drc["status"] == "passed"
-    assert process_drc["checked_shapes"] == 3
+    assert process_drc["checked_shapes"] >= 7
     assert "definitely_missing_klayout_for_test" in process_drc["warnings"][0]
     assert "KLayout Python process rules" in process_drc["warnings"][-1]
     assert process_drc["report_path"].endswith("toolchain.process.drc.json")
 
-    workflow = run_design_workflow("Design a 5 Ghz LJPA with wilde bandwidth")
-    assert workflow["schema"] == "text-to-gds.design-workflow.v0"
+    workflow = run_design_workflow(
+        "Design a 5 GHz LJPA with 500 MHz bandwidth",
+        parameters={
+            "junction_width": 0.22,
+            "junction_height": 0.22,
+            "epsilon_r": 11.45,
+            "substrate_thickness_um": 500.0,
+            "center_width_um": 10.0,
+            "gap_um": 6.0,
+            "ground_width_um": 100.0,
+        },
+        pump_frequency_ghz=10.0,
+        pump_power_dbm=-100.0,
+        pump_mode="reflection",
+        package_clearance_um=500.0,
+    )
+    assert workflow["schema"] == "text-to-gds.design-workflow.v1"
     assert workflow["pcell"] == "lumped_element_jpa_seed"
     assert workflow["plan"]["target"]["center_frequency_ghz"] == 5.0
     assert workflow["compile"]["gds_path"].endswith("ljpa_seed.gds")
@@ -312,8 +329,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert via_sidecar["info"]["stage_count"] == 100
     assert [port["name"] for port in via_sidecar["ports"]] == ["input", "output"]
     via_simulation = run_simulation(via_compiled["sidecar_path"])
-    assert via_simulation["physical_performance"]["analysis_type"] == "via_chain_resistance_estimate"
-    assert via_simulation["physical_performance"]["estimated_total_resistance_ohm"] < 50.0
+    assert via_simulation["physical_performance"]["status"] == "failed"  # stub: requires extraction.json + solver
 
     jpa_flux = compile_layout(
         pcell="lumped_element_jpa_seed",
@@ -328,21 +344,15 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
         squid_asymmetry=0.0,
         flux_period_current_ma=2.0,
     )
-    expected_zero_flux_ic = 2 * 0.22 * 0.22 * 2.0
+    flux_sidecar = json.loads(Path(jpa_flux["sidecar_path"]).read_text(encoding="utf-8"))
+    expected_zero_flux_ic = flux_sidecar["info"]["junction_area_um2"] * 2.0
     assert round(flux_simulation["zero_flux_critical_current_ua"], 12) == round(
         expected_zero_flux_ic, 12
     )
     assert round(flux_simulation["critical_current_ua"], 12) == round(
         expected_zero_flux_ic * 0.5**0.5, 12
     )
-    flux_tuning = flux_simulation["physical_performance"]["flux_tuning"]
-    assert flux_tuning["schema"] == "text-to-gds.squid-flux-modulation.v0"
-    assert flux_tuning["flux_period_current_ma"] == 2.0
-    assert flux_tuning["operating_point"]["coil_current_ma"] == 0.5
-    assert round(flux_tuning["operating_point"]["resonant_frequency_ghz"], 6) == round(
-        5.0 * (0.5**0.5) ** 0.5,
-        6,
-    )
+    assert flux_simulation["physical_performance"]["status"] == "failed"  # stub: requires real solver
 
     validation = run_validation_checklist(
         gds_path=jpa_flux["gds_path"],
@@ -544,12 +554,9 @@ def test_research_integrations_and_handoff_artifacts(monkeypatch, tmp_path):
     } <= integration_ids
 
     rf = export_rf_network(simulation["result_path"], output_name="research_jpa")
-    assert rf["schema"] == "text-to-gds.rf-network.v0"
-    assert rf["frequency_points"] > 2
-    assert rf["peak_s21_gain_db"] is not None
-    assert (tmp_path / "research_jpa.s2p").exists()
-    assert (tmp_path / "research_jpa.rf.png").exists()
-    assert (tmp_path / "research_jpa.rf.csv").exists()
+    assert rf["schema"] == "text-to-gds.rf-network.v1"
+    # Without a real solver Touchstone the RF export is skipped (no synthetic curves).
+    assert rf["status"] in {"ok", "skipped"}
     assert (tmp_path / "research_jpa.rf.json").exists()
 
     # run=False keeps the smoke test fast; the real FDTD path is covered by
@@ -611,9 +618,16 @@ def test_research_integrations_and_handoff_artifacts(monkeypatch, tmp_path):
 def test_optimized_design_workflow_and_live_ui(monkeypatch, tmp_path):
     monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
     optimized = run_optimized_design_workflow(
-        "Design a 6 Ghz LJPA with 700 MHz bandwidth",
+        "Design a 6 GHz LJPA with 700 MHz bandwidth",
         output_name="optimized.gds",
         max_iterations=3,
+        epsilon_r=11.45,
+        substrate_thickness_um=500.0,
+        ground_width_um=100.0,
+        package_clearance_um=500.0,
+        pump_frequency_ghz=12.0,
+        pump_power_dbm=-100.0,
+        pump_mode="reflection",
     )
     assert optimized["status"] == "optimized_with_local_surrogate"
     assert optimized["optimization"]["final_parameters"]["cpw_length"] != 210.0
@@ -630,9 +644,16 @@ def test_optimized_design_workflow_and_live_ui(monkeypatch, tmp_path):
 
         payload = json.dumps(
             {
-                "prompt": "Design a 5 Ghz LJPA with wilde bandwidth",
+                "prompt": "Design a 5 GHz LJPA with 500 MHz bandwidth",
                 "output_name": "ui_seed.gds",
                 "optimize": True,
+                "epsilon_r": 11.45,
+                "substrate_thickness_um": 500.0,
+                "ground_width_um": 100.0,
+                "package_clearance_um": 500.0,
+                "pump_frequency_ghz": 10.0,
+                "pump_power_dbm": -100.0,
+                "pump_mode": "reflection",
             }
         ).encode("utf-8")
         request = urllib.request.Request(

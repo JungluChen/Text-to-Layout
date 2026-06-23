@@ -21,6 +21,12 @@ def lumped_element_jpa_seed(
     cpw_gap: float = 6.0,
     flux_line_length: float = 120.0,
     flux_line_width: float = 1.5,
+    squid_count: int = 4,
+    squid_pitch_um: float = 22.0,
+    shunt_capacitor_width_um: float = 70.0,
+    shunt_capacitor_gap_um: float = 3.0,
+    coupling_capacitor_length_um: float = 42.0,
+    coupling_capacitor_gap_um: float = 3.0,
     inductor_turns: int = 6,
     inductor_segment_length: float = 24.0,
     inductor_trace_width: float = 1.0,
@@ -40,11 +46,18 @@ def lumped_element_jpa_seed(
         "cpw_gap": cpw_gap,
         "flux_line_length": flux_line_length,
         "flux_line_width": flux_line_width,
+        "squid_pitch_um": squid_pitch_um,
+        "shunt_capacitor_width_um": shunt_capacitor_width_um,
+        "shunt_capacitor_gap_um": shunt_capacitor_gap_um,
+        "coupling_capacitor_length_um": coupling_capacitor_length_um,
+        "coupling_capacitor_gap_um": coupling_capacitor_gap_um,
         "inductor_segment_length": inductor_segment_length,
         "inductor_trace_width": inductor_trace_width,
         "inductor_pitch": inductor_pitch,
     }.items():
         require_positive(name, value)
+    if squid_count < 1:
+        raise ValueError("squid_count must be >= 1")
     if inductor_turns < 2:
         raise ValueError(f"inductor_turns must be >= 2, got {inductor_turns}")
 
@@ -60,14 +73,27 @@ def lumped_element_jpa_seed(
     )
     feedline.move((0.0, 0.0))
 
-    squid = c << dc_squid_pair(
-        junction_width=junction_width,
-        junction_height=junction_height,
-        lead_width=1.0,
-        loop_width=14.0,
-        loop_height=10.0,
+    squid_refs = []
+    squid_x0 = -(squid_count - 1) * squid_pitch_um / 2.0
+    for index in range(squid_count):
+        squid = c << dc_squid_pair(
+            junction_width=junction_width,
+            junction_height=junction_height,
+            lead_width=1.0,
+            loop_width=14.0,
+            loop_height=10.0,
+        )
+        squid.move((squid_x0 + index * squid_pitch_um, -28.0))
+        squid_refs.append(squid)
+    c.add_polygon(
+        [
+            (squid_x0 - 10.0, -28.5),
+            (squid_x0 + (squid_count - 1) * squid_pitch_um + 10.0, -28.5),
+            (squid_x0 + (squid_count - 1) * squid_pitch_um + 10.0, -27.5),
+            (squid_x0 - 10.0, -27.5),
+        ],
+        layer=M2,
     )
-    squid.move((0.0, -28.0))
 
     inductor = c << meander_inductor(
         num_turns=inductor_turns,
@@ -87,17 +113,58 @@ def lumped_element_jpa_seed(
     )
     flux.move((0.0, 24.0))
 
+    cap_y = -78.0
+    cap_half = shunt_capacitor_width_um / 2.0
+    c.add_polygon(
+        [(-cap_half, cap_y), (cap_half, cap_y), (cap_half, cap_y + 10.0), (-cap_half, cap_y + 10.0)],
+        layer=M2,
+    )
+    c.add_polygon(
+        [
+            (-cap_half, cap_y - shunt_capacitor_gap_um - 10.0),
+            (cap_half, cap_y - shunt_capacitor_gap_um - 10.0),
+            (cap_half, cap_y - shunt_capacitor_gap_um),
+            (-cap_half, cap_y - shunt_capacitor_gap_um),
+        ],
+        layer=M1,
+    )
+    for sign in (-1.0, 1.0):
+        x = sign * (cpw_length / 2.0 - coupling_capacitor_length_um / 2.0)
+        c.add_polygon(
+            [
+                (x - coupling_capacitor_length_um / 2.0, coupling_capacitor_gap_um),
+                (x + coupling_capacitor_length_um / 2.0, coupling_capacitor_gap_um),
+                (x + coupling_capacitor_length_um / 2.0, coupling_capacitor_gap_um + 2.0),
+                (x - coupling_capacitor_length_um / 2.0, coupling_capacitor_gap_um + 2.0),
+            ],
+            layer=M2,
+        )
+
     c.add_port(name="rf_in", port=feedline.ports["west"])
     c.add_port(name="rf_out", port=feedline.ports["east"])
     c.add_port(name="flux_in", port=flux.ports["bias_west"])
     c.add_port(name="flux_out", port=flux.ports["bias_east"])
-    c.add_port(name="squid_bottom", port=squid.ports["bottom"])
-    c.add_port(name="squid_top", port=squid.ports["top"])
+    c.add_port(name="squid_bottom", port=squid_refs[0].ports["bottom"])
+    c.add_port(name="squid_top", port=squid_refs[-1].ports["top"])
 
     single_junction_area_um2 = junction_width * junction_height
-    junction_area_um2 = 2.0 * single_junction_area_um2
+    junction_area_um2 = 2.0 * squid_count * single_junction_area_um2
     squid_loop_area_um2 = (14.0 - 1.0) * (10.0 - 1.0)
     estimated_resonator_length_um = 75_000.0 / center_frequency_ghz
+    shunt_capacitance_ff = (
+        8.8541878128e-12
+        * 6.2
+        * (shunt_capacitor_width_um * 10.0 * 1e-12)
+        / (shunt_capacitor_gap_um * 1e-6)
+        * 1e15
+    )
+    coupling_capacitance_ff = (
+        8.8541878128e-12
+        * 6.2
+        * (coupling_capacitor_length_um * 2.0 * 1e-12)
+        / (coupling_capacitor_gap_um * 1e-6)
+        * 1e15
+    )
 
     c.info["device_type"] = "lumped_element_jpa_seed"
     c.info["center_frequency_ghz"] = center_frequency_ghz
@@ -107,7 +174,9 @@ def lumped_element_jpa_seed(
     c.info["active_height_um"] = active_height_um
     c.info["squid_enabled"] = True
     c.info["squid_model"] = "low_loop_inductance_dc_squid"
-    c.info["squid_junction_count"] = 2
+    c.info["squid_count"] = squid_count
+    c.info["squid_pitch_um"] = squid_pitch_um
+    c.info["squid_junction_count"] = 2 * squid_count
     c.info["single_junction_area_um2"] = single_junction_area_um2
     c.info["junction_area_um2"] = junction_area_um2
     c.info["junction_width_um"] = junction_width
@@ -120,11 +189,53 @@ def lumped_element_jpa_seed(
     c.info["cpw_gap_um"] = cpw_gap
     c.info["flux_line_length_um"] = flux_line_length
     c.info["flux_line_width_um"] = flux_line_width
+    c.info["shunt_capacitance_ff"] = shunt_capacitance_ff
+    c.info["coupling_capacitance_ff"] = coupling_capacitance_ff
+    c.info["shunt_capacitor_width_um"] = shunt_capacitor_width_um
+    c.info["shunt_capacitor_gap_um"] = shunt_capacitor_gap_um
+    c.info["coupling_capacitor_length_um"] = coupling_capacitor_length_um
+    c.info["coupling_capacitor_gap_um"] = coupling_capacitor_gap_um
     c.info["inductor_turns"] = inductor_turns
     c.info["inductor_segment_length_um"] = inductor_segment_length
     c.info["inductor_trace_width_um"] = inductor_trace_width
     c.info["inductor_pitch_um"] = inductor_pitch
     c.info["estimated_quarter_wave_length_um"] = estimated_resonator_length_um
+    c.info["equivalent_circuit"] = {
+        "C": {"value": shunt_capacitance_ff, "unit": "fF", "role": "shunt_capacitor"},
+        "Lj(phi)": {
+            "unit": "H",
+            "role": "SQUID_array_flux_tunable_inductance",
+            "junction_count": 2 * squid_count,
+        },
+        "Cc": {"value": coupling_capacitance_ff, "unit": "fF", "role": "input_output_coupling"},
+        "Z0": {"value": 50.0, "unit": "ohm", "role": "input_output_CPW"},
+    }
+    c.info["lineage"] = {
+        "C": {
+            "value": shunt_capacitance_ff,
+            "unit": "fF",
+            "method_label": "analytical",
+            "source": "GDS",
+            "formula": "C = eps0*eps_eff*A/gap",
+            "confidence": 0.7,
+        },
+        "Cc": {
+            "value": coupling_capacitance_ff,
+            "unit": "fF",
+            "method_label": "analytical",
+            "source": "GDS",
+            "formula": "Cc = eps0*eps_eff*A/gap",
+            "confidence": 0.7,
+        },
+        "Z0": {
+            "value": 50.0,
+            "unit": "ohm",
+            "method_label": "analytical",
+            "source": "GDS",
+            "formula": "nominal CPW port impedance; verify with EM solver for signoff",
+            "confidence": 0.6,
+        },
+    }
     c.info["design_notes"] = [
         "Seed layout for agent iteration; not a signoff LJPA.",
         "Use extracted sidecar parameters to build external harmonic-balance/transient models.",
@@ -135,6 +246,8 @@ def lumped_element_jpa_seed(
         "rf_signal": M3,
         "flux_bias": M2,
         "inductor": M2,
+        "shunt_capacitor": M2,
+        "coupling_capacitor": M2,
         "junction_bottom": M1,
         "junction_barrier": JJ,
         "junction_top": M2,

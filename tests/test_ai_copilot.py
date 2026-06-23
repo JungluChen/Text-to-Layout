@@ -69,3 +69,45 @@ def test_design_intent_to_dict():
     assert d["device"] == "jpa"
     assert d["parameters"]["frequency_ghz"] == 5.0
     assert d["technology"] == "ncu_alox_2026"
+
+
+def test_copilot_creation():
+    from text_to_gds.ai.copilot import AICopilot, CopilotResult
+
+    copilot = AICopilot(technology="gdsfactory")
+    assert copilot.technology == "gdsfactory"
+    assert copilot.solvers == {}
+
+    result = CopilotResult(
+        status="partial",
+        intent=None,
+        gds_path=None,
+        extraction=None,
+        simulations=None,
+        errors=["no solvers registered"],
+    )
+    assert result.status == "partial"
+    assert result.errors == ["no solvers registered"]
+
+
+def test_copilot_register_solver():
+    from text_to_gds.ai.copilot import AICopilot
+
+    copilot = AICopilot(technology="gdsfactory")
+
+    class DummySolver:
+        name = "dummy"
+        def is_available(self):
+            return True
+
+    copilot.register_solver("dummy", DummySolver())
+    assert "dummy" in copilot.solvers
+
+
+def test_copilot_execute_no_parsers():
+    from text_to_gds.ai.copilot import AICopilot
+
+    copilot = AICopilot(technology="gdsfactory")
+    result = copilot.execute("Design a 5 GHz transmon")
+    assert result.status == "partial"
+    assert len(result.errors) > 0

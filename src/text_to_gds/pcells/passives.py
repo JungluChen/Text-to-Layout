@@ -55,12 +55,58 @@ def _layer_height_nm(layer: Layer) -> float:
     return 0.0
 
 
+def _agm(a: float, b: float, *, tolerance: float = 1e-15) -> float:
+    while abs(a - b) > tolerance:
+        a, b = (a + b) / 2.0, math.sqrt(a * b)
+    return a
+
+
+def _elliptic_k_complete(k: float) -> float:
+    if not 0.0 < k < 1.0:
+        raise ValueError("elliptic modulus must be between 0 and 1")
+    return math.pi / (2.0 * _agm(1.0, math.sqrt(1.0 - k * k)))
+
+
+def cpw_conformal_mapping(
+    trace_width: float,
+    gap: float,
+    effective_permittivity: float,
+) -> dict[str, float]:
+    """Return quasi-static CPW impedance values from conformal mapping."""
+    require_positive("trace_width", trace_width)
+    require_positive("gap", gap)
+    require_positive("effective_permittivity", effective_permittivity)
+    k = trace_width / (trace_width + 2.0 * gap)
+    kp = math.sqrt(1.0 - k * k)
+    k_ratio = _elliptic_k_complete(kp) / _elliptic_k_complete(k)
+    z0_ohm = 30.0 * math.pi * k_ratio / math.sqrt(effective_permittivity)
+    phase_velocity_m_per_s = 299_792_458.0 / math.sqrt(effective_permittivity)
+    return {
+        "z0_ohm": z0_ohm,
+        "effective_permittivity": effective_permittivity,
+        "phase_velocity_m_per_s": phase_velocity_m_per_s,
+        "elliptic_modulus": k,
+    }
+
+
+def _lineage(value: float, unit: str, formula: str, *, confidence: float = 0.85) -> dict[str, float | str]:
+    return {
+        "value": value,
+        "unit": unit,
+        "method_label": "analytical",
+        "source": "GDS",
+        "formula": formula,
+        "confidence": confidence,
+    }
+
+
 @gf.cell
 def cpw_straight(
     length: float = 100.0,
     trace_width: float = 10.0,
     gap: float = 6.0,
     ground_width: float = 25.0,
+    effective_permittivity: float = 6.2,
     angle_deg: float = 0.0,
     signal_layer: Layer = M3,
     ground_layer: Layer = M1,
@@ -71,6 +117,7 @@ def cpw_straight(
         "trace_width": trace_width,
         "gap": gap,
         "ground_width": ground_width,
+        "effective_permittivity": effective_permittivity,
     }.items():
         require_positive(name, value)
     require_minimum("trace_width", trace_width, DEFAULT_PROCESS.rules.min_trace_width_um)
@@ -115,6 +162,22 @@ def cpw_straight(
     c.info["ground_width_um"] = ground_width
     c.info["angle_deg"] = angle_deg
     c.info["signal_layer_height_nm"] = _layer_height_nm(signal_layer)
+    cpw = cpw_conformal_mapping(trace_width, gap, effective_permittivity)
+    c.info["z0_ohm"] = cpw["z0_ohm"]
+    c.info["effective_permittivity"] = effective_permittivity
+    c.info["phase_velocity_m_per_s"] = cpw["phase_velocity_m_per_s"]
+    c.info["lineage"] = {
+        "z0_ohm": _lineage(
+            cpw["z0_ohm"],
+            "ohm",
+            "Z0 = 30*pi/sqrt(eps_eff) * K(k')/K(k), k=w/(w+2g)",
+        ),
+        "phase_velocity_m_per_s": _lineage(
+            cpw["phase_velocity_m_per_s"],
+            "m/s",
+            "vp = c/sqrt(eps_eff)",
+        ),
+    }
     c.info["layers"] = {"signal": signal_layer, "ground": ground_layer}
     return c
 
@@ -125,6 +188,9 @@ def cpw_quarter_wave_resonator(
     effective_permittivity: float = 6.2,
     trace_width: float = 10.0,
     gap: float = 6.0,
+    coupling_capacitor_length: float = 60.0,
+    coupling_capacitor_gap: float = 3.0,
+    termination: str = "short",
     footprint_width: float = 2000.0,
     footprint_height: float = 2000.0,
     meander_runs: int = 5,
@@ -145,6 +211,8 @@ def cpw_quarter_wave_resonator(
         "effective_permittivity": effective_permittivity,
         "trace_width": trace_width,
         "gap": gap,
+        "coupling_capacitor_length": coupling_capacitor_length,
+        "coupling_capacitor_gap": coupling_capacitor_gap,
         "footprint_width": footprint_width,
         "footprint_height": footprint_height,
         "meander_pitch": meander_pitch,
@@ -152,6 +220,8 @@ def cpw_quarter_wave_resonator(
         require_positive(name, value)
     if meander_runs < 2:
         raise ValueError("meander_runs must be >= 2")
+    if termination not in {"open", "short"}:
+        raise ValueError("termination must be 'open' or 'short'")
     require_minimum("trace_width", trace_width, DEFAULT_PROCESS.rules.min_trace_width_um)
     require_minimum("gap", gap, DEFAULT_PROCESS.rules.min_cpw_gap_um)
 
@@ -213,6 +283,25 @@ def cpw_quarter_wave_resonator(
     add_route_box(signal, feed_start, feed_end, trace_width, signal_layer)
     add_route_box(clearance, feed_start, feed_end, clear_width, ground_layer)
 
+    coupler_y = feed_y + trace_width + gap + coupling_capacitor_gap
+    coupler_x = -half_run + coupling_capacitor_length / 2.0
+    cpl = gf.Component()
+    cpl.add_polygon(
+        _rotated_rectangle(coupler_x, coupler_y, coupling_capacitor_length, trace_width, 0),
+        layer=signal_layer,
+    )
+    cpl.add_polygon(
+        _rotated_rectangle(
+            coupler_x,
+            coupler_y,
+            coupling_capacitor_length,
+            trace_width + 2.0 * gap,
+            0,
+        ),
+        layer=marker_layer,
+    )
+    add_route_box(clearance, (coupler_x - coupling_capacitor_length / 2.0, coupler_y), (coupler_x + coupling_capacitor_length / 2.0, coupler_y), clear_width, ground_layer)
+
     ground = gf.components.rectangle(
         size=(footprint_width, footprint_height),
         layer=ground_layer,
@@ -222,17 +311,19 @@ def cpw_quarter_wave_resonator(
     c = gf.Component()
     c.add_ref(ground_with_clearance)
     c.add_ref(signal)
+    c.add_ref(cpl)
 
     short_x, short_y = points[-1]
     short_size = trace_width + 2.0 * gap
-    c.add_polygon(
-        _rotated_rectangle(short_x, short_y, short_size, short_size, 0),
-        layer=short_via_layer,
-    )
-    c.add_polygon(
-        _rotated_rectangle(short_x, short_y, short_size * 1.5, short_size * 1.5, 0),
-        layer=marker_layer,
-    )
+    if termination == "short":
+        c.add_polygon(
+            _rotated_rectangle(short_x, short_y, short_size, short_size, 0),
+            layer=short_via_layer,
+        )
+        c.add_polygon(
+            _rotated_rectangle(short_x, short_y, short_size * 1.5, short_size * 1.5, 0),
+            layer=marker_layer,
+        )
     c.add_port(
         name="feed_in",
         center=feed_start,
@@ -266,13 +357,45 @@ def cpw_quarter_wave_resonator(
     c.info["target_frequency_ghz"] = target_frequency_ghz
     c.info["effective_permittivity"] = effective_permittivity
     c.info["electrical_length_um"] = electrical_length
+    cpw = cpw_conformal_mapping(trace_width, gap, effective_permittivity)
+    resonance_hz = cpw["phase_velocity_m_per_s"] / (4.0 * electrical_length * 1e-6)
+    c.info["z0_ohm"] = cpw["z0_ohm"]
+    c.info["phase_velocity_m_per_s"] = cpw["phase_velocity_m_per_s"]
+    c.info["lambda_over_4_resonance_hz"] = resonance_hz
     c.info["meander_run_length_um"] = run_length
+    c.info["meander_length_um"] = electrical_length
     c.info["meander_runs"] = meander_runs
     c.info["trace_width_um"] = trace_width
     c.info["gap_um"] = gap
+    c.info["coupling_capacitor_length_um"] = coupling_capacitor_length
+    c.info["coupling_capacitor_gap_um"] = coupling_capacitor_gap
+    c.info["termination"] = termination
     c.info["footprint_um"] = [footprint_width, footprint_height]
-    c.info["boundary_condition"] = "open_at_coupler_shorted_at_via12"
+    c.info["boundary_condition"] = f"open_at_coupler_{termination}_termination"
     c.info["frequency_model"] = "c/(4*f*sqrt(effective_permittivity))"
+    c.info["lineage"] = {
+        "z0_ohm": _lineage(
+            cpw["z0_ohm"],
+            "ohm",
+            "Z0 = 30*pi/sqrt(eps_eff) * K(k')/K(k), k=w/(w+2g)",
+        ),
+        "effective_permittivity": _lineage(
+            effective_permittivity,
+            "dimensionless",
+            "process/material input",
+            confidence=0.8,
+        ),
+        "phase_velocity_m_per_s": _lineage(
+            cpw["phase_velocity_m_per_s"],
+            "m/s",
+            "vp = c/sqrt(eps_eff)",
+        ),
+        "lambda_over_4_resonance_hz": _lineage(
+            resonance_hz,
+            "Hz",
+            "f0 = vp/(4*l)",
+        ),
+    }
     c.info["layers"] = {
         "signal": signal_layer,
         "ground": ground_layer,
@@ -625,5 +748,96 @@ def via_chain_monitor(
         "via12": VIA12,
         "via23": VIA23,
         "marker": MARKER,
+    }
+    return c
+
+
+@gf.cell
+def cpw_resonator_with_launcher(
+    length: float = 100.0,
+    trace_width: float = 10.0,
+    gap: float = 6.0,
+    launcher_size: float = 50.0,
+    ground_width: float = 100.0,
+    via_fence_pitch: float = 20.0,
+    cpw_layer: Layer = M1,
+    ground_layer: Layer = M2,
+    via_layer: Layer = VIA12,
+) -> gf.Component:
+    """CPW resonator with coplanar ground plane, input/output launchers, and via fence.
+
+    The info dict includes ``device_type``, ``layers`` (launcher, ground, via_fence),
+    and geometry parameters.
+    """
+    require_positive("length", length)
+    require_positive("trace_width", trace_width)
+    require_positive("gap", gap)
+    require_positive("launcher_size", launcher_size)
+
+    c = gf.Component()
+
+    total_width = trace_width + 2.0 * gap + 2.0 * ground_width
+    half_total = total_width / 2.0
+    half_trace = trace_width / 2.0
+    half_gap_edge = half_trace + gap
+
+    # CPW centre trace
+    c.add_polygon(
+        [(-length / 2.0, -half_trace), (length / 2.0, -half_trace),
+         (length / 2.0, half_trace), (-length / 2.0, half_trace)],
+        layer=cpw_layer,
+    )
+
+    # Ground plane strips (left and right of gap)
+    for sign in (-1.0, 1.0):
+        inner = sign * half_gap_edge
+        outer = sign * half_total
+        lo = min(inner, outer)
+        hi = max(inner, outer)
+        c.add_polygon(
+            [(-length / 2.0, lo), (length / 2.0, lo),
+             (length / 2.0, hi), (-length / 2.0, hi)],
+            layer=ground_layer,
+        )
+
+    # Launchers at each end
+    pad_half = launcher_size / 2.0
+    for x_sign in (-1.0, 1.0):
+        pad_x = x_sign * (length / 2.0 + launcher_size / 2.0)
+        c.add_polygon(
+            [(pad_x - launcher_size / 2.0, -pad_half),
+             (pad_x + launcher_size / 2.0, -pad_half),
+             (pad_x + launcher_size / 2.0, pad_half),
+             (pad_x - launcher_size / 2.0, pad_half)],
+            layer=cpw_layer,
+        )
+
+    # Via fence along top and bottom ground edges
+    x = -length / 2.0
+    while x <= length / 2.0:
+        for y_sign in (-1.0, 1.0):
+            via_y = y_sign * (half_gap_edge + ground_width / 2.0)
+            c.add_polygon(
+                [(x - 1.0, via_y - 1.0), (x + 1.0, via_y - 1.0),
+                 (x + 1.0, via_y + 1.0), (x - 1.0, via_y + 1.0)],
+                layer=via_layer,
+            )
+        x += via_fence_pitch
+
+    c.add_port("input", center=(-length / 2.0 - launcher_size, 0.0),
+               width=trace_width, orientation=180, layer=cpw_layer)
+    c.add_port("output", center=(length / 2.0 + launcher_size, 0.0),
+               width=trace_width, orientation=0, layer=cpw_layer)
+
+    c.info["device_type"] = "cpw_resonator_with_launcher"
+    c.info["length_um"] = length
+    c.info["trace_width_um"] = trace_width
+    c.info["gap_um"] = gap
+    c.info["launcher_size_um"] = launcher_size
+    c.info["layers"] = {
+        "cpw": cpw_layer,
+        "launcher": cpw_layer,
+        "ground": ground_layer,
+        "via_fence": via_layer,
     }
     return c

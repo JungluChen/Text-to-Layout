@@ -11,3 +11,6 @@ workspace/artifacts/*
 !workspace/artifacts/.gitkeep
 plugins/*/workspace/artifacts/*
 !plugins/*/workspace/artifacts/.gitkeep
+
+# External library source trees (cloned for reference, not project code)
+external_repos/

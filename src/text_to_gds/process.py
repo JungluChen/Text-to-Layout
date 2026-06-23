@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from pathlib import Path as _Path
 from typing import TypeAlias
 
 Layer: TypeAlias = tuple[int, int]
@@ -139,6 +140,15 @@ DEFAULT_LAYERS: dict[str, LayerSpec] = {
         min_width_um=0.40,
         min_spacing_um=0.40,
     ),
+    "UNDERCUT": LayerSpec(
+        name="UNDERCUT",
+        layer=(9, 0),
+        purpose="junction undercut region",
+        material="air",
+        thickness_nm=0.0,
+        min_width_um=0.10,
+        min_spacing_um=0.10,
+    ),
     "MARKER": LayerSpec(
         name="MARKER",
         layer=(10, 0),
@@ -174,6 +184,7 @@ M2 = DEFAULT_PROCESS.layer("M2")
 M3 = DEFAULT_PROCESS.layer("M3")
 VIA12 = DEFAULT_PROCESS.layer("VIA12")
 VIA23 = DEFAULT_PROCESS.layer("VIA23")
+UNDERCUT = DEFAULT_PROCESS.layer("UNDERCUT")
 MARKER = DEFAULT_PROCESS.layer("MARKER")
 
 
@@ -189,3 +200,106 @@ def require_minimum(name: str, value: float, minimum: float) -> None:
 
 def layer_to_list(layer: Layer) -> list[int]:
     return [int(layer[0]), int(layer[1])]
+
+
+# ---------------------------------------------------------------------------
+# Technology YAML loader
+# ---------------------------------------------------------------------------
+
+_BUILTIN_PROCESS_DIR = _Path(__file__).parent.parent.parent / "process"
+_FALLBACK_PROCESS_DIRS: list[_Path] = [
+    _BUILTIN_PROCESS_DIR,
+    _Path(__file__).parent / "process",
+]
+
+
+def find_technology_yaml(tech_id: str, extra_dirs: list[_Path] | None = None) -> _Path | None:
+    """Search for a technology YAML file matching *tech_id*.
+
+    Looks in (in order):
+      1. ``extra_dirs`` if supplied
+      2. ``<repo_root>/process/``
+      3. ``<package>/process/``
+
+    Returns the first matching path or None if not found.
+    """
+    slug = tech_id.lower().replace("-", "_").replace(" ", "_")
+    search = list(extra_dirs or []) + _FALLBACK_PROCESS_DIRS
+    for directory in search:
+        for candidate in (
+            directory / f"{slug}.yaml",
+            directory / f"{tech_id}.yaml",
+        ):
+            if candidate.is_file():
+                return candidate
+    return None
+
+
+def load_technology_yaml(tech_id: str, extra_dirs: list[_Path] | None = None) -> ProcessStack:
+    """Load a ProcessStack from a technology YAML file.
+
+    Raises FileNotFoundError when no YAML matching *tech_id* can be found.
+    Use ``find_technology_yaml`` to check existence first.
+    """
+    path = find_technology_yaml(tech_id, extra_dirs)
+    if path is None:
+        searched = [str(d) for d in (list(extra_dirs or []) + _FALLBACK_PROCESS_DIRS)]
+        raise FileNotFoundError(
+            f"No technology YAML found for '{tech_id}'. "
+            f"Searched: {searched}. "
+            "Add a YAML file to the process/ directory or pass extra_dirs."
+        )
+    try:
+        import yaml  # type: ignore[import-untyped]
+    except ImportError:
+        raise ImportError(
+            "PyYAML is required to load technology files. "
+            "Run: pip install pyyaml"
+        ) from None
+
+    data: dict = yaml.safe_load(path.read_text(encoding="utf-8"))
+
+    layers_raw: dict = data.get("layers", {})
+    materials_raw: dict = data.get("materials", {})
+    constraints_raw: dict = data.get("constraints", {})
+
+    materials: dict[str, MaterialSpec] = {}
+    for name, m in materials_raw.items():
+        materials[name] = MaterialSpec(
+            name=name,
+            conductivity_s_per_m=m.get("conductivity_s_per_m"),
+            relative_permittivity=m.get("relative_permittivity"),
+            kinetic_inductance_ph_per_square=float(m.get("kinetic_inductance_ph_per_square", 0.0)),
+            critical_temperature_k=m.get("critical_temperature_k"),
+            notes=str(m.get("notes", "")),
+        )
+    if not materials:
+        materials = dict(DEFAULT_MATERIALS)
+
+    layers: dict[str, LayerSpec] = {}
+    for name, lspec in layers_raw.items():
+        gds = lspec.get("gds", [0, 0])
+        layers[name] = LayerSpec(
+            name=name,
+            layer=(int(gds[0]), int(gds[1])),
+            purpose=str(lspec.get("purpose", "")),
+            material=str(lspec.get("material", "unknown")),
+            thickness_nm=float(lspec.get("thickness_nm", 0.0)),
+            min_width_um=float(lspec.get("min_width_um", 0.0)),
+            min_spacing_um=float(lspec.get("min_spacing_um", 0.0)),
+        )
+    if not layers:
+        layers = dict(DEFAULT_LAYERS)
+
+    rules = FabRules(
+        min_junction_width_um=float(constraints_raw.get("min_junction_width_um", DEFAULT_RULES.min_junction_width_um)),
+        min_junction_height_um=float(constraints_raw.get("min_junction_height_um", DEFAULT_RULES.min_junction_height_um)),
+        min_trace_width_um=float(constraints_raw.get("min_trace_width_um", DEFAULT_RULES.min_trace_width_um)),
+        min_trace_spacing_um=float(constraints_raw.get("min_trace_spacing_um", DEFAULT_RULES.min_trace_spacing_um)),
+        min_cpw_gap_um=float(constraints_raw.get("min_cpw_gap_um", DEFAULT_RULES.min_cpw_gap_um)),
+        via_min_size_um=float(constraints_raw.get("via_min_size_um", DEFAULT_RULES.via_min_size_um)),
+        via_enclosure_um=float(constraints_raw.get("via_enclosure_um", DEFAULT_RULES.via_enclosure_um)),
+    )
+
+    name = str(data.get("name", tech_id))
+    return ProcessStack(name=name, layers=layers, materials=materials, rules=rules)

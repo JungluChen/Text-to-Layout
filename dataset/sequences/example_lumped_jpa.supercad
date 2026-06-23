@@ -1,0 +1,13 @@
+DEVICE lumped_jpa
+TECH ncu_nb_alox_v1
+
+ADD cpw_feedline width=10um gap=6um length=500um layer=M1
+ADD manhattan_jj area=0.05um2 jc=2uA/um2 layer_stack=M1/JJ/M2
+ADD idc_capacitor target_c=1.2pF fingers=32 gap=2um
+ADD flux_line distance=10um width=3um
+ADD port name=in type=rf location=left impedance=50ohm
+ADD port name=out type=rf location=right impedance=50ohm
+
+CONSTRAINT target_f0=6GHz
+CONSTRAINT min_spacing=2um
+CONSTRAINT process=ncu_nb_alox_v1

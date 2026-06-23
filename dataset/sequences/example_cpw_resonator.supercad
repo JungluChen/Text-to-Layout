@@ -1,0 +1,11 @@
+DEVICE cpw_quarter_wave_resonator
+TECH ncu_nb_alox_v1
+
+ADD cpw_feedline width=10um gap=6um length=100um layer=M1
+ADD cpw_quarter_wave width=10um gap=6um layer=M1
+ADD port name=in type=rf location=left impedance=50ohm
+ADD port name=open type=open location=right
+
+CONSTRAINT target_f0=6GHz
+CONSTRAINT min_spacing=2um
+CONSTRAINT process=ncu_nb_alox_v1

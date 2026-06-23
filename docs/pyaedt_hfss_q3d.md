@@ -112,7 +112,7 @@ microstrip model, which produces the same class of S-parameter and impedance
 outputs as HFSS driven-modal. It is a transmission-line cross-check, not a full
 GDS-equivalent CPW solve:
 
-![openEMS FDTD extraction for the same geometry](assets/hfss_openems_cross_check.png)
+![openEMS FDTD extraction for the same geometry](assets/openems_extraction_example.png)
 
 | Quantity | openEMS FDTD (`readiness_demo`) |
 | --- | --- |
@@ -133,4 +133,3 @@ not reliable there. The adapter checks
 $|S_{11}|^2+|S_{21}|^2\leq1$ in the validated band. openEMS still uses a
 microstrip-port approximation pending coplanar ports and a kinetic-inductance
 metal model (see `export_superconducting_material`).
-

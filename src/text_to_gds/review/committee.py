@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from text_to_gds.review.fabrication import review_fabrication
+from text_to_gds.review.literature import review_literature
 from text_to_gds.review.measurement import review_measurement
 from text_to_gds.review.microwave import review_microwave
 from text_to_gds.review.physics import review_physics
@@ -14,6 +15,7 @@ REVIEWERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
     "microwave": review_microwave,
     "fabrication": review_fabrication,
     "measurement": review_measurement,
+    "literature": review_literature,
 }
 
 
