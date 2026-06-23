@@ -256,11 +256,10 @@ def estimate_physical_performance(
     flux_period_current_ma: float | None = None,
     flux_mutual_inductance_ph: float | None = None,
 ) -> dict[str, Any]:
-    """Return first-order physical metrics derived from sidecar metadata.
+    """Deprecated: performance requires extraction.json plus an executed solver."""
+    return {"status": "failed", "reason": "missing extracted parameter"}
 
-    These estimates document the model assumptions used before an external
-    harmonic-balance, transient, or EM extraction adapter replaces them.
-    """
+    # Legacy implementation below is intentionally unreachable during the migration.
     if pump_current_fraction <= 0.0:
         raise ValueError(f"pump_current_fraction must be positive, got {pump_current_fraction}")
 
