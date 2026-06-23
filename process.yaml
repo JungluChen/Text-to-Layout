@@ -1,0 +1,58 @@
+# process.yaml — Nb/AlOx/Nb Josephson junction process stack
+# Used by text-to-gds physics compiler to convert geometry → physics.
+# All values are physical constants for this process node.
+# Do NOT change without updating the corresponding physics validation report.
+
+# Process identity
+process_name: Nb_AlOx_Nb_JJ
+process_node: 250nm
+foundry: internal
+
+# Substrate
+substrate_material: Si
+dielectric_constant: 11.45          # ε_r of silicon at 4K (Aspnes & Studna 1983)
+substrate_thickness_um: 254.0       # standard 10-mil high-resistivity Si wafer
+substrate_loss_tangent: 1.0e-5      # upper bound at 4K, 5-10 GHz
+
+# Metal stack — layer M1 (base Nb)
+metal_m1_material: Nb
+metal_thickness_nm: 180.0           # Nb sputtered, target 180 nm ± 10 nm
+london_penetration_depth_nm: 90.0   # λ_L for Nb at 0 K (Barends 2008)
+kinetic_inductance_sq_ph: 0.6       # Lk_sq = μ₀λ_L²/d (pH/sq) at 4K
+sheet_resistance_ohm_sq: 0.01       # R_s at 4K (superconducting)
+tc_kelvin: 9.25                     # Nb critical temperature
+
+# Josephson junction — AlOx tunnel barrier
+junction_material: Nb_AlOx_Nb
+critical_current_density_ua_per_um2: 1.0   # Jc (µA/µm²), typical for AlOx, tune via oxidation time
+junction_specific_capacitance_ff_per_um2: 45.0  # Cs (fF/µm²) — Josephson junction capacitance
+junction_fringe_factor: 0.1         # C_fringe/C_area — empirical for sub-µm junctions
+rn_kohm_um2: 0.5                    # Rn × Area product (kΩ·µm²) for Ambegaokar-Baratoff
+
+# Metal stack — layer M2 (wiring Nb)
+metal_m2_material: Nb
+metal_m2_thickness_nm: 350.0
+
+# Via
+via_resistance_ohm: 0.2            # per via, measured 4K
+
+# Dielectric layer (SiO₂ inter-metal)
+interlayer_dielectric_material: SiO2
+interlayer_dielectric_thickness_nm: 150.0
+interlayer_dielectric_constant: 3.9
+
+# Fabrication rules (DRC targets — informational)
+min_linewidth_um: 1.0
+min_spacing_um: 1.0
+min_junction_area_um2: 0.04        # 0.2 µm × 0.2 µm minimum defined by e-beam
+max_junction_area_um2: 9.0         # 3 µm × 3 µm maximum
+min_cpw_center_um: 2.0
+min_cpw_gap_um: 1.0
+max_cpw_center_um: 50.0
+
+# Layer map — (layer, datatype) following GDS conventions
+layer_substrate: [1, 0]
+layer_m1: [3, 0]
+layer_jj: [4, 0]
+layer_m2: [5, 0]
+layer_via: [6, 0]
