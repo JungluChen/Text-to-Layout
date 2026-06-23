@@ -28,3 +28,13 @@ def test_solver_result_skipped() -> None:
     )
     assert result.status == "skipped"
     assert result.execution_time_s == 0.0
+
+
+def test_openems_adapter_availability() -> None:
+    from text_to_gds.simulation.openems_adapter import OpenEMSAdapter
+
+    adapter = OpenEMSAdapter()
+    assert adapter.name == "openEMS"
+    result = adapter.execute({})
+    assert result.status in ("skipped", "success", "failed")
+    assert result.solver == "openEMS"
