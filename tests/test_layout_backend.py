@@ -49,3 +49,16 @@ def test_technology_factory_unknown_backend():
 def test_technology_factory_creates_correct_backends():
     assert isinstance(TechnologyFactory.create("kqcircuits"), KQCircuitsSelector)
     assert isinstance(TechnologyFactory.create("gdsfactory"), GDSFactorySelector)
+
+
+def test_kqcircuits_wrapper_availability():
+    from text_to_gds.layout.kqcircuits_wrapper import KQCircuitsWrapper
+
+    wrapper = KQCircuitsWrapper()
+    assert isinstance(wrapper.is_available(), bool)
+    assert hasattr(wrapper, "get_junction_class")
+    assert hasattr(wrapper, "get_resonator_class")
+    assert hasattr(wrapper, "get_transmon_class")
+    assert hasattr(wrapper, "create_junction")
+    assert hasattr(wrapper, "create_resonator")
+    assert hasattr(wrapper, "create_transmon")
