@@ -8,7 +8,7 @@ Run: uv run python examples/05_backend_status_and_provenance.py
 
 from __future__ import annotations
 
-from text_to_gds.backends import BACKEND_CLASSES, list_backends
+from text_to_gds.backends import list_backends
 from text_to_gds.backends.base import validate_value_records, value_record
 from text_to_gds.tool_discovery import tool_paths
 

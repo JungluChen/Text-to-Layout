@@ -19,7 +19,6 @@ Schema: text-to-gds.resistance-extraction.v1
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
 from typing import Any
 

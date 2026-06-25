@@ -11,8 +11,7 @@ If disagreement > threshold → flag for auto-repair.
 
 from __future__ import annotations
 
-import math
-from statistics import median, stdev
+from statistics import stdev
 from typing import Any
 
 from text_to_gds.solver_agreement import cross_validate

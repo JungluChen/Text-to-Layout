@@ -50,6 +50,11 @@ Issues = "https://github.com/JungluChen/Text-to-Layout/issues"
 
 [project.scripts]
 text-to-gds = "text_to_gds.server:main"
+text-to-gds-simulation = "text_to_gds.cli:text_to_gds_simulation"
+text-to-gds-circuit-design = "text_to_gds.cli:text_to_gds_circuit_design"
+text-to-gds-layout-design = "text_to_gds.cli:text_to_gds_layout_design"
+text-to-gds-signoff = "text_to_gds.cli:text_to_gds_signoff"
+text-to-gds-physics-signoff = "text_to_gds.cli:text_to_gds_physics_signoff"
 
 [dependency-groups]
 dev = [
@@ -63,3 +68,18 @@ packages = ["src/text_to_gds"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".tools",
+  ".venv",
+  "external_repos",
+  "plugins",
+  "workspace",
+]

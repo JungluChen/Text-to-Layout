@@ -14,7 +14,7 @@ from __future__ import annotations
 import math
 from typing import Any
 
-from text_to_gds.core.units import EPSILON_0, MU_0, SPEED_OF_LIGHT
+from text_to_gds.core.units import SPEED_OF_LIGHT
 
 # ─── Complete elliptic integral K(k) via AGM ──────────────────────────────────
 

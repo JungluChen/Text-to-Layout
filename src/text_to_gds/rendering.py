@@ -43,6 +43,21 @@ def component_sidecar(
         port_items = [(p.name, p) for p in component.get_ports_list()]
 
     bbox = component.bbox_np().tolist() if hasattr(component, "bbox_np") else None
+    info = dict(component.info)
+    if any(token in pcell.lower() for token in ("jj", "junction", "squid", "jpa")):
+        try:
+            from text_to_gds.extraction import _junction_overlap_area_um2
+
+            area_um2 = _junction_overlap_area_um2(gds_path)
+        except Exception:  # noqa: BLE001
+            area_um2 = 0.0
+        if area_um2 > 0.0:
+            info["junction_area_um2"] = area_um2
+            info["junction_area_method"] = "polygon_boolean_extracted"
+            info["junction_area_formula"] = "area(M1 intersect M2 within JJ process window)"
+            geometry = dict(info.get("geometry", {}))
+            geometry["junction_area_um2"] = area_um2
+            info["geometry"] = geometry
     return {
         "schema": "text-to-gds.sidecar.v0",
         "pcell": pcell,
@@ -51,7 +66,7 @@ def component_sidecar(
         "bbox_um": bbox,
         "ports": [port_to_dict(name, port) for name, port in port_items],
         "labels": labels_from_gds(gds_path),
-        "info": dict(component.info),
+        "info": info,
         "process_stack": DEFAULT_PROCESS.to_dict(),
     }
 
@@ -73,22 +88,16 @@ def layer_color(layer: list[int]) -> tuple[int, int, int, int]:
     return (80 + seed % 120, 80 + (seed * 3) % 120, 80 + (seed * 7) % 120, 180)
 
 
-def render_layout_screenshot(
+def _extract_shapes(
     layout_path: Path,
-    screenshot_path: Path,
-    *,
-    image_size: int | tuple[int, int] = 1000,
-) -> None:
+) -> list[tuple[list[tuple[float, float]], list[list[tuple[float, float]]], list[int]]]:
+    """Read all polygons from a GDS file via KLayout, returning (hull, holes, layer) triples."""
     import klayout.db as kdb
-    from PIL import Image, ImageDraw
 
     layout = kdb.Layout()
     layout.read(str(layout_path))
     dbu = float(layout.dbu)
-
-    shapes: list[
-        tuple[list[tuple[float, float]], list[list[tuple[float, float]]], list[int]]
-    ] = []
+    shapes: list[tuple[list[tuple[float, float]], list[list[tuple[float, float]]], list[int]]] = []
     top_cell = layout.top_cell()
     if top_cell is None:
         raise ValueError(f"Layout has no top cell: {layout_path}")
@@ -121,23 +130,37 @@ def render_layout_screenshot(
                     ]
                     shapes.append((points, holes, layer))
             iterator.next()
+    return shapes
 
-    layer_order = {
-        (3, 0): 0,
-        (4, 0): 1,
-        (5, 0): 2,
-        (7, 0): 3,
-        (6, 0): 4,
-        (8, 0): 5,
-        (10, 0): 6,
-    }
-    shapes.sort(key=lambda item: layer_order.get((item[2][0], item[2][1]), 99))
+
+def render_layout_screenshot(
+    layout_path: Path,
+    screenshot_path: Path,
+    *,
+    image_size: int | tuple[int, int] = 1200,
+    dark_field: bool = True,
+) -> None:
+    from PIL import Image, ImageDraw
+
+    from text_to_gds.pcells.layer_stack import (
+        ANNOTATION_COLOR,
+        SUBSTRATE_COLOR,
+        draw_layer_legend,
+        draw_scale_bar,
+        style_for_layer,
+    )
+
+    shapes = _extract_shapes(layout_path)
+
+    shapes.sort(key=lambda item: style_for_layer((item[2][0], item[2][1])).render_order)
 
     if not shapes:
         canvas = (image_size, image_size) if isinstance(image_size, int) else image_size
-        image = Image.new("RGBA", canvas, (250, 251, 252, 255))
+        bg = SUBSTRATE_COLOR if dark_field else (250, 251, 252, 255)
+        image = Image.new("RGBA", canvas, bg)
         draw = ImageDraw.Draw(image, "RGBA")
-        draw.text((24, 24), f"No drawable shapes in {layout_path.name}", fill=(30, 41, 59, 255))
+        txt_color = ANNOTATION_COLOR[:3] if dark_field else (30, 41, 59, 255)
+        draw.text((24, 24), f"No drawable shapes in {layout_path.name}", fill=txt_color)
         image.convert("RGB").save(screenshot_path)
         return
 
@@ -157,7 +180,9 @@ def render_layout_screenshot(
             canvas_width = canvas_height = image_size
     else:
         canvas_width, canvas_height = image_size
-    image = Image.new("RGBA", (canvas_width, canvas_height), (250, 251, 252, 255))
+
+    bg = SUBSTRATE_COLOR if dark_field else (250, 251, 252, 255)
+    image = Image.new("RGBA", (canvas_width, canvas_height), bg)
     draw = ImageDraw.Draw(image, "RGBA")
     margin = max(min(canvas_width, canvas_height) * 0.08, 24.0)
     scale = min(
@@ -174,21 +199,27 @@ def render_layout_screenshot(
         y_px = offset_y + drawn_height - (y_um - min_y) * scale
         return x_px, y_px
 
-    background = (250, 251, 252, 255)
-    for polygon_um, holes_um, layer in shapes:
-        points = [to_px(x, y) for x, y in polygon_um]
-        fill = layer_color(layer)
-        outline = (20, 31, 46, 220)
-        draw.polygon(points, fill=fill, outline=outline)
-        for hole_um in holes_um:
-            draw.polygon([to_px(x, y) for x, y in hole_um], fill=background)
+    active_layers: set[tuple[int, int]] = set()
 
-    draw.rectangle(
-        (8, 8, canvas_width - 8, canvas_height - 8),
-        outline=(148, 163, 184, 255),
-        width=2,
-    )
-    draw.text((18, 18), layout_path.name, fill=(30, 41, 59, 255))
+    for polygon_um, holes_um, layer in shapes:
+        layer_key = (layer[0], layer[1])
+        style = style_for_layer(layer_key)
+        if not style.visible:
+            continue
+        active_layers.add(layer_key)
+        points = [to_px(x, y) for x, y in polygon_um]
+        draw.polygon(points, fill=style.fill_rgba, outline=style.outline_rgba)
+        for hole_um in holes_um:
+            draw.polygon([to_px(x, y) for x, y in hole_um], fill=bg)
+
+    scale_um_per_px = span_x / drawn_width if drawn_width > 0 else 1.0
+    draw_scale_bar(draw, canvas_width, canvas_height, scale_um_per_px)
+    draw_layer_legend(draw, canvas_width, canvas_height, active_layers)
+
+    border_color = (100, 100, 100, 200) if dark_field else (148, 163, 184, 255)
+    draw.rectangle((4, 4, canvas_width - 4, canvas_height - 4), outline=border_color, width=1)
+    txt_color = ANNOTATION_COLOR[:3] if dark_field else (30, 41, 59, 255)
+    draw.text((12, 10), layout_path.name, fill=txt_color)
     image.convert("RGB").save(screenshot_path)
 
 

@@ -12,7 +12,6 @@ source="LLM" in any repair recommendation → fatal error.
 
 from __future__ import annotations
 
-import json
 import math
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -171,7 +170,6 @@ def _compute_adjustments(
         qty = finding.get("quantity", "")
         actual = finding.get("actual")
         target = finding.get("target")
-        severity = finding.get("severity", "warning")
 
         if actual is None or target is None:
             continue

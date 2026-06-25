@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
 
 # ── validate_all_artifacts ─────────────────────────────────────────────────────
@@ -80,7 +79,11 @@ def test_cpw_model_writes_valid_touchstone(tmp_path: Path) -> None:
     assert ts_path.is_file(), "Touchstone file was not written"
 
     content = ts_path.read_text(encoding="utf-8")
-    data_lines = [l for l in content.splitlines() if l.strip() and not l.startswith("!") and not l.startswith("#")]
+    data_lines = [
+        line
+        for line in content.splitlines()
+        if line.strip() and not line.startswith("!") and not line.startswith("#")
+    ]
     assert len(data_lines) >= 10, "Touchstone file has too few data lines"
 
     # Verify each data line has at least 9 numeric fields (f + 4×(Re,Im))

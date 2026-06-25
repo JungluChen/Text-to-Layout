@@ -1,0 +1,6 @@
+{
+  "device": "ground_plane",
+  "layers": ["M1"],
+  "ports": 0,
+  "notes": "Simple M1 ground-plane coupon"
+}

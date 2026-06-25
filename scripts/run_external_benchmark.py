@@ -22,7 +22,6 @@ WORKSPACE = ROOT / "workspace" / "benchmark_run"
 
 from text_to_gds.design_intent import synthesize_design_intent, write_design_intent  # noqa: E402
 from text_to_gds.server import compile_layout, extract_layout, run_drc, run_simulation  # noqa: E402
-from text_to_gds.review.committee import review_committee  # noqa: E402
 
 SEP = "-" * 60
 
@@ -138,7 +137,7 @@ def benchmark_06_via_chain() -> dict:
     """Via-chain monitor — geometry + resistance estimate."""
     print("\n[B06] Via-Chain Monitor")
     compiled = _compile("via_chain_monitor", {"stage_count": 100}, "b06")
-    ext = extract_layout(compiled["sidecar_path"])
+    extract_layout(compiled["sidecar_path"])
     score = 80
     result = _report("B06 Via Chain", compiled, "SKIPPED", "none",
                      "no circuit solver for via chain", score)

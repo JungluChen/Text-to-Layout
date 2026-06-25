@@ -17,8 +17,18 @@ def _good_cpw_evidence():
         "device": "cpw_resonator",
         "sidecar": {
             "pcell": "cpw_quarter_wave_resonator",
+            "layout_quality_mode": "fabrication_real",
+            "quality_record": {"status": "supported"},
             "info": {"device_type": "cpw_resonator", "has_ground_plane": True},
             "ports": [{"name": "in"}, {"name": "out"}],
+        },
+        "extraction": {"Z0_ohm": 50.0, "method": "analytical"},
+        "simulation": {"status": "SKIPPED", "reason": "no EM solver installed"},
+        "literature_comparison": {
+            "references": [{"doi": "10.1063/example", "title": "CPW resonator study"}],
+            "comparisons": [
+                {"parameter": "Z0_ohm", "generated": 50.0, "reference": 50.0},
+            ],
         },
         "drc": {"status": "passed", "violations": []},
     }
@@ -130,7 +140,12 @@ def test_measurement_flags_missing_pump_for_jpa():
 def test_committee_min_score_blocks_on_any_error():
     evidence = {
         "device": "cpw",
-        "sidecar": {"info": {"device_type": "cpw"}, "ports": [{"name": "in"}, {"name": "out"}]},
+        "sidecar": {
+            "layout_quality_mode": "fabrication_real",
+            "quality_record": {"status": "supported"},
+            "info": {"device_type": "cpw"},
+            "ports": [{"name": "in"}, {"name": "out"}],
+        },
         "drc": {"status": "passed", "violations": []},
     }  # cpw without ground -> physics error
     committee = review_committee(evidence)
@@ -152,8 +167,16 @@ def test_auto_repair_converges_and_terminates():
         return {
             "device": "cpw_resonator",
             "sidecar": {
+                "layout_quality_mode": "fabrication_real",
+                "quality_record": {"status": "supported"},
                 "info": {"device_type": "cpw_resonator", "has_ground_plane": state["has_ground"]},
                 "ports": [{"name": "in"}, {"name": "out"}],
+            },
+            "extraction": {"Z0_ohm": 50.0, "method": "analytical"},
+            "simulation": {"status": "SKIPPED", "reason": "no EM solver installed"},
+            "literature_comparison": {
+                "references": [{"doi": "10.1063/example", "title": "CPW resonator study"}],
+                "comparisons": [{"parameter": "Z0_ohm", "generated": 50.0, "reference": 50.0}],
             },
             "drc": {"status": "passed", "violations": []},
         }

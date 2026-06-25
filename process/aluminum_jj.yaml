@@ -1,0 +1,79 @@
+schema: text-to-gds.superconducting-pdk.v1
+process_id: aluminum_jj
+name: Aluminum Josephson Junction Reference Process
+version: 1.0.0
+status: illustrative-unreleased
+materials:
+  Al:
+    kind: superconductor
+    critical_temperature_k: 1.2
+    penetration_depth_nm: 50.0
+    kinetic_inductance_ph_per_square: 0.12
+    gap_frequency_ghz: 88.0
+    surface_resistance_microohm: 0.8
+  AlOx:
+    kind: dielectric
+    relative_permittivity: 9.0
+    loss_tangent: 0.0001
+    kinetic_inductance_ph_per_square: 0.0
+  Si:
+    kind: substrate
+    relative_permittivity: 11.45
+    loss_tangent: 0.000001
+    kinetic_inductance_ph_per_square: 0.0
+layers:
+  M1:
+    gds: [3, 0]
+    purpose: bottom electrode and ground plane
+    material: Al
+    thickness_nm: 35.0
+    min_width_um: 0.2
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+  JJ:
+    gds: [4, 0]
+    purpose: aluminum oxide tunnel barrier
+    material: AlOx
+    thickness_nm: 2.0
+    min_width_um: 0.1
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+    critical_current_density_ua_per_um2: 2.0
+  M2:
+    gds: [5, 0]
+    purpose: top electrode and wiring
+    material: Al
+    thickness_nm: 70.0
+    min_width_um: 0.2
+    min_spacing_um: 0.2
+    overlay_tolerance_um: 0.1
+  M3:
+    gds: [6, 0]
+    purpose: microwave routing and launch pads
+    material: Al
+    thickness_nm: 100.0
+    min_width_um: 0.4
+    min_spacing_um: 0.4
+    overlay_tolerance_um: 0.1
+  MARKER:
+    gds: [10, 0]
+    purpose: alignment and annotation
+    material: Si
+    thickness_nm: 1.0
+    min_width_um: 0.0
+    min_spacing_um: 0.0
+    overlay_tolerance_um: 0.1
+constraints:
+  min_junction_width_um: 0.1
+  min_junction_height_um: 0.1
+  min_trace_width_um: 0.2
+  min_trace_spacing_um: 0.2
+  min_cpw_gap_um: 1.0
+  via_min_size_um: 0.3
+  via_enclosure_um: 0.2
+  overlay_tolerance_um: 0.1
+provenance:
+  specific_capacitance_ff_per_um2: 45.0
+  alignment_error_um: 0.1
+  calibration_status: illustrative values; replace with wafer measurements before tapeout
+  owner: local user process

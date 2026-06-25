@@ -92,19 +92,44 @@ def manhattan_josephson_junction(
 
     c = gf.Component()
 
-    c.add_polygon(_rectangle(0, 0, 2 * electrode_length, lead_width), layer=bottom_layer)
-    c.add_polygon(_rectangle(0, 0, lead_width, 2 * electrode_length), layer=top_layer)
+    bridge_width = junction_width + 2.0 * bridge_overlap_um
+    bottom_lead_length = electrode_length - junction_width / 2.0
+    if bottom_lead_length <= 0.0:
+        raise ValueError("electrode_length must exceed junction_width / 2")
+    c.add_polygon(
+        _rectangle(
+            -electrode_length / 2.0 - junction_width / 4.0,
+            0,
+            bottom_lead_length,
+            lead_width,
+        ),
+        layer=bottom_layer,
+    )
+    c.add_polygon(
+        _rectangle(
+            electrode_length / 2.0 + junction_width / 4.0,
+            0,
+            bottom_lead_length,
+            lead_width,
+        ),
+        layer=bottom_layer,
+    )
+    c.add_polygon(_rectangle(0, 0, junction_width, junction_height), layer=bottom_layer)
+    c.add_polygon(_rectangle(0, 0, bridge_width, 2 * electrode_length), layer=top_layer)
+    c.add_polygon(
+        _rectangle(0, -electrode_length - lead_width / 2.0, lead_width, lead_width),
+        layer=top_layer,
+    )
+    c.add_polygon(
+        _rectangle(0, electrode_length + lead_width / 2.0, lead_width, lead_width),
+        layer=top_layer,
+    )
     c.add_polygon(_rectangle(0, 0, junction_width, junction_height), layer=barrier_layer)
 
     uc_w = junction_width + 2.0 * undercut_margin_um
     uc_h = junction_height + 2.0 * undercut_margin_um
     c.add_polygon(_rectangle(-evaporation_offset_um / 2.0, 0, uc_w, uc_h), layer=UNDERCUT)
     c.add_polygon(_rectangle(evaporation_offset_um / 2.0, 0, uc_w, uc_h), layer=UNDERCUT)
-    c.add_polygon(
-        _rectangle(0, 0, junction_width + undercut_margin_um, junction_height + undercut_margin_um),
-        layer=marker_layer,
-    )
-
     if include_m3_wiring:
         c.add_polygon(
             _rectangle(
@@ -124,6 +149,11 @@ def manhattan_josephson_junction(
             ),
             layer=wiring_layer,
         )
+    c.add_label(
+        f"JJ area {junction_width * junction_height:.6g} um2",
+        position=(0.0, -electrode_length - lead_width - 1.0),
+        layer=marker_layer,
+    )
 
     c.add_port(
         name="bottom_west",
@@ -143,7 +173,7 @@ def manhattan_josephson_junction(
     )
     c.add_port(
         name="top_south",
-        center=(0, -electrode_length),
+        center=(0, -electrode_length - lead_width),
         width=lead_width,
         orientation=270,
         layer=top_layer,
@@ -151,7 +181,7 @@ def manhattan_josephson_junction(
     )
     c.add_port(
         name="top_north",
-        center=(0, electrode_length),
+        center=(0, electrode_length + lead_width),
         width=lead_width,
         orientation=90,
         layer=top_layer,
@@ -159,11 +189,12 @@ def manhattan_josephson_junction(
     )
 
     junction_area_um2 = junction_width * junction_height
-    c.add_label(f"JJ area {junction_area_um2:.6g} um2", position=(0, 0), layer=marker_layer)
 
     c.info["device"] = "manhattan_jj"
     c.info["device_type"] = "manhattan_josephson_junction"
     c.info["junction_area_um2"] = junction_area_um2
+    c.info["junction_area_method"] = "polygon_boolean_extraction_required"
+    c.info["junction_area_formula"] = "area(M1_bottom_Al intersect M2_top_Al)"
     c.info["junction_width_um"] = junction_width
     c.info["junction_height_um"] = junction_height
     c.info["lead_width_um"] = lead_width
@@ -176,13 +207,14 @@ def manhattan_josephson_junction(
     c.info["layer_stack"] = layer_stack
     c.info["geometry"] = {
         "junction_area_um2": junction_area_um2,
-        "top_electrode_width": lead_width,
-        "bottom_electrode_width": lead_width,
+        "top_electrode_width": bridge_width,
+        "bottom_electrode_width": junction_height,
     }
     c.info["fabrication"] = {
         "process": "double_angle_evaporation",
-        "layers": ["M1 bottom Al", "JJ oxide", "M2 top Al", "M3 wiring"],
-        "bridge": "bridge_free_manhattan",
+        "layers": ["M1 bottom Al evaporation", "AlOx tunnel barrier", "M2 top Al evaporation", "M3 wiring"],
+        "bridge": "manhattan_cross_bridge",
+        "junction_area_source": "boolean overlap of written M1 and M2 GDS polygons",
     }
     c.info["layers"] = {
         "bottom_electrode": bottom_layer,
@@ -351,26 +383,39 @@ def dc_squid_pair(
     c = gf.Component()
     half_w = loop_width / 2.0
     half_h = loop_height / 2.0
-    half_trace = lead_width / 2.0
-    junction_y = half_h - half_trace
-    bottom_y = -half_h + half_trace
+    junction_y = half_h
+    bottom_y = -half_h
+    jj_x = half_w / 2.0
+    jj_electrode_length = max(3.0, lead_width * 3.0)
 
-    # Superconducting loop rails and side arms. Junction barriers sit in the top rail.
-    c.add_polygon(_rectangle(0, bottom_y, loop_width, lead_width), layer=bottom_layer)
-    c.add_polygon(_rectangle(-half_w + half_trace, 0, lead_width, loop_height), layer=bottom_layer)
-    c.add_polygon(_rectangle(half_w - half_trace, 0, lead_width, loop_height), layer=bottom_layer)
-    c.add_polygon(_rectangle(0, junction_y, loop_width, lead_width), layer=top_layer)
-    c.add_polygon(_rectangle(-half_w / 2.0, junction_y, junction_width, junction_height), layer=barrier_layer)
-    c.add_polygon(_rectangle(half_w / 2.0, junction_y, junction_width, junction_height), layer=barrier_layer)
-    c.add_polygon(_rectangle(-half_w - 3.0, bottom_y, 6.0, lead_width), layer=bottom_layer)
-    c.add_polygon(_rectangle(half_w + 3.0, junction_y, 6.0, lead_width), layer=top_layer)
+    for x in (-jj_x, jj_x):
+        jj_ref = c << manhattan_josephson_junction(
+            junction_width=junction_width,
+            junction_height=junction_height,
+            lead_width=lead_width,
+            electrode_length=jj_electrode_length,
+            bottom_layer=bottom_layer,
+            barrier_layer=barrier_layer,
+            top_layer=top_layer,
+            marker_layer=marker_layer,
+            include_m3_wiring=False,
+        )
+        jj_ref.move((x, junction_y))
+
+    c.add_polygon(_rectangle(0, bottom_y, loop_width, lead_width), layer=M3)
+    c.add_polygon(_rectangle(-half_w, 0, lead_width, loop_height), layer=M3)
+    c.add_polygon(_rectangle(half_w, 0, lead_width, loop_height), layer=M3)
+    c.add_polygon(_rectangle(0, junction_y, loop_width, lead_width), layer=M3)
+    c.add_polygon(_rectangle(-half_w - 3.0, bottom_y, 6.0, lead_width), layer=M3)
+    c.add_polygon(_rectangle(half_w + 3.0, junction_y, 6.0, lead_width), layer=M3)
+    c.add_polygon(_rectangle(0.0, 0.0, lead_width, lead_width), layer=marker_layer)
 
     c.add_port(
         name="bottom",
         center=(-half_w - 6.0, bottom_y),
         width=lead_width,
         orientation=180,
-        layer=bottom_layer,
+        layer=M3,
         port_type="electrical",
     )
     c.add_port(
@@ -378,7 +423,7 @@ def dc_squid_pair(
         center=(half_w + 6.0, junction_y),
         width=lead_width,
         orientation=0,
-        layer=top_layer,
+        layer=M3,
         port_type="electrical",
     )
     c.add_port(
@@ -415,6 +460,7 @@ def dc_squid_pair(
         "bottom_electrode": bottom_layer,
         "junction_barrier": barrier_layer,
         "top_electrode": top_layer,
+        "loop_wiring": M3,
         "marker": marker_layer,
     }
     c.info["visualization_only"] = VISUALIZATION_ONLY

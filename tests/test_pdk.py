@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_all_shipped_pdks_load_and_convert_to_existing_process_model():
     pdks = PDKDatabase(ROOT / "process").list()
     assert {pdk.process_id for pdk in pdks} == {
+        "aluminum_jj",
         "custom_process",
         "ibm_nb",
         "mit_ll_sfq",

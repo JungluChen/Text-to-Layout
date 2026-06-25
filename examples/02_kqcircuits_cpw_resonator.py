@@ -12,12 +12,10 @@ Run: uv run python examples/02_kqcircuits_cpw_resonator.py
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
 
 from text_to_gds.backends import get_backend
 from text_to_gds.design_intent import synthesize_design_intent
-from text_to_gds.server import compile_layout, export_openems_project, extract_layout, run_drc
+from text_to_gds.server import compile_layout, export_openems_project, run_drc
 
 # ── 1. Check backend availability ─────────────────────────────────────────────
 print("Backend availability:")

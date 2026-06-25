@@ -5,17 +5,27 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from text_to_gds.review.fabrication import review_fabrication
+from text_to_gds.review.final_reviewer import review_final
 from text_to_gds.review.literature import review_literature
+from text_to_gds.review.layout import review_layout_agent
 from text_to_gds.review.measurement import review_measurement
 from text_to_gds.review.microwave import review_microwave
 from text_to_gds.review.physics import review_physics
+from text_to_gds.review.reviewer import review_reviewer
+from text_to_gds.review.solver import review_solver
+from text_to_gds.review.solver_evidence_agent import review_solver_evidence
 
 REVIEWERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
+    "layout": review_layout_agent,
     "physics": review_physics,
     "microwave": review_microwave,
     "fabrication": review_fabrication,
+    "solver": review_solver,
+    "solver_evidence": review_solver_evidence,
     "measurement": review_measurement,
     "literature": review_literature,
+    "reviewer": review_reviewer,
+    "final": review_final,
 }
 
 

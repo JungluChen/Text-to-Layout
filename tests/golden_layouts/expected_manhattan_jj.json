@@ -1,0 +1,7 @@
+{
+  "device": "manhattan_josephson_junction",
+  "layers": ["M1", "JJ", "M2"],
+  "jj_area_um2": 0.0484,
+  "ports": 4,
+  "notes": "0.22 x 0.22 um junction; M1 horizontal bottom electrode, M2 vertical top electrode, JJ barrier at center"
+}

@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -177,7 +177,7 @@ def extract_geometry(
             if shape.is_polygon():
                 poly_dbu = shape.polygon
             elif shape.is_box():
-                poly_dbu = shape.box.to_polygon()
+                poly_dbu = kdb.Polygon(shape.box)
             elif shape.is_path():
                 poly_dbu = shape.path.polygon()
             else:
@@ -265,12 +265,12 @@ def _detect_devices(
     used: set[int] = set()
 
     m1_indices = [i for i, p in enumerate(polygons) if p.layer == _LAYER_M1]
-    jj_indices = [i for i, p in enumerate(polygons) if p.layer == _LAYER_JJ]
     m2_indices = [i for i, p in enumerate(polygons) if p.layer == _LAYER_M2]
+    jj_indices = [i for i, p in enumerate(polygons) if p.layer == _LAYER_JJ]
     via_indices = [i for i, p in enumerate(polygons) if p.layer == _LAYER_VIA]
 
     # --- Josephson junctions: JJ layer polygons ---
-    jj_devices = _detect_josephson_junctions(polygons, jj_indices, m1_indices)
+    jj_devices = _detect_josephson_junctions(polygons, jj_indices, m1_indices, m2_indices)
     for dev in jj_devices:
         devices.append(dev)
         used.update(dev.polygons)
@@ -327,12 +327,12 @@ def _detect_josephson_junctions(
     polygons: list[PolygonRecord],
     jj_indices: list[int],
     m1_indices: list[int],
+    m2_indices: list[int],
 ) -> list[DetectedDevice]:
-    """Detect JJs: JJ layer polygon overlapping at least one M1 polygon."""
+    """Detect JJs from bottom-Al/top-Al overlap near the JJ process marker."""
     devices: list[DetectedDevice] = []
     for ji in jj_indices:
         jj = polygons[ji]
-        area = jj.area_um2
         width_um = min(jj.width_um, jj.height_um)
         height_um = max(jj.width_um, jj.height_um)
 
@@ -340,6 +340,15 @@ def _detect_josephson_junctions(
         for mi in m1_indices:
             if _bboxes_overlap(jj.bbox_um, polygons[mi].bbox_um):
                 overlapping_m1.append(mi)
+        overlapping_m2 = []
+        for mi in m2_indices:
+            if _bboxes_overlap(jj.bbox_um, polygons[mi].bbox_um):
+                overlapping_m2.append(mi)
+
+        area = 0.0
+        for bottom_i in overlapping_m1:
+            for top_i in overlapping_m2:
+                area += _bbox_intersection_area(polygons[bottom_i].bbox_um, polygons[top_i].bbox_um)
 
         devices.append(DetectedDevice(
             device_type="jj",
@@ -347,16 +356,17 @@ def _detect_josephson_junctions(
                 "junction_area_um2": round(area, 5),
                 "bridge_width_um": round(width_um, 4),
                 "bridge_height_um": round(height_um, 4),
-                "electrode_count": len(overlapping_m1),
+                "bottom_electrode_count": len(overlapping_m1),
+                "top_electrode_count": len(overlapping_m2),
                 "layer": list(jj.layer),
                 "provenance": {
                     "method": "extracted",
                     "source": "klayout.db",
-                    "note": "area = JJ polygon area; overlapping M1 = electrode connections",
+                    "note": "area = M1/M2 polygon overlap; JJ marker geometry is not counted",
                 },
             },
-            polygons=[ji] + overlapping_m1,
-            confidence=0.95,
+            polygons=[ji] + overlapping_m1 + overlapping_m2,
+            confidence=0.95 if area > 0.0 else 0.25,
         ))
     return devices
 
@@ -543,6 +553,16 @@ def _detect_tlines(
 
 def _bboxes_overlap(a: list[float], b: list[float]) -> bool:
     return not (a[2] <= b[0] or b[2] <= a[0] or a[3] <= b[1] or b[3] <= a[1])
+
+
+def _bbox_intersection_area(*boxes: list[float]) -> float:
+    left = max(box[0] for box in boxes)
+    bottom = max(box[1] for box in boxes)
+    right = min(box[2] for box in boxes)
+    top = min(box[3] for box in boxes)
+    if right <= left or top <= bottom:
+        return 0.0
+    return (right - left) * (top - bottom)
 
 
 def _bbox_centroid(bbox: list[float]) -> tuple[float, float]:

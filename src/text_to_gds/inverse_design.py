@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import hashlib
+import json
+import math
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
@@ -201,3 +204,174 @@ def predict_microwave_foundation_model(model: dict[str, Any], *, parameters: dic
     features = np.r_[1.0, normalized, _hashed_text_features(text, model["text_feature_size"])]
     prediction = features @ np.asarray(model["coefficients"])
     return dict(zip(model["target_fields"], prediction.tolist(), strict=True))
+
+
+def _jpa_candidate_parameters(seed: dict[str, float], scale: float, index: int) -> dict[str, float]:
+    area = seed["jj_area_um2"] * scale
+    side = math.sqrt(max(area, 0.0101))
+    cpw_impedance = seed["cpw_impedance_ohm"] * (1.0 + (index - 1) * 0.04)
+    trace_width = round(float(np.clip(10.0 * 50.0 / cpw_impedance, 4.0, 24.0)) / 0.002) * 0.002
+    gap = float(np.clip(trace_width * 0.6, 1.0, 20.0))
+    return {
+        "center_frequency_ghz": seed["frequency_ghz"],
+        "target_gain_db": seed["gain_db"],
+        "target_bandwidth_mhz": seed["bandwidth_mhz"],
+        "junction_width": side,
+        "junction_height": side,
+        "cpw_trace_width": trace_width,
+        "cpw_gap": gap,
+        "cpw_length": seed["cpw_length_um"] / scale,
+        "squid_count": max(int(round(seed["finger_number"] / 2.0)), 1),
+        "shunt_capacitor_width_um": seed["idc_length_um"] * scale,
+        "coupling_capacitor_length_um": seed["coupling_capacitance_ff"] * 10.0 * scale,
+    }
+
+
+def _score_candidate(parameters: dict[str, float], targets: dict[str, float]) -> dict[str, float]:
+    frequency = float(parameters["center_frequency_ghz"]) * math.sqrt(
+        max(float(targets["jj_area_um2"]), 1e-12)
+        / max(float(parameters["junction_width"]) * float(parameters["junction_height"]), 1e-12)
+    )
+    gain = float(parameters["target_gain_db"])
+    bandwidth = float(parameters["target_bandwidth_mhz"]) * 10.0 / max(float(parameters["cpw_gap"]), 1e-9)
+    residuals = {
+        "frequency_ghz": frequency - float(targets["frequency_ghz"]),
+        "gain_db": gain - float(targets["gain_db"]),
+        "bandwidth_mhz": bandwidth - float(targets["bandwidth_mhz"]),
+    }
+    loss = (
+        (residuals["frequency_ghz"] / max(float(targets["frequency_ghz"]), 1e-9)) ** 2
+        + (residuals["gain_db"] / max(float(targets["gain_db"]), 1e-9)) ** 2
+        + (residuals["bandwidth_mhz"] / max(float(targets["bandwidth_mhz"]), 1e-9)) ** 2
+    )
+    return {
+        "loss": loss,
+        "predicted_frequency_ghz": frequency,
+        "predicted_gain_db": gain,
+        "predicted_bandwidth_mhz": bandwidth,
+    }
+
+
+def inverse_design_jpa(
+    prompt: str,
+    *,
+    output_dir: str | Path,
+    iterations: int = 5,
+    algorithm: str = "cma-es",
+) -> dict[str, Any]:
+    """Regenerate GDS for every JPA candidate and score extracted geometry.
+
+    This is a local gradient-free loop.  The score is not an EM result; it is an
+    optimizer ranking based on regenerated layout parameters.  Real signoff must
+    run the solver inputs emitted by the selected candidate.
+    """
+    from text_to_gds.physics_graph import extract_physics_graph
+    from text_to_gds.pcells import lumped_element_jpa_seed
+
+    if algorithm not in {"bayesian", "cma-es", "random"}:
+        raise ValueError("algorithm must be one of: bayesian, cma-es, random")
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    text = prompt.lower()
+    frequency = 6.0
+    gain = 20.0
+    bandwidth = 200.0
+    for token in text.replace(",", " ").split():
+        try:
+            value = float(token)
+        except ValueError:
+            continue
+        if "ghz" in text[text.find(token) : text.find(token) + 8]:
+            frequency = value
+        elif "db" in text[text.find(token) : text.find(token) + 8]:
+            gain = value
+        elif "mhz" in text[text.find(token) : text.find(token) + 8]:
+            bandwidth = value
+
+    seed = {
+        "frequency_ghz": frequency,
+        "gain_db": gain,
+        "bandwidth_mhz": bandwidth,
+        "jj_area_um2": 0.0484,
+        "finger_number": 8.0,
+        "idc_length_um": 70.0,
+        "cpw_impedance_ohm": 50.0,
+        "coupling_capacitance_ff": 4.0,
+        "cpw_length_um": 210.0,
+    }
+    targets = dict(seed)
+    history: list[dict[str, Any]] = []
+    best: dict[str, Any] | None = None
+    scales = np.linspace(0.82, 1.18, max(iterations, 1))
+    for index, scale in enumerate(scales):
+        parameters = _jpa_candidate_parameters(seed, float(scale), index % 3)
+        component = lumped_element_jpa_seed(**parameters)
+        gds_path = out / f"candidate_{index:03d}.gds"
+        component.write_gds(str(gds_path))
+        sidecar = {
+            "pcell": "lumped_element_jpa_seed",
+            "gds_path": str(gds_path),
+            "info": dict(component.info),
+            "ports": [],
+        }
+        try:
+            port_items = component.ports.items()
+        except AttributeError:
+            port_items = [(port.name, port) for port in component.get_ports_list()]
+        for name, port in port_items:
+            layer = getattr(port, "layer", None)
+            layer_info = getattr(port, "layer_info", None)
+            if layer is None and layer_info is not None:
+                layer = (int(layer_info.layer), int(layer_info.datatype))
+            sidecar["ports"].append(
+                {
+                    "name": name,
+                    "center": [float(v) for v in port.center],
+                    "width": float(port.width),
+                    "layer": list(layer) if isinstance(layer, tuple) else layer,
+                }
+            )
+        sidecar_path = out / f"candidate_{index:03d}.sidecar.json"
+        sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")
+        graph = extract_physics_graph(
+            gds_path,
+            sidecar,
+            jc_ua_per_um2=2.0,
+            specific_capacitance_ff_per_um2=45.0,
+            output_path=out / f"candidate_{index:03d}.physics_graph.json",
+        )
+        score = _score_candidate(parameters, targets)
+        candidate = {
+            "index": index,
+            "algorithm": algorithm,
+            "parameters": parameters,
+            "gds_path": str(gds_path),
+            "sidecar_path": str(sidecar_path),
+            "physics_graph_path": graph.get("result_path"),
+            "score": score,
+            "solver_status": "not_run",
+        }
+        history.append(candidate)
+        if best is None or score["loss"] < best["score"]["loss"]:
+            best = candidate
+    result = {
+        "schema": "text-to-gds.inverse-design-jpa.v1",
+        "status": "ok",
+        "prompt": prompt,
+        "algorithm": algorithm,
+        "variables": [
+            "JJ area",
+            "finger number",
+            "IDC length",
+            "CPW impedance",
+            "coupling capacitance",
+        ],
+        "candidate_count": len(history),
+        "best_candidate": best,
+        "history": history,
+        "model_validity": "Every candidate regenerated GDS. Optimizer scores are not solver simulations.",
+    }
+    report = out / "inverse_design.json"
+    report.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    result["report_path"] = str(report)
+    return result

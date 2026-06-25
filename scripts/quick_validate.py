@@ -9,8 +9,10 @@ from typing import Any
 REQUIRED_ROOT_FILES = [
     "pyproject.toml",
     "README.md",
-    "TASKS.md",
     "AGENTS.md",
+    "SOLVER_EVIDENCE_CONTRACT.md",
+    "PHYSICS_GRAPH_SCHEMA.md",
+    "SIGNOFF_CRITERIA.md",
     "src/text_to_gds/server.py",
     "src/text_to_gds/adapters.py",
     "skills/text-to-gds/SKILL.md",
@@ -18,12 +20,16 @@ REQUIRED_ROOT_FILES = [
     "skills/text-to-gds-layout-design/SKILL.md",
     "skills/text-to-gds-simulation/SKILL.md",
     "skills/text-to-gds-signoff/SKILL.md",
+    "skills/text-to-gds-physics-signoff/SKILL.md",
     "skills/text-to-gds/scripts/text_to_gds_tool.py",
 ]
 
 REQUIRED_BUNDLE_FILES = [
     "pyproject.toml",
     "README.md",
+    "SOLVER_EVIDENCE_CONTRACT.md",
+    "PHYSICS_GRAPH_SCHEMA.md",
+    "SIGNOFF_CRITERIA.md",
     "src/text_to_gds/server.py",
     "src/text_to_gds/adapters.py",
     "skills/text-to-gds/SKILL.md",
@@ -31,6 +37,7 @@ REQUIRED_BUNDLE_FILES = [
     "skills/text-to-gds-layout-design/SKILL.md",
     "skills/text-to-gds-simulation/SKILL.md",
     "skills/text-to-gds-signoff/SKILL.md",
+    "skills/text-to-gds-physics-signoff/SKILL.md",
 ]
 
 

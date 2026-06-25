@@ -16,7 +16,6 @@ References:
 
 from __future__ import annotations
 
-import cmath
 import math
 from typing import Any
 
@@ -372,7 +371,6 @@ def _circle_from_3_points(
 
 def _solve_circle_fit(M, x, y, sz, sxz, syz, szz, sxx, sxy, syy, sx, sy, n):
     """Simple algebraic circle fit — returns (cx, cy, radius)."""
-    sx2y2 = sz
     a = n * sxx - sx * sx
     b = n * sxy - sx * sy
     c = n * syy - sy * sy

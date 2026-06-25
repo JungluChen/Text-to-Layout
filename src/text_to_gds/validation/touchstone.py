@@ -208,7 +208,6 @@ def _max_singular_value_2x2(S: list[list[complex]]) -> float:
     # S†S elements
     m11 = abs(a) ** 2 + abs(c) ** 2
     m12 = a.conjugate() * b + c.conjugate() * d
-    m21 = m12.conjugate()
     m22 = abs(b) ** 2 + abs(d) ** 2
 
     trace = m11 + m22

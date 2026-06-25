@@ -42,7 +42,7 @@ def test_manhattan_jj_is_process_aware_and_extracted_from_gds(tmp_path):
     assert extracted["status"] == "ok"
     assert extracted["geometry"]["manhattan_jj"]["junction_area_um2"] == pytest.approx(0.048)
     assert extracted["geometry"]["manhattan_jj"]["top_electrode_width"] == pytest.approx(0.8)
-    assert extracted["geometry"]["manhattan_jj"]["bottom_electrode_width"] == pytest.approx(0.8)
+    assert extracted["geometry"]["manhattan_jj"]["bottom_electrode_width"] == pytest.approx(0.2)
 
 
 def test_extracted_numbers_have_required_lineage_fields(tmp_path):

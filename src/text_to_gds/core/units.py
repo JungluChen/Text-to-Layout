@@ -59,14 +59,14 @@ def ff_to_f(c: float) -> float:
 def f_to_ff(c: float) -> float:
     return c * 1e15
 
-def ph_to_h(l: float) -> float:
-    return l * 1e-12
+def ph_to_h(inductance_ph: float) -> float:
+    return inductance_ph * 1e-12
 
-def h_to_ph(l: float) -> float:
-    return l * 1e12
+def h_to_ph(inductance_h: float) -> float:
+    return inductance_h * 1e12
 
-def nh_to_h(l: float) -> float:
-    return l * 1e-9
+def nh_to_h(inductance_nh: float) -> float:
+    return inductance_nh * 1e-9
 
 def dbm_to_watts(p_dbm: float) -> float:
     return 1e-3 * 10.0 ** (p_dbm / 10.0)

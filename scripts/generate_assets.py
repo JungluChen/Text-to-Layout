@@ -48,7 +48,9 @@ _LAYOUTS: list[tuple[str, str, dict[str, Any], str]] = [
     (
         "benchmark_05_cpw_resonator_test_layout",
         "cpw_quarter_wave_resonator",
-        {},
+        # effective_permittivity is the CPW mode ε_eff (≈6.2 for Si substrate).
+        # Do NOT pass ε_r=11.45 here — that is the bulk silicon dielectric constant.
+        {"trace_width": 10.0, "gap": 6.0, "effective_permittivity": 6.2},
         "benchmark_05",
     ),
     (
@@ -140,7 +142,9 @@ def _intent_inputs(pcell: str, parameters: dict[str, Any]) -> tuple[str, dict[st
             "center_width_um": float(parameters.get("trace_width", 10.0)),
             "gap_um": float(parameters.get("gap", 6.0)),
             "ground_width_um": float(parameters.get("ground_width", 500.0)),
-            "epsilon_r": float(parameters.get("epsilon_r", 11.45)),
+            # epsilon_r is the substrate dielectric constant (silicon=11.45).
+            # effective_permittivity (ε_eff≈6.2) is derived from ε_r by conformal mapping.
+            "epsilon_r": 11.45,
             "substrate_thickness_um": float(parameters.get("substrate_thickness_um", 254.0)),
             "impedance_tolerance_ohm": 5.0,
             "substrate": str(parameters.get("substrate", "high_resistivity_silicon")),
@@ -316,6 +320,100 @@ def _render_status_figure(
     return output
 
 
+def _render_openems_cpw_equations_asset(
+    *,
+    output_path: str | Path,
+    compiled: dict[str, Any],
+) -> Path:
+    """Render the openEMS handoff using CPW quantities and microwave equations."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.image as mpimg
+    import matplotlib.pyplot as plt
+
+    from text_to_gds.automatic_mesh import generate_solver_inputs_from_graph
+    from text_to_gds.physics_graph import extract_physics_graph
+
+    sidecar = json.loads(Path(compiled["sidecar_path"]).read_text(encoding="utf-8"))
+    graph = extract_physics_graph(
+        compiled["gds_path"],
+        sidecar,
+        output_path=WORKSPACE / "asset_openems.physics_graph.json",
+    )
+    solver_inputs = generate_solver_inputs_from_graph(
+        graph,
+        output_dir=WORKSPACE / "asset_openems_solver_inputs",
+    )
+    cpw = next(node for node in graph["nodes"] if node["type"] == "transmission_line")
+    params = cpw["physics_parameters"]
+    z0 = params["z0"]["value"]
+    eps_eff = params["epsilon_eff"]["value"]
+    vp = params["phase_velocity"]["value"]
+    c_per_m = params["capacitance_per_length"]["value"]
+    l_per_m = params["inductance_per_length"]["value"]
+    beta_rad_per_m = 2.0 * 3.141592653589793 * 6.0e9 / vp
+
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.8), constrained_layout=True)
+    fig.suptitle("openEMS CPW handoff: geometry -> physics graph -> solver inputs", fontsize=14, fontweight="bold")
+
+    axes[0].imshow(mpimg.imread(str(compiled["screenshot_path"])))
+    axes[0].axis("off")
+    axes[0].set_title("GDS geometry")
+
+    equation_lines = [
+        "Extracted CPW quantities",
+        f"w = {params['width']['value']:.4g} um",
+        f"g = {params['gap']['value']:.4g} um",
+        f"l = {params['length']['value']:.4g} um",
+        "",
+        "Microwave equations",
+        "Z0 = sqrt(L'/C')",
+        "vp = 1/sqrt(L' C')",
+        "epsilon_eff = (c/vp)^2",
+        "beta = omega/vp",
+        "",
+        f"Z0 = {z0:.3f} ohm",
+        f"epsilon_eff = {eps_eff:.4f}",
+        f"L' = {l_per_m:.4e} H/m",
+        f"C' = {c_per_m:.4e} F/m",
+        f"vp = {vp:.4e} m/s",
+        f"beta(6 GHz) = {beta_rad_per_m:.4e} rad/m",
+    ]
+    axes[1].text(0.03, 0.97, "\n".join(equation_lines), va="top", family="monospace", fontsize=8.5, transform=axes[1].transAxes)
+    axes[1].axis("off")
+    axes[1].set_title("physics_graph.json")
+
+    files = solver_inputs["openems"]
+    solver_lines = [
+        "Generated openEMS inputs",
+        f"geometry.xml: {Path(files['geometry_xml']).name}",
+        f"mesh.xml:     {Path(files['mesh_xml']).name}",
+        f"ports.xml:    {Path(files['ports_xml']).name}",
+        "",
+        "Mesh refinement",
+    ]
+    for rule in solver_inputs["mesh_refinement_rules"]:
+        solver_lines.append(f"{rule['region']}: {rule['mesh_size_um']} um ({rule['priority']})")
+    solver_lines.extend(
+        [
+            "",
+            "Status: input files prepared",
+            "No S-parameters are reported until",
+            "openEMS produces a Touchstone file.",
+        ]
+    )
+    axes[2].set_facecolor("#fff7d6")
+    axes[2].text(0.03, 0.97, "\n".join(solver_lines), va="top", family="monospace", fontsize=8.5, transform=axes[2].transAxes)
+    axes[2].axis("off")
+    axes[2].set_title("solver contract")
+
+    fig.savefig(output, dpi=180, facecolor="white")
+    plt.close(fig)
+    return output
+
+
 def _extract(compiled: dict[str, Any]) -> dict[str, Any]:
     from text_to_gds.server import extract_layout
     return extract_layout(compiled["sidecar_path"])
@@ -347,7 +445,6 @@ def generate_sims() -> None:
     """Generate solver assets or explicit failure figures when a solver is unavailable."""
     from text_to_gds.server import (
         export_hamiltonian_model,
-        export_openems_project,
         export_scientific_report,
         run_simulation,
     )
@@ -399,51 +496,24 @@ def generate_sims() -> None:
         )
         print("  scqubits skipped — status figure written")
 
-    # --- openems_extraction_example: RF network from FDTD ---
-    openems = export_openems_project(
-        compiled["sidecar_path"], output_name="asset_openems", run=True
+    # --- openems_extraction_example: CPW equations + generated solver inputs ---
+    cpw_compiled = _compile_with_intent(
+        pcell="cpw_quarter_wave_resonator",
+        parameters={
+            "target_frequency_ghz": 6.0,
+            # ε_eff ≈ 6.2 for a CPW on silicon substrate (ε_r=11.45).
+            # The parameter is the CPW mode effective permittivity, not ε_r.
+            "effective_permittivity": 6.2,
+            "trace_width": 10.0,
+            "gap": 6.0,
+        },
+        output_name="asset_openems_cpw.gds",
     )
-    touchstone_path = openems.get("touchstone_path")
-    execution = openems.get("execution")
-    if not touchstone_path and isinstance(execution, dict):
-        touchstone_path = execution.get("touchstone_path") or execution.get("s2p_path")
-    if openems.get("status") == "executed" and touchstone_path and Path(str(touchstone_path)).is_file():
-        from text_to_gds.rf import write_rf_network_artifacts
-        validated_rf = write_rf_network_artifacts(
-            {"touchstone_path": touchstone_path},
-            touchstone_path=WORKSPACE / "asset_openems.validated.s2p",
-            report_path=WORKSPACE / "asset_openems.rf.json",
-            plot_path=WORKSPACE / "asset_openems.rf.png",
-            csv_path=WORKSPACE / "asset_openems.rf.csv",
-        )
-        if validated_rf.get("status") == "ok" and Path(validated_rf["plot_path"]).is_file():
-            _copy(validated_rf["plot_path"], "openems_extraction_example.png")
-            print("  openEMS executed — real RF plot written")
-        else:
-            _render_status_figure(
-                ASSETS / "openems_extraction_example.png",
-                title="openEMS RF validation failed",
-                extraction=extraction,
-                analysis=validated_rf,
-                layout_png=layout_png,
-            )
-            print("  openEMS validation failed — status figure written")
-    else:
-        _render_status_figure(
-            ASSETS / "openems_extraction_example.png",
-            title="openEMS RF result — solver not executed",
-            extraction=extraction,
-            analysis={
-                "status": "FAILED",
-                "engine": "openEMS",
-                "reason": (
-                    openems.get("reason")
-                    or "openEMS solver not available or did not produce a Touchstone file"
-                ),
-            },
-            layout_png=layout_png,
-        )
-        print("  openEMS skipped — status figure written")
+    _render_openems_cpw_equations_asset(
+        output_path=ASSETS / "openems_extraction_example.png",
+        compiled=cpw_compiled,
+    )
+    print("  wrote assets/openems_extraction_example.png")
 
     # --- jpa_analysis_example: JosephsonCircuits.jl simulation ---
     simulation = run_simulation(
@@ -544,7 +614,7 @@ def generate_benchmarks() -> None:
         (
             "benchmark_05_cpw_resonator_test_layout",
             "cpw_quarter_wave_resonator",
-            {},
+            {"trace_width": 10.0, "gap": 6.0, "effective_permittivity": 6.2},
             "benchmark_05_sim",
         ),
         (
@@ -586,7 +656,8 @@ def generate_benchmarks() -> None:
             analysis=sim_analysis,
             layout_png=compiled["screenshot_path"],
         )
-        _copy(figure_path, f"{asset_name}.png")
+        benchmark_asset = asset_name.replace("_layout", "_benchmark")
+        _copy(figure_path, f"{benchmark_asset}.png")
 
         report = {
             "schema": "text-to-gds.asset-benchmark.v1",

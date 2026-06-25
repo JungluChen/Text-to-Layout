@@ -15,10 +15,19 @@ def _good_cpw_evidence():
         "device": "cpw_resonator",
         "sidecar": {
             "pcell": "cpw_quarter_wave_resonator",
+            "layout_quality_mode": "fabrication_real",
+            "quality_record": {"status": "supported"},
             "info": {"device_type": "cpw_resonator", "has_ground_plane": True},
             "ports": [{"name": "in"}, {"name": "out"}],
         },
         "drc": {"status": "passed", "violations": []},
+        "extraction": {"status": "ok", "geometry": {}},
+        "simulation": {"status": "SKIPPED", "reason": "no solver installed"},
+        "layout_validation": {"passed": True, "findings": []},
+        "literature_comparison": {
+            "references": ["reference-cpw"],
+            "comparisons": [{"parameter": "frequency_ghz", "generated": 6.0, "reference": 6.0}],
+        },
     }
 
 

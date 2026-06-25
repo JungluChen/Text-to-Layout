@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 from text_to_gds.pcells.junction import dc_squid_pair
-from text_to_gds.pcells.passives import cpw_straight, flux_bias_line, ground_plane, meander_inductor
+from text_to_gds.pcells.passives import cpw_straight, flux_bias_line, meander_inductor
 from text_to_gds.process import M1, M2, M3, JJ, require_positive
 
 
@@ -63,12 +63,13 @@ def lumped_element_jpa_seed(
 
     c = gf.Component()
 
-    c << ground_plane(width=active_width_um, height=active_height_um, clearance=cpw_gap)
     feedline = c << cpw_straight(
         length=cpw_length,
         trace_width=cpw_trace_width,
         gap=cpw_gap,
-        ground_width=18.0,
+        ground_width=8.0,
+        launch_pad_length=50.0,
+        launch_pad_width=cpw_trace_width,
         signal_layer=M3,
     )
     feedline.move((0.0, 0.0))
@@ -113,21 +114,48 @@ def lumped_element_jpa_seed(
     )
     flux.move((0.0, 24.0))
 
-    cap_y = -78.0
-    cap_half = shunt_capacitor_width_um / 2.0
+    cap_y = -82.0
+    idc_fingers = 8
+    idc_finger_width_um = max(2.0, shunt_capacitor_gap_um)
+    idc_pitch_um = idc_finger_width_um + shunt_capacitor_gap_um
+    idc_span_um = (idc_fingers - 1) * idc_pitch_um + idc_finger_width_um
+    bus_height_um = 4.0
+    finger_length_um = shunt_capacitor_width_um
+    x0 = -idc_span_um / 2.0 + idc_finger_width_um / 2.0
+    top_bus_y = cap_y + finger_length_um / 2.0 + bus_height_um / 2.0
+    bottom_bus_y = cap_y - finger_length_um / 2.0 - bus_height_um / 2.0
     c.add_polygon(
-        [(-cap_half, cap_y), (cap_half, cap_y), (cap_half, cap_y + 10.0), (-cap_half, cap_y + 10.0)],
+        [
+            (-idc_span_um / 2.0, top_bus_y - bus_height_um / 2.0),
+            (idc_span_um / 2.0, top_bus_y - bus_height_um / 2.0),
+            (idc_span_um / 2.0, top_bus_y + bus_height_um / 2.0),
+            (-idc_span_um / 2.0, top_bus_y + bus_height_um / 2.0),
+        ],
         layer=M2,
     )
     c.add_polygon(
         [
-            (-cap_half, cap_y - shunt_capacitor_gap_um - 10.0),
-            (cap_half, cap_y - shunt_capacitor_gap_um - 10.0),
-            (cap_half, cap_y - shunt_capacitor_gap_um),
-            (-cap_half, cap_y - shunt_capacitor_gap_um),
+            (-idc_span_um / 2.0, bottom_bus_y - bus_height_um / 2.0),
+            (idc_span_um / 2.0, bottom_bus_y - bus_height_um / 2.0),
+            (idc_span_um / 2.0, bottom_bus_y + bus_height_um / 2.0),
+            (-idc_span_um / 2.0, bottom_bus_y + bus_height_um / 2.0),
         ],
         layer=M1,
     )
+    for finger in range(idc_fingers):
+        x = x0 + finger * idc_pitch_um
+        layer = M2 if finger % 2 == 0 else M1
+        y_anchor = top_bus_y - bus_height_um / 2.0 if layer == M2 else bottom_bus_y + bus_height_um / 2.0
+        y_end = cap_y - finger_length_um / 2.0 if layer == M2 else cap_y + finger_length_um / 2.0
+        c.add_polygon(
+            [
+                (x - idc_finger_width_um / 2.0, min(y_anchor, y_end)),
+                (x + idc_finger_width_um / 2.0, min(y_anchor, y_end)),
+                (x + idc_finger_width_um / 2.0, max(y_anchor, y_end)),
+                (x - idc_finger_width_um / 2.0, max(y_anchor, y_end)),
+            ],
+            layer=layer,
+        )
     for sign in (-1.0, 1.0):
         x = sign * (cpw_length / 2.0 - coupling_capacitor_length_um / 2.0)
         c.add_polygon(
@@ -154,7 +182,7 @@ def lumped_element_jpa_seed(
     shunt_capacitance_ff = (
         8.8541878128e-12
         * 6.2
-        * (shunt_capacitor_width_um * 10.0 * 1e-12)
+        * ((idc_fingers - 1) * finger_length_um * idc_finger_width_um * 1e-12)
         / (shunt_capacitor_gap_um * 1e-6)
         * 1e15
     )
@@ -170,6 +198,8 @@ def lumped_element_jpa_seed(
     c.info["center_frequency_ghz"] = center_frequency_ghz
     c.info["target_bandwidth_mhz"] = target_bandwidth_mhz
     c.info["target_gain_db"] = target_gain_db
+    c.info["jpa_gain_status"] = "SKIPPED"
+    c.info["jpa_gain_skip_reason"] = "nonlinear Josephson model and pump simulation were not executed by layout generation"
     c.info["active_width_um"] = active_width_um
     c.info["active_height_um"] = active_height_um
     c.info["squid_enabled"] = True
@@ -191,6 +221,10 @@ def lumped_element_jpa_seed(
     c.info["flux_line_width_um"] = flux_line_width
     c.info["shunt_capacitance_ff"] = shunt_capacitance_ff
     c.info["coupling_capacitance_ff"] = coupling_capacitance_ff
+    c.info["idc_finger_count"] = idc_fingers
+    c.info["idc_finger_length_um"] = finger_length_um
+    c.info["idc_finger_width_um"] = idc_finger_width_um
+    c.info["idc_gap_um"] = shunt_capacitor_gap_um
     c.info["shunt_capacitor_width_um"] = shunt_capacitor_width_um
     c.info["shunt_capacitor_gap_um"] = shunt_capacitor_gap_um
     c.info["coupling_capacitor_length_um"] = coupling_capacitor_length_um
@@ -237,16 +271,24 @@ def lumped_element_jpa_seed(
         },
     }
     c.info["design_notes"] = [
-        "Seed layout for agent iteration; not a signoff LJPA.",
-        "Use extracted sidecar parameters to build external harmonic-balance/transient models.",
-        "Tune CPW, shunt capacitance, SQUID flux bias, JJ parameters, and coupling after simulation.",
+        "Fabrication-semantic JPA seed; signoff still requires foundry DRC and executed solvers.",
+        "Use extracted polygon parameters to build external harmonic-balance/transient models.",
+        "Tune CPW, IDC shunt capacitance, SQUID flux bias, JJ parameters, and coupling after simulation.",
     ]
+    c.info["required_jpa_features"] = {
+        "squid_loop": True,
+        "josephson_junction_count": 2 * squid_count,
+        "idc_shunt_capacitor": True,
+        "coupling_capacitor": True,
+        "rf_port": True,
+        "ground": True,
+    }
     c.info["layers"] = {
         "ground": M1,
         "rf_signal": M3,
         "flux_bias": M2,
         "inductor": M2,
-        "shunt_capacitor": M2,
+        "idc_shunt_capacitor": M2,
         "coupling_capacitor": M2,
         "junction_bottom": M1,
         "junction_barrier": JJ,

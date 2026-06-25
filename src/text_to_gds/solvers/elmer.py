@@ -19,7 +19,6 @@ import subprocess
 import textwrap
 import time
 from pathlib import Path
-from typing import Any
 
 from text_to_gds.solvers.interface import (
     AvailabilityStatus,
@@ -55,9 +54,9 @@ class ElmerFEMSolver(CapacitanceSolver):
             return AvailabilityStatus(
                 available=False,
                 reason=(
-                    f"ElmerSolver not found on PATH. "
-                    f"Install from https://www.elmerfem.org/blog/binaries/ "
-                    f"and add to PATH."
+                    "ElmerSolver not found on PATH. "
+                    "Install from https://www.elmerfem.org/blog/binaries/ "
+                    "and add to PATH."
                 ),
             )
         try:
@@ -305,7 +304,7 @@ def _build_geo(
     t = metal_thickness_nm * 1e-3  # nm → µm
     s = gap_um
     w = width_um
-    l = length_um
+    length = length_um
 
     return textwrap.dedent(f"""\
         // {device_type} cross-section geometry (all dimensions in µm)
@@ -314,7 +313,7 @@ def _build_geo(
         w = {w};  // conductor width
         s = {s};  // gap
         t = {t};  // metal thickness
-        l = {l};  // length
+        l = {length};  // length
 
         // Center conductor
         Box(1) = {{0, 0, 0, w, l, t}};

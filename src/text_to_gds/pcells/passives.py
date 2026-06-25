@@ -100,6 +100,31 @@ def _lineage(value: float, unit: str, formula: str, *, confidence: float = 0.85)
     }
 
 
+def _add_axis_aligned_route(
+    target: gf.Component,
+    p1: tuple[float, float],
+    p2: tuple[float, float],
+    width: float,
+    layer: Layer,
+) -> float:
+    x1, y1 = p1
+    x2, y2 = p2
+    length = 0.0
+    if abs(x2 - x1) > 1e-12:
+        target.add_polygon(
+            _rotated_rectangle((x1 + x2) / 2.0, y1, abs(x2 - x1) + width, width, 0.0),
+            layer=layer,
+        )
+        length += abs(x2 - x1)
+    if abs(y2 - y1) > 1e-12:
+        target.add_polygon(
+            _rotated_rectangle(x2, (y1 + y2) / 2.0, width, abs(y2 - y1) + width, 0.0),
+            layer=layer,
+        )
+        length += abs(y2 - y1)
+    return length
+
+
 @gf.cell
 def cpw_straight(
     length: float = 100.0,
@@ -108,40 +133,55 @@ def cpw_straight(
     ground_width: float = 25.0,
     effective_permittivity: float = 6.2,
     angle_deg: float = 0.0,
+    launch_pad_length: float = 80.0,
+    launch_pad_width: float = 80.0,
     signal_layer: Layer = M3,
     ground_layer: Layer = M1,
 ) -> gf.Component:
-    """Straight coplanar waveguide section with explicit gap and rotation."""
+    """Straight CPW with subtractive ground-plane clearances and launch pads."""
     for name, value in {
         "length": length,
         "trace_width": trace_width,
         "gap": gap,
         "ground_width": ground_width,
         "effective_permittivity": effective_permittivity,
+        "launch_pad_length": launch_pad_length,
+        "launch_pad_width": launch_pad_width,
     }.items():
         require_positive(name, value)
     require_minimum("trace_width", trace_width, DEFAULT_PROCESS.rules.min_trace_width_um)
     require_minimum("gap", gap, DEFAULT_PROCESS.rules.min_cpw_gap_um)
 
+    if launch_pad_width < trace_width:
+        raise ValueError("launch_pad_width must be >= trace_width")
+
     c = gf.Component()
-    c.add_polygon(_rotated_rectangle(0, 0, length, trace_width, angle_deg), layer=signal_layer)
+    signal = gf.Component()
+    clearance = gf.Component()
 
-    ground_center_y = gap + trace_width / 2.0 + ground_width / 2.0
-    c.add_polygon(
-        _rotated_rectangle(0, ground_center_y, length, ground_width, angle_deg),
-        layer=ground_layer,
-    )
-    c.add_polygon(
-        _rotated_rectangle(0, -ground_center_y, length, ground_width, angle_deg),
-        layer=ground_layer,
-    )
+    total_length = length + 2.0 * launch_pad_length
+    total_width = max(trace_width + 2.0 * gap + 2.0 * ground_width, launch_pad_width + 2.0 * gap + 2.0 * ground_width)
+    signal.add_polygon(_rotated_rectangle(0, 0, length, trace_width, angle_deg), layer=signal_layer)
+    clearance.add_polygon(_rotated_rectangle(0, 0, length, trace_width + 2.0 * gap, angle_deg), layer=ground_layer)
 
-    west = _rotate_point(-length / 2.0, 0.0, angle_deg)
-    east = _rotate_point(length / 2.0, 0.0, angle_deg)
+    for sign in (-1.0, 1.0):
+        pad_x = sign * (length / 2.0 + launch_pad_length / 2.0)
+        signal.add_polygon(_rotated_rectangle(pad_x, 0, launch_pad_length, launch_pad_width, angle_deg), layer=signal_layer)
+        clearance.add_polygon(
+            _rotated_rectangle(pad_x, 0, launch_pad_length + 2.0 * gap, launch_pad_width + 2.0 * gap, angle_deg),
+            layer=ground_layer,
+        )
+
+    ground = gf.components.rectangle(size=(total_length, total_width), layer=ground_layer, centered=True)
+    c.add_ref(gf.boolean(ground, clearance, operation="not", layer=ground_layer))
+    c.add_ref(signal)
+
+    west = _rotate_point(-total_length / 2.0, 0.0, angle_deg)
+    east = _rotate_point(total_length / 2.0, 0.0, angle_deg)
     c.add_port(
         name="west",
         center=west,
-        width=trace_width,
+        width=launch_pad_width,
         orientation=_port_orientation(180.0, angle_deg),
         layer=signal_layer,
         port_type="electrical",
@@ -149,7 +189,7 @@ def cpw_straight(
     c.add_port(
         name="east",
         center=east,
-        width=trace_width,
+        width=launch_pad_width,
         orientation=_port_orientation(0.0, angle_deg),
         layer=signal_layer,
         port_type="electrical",
@@ -160,12 +200,19 @@ def cpw_straight(
     c.info["trace_width_um"] = trace_width
     c.info["gap_um"] = gap
     c.info["ground_width_um"] = ground_width
+    c.info["ground_plane_width_um"] = total_width
+    c.info["launch_pad_length_um"] = launch_pad_length
+    c.info["launch_pad_width_um"] = launch_pad_width
+    c.info["ground_geometry"] = "subtractive_boolean_plane"
+    c.info["short_validation"] = "center conductor clearance is boolean-subtracted from ground"
     c.info["angle_deg"] = angle_deg
     c.info["signal_layer_height_nm"] = _layer_height_nm(signal_layer)
     cpw = cpw_conformal_mapping(trace_width, gap, effective_permittivity)
     c.info["z0_ohm"] = cpw["z0_ohm"]
     c.info["effective_permittivity"] = effective_permittivity
     c.info["phase_velocity_m_per_s"] = cpw["phase_velocity_m_per_s"]
+    c.info["capacitance_per_length_f_per_m"] = 1.0 / (cpw["z0_ohm"] * cpw["phase_velocity_m_per_s"])
+    c.info["inductance_per_length_h_per_m"] = cpw["z0_ohm"] / cpw["phase_velocity_m_per_s"]
     c.info["lineage"] = {
         "z0_ohm": _lineage(
             cpw["z0_ohm"],
@@ -195,10 +242,13 @@ def cpw_quarter_wave_resonator(
     footprint_height: float = 2000.0,
     meander_runs: int = 5,
     meander_pitch: float = 200.0,
+    launch_pad_length: float = 120.0,
+    launch_pad_width: float = 90.0,
+    launch_taper_length: float = 60.0,
     signal_layer: Layer = M2,
     ground_layer: Layer = M1,
     short_via_layer: Layer = VIA12,
-    marker_layer: Layer = M3,
+    marker_layer: Layer = MARKER,
 ) -> gf.Component:
     """Meandered quarter-wave CPW resonator with a ground-plane clearance.
 
@@ -216,6 +266,9 @@ def cpw_quarter_wave_resonator(
         "footprint_width": footprint_width,
         "footprint_height": footprint_height,
         "meander_pitch": meander_pitch,
+        "launch_pad_length": launch_pad_length,
+        "launch_pad_width": launch_pad_width,
+        "launch_taper_length": launch_taper_length,
     }.items():
         require_positive(name, value)
     if meander_runs < 2:
@@ -224,6 +277,8 @@ def cpw_quarter_wave_resonator(
         raise ValueError("termination must be 'open' or 'short'")
     require_minimum("trace_width", trace_width, DEFAULT_PROCESS.rules.min_trace_width_um)
     require_minimum("gap", gap, DEFAULT_PROCESS.rules.min_cpw_gap_um)
+    if launch_pad_width < trace_width:
+        raise ValueError("launch_pad_width must be >= trace_width")
 
     c0_um_per_s = 299_792_458.0 * 1e6
     electrical_length = c0_um_per_s / (
@@ -282,6 +337,65 @@ def cpw_quarter_wave_resonator(
     feed_end = (footprint_width * 0.42, feed_y)
     add_route_box(signal, feed_start, feed_end, trace_width, signal_layer)
     add_route_box(clearance, feed_start, feed_end, clear_width, ground_layer)
+    for x in (feed_start[0] - launch_pad_length / 2.0, feed_end[0] + launch_pad_length / 2.0):
+        signal.add_polygon(_rotated_rectangle(x, feed_y, launch_pad_length, launch_pad_width, 0.0), layer=signal_layer)
+        clearance.add_polygon(
+            _rotated_rectangle(x, feed_y, launch_pad_length + 2.0 * gap, launch_pad_width + 2.0 * gap, 0.0),
+            layer=ground_layer,
+        )
+
+    left_taper = [
+        (feed_start[0], feed_y - launch_pad_width / 2.0),
+        (feed_start[0] + launch_taper_length, feed_y - trace_width / 2.0),
+        (feed_start[0] + launch_taper_length, feed_y + trace_width / 2.0),
+        (feed_start[0], feed_y + launch_pad_width / 2.0),
+    ]
+    right_taper = [
+        (feed_end[0], feed_y - launch_pad_width / 2.0),
+        (feed_end[0] - launch_taper_length, feed_y - trace_width / 2.0),
+        (feed_end[0] - launch_taper_length, feed_y + trace_width / 2.0),
+        (feed_end[0], feed_y + launch_pad_width / 2.0),
+    ]
+    signal.add_polygon(left_taper, layer=signal_layer)
+    signal.add_polygon(right_taper, layer=signal_layer)
+    clearance.add_polygon(
+        [
+            (feed_start[0] - gap, feed_y - launch_pad_width / 2.0 - gap),
+            (feed_start[0] + launch_taper_length, feed_y - trace_width / 2.0 - gap),
+            (feed_start[0] + launch_taper_length, feed_y + trace_width / 2.0 + gap),
+            (feed_start[0] - gap, feed_y + launch_pad_width / 2.0 + gap),
+        ],
+        layer=ground_layer,
+    )
+    clearance.add_polygon(
+        [
+            (feed_end[0] + gap, feed_y - launch_pad_width / 2.0 - gap),
+            (feed_end[0] - launch_taper_length, feed_y - trace_width / 2.0 - gap),
+            (feed_end[0] - launch_taper_length, feed_y + trace_width / 2.0 + gap),
+            (feed_end[0] + gap, feed_y + launch_pad_width / 2.0 + gap),
+        ],
+        layer=ground_layer,
+    )
+    clearance.add_polygon(
+        _rotated_rectangle(
+            feed_start[0] + launch_taper_length / 2.0,
+            feed_y,
+            launch_taper_length + 2.0 * gap,
+            launch_pad_width + 2.0 * gap,
+            0.0,
+        ),
+        layer=ground_layer,
+    )
+    clearance.add_polygon(
+        _rotated_rectangle(
+            feed_end[0] - launch_taper_length / 2.0,
+            feed_y,
+            launch_taper_length + 2.0 * gap,
+            launch_pad_width + 2.0 * gap,
+            0.0,
+        ),
+        layer=ground_layer,
+    )
 
     coupler_y = feed_y + trace_width + gap + coupling_capacitor_gap
     coupler_x = -half_run + coupling_capacitor_length / 2.0
@@ -324,18 +438,44 @@ def cpw_quarter_wave_resonator(
             _rotated_rectangle(short_x, short_y, short_size * 1.5, short_size * 1.5, 0),
             layer=marker_layer,
         )
+    boundary_width = max(2.0, trace_width / 4.0)
+    c.add_polygon(_rotated_rectangle(0.0, footprint_height / 2.0, footprint_width, boundary_width, 0.0), layer=marker_layer)
+    c.add_polygon(_rotated_rectangle(0.0, -footprint_height / 2.0, footprint_width, boundary_width, 0.0), layer=marker_layer)
+    c.add_polygon(_rotated_rectangle(-footprint_width / 2.0, 0.0, boundary_width, footprint_height, 0.0), layer=marker_layer)
+    c.add_polygon(_rotated_rectangle(footprint_width / 2.0, 0.0, boundary_width, footprint_height, 0.0), layer=marker_layer)
+    for _name, x, _orientation in (
+        ("port_marker_feed_in", feed_start[0] - launch_pad_length, 180),
+        ("port_marker_feed_out", feed_end[0] + launch_pad_length, 0),
+    ):
+        c.add_polygon(_rotated_rectangle(x, feed_y, 16.0, 16.0, 0.0), layer=marker_layer)
     c.add_port(
         name="feed_in",
-        center=feed_start,
-        width=trace_width,
+        center=(feed_start[0] - launch_pad_length, feed_start[1]),
+        width=launch_pad_width,
         orientation=180,
         layer=signal_layer,
         port_type="electrical",
     )
     c.add_port(
+        name="ground_top",
+        center=(0.0, footprint_height / 2.0),
+        width=footprint_width,
+        orientation=90,
+        layer=ground_layer,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="ground_bottom",
+        center=(0.0, -footprint_height / 2.0),
+        width=footprint_width,
+        orientation=270,
+        layer=ground_layer,
+        port_type="electrical",
+    )
+    c.add_port(
         name="feed_out",
-        center=feed_end,
-        width=trace_width,
+        center=(feed_end[0] + launch_pad_length, feed_end[1]),
+        width=launch_pad_width,
         orientation=0,
         layer=signal_layer,
         port_type="electrical",
@@ -361,12 +501,23 @@ def cpw_quarter_wave_resonator(
     resonance_hz = cpw["phase_velocity_m_per_s"] / (4.0 * electrical_length * 1e-6)
     c.info["z0_ohm"] = cpw["z0_ohm"]
     c.info["phase_velocity_m_per_s"] = cpw["phase_velocity_m_per_s"]
+    c.info["capacitance_per_length_f_per_m"] = 1.0 / (cpw["z0_ohm"] * cpw["phase_velocity_m_per_s"])
+    c.info["inductance_per_length_h_per_m"] = cpw["z0_ohm"] / cpw["phase_velocity_m_per_s"]
     c.info["lambda_over_4_resonance_hz"] = resonance_hz
     c.info["meander_run_length_um"] = run_length
     c.info["meander_length_um"] = electrical_length
+    c.info["meander_path_length_um"] = electrical_length
     c.info["meander_runs"] = meander_runs
     c.info["trace_width_um"] = trace_width
     c.info["gap_um"] = gap
+    c.info["ground_geometry"] = "subtractive_boolean_plane"
+    c.info["short_validation"] = "center conductor, coupler, and launch pads are cut out of the ground plane"
+    c.info["launch_pad_length_um"] = launch_pad_length
+    c.info["launch_pad_width_um"] = launch_pad_width
+    c.info["launch_taper_length_um"] = launch_taper_length
+    c.info["has_chip_boundary"] = True
+    c.info["port_markers"] = ["feed_in", "feed_out"]
+    c.info["ground_reference_ports"] = ["ground_top", "ground_bottom"]
     c.info["coupling_capacitor_length_um"] = coupling_capacitor_length
     c.info["coupling_capacitor_gap_um"] = coupling_capacitor_gap
     c.info["termination"] = termination
@@ -774,49 +925,52 @@ def cpw_resonator_with_launcher(
     require_positive("gap", gap)
     require_positive("launcher_size", launcher_size)
 
-    c = gf.Component()
-
     total_width = trace_width + 2.0 * gap + 2.0 * ground_width
-    half_total = total_width / 2.0
     half_trace = trace_width / 2.0
-    half_gap_edge = half_trace + gap
+    full_length = length + 2.0 * launcher_size
+    signal = gf.Component()
+    clearance = gf.Component()
 
-    # CPW centre trace
-    c.add_polygon(
+    signal.add_polygon(
         [(-length / 2.0, -half_trace), (length / 2.0, -half_trace),
          (length / 2.0, half_trace), (-length / 2.0, half_trace)],
         layer=cpw_layer,
     )
-
-    # Ground plane strips (left and right of gap)
-    for sign in (-1.0, 1.0):
-        inner = sign * half_gap_edge
-        outer = sign * half_total
-        lo = min(inner, outer)
-        hi = max(inner, outer)
-        c.add_polygon(
-            [(-length / 2.0, lo), (length / 2.0, lo),
-             (length / 2.0, hi), (-length / 2.0, hi)],
-            layer=ground_layer,
-        )
+    clearance.add_polygon(
+        [(-length / 2.0, -half_trace - gap), (length / 2.0, -half_trace - gap),
+         (length / 2.0, half_trace + gap), (-length / 2.0, half_trace + gap)],
+        layer=ground_layer,
+    )
 
     # Launchers at each end
     pad_half = launcher_size / 2.0
     for x_sign in (-1.0, 1.0):
         pad_x = x_sign * (length / 2.0 + launcher_size / 2.0)
-        c.add_polygon(
+        signal.add_polygon(
             [(pad_x - launcher_size / 2.0, -pad_half),
              (pad_x + launcher_size / 2.0, -pad_half),
              (pad_x + launcher_size / 2.0, pad_half),
              (pad_x - launcher_size / 2.0, pad_half)],
             layer=cpw_layer,
         )
+        clearance.add_polygon(
+            [(pad_x - launcher_size / 2.0 - gap, -pad_half - gap),
+             (pad_x + launcher_size / 2.0 + gap, -pad_half - gap),
+             (pad_x + launcher_size / 2.0 + gap, pad_half + gap),
+             (pad_x - launcher_size / 2.0 - gap, pad_half + gap)],
+            layer=ground_layer,
+        )
+
+    ground = gf.components.rectangle(size=(full_length, total_width), layer=ground_layer, centered=True)
+    c = gf.Component()
+    c.add_ref(gf.boolean(ground, clearance, operation="not", layer=ground_layer))
+    c.add_ref(signal)
 
     # Via fence along top and bottom ground edges
     x = -length / 2.0
     while x <= length / 2.0:
         for y_sign in (-1.0, 1.0):
-            via_y = y_sign * (half_gap_edge + ground_width / 2.0)
+            via_y = y_sign * (half_trace + gap + ground_width / 2.0)
             c.add_polygon(
                 [(x - 1.0, via_y - 1.0), (x + 1.0, via_y - 1.0),
                  (x + 1.0, via_y + 1.0), (x - 1.0, via_y + 1.0)],
@@ -834,6 +988,8 @@ def cpw_resonator_with_launcher(
     c.info["trace_width_um"] = trace_width
     c.info["gap_um"] = gap
     c.info["launcher_size_um"] = launcher_size
+    c.info["ground_geometry"] = "subtractive_boolean_plane"
+    c.info["short_validation"] = "center conductor and launch pads are boolean-cleared from ground"
     c.info["layers"] = {
         "cpw": cpw_layer,
         "launcher": cpw_layer,

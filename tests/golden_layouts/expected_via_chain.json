@@ -1,0 +1,7 @@
+{
+  "device": "via_chain_monitor",
+  "layers": ["M1", "M2", "M3", "VIA12", "VIA23"],
+  "stage_count": 100,
+  "ports": 2,
+  "notes": "100-stage via chain between M1/M2/M3 with VIA12 and VIA23"
+}

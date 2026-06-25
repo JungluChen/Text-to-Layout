@@ -9,11 +9,8 @@ No fake physics, no LLM sources, no placeholder assertions.
 
 from __future__ import annotations
 
-import cmath
 import json
 import math
-import os
-import time
 from importlib.util import find_spec
 from pathlib import Path
 
@@ -229,12 +226,10 @@ def test_cpw_cl_product_identity():
         inductance_per_length_h_per_m,
         epsilon_eff_cpw,
         z0_cpw,
-        phase_velocity_m_per_s,
     )
     from text_to_gds.core.units import SPEED_OF_LIGHT
     w, s, h, eps_r = 10.0, 6.0, 254.0, 11.45
     eps_eff = epsilon_eff_cpw(center_width_um=w, gap_um=s, substrate_thickness_um=h, epsilon_r=eps_r)
-    vp = phase_velocity_m_per_s(eps_eff)
     z0 = z0_cpw(center_width_um=w, gap_um=s, substrate_thickness_um=h, epsilon_r=eps_r)
     cl = capacitance_per_length_f_per_m(z0, eps_eff)
     ll = inductance_per_length_h_per_m(z0, eps_eff)

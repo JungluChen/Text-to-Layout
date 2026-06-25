@@ -1,0 +1,274 @@
+{
+  "schema": "text-to-gds.sidecar.v0",
+  "pcell": "fabrication_real_dc_squid",
+  "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\assets\\fabrication_real_dc_squid.gds",
+  "screenshot_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\assets\\fabrication_real_dc_squid.layout.png",
+  "bbox_um": [
+    [
+      -13.0,
+      -5.5
+    ],
+    [
+      13.0,
+      9.0
+    ]
+  ],
+  "ports": [
+    {
+      "name": "bottom",
+      "center": [
+        -13.0,
+        -5.0
+      ],
+      "width": 1.0,
+      "orientation": 180.0,
+      "layer": [
+        6,
+        0
+      ],
+      "port_type": "electrical"
+    },
+    {
+      "name": "top",
+      "center": [
+        13.0,
+        5.0
+      ],
+      "width": 1.0,
+      "orientation": 0.0,
+      "layer": [
+        6,
+        0
+      ],
+      "port_type": "electrical"
+    },
+    {
+      "name": "flux_reference",
+      "center": [
+        0.0,
+        0.0
+      ],
+      "width": 10.0,
+      "orientation": 90.0,
+      "layer": [
+        10,
+        0
+      ],
+      "port_type": "optical"
+    }
+  ],
+  "labels": [
+    {
+      "cell": "manhattan_josephson_junction_JW0p22_JH0p22_OANone_LW1_E_903ce2cd",
+      "text": "JJ area 0.0484 um2",
+      "layer": [
+        10,
+        0
+      ],
+      "layer_name": "MARKER",
+      "material": "Si",
+      "position_um": [
+        0.0,
+        -5.0
+      ]
+    },
+    {
+      "cell": "dc_squid_pair_JW0p22_JH0p22_LW1_LW14_LH10_BL3_0_BL4_0_T_e6ef54f5",
+      "text": "SQUID 2x JJ area 0.0484 um2 loop 117 um2",
+      "layer": [
+        10,
+        0
+      ],
+      "layer_name": "MARKER",
+      "material": "Si",
+      "position_um": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "info": {
+    "device_type": "dc_squid_pair",
+    "squid_enabled": true,
+    "squid_model": "low_loop_inductance_dc_squid",
+    "squid_junction_count": 2,
+    "single_junction_area_um2": 0.0484,
+    "junction_area_um2": 0.0968,
+    "junction_width_um": 0.22,
+    "junction_height_um": 0.22,
+    "lead_width_um": 1.0,
+    "squid_loop_width_um": 14.0,
+    "squid_loop_height_um": 10.0,
+    "squid_loop_area_um2": 117.0,
+    "layers": {
+      "bottom_electrode": [
+        3,
+        0
+      ],
+      "junction_barrier": [
+        4,
+        0
+      ],
+      "top_electrode": [
+        5,
+        0
+      ],
+      "loop_wiring": [
+        6,
+        0
+      ],
+      "marker": [
+        10,
+        0
+      ]
+    },
+    "visualization_only": false,
+    "backend_priority": "local_pcells (fallback \u2014 production should use KQCircuits/Qiskit Metal)",
+    "junction_area_method": "polygon_boolean_extracted",
+    "junction_area_formula": "area(M1 intersect M2 within JJ process window)",
+    "geometry": {
+      "junction_area_um2": 0.0968
+    }
+  },
+  "process_stack": {
+    "name": "generic_nb_3metal_sis_v0",
+    "layers": {
+      "M1": {
+        "name": "M1",
+        "layer": [
+          3,
+          0
+        ],
+        "purpose": "bottom electrode and local interconnect",
+        "material": "Nb",
+        "thickness_nm": 180.0,
+        "min_width_um": 0.2,
+        "min_spacing_um": 0.2
+      },
+      "JJ": {
+        "name": "JJ",
+        "layer": [
+          4,
+          0
+        ],
+        "purpose": "Josephson tunnel barrier",
+        "material": "AlOx",
+        "thickness_nm": 2.0,
+        "min_width_um": 0.1,
+        "min_spacing_um": 0.2
+      },
+      "M2": {
+        "name": "M2",
+        "layer": [
+          5,
+          0
+        ],
+        "purpose": "top electrode and local routing",
+        "material": "Nb",
+        "thickness_nm": 200.0,
+        "min_width_um": 0.2,
+        "min_spacing_um": 0.2
+      },
+      "M3": {
+        "name": "M3",
+        "layer": [
+          6,
+          0
+        ],
+        "purpose": "global microwave routing",
+        "material": "Nb",
+        "thickness_nm": 350.0,
+        "min_width_um": 0.5,
+        "min_spacing_um": 0.5
+      },
+      "VIA12": {
+        "name": "VIA12",
+        "layer": [
+          7,
+          0
+        ],
+        "purpose": "M1 to M2 via",
+        "material": "Nb",
+        "thickness_nm": 200.0,
+        "min_width_um": 0.3,
+        "min_spacing_um": 0.3
+      },
+      "VIA23": {
+        "name": "VIA23",
+        "layer": [
+          8,
+          0
+        ],
+        "purpose": "M2 to M3 via",
+        "material": "Nb",
+        "thickness_nm": 250.0,
+        "min_width_um": 0.4,
+        "min_spacing_um": 0.4
+      },
+      "UNDERCUT": {
+        "name": "UNDERCUT",
+        "layer": [
+          9,
+          0
+        ],
+        "purpose": "junction undercut region",
+        "material": "air",
+        "thickness_nm": 0.0,
+        "min_width_um": 0.1,
+        "min_spacing_um": 0.1
+      },
+      "MARKER": {
+        "name": "MARKER",
+        "layer": [
+          10,
+          0
+        ],
+        "purpose": "labels and non-fab annotations",
+        "material": "Si",
+        "thickness_nm": 0.0,
+        "min_width_um": 0.0,
+        "min_spacing_um": 0.0
+      }
+    },
+    "materials": {
+      "Nb": {
+        "name": "Nb",
+        "conductivity_s_per_m": null,
+        "relative_permittivity": null,
+        "kinetic_inductance_ph_per_square": 0.1,
+        "critical_temperature_k": 9.2,
+        "notes": "Default niobium superconductor placeholder; replace with measured film data."
+      },
+      "AlOx": {
+        "name": "AlOx",
+        "conductivity_s_per_m": null,
+        "relative_permittivity": 9.0,
+        "kinetic_inductance_ph_per_square": 0.0,
+        "critical_temperature_k": null,
+        "notes": "Tunnel-barrier dielectric placeholder for SIS junction estimates."
+      },
+      "Si": {
+        "name": "Si",
+        "conductivity_s_per_m": null,
+        "relative_permittivity": 11.45,
+        "kinetic_inductance_ph_per_square": 0.0,
+        "critical_temperature_k": null,
+        "notes": "High-resistivity silicon substrate placeholder."
+      }
+    },
+    "rules": {
+      "min_junction_width_um": 0.1,
+      "min_junction_height_um": 0.1,
+      "min_trace_width_um": 0.2,
+      "min_trace_spacing_um": 0.2,
+      "min_cpw_gap_um": 1.0,
+      "via_min_size_um": 0.3,
+      "via_enclosure_um": 0.2
+    }
+  },
+  "layout_quality_mode": "fabrication_real",
+  "quality_record": {
+    "layout_quality_mode": "fabrication_real",
+    "status": "supported"
+  }
+}

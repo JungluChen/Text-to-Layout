@@ -77,7 +77,7 @@ if adapter_status == "executed":
     result = sim.get("adapter_result", {})
     gain = result.get("best_peak_gain_db")
     bw = result.get("bandwidth_mhz")
-    print(f"\n  ✓ REAL SOLVER RESULT:")
+    print("\n  ✓ REAL SOLVER RESULT:")
     print(f"    Peak gain:  {gain:.1f} dB" if gain is not None else "    Peak gain:  —")
     print(f"    Bandwidth:  {bw:.1f} MHz" if bw is not None else "    Bandwidth:  —")
     plot = sim.get("scientific_plot_path")
@@ -85,7 +85,7 @@ if adapter_status == "executed":
         print(f"    Plot:       {plot}")
 elif adapter_status == "skipped":
     reason = sim.get("adapter_result", {}).get("reason", "Julia not found")
-    print(f"\n  ✗ SOLVER SKIPPED")
+    print("\n  ✗ SOLVER SKIPPED")
     print(f"    reason: {reason}")
     print("\n  → Run scripts/setup_external_tools.py to install JosephsonCircuits.jl")
     print("    Julia is at .tools/julia-1.12.6/bin/julia.exe")

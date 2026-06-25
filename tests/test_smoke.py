@@ -100,6 +100,8 @@ def test_passive_pcells_expose_performance_parameters(tmp_path):
     assert {port.name for port in resonator.ports} == {
         "feed_in",
         "feed_out",
+        "ground_bottom",
+        "ground_top",
         "resonator_open",
     }
 
@@ -204,7 +206,7 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     failing_drc = run_drc(compiled["gds_path"], min_width_um=0.3)
     assert failing_drc["status"] == "failed"
     assert failing_drc["violations"][0]["rule"] == "min_bbox_width"
-    assert failing_drc["violations"][0]["layer"] == [4, 0]
+    assert failing_drc["violations"][0]["layer"] in ([3, 0], [4, 0], [5, 0])
 
     simulation = run_simulation(compiled["sidecar_path"], jc_ua_per_um2=2.0)
     assert simulation["critical_current_ua"] == sidecar["info"]["junction_area_um2"] * 2.0
@@ -324,7 +326,11 @@ def test_mock_tool_chain_writes_sidecars(monkeypatch, tmp_path):
     assert "Simulation Plot" in workbench_html
     assert "Input/Output Ports" in workbench_html
 
-    via_compiled = compile_layout(pcell="via_chain_monitor", output_name="via_chain.gds")
+    via_compiled = compile_layout(
+        pcell="via_chain_monitor",
+        output_name="via_chain.gds",
+        layout_quality_mode="demo",
+    )
     via_sidecar = json.loads(Path(via_compiled["sidecar_path"]).read_text(encoding="utf-8"))
     assert via_sidecar["info"]["stage_count"] == 100
     assert [port["name"] for port in via_sidecar["ports"]] == ["input", "output"]

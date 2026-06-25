@@ -1,0 +1,9 @@
+{
+  "device": "cpw_quarter_wave_resonator",
+  "layers": ["M1", "M2"],
+  "z0_ohm_range": [40, 60],
+  "target_frequency_ghz": 6.0,
+  "effective_permittivity": 6.2,
+  "ports": 3,
+  "notes": "6 GHz lambda/4 CPW resonator with M1 ground plane, M2 signal trace, ~50 ohm"
+}

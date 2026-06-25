@@ -226,7 +226,7 @@ WORKBENCH_APP_HTML = """<!doctype html>
           <label>
             <span>Simulator</span>
             <select id="simulator" aria-label="Simulator">
-              <option value="mock_jj">Ideal JJ</option>
+              <option value="analytical_jj">Analytical JJ</option>
               <option value="JosephsonCircuits.jl">JosephsonCircuits.jl</option>
               <option value="josim">JoSIM transient</option>
               <option value="ngspice">ngspice</option>
@@ -546,7 +546,7 @@ def make_workbench_handler() -> type[BaseHTTPRequestHandler]:
                     output_name=str(payload.get("output_name", "ljpa_seed.gds")),
                     parameters=payload.get("parameters") if isinstance(payload.get("parameters"), dict) else None,
                     jc_ua_per_um2=float(payload.get("jc_ua_per_um2", 2.0)),
-                    simulator=str(payload.get("simulator", "mock_jj")),
+                    simulator=str(payload.get("simulator", "analytical_jj")),
                     analysis_mode=str(payload.get("analysis_mode", "auto")),
                     pump_current_fraction=float(payload.get("pump_current_fraction", 0.017)),
                     coupling_capacitance_ff=_opt_float("coupling_capacitance_ff"),
