@@ -45,6 +45,12 @@ from text_to_gds.physics_graph import extract_physics_graph, graph_to_josephsonc
 from text_to_gds.review import review_committee
 from text_to_gds.ai_scientist import assess_design, write_review_report
 from text_to_gds.layout_understanding import summarize_layout as summarize_layout_circuit
+from text_to_gds.layout_quality import (
+    DEFAULT_MODE as DEFAULT_LAYOUT_QUALITY_MODE,
+    FABRICATION_REAL_PCELLS,
+    QUARANTINED_TOY_PCELLS,
+    gate_generation,
+)
 from text_to_gds.open_benchmarks import run_open_benchmarks as run_open_benchmark_suite
 from text_to_gds.solver_agreement import cross_validate
 from text_to_gds.signoff import evaluate_signoff
@@ -117,6 +123,7 @@ from text_to_gds.process_database import (
     plan_process_aware_jpa as build_process_aware_jpa_plan,
 )
 from text_to_gds.report import write_scientific_report
+from text_to_gds.reference_compare import golden_compare as run_golden_compare
 from text_to_gds.rf import write_rf_network_artifacts
 from text_to_gds.scientific import write_scientific_plot, write_sweep_artifacts
 from text_to_gds.simulation import estimate_physical_performance, simulate_ideal_junction
@@ -169,47 +176,12 @@ PCELL_REGISTRY = {
     "via_stack": via_stack,
 }
 
-FABRICATION_REAL_PCELLS = {
-    "fabrication_real_cpw_resonator",
-    "fabrication_real_dc_squid",
-    "fabrication_real_manhattan_jj",
-    "cpw_quarter_wave_resonator",
-    "cpw_resonator_real",
-    "cpw_straight",
-    "dc_squid_pair",
-    "lumped_element_jpa_seed",
-    "manhattan_jj_real",
-    "manhattan_josephson_junction",
-    "squid_real",
-    "via_chain_real",
-}
-
-QUARANTINED_TOY_PCELLS: dict[str, str] = {
-    "flux_bias_line": "standalone bias-line fragment; no complete device nets, pads, or solver-ready boundary conditions",
-    "ground_plane": "ground-only coupon has no etched CPW slots, ports, nets, or extraction target",
-    "jj_ic_calibration_array": "calibration array lacks verified per-junction overlap extraction and measurement routing signoff",
-    "meander_inductor": "standalone symbolic inductor fragment; not a solver-ready superconducting cell",
-    "periodically_loaded_kit_unit_cell": "research/demo unit cell not validated as fabrication-real superconducting layout",
-    "photonic_crystal_stwpa": "research/demo TWPA cell not validated as fabrication-real superconducting layout",
-    "via_chain_monitor": "via-chain monitor is not yet verified as alternating-layer chain with extracted connectivity",
-    "via_stack": "single via fragment; no complete device nets or measurement routing",
-}
+_QUALITY_COMPAT_EXPORTS = (FABRICATION_REAL_PCELLS, QUARANTINED_TOY_PCELLS)
 
 
 def _pcell_quality(pcell: str) -> dict[str, Any]:
-    if pcell in FABRICATION_REAL_PCELLS:
-        return {"layout_quality_mode": "fabrication_real", "status": "supported"}
-    if pcell in QUARANTINED_TOY_PCELLS:
-        return {
-            "layout_quality_mode": "demo_only",
-            "status": "unsupported",
-            "reason": QUARANTINED_TOY_PCELLS[pcell],
-        }
-    return {
-        "layout_quality_mode": "unknown",
-        "status": "unsupported",
-        "reason": "PCell has no fabrication-real quality record",
-    }
+    """Return the shared PCell quality record as a legacy-compatible dict."""
+    return gate_generation(pcell, DEFAULT_LAYOUT_QUALITY_MODE).record.to_dict()
 
 
 def _ensure_dirs() -> None:
@@ -250,27 +222,45 @@ def compile_layout(
     pcell: str = "manhattan_josephson_junction",
     parameters: dict[str, Any] | None = None,
     output_name: str = "layout.gds",
-    layout_quality_mode: str = "fabrication_real",
+    layout_quality_mode: str = DEFAULT_LAYOUT_QUALITY_MODE,
+    design_intent_path: str | None = None,
 ) -> dict[str, Any]:
     """Compile a registered superconducting PCell into GDS and a semantic sidecar."""
     if pcell not in PCELL_REGISTRY:
         raise ValueError(f"Unknown PCell '{pcell}'. Available: {sorted(PCELL_REGISTRY)}")
-    quality = _pcell_quality(pcell)
-    if layout_quality_mode == "fabrication_real" and quality["status"] != "supported":
+    gate = gate_generation(pcell, layout_quality_mode)
+    quality = gate.record.to_dict()
+    if not gate.allowed:
         return {
             "status": "unsupported",
             "pcell": pcell,
-            "layout_quality_mode": layout_quality_mode,
-            "reason": quality["reason"],
+            "layout_quality_mode": gate.requested_mode,
+            "reason": gate.reason or quality.get("reason"),
+            "quality_record": quality,
         }
 
+    if design_intent_path is not None:
+        intent_file = _existing_path(design_intent_path)
+        intent = json.loads(intent_file.read_text(encoding="utf-8"))
+        if intent.get("status") != "ready":
+            return {
+                "status": "unsupported",
+                "pcell": pcell,
+                "layout_quality_mode": gate.requested_mode,
+                "reason": "design_intent_path is not ready",
+                "design_intent_path": str(intent_file),
+                "blockers": intent.get("blockers", []),
+                "quality_record": quality,
+            }
+
     component = PCELL_REGISTRY[pcell](**(parameters or {}))
-    if layout_quality_mode == "fabrication_real" and component.info.get("visualization_only") is True:
+    if gate.requested_mode == "fabrication_real" and component.info.get("visualization_only") is True:
         return {
             "status": "unsupported",
             "pcell": pcell,
-            "layout_quality_mode": layout_quality_mode,
+            "layout_quality_mode": gate.requested_mode,
             "reason": "PCell emitted visualization_only=True in fabrication_real mode",
+            "quality_record": quality,
         }
     gds_path = _artifact_path(output_name, ".gds")
     screenshot_path = gds_path.with_suffix(".layout.png")
@@ -278,17 +268,20 @@ def compile_layout(
     _render_layout_screenshot(gds_path, screenshot_path)
 
     sidecar = _component_sidecar(component, gds_path, pcell, screenshot_path)
-    sidecar["layout_quality_mode"] = layout_quality_mode
+    sidecar["layout_quality_mode"] = gate.requested_mode
     sidecar["quality_record"] = quality
+    if design_intent_path is not None:
+        sidecar["design_intent_path"] = str(_existing_path(design_intent_path))
     sidecar_path = gds_path.with_suffix(".sidecar.json")
     sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")
 
     return {
         "status": "compiled",
-        "layout_quality_mode": layout_quality_mode,
+        "layout_quality_mode": gate.requested_mode,
         "gds_path": str(gds_path),
         "screenshot_path": str(screenshot_path),
         "sidecar_path": str(sidecar_path),
+        "quality_record": quality,
     }
 
 
@@ -1648,6 +1641,22 @@ def export_scientific_report(
 
 
 @mcp.tool()
+def golden_compare(device: dict[str, Any] | str, reference: dict[str, Any] | str | None = None) -> dict[str, Any]:
+    """Compare generated/extracted device metadata against cited golden references."""
+    device_obj: dict[str, Any] | str = device
+    if isinstance(device, str):
+        raw = device.strip()
+        if raw.startswith("{"):
+            device_obj = json.loads(raw)
+    reference_obj: dict[str, Any] | str | None = reference
+    if isinstance(reference, str):
+        raw_ref = reference.strip()
+        if raw_ref.startswith("{"):
+            reference_obj = json.loads(raw_ref)
+    return run_golden_compare(device_obj, reference_obj)
+
+
+@mcp.tool()
 def run_analytical_verification(
     output_name: str = "jpa-theory-verification",
     center_frequency_ghz: float = 6.0,
@@ -2263,6 +2272,11 @@ def run_design_workflow(
     }
     if literature_comparison is not None:
         review_evidence["literature_comparison"] = literature_comparison
+    else:
+        review_evidence["literature_comparison"] = run_golden_compare(
+            {"pcell": "lumped_element_jpa_seed", "info": sidecar_dict.get("info", {})},
+            "jpa",
+        )
     committee_result = _review_committee(review_evidence)
     review_report_path = ARTIFACT_ROOT / f"{output_stem}.review.json"
     review_report_path.write_text(_json.dumps(committee_result, indent=2), encoding="utf-8")

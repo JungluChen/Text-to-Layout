@@ -55,11 +55,14 @@ _LAYOUTS: list[tuple[str, str, dict[str, Any], str]] = [
     ),
     (
         "benchmark_06_via_chain_monitor_layout",
-        "via_chain_monitor",
+        "via_chain_real",
         {"stage_count": 100},
         "benchmark_06",
     ),
 ]
+# NB: ground_plane and jj_ic_calibration_array are intentionally gated by the physics
+# compiler (no nets/ports/extraction target). They are kept in the lists so the
+# generator emits an honest "unsupported" status card instead of a fabricated layout.
 
 
 def _copy(source: str | Path, asset_name: str) -> None:
@@ -93,6 +96,41 @@ def _portable(value: Any) -> Any:
 
 def _failure(reason: str) -> dict[str, Any]:
     return {"status": "FAILED", "reason": reason}
+
+
+def _render_unsupported_figure(
+    output_path: str | Path, *, pcell: str, reason: str
+) -> Path:
+    """Render an honest status card for a device the physics compiler gates out.
+
+    Under the current workflow some legacy demo cells (ground-only coupons, unverified
+    calibration arrays) have no nets, ports, or extraction target. The asset states that
+    plainly instead of fabricating a layout that would violate the truthfulness contract.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(7.2, 4.8))
+    ax.set_facecolor("#fff4e5")
+    ax.axis("off")
+    ax.text(0.5, 0.84, "DEVICE GATED BY PHYSICS COMPILER", ha="center", va="center",
+            fontsize=14, fontweight="bold", color="#b35900", transform=ax.transAxes)
+    ax.text(0.5, 0.68, f"PCell: {pcell}", ha="center", va="center",
+            family="monospace", fontsize=11, color="#333333", transform=ax.transAxes)
+    ax.text(0.5, 0.56, "compile_layout -> status: unsupported", ha="center", va="center",
+            family="monospace", fontsize=10, color="#555555", transform=ax.transAxes)
+    ax.text(0.5, 0.40, textwrap.fill(str(reason), 52), ha="center", va="center",
+            family="monospace", fontsize=9, color="#555555", transform=ax.transAxes)
+    ax.text(0.5, 0.12,
+            "No layout is generated for a device without nets,\nports, or an extraction target.",
+            ha="center", va="center", fontsize=9, color="#777777", style="italic",
+            transform=ax.transAxes)
+    fig.savefig(output, dpi=180, facecolor="white", bbox_inches="tight")
+    plt.close(fig)
+    return output
 
 
 def _strict_status(value: Any) -> str:
@@ -165,7 +203,7 @@ def _intent_inputs(pcell: str, parameters: dict[str, Any]) -> tuple[str, dict[st
             "wirebond_pads": True,
             "dc_bias": True,
         }
-    if pcell == "via_chain_monitor":
+    if pcell in {"via_chain_monitor", "via_chain_real"}:
         return "Generate a via-chain process monitor", {
             **common,
             "device": "process_monitor",
@@ -197,6 +235,7 @@ def _compile_with_intent(
         pcell=pcell,
         parameters=parameters,
         output_name=output_name,
+        design_intent_path=str(intent_path),
     )
 
 
@@ -431,6 +470,14 @@ def generate_layouts() -> None:
         compiled = _compile_with_intent(
             pcell=pcell, parameters=parameters, output_name=f"{stem}.gds"
         )
+        if "gds_path" not in compiled:
+            reason = compiled.get("reason", "device not supported by the physics gate")
+            print(f"    gated ({pcell}): {reason}")
+            figure_path = _render_unsupported_figure(
+                WORKSPACE / f"{stem}.unsupported.png", pcell=pcell, reason=reason
+            )
+            _copy(figure_path, f"{asset_name}.png")
+            continue
         output_stem = WORKSPACE / stem
         publication = render_publication_figure(
             Path(compiled["gds_path"]),
@@ -619,7 +666,7 @@ def generate_benchmarks() -> None:
         ),
         (
             "benchmark_06_via_chain_monitor_layout",
-            "via_chain_monitor",
+            "via_chain_real",
             {"stage_count": 100},
             "benchmark_06_sim",
         ),
@@ -630,6 +677,24 @@ def generate_benchmarks() -> None:
         compiled = _compile_with_intent(
             pcell=pcell, parameters=parameters, output_name=f"{stem}.gds"
         )
+        benchmark_asset = asset_name.replace("_layout", "_benchmark")
+        if "gds_path" not in compiled:
+            reason = compiled.get("reason", "device not supported by the physics gate")
+            print(f"    gated ({pcell}): {reason}")
+            figure_path = _render_unsupported_figure(
+                WORKSPACE / f"{stem}.unsupported.png", pcell=pcell, reason=reason
+            )
+            _copy(figure_path, f"{benchmark_asset}.png")
+            report = {
+                "schema": "text-to-gds.asset-benchmark.v1",
+                "device": pcell,
+                "status": "unsupported",
+                "reason": reason,
+            }
+            (WORKSPACE / f"{stem}.report.json").write_text(
+                json.dumps(report, indent=2), encoding="utf-8"
+            )
+            continue
         extraction = _extract(compiled)
         drc = run_drc(compiled["gds_path"], min_width_um=0.1)
 
@@ -656,7 +721,6 @@ def generate_benchmarks() -> None:
             analysis=sim_analysis,
             layout_png=compiled["screenshot_path"],
         )
-        benchmark_asset = asset_name.replace("_layout", "_benchmark")
         _copy(figure_path, f"{benchmark_asset}.png")
 
         report = {

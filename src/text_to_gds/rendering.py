@@ -145,6 +145,7 @@ def render_layout_screenshot(
     from text_to_gds.pcells.layer_stack import (
         ANNOTATION_COLOR,
         SUBSTRATE_COLOR,
+        annotation_font,
         draw_layer_legend,
         draw_scale_bar,
         style_for_layer,
@@ -208,7 +209,11 @@ def render_layout_screenshot(
             continue
         active_layers.add(layer_key)
         points = [to_px(x, y) for x, y in polygon_um]
-        draw.polygon(points, fill=style.fill_rgba, outline=style.outline_rgba)
+        # PIL replaces pixels (no alpha compositing on convert("RGB")), so a polygon with a
+        # fully transparent fill must be drawn outline-only — otherwise it paints over the
+        # device underneath. Boundary layers (KEEPOUT, CHIP) rely on this.
+        fill = style.fill_rgba if style.fill_rgba[3] > 0 else None
+        draw.polygon(points, fill=fill, outline=style.outline_rgba)
         for hole_um in holes_um:
             draw.polygon([to_px(x, y) for x, y in hole_um], fill=bg)
 
@@ -219,7 +224,7 @@ def render_layout_screenshot(
     border_color = (100, 100, 100, 200) if dark_field else (148, 163, 184, 255)
     draw.rectangle((4, 4, canvas_width - 4, canvas_height - 4), outline=border_color, width=1)
     txt_color = ANNOTATION_COLOR[:3] if dark_field else (30, 41, 59, 255)
-    draw.text((12, 10), layout_path.name, fill=txt_color)
+    draw.text((12, 10), layout_path.name, fill=txt_color, font=annotation_font())
     image.convert("RGB").save(screenshot_path)
 
 

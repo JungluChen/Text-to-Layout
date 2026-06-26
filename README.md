@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![Backends](https://img.shields.io/badge/Backends-6%20live%20%7C%203%20pending-00A676?style=flat-square)](#-backend-status)
-[![MCP](https://img.shields.io/badge/MCP-106%20tools-6B46C1?style=flat-square)](src/text_to_gds/server.py)
+[![MCP](https://img.shields.io/badge/MCP-95%20tools-6B46C1?style=flat-square)](src/text_to_gds/server.py)
 
 </div>
 
@@ -44,16 +44,18 @@ prompt
   -> generate_solver_inputs()     openEMS / Palace / Elmer input files from the graph
   -> run_simulation()             real solver output OR status="skipped" (never faked)
   -> cross_validate_solvers()     agreement engine across >= 2 independent sources
+  -> golden_compare()             generated device vs cited literature templates
   -> review_layout()              5-agent committee, score = min across all agents
   -> evaluate_signoff_level()     level 0-6, PASS only when score >= 90
-  -> export_scientific_report()   10-panel lineage report + measurement recipe
+  -> export_scientific_report()   lineage report + Generated vs Reference panel
 ```
 
 Three rules are enforced at every stage:
 
 1. `source = "LLM"` in any provenance record -> immediate review failure.
 2. `status = "skipped"` when a solver is unavailable -> never `"passed"` or `"success"`.
-3. Review committee score = **minimum** across all reviewers -> one critical failure cannot be averaged away.
+3. Literature agreement is claimed only when extracted/generated parameters match cited reference values.
+4. Review committee score = **minimum** across all reviewers -> one critical failure cannot be averaged away.
 
 ---
 
@@ -125,6 +127,26 @@ signoff = evaluate_signoff_level(json.dumps({                # level 0-6
     "extraction": ext, "physics_graph": graph,
     "sidecar_path": result["sidecar_path"]}))
 # review["approved"] is True only when score >= 90.
+```
+
+**6. Compare against literature references**
+
+```python
+from text_to_gds.server import golden_compare
+from pathlib import Path
+import json
+
+sidecar = json.loads(Path(result["sidecar_path"]).read_text(encoding="utf-8"))
+
+comparison = golden_compare(
+    {"pcell": sidecar["pcell"], "info": sidecar["info"]},
+    "jpa",
+)
+# comparison["topology_score"]       -> required topology feature coverage
+# comparison["parameter_error"]      -> generated vs cited reference values
+# comparison["missing_features"]     -> no silent fill-in for absent evidence
+# comparison["fabrication_warnings"] -> process/topology warnings
+# comparison["literature_distance"]  -> aggregate distance, not a signoff claim
 ```
 
 ---
@@ -221,8 +243,9 @@ Step 3 -- evaluate_signoff_level -> level: 0 -- blocked
 | 5 | `export_openems_project`, `export_palace_project` | EM solver handoffs (skip cleanly if Octave/Palace absent). |
 | 6 | `run_simulation` (scqubits + josephsoncircuits) | Circuit/qubit solvers. |
 | 7 | `run_analytical_verification`, `cross_validate_solvers` | Theory cross-check + agreement engine. |
-| 8-9 | `review_layout`, `evaluate_signoff_level` | Committee verdict + signoff level. |
-| 10-13 | `score_layout_quality`, `export_jpa_analysis`, `export_scientific_report`, `export_measurement_recipe` | Quality score, JPA analysis, 10-panel lineage report, VNA recipe for level 6. |
+| 8 | `golden_compare` | Literature-backed comparison against cited transmon/JPA/process/CPW templates. |
+| 9-10 | `review_layout`, `evaluate_signoff_level` | Committee verdict + signoff level. |
+| 11-14 | `score_layout_quality`, `export_jpa_analysis`, `export_scientific_report`, `export_measurement_recipe` | Quality score, JPA analysis, lineage report with Generated vs Reference panel, VNA recipe for level 6. |
 
 **Run the whole ladder, plus the classic 6-level demos:**
 
@@ -248,7 +271,7 @@ uv run python examples/zero_to_one_demos.py all     # classic 6-level ladder (0,
 
 ## 🧩 System functions & worksteps
 
-Start the local MCP server with `uv run text-to-gds`. The public surface is **106 MCP tool functions**, all importable directly from Python (`from text_to_gds.server import ...`) and all exposed as `@mcp.tool()`. In addition, **~60 public functions** live in deeper modules for direct use.
+Start the local MCP server with `uv run text-to-gds`. The public surface is **95 MCP tool functions**, all importable directly from Python (`from text_to_gds.server import ...`) and all exposed as `@mcp.tool()`. In addition, module-level functions live in deeper packages for direct use.
 
 ```bash
 # List every public function and signature.
@@ -334,7 +357,7 @@ cv     = cross_validate_solvers(                                           # >= 
     quantity="z0_ohm", tolerance_pct=5.0)
 ```
 
-### Group 5 — Simulation, quantum, and measurement (22 functions)
+### Group 5 — Simulation, quantum, literature, and measurement
 
 ```python
 from text_to_gds.server import (
@@ -342,6 +365,7 @@ from text_to_gds.server import (
     export_scientific_report, export_scientific_plot, export_measurement_plan,
     export_measurement_recipe, export_epr_analysis, export_superconducting_material,
     export_package_model, export_quantum_metal_bridge,
+    golden_compare,
     fit_measurement, run_analytical_verification, record_experiment_feedback,
     run_traveling_wave_paper_benchmark, run_gaydamachenko_jtwpa_benchmark,
     run_paper_benchmarks, run_research_optimization, run_validation_checklist,
@@ -354,6 +378,7 @@ jc     = run_simulation(r["sidecar_path"], simulator="josephsoncircuits",
 theory = run_analytical_verification(output_name="theory",
                                      center_frequency_ghz=6.0, kappa_mhz=120.0)
 report = export_scientific_report(r["sidecar_path"], gds_layout_png=r["screenshot_path"])
+lit    = golden_compare(r["sidecar_path"], "jpa")
 ```
 
 ### Group 6 — Review, constraints, data, and ML (16 functions)
@@ -442,6 +467,16 @@ These functions live outside `server.py` and are used directly by the examples a
 |---|---|---|
 | `validate_layout(gds, sidecar, ...)` | `layout_validator.py` | 8 geometry checks: basic, width, JJ, CPW, JPA, resonator, via, ports |
 | `validate_against_golden(gds, expected)` | `layout_validator.py` | Validate against golden expected.json reference |
+
+### Literature references (`reference_compare.py`)
+
+| Function | Module | Description |
+|---|---|---|
+| `golden_compare(device, reference)` | `reference_compare.py` | Compare generated/extracted device data against cited golden templates |
+| `load_golden_reference(reference)` | `reference_compare.py` | Load or merge JSON references from `references/` |
+| `default_references(device_family)` | `reference_compare.py` | Resolve `transmon`, `jpa`, `process`, or `cpw` aliases |
+| `write_golden_comparison(device, reference, output)` | `reference_compare.py` | Write a comparison report JSON |
+| `compare_cpw_against_references(project_root, output_dir)` | `reference_compare.py` | Compare CPW synthesis metadata against cloned backend source references |
 
 ### Auto-repair and agreement (`auto_repair.py`, `solver_agreement.py`, `artifact_validator.py`)
 
@@ -555,6 +590,14 @@ Output:     Touchstone .s2p + characteristic impedance Z0
 
 Every figure is produced by the physics-first pipeline. Solver panels show **EXECUTED** (green), **SKIPPED** (grey), or **FAILED** (red). A skipped solver means the binary was unavailable during the documentation run — not a failure, but not evidence either.
 
+Regenerate all README and guide assets with:
+
+```bash
+uv run python scripts/generate_assets.py all
+uv run python scripts/run_benchmarks.py
+uv run python scripts/render_reports.py
+```
+
 <table>
   <tr>
     <td align="center"><b>Manhattan JJ — 3-panel benchmark</b><br>
@@ -576,8 +619,8 @@ Every figure is produced by the physics-first pipeline. Solver panels show **EXE
     <td align="center"><b>Process stack extraction</b><br>
     Layer-resolved geometry -> EM model<br>
     <img src="assets/hfss_stack_3d.png" width="340"></td>
-    <td align="center"><b>10-panel scientific lineage report</b><br>
-    Every value with a provenance chain<br>
+    <td align="center"><b>Scientific lineage report</b><br>
+    Provenance + Generated vs Reference panel<br>
     <img src="assets/scientific_report_example.png" width="340"></td>
   </tr>
 </table>

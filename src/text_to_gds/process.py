@@ -89,7 +89,7 @@ DEFAULT_LAYERS: dict[str, LayerSpec] = {
     "M1": LayerSpec(
         name="M1",
         layer=(3, 0),
-        purpose="bottom electrode and local interconnect",
+        purpose="ground plane, bottom electrode, and local interconnect",
         material="Nb",
         thickness_nm=180.0,
         min_width_um=0.20,
@@ -107,7 +107,7 @@ DEFAULT_LAYERS: dict[str, LayerSpec] = {
     "M2": LayerSpec(
         name="M2",
         layer=(5, 0),
-        purpose="top electrode and local routing",
+        purpose="CPW center trace, top electrode, and local routing",
         material="Nb",
         thickness_nm=200.0,
         min_width_um=0.20,
@@ -152,7 +152,34 @@ DEFAULT_LAYERS: dict[str, LayerSpec] = {
     "MARKER": LayerSpec(
         name="MARKER",
         layer=(10, 0),
-        purpose="labels and non-fab annotations",
+        purpose="labels, extraction markers, and non-fab annotations",
+        material="Si",
+        thickness_nm=0.0,
+        min_width_um=0.0,
+        min_spacing_um=0.0,
+    ),
+    "CHIP_BOUNDARY": LayerSpec(
+        name="CHIP_BOUNDARY",
+        layer=(11, 0),
+        purpose="substrate die outline and chip boundary",
+        material="Si",
+        thickness_nm=0.0,
+        min_width_um=0.0,
+        min_spacing_um=0.0,
+    ),
+    "KEEPOUT": LayerSpec(
+        name="KEEPOUT",
+        layer=(12, 0),
+        purpose="wirebond, airbridge, package, and DRC exclusion region",
+        material="air",
+        thickness_nm=0.0,
+        min_width_um=0.0,
+        min_spacing_um=0.0,
+    ),
+    "PORT": LayerSpec(
+        name="PORT",
+        layer=(13, 0),
+        purpose="RF/DC port marker and measurement reference",
         material="Si",
         thickness_nm=0.0,
         min_width_um=0.0,
@@ -186,6 +213,9 @@ VIA12 = DEFAULT_PROCESS.layer("VIA12")
 VIA23 = DEFAULT_PROCESS.layer("VIA23")
 UNDERCUT = DEFAULT_PROCESS.layer("UNDERCUT")
 MARKER = DEFAULT_PROCESS.layer("MARKER")
+CHIP_BOUNDARY = DEFAULT_PROCESS.layer("CHIP_BOUNDARY")
+KEEPOUT = DEFAULT_PROCESS.layer("KEEPOUT")
+PORT = DEFAULT_PROCESS.layer("PORT")
 
 
 def require_positive(name: str, value: float) -> None:

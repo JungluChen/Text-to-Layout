@@ -328,3 +328,36 @@ class PDKDatabase:
             suffix = f" at version {version}" if version else ""
             raise KeyError(f"Unknown PDK {process_id!r}{suffix}")
         return max(candidates, key=lambda pdk: pdk.version_tuple)
+
+
+from text_to_gds.pdk.layer_stack import DEFAULT_LAYER_MAP, DEFAULT_LAYER_STACK, LayerMap, QuantumLayerStack  # noqa: E402
+from text_to_gds.pdk.layers import CONDUCTIVE_LAYER_NAMES, PHYSICAL_LAYERS, PhysicalLayer  # noqa: E402
+from text_to_gds.pdk.materials import DEFAULT_MATERIAL_CATALOG, MaterialCatalog  # noqa: E402
+from text_to_gds.pdk.process import DEFAULT_MANHATTAN_PROCESS, ManhattanProcess  # noqa: E402
+from text_to_gds.pdk.rules import DEFAULT_FABRICATION_RULES, FabricationRuleSet  # noqa: E402
+from text_to_gds.pdk.technology import DEFAULT_TECHNOLOGY, QuantumTechnology, load_quantum_technology  # noqa: E402
+
+__all__ = [
+    "DEFAULT_FABRICATION_RULES",
+    "DEFAULT_LAYER_MAP",
+    "DEFAULT_LAYER_STACK",
+    "DEFAULT_MANHATTAN_PROCESS",
+    "DEFAULT_MATERIAL_CATALOG",
+    "DEFAULT_TECHNOLOGY",
+    "CONDUCTIVE_LAYER_NAMES",
+    "FabricationConstraints",
+    "FabricationRuleSet",
+    "LayerMap",
+    "ManhattanProcess",
+    "MaterialCatalog",
+    "PDKDatabase",
+    "PDKLayer",
+    "PDKMaterial",
+    "PHYSICAL_LAYERS",
+    "PhysicalLayer",
+    "QuantumLayerStack",
+    "QuantumTechnology",
+    "SuperconductingPDK",
+    "load_pdk",
+    "load_quantum_technology",
+]

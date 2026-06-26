@@ -16,8 +16,6 @@ Run:
 
 from __future__ import annotations
 
-import json
-
 from text_to_gds.server import (
     compile_layout,
     cross_validate_solvers,

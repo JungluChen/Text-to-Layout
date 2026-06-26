@@ -133,7 +133,7 @@ def render_publication_figure(
         bar_y = h - 28
         axes[1].plot([w * 0.05, w * 0.05 + bar_px], [bar_y, bar_y],
                      color="white", linewidth=2.5, transform=axes[1].transData)
-        axes[1].text(w * 0.05 + bar_px / 2, bar_y - 8, f"{bar_um:.0f} um",
+        axes[1].text(w * 0.05 + bar_px / 2, bar_y - 8, f"{bar_um:.0f} µm",
                      color="white", fontsize=9, ha="center", fontweight="bold",
                      transform=axes[1].transData)
     except Exception:
@@ -146,15 +146,15 @@ def render_publication_figure(
             info = sidecar.get("info", {})
             lines = []
             if "junction_area_um2" in info:
-                lines.append(f"JJ Area: {info['junction_area_um2']} um²")
+                lines.append(f"JJ Area: {info['junction_area_um2']} µm²")
             if "critical_current_ua" in info:
                 lines.append(f"Ic: {info['critical_current_ua']:.3f} uA")
             if "josephson_inductance_ph" in info:
                 lines.append(f"Lj: {info['josephson_inductance_ph']:.1f} pH")
             if "width_um" in info:
-                lines.append(f"Width: {info['width_um']} um")
+                lines.append(f"Width: {info['width_um']} µm")
             if "height_um" in info:
-                lines.append(f"Height: {info['height_um']} um")
+                lines.append(f"Height: {info['height_um']} µm")
             if lines:
                 text = "\n".join(lines)
                 axes[1].text(
@@ -338,9 +338,9 @@ def render_benchmark_figure(
         info = sim_data.get("info") or sim_data.get("physical_performance") or {}
         lines = []
         for key, label, unit in [
-            ("critical_current_ua", "Ic", "uA"),
+            ("critical_current_ua", "Ic", "µA"),
             ("josephson_inductance_ph", "Lj", "pH"),
-            ("junction_area_um2", "Area", "um²"),
+            ("junction_area_um2", "Area", "µm²"),
             ("center_frequency_ghz", "f0", "GHz"),
             ("estimated_peak_gain_db", "Gain", "dB"),
             ("bandwidth_3db_mhz", "BW", "MHz"),

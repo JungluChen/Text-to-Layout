@@ -28,6 +28,7 @@ from pathlib import Path
 from typing import Any
 
 from text_to_gds.jpa_analysis import run_jpa_analysis
+from text_to_gds.reference_compare import golden_compare
 
 FIGURE_NAMES = (
     "layout",
@@ -40,6 +41,7 @@ FIGURE_NAMES = (
     "noise_temperature",
     "squeezing",
     "stability",
+    "literature_comparison",
 )
 
 
@@ -186,8 +188,12 @@ def write_scientific_report(
 
     peak_gain_db: float | None = float(metrics.get("peak_gain_db")) if metrics.get("peak_gain_db") is not None else None
 
+    pcell_name = str(sidecar.get("pcell") or sidecar.get("info", {}).get("device_type") or "")
+    reference_alias = "transmon" if "transmon" in pcell_name.lower() else "jpa"
+    literature_comparison = golden_compare({"pcell": pcell_name, "info": sidecar.get("info", {})}, reference_alias)
+
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, axes = plt.subplots(3, 3, figsize=(14.0, 11.0), constrained_layout=True)
+    fig, axes = plt.subplots(3, 4, figsize=(17.2, 11.0), constrained_layout=True)
     figure_sources: dict[str, str] = {}
 
     def _skip_panel(ax: Any, label: str, title: str) -> None:
@@ -340,6 +346,54 @@ def write_scientific_report(
         _skip_panel(ax, "no executed squeezing sweep", "9. Squeezing vs gain")
         figure_sources["squeezing"] = "skipped"
 
+    # 10. Literature comparison: generated/extracted values vs cited references.
+    ax = axes[0, 3]
+    compared = [
+        (name, row)
+        for name, row in literature_comparison.get("parameter_error", {}).items()
+        if isinstance(row, dict) and row.get("status") in {"compared", "in_range", "out_of_range"}
+    ]
+    if compared:
+        labels = [name[:18] for name, _row in compared[:6]]
+        diffs = [float(row.get("difference_pct", 0.0)) for _name, row in compared[:6]]
+        colors = ["#34c759" if row.get("status") in {"compared", "in_range"} and row.get("difference_pct", 0.0) <= 20.0 else "#ff9500" for _name, row in compared[:6]]
+        ax.barh(labels, diffs, color=colors)
+        ax.set_xlabel("difference (%)")
+        ax.set_title("10. Generated vs Reference")
+        ax.invert_yaxis()
+        figure_sources["literature_comparison"] = "golden_reference"
+    else:
+        _skip_panel(ax, "no comparable generated values", "10. Generated vs Reference")
+        figure_sources["literature_comparison"] = "skipped"
+
+    ax = axes[1, 3]
+    ax.axis("off")
+    missing = literature_comparison.get("missing_features", [])
+    warnings = literature_comparison.get("fabrication_warnings", [])
+    summary_lines = [
+        f"topology_score: {literature_comparison.get('topology_score')}",
+        f"literature_distance: {literature_comparison.get('literature_distance')}",
+        "",
+        "Missing features:",
+        *(f"- {item}" for item in missing[:5]),
+        "",
+        "Warnings:",
+        *(f"- {item}" for item in warnings[:5]),
+    ]
+    ax.text(0.03, 0.97, "\n".join(summary_lines), va="top", family="monospace", fontsize=8.2, transform=ax.transAxes)
+    ax.set_title("Golden comparison notes")
+
+    ax = axes[2, 3]
+    ax.axis("off")
+    ref_lines = ["References:"]
+    for ref in literature_comparison.get("references", [])[:4]:
+        citation = ref.get("citation", {}) if isinstance(ref, dict) else {}
+        ref_lines.append(f"- {ref.get('reference_id')}")
+        if citation.get("doi"):
+            ref_lines.append(f"  DOI: {citation['doi']}")
+    ax.text(0.03, 0.97, "\n".join(ref_lines), va="top", family="monospace", fontsize=8.2, transform=ax.transAxes)
+    ax.set_title("Cited templates")
+
     # Stability: piggybacks on pump sweep
     figure_sources["stability"] = figure_sources["pump_sweep"]
 
@@ -390,6 +444,7 @@ def write_scientific_report(
             ),
         },
         "jpa_report": jpa,
+        "literature_comparison": literature_comparison,
         "model_validity": (
             "All panels require real solver output. "
             "Panels labelled SKIPPED have no solver backing and contain no numeric data. "

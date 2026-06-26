@@ -1,15 +1,34 @@
-"""Professional mask-like layer rendering and chip-frame utilities.
-
-Defines rendering colors, legend generation, scale-bar drawing, and
-chip-boundary helpers that make output PNGs resemble real photomask data.
-"""
+"""Professional mask-like layer rendering and chip-frame utilities."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
-from text_to_gds.process import Layer
+from text_to_gds.process import CHIP_BOUNDARY, KEEPOUT, Layer
+
+
+@lru_cache(maxsize=8)
+def annotation_font(size: int = 13) -> Any:
+    """Return a readable TrueType font for scale bars and layer legends."""
+    from PIL import ImageFont
+
+    candidates = [
+        "C:/Windows/Fonts/segoeui.ttf",
+        "C:/Windows/Fonts/arial.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ]
+    for candidate in candidates:
+        if Path(candidate).exists():
+            return ImageFont.truetype(candidate, size=size)
+    try:
+        from matplotlib import font_manager
+
+        return ImageFont.truetype(font_manager.findfont("DejaVu Sans"), size=size)
+    except Exception:  # noqa: BLE001
+        return ImageFont.load_default()
 
 
 @dataclass(frozen=True)
@@ -20,15 +39,11 @@ class LayerStyle:
     layer: Layer
     fill_rgba: tuple[int, int, int, int]
     outline_rgba: tuple[int, int, int, int]
-    hatch: str  # "solid", "diagonal", "cross", "dots", "none"
+    hatch: str
     legend_label: str
-    render_order: int  # lower = drawn first (behind)
+    render_order: int
     visible: bool
 
-
-# ── Professional mask-like palette ──────────────────────────────────────
-# Dark-field style: dark substrate, metal layers in muted tones,
-# JJ barrier in distinct red, annotation in dim gray.
 
 MASK_STYLES: dict[Layer, LayerStyle] = {
     (3, 0): LayerStyle(
@@ -37,7 +52,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(70, 130, 210, 200),
         outline_rgba=(40, 80, 160, 240),
         hatch="solid",
-        legend_label="M1 — Nb bottom electrode",
+        legend_label="M1 - Nb ground/bottom electrode",
         render_order=0,
         visible=True,
     ),
@@ -47,7 +62,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(220, 60, 60, 220),
         outline_rgba=(180, 30, 30, 255),
         hatch="cross",
-        legend_label="JJ — AlOx tunnel barrier",
+        legend_label="JJ - AlOx tunnel barrier",
         render_order=2,
         visible=True,
     ),
@@ -57,7 +72,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(50, 170, 100, 200),
         outline_rgba=(30, 120, 70, 240),
         hatch="solid",
-        legend_label="M2 — Nb top electrode",
+        legend_label="M2 - Nb CPW/top electrode",
         render_order=1,
         visible=True,
     ),
@@ -67,7 +82,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(140, 80, 220, 180),
         outline_rgba=(100, 50, 180, 230),
         hatch="solid",
-        legend_label="M3 — Nb global routing",
+        legend_label="M3 - Nb global routing",
         render_order=3,
         visible=True,
     ),
@@ -77,7 +92,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(240, 180, 40, 210),
         outline_rgba=(200, 140, 10, 255),
         hatch="dots",
-        legend_label="VIA12 — M1↔M2 via",
+        legend_label="VIA12 - M1/M2 via",
         render_order=4,
         visible=True,
     ),
@@ -87,7 +102,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(250, 130, 50, 210),
         outline_rgba=(210, 100, 20, 255),
         hatch="dots",
-        legend_label="VIA23 — M2↔M3 via",
+        legend_label="VIA23 - M2/M3 via",
         render_order=5,
         visible=True,
     ),
@@ -97,7 +112,7 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(180, 180, 80, 120),
         outline_rgba=(140, 140, 50, 180),
         hatch="diagonal",
-        legend_label="UNDERCUT — resist opening",
+        legend_label="UNDERCUT - resist opening",
         render_order=6,
         visible=True,
     ),
@@ -107,36 +122,32 @@ MASK_STYLES: dict[Layer, LayerStyle] = {
         fill_rgba=(100, 100, 100, 80),
         outline_rgba=(80, 80, 80, 120),
         hatch="none",
-        legend_label="MARKER — annotation only",
+        legend_label="MARKER - annotation only",
         render_order=99,
-        visible=False,  # hidden by default in mask view
+        visible=False,
     ),
-    (11, 0): LayerStyle(
+    CHIP_BOUNDARY: LayerStyle(
         name="CHIP_BOUNDARY",
-        layer=(11, 0),
+        layer=CHIP_BOUNDARY,
         fill_rgba=(0, 0, 0, 0),
         outline_rgba=(200, 200, 200, 255),
         hatch="none",
-        legend_label="CHIP — die boundary",
+        legend_label="CHIP - die boundary",
         render_order=100,
         visible=True,
     ),
-    (12, 0): LayerStyle(
+    KEEPOUT: LayerStyle(
         name="KEEPOUT",
-        layer=(12, 0),
-        fill_rgba=(255, 60, 60, 40),
-        outline_rgba=(255, 60, 60, 120),
-        hatch="diagonal",
-        legend_label="KEEPOUT — exclusion zone",
+        layer=KEEPOUT,
+        fill_rgba=(0, 0, 0, 0),
+        outline_rgba=(255, 60, 60, 200),
+        hatch="none",
+        legend_label="KEEPOUT - exclusion zone",
         render_order=97,
         visible=True,
     ),
 }
 
-CHIP_BOUNDARY: Layer = (11, 0)
-KEEPOUT: Layer = (12, 0)
-
-# Dark substrate background for mask rendering
 SUBSTRATE_COLOR: tuple[int, int, int, int] = (20, 22, 30, 255)
 ANNOTATION_COLOR: tuple[int, int, int, int] = (200, 200, 200, 255)
 
@@ -161,8 +172,8 @@ def style_for_layer(layer: Layer) -> LayerStyle:
 def visible_layers() -> list[LayerStyle]:
     """Return all visible layer styles sorted by render order."""
     return sorted(
-        [s for s in MASK_STYLES.values() if s.visible],
-        key=lambda s: s.render_order,
+        [style for style in MASK_STYLES.values() if style.visible],
+        key=lambda style: style.render_order,
     )
 
 
@@ -179,7 +190,7 @@ def draw_scale_bar(
     target_px = canvas_width * 0.15
     target_um = target_px * scale_um_per_px
     nice_values = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000]
-    bar_um = min(nice_values, key=lambda v: abs(v - target_um))
+    bar_um = min(nice_values, key=lambda value: abs(value - target_um))
     bar_px = int(bar_um / scale_um_per_px)
     if bar_px < 20:
         return
@@ -190,15 +201,12 @@ def draw_scale_bar(
     y1 = y0 + bar_height
 
     draw.rectangle([x0, y0, x1, y1], fill=(255, 255, 255, 230), outline=(180, 180, 180, 255))
-    for i in range(0, bar_px, max(bar_px // 5, 1)):
-        tick_x = x0 + i
+    for index in range(0, bar_px, max(bar_px // 5, 1)):
+        tick_x = x0 + index
         draw.line([(tick_x, y0), (tick_x, y0 - 3)], fill=(200, 200, 200, 200), width=1)
 
-    if bar_um >= 1:
-        label = f"{bar_um:g} µm"
-    else:
-        label = f"{bar_um * 1000:g} nm"
-    draw.text((x0, y0 - 16), label, fill=ANNOTATION_COLOR[:3])
+    label = f"{bar_um:g} um" if bar_um >= 1 else f"{bar_um * 1000:g} nm"
+    draw.text((x0, y0 - 18), label, fill=ANNOTATION_COLOR[:3], font=annotation_font())
 
 
 def draw_layer_legend(
@@ -212,14 +220,11 @@ def draw_layer_legend(
     line_height: int = 20,
 ) -> None:
     """Draw a compact layer legend in the top-right corner."""
-    styles = [
-        style_for_layer(ly) for ly in sorted(active_layers)
-        if style_for_layer(ly).visible
-    ]
+    styles = [style_for_layer(layer) for layer in sorted(active_layers) if style_for_layer(layer).visible]
     if not styles:
         return
 
-    x0 = canvas_width - margin - 200
+    x0 = canvas_width - margin - 260
     y = margin + 4
     for style in styles:
         draw.rectangle(
@@ -227,7 +232,12 @@ def draw_layer_legend(
             fill=style.fill_rgba,
             outline=style.outline_rgba,
         )
-        draw.text((x0 + swatch_size + 6, y - 1), style.legend_label, fill=ANNOTATION_COLOR[:3])
+        draw.text(
+            (x0 + swatch_size + 6, y - 1),
+            style.legend_label,
+            fill=ANNOTATION_COLOR[:3],
+            font=annotation_font(),
+        )
         y += line_height
 
 
@@ -238,12 +248,11 @@ def chip_frame_polygons(
     frame_width_um: float = 4.0,
 ) -> list[tuple[list[tuple[float, float]], Layer]]:
     """Return chip-boundary outline polygons for a rectangular die."""
-    hw, hh = width_um / 2.0, height_um / 2.0
-    fw = frame_width_um
-    sides = [
-        ([(-hw, -hh), (hw, -hh), (hw, -hh + fw), (-hw, -hh + fw)], CHIP_BOUNDARY),
-        ([(-hw, hh - fw), (hw, hh - fw), (hw, hh), (-hw, hh)], CHIP_BOUNDARY),
-        ([(-hw, -hh), (-hw + fw, -hh), (-hw + fw, hh), (-hw, hh)], CHIP_BOUNDARY),
-        ([(hw - fw, -hh), (hw, -hh), (hw, hh), (hw - fw, hh)], CHIP_BOUNDARY),
+    half_w, half_h = width_um / 2.0, height_um / 2.0
+    frame = frame_width_um
+    return [
+        ([(-half_w, -half_h), (half_w, -half_h), (half_w, -half_h + frame), (-half_w, -half_h + frame)], CHIP_BOUNDARY),
+        ([(-half_w, half_h - frame), (half_w, half_h - frame), (half_w, half_h), (-half_w, half_h)], CHIP_BOUNDARY),
+        ([(-half_w, -half_h), (-half_w + frame, -half_h), (-half_w + frame, half_h), (-half_w, half_h)], CHIP_BOUNDARY),
+        ([(half_w - frame, -half_h), (half_w, -half_h), (half_w, half_h), (half_w - frame, half_h)], CHIP_BOUNDARY),
     ]
-    return sides

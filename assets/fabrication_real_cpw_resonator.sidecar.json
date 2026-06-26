@@ -1,8 +1,8 @@
 {
   "schema": "text-to-gds.sidecar.v0",
   "pcell": "fabrication_real_cpw_resonator",
-  "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\assets\\fabrication_real_cpw_resonator.gds",
-  "screenshot_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\assets\\fabrication_real_cpw_resonator.layout.png",
+  "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\workspace\\artifacts\\fabrication_real_cpw_resonator.gds",
+  "screenshot_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\workspace\\artifacts\\fabrication_real_cpw_resonator.layout.png",
   "bbox_um": [
     [
       -1001.25,
@@ -202,7 +202,7 @@
           3,
           0
         ],
-        "purpose": "bottom electrode and local interconnect",
+        "purpose": "ground plane, bottom electrode, and local interconnect",
         "material": "Nb",
         "thickness_nm": 180.0,
         "min_width_um": 0.2,
@@ -226,7 +226,7 @@
           5,
           0
         ],
-        "purpose": "top electrode and local routing",
+        "purpose": "CPW center trace, top electrode, and local routing",
         "material": "Nb",
         "thickness_nm": 200.0,
         "min_width_um": 0.2,
@@ -286,7 +286,43 @@
           10,
           0
         ],
-        "purpose": "labels and non-fab annotations",
+        "purpose": "labels, extraction markers, and non-fab annotations",
+        "material": "Si",
+        "thickness_nm": 0.0,
+        "min_width_um": 0.0,
+        "min_spacing_um": 0.0
+      },
+      "CHIP_BOUNDARY": {
+        "name": "CHIP_BOUNDARY",
+        "layer": [
+          11,
+          0
+        ],
+        "purpose": "substrate die outline and chip boundary",
+        "material": "Si",
+        "thickness_nm": 0.0,
+        "min_width_um": 0.0,
+        "min_spacing_um": 0.0
+      },
+      "KEEPOUT": {
+        "name": "KEEPOUT",
+        "layer": [
+          12,
+          0
+        ],
+        "purpose": "wirebond, airbridge, package, and DRC exclusion region",
+        "material": "air",
+        "thickness_nm": 0.0,
+        "min_width_um": 0.0,
+        "min_spacing_um": 0.0
+      },
+      "PORT": {
+        "name": "PORT",
+        "layer": [
+          13,
+          0
+        ],
+        "purpose": "RF/DC port marker and measurement reference",
         "material": "Si",
         "thickness_nm": 0.0,
         "min_width_um": 0.0,
@@ -331,7 +367,9 @@
   },
   "layout_quality_mode": "fabrication_real",
   "quality_record": {
+    "pcell": "fabrication_real_cpw_resonator",
     "layout_quality_mode": "fabrication_real",
-    "status": "supported"
+    "status": "supported",
+    "reason": null
   }
 }

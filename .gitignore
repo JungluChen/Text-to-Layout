@@ -14,3 +14,6 @@ plugins/*/workspace/artifacts/*
 
 # External library source trees (cloned for reference, not project code)
 external_repos/
+quantum-eda-stack/
+references/
+workspace/catalog.py

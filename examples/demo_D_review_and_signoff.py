@@ -48,6 +48,7 @@ def main() -> None:
     print(f"  DRC status:   {drc['status']}")
     print(f"  extraction:   {ext.get('schema', 'N/A')}")
     print(f"  physics_graph:{graph.get('schema', 'N/A')}")
+    print(f"  simulation:   {sim.get('status', sim.get('schema', 'N/A'))}")
 
     # -- Step 2: review_layout -- 5-agent committee --------------------------
     print("\nStep 2 -- review_layout (5-agent committee)")

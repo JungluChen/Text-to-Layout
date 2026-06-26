@@ -18,7 +18,7 @@ def check(name, fn):
 
 
 # ── imports ──────────────────────────────────────────────────────────────────
-from text_to_gds.server import (
+from text_to_gds.server import (  # noqa: E402
     list_em_solvers, list_professional_backends, list_pcells,
     list_process_design_kits, list_simulators, list_fabrication_processes,
     check_design_feasibility, compile_layout, run_drc, extract_layout,
@@ -29,9 +29,9 @@ from text_to_gds.server import (
     generate_solver_inputs_from_physics_graph,
     run_analytical_verification, cross_validate_solvers,
     run_simulation, evaluate_signoff_level, review_layout,
-    run_drc, run_process_drc,
+    run_process_drc,
 )
-import text_to_gds.server as srv
+import text_to_gds.server as srv  # noqa: E402
 
 # ── tmp workspace ─────────────────────────────────────────────────────────────
 TMP = pathlib.Path(tempfile.mkdtemp())
@@ -175,7 +175,6 @@ def _export_fasthenry():
 def _generate_solver_inputs():
     if not _cpw_sidecar:
         return False, "no cpw sidecar"
-    pg_path = str(TMP / "cpw.physics_graph.json")
     # use the physics graph from extract step
     pg = extract_physics_graph_artifact(_cpw_sidecar)
     pg_file = TMP / "cpw_test.physics_graph.json"

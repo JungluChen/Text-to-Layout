@@ -85,8 +85,8 @@ def cpw_resonator_real(
                     (-gnd_offset, -hh + km / 2.0), (gnd_offset, -hh + km / 2.0)]:
         c.add_polygon(_rect(gx, gy, ground_ref_pad_size, ground_ref_pad_size / 2.0), layer=ground_layer)
 
-    for name, port in resonator.ports.items():
-        c.add_port(name=name, port=port)
+    for port in resonator.ports:
+        c.add_port(name=port.name, port=port)
 
     c.info.update(dict(resonator.info))
     c.info["device_type"] = "cpw_resonator_real"
