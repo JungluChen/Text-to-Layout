@@ -1,0 +1,381 @@
+{
+  "version": "1.0",
+  "description": "Quantum device reference library with engineering knowledge from published papers",
+  "organizations": {
+    "ibm": {
+      "name": "IBM Research",
+      "devices": ["pocket_transmon", "fluxonium", "cpw_resonator"]
+    },
+    "google": {
+      "name": "Google Quantum AI",
+      "devices": ["xmon", "cpw_resonator", "twpa"]
+    },
+    "yale": {
+      "name": "Yale University",
+      "devices": ["3d_transmon", "fluxonium", "cpw_resonator"]
+    },
+    "mit_ll": {
+      "name": "MIT Lincoln Lab",
+      "devices": ["pocket_transmon", "cpw_resonator", "jj_array"]
+    },
+    "nist": {
+      "name": "National Institute of Standards and Technology",
+      "devices": ["pocket_transmon", "cpw_resonator"]
+    },
+    "rigetti": {
+      "name": "Rigetti Computing",
+      "devices": ["pocket_transmon", "cpw_resonator"]
+    },
+    "eth": {
+      "name": "ETH Zurich",
+      "devices": ["pocket_transmon", "lumped_jpa", "cpw_resonator"]
+    },
+    "oxford": {
+      "name": "Oxford Quantum Instruments",
+      "devices": ["pocket_transmon", "cpw_resonator"]
+    },
+    "capp": {
+      "name": "Center for Applied Physics and Technology",
+      "devices": ["pocket_transmon", "lumped_jpa"]
+    },
+    "iqm": {
+      "name": "IQM Quantum Computers",
+      "devices": ["pocket_transmon", "cpw_resonator"]
+    }
+  },
+  "topologies": {
+    "pocket_transmon": {
+      "name": "Pocket Transmon",
+      "description": "Transmon qubit with pocket-style ground plane cutout",
+      "key_features": [
+        "rectangular pads",
+        "pocket cutout in ground plane",
+        "junction between pads",
+        "cpw coupling"
+      ],
+      "typical_parameters": {
+        "Ej_Ec_ratio": {"min": 20, "max": 100, "typical": 50},
+        "frequency_ghz": {"min": 4.0, "max": 6.0, "typical": 5.0},
+        "anharmonicity_mhz": {"min": -300, "max": -200, "typical": -250},
+        "T1_us": {"min": 10, "max": 1000, "typical": 100},
+        "T2_us": {"min": 10, "max": 500, "typical": 50}
+      },
+      "design_considerations": [
+        "Pad size determines capacitance",
+        "Gap between pads affects coupling",
+        "Pocket size affects ground plane quality",
+        "Junction placement critical for flux tunability"
+      ],
+      "references": [
+        {
+          "title": "Charge-insensitive qubit design derived from the Cooper pair box",
+          "authors": "Koch et al.",
+          "year": 2007,
+          "journal": "Physical Review A",
+          "doi": "10.1103/PhysRevA.76.042319"
+        }
+      ]
+    },
+    "xmon": {
+      "name": "Xmon",
+      "description": "Cross-shaped transmon qubit",
+      "key_features": [
+        "cross-shaped island",
+        "four arms for coupling",
+        "junction on south arm",
+        "claw or gap couplers"
+      ],
+      "typical_parameters": {
+        "Ej_Ec_ratio": {"min": 20, "max": 100, "typical": 50},
+        "frequency_ghz": {"min": 4.0, "max": 6.0, "typical": 5.0},
+        "anharmonicity_mhz": {"min": -300, "max": -200, "typical": -250},
+        "T1_us": {"min": 10, "max": 1000, "typical": 100},
+        "T2_us": {"min": 10, "max": 500, "typical": 50}
+      },
+      "design_considerations": [
+        "Cross length determines capacitance",
+        "Arm width affects coupling strength",
+        "Gap to ground affects frequency",
+        "Junction placement on single arm"
+      ],
+      "references": [
+        {
+          "title": "A cross-mon quantum circuit with a tunable coupler",
+          "authors": "Barends et al.",
+          "year": 2013,
+          "journal": "Applied Physics Letters",
+          "doi": "10.1063/1.4819887"
+        }
+      ]
+    },
+    "concentric_transmon": {
+      "name": "Concentric Transmon",
+      "description": "Circular transmon with concentric geometry",
+      "key_features": [
+        "circular pads",
+        "concentric geometry",
+        "junction between inner and outer",
+        "high symmetry"
+      ],
+      "typical_parameters": {
+        "Ej_Ec_ratio": {"min": 20, "max": 100, "typical": 50},
+        "frequency_ghz": {"min": 4.0, "max": 6.0, "typical": 5.0},
+        "anharmonicity_mhz": {"min": -300, "max": -200, "typical": -250},
+        "T1_us": {"min": 10, "max": 1000, "typical": 100},
+        "T2_us": {"min": 10, "max": 500, "typical": 50}
+      },
+      "design_considerations": [
+        "Inner radius determines capacitance",
+        "Gap between inner and outer affects coupling",
+        "Symmetry reduces sensitivity to flux noise",
+        "Junction connects inner and outer rings"
+      ],
+      "references": [
+        {
+          "title": "Concentric transmon qubit with reduced sensitivity to charge noise",
+          "authors": "Noguchi et al.",
+          "year": 2010,
+          "journal": "Physical Review B",
+          "doi": "10.1103/PhysRevB.82.184510"
+        }
+      ]
+    },
+    "fluxonium": {
+      "name": "Fluxonium",
+      "description": "Qubit with large superinductance",
+      "key_features": [
+        "Josephson junction",
+        "superinductance (array of JJs)",
+        "capacitive pad",
+        "flux-tunable"
+      ],
+      "typical_parameters": {
+        "Ej_Ec_ratio": {"min": 1, "max": 10, "typical": 5},
+        "frequency_ghz": {"min": 0.5, "max": 2.0, "typical": 1.0},
+        "anharmonicity_mhz": {"min": -2000, "max": -500, "typical": -1000},
+        "T1_us": {"min": 100, "max": 10000, "typical": 1000},
+        "T2_us": {"min": 100, "max": 5000, "typical": 500}
+      },
+      "design_considerations": [
+        "Superinductance value critical for frequency",
+        "Junction ratio determines anharmonicity",
+        "Large T1 due to reduced charge noise sensitivity",
+        "Flux tunability through loop"
+      ],
+      "references": [
+        {
+          "title": "Fluxonium: Single electron box as a qubit",
+          "authors": "Manucharyan et al.",
+          "year": 2009,
+          "journal": "Physical Review Letters",
+          "doi": "10.1103/PhysRevLett.103.120505"
+        }
+      ]
+    },
+    "lumped_jpa": {
+      "name": "Lumped JPA",
+      "description": "Lumped-element Josephson parametric amplifier",
+      "key_features": [
+        "SQUID loop",
+        "interdigitated capacitor",
+        "pump line",
+        "signal/idler ports"
+      ],
+      "typical_parameters": {
+        "gain_db": {"min": 10, "max": 30, "typical": 20},
+        "bandwidth_mhz": {"min": 1, "max": 50, "typical": 10},
+        "noise_temperature_k": {"min": 0.01, "max": 0.1, "typical": 0.05},
+        "dynamic_range_dbm": {"min": -120, "max": -100, "typical": -110}
+      },
+      "design_considerations": [
+        "SQUID loop area affects nonlinearity",
+        "IDC capacitance determines resonance",
+        "Pump coupling strength affects gain",
+        "Impedance matching critical for bandwidth"
+      ],
+      "references": [
+        {
+          "title": "A quantum-limited parametric amplifier",
+          "authors": "Yamamoto et al.",
+          "year": 2008,
+          "journal": "Applied Physics Letters",
+          "doi": "10.1063/1.2992092"
+        }
+      ]
+    },
+    "quarter_wave_jpa": {
+      "name": "Quarter-Wave JPA",
+      "description": "Quarter-wave resonator based JPA",
+      "key_features": [
+        "CPW resonator",
+        "SQUID at one end",
+        "pump coupling",
+        "signal/idler ports"
+      ],
+      "typical_parameters": {
+        "gain_db": {"min": 10, "max": 25, "typical": 15},
+        "bandwidth_mhz": {"min": 5, "max": 100, "typical": 20},
+        "noise_temperature_k": {"min": 0.01, "max": 0.1, "typical": 0.05},
+        "dynamic_range_dbm": {"min": -130, "max": -110, "typical": -120}
+      },
+      "design_considerations": [
+        "Resonator length determines frequency",
+        "SQUID placement affects nonlinearity",
+        "Coupling capacitors affect bandwidth",
+        "Impedance matching critical"
+      ],
+      "references": [
+        {
+          "title": "A Josephson parametric amplifier for qubit readout",
+          "authors": "Mutus et al.",
+          "year": 2014,
+          "journal": "Applied Physics Letters",
+          "doi": "10.1063/1.4864130"
+        }
+      ]
+    },
+    "twpa": {
+      "name": "Traveling Wave Parametric Amplifier",
+      "description": "Distributed parametric amplifier",
+      "key_features": [
+        "periodic JJ array",
+        "phase matching",
+        "broadband gain",
+        "high dynamic range"
+      ],
+      "typical_parameters": {
+        "gain_db": {"min": 10, "max": 25, "typical": 15},
+        "bandwidth_ghz": {"min": 1, "max": 10, "typical": 4},
+        "noise_temperature_k": {"min": 0.001, "max": 0.05, "typical": 0.01},
+        "dynamic_range_dbm": {"min": -100, "max": -80, "typical": -90}
+      },
+      "design_considerations": [
+        "Unit cell design affects bandwidth",
+        "Phase matching critical for gain",
+        "Number of cells affects total gain",
+        "Pump power requirements"
+      ],
+      "references": [
+        {
+          "title": "A wide-bandwidth traveling-wave parametric amplifier for quantum noise limited microwave amplification",
+          "authors": "Macklin et al.",
+          "year": 2015,
+          "journal": "Science",
+          "doi": "10.1126/science.aac9837"
+        }
+      ]
+    },
+    "cpw_resonator": {
+      "name": "CPW Resonator",
+      "description": "Coplanar waveguide resonator",
+      "key_features": [
+        "CPW transmission line",
+        "open or short termination",
+        "coupling gaps",
+        "meander or straight"
+      ],
+      "typical_parameters": {
+        "frequency_ghz": {"min": 2.0, "max": 10.0, "typical": 5.0},
+        "quality_factor": {"min": 100, "max": 1000000, "typical": 10000},
+        "impedance_ohm": {"min": 40, "max": 70, "typical": 50}
+      },
+      "design_considerations": [
+        "Length determines frequency",
+        "Gap width affects impedance",
+        "Coupling gap affects external Q",
+        "Meandering increases length in small area"
+      ],
+      "references": [
+        {
+          "title": "Coplanar waveguide circuits, components, and systems",
+          "authors": "Simons",
+          "year": 2001,
+          "journal": "Wiley-IEEE Press"
+        }
+      ]
+    },
+    "idc_resonator": {
+      "name": "IDC Resonator",
+      "description": "Interdigitated capacitor resonator",
+      "key_features": [
+        "interdigitated fingers",
+        "CPW feedlines",
+        "compact size",
+        "tunable capacitance"
+      ],
+      "typical_parameters": {
+        "frequency_ghz": {"min": 2.0, "max": 10.0, "typical": 5.0},
+        "quality_factor": {"min": 100, "max": 100000, "typical": 10000},
+        "impedance_ohm": {"min": 40, "max": 70, "typical": 50}
+      },
+      "design_considerations": [
+        "Finger count determines capacitance",
+        "Finger width affects impedance",
+        "Gap between fingers affects coupling",
+        "Overall size determined by finger length"
+      ],
+      "references": [
+        {
+          "title": "Interdigitated capacitor resonators",
+          "authors": "Various",
+          "year": 2000,
+          "journal": "IEEE Transactions on Microwave Theory and Techniques"
+        }
+      ]
+    },
+    "calibration_chip": {
+      "name": "Calibration Chip",
+      "description": "Chip with calibration standards",
+      "key_features": [
+        "launch pads",
+        "CPW standards",
+        "short/open/load",
+        "through lines"
+      ],
+      "typical_parameters": {},
+      "design_considerations": [
+        "Standards must be well-characterized",
+        "Launch pads must match probe impedance",
+        "Temperature stability important",
+        "Multiple standards for different calibrations"
+      ],
+      "references": [
+        {
+          "title": "Calibration standards for microwave measurements",
+          "authors": "Various",
+          "year": 2000,
+          "journal": "IEEE Transactions on Microwave Theory and Techniques"
+        }
+      ]
+    },
+    "jj_array": {
+      "name": "JJ Array",
+      "description": "Array of Josephson junctions",
+      "key_features": [
+        "periodic structure",
+        "uniform junctions",
+        "superinductance application",
+        "flux tuning"
+      ],
+      "typical_parameters": {
+        "inductance_per_cell_ph": {"min": 0.01, "max": 0.5, "typical": 0.1},
+        "critical_current_ua": {"min": 1, "max": 100, "typical": 10},
+        "cell_count": {"min": 10, "max": 1000, "typical": 100}
+      },
+      "design_considerations": [
+        "Junction uniformity critical",
+        "Parasitic capacitance affects frequency",
+        "Number of cells determines total inductance",
+        "Flux bias affects inductance"
+      ],
+      "references": [
+        {
+          "title": "Josephson junction arrays as superinductances",
+          "authors": "Various",
+          "year": 2010,
+          "journal": "Physical Review B"
+        }
+      ]
+    }
+  }
+}

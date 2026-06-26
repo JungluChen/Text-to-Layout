@@ -1,0 +1,89 @@
+{
+    "schema": "text-to-gds.reference-library.v1",
+    "description": "Topology-aware reference library for superconducting quantum IC devices. Stores engineering features required for comparison — never copies layouts.",
+    "organizations": {
+        "ibm": {
+            "name": "IBM Quantum",
+            "devices": [],
+            "notes": "Pocket transmon, cross-shaped capacitor, flux tunable"
+        },
+        "google": {
+            "name": "Google Quantum AI",
+            "devices": [],
+            "notes": "Xmon geometry, fixed-frequency transmon"
+        },
+        "yale": {
+            "name": "Yale University",
+            "devices": [],
+            "notes": "Transmon, 3D cavity, lumped element designs"
+        },
+        "mit_lincoln_lab": {
+            "name": "MIT Lincoln Lab",
+            "devices": [],
+            "notes": "Multi-qubit processors, advanced packaging"
+        },
+        "rigetti": {
+            "name": "Rigetti Computing",
+            "devices": [],
+            "notes": "Multi-chip modules, fluxonium"
+        },
+        "capp": {
+            "name": "Center for Applied Physics and Technology",
+            "devices": [],
+            "notes": "Superconducting qubit research"
+        },
+        "eth": {
+            "name": "ETH Zurich",
+            "devices": [],
+            "notes": "Transmon, JPA, TWPA"
+        },
+        "oxford": {
+            "name": "Oxford Instruments / Oxford Quantum Circuits",
+            "devices": [],
+            "notes": "3D transmon, compact geometry"
+        },
+        "nist": {
+            "name": "National Institute of Standards and Technology",
+            "devices": [],
+            "notes": "Quantum voltage standard, JJ arrays"
+        }
+    },
+    "reference_schema": {
+        "name": "string (device name)",
+        "topology": "string (pocket_transmon|xmon|concentric_transmon|lumped_jpa|quarter_wave_jpa|twpa|fluxonium|cpw_resonator|idc_resonator|calibration_chip|jj_array)",
+        "institution": "string",
+        "reference": "string (citation)",
+        "geometry": {
+            "jj_area_um2": "float",
+            "cpw_width_um": "float",
+            "cpw_gap_um": "float",
+            "chip_area_um2": "float",
+            "idc_finger_count": "int",
+            "idc_finger_length_um": "float"
+        },
+        "topology_features": {
+            "node_types": ["list of node types"],
+            "edge_types": ["list of edge types"]
+        },
+        "electrical": {
+            "z0_ohm": "float",
+            "frequency_ghz": "float",
+            "quality_factor": "float",
+            "gain_db": "float",
+            "bandwidth_ghz": "float"
+        },
+        "fabrication": {
+            "process": "string",
+            "metal": "string",
+            "substrate": "string",
+            "junction_type": "string"
+        },
+        "ports": [{"name": "string", "type": "string"}],
+        "ground_strategy": "string (coplanar|microstrip|none)",
+        "flux_strategy": "string (none|inductive|capacitive)",
+        "readout_strategy": "string (none|side_coupled|end_coupled|3d_cavity)",
+        "cpw_transition": "string (uniform|tapered|stepped)",
+        "idc_style": "string (none|standard|tapped|folded)",
+        "squid_style": "string (none|planar|window|uncertainty)"
+    }
+}

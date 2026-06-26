@@ -59,6 +59,282 @@ Three rules are enforced at every stage:
 
 ---
 
+## 🧠 Architecture: Geometry-Aware EDA Platform
+
+Text-to-GDS has evolved beyond a layout generator into a **solver-first superconducting quantum EDA platform**. The system understands what it generates — every geometry has engineering meaning, every polygon belongs to a feature, and every engineering conclusion is supported by evidence.
+
+```
+Prompt
+  ↓
+Engineering Intent
+  ↓
+Design Graph (hierarchical engineering representation)
+  ↓
+Geometry Intelligence (semantic feature recognition)
+  ↓
+Topology Recognition (evidence-based classification)
+  ↓
+Physics Graph (compiler IR with provenance)
+  ↓
+Multi-Solver Verification (≥2 independent sources)
+  ↓
+Engineering Review (microwave, quantum, fabrication, packaging, measurement, cryogenic)
+  ↓
+Scientific Report (lineage + evidence)
+  ↓
+Closed-Loop Optimization (bounded iteration)
+```
+
+### New Architecture Modules
+
+| Module | Location | Purpose |
+|---|---|---|
+| **Geometry Intelligence Engine** | `src/text_to_gds/geometry_intelligence/` | Semantic geometry recognition: CPW, IDC, taper, launch pad, bond pad, SQUID loop, JJ, capacitor paddle, resonator, flux line, via fence, airbridge, ground pocket, ground bridge, crossover, current bottleneck, meander, island, coupler, feedline |
+| **Design Graph** | `src/text_to_gds/design_graph/` | Hierarchical engineering representation: Device → Subsystem → Functional Block → Geometry Feature → Polygon |
+| **Topology Reasoning Engine** | `src/text_to_gds/topology_reasoning/` | Evidence-based device classification with alternative hypotheses and missing evidence identification |
+| **Engineering Rule Engine** | `src/text_to_gds/engineering_rules/` | Microwave, quantum, fabrication, packaging, measurement, and cryogenic rules with engineering context |
+| **Literature Knowledge Graph** | `src/text_to_gds/literature_graph/` | Feature-by-feature comparison with published devices |
+| **Design Optimization Engine** | `src/text_to_gds/design_optimization/` | Closed-loop optimization with bounded iteration and history tracking |
+| **Device Understanding** | `src/text_to_gds/device_understanding/` | Engineering-aware Q&A: "What device is this?", "Where is the nonlinear element?", "What limits bandwidth?" |
+| **Engineering Visualization** | `src/text_to_gds/engineering_visualization/` | Publication-quality views: geometry, topology, current flow, electric field, magnetic field, critical dimensions, subsystem hierarchy, feature importance, design graph, review overlay |
+
+### Usage Example
+
+```python
+from text_to_gds.geometry_intelligence import GeometryIntelligenceEngine
+from text_to_gds.design_graph import build_design_graph
+from text_to_gds.topology_reasoning import TopologyReasoningEngine
+from text_to_gds.engineering_rules import evaluate_engineering_rules
+from text_to_gds.device_understanding import understand_device
+
+# 1. Analyze geometry features
+engine = GeometryIntelligenceEngine()
+geometry_graph = engine.analyze_layout("device.gds", physics_graph=physics_graph)
+
+# 2. Build hierarchical design graph
+design_graph = build_design_graph(
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+    topology_result=topology_result,
+)
+
+# 3. Check engineering rules
+rules = evaluate_engineering_rules(design_data)
+
+# 4. Answer engineering questions
+understanding = understand_device(
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+    design_graph=design_graph,
+    topology_result=topology_result,
+)
+# Returns: "This is a lumped JPA device. The SQUID loop provides nonlinear inductance..."
+```
+
+### Geometry Features Detected
+
+| Feature | Engineering Role | Key Parameters |
+|---|---|---|
+| CPW | Transmission line | width, gap, Z0, phase velocity |
+| IDC | Capacitor | finger count, capacitance, aspect ratio |
+| Josephson Junction | Nonlinear element | area, Ic, Lj, Ej |
+| SQUID Loop | Tunable nonlinear inductance | loop area, JJ count, flux sensitivity |
+| Resonator | Frequency-selective coupling | frequency, Q, bandwidth |
+| Flux Line | Magnetic bias | width, length, mutual inductance |
+| Launch Pad | RF coupling | pad size, GSG configuration |
+| Via Fence | Grounding/shielding | via count, diameter, spacing |
+| Airbridge | Crossover | span, width, parasitic capacitance |
+
+### Engineering Rules Categories
+
+| Category | Example Rules |
+|---|---|
+| **Microwave** | Flux line too close to resonator, CPW gap ratio, IDC aspect ratio, slotline mode risk |
+| **Quantum** | JJ area range, SQUID symmetry, flux noise, Purcell filter, Ej/Ec ratio |
+| **Fabrication** | Min width/spacing, JJ overlap, via enclosure, airbridge clearance |
+| **Packaging** | Wirebond count, chip edge clearance, grounding strategy |
+| **Measurement** | RF port count, flux port, DC port, probe compatibility |
+| **Cryogenic** | Thermal mass, filtration, heat load, thermal anchoring |
+
+---
+
+## 🧠 AI-Native Quantum CAD Platform
+
+The system has evolved beyond a layout generator into an **AI-native superconducting quantum EDA platform**. The AI behaves like a senior engineer—understanding what every polygon means, why it exists, how it affects performance, and how to improve it.
+
+### New Platform Modules
+
+| Module | Location | Purpose |
+|---|---|---|
+| **Device Classifier** | `src/text_to_gds/device_classifier/` | Classifies quantum devices (Pocket Transmon, Xmon, JPA, TWPA, etc.) with confidence scores and alternative hypotheses |
+| **Dependency Graph** | `src/text_to_gds/dependency_graph/` | Maps performance → physics → geometry → process → mask dependencies for root cause analysis |
+| **Design Memory** | `src/text_to_gds/design_memory/` | Stores design cases with layout, parameters, physics, solver, measurements, reviews. Supports similarity search |
+| **Measurement Knowledge Base** | `src/text_to_gds/measurement_kb/` | Stores measurement data and provides analysis for comparing with simulations |
+| **Layout Critic** | `src/text_to_gds/layout_critic/` | Engineering review with issue, physical consequence, evidence, reference, suggested modification, expected improvement, confidence |
+| **Engineering Reasoner** | `src/text_to_gds/engineering_reasoner/` | Answers "why" questions based on geometry, topology, physics graph, dependency graph, solver evidence |
+| **Reference Library** | `reference_library/` | Device knowledge from published papers (IBM, Google, Yale, MIT LL, etc.) |
+| **Design Database** | `design_database/` | Persistent storage for design memory cases |
+
+### Device Classifier
+
+Recognizes quantum device types based on geometry, topology, and physics:
+
+```python
+from text_to_gds.device_classifier import DeviceClassifier, DeviceType
+
+classifier = DeviceClassifier()
+result = classifier.classify(
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+    topology=topology,
+)
+
+print(f"Device: {result.device_type.value}")
+print(f"Confidence: {result.confidence:.2f}")
+print(f"Evidence: {len(result.evidence)} items")
+print(f"Alternatives: {[a.device_type.value for a in result.alternatives]}")
+```
+
+**Recognized device types:**
+- Pocket Transmon, Xmon, Concentric Transmon, Fluxonium
+- Lumped JPA, Quarter-Wave JPA, TWPA
+- IDC Resonator, CPW Resonator
+- Calibration Chip, JJ Array
+
+### Dependency Graph
+
+Maps the causal chain from mask to performance:
+
+```python
+from text_to_gds.dependency_graph import DependencyGraph, DependencyLayer
+
+graph = DependencyGraph()
+graph.build_from_design(
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+)
+
+# Find why frequency shifted
+paths = graph.explain_shift("frequency", 5.0e9, 4.95e9)
+for path in paths:
+    print(f"Causal path: {path.description}")
+    print(f"Sensitivity: {path.total_sensitivity}")
+```
+
+**Dependency layers:**
+- Performance (frequency, gain, Q factor)
+- Physics (capacitance, inductance, critical current)
+- Geometry (dimensions, widths, gaps)
+- Process (metal height, permittivity, lithography bias)
+- Mask (layout polygons)
+
+### Design Memory
+
+Stores every design as an engineering case:
+
+```python
+from text_to_gds.design_memory import DesignMemory, DesignCase
+
+memory = DesignMemory(database_path="design_database")
+
+# Store a design
+case = DesignCase(
+    id="jpa_6ghz_v1",
+    name="6 GHz JPA",
+    device_type="lumped_jpa",
+    created_at=datetime.now(),
+    geometry_params={"finger_length": 50e-6, "gap": 2e-6},
+    physics_params={"frequency": 6e9, "gain": 20},
+    tags=["jpa", "6ghz", "production"],
+)
+memory.store(case)
+
+# Find similar designs
+similar = memory.find_similar("jpa_6ghz_v1")
+
+# Search by parameters
+results = memory.search({
+    "device_type": "lumped_jpa",
+    "physics_params": {"frequency": 6e9},
+})
+```
+
+### Layout Critic
+
+Provides engineering review with detailed feedback:
+
+```python
+from text_to_gds.layout_critic import LayoutCritic
+
+critic = LayoutCritic()
+report = critic.review(
+    design_id="my_design",
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+)
+
+print(f"Score: {report.overall_score:.2f}")
+print(f"Passed: {report.passed}")
+for issue in report.issues:
+    print(f"\n{issue.severity.value}: {issue.issue}")
+    print(f"  Consequence: {issue.physical_consequence}")
+    print(f"  Fix: {issue.suggested_modification}")
+    print(f"  Expected improvement: {issue.expected_improvement}")
+```
+
+### Engineering Reasoner
+
+Answers engineering questions based on data, not prompts:
+
+```python
+from text_to_gds.engineering_reasoner import EngineeringReasoner, EngineeringQuestion
+
+reasoner = EngineeringReasoner()
+
+# Why is bandwidth low?
+answer = reasoner.answer(
+    question=EngineeringQuestion.WHY_BANDWIDTH_LOW,
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+)
+print(f"Answer: {answer.answer}")
+print(f"Confidence: {answer.confidence:.2f}")
+print(f"Sources: {[s.value for s in answer.sources]}")
+
+# Where does current concentrate?
+answer = reasoner.answer(
+    question=EngineeringQuestion.WHERE_CURRENT_CONCENTRATES,
+    geometry_graph=geometry_graph,
+)
+
+# Which geometry dominates capacitance?
+answer = reasoner.answer(
+    question=EngineeringQuestion.WHICH_GEOMETRY_DOMINATES_CAPACITANCE,
+    geometry_graph=geometry_graph,
+    physics_graph=physics_graph,
+)
+```
+
+### Reference Library
+
+Device knowledge extracted from published papers:
+
+| Organization | Device Types | Key Papers |
+|---|---|---|
+| IBM | Pocket Transmon, Fluxonium | Koch 2007, Manucharyan 2009 |
+| Google | Xmon, TWPA | Barends 2013, Macklin 2015 |
+| Yale | 3D Transmon, Fluxonium | Manucharyan 2009 |
+| MIT Lincoln Lab | Pocket Transmon | Various |
+| ETH Zurich | Pocket Transmon, JPA | Various |
+| IQM | Pocket Transmon | Various |
+
+Each device type includes:
+- Typical parameters with ranges
+- Design considerations
+- References to original papers
+
+---
+
 ## 🚀 Quick start
 
 **1. Describe your device**
@@ -122,7 +398,7 @@ em = export_openems_project(result["sidecar_path"], run=True)
 from text_to_gds.server import review_layout, evaluate_signoff_level
 import json
 
-review  = review_layout(result["sidecar_path"])              # score = min(5 agents)
+review  = review_layout(result["sidecar_path"])              # score = min(11 agents)
 signoff = evaluate_signoff_level(json.dumps({                # level 0-6
     "extraction": ext, "physics_graph": graph,
     "sidecar_path": result["sidecar_path"]}))
@@ -393,7 +669,7 @@ from text_to_gds.server import (
     run_magic_extract,
 )
 
-review  = review_layout(r["sidecar_path"])                 # 5-agent committee; score = min
+review  = review_layout(r["sidecar_path"])                 # 11-agent committee; score = min
 signoff = evaluate_signoff_level(json.dumps({              # level 0-6
     "extraction": ext, "drc": drc, "sidecar_path": r["sidecar_path"]}))
 quality = score_layout_quality(r["sidecar_path"])          # overall quality score
@@ -442,6 +718,31 @@ These functions live outside `server.py` and are used directly by the examples a
 | `write_design_intent(intent, path)` | `design_intent.py` | Write design intent JSON |
 | `extract_physics_graph(gds, sidecar, ...)` | `physics_graph.py` | Extract physics_graph.json compiler IR from GDS polygons |
 | `graph_to_josephsoncircuits_model(graph)` | `physics_graph.py` | Convert physics graph to JosephsonCircuits.jl circuit model |
+
+### Topology and geometry intelligence (`topology.py`, `geometry_intelligence.py`, `reference_matching.py`)
+
+| Function | Module | Description |
+|---|---|---|
+| `classify_topology(graph)` | `topology.py` | Classify device into 1 of 11 known topologies from physics graph |
+| `extract_geometry_features(gds, sidecar, ...)` | `geometry_intelligence.py` | Extract capacitor paddles, current bottlenecks, ground pockets, airbridge spans, CPW discontinuities, etc. |
+| `match_reference(device, topology, ...)` | `reference_matching.py` | Topology-aware literature comparison with geometry similarity and device hierarchy |
+
+Supported topologies: `pocket_transmon`, `xmon`, `concentric_transmon`, `lumped_jpa`, `quarter_wave_jpa`, `twpa`, `fluxonium`, `cpw_resonator`, `idc_resonator`, `calibration_chip`, `jj_array`.
+
+### Visualization (`visualization.py`)
+
+| Function | Module | Description |
+|---|---|---|
+| `render_layer_view(gds, ...)` | `visualization.py` | Publication-quality layer view with fabrication colours and hatch styles |
+| `render_net_view(gds, ...)` | `visualization.py` | Device-specific net colouring |
+| `render_circuit_view(topology, ...)` | `visualization.py` | Circuit schematic from extracted topology |
+
+### Professional generators (`generators/`)
+
+| Function | Module | Description |
+|---|---|---|
+| `generate_jpa(...)` | `generators/jpa_generator.py` | Literature-quality JPA layouts with IDC, SQUID loop, flux line, CPW feeds |
+| `generate_transmon(...)` | `generators/transmon_generator.py` | Pocket, Xmon, and Concentric transmon layouts |
 
 ### Device views (`device_views.py`)
 
@@ -731,9 +1032,9 @@ Every lineage entry in an extraction result carries a `method_label`:
 
 No value may appear in a report without a lineage entry. `source = "LLM"` is invalid and causes immediate failure.
 
-### Five-agent review committee
+### Review committee (11 agents)
 
-Score = **minimum** across all five agents — one critical failure cannot be averaged away.
+Score = **minimum** across all agents — one critical failure cannot be averaged away.
 
 | Agent | Checks |
 |---|---|
@@ -742,8 +1043,15 @@ Score = **minimum** across all five agents — one critical failure cannot be av
 | **Fabrication** | DRC min-width/spacing, layer map, JJ overlap, via enclosure |
 | **Measurement** | RF port, DC bias, flux line, pump port, wirebond/probe pads |
 | **Literature** | Parameter plausibility vs known device classes |
+| **Layout design review** | Current crowding, flux line proximity, ground discontinuity, IDC bus width, launch transitions, airbridge spacing, slotline modes, floating metal |
+| **Solver evidence** | Solver output file existence, status honesty, artifact validation |
+| **Layout critic** | Topology-aware multi-agent critic (topology, microwave, fab, measurement, quantum design, literature, packaging, manufacturing) |
+| **Reviewer** | Secondary review pass |
+| **Final** | Aggregate verdict |
 
 Pass threshold: `final_score >= 90`. The auto-repair loop iterates generate -> review -> fix until accepted or the budget is spent.
+
+An enhanced committee (`review_committee_enhanced()`) adds topology recognition and geometry intelligence context to the layout critic agent.
 
 ### Hard stops (immediate failure, no repair loop)
 
