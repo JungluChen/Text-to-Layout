@@ -17,10 +17,19 @@
   "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
   "evidence": {
     "analytical_model": "Flux quantization and loop-area estimate",
-    "simulation_required": true
+    "simulation_required": true,
+    "open_source_solver": "None - foundry JJ stack required",
+    "solver_input_prepared": false,
+    "solver_executed": false
   },
   "metadata": {
-    "benchmark_status": "ready",
+    "benchmark_status": "geometry_candidate",
+    "geometry_status": "pass",
+    "simulation_readiness_level": 1,
+    "solver_executed": false,
+    "physics_verified": false,
+    "fabrication_ready": false,
+    "warning": "Generic JJ placeholders only. Foundry-specific Josephson junction stack required.",
     "qualification": "generic process-placeholder design candidate; not foundry-ready"
   }
 }

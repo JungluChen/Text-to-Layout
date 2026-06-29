@@ -2,9 +2,9 @@
 
 # Text-to-Layout
 
-**AI-assisted, research-first, first-principles-guided, evidence-backed, verified layout generation.**
+**AI-assisted, research-first, evidence-backed layout generation for IC, RF, and superconducting designs.**
 
-Natural-language intent becomes a researched Layout DSL, deterministic gdsfactory geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
+Natural-language intent becomes a researched Layout DSL, deterministic geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
 
 [Plugin design](docs/plugin_design.md) | [Tool API](docs/tool_api.md) | [Text-to-CAD study](docs/lessons_from_text_to_cad.md) | [Simulation workflows](simulation/README.md)
 
@@ -12,7 +12,7 @@ Natural-language intent becomes a researched Layout DSL, deterministic gdsfactor
 
 ## What it does
 
-Text-to-Layout is not "AI randomly draws layout." The AI may research the target and propose a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, simulation preparation, and export.
+Text-to-Layout is not "AI randomly draws layout." The AI researches the target and proposes a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, simulation preparation, and export.
 
 ```text
 Research
@@ -31,19 +31,36 @@ If required verification fails, final geometry artifacts are not exported.
 
 > **Warning:** Generated layouts are design candidates, not fabrication-ready masks. Final fabrication requires process-specific DRC, EM simulation, expert review, and foundry or lab rule validation.
 
-## 🧪 Layout Benchmarks
+## Status vocabulary
 
-The benchmark table follows Text-to-CAD's prompt-to-output presentation, but adds verification and evidence. Only rows with real generated artifacts show an image or claim PASS.
+This project uses explicit status labels to avoid misleading claims:
 
-| # | Target | Prompt | Output | Verification | Evidence |
-| - | - | - | - | - | - |
-| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC layout](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | PASS: parameters, width, gap, layer, bbox, ports, gdsfactory lowering, files | Bahl/Alley estimate; FasterCap/FastCap input prepared (Level 2); Q3D/HFSS or Sonnet cross-check |
-| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | [![50 ohm CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) | PASS: dimensions, GSG ports, layers, bbox, gdsfactory lowering, files | Simons estimate: 50.04 ohm; openEMS manifest prepared (Level 2); EM correlation pending |
-| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral inductor](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) | PASS: typed parameters, width, spacing, ports, bbox, gdsfactory lowering, files | Mohan estimate; FastHenry input prepared (Level 2); solver result pending |
-| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) | PASS: open/short topology, coupling gap, GSG ports, bbox, files | `L = vp/(4f)` gives 4918.5 um; openEMS manifest prepared (Level 2); EM result pending |
-| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID loop](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) | PASS: symmetry, two JJ placeholders, loop area, ports, layers, files | Flux estimate (Level 1); generic JJ placeholders are **not** foundry-qualified |
+| Label | Meaning |
+| - | - |
+| **GEOMETRY PASS** | Files exist, parameters verified, geometry is valid |
+| **ANALYTICAL ONLY** | Equations computed; no solver executed |
+| **SIMULATION INPUT PREPARED** | Solver input files exist; solver not executed |
+| **SIMULATION EXECUTED** | Solver ran and produced non-empty output file |
+| **PHYSICS VERIFIED** | Extracted values compared against target with tolerance |
+| **FABRICATION READY** | Process-specific DRC, EM simulation, and expert review complete |
 
-Every ready benchmark contains:
+**No benchmark in this repository is currently PHYSICS VERIFIED or FABRICATION READY.**
+
+## Layout Benchmarks
+
+Each benchmark shows honest status across geometry, simulation, evidence, and fabrication.
+
+| # | Target | Prompt | Geometry | Simulation | Evidence | Fabrication |
+| - | ------ | ------ | -------- | ---------- | -------- | ----------- |
+| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) **GEOMETRY PASS**: parameters, width, gap, layer, bbox, ports, gdsfactory lowering, KLayout readback | **SIMULATION INPUT PREPARED**: FasterCap/FastCap input exists; solver not executed | **ANALYTICAL ONLY**: Bahl/Alley estimate = 0.6983 pF; target error = 16.4%; Q3D/HFSS/Sonnet required | Not fabrication-ready |
+| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | [![CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) **GEOMETRY PASS**: dimensions, GSG ports, layers, bbox, gdsfactory lowering | **SIMULATION INPUT PREPARED**: openEMS manifest exists; solver not executed | **ANALYTICAL ONLY**: Simons conformal mapping estimate = 50.04 ohm; EM correlation pending | Not fabrication-ready |
+| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) **GEOMETRY PASS**: typed parameters, width, spacing, ports, bbox, gdsfactory lowering | **SIMULATION INPUT PREPARED**: FastHenry input exists; solver not executed | **ANALYTICAL ONLY**: Mohan/Wheeler estimate; no solver result | Not fabrication-ready |
+| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) **GEOMETRY PASS**: open/short topology, coupling gap, GSG ports, bbox | **SIMULATION INPUT PREPARED**: openEMS input exists; solver not executed | **ANALYTICAL ONLY**: L = vp/(4f) gives 4918.5 um; EM result pending | Not fabrication-ready |
+| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) **GEOMETRY PASS**: symmetry, two JJ placeholders, loop area, ports, layers | **Level 1**: no foundry JJ stack simulation possible | **ANALYTICAL ONLY**: Flux quantization model; generic JJ placeholders not foundry-qualified | Not fabrication-ready |
+
+### Benchmark artifacts
+
+Each benchmark folder contains:
 
 ```text
 prompt.md             original request
@@ -58,20 +75,30 @@ evidence.md           equations, assumptions, references, limitations
 report.md             target comparison and simulation status
 ```
 
-The IDC report labels capacitance as analytical. Its FastCap-compatible input reaches simulation readiness Level 2, but it does not claim a simulated or fabricated value.
+### IDC benchmark details
+
+- **Target:** 0.6 pF
+- **Bahl/Alley estimate with 22 finger pairs:** 0.6983 pF
+- **Error from target:** 16.4%
+- **Proposed finger pairs for closer target:** 20
+- **Proposed estimate:** 0.6319 pF
+- **Current layout uses 22 finger pairs** because that was the user prompt
+- **This is not yet EM verified**
+- **FasterCap/FastCap input is prepared**, but not executed
+- **Q3D/HFSS/Sonnet cross-check is still required** before fabrication
 
 ### Simulation readiness
 
-| Level | Meaning |
-| - | - |
-| 0 | Analytical estimate only |
-| 1 | Geometry generated and verified |
-| 2 | Open-source simulation input/script exists |
-| 3 | Real solver result generated |
-| 4 | Result compared against target |
-| 5 | Optimization loop implemented |
+| Level | Meaning | Status |
+| - | - | - |
+| 0 | Analytical estimate only | All benchmarks start here |
+| 1 | Geometry generated and verified | All benchmarks achieve this |
+| 2 | Solver input prepared | IDC, CPW, Spiral, Resonator achieve this |
+| 3 | Solver executed and result artifact exists | **No benchmark achieves this** |
+| 4 | Result compared against target | **No benchmark achieves this** |
+| 5 | Optimization loop implemented | **No benchmark achieves this** |
 
-IDC, CPW, spiral, and resonator are Level 2. SQUID is Level 1 because a foundry-qualified junction stack is absent. No benchmark is Level 3 or higher.
+**No benchmark is Level 3 or higher.** SQUID is Level 1 because a foundry-qualified junction stack is absent.
 
 ## What Text-to-CAD taught this project
 
@@ -83,11 +110,11 @@ Text-to-Layout adopts the same reader-facing clarity and reproducibility. It doe
 
 | Component | Status | Notes |
 | - | - | - |
-| IDC | Benchmark-ready | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
-| CPW | Benchmark-ready geometry | Typed DSL, six signal/ground-reference ports, analytical Z0, verified artifacts |
-| Spiral | Benchmark-ready geometry | Typed square spiral, two ports, Mohan estimate, FastHenry input |
-| Quarter-wave resonator | Benchmark-ready geometry | Explicit coupled open end, grounded short, feedline ports, openEMS manifest |
-| SQUID | Generic design candidate | Symmetric loop and two JJ placeholders; not valid for fabrication without a foundry stack |
+| IDC | Geometry ready, analytical only | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
+| CPW | Geometry ready, analytical only | Typed DSL, six signal/ground-reference ports, analytical Z0, verified artifacts |
+| Spiral | Geometry ready, analytical only | Typed square spiral, two ports, Mohan estimate, FastHenry input |
+| Quarter-wave resonator | Geometry ready, analytical only | Explicit coupled open end, grounded short, feedline ports, openEMS manifest |
+| SQUID | Geometry candidate only | Symmetric loop and two JJ placeholders; not valid for fabrication without a foundry stack |
 
 ## Install
 
@@ -205,8 +232,8 @@ Open-source tools are the default base workflow. Commercial tools remain optiona
 | Target | Open-source path | Current status |
 | - | - | - |
 | IDC capacitance | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented |
-| CPW and resonator S-parameters | openEMS + scikit-rf | Blocked on benchmark-ready ports/topology |
-| Spiral L/R/Q | FastHenry/FastHenry2 | Blocked on deterministic spiral generator |
+| CPW and resonator S-parameters | openEMS + scikit-rf | Input preparation implemented |
+| Spiral L/R/Q | FastHenry/FastHenry2 | Input preparation implemented |
 | General FDTD/FEM | Meep / Elmer | Planned connectors |
 
 Prepare IDC input without claiming a result:
@@ -244,6 +271,8 @@ py -3 scripts/check_benchmarks.py
 - The Level 2 FasterCap model uses zero-thickness panels and an effective dielectric; it requires mesh convergence and higher-fidelity correlation.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
+- **No benchmark is PHYSICS VERIFIED** - all analytical estimates require solver execution and comparison.
+- **No benchmark is FABRICATION READY** - all require process-specific DRC and expert review.
 
 ## License
 

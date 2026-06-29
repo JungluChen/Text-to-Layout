@@ -20,6 +20,14 @@ Treat research as a mandatory pre-layout gate. Do not invent geometry or quote a
 9. Produce `analytical_estimate.md`, `simulation_plan.md`, verification, evidence, and limitations beside the Layout DSL.
 10. Stop if the evidence is insufficient. Do not pass arbitrary dimensions to a generator.
 
+## Evidence requirements
+
+- **Research is mandatory before layout.** Do not generate geometry without understanding the physics.
+- **Analytical estimates are starting points only.** They are not simulation results or fabrication evidence.
+- **A target cannot be called achieved** unless verified by simulation or measurement.
+- **Paper evidence supports the method**, not the generated geometry itself.
+- **Missing assumptions must stop generation** or mark the output as candidate-only.
+
 ## IDC minimum evidence
 
 Explain how finger count and overlap increase capacitance, how width affects loss/current handling, how gap controls electric-field concentration and is limited by process spacing, and how finger/bus inductance limits self-resonance. Require capacitance extraction and a full-wave sweep before fabrication.
@@ -35,3 +43,4 @@ Use `POST /layout/research` for structured evidence or run the benchmark generat
 - A requested target is presented as achieved from geometry alone.
 - A solver is described as executed without a non-empty solver-owned artifact.
 - A benchmark is marked PASS without analytical and simulation-plan files.
+- A target is claimed achieved without solver verification.

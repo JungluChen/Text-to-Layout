@@ -40,7 +40,8 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
             errors.append(f"{folder.name}: missing layout.json")
             continue
         spec = json.loads(layout_path.read_text(encoding="utf-8"))
-        status = spec.get("metadata", {}).get("benchmark_status", "todo")
+        metadata = spec.get("metadata", {})
+        status = metadata.get("benchmark_status", "todo")
         names = {path.name for path in folder.iterdir()}
         relative = folder.relative_to(repo_root).as_posix()
         row = next((line for line in readme_text.splitlines() if relative in line), "")
@@ -49,13 +50,52 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
             missing = sorted(READY_REQUIRED - names)
             if missing:
                 errors.append(f"{folder.name}: READY benchmark missing {missing}")
+
+            # Check metadata fields
+            if "geometry_status" not in metadata:
+                errors.append(f"{folder.name}: missing geometry_status in metadata")
+            if "simulation_readiness_level" not in metadata:
+                errors.append(f"{folder.name}: missing simulation_readiness_level in metadata")
+            if "solver_executed" not in metadata:
+                errors.append(f"{folder.name}: missing solver_executed in metadata")
+            if "physics_verified" not in metadata:
+                errors.append(f"{folder.name}: missing physics_verified in metadata")
+            if "fabrication_ready" not in metadata:
+                errors.append(f"{folder.name}: missing fabrication_ready in metadata")
+
+            # Check verification.json structure
             verification_path = folder / "verification.json"
             if verification_path.is_file():
                 verification = json.loads(verification_path.read_text(encoding="utf-8"))
                 if verification.get("status") != "pass":
                     errors.append(f"{folder.name}: READY benchmark verification is not pass")
-            if "PASS:" not in row:
+
+                # Check separated verification sections
+                required_sections = [
+                    "geometry_verification",
+                    "artifact_verification",
+                    "analytical_evidence",
+                    "simulation_evidence",
+                    "physics_verification",
+                    "fabrication_readiness",
+                ]
+                for section in required_sections:
+                    if section not in verification:
+                        errors.append(f"{folder.name}: verification.json missing {section}")
+
+                # Check simulation evidence
+                sim_evidence = verification.get("simulation_evidence", {})
+                if sim_evidence.get("solver_executed") and not sim_evidence.get("input_files"):
+                    errors.append(
+                        f"{folder.name}: solver_executed=true but no input_files listed"
+                    )
+
+            # Check for misleading claims in README row
+            # Allow qualified PASS with colon or GEOMETRY PASS
+            if "PASS:" not in row and "GEOMETRY PASS" not in row:
                 errors.append(f"{folder.name}: README row lacks explicit PASS checks")
+
+            # Check simulation plan
             plan = folder / "simulation_plan.md"
             level = 0
             if plan.is_file():
@@ -63,6 +103,8 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
                 level = int(match.group(1)) if match else 0
                 if level < 1:
                     errors.append(f"{folder.name}: missing simulation readiness level")
+
+            # Check simulation directory
             simulation_dir = folder / "simulation"
             if not simulation_dir.is_dir() or not any(simulation_dir.iterdir()):
                 errors.append(f"{folder.name}: benchmark lacks a simulation plan manifest")
@@ -70,6 +112,26 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
                 errors.append(f"{folder.name}: simulation manifest is missing")
             elif level >= 2 and len(list(simulation_dir.iterdir())) < 2:
                 errors.append(f"{folder.name}: Level 2 benchmark lacks prepared solver input")
+
+            # Check for solver_executed claims without output files
+            if metadata.get("solver_executed"):
+                solver_outputs = list(simulation_dir.glob("*.csv")) + list(
+                    simulation_dir.glob("*.s2p")
+                )
+                if not solver_outputs:
+                    errors.append(
+                        f"{folder.name}: solver_executed=true but no solver output files found"
+                    )
+
+        elif status == "geometry_candidate":
+            # Special handling for SQUID-like benchmarks
+            if "warning" not in metadata:
+                errors.append(f"{folder.name}: geometry_candidate benchmark should have warning")
+
+            missing = sorted(READY_REQUIRED - names)
+            if missing:
+                errors.append(f"{folder.name}: geometry_candidate benchmark missing {missing}")
+
         elif status == "todo":
             missing = sorted(TODO_REQUIRED - names)
             if missing:

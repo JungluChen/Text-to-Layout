@@ -27,11 +27,23 @@
   },
   "metadata": {
     "benchmark_status": "ready",
-    "intent": "0.6 pF IDC analytical starting point; EM extraction required"
+    "geometry_status": "pass",
+    "simulation_readiness_level": 2,
+    "solver_executed": false,
+    "physics_verified": false,
+    "fabrication_ready": false,
+    "intent": "0.6 pF IDC analytical starting point; EM extraction required",
+    "analytical_model": "Bahl/Alley IDC estimate",
+    "analytical_estimate_pf": 0.6983,
+    "target_error_pct": 16.4,
+    "proposed_finger_pairs": 20,
+    "proposed_estimate_pf": 0.6319
   },
   "evidence": {
     "analytical_model": "Bahl/Alley IDC estimate",
     "simulation_required": true,
-    "open_source_solver": "FasterCap/FastCap"
+    "open_source_solver": "FasterCap/FastCap",
+    "solver_input_prepared": true,
+    "solver_executed": false
   }
 }
