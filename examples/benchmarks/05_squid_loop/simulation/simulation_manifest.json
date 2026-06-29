@@ -1,0 +1,12 @@
+{
+  "status": "planned",
+  "solver": "planned:FastHenry+Josephson-circuit-solver",
+  "component": "SQUID",
+  "readiness_level": 1,
+  "expected_outputs": [],
+  "warnings": [
+    "The two JJ polygons are generic process placeholders.",
+    "No loop-inductance or Josephson simulation is valid until a foundry stack, Ic, and thickness are supplied."
+  ],
+  "solver_executed": false
+}

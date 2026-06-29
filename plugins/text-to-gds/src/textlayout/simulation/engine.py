@@ -8,6 +8,12 @@ from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation.fastercap import prepare_idc_fastercap, run_fastercap
 from textlayout.simulation.models import SimulationResult
+from textlayout.simulation.open_source import (
+    prepare_cpw_openems,
+    prepare_resonator_openems,
+    prepare_spiral_fasthenry,
+    prepare_squid_plan,
+)
 
 
 def simulate_layout(
@@ -26,16 +32,19 @@ def simulate_layout(
         prepared = prepare_idc_fastercap(spec, geometry, technology, output_dir)
         return run_fastercap(prepared, executable=executable) if execute else prepared
 
-    recommendations = {
-        "CPW": "openEMS model preparation is blocked until explicit RF and ground-reference ports exist.",
-        "SpiralInductor": "FastHenry preparation is blocked until a deterministic spiral generator exists.",
-        "QuarterWaveResonator": "openEMS preparation is blocked until a benchmark-ready resonator topology exists.",
-        "SQUID": "Electrostatic simulation is not signoff without a foundry-specific junction stack.",
-    }
+    if spec.component == "CPW" and selected in {"auto", "openems"}:
+        return prepare_cpw_openems(spec, geometry, technology, output_dir)
+    if spec.component == "SpiralInductor" and selected in {"auto", "fasthenry", "fasthenry2"}:
+        return prepare_spiral_fasthenry(spec, geometry, technology, output_dir)
+    if spec.component == "QuarterWaveResonator" and selected in {"auto", "openems"}:
+        return prepare_resonator_openems(spec, geometry, technology, output_dir)
+    if spec.component == "SQUID" and selected in {"auto", "fasthenry"}:
+        return prepare_squid_plan(spec, geometry, output_dir)
+
     return SimulationResult(
         status="planned",
         solver=selected,
         readiness_level=1,
-        reason=recommendations.get(spec.component, "No open-source simulation adapter is registered."),
+        reason=f"Solver {selected!r} is not registered for component {spec.component!r}.",
         output_dir=Path(output_dir),
     )

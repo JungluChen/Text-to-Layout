@@ -57,13 +57,19 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
             if "PASS:" not in row:
                 errors.append(f"{folder.name}: README row lacks explicit PASS checks")
             plan = folder / "simulation_plan.md"
-            if plan.is_file() and "Level 2" not in plan.read_text(encoding="utf-8"):
-                errors.append(f"{folder.name}: expected simulation readiness Level 2")
+            level = 0
+            if plan.is_file():
+                match = re.search(r"Level (\d)", plan.read_text(encoding="utf-8"))
+                level = int(match.group(1)) if match else 0
+                if level < 1:
+                    errors.append(f"{folder.name}: missing simulation readiness level")
             simulation_dir = folder / "simulation"
             if not simulation_dir.is_dir() or not any(simulation_dir.iterdir()):
-                errors.append(f"{folder.name}: Level 2 benchmark lacks prepared simulation inputs")
+                errors.append(f"{folder.name}: benchmark lacks a simulation plan manifest")
             elif not (simulation_dir / "simulation_manifest.json").is_file():
                 errors.append(f"{folder.name}: simulation manifest is missing")
+            elif level >= 2 and len(list(simulation_dir.iterdir())) < 2:
+                errors.append(f"{folder.name}: Level 2 benchmark lacks prepared solver input")
         elif status == "todo":
             missing = sorted(TODO_REQUIRED - names)
             if missing:

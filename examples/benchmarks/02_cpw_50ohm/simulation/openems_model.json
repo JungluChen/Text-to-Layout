@@ -1,0 +1,82 @@
+{
+  "status": "input_files_prepared",
+  "solver": "openEMS",
+  "component": "CPW",
+  "technology": "generic_2metal",
+  "substrate_epsilon_r": 11.9,
+  "bbox_um": [
+    -61.0,
+    0.0,
+    61.0,
+    1000.0
+  ],
+  "ports": [
+    {
+      "name": "RF_IN",
+      "center_um": [
+        0.0,
+        0.0
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "RF_OUT",
+      "center_um": [
+        0.0,
+        1000.0
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_L_IN",
+      "center_um": [
+        -36.0,
+        0.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_L_OUT",
+      "center_um": [
+        -36.0,
+        1000.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_R_IN",
+      "center_um": [
+        36.0,
+        0.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_R_OUT",
+      "center_um": [
+        36.0,
+        1000.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    }
+  ],
+  "expected_outputs": [
+    "Z0",
+    "S11",
+    "S21",
+    "effective_permittivity"
+  ],
+  "execution": "not_run"
+}

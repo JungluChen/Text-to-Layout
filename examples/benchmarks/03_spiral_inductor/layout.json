@@ -1,1 +1,20 @@
-{"component":"SpiralInductor","technology":"generic_2metal","target":{"inductance_nh":2.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a typed Mohan/Wheeler-seeded spiral generator and port model."}}
+{
+  "component": "SpiralInductor",
+  "technology": "generic_2metal",
+  "target": {"inductance_nh": 2.0},
+  "parameters": {
+    "turns": 4,
+    "outer_dimension_um": 150.0,
+    "trace_width_um": 8.0,
+    "spacing_um": 6.0,
+    "thickness_um": 0.2,
+    "metal": "M1"
+  },
+  "rules": {"min_width_um": 2.0, "min_gap_um": 2.0},
+  "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
+  "evidence": {
+    "analytical_model": "Mohan modified-Wheeler square-spiral estimate",
+    "open_source_solver": "FastHenry"
+  },
+  "metadata": {"benchmark_status": "ready"}
+}

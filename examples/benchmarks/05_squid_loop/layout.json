@@ -1,1 +1,26 @@
-{"component":"SQUID","technology":"generic_2metal","target":{"loop_area_um2":400.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a foundry-specific two-junction stack and polygon-derived overlap verification."}}
+{
+  "component": "SQUID",
+  "technology": "generic_2metal",
+  "target": {"loop_area_um2": 400.0},
+  "parameters": {
+    "loop_inner_width_um": 20.0,
+    "loop_inner_height_um": 20.0,
+    "trace_width_um": 4.0,
+    "junction_gap_um": 2.0,
+    "junction_width_um": 2.0,
+    "pad_width_um": 40.0,
+    "pad_height_um": 30.0,
+    "metal": "M1",
+    "junction_layer": "JJ"
+  },
+  "rules": {"min_width_um": 2.0, "min_gap_um": 2.0},
+  "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
+  "evidence": {
+    "analytical_model": "Flux quantization and loop-area estimate",
+    "simulation_required": true
+  },
+  "metadata": {
+    "benchmark_status": "ready",
+    "qualification": "generic process-placeholder design candidate; not foundry-ready"
+  }
+}

@@ -1,1 +1,22 @@
-{"component":"QuarterWaveResonator","technology":"generic_2metal","target":{"frequency_ghz":6.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a resonator topology, coupling structure, ports, and EM extraction benchmark."}}
+{
+  "component": "QuarterWaveResonator",
+  "technology": "generic_2metal",
+  "target": {"frequency_ghz": 6.0},
+  "parameters": {
+    "center_width_um": 10.0,
+    "gap_um": 6.0,
+    "length_um": 4918.4652,
+    "ground_width_um": 50.0,
+    "coupling_gap_um": 6.0,
+    "feedline_length_um": 500.0,
+    "short_width_um": 10.0,
+    "metal": "M1"
+  },
+  "rules": {"min_width_um": 2.0, "min_gap_um": 2.0},
+  "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
+  "evidence": {
+    "analytical_model": "Simons/Pozar quarter-wave CPW estimate",
+    "open_source_solver": "openEMS"
+  },
+  "metadata": {"benchmark_status": "ready", "explicit_ground_reference_ports": true}
+}

@@ -1,3 +1,5 @@
 # Spiral FastHenry
 
-FastHenry/FastHenry2 is the planned open-source extractor for spiral L, R, and frequency-dependent Q. Input generation is intentionally blocked until the repository has a deterministic spiral centerline, conductor cross-section, material conductivity, and two verified ports.
+`generate_fasthenry_input.py` verifies the spiral Layout DSL and writes a continuous-node FastHenry input with conductor width, thickness, external terminals, and a frequency sweep.
+
+This is Level 2 preparation. It does not claim extracted inductance, resistance, or Q until FastHenry executes and its output is retained.

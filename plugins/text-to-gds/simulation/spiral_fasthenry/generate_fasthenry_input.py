@@ -1,4 +1,4 @@
-"""Guarded FastHenry preparation for a future spiral-inductor generator."""
+"""Prepare FastHenry input from a verified spiral Layout DSL."""
 
 from __future__ import annotations
 
@@ -6,26 +6,29 @@ import argparse
 import json
 from pathlib import Path
 
+from textlayout import LayoutSpec, build_default_workflow
+from textlayout.simulation import simulate_layout
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("layout", type=Path)
+    parser.add_argument("--out", type=Path, default=Path("simulation/spiral_fasthenry/work"))
     args = parser.parse_args()
-    raw = json.loads(args.layout.read_text(encoding="utf-8"))
-    print(
-        json.dumps(
-            {
-                "status": "blocked",
-                "readiness_level": 0,
-                "reason": (
-                    "FastHenry input is not generated until a deterministic SpiralInductor "
-                    "generator provides a continuous centerline, cross-section, and two ports."
-                ),
-                "component": raw.get("component"),
-            }
-        )
+    spec = LayoutSpec.model_validate_json(args.layout.read_text(encoding="utf-8"))
+    if spec.component != "SpiralInductor":
+        print(json.dumps({"status": "failed", "reason": "Layout component must be SpiralInductor."}))
+        return 1
+    workflow = build_default_workflow()
+    generated = workflow.run(spec, formats=())
+    if not generated.report.passed:
+        print(json.dumps({"status": "failed", "verification": generated.report.to_dict()}))
+        return 1
+    result = simulate_layout(
+        spec, generated.geometry, workflow.technology(spec.technology), args.out, solver="fasthenry"
     )
-    return 2
+    print(json.dumps(result.to_dict()))
+    return 0 if result.readiness_level >= 2 else 2
 
 
 if __name__ == "__main__":

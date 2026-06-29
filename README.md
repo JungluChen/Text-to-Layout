@@ -38,10 +38,10 @@ The benchmark table follows Text-to-CAD's prompt-to-output presentation, but add
 | # | Target | Prompt | Output | Verification | Evidence |
 | - | - | - | - | - | - |
 | 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC layout](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | PASS: parameters, width, gap, layer, bbox, ports, gdsfactory lowering, files | Bahl/Alley estimate; FasterCap/FastCap input prepared (Level 2); Q3D/HFSS or Sonnet cross-check |
-| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | **TODO** | TODO: explicit RF and ground-reference ports | Simons conformal mapping; EM correlation pending |
-| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | **TODO** | No generator registered | Mohan/Wheeler model planned |
-| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | **TODO** | No benchmark-ready topology | `L = vp/(4f)` is only an initial model; EM pending |
-| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | **TODO** | Foundry-specific JJ stack required | Flux quantization model; overlap and process evidence pending |
+| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | [![50 ohm CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) | PASS: dimensions, GSG ports, layers, bbox, gdsfactory lowering, files | Simons estimate: 50.04 ohm; openEMS manifest prepared (Level 2); EM correlation pending |
+| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral inductor](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) | PASS: typed parameters, width, spacing, ports, bbox, gdsfactory lowering, files | Mohan estimate; FastHenry input prepared (Level 2); solver result pending |
+| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) | PASS: open/short topology, coupling gap, GSG ports, bbox, files | `L = vp/(4f)` gives 4918.5 um; openEMS manifest prepared (Level 2); EM result pending |
+| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID loop](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) | PASS: symmetry, two JJ placeholders, loop area, ports, layers, files | Flux estimate (Level 1); generic JJ placeholders are **not** foundry-qualified |
 
 Every ready benchmark contains:
 
@@ -71,7 +71,7 @@ The IDC report labels capacitance as analytical. Its FastCap-compatible input re
 | 4 | Result compared against target |
 | 5 | Optimization loop implemented |
 
-The IDC benchmark is Level 2. No benchmark is Level 3 or higher yet.
+IDC, CPW, spiral, and resonator are Level 2. SQUID is Level 1 because a foundry-qualified junction stack is absent. No benchmark is Level 3 or higher.
 
 ## What Text-to-CAD taught this project
 
@@ -84,8 +84,10 @@ Text-to-Layout adopts the same reader-facing clarity and reproducibility. It doe
 | Component | Status | Notes |
 | - | - | - |
 | IDC | Benchmark-ready | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
-| CPW | Geometry implementation | Research model exists; benchmark signoff is withheld until explicit signal/ground port semantics are added |
-| Spiral, resonator, SQUID | Research/TODO | No final output is claimed |
+| CPW | Benchmark-ready geometry | Typed DSL, six signal/ground-reference ports, analytical Z0, verified artifacts |
+| Spiral | Benchmark-ready geometry | Typed square spiral, two ports, Mohan estimate, FastHenry input |
+| Quarter-wave resonator | Benchmark-ready geometry | Explicit coupled open end, grounded short, feedline ports, openEMS manifest |
+| SQUID | Generic design candidate | Symmetric loop and two JJ placeholders; not valid for fabrication without a foundry stack |
 
 ## Install
 

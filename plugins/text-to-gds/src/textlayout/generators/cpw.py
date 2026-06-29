@@ -8,7 +8,8 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 
-from textlayout.models import Geometry, Point, Polygon, Technology, rectangle
+from textlayout.models import Geometry, Point, Polygon, Port, Technology, rectangle
+from textlayout.research.formulas import cpw_z0
 from textlayout.ports.generator import Generator
 from textlayout.schemas.dsl.cpw import CPWSpec
 
@@ -47,9 +48,19 @@ class CPWGenerator(Generator):
         )
 
         polygons: tuple[Polygon, ...] = (signal, ground_left, ground_right)
+        ports = (
+            Port("RF_IN", (x0, y_lo), w, 270.0, metal),
+            Port("RF_OUT", (x0, y_hi), w, 90.0, metal),
+            Port("GND_L_IN", (x0 - ground_inner - gw / 2.0, y_lo), gw, 270.0, metal),
+            Port("GND_L_OUT", (x0 - ground_inner - gw / 2.0, y_hi), gw, 90.0, metal),
+            Port("GND_R_IN", (x0 + ground_inner + gw / 2.0, y_lo), gw, 270.0, metal),
+            Port("GND_R_OUT", (x0 + ground_inner + gw / 2.0, y_hi), gw, 90.0, metal),
+        )
+        z0, eps_eff = cpw_z0(w, g, tech.substrate_epsilon_r)
         return Geometry(
             name="CPW",
             polygons=polygons,
+            ports=ports,
             metadata={
                 "component": "CPW",
                 "metal": metal,
@@ -57,5 +68,11 @@ class CPWGenerator(Generator):
                 "gap_um": g,
                 "ground_width_um": gw,
                 "length_um": length,
+                "min_ports": 6,
+                "explicit_ground_reference_ports": True,
+                "estimated_z0_ohm": round(z0, 4),
+                "effective_permittivity": round(eps_eff, 4),
+                "analytical_estimate": True,
+                "analytical_quantity": "characteristic impedance",
             },
         )

@@ -66,7 +66,9 @@ def check_minimum_gap(ctx: VerificationContext) -> Check | None:
     gaps = [
         v
         for k, v in ctx.param_dict.items()
-        if "gap" in k and isinstance(v, (int, float)) and not isinstance(v, bool)
+        if ("gap" in k or "spacing" in k)
+        and isinstance(v, (int, float))
+        and not isinstance(v, bool)
     ]
     if not gaps:
         return None
@@ -180,6 +182,84 @@ def check_analytical_estimate(ctx: VerificationContext) -> Check | None:
     )
 
 
+def check_rf_port_semantics(ctx: VerificationContext) -> Check | None:
+    expected: set[str]
+    if ctx.spec.component == "CPW":
+        expected = {"RF_IN", "RF_OUT", "GND_L_IN", "GND_L_OUT", "GND_R_IN", "GND_R_OUT"}
+    elif ctx.spec.component == "QuarterWaveResonator":
+        expected = {
+            "RF_IN",
+            "RF_OUT",
+            "GND_TOP_IN",
+            "GND_TOP_OUT",
+            "GND_BOTTOM_IN",
+            "GND_BOTTOM_OUT",
+        }
+    else:
+        return None
+    names = {port.name for port in ctx.geometry.ports}
+    missing = sorted(expected - names)
+    return Check(
+        "explicit_rf_ground_ports",
+        CheckStatus.PASS if not missing else CheckStatus.FAIL,
+        "" if not missing else f"Missing explicit RF/ground-reference ports: {missing}.",
+    )
+
+
+def check_spiral_centerline(ctx: VerificationContext) -> Check | None:
+    if ctx.spec.component != "SpiralInductor":
+        return None
+    points = ctx.geometry.metadata.get("centerline_points_um")
+    ok = isinstance(points, list) and len(points) >= 4 and len(ctx.geometry.ports) == 2
+    return Check(
+        "spiral_centerline_and_terminals",
+        CheckStatus.PASS if ok else CheckStatus.FAIL,
+        "" if ok else "Spiral requires a continuous centerline and exactly two terminals.",
+    )
+
+
+def check_resonator_boundaries(ctx: VerificationContext) -> Check | None:
+    if ctx.spec.component != "QuarterWaveResonator":
+        return None
+    metadata = ctx.geometry.metadata
+    ok = bool(metadata.get("boundary_open")) and bool(metadata.get("boundary_short"))
+    return Check(
+        "resonator_open_short_boundaries",
+        CheckStatus.PASS if ok else CheckStatus.FAIL,
+        "" if ok else "Quarter-wave resonator requires explicit coupled-open and grounded-short ends.",
+    )
+
+
+def check_squid_structure(ctx: VerificationContext) -> Check | None:
+    if ctx.spec.component != "SQUID":
+        return None
+    jj_count = len(ctx.geometry.on_layer(str(ctx.param_dict.get("junction_layer", "JJ"))))
+    target_area = ctx.spec.target.get("loop_area_um2")
+    actual_area = ctx.geometry.metadata.get("loop_area_um2")
+    area_ok = target_area is None or (
+        isinstance(actual_area, (int, float)) and abs(float(actual_area) - target_area) <= 1e-6
+    )
+    ok = jj_count == 2 and area_ok and len(ctx.geometry.ports) == 2
+    return Check(
+        "squid_symmetry_junctions_loop_area",
+        CheckStatus.PASS if ok else CheckStatus.FAIL,
+        "" if ok else "SQUID requires two JJ polygons, two bias ports, and the requested loop area.",
+        value=float(actual_area) if isinstance(actual_area, (int, float)) else None,
+        limit=target_area,
+        unit="um2",
+    )
+
+
+def check_squid_foundry_stack(ctx: VerificationContext) -> Check | None:
+    if ctx.spec.component != "SQUID" or not ctx.geometry.metadata.get("foundry_stack_required"):
+        return None
+    return Check(
+        "foundry_junction_stack",
+        CheckStatus.WARN,
+        "Generic JJ placeholders are not fabrication-ready without foundry layer and overlap rules.",
+    )
+
+
 #: Ordered default check set. Order is the report order.
 DEFAULT_CHECKS = (
     check_component_generated,
@@ -190,6 +270,11 @@ DEFAULT_CHECKS = (
     check_layer_exists,
     check_bounding_box,
     check_ports,
+    check_rf_port_semantics,
+    check_spiral_centerline,
+    check_resonator_boundaries,
+    check_squid_structure,
+    check_squid_foundry_stack,
     check_geometry_spacing,
     check_analytical_estimate,
 )

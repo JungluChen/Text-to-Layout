@@ -1,0 +1,204 @@
+{
+  "schema": "textlayout.geometry.v1",
+  "name": "QuarterWaveResonator",
+  "technology": "generic_2metal",
+  "bbox_um": {
+    "xmin": -250.0,
+    "ymin": 0.0,
+    "xmax": 250.0,
+    "ymax": 4990.4652,
+    "width": 500.0,
+    "height": 4990.4652
+  },
+  "layers": [
+    {
+      "name": "M1",
+      "gds_layer": 1,
+      "gds_datatype": 0,
+      "polygon_count": 8
+    }
+  ],
+  "polygons": [
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -5.0,
+          0.0
+        ],
+        [
+          5.0,
+          0.0
+        ],
+        [
+          5.0,
+          4918.4652
+        ],
+        [
+          -5.0,
+          4918.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -61.0,
+          0.0
+        ],
+        [
+          -11.0,
+          0.0
+        ],
+        [
+          -11.0,
+          4918.4652
+        ],
+        [
+          -61.0,
+          4918.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          11.0,
+          0.0
+        ],
+        [
+          61.0,
+          0.0
+        ],
+        [
+          61.0,
+          4918.4652
+        ],
+        [
+          11.0,
+          4918.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -11.0,
+          0.0
+        ],
+        [
+          11.0,
+          0.0
+        ],
+        [
+          11.0,
+          10.0
+        ],
+        [
+          -11.0,
+          10.0
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -250.0,
+          4924.4652
+        ],
+        [
+          250.0,
+          4924.4652
+        ],
+        [
+          250.0,
+          4934.4652
+        ],
+        [
+          -250.0,
+          4934.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -250.0,
+          4940.4652
+        ],
+        [
+          250.0,
+          4940.4652
+        ],
+        [
+          250.0,
+          4990.4652
+        ],
+        [
+          -250.0,
+          4990.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -250.0,
+          4868.4652
+        ],
+        [
+          -11.0,
+          4868.4652
+        ],
+        [
+          -11.0,
+          4918.4652
+        ],
+        [
+          -250.0,
+          4918.4652
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          11.0,
+          4868.4652
+        ],
+        [
+          250.0,
+          4868.4652
+        ],
+        [
+          250.0,
+          4918.4652
+        ],
+        [
+          11.0,
+          4918.4652
+        ]
+      ]
+    }
+  ],
+  "metadata": {
+    "component": "QuarterWaveResonator",
+    "metal": "M1",
+    "electrical_length_um": 4918.4652,
+    "effective_permittivity": 6.45,
+    "coupling_gap_um": 6.0,
+    "boundary_open": "capacitively coupled feedline end",
+    "boundary_short": "ground bridge",
+    "explicit_ground_reference_ports": true,
+    "min_ports": 6,
+    "analytical_estimate": true,
+    "analytical_quantity": "resonance frequency"
+  }
+}

@@ -115,3 +115,19 @@ def idc_finger_pairs_for_target(
     n_fingers = (rhs - _IDC_A2) / _IDC_A1 + 3.0
     pairs = math.ceil(n_fingers / 2.0)
     return max(pairs, 1)
+
+
+def spiral_inductance_nh(turns: int, outer_um: float, inner_um: float) -> float:
+    """Square-spiral inductance from Mohan's modified-Wheeler expression.
+
+    L = K1 * mu0 * n^2 * d_avg / (1 + K2*rho), with K1=2.34 and
+    K2=2.75 for a square spiral. Reference: Mohan et al., IEEE JSSC 34(10),
+    1999, Table II.
+    """
+    if turns < 1 or outer_um <= inner_um or inner_um <= 0:
+        raise ValueError("turns and spiral diameters must be positive with outer > inner")
+    d_avg_m = ((outer_um + inner_um) / 2.0) * 1e-6
+    rho = (outer_um - inner_um) / (outer_um + inner_um)
+    mu0 = 4.0 * math.pi * 1e-7
+    inductance_h = 2.34 * mu0 * turns**2 * d_avg_m / (1.0 + 2.75 * rho)
+    return inductance_h * 1e9

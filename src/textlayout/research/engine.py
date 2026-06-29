@@ -12,7 +12,7 @@ from typing import Any
 
 from textlayout.models import Technology
 from textlayout.errors import MissingResearchError
-from textlayout.research.cpw_research import research_cpw
+from textlayout.research.cpw_research import research_cpw, research_quarter_wave_resonator
 from textlayout.research.idc_research import research_idc
 from textlayout.research.models import ResearchReport
 from textlayout.research.spiral_research import research_spiral
@@ -25,6 +25,7 @@ _RESEARCHERS: dict[str, ResearchFn] = {
     "IDC": research_idc,
     "CPW": research_cpw,
     "SpiralInductor": research_spiral,
+    "QuarterWaveResonator": research_quarter_wave_resonator,
     "SQUID": research_squid,
 }
 

@@ -1,0 +1,100 @@
+{
+  "schema": "textlayout.geometry.v1",
+  "name": "CPW",
+  "technology": "generic_2metal",
+  "bbox_um": {
+    "xmin": -61.0,
+    "ymin": 0.0,
+    "xmax": 61.0,
+    "ymax": 1000.0,
+    "width": 122.0,
+    "height": 1000.0
+  },
+  "layers": [
+    {
+      "name": "M1",
+      "gds_layer": 1,
+      "gds_datatype": 0,
+      "polygon_count": 3
+    }
+  ],
+  "polygons": [
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -5.0,
+          0.0
+        ],
+        [
+          5.0,
+          0.0
+        ],
+        [
+          5.0,
+          1000.0
+        ],
+        [
+          -5.0,
+          1000.0
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          -61.0,
+          0.0
+        ],
+        [
+          -11.0,
+          0.0
+        ],
+        [
+          -11.0,
+          1000.0
+        ],
+        [
+          -61.0,
+          1000.0
+        ]
+      ]
+    },
+    {
+      "layer": "M1",
+      "points": [
+        [
+          11.0,
+          0.0
+        ],
+        [
+          61.0,
+          0.0
+        ],
+        [
+          61.0,
+          1000.0
+        ],
+        [
+          11.0,
+          1000.0
+        ]
+      ]
+    }
+  ],
+  "metadata": {
+    "component": "CPW",
+    "metal": "M1",
+    "center_width_um": 10.0,
+    "gap_um": 6.0,
+    "ground_width_um": 50.0,
+    "length_um": 1000.0,
+    "min_ports": 6,
+    "explicit_ground_reference_ports": true,
+    "estimated_z0_ohm": 50.0412,
+    "effective_permittivity": 6.45,
+    "analytical_estimate": true,
+    "analytical_quantity": "characteristic impedance"
+  }
+}

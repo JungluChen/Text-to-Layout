@@ -1,4 +1,4 @@
-"""First-principles research for a DC-SQUID loop test structure (no generator yet)."""
+"""First-principles research for a symmetric two-junction SQUID test structure."""
 
 from __future__ import annotations
 
@@ -7,29 +7,20 @@ from typing import Any
 from textlayout.models import Technology
 from textlayout.research.models import Equation, Reference, ResearchReport
 
-FLUX_QUANTUM_WB = 2.067_833_848e-15  # Phi_0 = h / 2e
+FLUX_QUANTUM_WB = 2.067_833_848e-15
 
 _REFERENCES = (
-    Reference("J. Clarke & A. I. Braginski (eds.), 'The SQUID Handbook', Vol. 1, Wiley, 2004.", ""),
-    Reference("M. Tinkham, 'Introduction to Superconductivity', 2nd ed., Dover, 2004.", "Flux quantization, Josephson relations."),
+    Reference("J. Clarke & A. I. Braginski (eds.), 'The SQUID Handbook', Vol. 1, Wiley, 2004."),
+    Reference(
+        "M. Tinkham, 'Introduction to Superconductivity', 2nd ed., Dover, 2004.",
+        "Flux quantization and Josephson relations.",
+    ),
 )
 
 _EQUATIONS = (
-    Equation("Flux quantum", "Phi_0 = h / 2e = 2.07e-15 Wb", "Period of SQUID flux modulation."),
-    Equation("Field modulation period", "dB = Phi_0 / A_loop", "Smaller loop area -> larger field period."),
-    Equation("Screening parameter", "beta_L = 2 * L_loop * Ic / Phi_0", "Target beta_L ~ 1 for good modulation depth."),
-)
-
-_DESIGN_NOTES = (
-    "Loop area sets flux sensitivity: V modulates with period Phi_0 in flux, i.e. dB = Phi_0/A in field.",
-    "The two Josephson junctions must be symmetric (matched Ic) or the modulation depth and the "
-    "optimal flux bias shift.",
-    "Loop inductance L_loop and junction Ic set beta_L; beta_L near 1 maximises modulation depth.",
-)
-
-_LIMITATIONS = (
-    "Junctions are layout placeholders (markers) — real Ic comes from the fabrication Jc and area.",
-    "A generator for this component is not yet implemented — geometry is a documented proposal only.",
+    Equation("Flux quantum", "Phi_0 = h / 2e = 2.07e-15 Wb"),
+    Equation("Field modulation period", "dB = Phi_0 / A_loop"),
+    Equation("Screening parameter", "beta_L = 2 * L_loop * Ic / Phi_0"),
 )
 
 
@@ -49,16 +40,22 @@ def research_squid(
         physical_target=target,
         equations=_EQUATIONS,
         assumptions=(
-            "Two symmetric Josephson junctions; thin-film superconducting loop.",
-            "Junctions represented as layout markers; Ic set later by Jc * area.",
+            "Two symmetric junction placeholders in a thin-film superconducting loop.",
+            f"Generic technology {tech.name!r}; no foundry junction stack is implied.",
         ),
         references=_REFERENCES,
         analytical_estimates=estimates,
-        design_notes=_DESIGN_NOTES,
-        limitations=_LIMITATIONS,
+        design_notes=(
+            "Loop area sets the field modulation period.",
+            "Matched junction critical currents are required for symmetric modulation.",
+        ),
+        limitations=(
+            "Junction polygons are process placeholders; critical current requires Jc and overlap data.",
+            "The generic JJ layer is not a qualified base/counter-electrode stack.",
+        ),
         simulation_recommendation={
-            "inductance": "FastHenry / Q3D — loop inductance L_loop for beta_L.",
-            "junction": "scqubits / JosephsonCircuits.jl — junction and SQUID electrical response.",
+            "loop_inductance": "FastHenry or Elmer after a foundry stack and conductor thickness are supplied.",
+            "junction_response": "Use a validated Josephson circuit solver with extracted Ic and L.",
         },
-        proposed_parameters=None,
+        proposed_parameters=dict(parameters) if parameters else None,
     )

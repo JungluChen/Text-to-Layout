@@ -9,6 +9,8 @@ from fastapi.testclient import TestClient
 
 from textlayout.backend import Settings, create_app
 
+ROOT = Path(__file__).parents[2]
+
 IDC_DSL = {
     "component": "IDC",
     "parameters": {
@@ -36,6 +38,9 @@ def test_health(client: TestClient) -> None:
     body = resp.json()
     assert body["status"] == "ok"
     assert "IDC" in body["components"]
+    assert {"CPW", "SpiralInductor", "QuarterWaveResonator", "SQUID"} <= set(
+        body["components"]
+    )
     assert "gds" in body["formats"]
 
 
@@ -136,3 +141,15 @@ def test_simulate_prepares_open_source_idc_inputs(client: TestClient) -> None:
     assert simulation["readiness_level"] == 2
     assert Path(simulation["artifacts"]["panel_file"]).is_file()
     assert Path(simulation["artifacts"]["list_file"]).is_file()
+
+
+def test_simulate_prepares_cpw_openems_manifest(client: TestClient) -> None:
+    cpw = (ROOT / "examples/benchmarks/02_cpw_50ohm/layout.json").read_text(
+        encoding="utf-8"
+    )
+    resp = client.post("/layout/simulate", content=cpw, headers={"content-type": "application/json"})
+    assert resp.status_code == 200
+    simulation = resp.json()["simulation"]
+    assert simulation["solver"] == "openEMS"
+    assert simulation["readiness_level"] == 2
+    assert Path(simulation["artifacts"]["model"]).is_file()

@@ -109,3 +109,32 @@ def research_cpw(
         simulation_recommendation=_SIM,
         proposed_parameters=proposed,
     )
+
+
+def research_quarter_wave_resonator(
+    target: dict[str, float], parameters: dict[str, Any], tech: Technology
+) -> ResearchReport:
+    """Research a quarter-wave CPW hanger using the cited CPW model."""
+    base = research_cpw(target, parameters, tech)
+    frequency = target.get("frequency_ghz")
+    estimates = dict(base.analytical_estimates)
+    if frequency:
+        estimates["quarter_wave_length_um"] = round(
+            F.cpw_quarter_wave_length_um(frequency, F.cpw_eps_eff(tech.substrate_epsilon_r)),
+            4,
+        )
+    return ResearchReport(
+        component="QuarterWaveResonator",
+        model_name="Quarter-wave CPW hanger (Simons/Pozar initial model)",
+        physical_target=target,
+        equations=base.equations,
+        assumptions=base.assumptions,
+        references=base.references,
+        analytical_estimates=estimates,
+        design_notes=base.design_notes,
+        limitations=base.limitations,
+        simulation_recommendation={
+            "resonance_and_Q": "openEMS plus scikit-rf; retain Touchstone and mesh-convergence evidence.",
+        },
+        proposed_parameters=dict(parameters),
+    )

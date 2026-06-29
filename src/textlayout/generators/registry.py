@@ -67,10 +67,16 @@ def default_registry(*, discover: bool = True) -> GeneratorRegistry:
     """Build a registry with built-in generators and (optionally) plugins."""
     from textlayout.generators.cpw import CPWGenerator
     from textlayout.generators.idc import IDCGenerator
+    from textlayout.generators.resonator import QuarterWaveResonatorGenerator
+    from textlayout.generators.spiral import SpiralInductorGenerator
+    from textlayout.generators.squid import SQUIDGenerator
 
     registry = GeneratorRegistry()
     registry.register(IDCGenerator())
     registry.register(CPWGenerator())
+    registry.register(SpiralInductorGenerator())
+    registry.register(QuarterWaveResonatorGenerator())
+    registry.register(SQUIDGenerator())
     if discover:
         registry.load_entry_points()
     return registry

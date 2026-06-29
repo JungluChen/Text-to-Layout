@@ -44,7 +44,7 @@ Each check contains the check name, status, measured value, limit, unit, and use
 
 `/layout/generate` returns failed verification with no final geometry artifacts. `/layout/export`, `/layout/preview`, and `/layout/simulate` return HTTP 422 when verification blocks downstream work. Successful written files include geometry plus Layout DSL provenance, verification JSON, analytical estimate, simulation plan, evidence Markdown, and report Markdown.
 
-`/layout/simulate` defaults to preparation only. For the IDC it returns readiness Level 2 and FastCap-compatible input paths. Set `execute=true` only when a real solver is installed. Missing executables return `status=skipped`; they never create a fake result.
+`/layout/simulate` defaults to preparation only. IDC returns FastCap-compatible panels, CPW/resonator return openEMS manifests, and spiral returns FastHenry input at Level 2. SQUID returns Level 1 until process-specific JJ parameters exist. Set `execute=true` only for an implemented runner with a real solver; missing executables never create a fake result.
 
 ## Errors
 

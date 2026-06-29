@@ -43,7 +43,7 @@ Successful generation returns:
 
 Failed pre-export verification returns diagnostics and no final geometry artifacts. An analytical value is not a simulated value. An EM result may be called executed only when a solver-owned output artifact exists.
 
-The base simulation boundary is open-source-first. `textlayout.simulation` prepares FastCap/FasterCap IDC inputs and exposes explicit readiness/status records. Future openEMS, FastHenry, Meep, and Elmer adapters must preserve the same prepared/executed distinction.
+The base simulation boundary is open-source-first. `textlayout.simulation` prepares FastCap/FasterCap IDC panels, openEMS CPW/resonator manifests, and FastHenry spiral input while exposing explicit readiness/status records. SQUID remains Level 1 until process-specific JJ data exist. Every adapter preserves the prepared/executed distinction.
 
 ## Extending components
 

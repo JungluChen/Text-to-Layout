@@ -18,9 +18,10 @@ Simulation is evidence only when a real solver runs and produces a non-empty sol
 | Component/quantity | Tool | Repository workflow | Status |
 | - | - | - | - |
 | IDC capacitance matrix | FasterCap/FastCap | [`idc_fastercap/`](idc_fastercap/) | Level 2 |
-| CPW Z0, S11, S21 | openEMS + scikit-rf | [`cpw_openems/`](cpw_openems/) | Blocked on explicit ground-reference ports |
-| Spiral L, R, Q | FastHenry/FastHenry2 | [`spiral_fasthenry/`](spiral_fasthenry/) | Blocked on generator |
-| Resonator f0, Q, S21 | openEMS + scikit-rf | [`resonator_openems/`](resonator_openems/) | Blocked on topology |
+| CPW Z0, S11, S21 | openEMS + scikit-rf | [`cpw_openems/`](cpw_openems/) | Level 2 |
+| Spiral L, R, Q | FastHenry/FastHenry2 | [`spiral_fasthenry/`](spiral_fasthenry/) | Level 2 |
+| Resonator f0, Q, S21 | openEMS + scikit-rf | [`resonator_openems/`](resonator_openems/) | Level 2 |
+| SQUID loop/JJ response | FastHenry + Josephson circuit solver | benchmark manifest | Level 1; foundry stack missing |
 | General FDTD | Meep | Future connector | Planned |
 | Electrostatic/FEM cross-check | Elmer FEM | Future connector | Planned |
 
@@ -42,6 +43,16 @@ python simulation/idc_fastercap/run_fastercap.py \
 ```
 
 If no executable is installed, the runner exits with code 2 and reports `status=skipped`. It writes `simulation_result.json` only after a real solver returns a parseable capacitance matrix.
+
+## CPW, spiral, and resonator preparation
+
+```bash
+python simulation/cpw_openems/generate_openems_model.py examples/benchmarks/02_cpw_50ohm/layout.json --out examples/benchmarks/02_cpw_50ohm/simulation
+python simulation/spiral_fasthenry/generate_fasthenry_input.py examples/benchmarks/03_spiral_inductor/layout.json --out examples/benchmarks/03_spiral_inductor/simulation
+python simulation/resonator_openems/generate_openems_model.py examples/benchmarks/04_quarter_wave_resonator/layout.json --out examples/benchmarks/04_quarter_wave_resonator/simulation
+```
+
+These commands verify geometry and prepare solver inputs. They do not execute openEMS or FastHenry.
 
 ## Commercial correlation
 

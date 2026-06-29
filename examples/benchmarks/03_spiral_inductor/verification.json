@@ -1,1 +1,114 @@
-{"status":"todo","component":"SpiralInductor","checks":[],"warnings":["No deterministic generator is registered."],"errors":[]}
+{
+  "status": "pass",
+  "component": "SpiralInductor",
+  "checks": [
+    {
+      "name": "component_generated",
+      "status": "pass"
+    },
+    {
+      "name": "positive_dimensions",
+      "status": "pass"
+    },
+    {
+      "name": "minimum_width",
+      "status": "pass",
+      "value_um": 8.0,
+      "limit_um": 2.0
+    },
+    {
+      "name": "minimum_gap",
+      "status": "pass",
+      "value_um": 6.0,
+      "limit_um": 2.0
+    },
+    {
+      "name": "layer_exists",
+      "status": "pass"
+    },
+    {
+      "name": "bounding_box",
+      "status": "pass",
+      "value_um2": 22500.0
+    },
+    {
+      "name": "ports_exist",
+      "status": "pass",
+      "value_count": 2.0,
+      "limit_count": 2.0
+    },
+    {
+      "name": "spiral_centerline_and_terminals",
+      "status": "pass"
+    },
+    {
+      "name": "geometry_min_spacing",
+      "status": "pass"
+    },
+    {
+      "name": "analytical_estimate",
+      "status": "warn",
+      "message": "Inductance is an analytical estimate only. EM extraction is required before fabrication."
+    },
+    {
+      "name": "research_evidence",
+      "status": "pass"
+    },
+    {
+      "name": "simulation_workflow_documented",
+      "status": "pass"
+    },
+    {
+      "name": "gdsfactory_component_sanity",
+      "status": "pass"
+    },
+    {
+      "name": "klayout_gds_readback",
+      "status": "pass"
+    },
+    {
+      "name": "output_gds_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_svg_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_json_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_png_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_layout_dsl_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_verification_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_evidence_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_analytical_estimate_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_simulation_plan_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_report_exists",
+      "status": "pass"
+    }
+  ],
+  "warnings": [
+    "Inductance is an analytical estimate only. EM extraction is required before fabrication."
+  ],
+  "errors": []
+}

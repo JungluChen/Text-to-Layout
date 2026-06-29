@@ -1,0 +1,16 @@
+{
+  "status": "input_files_prepared",
+  "solver": "FastHenry",
+  "component": "SpiralInductor",
+  "readiness_level": 2,
+  "expected_outputs": [
+    "inductance",
+    "resistance",
+    "Q"
+  ],
+  "warnings": [
+    "FastHenry has not been executed; no inductance, resistance, or Q result is claimed.",
+    "Conductor conductivity and thickness are generic and require process replacement."
+  ],
+  "solver_executed": false
+}
