@@ -132,6 +132,18 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
             if missing:
                 errors.append(f"{folder.name}: geometry_candidate benchmark missing {missing}")
 
+        elif status == "infeasible":
+            # Special handling for infeasible benchmarks
+            if "infeasibility_reason" not in metadata:
+                errors.append(f"{folder.name}: infeasible benchmark should have infeasibility_reason")
+            if "feasible_alternative_frequency_hz" not in metadata:
+                errors.append(f"{folder.name}: infeasible benchmark should have feasible_alternative_frequency_hz")
+            # Check that no geometry was generated
+            if list(folder.glob("output.*")):
+                errors.append(f"{folder.name}: infeasible benchmark should not have output artifacts")
+            if "INFEASIBLE" not in row and "infeasible" not in row.lower():
+                errors.append(f"{folder.name}: README row should explain infeasibility")
+
         elif status == "todo":
             missing = sorted(TODO_REQUIRED - names)
             if missing:

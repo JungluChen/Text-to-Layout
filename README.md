@@ -43,6 +43,7 @@ This project uses explicit status labels to avoid misleading claims:
 | **SIMULATION EXECUTED** | Solver ran and produced non-empty output file |
 | **PHYSICS VERIFIED** | Extracted values compared against target with tolerance |
 | **FABRICATION READY** | Process-specific DRC, EM simulation, and expert review complete |
+| **INFEASIBLE** | Target not achievable under realistic constraints |
 
 **No benchmark in this repository is currently PHYSICS VERIFIED or FABRICATION READY.**
 
@@ -57,6 +58,7 @@ Each benchmark shows honest status across geometry, simulation, evidence, and fa
 | 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) **GEOMETRY PASS**: typed parameters, width, spacing, ports, bbox, gdsfactory lowering | **SIMULATION INPUT PREPARED**: FastHenry input exists; solver not executed | **ANALYTICAL ONLY**: Mohan/Wheeler estimate; no solver result | Not fabrication-ready |
 | 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) **GEOMETRY PASS**: open/short topology, coupling gap, GSG ports, bbox | **SIMULATION INPUT PREPARED**: openEMS input exists; solver not executed | **ANALYTICAL ONLY**: L = vp/(4f) gives 4918.5 um; EM result pending | Not fabrication-ready |
 | 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) **GEOMETRY PASS**: symmetry, two JJ placeholders, loop area, ports, layers | **Level 1**: no foundry JJ stack simulation possible | **ANALYTICAL ONLY**: Flux quantization model; generic JJ placeholders not foundry-qualified | Not fabrication-ready |
+| 6 | [5 MHz LC resonator](examples/benchmarks/06_lc_5mhz_resonator/) | Design a lumped LC resonator layout that targets 5 MHz resonance frequency. | **NOT GENERATED**: infeasible target, no layout created | **NOT APPLICABLE**: no simulation possible | **INFEASIBLE**: Required LC product (1.013×10⁻¹⁵ s²) exceeds on-chip limits by 100-1000×; 159 MHz is minimum feasible | Not applicable |
 
 ### Benchmark artifacts
 
@@ -87,16 +89,31 @@ report.md             target comparison and simulation status
 - **FasterCap/FastCap input is prepared**, but not executed
 - **Q3D/HFSS/Sonnet cross-check is still required** before fabrication
 
+### 5 MHz LC resonator benchmark (INFEASIBLE)
+
+- **Target:** 5 MHz resonance frequency
+- **Required LC product:** 1.013×10⁻¹⁵ s²
+- **Best achievable on-chip:** L = 10 nH, C = 100 pF → f0 = 159 MHz (31× higher)
+- **Status:** INFEASIBLE for on-chip layout
+- **Reason:** Required component values exceed practical limits by 100-1000×
+- **Parasitic effects:** Wirebond/stray LC shifts resonance by >50%
+- **Q-factor:** On-chip spiral Q ~ 2-10 at 5 MHz (too low)
+- **Area penalty:** ~0.13 mm² minimum (vs. ~0.001 mm² for GHz circuits)
+- **Alternative:** Discrete components, crystal, or active LC simulation
+
+**This benchmark tests whether Text-to-Layout can reason about physical feasibility, not just draw layouts.**
+
 ### Simulation readiness
 
 | Level | Meaning | Status |
 | - | - | - |
 | 0 | Analytical estimate only | All benchmarks start here |
-| 1 | Geometry generated and verified | All benchmarks achieve this |
+| 1 | Geometry generated and verified | IDC, CPW, Spiral, Resonator, SQUID achieve this |
 | 2 | Solver input prepared | IDC, CPW, Spiral, Resonator achieve this |
 | 3 | Solver executed and result artifact exists | **No benchmark achieves this** |
 | 4 | Result compared against target | **No benchmark achieves this** |
 | 5 | Optimization loop implemented | **No benchmark achieves this** |
+| INFEASIBLE | Target not achievable | **5 MHz LC resonator** |
 
 **No benchmark is Level 3 or higher.** SQUID is Level 1 because a foundry-qualified junction stack is absent.
 
