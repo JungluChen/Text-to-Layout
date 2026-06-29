@@ -9,8 +9,8 @@ __pycache__/
 skills-lock.json
 .env
 
-# textlayout plugin server output
-workspace/textlayout/
+# textlayout plugin server output (any workspace variant)
+workspace/textlayout*/
 
 workspace/artifacts/*
 !workspace/artifacts/.gitkeep
