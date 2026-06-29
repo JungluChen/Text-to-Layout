@@ -13,6 +13,15 @@ def test_layout_spec_defaults() -> None:
     assert spec.dsl_version == DSL_VERSION
     assert spec.technology == "generic_2metal"
     assert spec.origin == (0.0, 0.0)
+    assert spec.evidence == {}
+
+
+def test_layout_spec_accepts_evidence_intent() -> None:
+    spec = LayoutSpec(
+        component="IDC",
+        evidence={"analytical_model": "Bahl/Alley IDC estimate", "simulation_required": True},
+    )
+    assert spec.evidence["simulation_required"] is True
 
 
 def test_layout_spec_is_frozen_and_forbids_extra() -> None:

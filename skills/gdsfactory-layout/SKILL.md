@@ -17,8 +17,9 @@ Never translate natural language directly into polygons. Use this pipeline:
 4. Use the registered deterministic generator. Do not add prompt-specific polygon code.
 5. Build the gdsfactory `Component`, including named electrical ports.
 6. Run all pre-export checks. If any required check fails, write no final geometry artifact.
-7. Export GDS, SVG, PNG, geometry JSON, DSL provenance, verification JSON, evidence Markdown, and report Markdown.
+7. Export GDS, SVG, PNG, geometry JSON, DSL provenance, verification JSON, analytical estimate, simulation plan, evidence Markdown, and report Markdown.
 8. Confirm every requested file exists and is non-empty.
+9. Prepare the component's open-source solver input when an adapter exists; do not convert preparation into a simulation claim.
 
 ## Commands
 

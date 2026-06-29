@@ -12,6 +12,7 @@ The FastAPI server exposes structured JSON at `http://127.0.0.1:8000`. Live inte
 | POST | `/layout/verify` | Verification report without export |
 | POST | `/layout/preview` | Verified SVG preview |
 | POST | `/layout/export?format=gds` | One verified artifact path and byte count |
+| POST | `/layout/simulate?solver=auto&execute=false` | Prepare or explicitly execute a supported open-source solver |
 | POST | `/layout/benchmark` | Complete reproducible artifact/evidence packet |
 | POST | `/layout/report` | Evidence, verification, files, and simulation next steps |
 
@@ -41,7 +42,9 @@ Every POST body is a Layout DSL:
 
 Each check contains the check name, status, measured value, limit, unit, and useful failure message when applicable. Warnings do not fail geometry, but they remain visible in the final report.
 
-`/layout/generate` returns failed verification with no final geometry artifacts. `/layout/export` and `/layout/preview` return HTTP 422 when verification blocks export. Successful written files include geometry plus Layout DSL provenance, verification JSON, evidence Markdown, and report Markdown.
+`/layout/generate` returns failed verification with no final geometry artifacts. `/layout/export`, `/layout/preview`, and `/layout/simulate` return HTTP 422 when verification blocks downstream work. Successful written files include geometry plus Layout DSL provenance, verification JSON, analytical estimate, simulation plan, evidence Markdown, and report Markdown.
+
+`/layout/simulate` defaults to preparation only. For the IDC it returns readiness Level 2 and FastCap-compatible input paths. Set `execute=true` only when a real solver is installed. Missing executables return `status=skipped`; they never create a fake result.
 
 ## Errors
 

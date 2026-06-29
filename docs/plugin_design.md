@@ -10,6 +10,7 @@ natural language
   -> geometry verification
   -> gdsfactory Component sanity
   -> GDS/SVG/PNG/JSON export
+  -> open-source simulation preparation or guarded execution
   -> artifact verification
   -> evidence-backed report
 ```
@@ -37,9 +38,12 @@ Successful generation returns:
 - input Layout DSL provenance;
 - structured verification JSON;
 - evidence Markdown;
+- analytical-estimate and simulation-plan Markdown;
 - report Markdown with target comparison and simulation status.
 
 Failed pre-export verification returns diagnostics and no final geometry artifacts. An analytical value is not a simulated value. An EM result may be called executed only when a solver-owned output artifact exists.
+
+The base simulation boundary is open-source-first. `textlayout.simulation` prepares FastCap/FasterCap IDC inputs and exposes explicit readiness/status records. Future openEMS, FastHenry, Meep, and Elmer adapters must preserve the same prepared/executed distinction.
 
 ## Extending components
 

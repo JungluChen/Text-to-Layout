@@ -1,0 +1,68 @@
+{
+  "schema": "textlayout.simulation-input.v1",
+  "status": "input_files_prepared",
+  "readiness_level": 2,
+  "solver": "FasterCap/FastCap",
+  "component": "IDC",
+  "source_layout": {
+    "dsl_version": "1.0",
+    "component": "IDC",
+    "technology": "generic_2metal",
+    "target": {
+      "capacitance_pf": 0.6,
+      "frequency_ghz": 6.0
+    },
+    "parameters": {
+      "finger_pairs": 22,
+      "finger_width_um": 4.0,
+      "gap_um": 2.0,
+      "overlap_um": 250.0,
+      "bus_width_um": 25.0,
+      "metal_layer": "M1"
+    },
+    "rules": {
+      "min_width_um": 2.0,
+      "min_gap_um": 2.0
+    },
+    "outputs": {
+      "gds": true,
+      "svg": true,
+      "json": true,
+      "png": true,
+      "report": true
+    },
+    "origin": [
+      0.0,
+      0.0
+    ],
+    "metadata": {
+      "benchmark_status": "ready",
+      "intent": "0.6 pF IDC analytical starting point; EM extraction required"
+    },
+    "evidence": {
+      "analytical_model": "Bahl/Alley IDC estimate",
+      "simulation_required": true,
+      "open_source_solver": "FasterCap/FastCap"
+    }
+  },
+  "panel_count": 46,
+  "nets": [
+    "P1",
+    "P2"
+  ],
+  "substrate_epsilon_r": 11.9,
+  "effective_permittivity": 6.45,
+  "model_assumptions": [
+    "zero-thickness planar conductors",
+    "uniform effective dielectric instead of explicit air/silicon interface",
+    "no package, loss, kinetic inductance, or self-resonance model"
+  ],
+  "expected_outputs": [
+    "2x2 capacitance matrix",
+    "mutual capacitance"
+  ],
+  "references": [
+    "FastCap User's Guide, generic Q-panel and list-file interfaces",
+    "FastFieldSolvers FasterCap documentation (FastCap2-compatible input)"
+  ]
+}

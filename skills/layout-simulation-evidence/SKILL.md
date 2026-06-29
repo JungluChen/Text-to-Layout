@@ -8,15 +8,24 @@ description: Create evidence-backed EM simulation and extraction plans for IC, R
 ## Required evidence packet
 
 1. Record the analytical estimate, derivation, assumptions, references, and confidence.
-2. Select a solver appropriate to the extracted quantity: Q3D for quasi-static C/L/R, Sonnet or ADS Momentum for planar EM, HFSS for 3-D full-wave behavior, and ADS for circuit/EM co-simulation.
-3. Document GDS/DXF import, layer mapping, substrate and metal stack, boundaries, mesh/convergence criteria, ports, sweep range, and expected outputs.
-4. Extract only solver-produced C, L, Q, S-parameters, resonance, or coupling values.
-5. Compare the extracted value with the DSL target and state tolerance and error.
-6. Propose a DSL parameter update, regenerate, verify, and repeat.
-7. Preserve solver input, version, log, and non-empty output artifact as provenance.
+2. Prefer an open-source solver appropriate to the quantity: FasterCap/FastCap for IDC capacitance, FastHenry for inductance/resistance, openEMS or Meep for FDTD, Elmer for FEM/electrostatics, and scikit-rf for Touchstone post-processing.
+3. Use commercial Q3D, Sonnet, HFSS, or ADS only as optional higher-fidelity or independent correlation.
+4. Document GDS/DXF import, layer mapping, substrate and metal stack, boundaries, mesh/convergence criteria, ports, sweep range, and expected outputs.
+5. Extract only solver-produced C, L, Q, S-parameters, resonance, or coupling values.
+6. Compare the extracted value with the DSL target and state tolerance and error.
+7. Propose a DSL parameter update, regenerate, verify, and repeat.
+8. Preserve solver input, version, log, and non-empty output artifact as provenance.
 
 Read the repository guides under `simulation/` for HFSS, Q3D, ADS, and Sonnet setup.
 
 ## Status vocabulary
 
 Use `analytical`, `planned`, `input_files_prepared`, `executed`, `failed`, or `skipped`. Only `executed` with a solver-owned output is simulation evidence. Never infer solver success from a GDS or plot.
+
+## Component routing
+
+- IDC: Bahl/Alley estimate -> FasterCap/FastCap -> C matrix and mutual capacitance; Q3D/HFSS/Sonnet optional correlation.
+- CPW: Simons conformal mapping -> openEMS -> scikit-rf -> Z0, S11, S21, effective permittivity.
+- Spiral: Wheeler/Mohan -> FastHenry -> L, R, Q; add capacitance before claiming self-resonance.
+- Quarter-wave resonator: `L=vp/(4f)` -> openEMS/Meep -> scikit-rf -> f0, Q, S21.
+- SQUID: flux quantization/loop area only until a foundry-specific JJ stack and overlap evidence exist.

@@ -64,6 +64,10 @@
       "status": "pass"
     },
     {
+      "name": "klayout_gds_readback",
+      "status": "pass"
+    },
+    {
       "name": "output_gds_exists",
       "status": "pass"
     },
@@ -89,6 +93,14 @@
     },
     {
       "name": "output_evidence_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_analytical_estimate_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_simulation_plan_exists",
       "status": "pass"
     },
     {

@@ -233,6 +233,26 @@ class GenerateWorkflow:
                     message="" if ok else f"Expected output is missing or empty: {path}",
                 )
             )
+        gds_path = files.get("gds")
+        if gds_path is not None:
+            try:
+                import klayout.db as kdb
+
+                layout = kdb.Layout()
+                layout.read(gds_path)
+                top_cells = layout.top_cells()
+                ok = bool(top_cells) and any(cell.bbox().area() > 0 for cell in top_cells)
+                message = "" if ok else "KLayout readback found no non-empty top cell."
+            except Exception as exc:  # pragma: no cover - defensive backend boundary
+                ok = False
+                message = f"KLayout GDS readback failed: {exc}"
+            checks.append(
+                Check(
+                    name="klayout_gds_readback",
+                    status=CheckStatus.PASS if ok else CheckStatus.FAIL,
+                    message=message,
+                )
+            )
         return VerificationReport.from_checks(report.component, checks)
 
     def _with_exporter_sanity(
@@ -284,6 +304,8 @@ class GenerateWorkflow:
         layout_path = out / f"{stem}.layout.json"
         verification_path = out / f"{stem}.verification.json"
         evidence_path = out / f"{stem}.evidence.md"
+        analytical_path = out / f"{stem}.analytical_estimate.md"
+        simulation_plan_path = out / f"{stem}.simulation_plan.md"
         report_path = out / f"{stem}.report.md"
         layout_path.write_text(
             json.dumps(spec.model_dump(mode="json"), indent=2) + "\n", encoding="utf-8"
@@ -292,13 +314,25 @@ class GenerateWorkflow:
             json.dumps(verification.to_dict(), indent=2) + "\n", encoding="utf-8"
         )
         evidence_path.write_text(research_report.to_markdown(), encoding="utf-8")
+        analytical_path.write_text(
+            research_report.analytical_estimate_markdown(), encoding="utf-8"
+        )
+        simulation_plan_path.write_text(
+            research_report.simulation_plan_markdown(), encoding="utf-8"
+        )
         report_path.write_text(
             _render_report(
                 spec,
                 geometry,
                 research_report,
                 verification,
-                {**geometry_files, "layout_dsl": str(layout_path), "evidence": str(evidence_path)},
+                {
+                    **geometry_files,
+                    "layout_dsl": str(layout_path),
+                    "evidence": str(evidence_path),
+                    "analytical_estimate": str(analytical_path),
+                    "simulation_plan": str(simulation_plan_path),
+                },
             ),
             encoding="utf-8",
         )
@@ -306,6 +340,8 @@ class GenerateWorkflow:
             "layout_dsl": str(layout_path),
             "verification": str(verification_path),
             "evidence": str(evidence_path),
+            "analytical_estimate": str(analytical_path),
+            "simulation_plan": str(simulation_plan_path),
             "report": str(report_path),
         }
 

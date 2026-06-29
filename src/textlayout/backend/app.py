@@ -13,12 +13,15 @@ Endpoints
 - ``POST /layout/preview``  — DSL → SVG preview
 - ``POST /layout/export``   — DSL → single artifact written to disk (``?format=gds``)
 - ``POST /layout/report``   — DSL → full report incl. simulation next steps
+- ``POST /layout/simulate`` — verified DSL → prepared or executed solver evidence
+- ``POST /layout/benchmark``— verified DSL → reproducible benchmark artifacts
 """
 
 from __future__ import annotations
 
 import os
 import uuid
+from pathlib import Path
 
 from fastapi import FastAPI, Query, Request
 from fastapi.concurrency import run_in_threadpool
@@ -35,6 +38,7 @@ from textlayout.backend.api_models import (
     PreviewResponse,
     ResearchResponse,
     ReportResponse,
+    SimulationResponse,
     SimulationStep,
     VerifyResponse,
 )
@@ -50,6 +54,7 @@ from textlayout.errors import (
     VerificationFailedError,
 )
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.simulation import simulate_layout
 from textlayout.workflows import GenerateResult, GenerateWorkflow
 
 _STATUS_CODES: dict[type[TextLayoutError], int] = {
@@ -63,7 +68,10 @@ _STATUS_CODES: dict[type[TextLayoutError], int] = {
 }
 
 SIMULATION_NEXT_STEPS = [
-    SimulationStep(stage="import", description="Import generated GDS into HFSS / Q3D / ADS."),
+    SimulationStep(
+        stage="prepare",
+        description="Prepare open-source FasterCap/FastCap or openEMS inputs from verified geometry.",
+    ),
     SimulationStep(stage="setup", description="Assign metal/substrate materials, ports, boundaries."),
     SimulationStep(stage="extract", description="EM-extract C, L, Q, S-parameters, resonance."),
     SimulationStep(stage="compare", description="Compare extracted values against the design target."),
@@ -165,11 +173,67 @@ def create_app(
             simulation_next_steps=SIMULATION_NEXT_STEPS,
         )
 
+    @app.post("/layout/simulate", response_model=SimulationResponse, tags=["simulation"])
+    async def simulate(
+        spec: LayoutSpec,
+        solver: str = Query(default="auto"),
+        execute: bool = Query(default=False),
+        executable: str | None = Query(default=None),
+    ) -> SimulationResponse:
+        result = await run_in_threadpool(workflow.run, spec, ())
+        _require_verified(result)
+        output_dir = settings.workspace / "simulations" / uuid.uuid4().hex
+        simulation = await run_in_threadpool(
+            simulate_layout,
+            spec,
+            result.geometry,
+            workflow.technology(spec.technology),
+            output_dir,
+            solver=solver,
+            execute=execute,
+            executable=executable,
+        )
+        return SimulationResponse(
+            component=spec.component,
+            verification=result.report.to_dict(),
+            simulation=simulation.to_dict(),
+        )
+
     @app.post("/layout/benchmark", response_model=BenchmarkResponse, tags=["layout"])
     async def benchmark(spec: LayoutSpec) -> BenchmarkResponse:
         result = await run_in_threadpool(
             _run, workflow, spec, settings, None, True, "output", "benchmarks"
         )
+        simulation_dir = (
+            Path(next(iter(result.files.values()))).parent / "simulation"
+            if result.files
+            else settings.workspace / "benchmarks" / uuid.uuid4().hex / "simulation"
+        )
+        simulation = await run_in_threadpool(
+            simulate_layout,
+            spec,
+            result.geometry,
+            workflow.technology(spec.technology),
+            simulation_dir,
+        )
+        if "simulation_plan" in result.files:
+            Path(result.files["simulation_plan"]).write_text(
+                simulation.to_markdown(), encoding="utf-8"
+            )
+        if "report" in result.files:
+            report_path = Path(result.files["report"])
+            report_text = report_path.read_text(encoding="utf-8")
+            report_path.write_text(
+                report_text.replace(
+                    "No EM solver was executed by this workflow. The analytical estimate is a design starting point only.",
+                    (
+                        f"Simulation readiness is Level {simulation.readiness_level} "
+                        f"({simulation.readiness_label}). No EM solver was executed; "
+                        "the analytical estimate remains a design starting point only."
+                    ),
+                ),
+                encoding="utf-8",
+            )
         return BenchmarkResponse(
             status=result.report.status,
             component=spec.component,
@@ -178,8 +242,9 @@ def create_app(
             artifacts=dict(result.artifacts),
             files=dict(result.files),
             evidence=result.research.to_dict(),
+            simulation=simulation.to_dict(),
             report_markdown=(
-                open(result.files["report"], encoding="utf-8").read()
+                Path(result.files["report"]).read_text(encoding="utf-8")
                 if "report" in result.files
                 else ""
             ),

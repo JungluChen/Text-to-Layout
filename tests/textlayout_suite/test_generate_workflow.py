@@ -75,3 +75,21 @@ def test_success_writes_evidence_and_verification_sidecars(tmp_path) -> None:
     assert result.report.passed
     assert {"layout_dsl", "verification", "evidence", "report"} <= set(result.files)
     assert all(Path(path).is_file() for path in result.files.values())
+
+
+def test_gds_export_is_readable_by_klayout(tmp_path) -> None:
+    workflow = build_default_workflow()
+    spec = LayoutSpec(
+        component="IDC",
+        parameters={
+            "finger_pairs": 4,
+            "finger_width_um": 4,
+            "gap_um": 2,
+            "overlap_um": 50,
+            "bus_width_um": 10,
+            "metal_layer": "M1",
+        },
+    )
+    result = workflow.run(spec, formats=("gds",), output_dir=tmp_path)
+    check = next(c for c in result.report.checks if c.name == "klayout_gds_readback")
+    assert check.status.value == "pass"

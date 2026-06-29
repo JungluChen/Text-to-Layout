@@ -92,7 +92,7 @@ def test_report_includes_simulation_steps(client: TestClient) -> None:
     resp = client.post("/layout/report", json=IDC_DSL)
     assert resp.status_code == 200
     body = resp.json()
-    assert body["simulation_next_steps"][0]["stage"] == "import"
+    assert body["simulation_next_steps"][0]["stage"] == "prepare"
     assert body["verification"]["status"] == "pass"
     assert body["evidence"]["references"]
 
@@ -111,7 +111,28 @@ def test_benchmark_returns_complete_packet(client: TestClient) -> None:
     assert resp.status_code == 200
     body = resp.json()
     assert body["status"] == "pass"
-    assert {"gds", "svg", "json", "verification", "evidence", "report"} <= set(
+    assert {
+        "gds",
+        "svg",
+        "json",
+        "verification",
+        "analytical_estimate",
+        "simulation_plan",
+        "evidence",
+        "report",
+    } <= set(
         body["files"]
     )
     assert "No EM solver was executed" in body["report_markdown"]
+    assert body["simulation"]["readiness_level"] == 2
+    assert body["simulation"]["status"] == "input_files_prepared"
+
+
+def test_simulate_prepares_open_source_idc_inputs(client: TestClient) -> None:
+    resp = client.post("/layout/simulate", json=IDC_DSL)
+    assert resp.status_code == 200
+    simulation = resp.json()["simulation"]
+    assert simulation["status"] == "input_files_prepared"
+    assert simulation["readiness_level"] == 2
+    assert Path(simulation["artifacts"]["panel_file"]).is_file()
+    assert Path(simulation["artifacts"]["list_file"]).is_file()

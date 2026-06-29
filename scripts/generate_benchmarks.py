@@ -14,6 +14,7 @@ from pathlib import Path
 
 from textlayout import build_default_workflow
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.simulation import simulate_layout
 from textlayout.verification import Check, CheckStatus, VerificationReport
 
 REQUIRED_INPUTS = ("prompt.md", "layout.json")
@@ -43,6 +44,9 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
         with tempfile.TemporaryDirectory(prefix="textlayout-benchmark-") as tmp:
             result = workflow.run(spec, formats=FORMATS, output_dir=tmp, stem="output")
             (folder / "evidence.md").write_text(result.research.to_markdown(), encoding="utf-8")
+            (folder / "analytical_estimate.md").write_text(
+                result.research.analytical_estimate_markdown(), encoding="utf-8"
+            )
             if not result.report.passed:
                 (folder / "verification.json").write_text(
                     json.dumps(result.report.to_dict(), indent=2) + "\n", encoding="utf-8"
@@ -57,6 +61,15 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
                     break
                 shutil.copyfile(source, folder / f"output.{fmt}")
             else:
+                simulation = simulate_layout(
+                    spec,
+                    result.geometry,
+                    workflow.technology(spec.technology),
+                    folder / "simulation",
+                )
+                (folder / "simulation_plan.md").write_text(
+                    simulation.to_markdown(), encoding="utf-8"
+                )
                 # Seed support files so the post-export existence audit can check
                 # the complete final packet, including itself.
                 (folder / "verification.json").write_text("{}\n", encoding="utf-8")
@@ -66,6 +79,8 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
                     "layout_dsl": str(folder / "layout.json"),
                     "verification": str(folder / "verification.json"),
                     "evidence": str(folder / "evidence.md"),
+                    "analytical_estimate": str(folder / "analytical_estimate.md"),
+                    "simulation_plan": str(folder / "simulation_plan.md"),
                     "report": str(folder / "report.md"),
                 }
                 base_checks = [
@@ -89,6 +104,14 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
                 for kind, old_path in result.files.items():
                     if kind in final_files:
                         report_text = report_text.replace(old_path, final_files[kind])
+                report_text = report_text.replace(
+                    "No EM solver was executed by this workflow. The analytical estimate is a design starting point only.",
+                    (
+                        f"Simulation readiness is Level {simulation.readiness_level} "
+                        f"({simulation.readiness_label}). No EM solver was executed; "
+                        "the analytical estimate remains a design starting point only."
+                    ),
+                )
                 (folder / "report.md").write_text(report_text, encoding="utf-8")
                 generated += 1
                 print(f"PASS  {folder.name}")

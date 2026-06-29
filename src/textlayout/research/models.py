@@ -116,3 +116,60 @@ class ResearchReport:
             lines.append("")
 
         return "\n".join(lines).rstrip() + "\n"
+
+    def analytical_estimate_markdown(self) -> str:
+        """Render the equation-backed estimate separately for benchmark packets."""
+        lines = [
+            f"# Analytical Estimate - {self.component}",
+            "",
+            f"- Model: **{self.model_name}**",
+            "- Status: **analytical** (not simulated or measured)",
+            "",
+            "## Target",
+            "",
+        ]
+        lines += [f"- `{name}`: `{value}`" for name, value in self.physical_target.items()]
+        lines += ["", "## Calculated values", ""]
+        lines += [f"- `{name}`: `{value}`" for name, value in self.analytical_estimates.items()]
+        lines += ["", "## Equations", ""]
+        lines += [
+            f"- **{equation.name}:** `{equation.expression}`"
+            + (f" - {equation.description}" if equation.description else "")
+            for equation in self.equations
+        ]
+        lines += ["", "## Assumptions", ""]
+        lines += [f"- {item}" for item in self.assumptions]
+        lines += ["", "## Limitations", ""]
+        lines += [f"- {item}" for item in self.limitations]
+        return "\n".join(lines).rstrip() + "\n"
+
+    def simulation_plan_markdown(self) -> str:
+        """Render the pre-execution solver plan without implying a result."""
+        lines = [
+            f"# Simulation Plan - {self.component}",
+            "",
+            "- Status: **planned**",
+            "- Simulation readiness: **Level 1 - geometry/research workflow defined**",
+            "- No solver result is claimed by this file.",
+            "",
+            "## Recommended extraction",
+            "",
+        ]
+        lines += [
+            f"- **{quantity}:** {recommendation}"
+            for quantity, recommendation in self.simulation_recommendation.items()
+        ]
+        lines += [
+            "",
+            "## Comparison method",
+            "",
+            "1. Execute the named solver and retain its input, version, log, and output artifact.",
+            "2. Extract the requested physical quantity from the solver-owned output.",
+            "3. Compare it with the Layout DSL target and state the error and tolerance.",
+            "4. Change Layout DSL parameters, regenerate, and rerun verification.",
+            "",
+            "## Limitations",
+            "",
+        ]
+        lines += [f"- {item}" for item in self.limitations]
+        return "\n".join(lines).rstrip() + "\n"

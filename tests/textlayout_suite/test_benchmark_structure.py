@@ -19,6 +19,8 @@ def test_ready_idc_benchmark_has_complete_packet() -> None:
         "output.gds",
         "output.json",
         "verification.json",
+        "analytical_estimate.md",
+        "simulation_plan.md",
         "evidence.md",
         "report.md",
     }
@@ -35,6 +37,7 @@ def test_todo_benchmarks_do_not_claim_geometry_outputs() -> None:
         if spec.get("metadata", {}).get("benchmark_status") != "todo":
             continue
         assert not list(folder.glob("output.*")), folder.name
+        assert (folder / "TODO.md").is_file()
         verification = json.loads((folder / "verification.json").read_text(encoding="utf-8"))
         assert verification["status"] == "todo"
 
@@ -42,3 +45,17 @@ def test_todo_benchmarks_do_not_claim_geometry_outputs() -> None:
 def test_readme_references_ready_preview() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "examples/benchmarks/01_idc_0p6pf/output.png" in readme
+
+
+def test_benchmark_checker_passes() -> None:
+    import subprocess
+    import sys
+
+    completed = subprocess.run(
+        [sys.executable, "scripts/check_benchmarks.py"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stdout + completed.stderr

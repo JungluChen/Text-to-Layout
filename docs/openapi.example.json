@@ -285,6 +285,85 @@
         }
       }
     },
+    "/layout/simulate": {
+      "post": {
+        "tags": [
+          "simulation"
+        ],
+        "summary": "Simulate",
+        "operationId": "simulate_layout_simulate_post",
+        "parameters": [
+          {
+            "name": "solver",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "auto",
+              "title": "Solver"
+            }
+          },
+          {
+            "name": "execute",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Execute"
+            }
+          },
+          {
+            "name": "executable",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Executable"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/layout/benchmark": {
       "post": {
         "tags": [
@@ -373,6 +452,11 @@
           "report_markdown": {
             "type": "string",
             "title": "Report Markdown"
+          },
+          "simulation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Simulation"
           }
         },
         "type": "object",
@@ -381,7 +465,8 @@
           "component",
           "summary",
           "verification",
-          "report_markdown"
+          "report_markdown",
+          "simulation"
         ],
         "title": "BenchmarkResponse"
       },
@@ -601,6 +686,12 @@
             "type": "object",
             "title": "Metadata",
             "description": "Free-form provenance (intent, requesting agent, etc.)."
+          },
+          "evidence": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Evidence",
+            "description": "Evidence intent, such as analytical model and simulation requirement. This records the request; generated evidence still comes from the research workflow."
           }
         },
         "additionalProperties": false,
@@ -702,6 +793,29 @@
           "evidence"
         ],
         "title": "ResearchResponse"
+      },
+      "SimulationResponse": {
+        "properties": {
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationModel"
+          },
+          "simulation": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Simulation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component",
+          "verification",
+          "simulation"
+        ],
+        "title": "SimulationResponse"
       },
       "SimulationStep": {
         "properties": {

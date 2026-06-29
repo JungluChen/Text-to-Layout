@@ -3,7 +3,7 @@
   "name_for_human": "Text-to-Layout",
   "name_for_model": "text_to_layout",
   "description_for_human": "Generate evidence-backed, verified IC layout candidates from a structured Layout DSL.",
-  "description_for_model": "Research first with /layout/research. Submit only a typed Layout DSL. Read every verification result and do not export or describe a failed layout as final. Analytical estimates are not simulated results.",
+  "description_for_model": "Research first with /layout/research. Submit only a typed Layout DSL. Prefer /layout/simulate with execute=false to prepare open-source inputs. Read every verification result and never describe analytical estimates or prepared inputs as simulated results.",
   "auth": {"type": "none"},
   "api": {
     "type": "openapi",

@@ -99,6 +99,13 @@ class ResearchResponse(BaseModel):
 
 class BenchmarkResponse(GenerateResponse):
     report_markdown: str
+    simulation: dict[str, Any]
+
+
+class SimulationResponse(BaseModel):
+    component: str
+    verification: VerificationModel
+    simulation: dict[str, Any]
 
 
 class ErrorResponse(BaseModel):

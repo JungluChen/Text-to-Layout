@@ -41,7 +41,10 @@
 - `PASS` output_layout_dsl_exists
 - `PASS` output_verification_exists
 - `PASS` output_evidence_exists
+- `PASS` output_analytical_estimate_exists
+- `PASS` output_simulation_plan_exists
 - `PASS` output_report_exists
+- `PASS` klayout_gds_readback
 
 ## Artifacts
 
@@ -52,11 +55,13 @@
 - `layout_dsl`: `examples\benchmarks\01_idc_0p6pf\layout.json`
 - `verification`: `examples\benchmarks\01_idc_0p6pf\verification.json`
 - `evidence`: `examples\benchmarks\01_idc_0p6pf\evidence.md`
+- `analytical_estimate`: `examples\benchmarks\01_idc_0p6pf\analytical_estimate.md`
+- `simulation_plan`: `examples\benchmarks\01_idc_0p6pf\simulation_plan.md`
 - `report`: `examples\benchmarks\01_idc_0p6pf\report.md`
 
 ## Simulation status
 
-No EM solver was executed by this workflow. The analytical estimate is a design starting point only.
+Simulation readiness is Level 2 (open-source simulation input prepared). No EM solver was executed; the analytical estimate remains a design starting point only.
 
 ## Limitations
 

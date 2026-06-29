@@ -22,6 +22,8 @@ Block export when any required check fails. Return measured values, limits, and 
 
 ## Post-export checks
 
-Confirm every requested output is non-empty. Require Layout DSL provenance, `verification.json`, `evidence.md`, and `report.md`. Confirm the report states whether simulation was executed or only planned.
+Confirm every requested output is non-empty. Require Layout DSL provenance, `verification.json`, `analytical_estimate.md`, `simulation_plan.md`, `evidence.md`, and `report.md`. Confirm the report states whether simulation was prepared, executed, failed, or skipped.
+
+For READY benchmarks, run `python scripts/check_benchmarks.py`. For TODO benchmarks, require `TODO.md`, forbid `output.*`, and reject PASS language.
 
 Warnings do not become evidence. In particular, an analytical capacitance estimate may pass geometry verification while still warning that EM extraction is required.

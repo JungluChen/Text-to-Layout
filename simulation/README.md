@@ -1,61 +1,48 @@
-# Simulation Workflow
+# Open-Source Simulation Workflow
 
-> **Status:** documentation only. The plugin generates and verifies layout
-> geometry today; EM extraction is a documented *manual* workflow plus an
-> AI-assisted optimization loop. No solver is auto-driven yet — and the tool
-> never reports a simulated value it did not actually compute.
+Simulation is evidence only when a real solver runs and produces a non-empty solver-owned artifact. Prepared input files are useful, but their status is `input_files_prepared`, not `executed`.
 
-The generated GDSII is the hand-off point into electromagnetic (EM) extraction.
+## Readiness levels
 
+| Level | Requirement |
+| - | - |
+| 0 | Analytical estimate only |
+| 1 | Geometry generated and verified |
+| 2 | Open-source simulation input/script exists |
+| 3 | Real simulation result generated |
+| 4 | Result compared against the Layout DSL target |
+| 5 | Optimization loop implemented |
+
+## Base open-source paths
+
+| Component/quantity | Tool | Repository workflow | Status |
+| - | - | - | - |
+| IDC capacitance matrix | FasterCap/FastCap | [`idc_fastercap/`](idc_fastercap/) | Level 2 |
+| CPW Z0, S11, S21 | openEMS + scikit-rf | [`cpw_openems/`](cpw_openems/) | Blocked on explicit ground-reference ports |
+| Spiral L, R, Q | FastHenry/FastHenry2 | [`spiral_fasthenry/`](spiral_fasthenry/) | Blocked on generator |
+| Resonator f0, Q, S21 | openEMS + scikit-rf | [`resonator_openems/`](resonator_openems/) | Blocked on topology |
+| General FDTD | Meep | Future connector | Planned |
+| Electrostatic/FEM cross-check | Elmer FEM | Future connector | Planned |
+
+FasterCap uses the FastCap2-compatible generic input format. The IDC adapter writes metre-scale `Q` panels and a list file, then records its zero-thickness/effective-medium assumptions. openEMS supports Python-driven FDTD and explicit port APIs; future CPW/resonator execution must retain the generated model, solver version, logs, and Touchstone output.
+
+## IDC preparation
+
+```bash
+python simulation/idc_fastercap/generate_fastercap_input.py \
+  examples/benchmarks/01_idc_0p6pf/layout.json \
+  --out examples/benchmarks/01_idc_0p6pf/simulation
 ```
-Generated GDS
-     │
-     ▼
-Import to HFSS / Q3D / ADS
-     │
-     ▼
-Assign material, substrate, ports, boundaries
-     │
-     ▼
-EM extraction  ──►  C, L, Q, S-parameters, resonance frequency
-     │
-     ▼
-Compare with target
-     │
-     ▼
-AI optimization loop  ──►  adjust Layout DSL parameters  ──►  regenerate
-     │
-     ▼
-Report
+
+This produces `idc.qui`, `idc.lst`, and `simulation_manifest.json`. It does not produce a capacitance result.
+
+```bash
+python simulation/idc_fastercap/run_fastercap.py \
+  examples/benchmarks/01_idc_0p6pf/layout.json
 ```
 
-## Where each solver fits
+If no executable is installed, the runner exits with code 2 and reports `status=skipped`. It writes `simulation_result.json` only after a real solver returns a parseable capacitance matrix.
 
-| Quantity | Recommended solver | Workflow |
-|---|---|---|
-| Capacitance matrix (C) | **Q3D Extractor** | [`q3d_workflow.md`](q3d_workflow.md) |
-| S-parameters, resonance, Q | **HFSS** (full-wave FEM) | [`hfss_workflow.md`](hfss_workflow.md) |
-| Circuit-level S-params, harmonic balance | **ADS** | [`ads_workflow.md`](ads_workflow.md) |
-| Planar EM, capacitance, self-resonance | **Sonnet** | [`sonnet_workflow.md`](sonnet_workflow.md) |
+## Commercial correlation
 
-## The optimization loop (target-driven)
-
-1. Generate a candidate layout from a Layout DSL (e.g. IDC at `finger_pairs=24`).
-2. Extract the figure of merit (e.g. capacitance) in Q3D/HFSS.
-3. Compare to the target (e.g. 0.6 pF).
-4. If outside tolerance, adjust DSL parameters (more/fewer fingers, longer
-   overlap) and regenerate — the deterministic engine guarantees the new layout
-   still passes design-rule verification before re-simulation.
-5. Repeat until convergence; emit a report with full provenance.
-
-The analytical capacitance in `IDC` metadata
-(`capacitance_method: bahl_alley_quasi_static`) is only a
-*starting point* for step 1 — it must be replaced by an EM-extracted value
-before any performance claim.
-
-## Honesty contract
-
-Following the project's truth principle (and Text-to-CAD's "report only checks
-that actually ran"): a value is reported as **simulated** only when a real solver
-produced it. Until then it is labelled `estimated`/`analytical` with an explicit
-low confidence.
+The [Q3D](q3d_workflow.md), [HFSS](hfss_workflow.md), [ADS](ads_workflow.md), and [Sonnet](sonnet_workflow.md) guides remain available for higher-fidelity or independent correlation. They are not required for the base open-source preparation workflow and are never reported as executed without artifacts.

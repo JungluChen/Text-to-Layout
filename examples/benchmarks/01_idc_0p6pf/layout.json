@@ -28,5 +28,10 @@
   "metadata": {
     "benchmark_status": "ready",
     "intent": "0.6 pF IDC analytical starting point; EM extraction required"
+  },
+  "evidence": {
+    "analytical_model": "Bahl/Alley IDC estimate",
+    "simulation_required": true,
+    "open_source_solver": "FasterCap/FastCap"
   }
 }

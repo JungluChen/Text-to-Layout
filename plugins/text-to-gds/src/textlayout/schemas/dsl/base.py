@@ -72,6 +72,11 @@ class LayoutSpec(BaseModel):
         default_factory=dict,
         description="Free-form provenance (intent, requesting agent, etc.).",
     )
+    evidence: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Evidence intent, such as analytical model and simulation requirement. "
+        "This records the request; generated evidence still comes from the research workflow.",
+    )
 
     #: Output keys that correspond to real geometry exporters.
     GEOMETRY_FORMATS: ClassVar[tuple[str, ...]] = ("gds", "svg", "json", "png")
