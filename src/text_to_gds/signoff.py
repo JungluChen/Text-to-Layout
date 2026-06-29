@@ -89,6 +89,9 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
     0 geometry generated; 1 DRC passed; 2 extraction complete; 3 analytical
     sanity passed; 4 one real solver executed; 5 two independent solvers agree;
     6 measurement data imported and fitted.
+
+    Topology confidence is checked at Level 4+: an unknown topology with
+    confidence < 0.3 blocks progression to physics signoff.
     """
     blockers: list[str] = []
     value_validation = validate_value_records(evidence.get("values"))
@@ -124,8 +127,19 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
     for solver in solvers:
         if _status(solver) in EXECUTED_STATUSES and not _solver_executed_with_output(solver):
             blockers.append(f"solver claimed executed without output file: {solver.get('solver', 'unknown')}")
+
+    topology = evidence.get("topology") or {}
+    topology_confidence = float(topology.get("confidence", 0.0) or 0.0)
+    topology_device = str(topology.get("detected_device", "unknown") or "unknown")
+
     if level >= 3 and executed_solvers:
         level = 4
+
+    if level >= 4 and topology_device == "unknown" and topology_confidence < 0.3:
+        blockers.append(
+            f"topology classification is unknown (confidence={topology_confidence:.2f}); "
+            "requires higher-confidence topology for Level 5+"
+        )
 
     agreement = evidence.get("solver_agreement") or {}
     if level >= 4 and len(executed_solvers) >= 2 and agreement.get("passed") is True:
@@ -149,7 +163,7 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
     if level < 6 and evidence.get("claim") == "measurement-calibrated":
         blockers.append("only Level 6 can be called measurement-calibrated")
 
-    return {
+    result: dict[str, Any] = {
         "schema": "text-to-gds.signoff-level.v1",
         "level": max(level, 0),
         "label": label,
@@ -159,4 +173,10 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
         "skipped_solvers": [solver.get("solver", "unknown") for solver in skipped_solvers],
         "value_validation": value_validation,
     }
+    if topology:
+        result["topology"] = {
+            "detected_device": topology_device,
+            "confidence": topology_confidence,
+        }
+    return result
 

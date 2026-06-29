@@ -397,6 +397,92 @@ def write_scientific_report(
     # Stability: piggybacks on pump sweep
     figure_sources["stability"] = figure_sources["pump_sweep"]
 
+    # Topology and geometry intelligence panels (when available)
+    topology_data = None
+    geometry_data = None
+    gds_path = sidecar.get("gds_path")
+    if gds_path:
+        try:
+            from text_to_gds.geometry_intelligence import analyze_geometry
+            geometry_data = analyze_geometry(gds_path, sidecar=sidecar)
+        except Exception:
+            pass
+        try:
+            from text_to_gds.topology import recognize_topology
+            graph_path = sidecar.get("physics_graph_path")
+            if graph_path and Path(graph_path).exists():
+                graph = json.loads(Path(graph_path).read_text(encoding="utf-8"))
+                topology_data = recognize_topology(graph)
+        except Exception:
+            pass
+
+    # Layer view
+    ax = axes[2, 0]
+    if gds_path:
+        try:
+            from text_to_gds.visualization import generate_layer_view
+            layer_result = generate_layer_view(gds_path)
+            if layer_result.get("status") == "success" and Path(layer_result["png_path"]).exists():
+                ax.imshow(mpimg.imread(layer_result["png_path"]))
+                figure_sources["layer_view"] = "visualization"
+            else:
+                _skip_panel(ax, "layer view generation failed", "Layer View")
+                figure_sources["layer_view"] = "skipped"
+        except Exception:
+            _skip_panel(ax, "visualization module unavailable", "Layer View")
+            figure_sources["layer_view"] = "skipped"
+    else:
+        _skip_panel(ax, "no GDS path", "Layer View")
+        figure_sources["layer_view"] = "skipped"
+    ax.set_title("Layer View")
+    ax.axis("off")
+
+    # Topology view
+    ax = axes[2, 1]
+    if topology_data and isinstance(topology_data, dict):
+        topo_lines = [
+            f"Topology: {topology_data.get('detected_device', 'unknown')}",
+            f"Confidence: {topology_data.get('confidence', 0.0):.2f}",
+            "",
+            "Supporting features:",
+        ]
+        for feat in (topology_data.get("supporting_features") or [])[:5]:
+            topo_lines.append(f"  - {feat}")
+        topo_lines.append("")
+        topo_lines.append("Missing features:")
+        for feat in (topology_data.get("missing_features") or [])[:5]:
+            topo_lines.append(f"  - {feat}")
+        ax.text(0.03, 0.97, "\n".join(topo_lines), va="top", family="monospace", fontsize=8.5, transform=ax.transAxes)
+        figure_sources["topology_view"] = "topology_recognition"
+    else:
+        _skip_panel(ax, "topology not recognized", "Topology View")
+        figure_sources["topology_view"] = "skipped"
+    ax.set_title("Topology View")
+    ax.axis("off")
+
+    # Geometry features summary
+    ax = axes[2, 2]
+    if geometry_data and isinstance(geometry_data, dict):
+        geo_lines = [
+            f"Area: {geometry_data.get('overall_area_um2', 0):.4g} um^2",
+            "",
+        ]
+        for feature_name in ("capacitor_paddles", "current_bottlenecks", "ground_pocket",
+                             "airbridge_span", "cpw_bends", "cpw_discontinuities",
+                             "launch_transitions", "tapers", "critical_dimensions"):
+            feature_data = geometry_data.get(feature_name, {})
+            if isinstance(feature_data, dict):
+                count = feature_data.get("count", 0)
+                if count > 0:
+                    geo_lines.append(f"{feature_name}: {count}")
+        ax.text(0.03, 0.97, "\n".join(geo_lines), va="top", family="monospace", fontsize=8.5, transform=ax.transAxes)
+        figure_sources["geometry_view"] = "geometry_intelligence"
+    else:
+        _skip_panel(ax, "geometry features not extracted", "Geometry Features")
+        figure_sources["geometry_view"] = "skipped"
+    ax.set_title("Geometry Features")
+    ax.axis("off")
+
     fig.suptitle(
         f"Text-to-GDS Physics Report — {sidecar.get('pcell', 'device')} "
         f"({'JosephsonCircuits.jl' if jpa_ok else 'no solver — panels skipped'})",

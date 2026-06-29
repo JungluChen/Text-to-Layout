@@ -1,11 +1,92 @@
 from __future__ import annotations
 
+import cmath
 import csv
 import json
 import math
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
+
+
+def parse_touchstone(path: str | Path) -> dict[str, Any]:
+    """Parse a Touchstone .s2p file without scikit-rf.
+
+    Supports formats: DB (dB + angle), MA (magnitude + angle), RI (real + imag).
+    Frequency units: HZ, KHZ, MHZ, GHZ.
+    Returns {"frequencies_hz": list[float], "matrices": list[list[list[complex]]]}
+    where matrices[k] is a 2×2 complex S-matrix at the k-th frequency.
+    """
+    source = Path(path)
+    text = source.read_text(encoding="utf-8")
+
+    freq_scale = 1.0        # to Hz
+    data_format = "MA"      # default per Touchstone 1.1 spec
+    ref_ohm = 50.0          # unused here but parsed for completeness
+
+    frequencies_hz: list[float] = []
+    matrices: list[list[list[complex]]] = []
+
+    # Pending continuation data (multi-line blocks for >2-port; n/a for 2-port)
+    data_numbers: list[float] = []
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("!"):
+            continue
+
+        if line.startswith("#"):
+            # Option line: # [HZ|KHZ|MHZ|GHZ] [S|Y|Z|G|H] [MA|DB|RI] R <ref>
+            parts = line[1:].upper().split()
+            for i, token in enumerate(parts):
+                if token in ("HZ", "KHZ", "MHZ", "GHZ"):
+                    freq_scale = {"HZ": 1.0, "KHZ": 1e3, "MHZ": 1e6, "GHZ": 1e9}[token]
+                elif token in ("MA", "DB", "RI"):
+                    data_format = token
+                elif token == "R" and i + 1 < len(parts):
+                    try:
+                        ref_ohm = float(parts[i + 1])  # noqa: F841 — parsed for completeness
+                    except ValueError:
+                        pass
+            continue
+
+        # Data line — strip inline comments
+        if "!" in line:
+            line = line[: line.index("!")]
+        try:
+            numbers = [float(x) for x in line.split()]
+        except ValueError:
+            continue
+
+        data_numbers.extend(numbers)
+
+        # A 2-port record is 1 (freq) + 8 (4 pairs) = 9 numbers
+        while len(data_numbers) >= 9:
+            record = data_numbers[:9]
+            data_numbers = data_numbers[9:]
+
+            freq_hz = record[0] * freq_scale
+            pairs = [(record[1 + 2 * k], record[2 + 2 * k]) for k in range(4)]
+
+            def _to_complex(a: float, b: float) -> complex:
+                if data_format == "DB":
+                    mag = 10.0 ** (a / 20.0)
+                    return mag * cmath.exp(1j * math.radians(b))
+                elif data_format == "MA":
+                    return a * cmath.exp(1j * math.radians(b))
+                else:  # RI
+                    return complex(a, b)
+
+            # Touchstone 2-port column-major order: S11, S21, S12, S22
+            s11 = _to_complex(*pairs[0])
+            s21 = _to_complex(*pairs[1])
+            s12 = _to_complex(*pairs[2])
+            s22 = _to_complex(*pairs[3])
+
+            frequencies_hz.append(freq_hz)
+            matrices.append([[s11, s12], [s21, s22]])
+
+    return {"frequencies_hz": frequencies_hz, "matrices": matrices}
 
 
 def _adapter_payload(simulation: dict[str, Any]) -> dict[str, Any]:

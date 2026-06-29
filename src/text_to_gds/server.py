@@ -450,7 +450,10 @@ def extract_layout(
     jc_ua_per_um2: float | None = None,
     specific_capacitance_ff_per_um2: float | None = None,
 ) -> dict[str, Any]:
-    """Summarize performance-relevant parameters from a sidecar and optional GDS scan."""
+    """Summarize performance-relevant parameters from a sidecar and optional GDS scan.
+
+    Also extracts geometry features and recognizes topology when possible.
+    """
     sidecar_file = _existing_path(sidecar_path)
     sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
     summary = summarize_sidecar_parameters(sidecar)
@@ -471,6 +474,37 @@ def extract_layout(
     )
     summary["physics_graph_path"] = graph["result_path"]
     summary["physics_graph_status"] = graph["status"]
+
+    # Geometry intelligence
+    try:
+        from text_to_gds.geometry_intelligence import analyze_geometry
+
+        geometry_features = analyze_geometry(
+            sidecar["gds_path"],
+            sidecar=sidecar,
+            physics_graph=graph,
+        )
+        geo_path = _artifact_path(f"{sidecar_file.stem}.geometry_features.json", ".json")
+        geo_path.write_text(json.dumps(geometry_features, indent=2), encoding="utf-8")
+        summary["geometry_features_path"] = str(geo_path)
+        summary["geometry_features_status"] = "extracted"
+    except Exception as exc:
+        summary["geometry_features_status"] = f"failed: {exc}"
+
+    # Topology recognition
+    try:
+        from text_to_gds.topology import recognize_topology
+
+        topology = recognize_topology(graph)
+        topo_path = _artifact_path(f"{sidecar_file.stem}.topology.json", ".json")
+        topo_path.write_text(json.dumps(topology, indent=2), encoding="utf-8")
+        summary["topology_path"] = str(topo_path)
+        summary["topology_status"] = "recognized"
+        summary["topology_device"] = topology.get("detected_device")
+        summary["topology_confidence"] = topology.get("confidence")
+    except Exception as exc:
+        summary["topology_status"] = f"failed: {exc}"
+
     return summary
 
 

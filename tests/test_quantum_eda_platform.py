@@ -5,14 +5,17 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-import pytest
-
-# Test Device Classifier
-from text_to_gds.device_classifier import (
-    DeviceClassifier,
-    DeviceType,
-    ClassificationResult,
+from text_to_gds.dependency_graph import DependencyGraph, DependencyLayer, DependencyNode
+from text_to_gds.design_memory import DesignCase, DesignMemory
+from text_to_gds.device_classifier import ClassificationResult, DeviceClassifier, DeviceType
+from text_to_gds.engineering_reasoner import (
+    AnswerSource,
+    EngineeringAnswer,
+    EngineeringQuestion,
+    EngineeringReasoner,
 )
+from text_to_gds.layout_critic import LayoutCritic, ReviewCategory, ReviewReport, ReviewSeverity
+from text_to_gds.measurement_kb import MeasurementKnowledgeBase, MeasurementRecord, MeasurementType
 
 
 class TestDeviceClassifier:
@@ -83,14 +86,6 @@ class TestDeviceClassifier:
         assert "evidence" in d
         assert "alternatives" in d
 
-
-# Test Dependency Graph
-from text_to_gds.dependency_graph import (
-    DependencyGraph,
-    DependencyNode,
-    DependencyEdge,
-    DependencyLayer,
-)
 
 
 class TestDependencyGraph:
@@ -181,13 +176,6 @@ class TestDependencyGraph:
         assert "layers" in d
 
 
-# Test Design Memory
-from text_to_gds.design_memory import (
-    DesignMemory,
-    DesignCase,
-    DesignSearchResult,
-)
-
 
 class TestDesignMemory:
     """Tests for the Design Memory module."""
@@ -265,13 +253,6 @@ class TestDesignMemory:
             assert len(results) > 0
 
 
-# Test Measurement Knowledge Base
-from text_to_gds.measurement_kb import (
-    MeasurementKnowledgeBase,
-    MeasurementRecord,
-    MeasurementType,
-)
-
 
 class TestMeasurementKnowledgeBase:
     """Tests for the Measurement Knowledge Base module."""
@@ -322,15 +303,6 @@ class TestMeasurementKnowledgeBase:
             assert retrieved is not None
             assert retrieved.id == "test_measurement"
 
-
-# Test Layout Critic
-from text_to_gds.layout_critic import (
-    LayoutCritic,
-    ReviewIssue,
-    ReviewCategory,
-    ReviewSeverity,
-    ReviewReport,
-)
 
 
 class TestLayoutCritic:
@@ -396,14 +368,6 @@ class TestLayoutCritic:
         assert "issues" in d
         assert "overall_score" in d
 
-
-# Test Engineering Reasoner
-from text_to_gds.engineering_reasoner import (
-    EngineeringReasoner,
-    EngineeringQuestion,
-    EngineeringAnswer,
-    AnswerSource,
-)
 
 
 class TestEngineeringReasoner:

@@ -409,6 +409,9 @@ def golden_compare(device: Any, reference: str | Path | dict[str, Any] | list[An
     Returns only comparisons that can be traced to generated/extracted metadata
     and cited reference values. Missing EM, capacitance, or solver quantities are
     reported as missing features/values rather than estimated.
+
+    When topology and geometry features are available, also runs topology-aware
+    reference matching for a richer feature-by-feature comparison.
     """
     payload = _device_payload(device)
     if reference is None:
@@ -463,7 +466,8 @@ def golden_compare(device: Any, reference: str | Path | dict[str, Any] | list[An
         1 for row in parameter_error.values() if row.get("status") == "missing_generated_value"
     )
     literature_distance = parameter_distance + missing_penalty
-    return {
+
+    result: dict[str, Any] = {
         "schema": "text-to-gds.golden-comparison.v1",
         "reference_id": reference_obj.get("reference_id"),
         "device_family": family,
@@ -482,6 +486,33 @@ def golden_compare(device: Any, reference: str | Path | dict[str, Any] | list[An
             for ref in reference_obj.get("merged_references", [reference_obj])
         ],
     }
+
+    # Topology-aware reference matching (when topology data is available)
+    topology_data = payload.get("topology") if isinstance(payload, dict) else None
+    geometry_data = payload.get("geometry_features") if isinstance(payload, dict) else None
+    if topology_data and isinstance(topology_data, dict):
+        try:
+            from text_to_gds.reference_matching import match_reference
+
+            topology_result = topology_data if "detected_device" in topology_data else {
+                "detected_device": topology_data.get("device", family),
+                "confidence": topology_data.get("confidence", 0.5),
+            }
+            match = match_reference(
+                topology_result,
+                geometry_features=geometry_data,
+                electrical_params=generated,
+            )
+            result["topology_aware_match"] = {
+                "schema": match.get("schema"),
+                "overall_score": match.get("overall_score"),
+                "best_match": match.get("best_match"),
+                "dimension_scores": match.get("dimension_scores"),
+            }
+        except Exception:
+            pass
+
+    return result
 
 
 def write_golden_comparison(
