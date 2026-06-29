@@ -1,0 +1,4 @@
+interface:
+  display_name: "Layout Research"
+  short_description: "Research IC layout before geometry generation"
+  default_prompt: "Use $layout-research to research this IC layout target and produce an evidence-backed Layout DSL."

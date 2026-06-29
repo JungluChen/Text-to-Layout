@@ -1,196 +1,205 @@
 <div align="center">
 
-# Text-to-GDS
+# Text-to-Layout
 
-**A skills library for superconducting quantum-device layout, simulation, and signoff agents**
+**AI-assisted, evidence-backed, verified IC layout generation.**
 
-[Docs](docs/open_platform_roadmap.md) · [Roadmap](docs/open_platform_roadmap.md) · [Benchmarks](#-benchmarks)
+Natural-language intent becomes a researched Layout DSL, deterministic gdsfactory geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
-[![gdsfactory](https://img.shields.io/badge/gdsfactory-GDSII-00A676?style=flat-square)](https://github.com/gdsfactory/gdsfactory)
-[![KLayout](https://img.shields.io/badge/KLayout-DRC-4A5568?style=flat-square)](https://www.klayout.de/)
-[![Open EM](https://img.shields.io/badge/EM-openEMS%20%7C%20Palace%20%7C%20Elmer%20%7C%20MEEP-6B46C1?style=flat-square)](docs/opensource_em_solvers.md)
-[![MCP](https://img.shields.io/badge/MCP-Tools-6B46C1?style=flat-square)](src/text_to_gds/server.py)
+[Plugin design](docs/plugin_design.md) | [Tool API](docs/tool_api.md) | [Text-to-CAD study](docs/lessons_from_text_to_cad.md) | [Simulation workflows](simulation/README.md)
 
 </div>
 
-Text-to-GDS turns a natural-language request into a fabrication-ready GDSII
-layout through a closed loop of physics feasibility checking, **open-source** EM
-simulation, and a rule-based AI review committee. It is inspired by
-[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad), but
-targets multi-layer superconducting quantum ICs instead of mechanical CAD.
+## What it does
 
-> The promise is not "here is a layout." It is **"here is a layout proven to
-> work"** — feasibility-checked before generation, simulated on open solvers,
-> cross-validated by solver agreement, and passed by every review agent.
-> Commercial EDA (HFSS / Q3D / Sonnet) is optional, validation-only.
-
-## ⚡ Example
-
-```python
-from text_to_gds.server import run_ai_scientist
-
-result = run_ai_scientist(
-    "Design a 6 GHz JPA",
-    device="JPA",
-    targets_json='{"frequency_ghz": 6.0, "gain_db": 10, "bandwidth_mhz": 100, "quality_factor": 10}',
-)
-print(result["verdict"])                     # "validated" or "rejected_infeasible"
-print(result["artifacts"]["review_report"])  # Markdown review report
-```
+Text-to-Layout is not "AI draws layout." The AI may research the target and propose a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, and export.
 
 ```text
-prompt -> feasibility gate -> gdsfactory PCell -> open EM solve
-       -> solver agreement -> AI review committee -> auto-repair
-       -> research-readiness verdict -> validated GDS + review report
+Research
+  -> first-principles model
+  -> initial parameter calculation
+  -> Layout DSL (Pydantic v2)
+  -> deterministic geometry
+  -> gdsfactory Component
+  -> verification gate
+  -> SVG / PNG / GDS / JSON
+  -> simulation workflow
+  -> evidence-backed report
 ```
 
-An infeasible request (e.g. *20 dB gain with 2 GHz bandwidth from a single JPA*)
-is **rejected at the feasibility stage before any layout is generated**.
+If required verification fails, final geometry artifacts are not exported.
 
-## 🧰 Skills
+> **Warning:** Generated layouts are design candidates, not fabrication-ready masks. Final fabrication requires process-specific DRC, EM simulation, expert review, and foundry or lab rule validation.
 
-Install the library to give agents focused, local workflows for superconducting
-layout generation, DRC, simulation, and signoff.
+## Layout Benchmarks
 
-| Skill | Summary | Source |
-| --- | --- | --- |
-| **Text-to-GDS** | Generates and validates local GDS layouts with trusted gdsfactory PCells, semantic sidecars, KLayout DRC, and JJ simulation outputs. | [skills/text-to-gds](skills/text-to-gds/SKILL.md) |
-| **Simulation** | Runs and interprets ideal JJ, JosephsonCircuits.jl, JoSIM, and ngspice simulation handoffs. | [skills/text-to-gds-simulation](skills/text-to-gds-simulation/SKILL.md) |
-| **Circuit Design** | Plans LJPA / JJ / CPW circuit targets before layout. | [skills/text-to-gds-circuit-design](skills/text-to-gds-circuit-design/SKILL.md) |
-| **Layout Design** | Compiles, routes, DRC-checks, extracts, and reviews GDS layouts. | [skills/text-to-gds-layout-design](skills/text-to-gds-layout-design/SKILL.md) |
-| **Signoff** | Audits generated artifacts, DRC status, simulation, plots, and release validation. | [skills/text-to-gds-signoff](skills/text-to-gds-signoff/SKILL.md) |
+The benchmark table follows Text-to-CAD's prompt-to-output presentation, but adds verification and evidence. Only rows with real generated artifacts show an image or claim PASS.
 
-## 💻 Installation
+| # | Target | Prompt | Output | Verification | Evidence |
+| - | - | - | - | - | - |
+| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC layout](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | PASS: parameters, width, gap, layer, bbox, ports, gdsfactory lowering, files | Bahl/Alley analytical estimate; Q3D/HFSS or Sonnet required |
+| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | **TODO** | TODO: explicit RF and ground-reference ports | Simons conformal mapping; EM correlation pending |
+| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | **TODO** | No generator registered | Mohan/Wheeler model planned |
+| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | **TODO** | No benchmark-ready topology | `L = vp/(4f)` is only an initial model; EM pending |
+| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | **TODO** | Foundry-specific JJ stack required | Flux quantization model; overlap and process evidence pending |
 
-**Skills CLI** (preferred):
+Every ready benchmark contains:
+
+```text
+prompt.md             original request
+layout.json           Layout DSL and provenance
+output.svg/.png       human previews
+output.gds            primary layout artifact
+output.json           geometry IR and metadata
+verification.json     measured checks and limits
+evidence.md           equations, assumptions, references, limitations
+report.md             target comparison and simulation status
+```
+
+The IDC report labels capacitance as analytical. It does not claim a simulated or fabricated value.
+
+## What Text-to-CAD taught this project
+
+[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad) makes its value obvious through a visual README, one prompt per benchmark, linked benchmark test cases, one-line skill installation, local preview tooling, and self-contained skill runtimes.
+
+Text-to-Layout adopts the same reader-facing clarity and reproducibility. It does not copy mechanical B-rep logic: IC layout needs named process layers, minimum features, electrical ports, substrate assumptions, parasitic analysis, EM extraction, and evidence status that distinguishes analytical, planned, and executed work. See the [full study](docs/lessons_from_text_to_cad.md).
+
+## Supported generation
+
+| Component | Status | Notes |
+| - | - | - |
+| IDC | Benchmark-ready | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
+| CPW | Geometry implementation | Research model exists; benchmark signoff is withheld until explicit signal/ground port semantics are added |
+| Spiral, resonator, SQUID | Research/TODO | No final output is claimed |
+
+## Install
+
+Python 3.11+ is required.
+
+```bash
+git clone https://github.com/JungluChen/Text-to-Layout.git
+cd Text-to-Layout
+py -3 -m pip install -e .
+```
+
+With `uv`:
+
+```bash
+py -3 -m uv sync
+```
+
+Install the repository's agent skills:
 
 ```bash
 npx skills install JungluChen/Text-to-Layout
 ```
 
-**Plugins** for Codex and Claude Code:
+## Generate the IDC example
 
 ```bash
-# Claude Code
-claude plugin marketplace add JungluChen/Text-to-Layout
-claude plugin install text-to-gds@text-to-gds
-
-# Codex
-codex plugin marketplace add JungluChen/Text-to-Layout
-codex plugin add text-to-gds@text-to-gds
+textlayout generate examples/benchmarks/01_idc_0p6pf/layout.json --out out/idc
 ```
 
-**Local development** (Python 3.11+; on Windows the launcher is usually `py -3`):
+The command writes the requested geometry plus `*.layout.json`, `*.verification.json`, `*.evidence.md`, and `*.report.md` sidecars. A failed pre-export check returns exit code 2 and writes no final geometry artifact.
 
-```powershell
-git clone https://github.com/JungluChen/Text-to-Layout.git
-cd Text-to-Layout
-py -3 -m uv sync                     # core
-py -3 -m uv sync --extra research    # Optuna, scikit-rf, QCoDeS, scqubits, pyEPR, PyAEDT, gmsh
+## Regenerate benchmarks
 
-py -3 -m uv run pytest               # checks
-py -3 -m uv run ruff check .
+```bash
+py -3 -m uv run python scripts/generate_benchmarks.py
 ```
 
-Optional local solver toolchains (Julia/JosephsonCircuits.jl, JoSIM, ngspice,
-Magic, openEMS, Palace/Elmer) install under a git-ignored `.tools/` and are
-discovered automatically — see [docs/simulation_tools.md](docs/simulation_tools.md).
-Contributions are welcome on the `main` branch; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Use `--strict` in CI when every benchmark must be complete. Without it, explicit TODO rows are skipped and cannot acquire fake output files.
 
-## 📸 Screenshots
+## Run verification
 
-<table>
-  <tr>
-    <td align="center"><b>Layout (Manhattan JJ)</b><br><img src="assets/manhattan_jj_layout.png" alt="Manhattan JJ layout" width="240"></td>
-    <td align="center"><b>3D process stack</b><br><img src="assets/hfss_stack_3d.png" alt="3D process stack" width="240"></td>
-    <td align="center"><b>openEMS FDTD extraction</b><br><img src="assets/openems_extraction_example.png" alt="openEMS extraction" width="240"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Scientific report</b><br><img src="assets/scientific_report_example.png" alt="Scientific report" width="240"></td>
-    <td align="center"><b>JPA pump sweep</b><br><img src="assets/jpa_analysis_example.png" alt="JPA analysis" width="240"></td>
-    <td align="center"><b>Qubit spectrum (scqubits)</b><br><img src="assets/scqubits_spectrum_example.png" alt="scqubits spectrum" width="240"></td>
-  </tr>
-</table>
+```bash
+textlayout verify examples/benchmarks/01_idc_0p6pf/layout.json
+```
 
-## 🧪 Benchmarks
+Checks cover typed required parameters, positive dimensions, minimum width and gap, layer mapping, bounding box, ports, geometry spacing, research/equation/reference presence, simulation-plan presence, gdsfactory component sanity, and final file existence.
 
-Benchmarks are lightweight text prompts plus expected artifact families (GDS,
-sidecar, DRC, and simulation outputs). The previews are screenshots rendered
-from the compiled GDS polygons — regenerate them with the named registered PCell.
+## Run the API/plugin server
 
-| # | Target | Prompt | Preview |
-| --- | --- | --- | --- |
-| 1 | [Manhattan Josephson Junction](benchmarks/01-manhattan-josephson-junction.md) | Create a Manhattan JJ, run DRC, and estimate `Ic` and `Lj` for `Jc = 2.0 uA/um²`. | <img src="assets/benchmark_01_manhattan_jj_layout.png" alt="Manhattan JJ" width="200"> |
-| 2 | [Compact CMOS Logic Cell](benchmarks/02-compact-cmos-logic-cell.md) | Fit active logic inside `5 µm × 5 µm`, M1/M2/M3 routing, sub-50 ps delay, <100 nW leakage. | <img src="assets/benchmark_02_compact_cmos_logic_layout.png" alt="CMOS logic" width="200"> |
-| 3 | [SFQ Pulse Splitter](benchmarks/03-sfq-pulse-splitter.md) | Route a superconducting splitter with branch `Ic`, output skew, and min-width targets. | <img src="assets/benchmark_03_sfq_pulse_splitter_layout.png" alt="SFQ splitter" width="200"> |
-| 4 | [JJ Ic Calibration Array](benchmarks/04-jj-ic-calibration-array.md) | Sweep JJ areas and report expected critical current from sidecar metadata. | <img src="assets/benchmark_04_jj_ic_calibration_array_layout.png" alt="Calibration array" width="200"> |
-| 5 | [CPW Resonator Test](benchmarks/05-cpw-resonator-test.md) | Layout a CPW resonator with frequency, coupling-Q, and gap targets. | <img src="assets/benchmark_05_cpw_resonator_test_layout.png" alt="CPW resonator" width="200"> |
-| 6 | [Via-Chain Process Monitor](benchmarks/06-via-chain-monitor.md) | Build a 100-stage via-chain monitor with landing-pad, resistance, and topology targets. | <img src="assets/benchmark_06_via_chain_monitor_layout.png" alt="Via chain" width="200"> |
+```bash
+textlayout serve --host 127.0.0.1 --port 8000
+# or
+py -3 -m uv run uvicorn textlayout.backend.app:create_app --factory
+```
 
-Functional benchmarks that assert **physical quantities** (not "a file exists")
-run via `run_open_benchmarks`: CPW Z0 = 50 Ω / f0 = 6 GHz, IDC C = 0.6 pF (±1%),
-and JPA gain — solver-backed rows skip cleanly when a binary is absent.
+Interactive OpenAPI docs: <http://127.0.0.1:8000/docs>
 
-## ⚙️ How it works
+| Method | Endpoint | Purpose |
+| - | - | - |
+| GET | `/health` | Discover generators, technologies, and formats |
+| POST | `/layout/research` | Produce equations, assumptions, references, estimates, and simulation plan |
+| POST | `/layout/generate` | Research, build, verify, and export requested artifacts |
+| POST | `/layout/verify` | Run geometry/process checks without export |
+| POST | `/layout/export?format=gds` | Export one verified artifact |
+| POST | `/layout/benchmark` | Generate a complete benchmark packet |
+| POST | `/layout/report` | Return evidence, verification, files, and simulation steps |
 
-**Open-source-first solvers.** Every analysis type has a first-class open
-backend; commercial solvers are validation-only and never ranked primary.
+```bash
+curl -s -X POST http://127.0.0.1:8000/layout/generate \
+  -H "Content-Type: application/json" \
+  --data-binary @examples/benchmarks/01_idc_0p6pf/layout.json
+```
 
-| Analysis | Open backend (default) | Commercial analog (validation only) |
-| --- | --- | --- |
-| RF S-parameters / Z0 | **openEMS** (FDTD) | HFSS driven-modal |
-| Eigenmode f0 / Q | **Palace** (3D FEM) | HFSS eigenmode |
-| Capacitance / inductance | **Elmer / FastCap / FastHenry** | Q3D Extractor |
-| Field / photonics | **MEEP** (FDTD) | — |
-| Nonlinear JPA/JTWPA | **JosephsonCircuits.jl** | — |
+See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [plugin manifest](plugin_manifest.example.json).
 
-The **Solver Agreement Engine** cross-checks a quantity across ≥2 sources plus
-theory and returns a confidence score — a single solver is never trusted.
+## Layout DSL
 
-**Rule-based AI review committee.** Four deterministic reviewers (no LLM, no
-network) gate every layout: **Physics** (topology, CPW ground-gap, impedance,
-junction presence in the extracted GDS), **Microwave** (passivity, reciprocity),
-**Fabrication** (DRC → tapeout readiness), and **Measurement** (probe/pump/flux
-ports). The committee score is the minimum across reviewers, so any error stays
-below the 90 acceptance threshold; an **auto-repair loop** iterates
-generate → review → fix until it accepts or the budget is spent.
+```json
+{
+  "component": "IDC",
+  "technology": "generic_2metal",
+  "target": {"capacitance_pf": 0.6, "frequency_ghz": 6.0},
+  "parameters": {
+    "finger_pairs": 22,
+    "finger_width_um": 4,
+    "gap_um": 2,
+    "overlap_um": 250,
+    "bus_width_um": 25,
+    "metal_layer": "M1"
+  },
+  "rules": {"min_width_um": 2, "min_gap_um": 2},
+  "outputs": {"gds": true, "svg": true, "png": true, "json": true, "report": true}
+}
+```
 
-See [docs/open_platform_roadmap.md](docs/open_platform_roadmap.md) for the full
-architecture and per-component status.
+## Skills
 
-## 🧠 MCP tools
+| Skill | Enforces |
+| - | - |
+| [`layout-research`](skills/layout-research/SKILL.md) | Research and first-principles reasoning before geometry |
+| [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md) | DSL-first deterministic gdsfactory generation |
+| [`layout-verification`](skills/layout-verification/SKILL.md) | Pre-export and post-export gates |
+| [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance |
 
-Start the local server (`py -3 -m uv run text-to-gds`). 80+ tools grouped by stage:
+## Simulation workflow
 
-| Group | Representative tools |
-| --- | --- |
-| **Orchestration** | `run_ai_scientist`, `run_design_workflow` |
-| **Feasibility & templates** | `check_design_feasibility`, `list_physics_templates`, `validate_device_template` |
-| **Open solvers** | `route_open_solver`, `cross_validate_solvers`, `export_open_eigenmode`, `extract_open_q3d`, `tune_idc_capacitance` |
-| **Review** | `review_layout`, `understand_layout`, `run_open_benchmarks` |
-| **Layout & DRC** | `compile_layout`, `run_drc`, `extract_layout`, `run_lvs`, `generate_wafer_level_mask` |
-| **Simulation & EM** | `run_simulation`, `export_openems_project`, `export_palace_project`, `export_jpa_analysis` |
+No commercial solver is automatically executed. The guides document the handoff:
 
-List every public function with its signature: `py -3 -m uv run python examples\run_function_demo.py list`.
+`GDS -> stack/materials/ports/boundaries -> EM extraction -> target comparison -> DSL update -> regenerate -> verify`
 
-## 🔬 Validity boundaries
+- [HFSS](simulation/hfss_workflow.md)
+- [Q3D](simulation/q3d_workflow.md)
+- [ADS](simulation/ads_workflow.md)
+- [Sonnet](simulation/sonnet_workflow.md)
 
-Adapters run the **real** upstream tool when installed and report `skipped`
-otherwise — never a fabricated result. Open EM/circuit models are layout-derived
-starters; the review committee encodes deterministic rules, not learned judgment;
-and bundled PDK / process / cryostat values are demonstration data. Publication
-or tapeout still needs calibrated process data, extracted parasitics, mesh
-validation, and measured device data.
+## Tests
 
-## 🛠️ Contributing
+```bash
+py -3 -m uv run pytest tests/textlayout_suite
+py -3 -m uv run ruff check src/textlayout scripts/generate_benchmarks.py
+```
 
-Issues, PRs, PCell contributions, process-deck adapters, and solver adapters are
-welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md). The
-`plugins/text-to-gds/` copy is generated by `scripts/bundle_plugin.py` and
-verified in CI — edit the source tree, not the bundle.
+## Limitations and next work
+
+- The generic technology is not a foundry PDK.
+- IDC capacitance is an analytical starting estimate, not solver or measurement evidence.
+- Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
+- The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT; see [LICENSE](LICENSE).

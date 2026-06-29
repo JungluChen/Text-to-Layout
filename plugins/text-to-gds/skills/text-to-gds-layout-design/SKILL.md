@@ -1,31 +1,67 @@
 ---
 name: text-to-gds-layout-design
-description: "Generate and iterate Text-to-GDS layout artifacts with gdsfactory PCells, GDS screenshots, semantic sidecars, DRC, extraction, Magic VLSI handoff, CAD-style SVG/DXF/STL/GLB exports, 3D stack previews, and workbench review. Use when the user asks to create, route, inspect, beautify, export, or validate superconducting or IC GDS layouts."
+description: Generate and inspect Text-to-GDS layout artifacts with professional-backend preference, GDS, sidecar, screenshots, DRC, extraction, physics graph generation, and solver input handoff.
 ---
 
 # Text-to-GDS Layout Design
 
-Use this skill when the deliverable is GDS layout or visual layout review.
+## When To Use This Skill
 
-## Workflow
+Use this skill when the user asks to create, edit, inspect, or validate a GDS
+layout for superconducting or quantum circuit work.
 
-1. Choose a registered PCell from `list_pcells`; add new PCells only when the
-   existing library cannot express the circuit.
-2. Compile through `compile_layout` so `.gds`, `.layout.png`, and
-   `.sidecar.json` are generated together.
-3. Run `run_drc`, then `run_process_drc` when process rules should be attempted.
-4. Run `extract_layout`, `run_magic_extract`, `export_cad_artifacts`,
-   `export_3d_preview`, and optionally `run_simulation`.
-5. Return generated paths, DRC status, Magic status, key sidecar ports, 3D
-   preview path, CAD export paths, `physical_performance`, and limits of any
-   fallback checks.
+## Inputs
 
-## Guardrails
+- `design_intent.json` or explicit PCell name and parameters.
+- Process stack or PDK name.
+- Target output name.
+- Optional backend preference: KQCircuits, gdsfactory, Qiskit Metal, or local.
 
-- Keep artifacts under `workspace/artifacts/` unless the user gives a path.
-- Keep layer tuples and process metadata explicit.
-- For monitor structures such as `via_chain_monitor`, report real stage count,
-  input/output ports, checked shape count, resistance estimate, and topology
-  status instead of using illustrative screenshots.
-- Do not claim foundry signoff without a real process deck, Magic tech file when
-  extraction matters, and successful run.
+## Outputs
+
+- `.gds`
+- `.layout.png`
+- `.sidecar.json`
+- `.drc.json`
+- `.extraction.json`
+- `physics_graph.json`
+- Solver input directory when requested.
+
+## Required Files
+
+- `src/text_to_gds/server.py`
+- `src/text_to_gds/pcells/`
+- `src/text_to_gds/layout/backends.py`
+- `PHYSICS_GRAPH_SCHEMA.md`
+
+## Hard Stops
+
+- GDS alone is not enough; sidecar and extraction are required for physics.
+- CPW layouts must have signal, gap, and ground evidence.
+- JPA layouts must include a nonlinear JJ/SQUID model before JPA review can
+  pass.
+- Do not overwrite `*_layout.png` with benchmark/status panels.
+
+## Solver Requirements
+
+Layout generation does not prove simulation. Generate solver inputs from
+`physics_graph.json`, then use the simulation skill to execute real solvers.
+
+## Example Prompts
+
+- "Create a CPW resonator layout and run DRC plus extraction."
+- "Regenerate benchmark 05 as separate layout and benchmark panel assets."
+- "Extract a physics graph from this sidecar."
+
+## Example Commands
+
+```bash
+uv run python examples/zero_to_one_demos.py 20
+uv run python scripts/generate_assets.py layouts
+```
+
+## Failure Cases
+
+- Unknown PCell: list supported PCells and stop.
+- DRC failed: return violations and do not claim valid layout.
+- Missing sidecar: cannot pass extraction or signoff.

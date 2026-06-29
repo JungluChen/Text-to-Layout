@@ -1,0 +1,1 @@
+{"component":"SpiralInductor","technology":"generic_2metal","target":{"inductance_nh":2.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a typed Mohan/Wheeler-seeded spiral generator and port model."}}

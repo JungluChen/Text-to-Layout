@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "component": "IDC",
+  "summary": {
+    "component": "IDC",
+    "technology": "generic_2metal",
+    "layers": [
+      "M1"
+    ],
+    "polygon_count": 26,
+    "port_count": 2,
+    "bbox_um": {
+      "width": 142.0,
+      "height": 254.0
+    },
+    "verification_status": "pass"
+  },
+  "verification": {
+    "status": "pass",
+    "component": "IDC",
+    "checks": [
+      {
+        "name": "component_generated",
+        "status": "pass"
+      },
+      {
+        "name": "positive_dimensions",
+        "status": "pass"
+      },
+      {
+        "name": "minimum_width",
+        "status": "pass",
+        "value_um": 4.0,
+        "limit_um": 2.0
+      },
+      {
+        "name": "minimum_gap",
+        "status": "pass",
+        "value_um": 2.0,
+        "limit_um": 2.0
+      },
+      {
+        "name": "finger_count_sanity",
+        "status": "pass",
+        "value_count": 12.0
+      },
+      {
+        "name": "layer_exists",
+        "status": "pass"
+      },
+      {
+        "name": "bounding_box",
+        "status": "pass",
+        "value_um2": 36068.0
+      },
+      {
+        "name": "ports_exist",
+        "status": "pass",
+        "value_count": 2.0,
+        "limit_count": 2.0
+      },
+      {
+        "name": "geometry_min_spacing",
+        "status": "pass"
+      }
+    ],
+    "warnings": [],
+    "errors": []
+  },
+  "artifacts": {
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"479.31\" height=\"800.0\" viewBox=\"-  ...  (truncated; full artifact returned by the live API)",
+    "json": "{  ...  (truncated; full artifact returned by the live API)"
+  },
+  "files": {
+    "gds": "workspace/textlayout/<run-id>/idc.gds",
+    "svg": "workspace/textlayout/<run-id>/idc.svg",
+    "json": "workspace/textlayout/<run-id>/idc.json"
+  }
+}

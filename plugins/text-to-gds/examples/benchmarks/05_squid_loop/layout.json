@@ -1,0 +1,1 @@
+{"component":"SQUID","technology":"generic_2metal","target":{"loop_area_um2":400.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a foundry-specific two-junction stack and polygon-derived overlap verification."}}

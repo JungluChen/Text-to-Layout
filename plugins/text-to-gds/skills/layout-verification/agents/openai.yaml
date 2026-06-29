@@ -1,0 +1,4 @@
+interface:
+  display_name: "Layout Verification"
+  short_description: "Verify IC geometry, rules, ports, and artifacts"
+  default_prompt: "Use $layout-verification to verify this layout and block failed exports."

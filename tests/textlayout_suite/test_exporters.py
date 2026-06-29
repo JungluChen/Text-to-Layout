@@ -39,4 +39,4 @@ def test_svg_exporter_is_well_formed() -> None:
 
 def test_default_exporters_keys() -> None:
     exporters = default_exporters()
-    assert set(exporters) == {"gds", "json", "svg"}
+    assert set(exporters) == {"gds", "json", "png", "svg"}

@@ -54,3 +54,12 @@ def test_rules_override_min_gap() -> None:
     gap_check = next(c for c in report.checks if c.name == "minimum_gap")
     assert gap_check.limit == 3.0
     assert gap_check.status.value == "fail"
+
+
+def test_rules_override_min_width() -> None:
+    report = default_verifier().verify(
+        _ctx(spec_overrides={"rules": {"min_width_um": 5.0}})
+    )
+    width_check = next(c for c in report.checks if c.name == "minimum_width")
+    assert width_check.limit == 5.0
+    assert width_check.status.value == "fail"

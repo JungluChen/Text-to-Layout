@@ -214,9 +214,15 @@ def _squeezing_db_from_gain(peak_gain_db: float) -> float | None:
 def _post_process(result: dict[str, Any], *, signal_bandwidth_hz: float | None) -> dict[str, Any]:
     center_ghz = float(result["center_frequency_ghz"])
     quantum_noise_k = PLANCK_J_S * center_ghz * 1e9 / (2.0 * BOLTZMANN_J_K)
-    efficiency = max(float(result.get("best_efficiency") or 1.0), 1e-6)
-    noise_temperature_k = quantum_noise_k / efficiency
-    added_noise_photons = 1.0 / (2.0 * efficiency)
+    # Quantum efficiency is ONLY trustworthy when JosephsonCircuits.jl returned a
+    # real QE/QEideal ratio. No flat 1.0 fallback: if absent, efficiency-derived
+    # quantities (noise temperature, added noise) are SKIPPED, not fabricated.
+    raw_eff = result.get("best_efficiency")
+    eff_real = isinstance(raw_eff, (int, float)) and math.isfinite(raw_eff) and 0.0 < raw_eff <= 1.0
+    efficiency = float(raw_eff) if eff_real else None
+    noise_temperature_k = quantum_noise_k / efficiency if efficiency is not None else None
+    added_noise_photons = 1.0 / (2.0 * efficiency) if efficiency is not None else None
+    efficiency_status = "EXECUTED" if efficiency is not None else "SKIPPED"
 
     peak_gain_db = float(result.get("best_peak_gain_db") or 0.0)
     squeezing_db = _squeezing_db_from_gain(peak_gain_db)
@@ -255,7 +261,9 @@ def _post_process(result: dict[str, Any], *, signal_bandwidth_hz: float | None) 
     return {
         "quantum_limited_noise_temperature_k": quantum_noise_k,
         "noise_temperature_k": noise_temperature_k,
+        "noise_temperature_status": efficiency_status,
         "quantum_efficiency": efficiency,
+        "quantum_efficiency_status": efficiency_status,
         "added_noise_photons": added_noise_photons,
         "peak_gain_db": peak_gain_db,
         "squeezing_db": squeezing_db,
@@ -278,6 +286,7 @@ def _write_jpa_figure(result: dict[str, Any], metrics: dict[str, Any], plot_path
 
     plot_path.parent.mkdir(parents=True, exist_ok=True)
     plt.style.use("seaborn-v0_8-whitegrid")
+    center_ghz = float(result.get("center_frequency_ghz", 0.0))
     fig, axes = plt.subplots(2, 2, figsize=(10.4, 7.2), constrained_layout=True)
 
     fractions = result.get("pump_fractions") or []
@@ -300,19 +309,32 @@ def _write_jpa_figure(result: dict[str, Any], metrics: dict[str, Any], plot_path
     axes[0, 1].set_title("Gain at operating pump (S11)")
 
     eff = result.get("efficiency") or []
-    if fractions and len(eff) == len(fractions):
+    eff_real = (
+        metrics.get("quantum_efficiency") is not None
+        and fractions
+        and len(eff) == len(fractions)
+    )
+    if eff_real:
         axes[1, 0].plot(fractions, eff, marker="o", linewidth=1.8, color="#ff9f0a")
+        axes[1, 0].set_ylim(0.0, 1.05)
+    else:
+        axes[1, 0].text(0.5, 0.5, "QUANTUM EFFICIENCY\nSKIPPED\n(no QE/QEideal from solver)",
+                        ha="center", va="center", fontsize=11, color="#9d4d00",
+                        transform=axes[1, 0].transAxes)
     axes[1, 0].set_xlabel("pump current / Ic")
     axes[1, 0].set_ylabel("quantum efficiency")
-    axes[1, 0].set_ylim(0.0, 1.05)
     axes[1, 0].set_title("Quantum efficiency vs pump")
 
+    def _mk(value, fmt, scale=1.0, suffix=""):
+        return (fmt.format(value * scale) + suffix) if value is not None else "SKIPPED"
+
     summary = [
-        f"peak gain: {metrics.get('peak_gain_db', 0):.1f} dB",
-        f"noise T: {metrics.get('noise_temperature_k', 0) * 1000:.0f} mK",
-        f"added noise: {metrics.get('added_noise_photons', 0):.2f} photons",
-        f"squeezing: {metrics.get('squeezing_db') or float('nan'):.2f} dB",
-        f"stability margin: {(metrics.get('stability_margin') or 0) * 100:.0f}%",
+        f"center freq: {center_ghz:.3f} GHz",
+        f"peak gain: {_mk(metrics.get('peak_gain_db'), '{:.1f}')} dB",
+        f"noise T: {_mk(metrics.get('noise_temperature_k'), '{:.0f}', 1000.0)} mK",
+        f"added noise: {_mk(metrics.get('added_noise_photons'), '{:.2f}')} photons",
+        f"squeezing: {_mk(metrics.get('squeezing_db'), '{:.2f}')} dB",
+        f"stability margin: {_mk(metrics.get('stability_margin'), '{:.0f}', 100.0)} %",
     ]
     axes[1, 1].axis("off")
     axes[1, 1].text(
@@ -326,7 +348,10 @@ def _write_jpa_figure(result: dict[str, Any], metrics: dict[str, Any], plot_path
     )
     axes[1, 1].set_title("Noise / squeezing / stability")
 
-    fig.suptitle("Text-to-GDS JPA Analysis (JosephsonCircuits.jl)", fontsize=14)
+    fig.suptitle(
+        f"Text-to-GDS JPA Analysis @ {center_ghz:.3f} GHz (JosephsonCircuits.jl)",
+        fontsize=14,
+    )
     fig.savefig(plot_path, dpi=220)
     plt.close(fig)
 

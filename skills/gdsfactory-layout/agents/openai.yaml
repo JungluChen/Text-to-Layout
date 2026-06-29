@@ -1,0 +1,4 @@
+interface:
+  display_name: "gdsfactory Layout"
+  short_description: "Generate verified GDS from a Layout DSL"
+  default_prompt: "Use $gdsfactory-layout to generate this Layout DSL and verify every artifact."

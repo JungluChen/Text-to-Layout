@@ -82,7 +82,7 @@ for quick review.
 ```json
 {
   "schema": "text-to-gds.simulation.v0",
-  "engine": "mock_jj",
+  "engine": "analytical_jj",
   "junction_area_um2": 0.0484,
   "jc_ua_per_um2": 2.0,
   "critical_current_ua": 0.0968,

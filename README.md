@@ -2,130 +2,149 @@
 
 # Text-to-Layout
 
-**Natural-language IC layout — the Text-to-CAD for chips.**
+**AI-assisted, evidence-backed, verified IC layout generation.**
 
-Turn a plain-language request into a **verified GDSII layout** through a safe,
-deterministic pipeline. The AI proposes a structured *Layout DSL*; a gdsfactory
-engine draws the geometry; design-rule verification gates it before export.
+Natural-language intent becomes a researched Layout DSL, deterministic gdsfactory geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
 
-[Plugin design](docs/plugin_design.md) · [API reference](docs/tool_api.md) ·
-[Lessons from Text-to-CAD](docs/lessons_from_text_to_cad.md) ·
-[Simulation workflow](simulation/README.md)
+[Plugin design](docs/plugin_design.md) | [Tool API](docs/tool_api.md) | [Text-to-CAD study](docs/lessons_from_text_to_cad.md) | [Simulation workflows](simulation/README.md)
 
 </div>
 
----
+## What it does
 
-## Why this exists
+Text-to-Layout is not "AI draws layout." The AI may research the target and propose a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, and export.
 
-[Text-to-CAD](https://github.com/earthtojake/text-to-cad) turns language into
-**mechanical** CAD (STEP solids). **Text-to-Layout** turns language into **IC
-layout** (GDSII on process layers).
-
-But IC layout is more dangerous than mechanical CAD: a geometry that violates a
-design rule is a scrapped mask set. So we follow one principle:
-
-> **Never trust raw AI-generated geometry.**
-> `AI → structured Layout DSL → deterministic gdsfactory generator → verification → export`
-
-The AI never writes GDS. Its only job is to emit a typed `LayoutSpec`; everything
-downstream is deterministic, unit-tested, and design-rule-checked.
-
-### Comparison to Text-to-CAD
-
-| | Text-to-CAD | **Text-to-Layout** |
-|---|---|---|
-| Domain | Mechanical CAD (3-D solids) | IC layout (2.5-D planar layers) |
-| Primary artifact | STEP | **GDSII** |
-| Geometry kernel | build123d / OpenCascade | **gdsfactory** |
-| Preview | Three.js mesh viewer | 2-D SVG |
-| Safety gate | inspect + mandatory snapshot | **design-rule verification** (min width/gap, layer legality) |
-| AI writes | build123d Python source | **only the Layout DSL** (never geometry code) |
-| Interface | Claude/Codex *skill* | **FastAPI** server + CLI + skill/MCP |
-
-See [`docs/lessons_from_text_to_cad.md`](docs/lessons_from_text_to_cad.md) for the
-full study.
-
-## System architecture
-
-```
-User Prompt
-    ↓
-AI Tool Call (Planner / Layout agent)        ← the only AI step
-    ↓
-FastAPI Plugin Server  (POST /layout/*)
-    ↓
-Layout DSL Validation  (pydantic v2, extra="forbid")
-    ↓
-gdsfactory Generator   (deterministic geometry engine)
-    ↓
-Verification           (design-rule + geometry checks)
-    ↓
-GDS / SVG / JSON
-    ↓
-Simulation Workflow    (HFSS / Q3D / ADS — documented)
-    ↓
-Report
+```text
+Research
+  -> first-principles model
+  -> initial parameter calculation
+  -> Layout DSL (Pydantic v2)
+  -> deterministic geometry
+  -> gdsfactory Component
+  -> verification gate
+  -> SVG / PNG / GDS / JSON
+  -> simulation workflow
+  -> evidence-backed report
 ```
 
-Clean-architecture package `src/textlayout/`; dependencies point inward only.
-Details in [`docs/plugin_design.md`](docs/plugin_design.md).
+If required verification fails, final geometry artifacts are not exported.
 
-## Supported components
+> **Warning:** Generated layouts are design candidates, not fabrication-ready masks. Final fabrication requires process-specific DRC, EM simulation, expert review, and foundry or lab rule validation.
 
-| Component | Status | Schema |
-|---|---|---|
-| **IDC** — interdigital capacitor | ✅ implemented (gdsfactory + ports + GDS) | `IDCSpec` |
-| **CPW** — coplanar waveguide | ✅ implemented | `CPWSpec` |
-| Spiral inductor, resonator, SQUID, JJ, transmission line, ground plane, test structures | 🔜 roadmap (each is an additive plugin) | — |
+## Layout Benchmarks
 
-New devices register via the `textlayout.generators` entry-point group — no core
-code is touched (Open/Closed).
+The benchmark table follows Text-to-CAD's prompt-to-output presentation, but adds verification and evidence. Only rows with real generated artifacts show an image or claim PASS.
 
-## Installation
+| # | Target | Prompt | Output | Verification | Evidence |
+| - | - | - | - | - | - |
+| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC layout](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | PASS: parameters, width, gap, layer, bbox, ports, gdsfactory lowering, files | Bahl/Alley analytical estimate; Q3D/HFSS or Sonnet required |
+| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | **TODO** | TODO: explicit RF and ground-reference ports | Simons conformal mapping; EM correlation pending |
+| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | **TODO** | No generator registered | Mohan/Wheeler model planned |
+| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | **TODO** | No benchmark-ready topology | `L = vp/(4f)` is only an initial model; EM pending |
+| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | **TODO** | Foundry-specific JJ stack required | Flux quantization model; overlap and process evidence pending |
 
-Python 3.11+ (3.12 recommended). Using [uv](https://docs.astral.sh/uv/):
+Every ready benchmark contains:
+
+```text
+prompt.md             original request
+layout.json           Layout DSL and provenance
+output.svg/.png       human previews
+output.gds            primary layout artifact
+output.json           geometry IR and metadata
+verification.json     measured checks and limits
+evidence.md           equations, assumptions, references, limitations
+report.md             target comparison and simulation status
+```
+
+The IDC report labels capacitance as analytical. It does not claim a simulated or fabricated value.
+
+## What Text-to-CAD taught this project
+
+[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad) makes its value obvious through a visual README, one prompt per benchmark, linked benchmark test cases, one-line skill installation, local preview tooling, and self-contained skill runtimes.
+
+Text-to-Layout adopts the same reader-facing clarity and reproducibility. It does not copy mechanical B-rep logic: IC layout needs named process layers, minimum features, electrical ports, substrate assumptions, parasitic analysis, EM extraction, and evidence status that distinguishes analytical, planned, and executed work. See the [full study](docs/lessons_from_text_to_cad.md).
+
+## Supported generation
+
+| Component | Status | Notes |
+| - | - | - |
+| IDC | Benchmark-ready | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
+| CPW | Geometry implementation | Research model exists; benchmark signoff is withheld until explicit signal/ground port semantics are added |
+| Spiral, resonator, SQUID | Research/TODO | No final output is claimed |
+
+## Install
+
+Python 3.11+ is required.
 
 ```bash
-uv sync                 # install the project + deps
-# or, with pip:
-pip install -e .
+git clone https://github.com/JungluChen/Text-to-Layout.git
+cd Text-to-Layout
+py -3 -m pip install -e .
 ```
 
-## Quick start
-
-### 1. Command line
+With `uv`:
 
 ```bash
-# Verify a Layout DSL file (design-rule checks only)
-textlayout verify examples/idc_0p6pf.json
-
-# Generate verified GDS/SVG/JSON into ./out
-textlayout generate examples/idc_0p6pf.json --out out
+py -3 -m uv sync
 ```
 
-### 2. Run the plugin API server
+Install the repository's agent skills:
 
 ```bash
-textlayout serve --port 8000
-# or:  python -m textlayout.backend
+npx skills install JungluChen/Text-to-Layout
 ```
 
-Interactive docs at <http://127.0.0.1:8000/docs>; OpenAPI at `/openapi.json`.
-
-### 3. Call the API
+## Generate the IDC example
 
 ```bash
-curl -s localhost:8000/health | jq
-
-curl -s -X POST localhost:8000/layout/generate \
-  -H 'Content-Type: application/json' \
-  -d @examples/idc_0p6pf.json | jq '.status, .summary, .files'
-
-curl -s -X POST localhost:8000/layout/verify \
-  -H 'Content-Type: application/json' \
-  -d @examples/idc_0p6pf.json | jq
+textlayout generate examples/benchmarks/01_idc_0p6pf/layout.json --out out/idc
 ```
+
+The command writes the requested geometry plus `*.layout.json`, `*.verification.json`, `*.evidence.md`, and `*.report.md` sidecars. A failed pre-export check returns exit code 2 and writes no final geometry artifact.
+
+## Regenerate benchmarks
+
+```bash
+py -3 -m uv run python scripts/generate_benchmarks.py
+```
+
+Use `--strict` in CI when every benchmark must be complete. Without it, explicit TODO rows are skipped and cannot acquire fake output files.
+
+## Run verification
+
+```bash
+textlayout verify examples/benchmarks/01_idc_0p6pf/layout.json
+```
+
+Checks cover typed required parameters, positive dimensions, minimum width and gap, layer mapping, bounding box, ports, geometry spacing, research/equation/reference presence, simulation-plan presence, gdsfactory component sanity, and final file existence.
+
+## Run the API/plugin server
+
+```bash
+textlayout serve --host 127.0.0.1 --port 8000
+# or
+py -3 -m uv run uvicorn textlayout.backend.app:create_app --factory
+```
+
+Interactive OpenAPI docs: <http://127.0.0.1:8000/docs>
+
+| Method | Endpoint | Purpose |
+| - | - | - |
+| GET | `/health` | Discover generators, technologies, and formats |
+| POST | `/layout/research` | Produce equations, assumptions, references, estimates, and simulation plan |
+| POST | `/layout/generate` | Research, build, verify, and export requested artifacts |
+| POST | `/layout/verify` | Run geometry/process checks without export |
+| POST | `/layout/export?format=gds` | Export one verified artifact |
+| POST | `/layout/benchmark` | Generate a complete benchmark packet |
+| POST | `/layout/report` | Return evidence, verification, files, and simulation steps |
+
+```bash
+curl -s -X POST http://127.0.0.1:8000/layout/generate \
+  -H "Content-Type: application/json" \
+  --data-binary @examples/benchmarks/01_idc_0p6pf/layout.json
+```
+
+See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [plugin manifest](plugin_manifest.example.json).
 
 ## Layout DSL
 
@@ -133,121 +152,54 @@ curl -s -X POST localhost:8000/layout/verify \
 {
   "component": "IDC",
   "technology": "generic_2metal",
+  "target": {"capacitance_pf": 0.6, "frequency_ghz": 6.0},
   "parameters": {
-    "finger_pairs": 24, "finger_width_um": 4, "gap_um": 2,
-    "overlap_um": 250, "bus_width_um": 25, "metal_layer": "M1"
+    "finger_pairs": 22,
+    "finger_width_um": 4,
+    "gap_um": 2,
+    "overlap_um": 250,
+    "bus_width_um": 25,
+    "metal_layer": "M1"
   },
-  "rules":   { "min_width_um": 2, "min_gap_um": 2 },
-  "outputs": { "gds": true, "svg": true, "json": true }
+  "rules": {"min_width_um": 2, "min_gap_um": 2},
+  "outputs": {"gds": true, "svg": true, "png": true, "json": true, "report": true}
 }
 ```
 
-Field constraints (`gt=0`, `extra="forbid"`) mean an LLM cannot push a
-non-physical value past the firewall — it is rejected with HTTP 400 before any
-geometry is built. Full schema: [`docs/tool_api.md`](docs/tool_api.md).
+## Skills
 
-## Verification example
-
-`POST /layout/verify` (or any generate call) returns a structured report:
-
-```json
-{
-  "status": "pass",
-  "component": "IDC",
-  "checks": [
-    { "name": "minimum_gap",   "status": "pass", "value_um": 2, "limit_um": 2 },
-    { "name": "minimum_width", "status": "pass", "value_um": 4, "limit_um": 2 },
-    { "name": "ports_exist",   "status": "pass", "value_count": 2, "limit_count": 2 }
-  ],
-  "warnings": [],
-  "errors": []
-}
-```
-
-Checks: component generated, positive dimensions, minimum width, minimum gap,
-finger-count sanity, layer exists, bounding box, ports exist, geometry spacing.
-Each check reports the measured value and the limit it was tested against; checks
-that do not apply are omitted (never faked).
-
-## Generated outputs
-
-| Format | What | How |
-|---|---|---|
-| `*.gds` | GDSII — the primary fabrication artifact (real gdsfactory Component with ports) | `outputs.gds` / `POST /layout/export?format=gds` |
-| `*.svg` | 2-D preview | `outputs.svg` / `POST /layout/preview` |
-| `*.json` | Lossless Geometry IR (layers, polygons, bbox, metadata) | `outputs.json` |
+| Skill | Enforces |
+| - | - |
+| [`layout-research`](skills/layout-research/SKILL.md) | Research and first-principles reasoning before geometry |
+| [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md) | DSL-first deterministic gdsfactory generation |
+| [`layout-verification`](skills/layout-verification/SKILL.md) | Pre-export and post-export gates |
+| [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance |
 
 ## Simulation workflow
 
-Documented hand-off into EM extraction (no solver is auto-driven yet, and no
-simulated value is reported unless a solver actually produced it):
+No commercial solver is automatically executed. The guides document the handoff:
 
-```
-Generated GDS → HFSS/Q3D/ADS → materials, ports, boundaries → EM extraction
-→ C, L, Q, S-params, resonance → compare with target → AI DSL-tuning loop → report
-```
+`GDS -> stack/materials/ports/boundaries -> EM extraction -> target comparison -> DSL update -> regenerate -> verify`
 
-Guides: [HFSS](simulation/hfss_workflow.md) ·
-[Q3D](simulation/q3d_workflow.md) · [ADS](simulation/ads_workflow.md) ·
-[overview](simulation/README.md).
+- [HFSS](simulation/hfss_workflow.md)
+- [Q3D](simulation/q3d_workflow.md)
+- [ADS](simulation/ads_workflow.md)
+- [Sonnet](simulation/sonnet_workflow.md)
 
-## Project layout
-
-```
-src/textlayout/
-  schemas/dsl/   Layout DSL (LayoutSpec, IDCSpec, CPWSpec)   ← the firewall
-  models/        pure geometry + technology entities
-  geometry/      deterministic engine (DSL → geometry)
-  generators/    IDC, CPW + entry-point plugin registry
-  exporters/     GDS (gdsfactory), SVG, JSON
-  verification/  design-rule + geometry checks
-  workflows/     build → verify → export orchestration
-  backend/       FastAPI plugin server
-  cli.py         command-line interface
-examples/        DSL + request/response examples
-docs/            plugin design, tool API, OpenAPI, manifest, lessons
-simulation/      HFSS / Q3D / ADS workflow docs
-tests/textlayout_suite/   unit, geometry, golden, verification, API tests
-```
-
-## Testing
+## Tests
 
 ```bash
-uv run pytest tests/textlayout_suite      # plugin tests
-uv run ruff check src/textlayout          # lint
-uv run --with mypy mypy src/textlayout    # strict type-check
+py -3 -m uv run pytest tests/textlayout_suite
+py -3 -m uv run ruff check src/textlayout scripts/generate_benchmarks.py
 ```
 
-## Roadmap
+## Limitations and next work
 
-- [x] Layout DSL + deterministic geometry engine + plugin registry
-- [x] IDC + CPW generators; GDS/SVG/JSON export; design-rule verification
-- [x] FastAPI plugin server + OpenAPI + CLI
-- [ ] Natural-language → DSL agent (Planner/Layout) behind an LLM port
-- [ ] More devices: spiral inductor, resonator, SQUID, JJ, test structures
-- [ ] Automated EM extraction + closed-loop DSL optimization
-- [ ] PDK support beyond the built-in generic stack
-
-## Relationship to the quantum-EDA platform
-
-This repository also contains a deep **superconducting-quantum EDA platform**
-(`src/text_to_gds/`, the MCP server, solver integrations) whose documentation is
-preserved at
-[`docs/legacy/QUANTUM_PLATFORM_README.md`](docs/legacy/QUANTUM_PLATFORM_README.md).
-The `textlayout` package is a clean, plugin-focused front end built alongside it
-(strangler-fig); the two share the same repo and the quantum physics/solver
-assets are being wrapped behind the new architecture over time.
-
-## Contributing
-
-1. Add a device: new `schemas/dsl/<device>.py` + `generators/<device>.py`
-   implementing `Generator`, register via the `textlayout.generators`
-   entry-point group. No core file changes.
-2. Keep it green: `ruff`, `mypy --strict` (on `src/textlayout`), and
-   `pytest` must pass; add a golden test for every new generator.
-3. Honesty contract: never report a value as simulated/measured unless a solver
-   produced it.
+- The generic technology is not a foundry PDK.
+- IDC capacitance is an analytical starting estimate, not solver or measurement evidence.
+- Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
+- The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT; see [LICENSE](LICENSE).

@@ -1,0 +1,1 @@
+{"status":"todo","component":"CPW","checks":[],"warnings":["Generator exists but benchmark signoff requires explicit signal and ground-reference ports."],"errors":[]}

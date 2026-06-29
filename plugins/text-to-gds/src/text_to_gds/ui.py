@@ -226,7 +226,7 @@ WORKBENCH_APP_HTML = """<!doctype html>
           <label>
             <span>Simulator</span>
             <select id="simulator" aria-label="Simulator">
-              <option value="mock_jj">Ideal JJ</option>
+              <option value="analytical_jj">Analytical JJ</option>
               <option value="JosephsonCircuits.jl">JosephsonCircuits.jl</option>
               <option value="josim">JoSIM transient</option>
               <option value="ngspice">ngspice</option>
@@ -538,26 +538,30 @@ def make_workbench_handler() -> type[BaseHTTPRequestHandler]:
                     if bool(payload.get("optimize"))
                     else server.run_design_workflow
                 )
+                def _opt_float(key: str) -> "float | None":
+                    val = payload.get(key)
+                    return float(val) if val is not None else None
                 result = workflow(
                     prompt=str(payload.get("prompt", "Design a 5 Ghz LJPA with wilde bandwidth")),
                     output_name=str(payload.get("output_name", "ljpa_seed.gds")),
                     parameters=payload.get("parameters") if isinstance(payload.get("parameters"), dict) else None,
                     jc_ua_per_um2=float(payload.get("jc_ua_per_um2", 2.0)),
-                    simulator=str(payload.get("simulator", "mock_jj")),
+                    simulator=str(payload.get("simulator", "analytical_jj")),
                     analysis_mode=str(payload.get("analysis_mode", "auto")),
                     pump_current_fraction=float(payload.get("pump_current_fraction", 0.017)),
-                    coupling_capacitance_ff=(
-                        float(payload["coupling_capacitance_ff"])
-                        if payload.get("coupling_capacitance_ff") is not None
-                        else None
-                    ),
-                    resonator_capacitance_ff=(
-                        float(payload["resonator_capacitance_ff"])
-                        if payload.get("resonator_capacitance_ff") is not None
-                        else None
-                    ),
+                    coupling_capacitance_ff=_opt_float("coupling_capacitance_ff"),
+                    resonator_capacitance_ff=_opt_float("resonator_capacitance_ff"),
                     flux_bias_phi0=float(payload.get("flux_bias_phi0", 0.0)),
                     squid_asymmetry=float(payload.get("squid_asymmetry", 0.0)),
+                    # Design-intent physics inputs
+                    epsilon_r=_opt_float("epsilon_r"),
+                    substrate_thickness_um=_opt_float("substrate_thickness_um"),
+                    ground_width_um=_opt_float("ground_width_um"),
+                    package_clearance_um=_opt_float("package_clearance_um"),
+                    pump_frequency_ghz=_opt_float("pump_frequency_ghz"),
+                    pump_power_dbm=_opt_float("pump_power_dbm"),
+                    pump_mode=str(payload["pump_mode"]) if payload.get("pump_mode") else None,
+                    substrate=str(payload["substrate"]) if payload.get("substrate") else None,
                 )
             except Exception as error:  # pragma: no cover - returned to browser/user
                 self._send_json({"error": str(error)}, HTTPStatus.INTERNAL_SERVER_ERROR)

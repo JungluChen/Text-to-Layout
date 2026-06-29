@@ -1,0 +1,1 @@
+{"component":"QuarterWaveResonator","technology":"generic_2metal","target":{"frequency_ghz":6.0},"parameters":{},"rules":{"min_width_um":2.0,"min_gap_um":2.0},"outputs":{"gds":true,"svg":true,"json":true,"png":true,"report":true},"metadata":{"benchmark_status":"todo","todo":"Implement a resonator topology, coupling structure, ports, and EM extraction benchmark."}}

@@ -1,11 +1,92 @@
 from __future__ import annotations
 
+import cmath
 import csv
 import json
 import math
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
+
+
+def parse_touchstone(path: str | Path) -> dict[str, Any]:
+    """Parse a Touchstone .s2p file without scikit-rf.
+
+    Supports formats: DB (dB + angle), MA (magnitude + angle), RI (real + imag).
+    Frequency units: HZ, KHZ, MHZ, GHZ.
+    Returns {"frequencies_hz": list[float], "matrices": list[list[list[complex]]]}
+    where matrices[k] is a 2×2 complex S-matrix at the k-th frequency.
+    """
+    source = Path(path)
+    text = source.read_text(encoding="utf-8")
+
+    freq_scale = 1.0        # to Hz
+    data_format = "MA"      # default per Touchstone 1.1 spec
+    ref_ohm = 50.0          # unused here but parsed for completeness
+
+    frequencies_hz: list[float] = []
+    matrices: list[list[list[complex]]] = []
+
+    # Pending continuation data (multi-line blocks for >2-port; n/a for 2-port)
+    data_numbers: list[float] = []
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("!"):
+            continue
+
+        if line.startswith("#"):
+            # Option line: # [HZ|KHZ|MHZ|GHZ] [S|Y|Z|G|H] [MA|DB|RI] R <ref>
+            parts = line[1:].upper().split()
+            for i, token in enumerate(parts):
+                if token in ("HZ", "KHZ", "MHZ", "GHZ"):
+                    freq_scale = {"HZ": 1.0, "KHZ": 1e3, "MHZ": 1e6, "GHZ": 1e9}[token]
+                elif token in ("MA", "DB", "RI"):
+                    data_format = token
+                elif token == "R" and i + 1 < len(parts):
+                    try:
+                        ref_ohm = float(parts[i + 1])  # noqa: F841 — parsed for completeness
+                    except ValueError:
+                        pass
+            continue
+
+        # Data line — strip inline comments
+        if "!" in line:
+            line = line[: line.index("!")]
+        try:
+            numbers = [float(x) for x in line.split()]
+        except ValueError:
+            continue
+
+        data_numbers.extend(numbers)
+
+        # A 2-port record is 1 (freq) + 8 (4 pairs) = 9 numbers
+        while len(data_numbers) >= 9:
+            record = data_numbers[:9]
+            data_numbers = data_numbers[9:]
+
+            freq_hz = record[0] * freq_scale
+            pairs = [(record[1 + 2 * k], record[2 + 2 * k]) for k in range(4)]
+
+            def _to_complex(a: float, b: float) -> complex:
+                if data_format == "DB":
+                    mag = 10.0 ** (a / 20.0)
+                    return mag * cmath.exp(1j * math.radians(b))
+                elif data_format == "MA":
+                    return a * cmath.exp(1j * math.radians(b))
+                else:  # RI
+                    return complex(a, b)
+
+            # Touchstone 2-port column-major order: S11, S21, S12, S22
+            s11 = _to_complex(*pairs[0])
+            s21 = _to_complex(*pairs[1])
+            s12 = _to_complex(*pairs[2])
+            s22 = _to_complex(*pairs[3])
+
+            frequencies_hz.append(freq_hz)
+            matrices.append([[s11, s12], [s21, s22]])
+
+    return {"frequencies_hz": frequencies_hz, "matrices": matrices}
 
 
 def _adapter_payload(simulation: dict[str, Any]) -> dict[str, Any]:
@@ -47,47 +128,14 @@ def _center_from_physical(physical: dict[str, Any]) -> float:
     return center if center is not None and center > 0.0 else 5.0
 
 
-def _synthetic_frequency_response(
-    simulation: dict[str, Any],
-    *,
-    points: int = 101,
-) -> tuple[list[float], dict[str, list[float]], str]:
-    physical = simulation.get("physical_performance")
-    physical = physical if isinstance(physical, dict) else {}
-    center_ghz = _center_from_physical(physical)
-    bandwidth_mhz = _finite_float(physical.get("bandwidth_3db_mhz")) or 500.0
-    peak_gain_db = _finite_float(physical.get("estimated_peak_gain_db")) or 0.0
-    bandwidth_ghz = max(bandwidth_mhz / 1000.0, 0.001)
-    span_ghz = max(2.5 * bandwidth_ghz, 0.25)
-    start = max(center_ghz - span_ghz / 2.0, 0.001)
-    stop = center_ghz + span_ghz / 2.0
-    step = (stop - start) / float(points - 1)
-    frequencies = [start + step * index for index in range(points)]
-
-    s21 = []
-    s11 = []
-    for frequency in frequencies:
-        normalized = 2.0 * (frequency - center_ghz) / bandwidth_ghz
-        rolloff_db = 10.0 * math.log10(1.0 + normalized**2)
-        gain = peak_gain_db - rolloff_db
-        s21.append(gain)
-        s11.append(min(-3.0, -12.0 + 0.35 * rolloff_db))
-
-    return (
-        frequencies,
-        {
-            "s11_db": s11,
-            "s21_db": s21,
-            "s12_db": list(s21),
-            "s22_db": list(s11),
-        },
-        "layout_surrogate",
-    )
-
-
 def _network_from_simulation(
     simulation: dict[str, Any],
-) -> tuple[list[float], dict[str, list[float]], str]:
+) -> tuple[list[float], dict[str, list[float]], str] | None:
+    """Extract real S-parameter data from a simulation result dict.
+
+    Returns None when no real solver data is present — the caller must then
+    return status='skipped', never synthesise fake curves.
+    """
     payload = _adapter_payload(simulation)
     frequencies = _finite_list(payload.get("frequencies_ghz"))
     s_parameters = payload.get("s_parameters_db")
@@ -112,7 +160,38 @@ def _network_from_simulation(
             "single_port_reflection_adapter",
         )
 
-    return _synthetic_frequency_response(simulation)
+    return None
+
+
+def _read_touchstone_data(
+    path: Path,
+) -> tuple[list[float], dict[str, list[float]]]:
+    """Parse a 2-port Touchstone file and return (frequencies_ghz, s_parameters_db).
+
+    Handles only the dB/angle format (#GHZ S DB R ...) that this module writes.
+    Falls back to empty lists if the file cannot be parsed — the caller will
+    produce an incomplete result, but never fake data.
+    """
+    freqs: list[float] = []
+    s11, s21, s12, s22 = [], [], [], []
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("!") or stripped.startswith("#"):
+                continue
+            parts = stripped.split()
+            if len(parts) >= 9:
+                try:
+                    freqs.append(float(parts[0]))
+                    s11.append(float(parts[1]))
+                    s21.append(float(parts[3]))
+                    s12.append(float(parts[5]))
+                    s22.append(float(parts[7]))
+                except (ValueError, IndexError):
+                    continue
+    except OSError:
+        pass
+    return freqs, {"s11_db": s11, "s21_db": s21, "s12_db": s12, "s22_db": s22}
 
 
 def _touchstone_text(
@@ -234,7 +313,15 @@ def write_rf_network_artifacts(
     csv_path: str | Path,
     reference_ohm: float = 50.0,
 ) -> dict[str, Any]:
-    """Write Touchstone, plot, CSV, and JSON RF-network artifacts."""
+    """Write Touchstone, plot, CSV, and JSON RF-network artifacts.
+
+    If ``simulation`` contains a ``touchstone_path`` key, that file is used
+    directly as a solver Touchstone and validated for passivity and reciprocity
+    before any artifacts are written.  A failed validation returns immediately
+    with a status="failed" dict — no partial files are left on disk.
+    """
+    from text_to_gds.rf_validation import validate_touchstone
+
     touchstone = Path(touchstone_path)
     report = Path(report_path)
     plot = Path(plot_path)
@@ -242,15 +329,73 @@ def write_rf_network_artifacts(
     for path in (touchstone, report, plot, csv_file):
         path.parent.mkdir(parents=True, exist_ok=True)
 
-    frequencies, s_parameters, source = _network_from_simulation(simulation)
-    touchstone.write_text(
-        _touchstone_text(frequencies, s_parameters, reference_ohm=reference_ohm),
-        encoding="utf-8",
-    )
+    # --- If a solver Touchstone is provided, validate it first. ---------------
+    solver_ts = simulation.get("touchstone_path")
+    if solver_ts is not None:
+        ts_file = Path(str(solver_ts))
+        if not ts_file.is_file():
+            failure = {
+                "schema": "text-to-gds.rf-network.v1",
+                "status": "failed",
+                "reason": "Touchstone file not found at provided path",
+                "report_path": str(report),
+            }
+            report.write_text(json.dumps(failure, indent=2), encoding="utf-8")
+            return failure
+        validation = validate_touchstone(ts_file)
+        if not validation.get("passivity"):
+            failure = {
+                "schema": "text-to-gds.rf-network.v1",
+                "status": "failed",
+                "reason": "Touchstone data violates passive power conservation",
+                "report_path": str(report),
+            }
+            report.write_text(json.dumps(failure, indent=2), encoding="utf-8")
+            return failure
+        # Passed — copy solver file to output location and read S-params from it.
+        import shutil
+        shutil.copy2(str(ts_file), str(touchstone))
+        frequencies, s_parameters = _read_touchstone_data(touchstone)
+        source = "solver_touchstone"
+        validation_block = {
+            "passivity": bool(validation.get("passivity")),
+            "reciprocity": bool(validation.get("reciprocity")),
+        }
+    else:
+        if not simulation:
+            failure = {
+                "schema": "text-to-gds.rf-network.v1",
+                "status": "failed",
+                "reason": "No Touchstone or simulation result provided",
+                "report_path": str(report),
+            }
+            report.write_text(json.dumps(failure, indent=2), encoding="utf-8")
+            return failure
+        network = _network_from_simulation(simulation)
+        if network is None:
+            skipped = {
+                "schema": "text-to-gds.rf-network.v1",
+                "status": "skipped",
+                "reason": (
+                    "Simulation result contains no real S-parameter data. "
+                    "Run openEMS, JosephsonCircuits.jl, or supply a Touchstone file. "
+                    "Synthetic curves are never written."
+                ),
+                "report_path": str(report),
+            }
+            report.write_text(json.dumps(skipped, indent=2), encoding="utf-8")
+            return skipped
+        frequencies, s_parameters, source = network
+        touchstone.write_text(
+            _touchstone_text(frequencies, s_parameters, reference_ohm=reference_ohm),
+            encoding="utf-8",
+        )
+        validation_block = {"passivity": None, "reciprocity": None}
+
     _write_csv(csv_file, frequencies, s_parameters)
     _write_plot(plot, frequencies, s_parameters)
 
-    s21 = s_parameters["s21_db"]
+    s21 = s_parameters.get("s21_db", [])
     peak_gain = max(s21) if s21 else None
     peak_frequency = frequencies[s21.index(peak_gain)] if peak_gain is not None else None
     physical = simulation.get("physical_performance")
@@ -258,11 +403,12 @@ def write_rf_network_artifacts(
     center_index = min(
         range(len(frequencies)),
         key=lambda index: abs(frequencies[index] - center_frequency),
-    )
+    ) if frequencies else 0
     result = {
-        "schema": "text-to-gds.rf-network.v0",
-        "source_simulation_path": simulation.get("result_path"),
+        "schema": "text-to-gds.rf-network.v1",
+        "status": "ok",
         "source": source,
+        "source_simulation_path": simulation.get("result_path"),
         "touchstone_path": str(touchstone),
         "plot_path": str(plot),
         "csv_path": str(csv_file),
@@ -277,6 +423,7 @@ def write_rf_network_artifacts(
         "center_s21_gain_db": s21[center_index] if s21 else None,
         "bandwidth_3db_mhz": _bandwidth_3db_mhz(frequencies, s21),
         "scikit_rf": _skrf_summary(touchstone),
+        "validation": validation_block,
         "model_validity": (
             "Touchstone export is magnitude-only with zero phase unless the upstream "
             "adapter provides complex S-parameters."

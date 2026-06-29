@@ -63,6 +63,10 @@ src/text_to_gds/
     provenance.py           provenance_record() + write_bundle()
 
 skills/
+  layout-research/SKILL.md
+  gdsfactory-layout/SKILL.md
+  layout-verification/SKILL.md
+  layout-simulation-evidence/SKILL.md
   text-to-gds/SKILL.md
   text-to-gds-simulation/SKILL.md
   text-to-gds-circuit-design/SKILL.md
@@ -279,7 +283,7 @@ without a real output file.
 **Module:** `scripts/bundle_plugin.py`  
 **Install:** `npx skills install JungluChen/Text-to-Layout`
 
-Six skills in `skills/`. Each has YAML frontmatter + Hard Stops + Solver
+Ten skills in `skills/`. Each has YAML frontmatter and explicit evidence or solver
 Requirements + Example Commands sections.
 
 ---

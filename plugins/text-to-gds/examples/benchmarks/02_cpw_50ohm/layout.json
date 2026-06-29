@@ -1,0 +1,9 @@
+{
+  "component": "CPW",
+  "technology": "generic_2metal",
+  "target": {"impedance_ohm": 50.0},
+  "parameters": {"center_width_um": 10.0, "gap_um": 6.0, "length_um": 1000.0, "ground_width_um": 50.0, "metal": "M1"},
+  "rules": {"min_width_um": 2.0, "min_gap_um": 2.0},
+  "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
+  "metadata": {"benchmark_status": "todo", "todo": "Add explicit signal and ground-reference ports plus EM correlation."}
+}

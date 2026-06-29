@@ -42,5 +42,6 @@ def test_idc_is_deterministic() -> None:
 
 def test_idc_metadata_capacitance_is_labelled_low_confidence() -> None:
     md = _geom().metadata
-    assert md["capacitance_method"] == "coarse_analytical_estimate"
-    assert md["capacitance_confidence"] == "low"
+    assert md["capacitance_method"] == "bahl_alley_quasi_static"
+    assert md["analytical_estimate"] is True
+    assert 0.5 < md["estimated_capacitance_pf"] < 0.9

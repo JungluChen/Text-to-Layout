@@ -1,0 +1,4 @@
+interface:
+  display_name: "Layout Simulation Evidence"
+  short_description: "Plan EM extraction and evidence-backed comparison"
+  default_prompt: "Use $layout-simulation-evidence to create an EM evidence plan for this layout."

@@ -17,21 +17,27 @@ dependencies = [
   "mcp[cli]>=1.2.0",
   "numpy>=1.26",
   "pillow>=10.0",
+  "pydantic>=2.0",
   "pyyaml>=6.0",
   "trimesh>=4.0",
+  "fastapi>=0.110",
+  "uvicorn>=0.30",
 ]
 
 [project.optional-dependencies]
+layout = ["kqcircuits", "qiskit-metal"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
-metal = ["quantum-metal>=0.7"]
+metal = ["qiskit-metal"]
 epr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
 mesh = ["gmsh>=4.11"]
 research = [
+  "kqcircuits",
   "optuna>=4.0",
+  "qiskit-metal",
   "scikit-rf>=1.0",
   "qcodes>=0.50",
   "scqubits>=4.0",
@@ -45,17 +51,67 @@ Repository = "https://github.com/JungluChen/Text-to-Layout"
 Issues = "https://github.com/JungluChen/Text-to-Layout/issues"
 
 [project.scripts]
+textlayout = "textlayout.cli:main"
 text-to-gds = "text_to_gds.server:main"
+text-to-gds-simulation = "text_to_gds.cli:text_to_gds_simulation"
+text-to-gds-circuit-design = "text_to_gds.cli:text_to_gds_circuit_design"
+text-to-gds-layout-design = "text_to_gds.cli:text_to_gds_layout_design"
+text-to-gds-signoff = "text_to_gds.cli:text_to_gds_signoff"
+text-to-gds-physics-signoff = "text_to_gds.cli:text_to_gds_physics_signoff"
 
 [dependency-groups]
 dev = [
   "pytest>=8.0",
   "ruff>=0.6",
+  "mypy>=1.11",
+  "pytest-cov>=5.0",
 ]
 
+# textlayout generator plugins are discovered via this entry-point group.
+# Third parties add devices by shipping a package that advertises one here —
+# no change to this repository is required (Open/Closed).
+[project.entry-points."textlayout.generators"]
+IDC = "textlayout.generators.idc:IDCGenerator"
+CPW = "textlayout.generators.cpw:CPWGenerator"
+
 [tool.hatch.build.targets.wheel]
-packages = ["src/text_to_gds"]
+packages = ["src/text_to_gds", "src/textlayout"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+extend-exclude = [
+  "quantum-eda-stack",
+]
+
+# Strict static typing is enforced on the new clean-architecture package only.
+# The legacy text_to_gds package is migrated module-by-module (strangler-fig);
+# it is not yet type-clean, so we do not gate on it.
+[tool.mypy]
+files = ["src/textlayout"]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["gdsfactory.*", "uvicorn.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["textlayout"]
+branch = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".tools",
+  ".venv",
+  "external_repos",
+  "plugins",
+  "workspace",
+]

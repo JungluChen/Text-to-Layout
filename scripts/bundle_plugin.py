@@ -34,6 +34,7 @@ def main() -> None:
         "CONTRIBUTING.md",
         "CHANGELOG.md",
         "CITATION.cff",
+        "plugin_manifest.example.json",
     ]:
         source = ROOT / filename
         if source.is_file():
@@ -50,11 +51,13 @@ def main() -> None:
         "process",
         "process_database",
         "scripts",
+        "simulation",
     ]:
         source = ROOT / dirname
         if source.is_dir():
             _copytree(source, PLUGIN_ROOT / dirname)
     _copytree(ROOT / "src" / "text_to_gds", PLUGIN_ROOT / "src" / "text_to_gds")
+    _copytree(ROOT / "src" / "textlayout", PLUGIN_ROOT / "src" / "textlayout")
     _copytree(ROOT / "skills", PLUGIN_ROOT / "skills")
     _copytree(ROOT / "examples", PLUGIN_ROOT / "examples")
     _copytree(ROOT / "drc", PLUGIN_ROOT / "drc")

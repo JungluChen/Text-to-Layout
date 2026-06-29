@@ -7,6 +7,7 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
+from text_to_gds.backends import get_backend, list_backends as list_backend_registry
 from text_to_gds.adapters import (
     josephsoncircuits_plan_from_sidecar,
     josim_netlist_from_sidecar,
@@ -19,6 +20,7 @@ from text_to_gds.adapters import (
     write_josephsoncircuits_script,
 )
 from text_to_gds.analytical import write_analytical_verification
+from text_to_gds.automatic_mesh import generate_solver_inputs_from_graph
 from text_to_gds.cad_export import write_cad_artifacts
 from text_to_gds.cryostat import analyze_cryogenic_chain
 from text_to_gds.design import plan_ljpa_design
@@ -39,14 +41,23 @@ from text_to_gds.physics_templates import (
     list_templates as list_device_templates,
     validate_sidecar as validate_device_template_sidecar,
 )
+from text_to_gds.physics_graph import extract_physics_graph, graph_to_josephsoncircuits_model
 from text_to_gds.review import review_committee
 from text_to_gds.ai_scientist import assess_design, write_review_report
 from text_to_gds.layout_understanding import summarize_layout as summarize_layout_circuit
+from text_to_gds.layout_quality import (
+    DEFAULT_MODE as DEFAULT_LAYOUT_QUALITY_MODE,
+    FABRICATION_REAL_PCELLS,
+    QUARANTINED_TOY_PCELLS,
+    gate_generation,
+)
 from text_to_gds.open_benchmarks import run_open_benchmarks as run_open_benchmark_suite
 from text_to_gds.solver_agreement import cross_validate
+from text_to_gds.signoff import evaluate_signoff
 from text_to_gds.epr import write_epr_analysis
 from text_to_gds.experiment_database import record_experiment
 from text_to_gds.fitting import measurement_from_fit, write_measurement_fit
+from text_to_gds.inverse_design import inverse_design_jpa
 from text_to_gds.integrations import list_research_integrations as discover_research_integrations
 from text_to_gds.improvements import (
     call_improvement,
@@ -55,6 +66,7 @@ from text_to_gds.improvements import (
 )
 from text_to_gds.elmer_bridge import write_elmer_project
 from text_to_gds.meshing import write_stack_mesh
+from text_to_gds.measurement_comparison import compare_measurement_to_simulation
 from text_to_gds.optimization import optimize_ljpa_parameters
 from text_to_gds.package_model import write_package_model
 from text_to_gds.palace_bridge import write_palace_project
@@ -63,17 +75,21 @@ from text_to_gds.parasitics import export_fasthenry as run_fasthenry_extraction
 from text_to_gds.plots import write_simulation_plot
 from text_to_gds.pcells import (
     cpw_quarter_wave_resonator,
+    cpw_resonator_real,
     cpw_straight,
     dc_squid_pair,
     flux_bias_line,
     ground_plane,
     jj_ic_calibration_array,
     lumped_element_jpa_seed,
+    manhattan_jj_real,
     manhattan_josephson_junction,
     meander_inductor,
     periodically_loaded_kit_unit_cell,
     photonic_crystal_stwpa,
+    squid_real,
     via_chain_monitor,
+    via_chain_real,
     via_stack,
 )
 from text_to_gds.preview import write_stack_preview
@@ -107,10 +123,12 @@ from text_to_gds.process_database import (
     plan_process_aware_jpa as build_process_aware_jpa_plan,
 )
 from text_to_gds.report import write_scientific_report
+from text_to_gds.reference_compare import golden_compare as run_golden_compare
 from text_to_gds.rf import write_rf_network_artifacts
 from text_to_gds.scientific import write_scientific_plot, write_sweep_artifacts
 from text_to_gds.simulation import estimate_physical_performance, simulate_ideal_junction
 from text_to_gds.superconductivity import write_superconducting_material
+from text_to_gds.superconducting_eda_compiler import create_flux_tunable_jpa_for_axion_search
 from text_to_gds.third_wave import (
     call_third_wave_improvement,
     list_third_wave_improvements as build_third_wave_registry,
@@ -136,20 +154,34 @@ ARTIFACT_ROOT = WORKSPACE_ROOT / "artifacts"
 mcp = FastMCP("Text-to-GDS", json_response=True)
 
 PCELL_REGISTRY = {
+    "fabrication_real_cpw_resonator": cpw_quarter_wave_resonator,
+    "fabrication_real_dc_squid": dc_squid_pair,
+    "fabrication_real_manhattan_jj": manhattan_josephson_junction,
     "cpw_quarter_wave_resonator": cpw_quarter_wave_resonator,
+    "cpw_resonator_real": cpw_resonator_real,
     "cpw_straight": cpw_straight,
     "dc_squid_pair": dc_squid_pair,
     "flux_bias_line": flux_bias_line,
     "ground_plane": ground_plane,
     "jj_ic_calibration_array": jj_ic_calibration_array,
     "lumped_element_jpa_seed": lumped_element_jpa_seed,
+    "manhattan_jj_real": manhattan_jj_real,
     "manhattan_josephson_junction": manhattan_josephson_junction,
     "meander_inductor": meander_inductor,
     "periodically_loaded_kit_unit_cell": periodically_loaded_kit_unit_cell,
     "photonic_crystal_stwpa": photonic_crystal_stwpa,
+    "squid_real": squid_real,
     "via_chain_monitor": via_chain_monitor,
+    "via_chain_real": via_chain_real,
     "via_stack": via_stack,
 }
+
+_QUALITY_COMPAT_EXPORTS = (FABRICATION_REAL_PCELLS, QUARANTINED_TOY_PCELLS)
+
+
+def _pcell_quality(pcell: str) -> dict[str, Any]:
+    """Return the shared PCell quality record as a legacy-compatible dict."""
+    return gate_generation(pcell, DEFAULT_LAYOUT_QUALITY_MODE).record.to_dict()
 
 
 def _ensure_dirs() -> None:
@@ -190,27 +222,92 @@ def compile_layout(
     pcell: str = "manhattan_josephson_junction",
     parameters: dict[str, Any] | None = None,
     output_name: str = "layout.gds",
+    layout_quality_mode: str = DEFAULT_LAYOUT_QUALITY_MODE,
+    design_intent_path: str | None = None,
 ) -> dict[str, Any]:
     """Compile a registered superconducting PCell into GDS and a semantic sidecar."""
     if pcell not in PCELL_REGISTRY:
         raise ValueError(f"Unknown PCell '{pcell}'. Available: {sorted(PCELL_REGISTRY)}")
+    gate = gate_generation(pcell, layout_quality_mode)
+    quality = gate.record.to_dict()
+    if not gate.allowed:
+        return {
+            "status": "unsupported",
+            "pcell": pcell,
+            "layout_quality_mode": gate.requested_mode,
+            "reason": gate.reason or quality.get("reason"),
+            "quality_record": quality,
+        }
+
+    if design_intent_path is not None:
+        intent_file = _existing_path(design_intent_path)
+        intent = json.loads(intent_file.read_text(encoding="utf-8"))
+        if intent.get("status") != "ready":
+            return {
+                "status": "unsupported",
+                "pcell": pcell,
+                "layout_quality_mode": gate.requested_mode,
+                "reason": "design_intent_path is not ready",
+                "design_intent_path": str(intent_file),
+                "blockers": intent.get("blockers", []),
+                "quality_record": quality,
+            }
 
     component = PCELL_REGISTRY[pcell](**(parameters or {}))
+    if gate.requested_mode == "fabrication_real" and component.info.get("visualization_only") is True:
+        return {
+            "status": "unsupported",
+            "pcell": pcell,
+            "layout_quality_mode": gate.requested_mode,
+            "reason": "PCell emitted visualization_only=True in fabrication_real mode",
+            "quality_record": quality,
+        }
     gds_path = _artifact_path(output_name, ".gds")
     screenshot_path = gds_path.with_suffix(".layout.png")
     component.write_gds(str(gds_path))
     _render_layout_screenshot(gds_path, screenshot_path)
 
     sidecar = _component_sidecar(component, gds_path, pcell, screenshot_path)
+    sidecar["layout_quality_mode"] = gate.requested_mode
+    sidecar["quality_record"] = quality
+    if design_intent_path is not None:
+        sidecar["design_intent_path"] = str(_existing_path(design_intent_path))
     sidecar_path = gds_path.with_suffix(".sidecar.json")
     sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")
 
     return {
         "status": "compiled",
+        "layout_quality_mode": gate.requested_mode,
         "gds_path": str(gds_path),
         "screenshot_path": str(screenshot_path),
         "sidecar_path": str(sidecar_path),
+        "quality_record": quality,
     }
+
+
+@mcp.tool()
+def list_professional_backends() -> list[dict[str, object]]:
+    """List professional EDA/simulation backends and their local availability."""
+    return list_backend_registry()
+
+
+@mcp.tool()
+def run_backend_operation(
+    backend_name: str,
+    operation: str,
+    request: dict[str, Any] | None = None,
+    output_name: str = "backend_run",
+) -> dict[str, Any]:
+    """Run a universal backend operation: generate, simulate, or extract."""
+    backend = get_backend(backend_name)
+    output_dir = _artifact_path(output_name, ".json").with_suffix("")
+    if operation == "generate":
+        return backend.generate(request or {}, output_dir=output_dir)
+    if operation == "simulate":
+        return backend.simulate(request or {}, output_dir=output_dir)
+    if operation == "extract":
+        return backend.extract(request or {}, output_dir=output_dir)
+    raise ValueError("operation must be one of: generate, simulate, extract")
 
 
 @mcp.tool()
@@ -336,14 +433,27 @@ def list_pcells() -> dict[str, Any]:
     """List registered PCells and the active process-stack defaults."""
     return {
         "schema": "text-to-gds.pcells.v0",
+        "default_layout_quality_mode": "fabrication_real",
         "pcells": sorted(PCELL_REGISTRY),
+        "quality": {
+            name: _pcell_quality(name)
+            for name in sorted(PCELL_REGISTRY)
+        },
         "process_stack": DEFAULT_PROCESS.to_dict(),
     }
 
 
 @mcp.tool()
-def extract_layout(sidecar_path: str, include_gds_shapes: bool = True) -> dict[str, Any]:
-    """Summarize performance-relevant parameters from a sidecar and optional GDS scan."""
+def extract_layout(
+    sidecar_path: str,
+    include_gds_shapes: bool = True,
+    jc_ua_per_um2: float | None = None,
+    specific_capacitance_ff_per_um2: float | None = None,
+) -> dict[str, Any]:
+    """Summarize performance-relevant parameters from a sidecar and optional GDS scan.
+
+    Also extracts geometry features and recognizes topology when possible.
+    """
     sidecar_file = _existing_path(sidecar_path)
     sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
     summary = summarize_sidecar_parameters(sidecar)
@@ -354,7 +464,134 @@ def extract_layout(sidecar_path: str, include_gds_shapes: bool = True) -> dict[s
     output_path = _artifact_path(f"{sidecar_file.stem}.extraction.json", ".json")
     output_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     summary["result_path"] = str(output_path)
+    graph_path = _artifact_path(f"{sidecar_file.stem}.physics_graph.json", ".json")
+    graph = extract_physics_graph(
+        sidecar["gds_path"],
+        sidecar,
+        jc_ua_per_um2=jc_ua_per_um2,
+        specific_capacitance_ff_per_um2=specific_capacitance_ff_per_um2,
+        output_path=graph_path,
+    )
+    summary["physics_graph_path"] = graph["result_path"]
+    summary["physics_graph_status"] = graph["status"]
+
+    # Geometry intelligence
+    try:
+        from text_to_gds.geometry_intelligence import analyze_geometry
+
+        geometry_features = analyze_geometry(
+            sidecar["gds_path"],
+            sidecar=sidecar,
+            physics_graph=graph,
+        )
+        geo_path = _artifact_path(f"{sidecar_file.stem}.geometry_features.json", ".json")
+        geo_path.write_text(json.dumps(geometry_features, indent=2), encoding="utf-8")
+        summary["geometry_features_path"] = str(geo_path)
+        summary["geometry_features_status"] = "extracted"
+    except Exception as exc:
+        summary["geometry_features_status"] = f"failed: {exc}"
+
+    # Topology recognition
+    try:
+        from text_to_gds.topology import recognize_topology
+
+        topology = recognize_topology(graph)
+        topo_path = _artifact_path(f"{sidecar_file.stem}.topology.json", ".json")
+        topo_path.write_text(json.dumps(topology, indent=2), encoding="utf-8")
+        summary["topology_path"] = str(topo_path)
+        summary["topology_status"] = "recognized"
+        summary["topology_device"] = topology.get("detected_device")
+        summary["topology_confidence"] = topology.get("confidence")
+    except Exception as exc:
+        summary["topology_status"] = f"failed: {exc}"
+
     return summary
+
+
+@mcp.tool()
+def extract_physics_graph_artifact(
+    sidecar_path: str,
+    output_name: str | None = None,
+    jc_ua_per_um2: float | None = None,
+    specific_capacitance_ff_per_um2: float | None = None,
+) -> dict[str, Any]:
+    """Extract the physics_graph.json compiler IR from a layout sidecar."""
+    sidecar_file = _existing_path(sidecar_path)
+    sidecar = json.loads(sidecar_file.read_text(encoding="utf-8"))
+    stem = _artifact_stem(output_name) if output_name else sidecar_file.stem
+    graph_path = _artifact_path(f"{stem}.physics_graph.json", ".json")
+    return extract_physics_graph(
+        sidecar["gds_path"],
+        sidecar,
+        jc_ua_per_um2=jc_ua_per_um2,
+        specific_capacitance_ff_per_um2=specific_capacitance_ff_per_um2,
+        output_path=graph_path,
+    )
+
+
+@mcp.tool()
+def generate_solver_inputs_from_physics_graph(
+    physics_graph_path: str,
+    output_name: str = "solver_inputs",
+) -> dict[str, Any]:
+    """Generate openEMS, Elmer, and Palace input files from physics_graph.json."""
+    graph_path = _existing_path(physics_graph_path)
+    out_dir = _artifact_path(output_name, ".json").with_suffix("")
+    return generate_solver_inputs_from_graph(graph_path, output_dir=out_dir)
+
+
+@mcp.tool()
+def generate_josephsoncircuits_model_from_physics_graph(
+    physics_graph_path: str,
+    output_name: str = "josephsoncircuits_model.json",
+) -> dict[str, Any]:
+    """Generate a JosephsonCircuits-ready model list from physics_graph.json."""
+    graph_path = _existing_path(physics_graph_path)
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    model = graph_to_josephsoncircuits_model(graph)
+    out = _artifact_path(output_name, ".json")
+    out.write_text(json.dumps(model, indent=2), encoding="utf-8")
+    model["result_path"] = str(out)
+    return model
+
+
+@mcp.tool()
+def run_inverse_design_jpa(
+    prompt: str,
+    output_name: str = "inverse_jpa",
+    iterations: int = 5,
+    algorithm: str = "cma-es",
+) -> dict[str, Any]:
+    """Run gradient-free inverse design where every candidate regenerates GDS."""
+    out_dir = _artifact_path(output_name, ".json").with_suffix("")
+    return inverse_design_jpa(prompt, output_dir=out_dir, iterations=iterations, algorithm=algorithm)
+
+
+@mcp.tool()
+def compare_measurement_engine(
+    measurement_path: str,
+    simulation_path: str | None = None,
+    output_name: str = "measurement_comparison.json",
+    fit_kind: str = "auto",
+) -> dict[str, Any]:
+    """Fit measurement data and compare it with a simulation result artifact."""
+    measurement = _existing_path(measurement_path)
+    simulation = _existing_path(simulation_path) if simulation_path else None
+    report = _artifact_path(output_name, ".json")
+    return compare_measurement_to_simulation(
+        measurement,
+        simulation,
+        report_path=report,
+        plot_path=report.with_suffix(".png"),
+        fit_kind=fit_kind,
+    )
+
+
+@mcp.tool()
+def run_axion_search_jpa_final_test(output_name: str = "axion_jpa") -> dict[str, Any]:
+    """Run the final flux-tunable JPA compiler test from the user request."""
+    out_dir = _artifact_path(output_name, ".json").with_suffix("")
+    return create_flux_tunable_jpa_for_axion_search(output_dir=out_dir)
 
 
 @mcp.tool()
@@ -1438,6 +1675,22 @@ def export_scientific_report(
 
 
 @mcp.tool()
+def golden_compare(device: dict[str, Any] | str, reference: dict[str, Any] | str | None = None) -> dict[str, Any]:
+    """Compare generated/extracted device metadata against cited golden references."""
+    device_obj: dict[str, Any] | str = device
+    if isinstance(device, str):
+        raw = device.strip()
+        if raw.startswith("{"):
+            device_obj = json.loads(raw)
+    reference_obj: dict[str, Any] | str | None = reference
+    if isinstance(reference, str):
+        raw_ref = reference.strip()
+        if raw_ref.startswith("{"):
+            reference_obj = json.loads(raw_ref)
+    return run_golden_compare(device_obj, reference_obj)
+
+
+@mcp.tool()
 def run_analytical_verification(
     output_name: str = "jpa-theory-verification",
     center_frequency_ghz: float = 6.0,
@@ -1859,8 +2112,8 @@ def run_design_workflow(
     prompt: str,
     output_name: str = "ljpa_seed.gds",
     parameters: dict[str, Any] | None = None,
-    jc_ua_per_um2: float = 2.0,
-    simulator: str = "mock_jj",
+    jc_ua_per_um2: float | None = 2.0,
+    simulator: str = "analytical_jj",
     analysis_mode: str = "auto",
     pump_current_fraction: float = 0.017,
     coupling_capacitance_ff: float | None = None,
@@ -1871,8 +2124,86 @@ def run_design_workflow(
     flux_sweep_points: int = 101,
     flux_period_current_ma: float | None = None,
     flux_mutual_inductance_ph: float | None = None,
+    # Design-intent physics inputs
+    substrate: str | None = None,
+    epsilon_r: float | None = None,
+    substrate_thickness_um: float | None = None,
+    ground_width_um: float | None = None,
+    package_clearance_um: float | None = None,
+    pump_frequency_ghz: float | None = None,
+    pump_power_dbm: float | None = None,
+    pump_mode: str | None = None,
+    impedance_tolerance_ohm: float = 2.5,
+    literature_comparison: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Run a local prompt-to-layout workflow and write a browser workbench."""
+    """Run a local prompt-to-layout workflow and write a browser workbench.
+
+    Phase 1 — design_intent: synthesize traceable physics targets.
+    If design_intent fails (missing Jc or geometry), returns immediately
+    with stage="design_intent" and writes {stem}.design_intent.json.
+    No GDS is written unless design_intent passes.
+
+    Phase 2 — compile, simulate, review.
+    """
+    from text_to_gds.design_intent import synthesize_design_intent, write_design_intent
+
+    output_stem = Path(output_name).stem
+    intent_path = ARTIFACT_ROOT / f"{output_stem}.design_intent.json"
+    ARTIFACT_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # Build inputs dict for design_intent
+    intent_inputs: dict[str, Any] = {}
+    if jc_ua_per_um2 is not None:
+        intent_inputs["jc_ua_per_um2"] = jc_ua_per_um2
+    if substrate is not None:
+        intent_inputs["substrate"] = substrate
+    if epsilon_r is not None:
+        intent_inputs["epsilon_r"] = epsilon_r
+    if substrate_thickness_um is not None:
+        intent_inputs["substrate_thickness_um"] = substrate_thickness_um
+    if ground_width_um is not None:
+        intent_inputs["ground_width_um"] = ground_width_um
+    if package_clearance_um is not None:
+        intent_inputs["package_clearance_um"] = package_clearance_um
+    if pump_frequency_ghz is not None:
+        intent_inputs["pump_frequency_ghz"] = pump_frequency_ghz
+    if pump_power_dbm is not None:
+        intent_inputs["pump_power_dbm"] = pump_power_dbm
+    if pump_mode is not None:
+        intent_inputs["pump_mode"] = pump_mode
+    intent_inputs["impedance_tolerance_ohm"] = impedance_tolerance_ohm
+    if parameters:
+        intent_inputs.update(parameters)
+
+    # Map pcell-parameter naming conventions to design_intent naming conventions.
+    _param_aliases = {
+        "junction_width": "junction_width_um",
+        "junction_height": "junction_height_um",
+        "cpw_trace_width": "center_width_um",
+        "cpw_gap": "gap_um",
+    }
+    for src, dst in _param_aliases.items():
+        if src in intent_inputs and dst not in intent_inputs:
+            intent_inputs[dst] = intent_inputs[src]
+
+    # Default wirebond_pads when package_clearance_um is provided (implies wired packaging).
+    if "package_clearance_um" in intent_inputs and "wirebond_pads" not in intent_inputs:
+        intent_inputs["wirebond_pads"] = True
+
+    design_intent = synthesize_design_intent(prompt, inputs=intent_inputs or None)
+    write_design_intent(design_intent, intent_path)
+
+    if design_intent["status"] == "failed":
+        return {
+            "schema": "text-to-gds.design-workflow.v1",
+            "stage": "design_intent",
+            "status": "failed",
+            "reason": "design_intent failed; see blockers",
+            "blockers": design_intent.get("blockers", []),
+            "design_intent": design_intent,
+            "design_intent_path": str(intent_path),
+        }
+
     plan = plan_ljpa(prompt)
     target = plan["target"]
     pcell_parameters = {
@@ -1880,9 +2211,21 @@ def run_design_workflow(
         "target_bandwidth_mhz": target.get("bandwidth_mhz") or 500.0,
         "target_gain_db": target.get("gain_db") or 20.0,
     }
-    effective_jc = jc_ua_per_um2
+    effective_jc = jc_ua_per_um2 if jc_ua_per_um2 is not None else 2.0
     process_plan = plan.get("fabrication_process")
-    provided_parameters = parameters or {}
+    # Strip design-intent-only physics keys that are not valid PCell parameters.
+    _DESIGN_INTENT_ONLY_KEYS = {
+        "epsilon_r", "substrate_thickness_um", "ground_width_um",
+        "center_width_um", "gap_um", "substrate",
+        "junction_width_um", "junction_height_um",
+        "pump_frequency_ghz", "pump_power_dbm", "pump_mode",
+        "package_clearance_um", "wirebond_pads", "jc_ua_per_um2",
+        "impedance_tolerance_ohm",
+    }
+    provided_parameters = {
+        k: v for k, v in (parameters or {}).items()
+        if k not in _DESIGN_INTENT_ONLY_KEYS
+    }
     if process_plan:
         effective_jc = float(process_plan["process"]["measured_Jc_ua_per_um2"])
         if not {"junction_width", "junction_height"}.intersection(provided_parameters):
@@ -1904,24 +2247,35 @@ def run_design_workflow(
     magic = run_magic_extract(compiled["gds_path"], output_name=f"{Path(output_name).stem}.magic")
     preview = export_3d_preview(compiled["gds_path"])
     cad = export_cad_artifacts(compiled["gds_path"])
-    simulation = run_simulation(
-        compiled["sidecar_path"],
-        simulator=simulator,
-        jc_ua_per_um2=effective_jc,
-        analysis_mode=analysis_mode,
-        pump_current_fraction=pump_current_fraction,
-        coupling_capacitance_ff=coupling_capacitance_ff,
-        resonator_capacitance_ff=resonator_capacitance_ff,
-        target_frequency_ghz=target.get("center_frequency_ghz"),
-        target_gain_db=target.get("gain_db") or 20.0,
-        target_bandwidth_mhz=target.get("bandwidth_mhz"),
-        flux_bias_phi0=flux_bias_phi0,
-        squid_asymmetry=squid_asymmetry,
-        flux_sweep_span_phi0=flux_sweep_span_phi0,
-        flux_sweep_points=flux_sweep_points,
-        flux_period_current_ma=flux_period_current_ma,
-        flux_mutual_inductance_ph=flux_mutual_inductance_ph,
-    )
+    if simulator == "none":
+        simulation = {
+            "status": "skipped",
+            "reason": "solver execution unavailable",
+            "result_path": str(ARTIFACT_ROOT / f"{output_stem}.simulation_skipped.json"),
+        }
+        import json as _json
+        Path(simulation["result_path"]).write_text(
+            _json.dumps(simulation), encoding="utf-8"
+        )
+    else:
+        simulation = run_simulation(
+            compiled["sidecar_path"],
+            simulator=simulator,
+            jc_ua_per_um2=effective_jc,
+            analysis_mode=analysis_mode,
+            pump_current_fraction=pump_current_fraction,
+            coupling_capacitance_ff=coupling_capacitance_ff,
+            resonator_capacitance_ff=resonator_capacitance_ff,
+            target_frequency_ghz=target.get("center_frequency_ghz"),
+            target_gain_db=target.get("gain_db") or 20.0,
+            target_bandwidth_mhz=target.get("bandwidth_mhz"),
+            flux_bias_phi0=flux_bias_phi0,
+            squid_asymmetry=squid_asymmetry,
+            flux_sweep_span_phi0=flux_sweep_span_phi0,
+            flux_sweep_points=flux_sweep_points,
+            flux_period_current_ma=flux_period_current_ma,
+            flux_mutual_inductance_ph=flux_mutual_inductance_ph,
+        )
     rf = export_rf_network(
         simulation["result_path"],
         output_name=Path(output_name).stem,
@@ -1935,6 +2289,32 @@ def run_design_workflow(
         cad_path=cad["report_path"],
         output_name=f"{Path(output_name).stem}.validation.json",
     )
+
+    # Review committee — includes literature reviewer if literature_comparison is provided.
+    import json as _json
+    from text_to_gds.review.committee import review_committee as _review_committee
+    sidecar_dict = {}
+    try:
+        sidecar_dict = _json.loads(Path(compiled["sidecar_path"]).read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        pass
+    review_evidence = {
+        "device": "lumped_element_jpa_seed",
+        "sidecar": sidecar_dict,
+        "drc": drc,
+        "simulation": simulation,
+    }
+    if literature_comparison is not None:
+        review_evidence["literature_comparison"] = literature_comparison
+    else:
+        review_evidence["literature_comparison"] = run_golden_compare(
+            {"pcell": "lumped_element_jpa_seed", "info": sidecar_dict.get("info", {})},
+            "jpa",
+        )
+    committee_result = _review_committee(review_evidence)
+    review_report_path = ARTIFACT_ROOT / f"{output_stem}.review.json"
+    review_report_path.write_text(_json.dumps(committee_result, indent=2), encoding="utf-8")
+    committee_result["result_path"] = str(review_report_path)
 
     workbench_path = _artifact_path(f"{Path(output_name).stem}.workbench.html", ".html")
     workbench = write_design_workbench(
@@ -1953,9 +2333,16 @@ def run_design_workflow(
         rf=rf,
     )
 
+    workflow_status = _workflow_status_from_simulation(simulation)
+    if simulation.get("status") == "skipped":
+        workflow_status = "failed"
+
     return {
-        "schema": "text-to-gds.design-workflow.v0",
-        "status": _workflow_status_from_simulation(simulation),
+        "schema": "text-to-gds.design-workflow.v1",
+        "status": workflow_status,
+        "stage": "complete",
+        "design_intent": design_intent,
+        "review": committee_result,
         "prompt": prompt,
         "plan": plan,
         "pcell": "lumped_element_jpa_seed",
@@ -1981,7 +2368,7 @@ def run_optimized_design_workflow(
     parameters: dict[str, Any] | None = None,
     jc_ua_per_um2: float = 2.0,
     max_iterations: int = 4,
-    simulator: str = "mock_jj",
+    simulator: str = "analytical_jj",
     analysis_mode: str = "auto",
     pump_current_fraction: float = 0.017,
     coupling_capacitance_ff: float | None = None,
@@ -1992,6 +2379,16 @@ def run_optimized_design_workflow(
     flux_sweep_points: int = 101,
     flux_period_current_ma: float | None = None,
     flux_mutual_inductance_ph: float | None = None,
+    # Design-intent physics inputs (forwarded to run_design_workflow)
+    substrate: str | None = None,
+    epsilon_r: float | None = None,
+    substrate_thickness_um: float | None = None,
+    ground_width_um: float | None = None,
+    package_clearance_um: float | None = None,
+    pump_frequency_ghz: float | None = None,
+    pump_power_dbm: float | None = None,
+    pump_mode: str | None = None,
+    impedance_tolerance_ohm: float = 8.0,
 ) -> dict[str, Any]:
     """Optimize first-pass LJPA geometry with a local surrogate, then run workflow."""
     plan = plan_ljpa(prompt)
@@ -2043,17 +2440,27 @@ def run_optimized_design_workflow(
         flux_sweep_points=flux_sweep_points,
         flux_period_current_ma=flux_period_current_ma,
         flux_mutual_inductance_ph=flux_mutual_inductance_ph,
+        substrate=substrate,
+        epsilon_r=epsilon_r,
+        substrate_thickness_um=substrate_thickness_um,
+        ground_width_um=ground_width_um,
+        package_clearance_um=package_clearance_um,
+        pump_frequency_ghz=pump_frequency_ghz,
+        pump_power_dbm=pump_power_dbm,
+        pump_mode=pump_mode,
+        impedance_tolerance_ohm=impedance_tolerance_ohm,
     )
     workflow["optimization"] = optimization
     workflow["status"] = "optimized_with_local_surrogate"
-    workflow["simulation_status"] = _workflow_status_from_simulation(workflow["simulation"])
+    simulation_result = workflow.get("simulation", {"status": "skipped"})
+    workflow["simulation_status"] = _workflow_status_from_simulation(simulation_result)
     return workflow
 
 
 @mcp.tool()
 def run_simulation(
     sidecar_path: str,
-    simulator: str = "mock_jj",
+    simulator: str = "analytical_jj",
     jc_ua_per_um2: float = 1.0,
     shunt_capacitance_ff: float = 0.0,
     analysis_mode: str = "auto",
@@ -2391,6 +2798,24 @@ def validate_device_template(sidecar_path: str, device: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+def validate_layout_geometry(
+    gds_path: str,
+    sidecar_path: str | None = None,
+) -> dict[str, Any]:
+    """Polygon-level GDS geometry validation.
+
+    Runs all geometry checks: basic GDS structure, minimum width, JJ electrode
+    overlap, CPW topology and Z0, resonator λ/4 length, via chain connectivity,
+    and port layer existence.
+
+    Returns ``passed=True`` only when zero errors are found.
+    """
+    from text_to_gds.layout_validator import validate_layout
+
+    return validate_layout(gds_path, sidecar_path)
+
+
+@mcp.tool()
 def review_layout(
     sidecar_path: str,
     simulation_path: str | None = None,
@@ -2406,6 +2831,12 @@ def review_layout(
     evidence: dict[str, Any] = {
         "sidecar": json.loads(_existing_path(sidecar_path).read_text(encoding="utf-8"))
     }
+    gds_path = evidence["sidecar"].get("gds_path")
+    if gds_path:
+        from text_to_gds.layout_validator import validate_layout
+
+        evidence["gds_path"] = gds_path
+        evidence["layout_validation"] = validate_layout(gds_path, sidecar_path)
     if simulation_path:
         evidence["simulation"] = json.loads(_existing_path(simulation_path).read_text(encoding="utf-8"))
     if drc_path:
@@ -2413,6 +2844,13 @@ def review_layout(
     if device:
         evidence["device"] = device
     return review_committee(evidence)
+
+
+@mcp.tool()
+def evaluate_signoff_level(evidence_json: str) -> dict[str, Any]:
+    """Evaluate Text-to-GDS signoff Level 0-6 from explicit evidence JSON."""
+    evidence = json.loads(evidence_json) if isinstance(evidence_json, str) else evidence_json
+    return evaluate_signoff(evidence)
 
 
 @mcp.tool()

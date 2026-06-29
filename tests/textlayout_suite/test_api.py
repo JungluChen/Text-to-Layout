@@ -94,3 +94,24 @@ def test_report_includes_simulation_steps(client: TestClient) -> None:
     body = resp.json()
     assert body["simulation_next_steps"][0]["stage"] == "import"
     assert body["verification"]["status"] == "pass"
+    assert body["evidence"]["references"]
+
+
+def test_research_returns_equations_and_references(client: TestClient) -> None:
+    resp = client.post("/layout/research", json=IDC_DSL)
+    assert resp.status_code == 200
+    evidence = resp.json()["evidence"]
+    assert evidence["equations"]
+    assert evidence["references"]
+    assert evidence["simulation_recommendation"]
+
+
+def test_benchmark_returns_complete_packet(client: TestClient) -> None:
+    resp = client.post("/layout/benchmark", json=IDC_DSL)
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["status"] == "pass"
+    assert {"gds", "svg", "json", "verification", "evidence", "report"} <= set(
+        body["files"]
+    )
+    assert "No EM solver was executed" in body["report_markdown"]

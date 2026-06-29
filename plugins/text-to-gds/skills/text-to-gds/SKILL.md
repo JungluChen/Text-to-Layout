@@ -16,6 +16,74 @@ Use this skill for local-first superconducting IC layout workflows where Python
 code generates `.gds` files, emits semantic sidecars, runs DRC, and optionally
 feeds extracted parameters into simulation adapters.
 
+## When To Use This Skill
+
+Use it for prompt-to-layout, PCell selection, GDS generation, DRC, extraction,
+physics graph generation, solver input handoff, and local Text-to-GDS release
+checks.
+
+## Inputs
+
+- Natural-language prompt or explicit PCell name.
+- Optional `design_intent.json`.
+- PCell parameters and process assumptions.
+- Existing `.gds`, `.sidecar.json`, or `physics_graph.json` when continuing a
+  workflow.
+
+## Outputs
+
+- `.gds`
+- `.layout.png`
+- `.sidecar.json`
+- `.drc.json`
+- `.extraction.json`
+- `physics_graph.json`
+- Solver input files or honest `SKIPPED` status.
+
+## Required Files
+
+- `src/text_to_gds/server.py`
+- `src/text_to_gds/pcells/`
+- `scripts/check_external_tools.py`
+- `SOLVER_EVIDENCE_CONTRACT.md`
+- `PHYSICS_GRAPH_SCHEMA.md`
+- `SIGNOFF_CRITERIA.md`
+
+## Hard Stops
+
+- Do not claim solver execution without output file evidence.
+- Do not claim physics signoff below Level 5.
+- Do not claim measurement calibration below Level 6.
+- Do not use `source="LLM"` for physical values.
+- Do not count skipped solvers as evidence.
+
+## Solver Requirements
+
+Use `scripts/check_external_tools.py` before claiming backend availability.
+Simulation evidence requires solver-owned output files. Generated solver inputs
+are handoff artifacts only.
+
+## Example Prompts
+
+- "Create a Manhattan Josephson junction and run DRC plus extraction."
+- "Generate a CPW resonator physics graph and openEMS input files."
+- "Audit this artifact bundle for signoff level."
+
+## Example Commands
+
+```bash
+uv sync
+uv run python examples/zero_to_one_demos.py all
+uv run python scripts/check_external_tools.py
+uv run text-to-gds
+```
+
+## Failure Cases
+
+- Unknown PCell: list supported PCells and stop.
+- Missing sidecar: extraction/signoff fails.
+- Missing solver output: mark solver `failed` or `skipped`, not executed.
+
 ## Use This Skill When
 
 Use this skill when the user asks for GDS, GDSII, gdsfactory layout code,
