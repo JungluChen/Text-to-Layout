@@ -1,0 +1,673 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Text-to-Layout Plugin API",
+    "description": "Natural-language IC layout: a structured Layout DSL is turned into deterministic gdsfactory geometry, verified against design rules, and exported to GDS / SVG / JSON. The AI never writes GDS directly.",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/layout/generate": {
+      "post": {
+        "tags": [
+          "layout"
+        ],
+        "summary": "Generate",
+        "operationId": "generate_layout_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/layout/verify": {
+      "post": {
+        "tags": [
+          "layout"
+        ],
+        "summary": "Verify",
+        "operationId": "verify_layout_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/layout/preview": {
+      "post": {
+        "tags": [
+          "layout"
+        ],
+        "summary": "Preview",
+        "operationId": "preview_layout_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/layout/export": {
+      "post": {
+        "tags": [
+          "layout"
+        ],
+        "summary": "Export",
+        "operationId": "export_layout_export_post",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "gds",
+              "title": "Format"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/layout/report": {
+      "post": {
+        "tags": [
+          "layout"
+        ],
+        "summary": "Report",
+        "operationId": "report_layout_report_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LayoutSpec"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExportResponse": {
+        "properties": {
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "format": {
+            "type": "string",
+            "title": "Format"
+          },
+          "file": {
+            "type": "string",
+            "title": "File",
+            "description": "Absolute path to the written artifact."
+          },
+          "bytes": {
+            "type": "integer",
+            "title": "Bytes"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component",
+          "format",
+          "file",
+          "bytes",
+          "verification_status"
+        ],
+        "title": "ExportResponse"
+      },
+      "GenerateResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "'pass' or 'fail' (mirrors verification)."
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Summary"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationModel"
+          },
+          "artifacts": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Artifacts",
+            "description": "Inline text artifacts (json, svg)."
+          },
+          "files": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Files",
+            "description": "Paths to written files keyed by format."
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "component",
+          "summary",
+          "verification"
+        ],
+        "title": "GenerateResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "ok"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "components": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Components",
+            "description": "Registered generator component names."
+          },
+          "technologies": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Technologies",
+            "description": "Available technologies/PDKs."
+          },
+          "formats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Formats",
+            "description": "Available export formats."
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "components",
+          "technologies",
+          "formats"
+        ],
+        "title": "HealthResponse"
+      },
+      "LayoutSpec": {
+        "properties": {
+          "dsl_version": {
+            "type": "string",
+            "title": "Dsl Version",
+            "description": "DSL schema version; allows backward-compatible evolution.",
+            "default": "1.0"
+          },
+          "component": {
+            "type": "string",
+            "title": "Component",
+            "description": "Registered generator name, e.g. 'CPW', 'IDC', 'SpiralInductor'."
+          },
+          "technology": {
+            "type": "string",
+            "title": "Technology",
+            "description": "Technology/PDK name resolved by the technology library.",
+            "default": "generic_2metal"
+          },
+          "parameters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Parameters",
+            "description": "Device parameters; validated against the generator's schema."
+          },
+          "rules": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Rules",
+            "description": "Design-rule overrides, e.g. {'min_width_um': 2, 'min_gap_um': 2}. When omitted, the technology's defaults apply."
+          },
+          "outputs": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Outputs",
+            "description": "Which artifacts to produce."
+          },
+          "origin": {
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Origin",
+            "description": "Placement origin in micrometres.",
+            "default": [
+              0.0,
+              0.0
+            ]
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Free-form provenance (intent, requesting agent, etc.)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "component"
+        ],
+        "title": "LayoutSpec",
+        "description": "A single, self-describing layout request.\n\nExample::\n\n    {\n        \"dsl_version\": \"1.0\",\n        \"component\": \"CPW\",\n        \"technology\": \"generic_2metal\",\n        \"parameters\": {\"center_width_um\": 10, \"gap_um\": 6, \"length_um\": 1000},\n        \"origin\": [0, 0]\n    }"
+      },
+      "PreviewResponse": {
+        "properties": {
+          "format": {
+            "type": "string",
+            "title": "Format",
+            "default": "svg"
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "svg": {
+            "type": "string",
+            "title": "Svg"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component",
+          "svg"
+        ],
+        "title": "PreviewResponse"
+      },
+      "ReportResponse": {
+        "properties": {
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Summary"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationModel"
+          },
+          "files": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Files"
+          },
+          "simulation_next_steps": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationStep"
+            },
+            "type": "array",
+            "title": "Simulation Next Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component",
+          "summary",
+          "verification",
+          "files",
+          "simulation_next_steps"
+        ],
+        "title": "ReportResponse"
+      },
+      "SimulationStep": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stage",
+          "description"
+        ],
+        "title": "SimulationStep"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerificationModel": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "'pass' or 'fail'."
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "checks": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "component",
+          "checks",
+          "warnings",
+          "errors"
+        ],
+        "title": "VerificationModel"
+      },
+      "VerifyResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "'pass' or 'fail'."
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "checks": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "component",
+          "checks",
+          "warnings",
+          "errors"
+        ],
+        "title": "VerifyResponse",
+        "description": "Verification report (same shape as the embedded verification block)."
+      }
+    }
+  }
+}

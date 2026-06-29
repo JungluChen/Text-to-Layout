@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Text-to-Layout",
+  "name_for_model": "text_to_layout",
+  "description_for_human": "Generate, verify, and export IC layouts (GDSII/SVG/JSON) from natural language via a structured Layout DSL.",
+  "description_for_model": "Use this tool to turn an IC-layout request into a verified GDSII layout. Do NOT generate geometry or GDS yourself. Instead, construct a Layout DSL JSON object with a `component` (one of the names from GET /health), `parameters` matching that component's schema, optional `rules`, and `outputs`. POST it to /layout/generate to build + verify + export, or /layout/verify to only run design-rule checks. Always read the `verification` block: if `status` is `fail`, fix the offending parameter (see the failing check's value_um vs limit_um) and retry. The supported components today are IDC (interdigital capacitor) and CPW (coplanar waveguide).",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://127.0.0.1:8000/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "http://127.0.0.1:8000/docs",
+  "contact_email": "maintainers@example.com",
+  "legal_info_url": "https://github.com/JungluChen/Text-to-Layout/blob/main/LICENSE"
+}

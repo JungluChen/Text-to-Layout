@@ -4,8 +4,13 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
 .agents/
 skills-lock.json
+.env
+
+# textlayout plugin server output
+workspace/textlayout/
 
 workspace/artifacts/*
 !workspace/artifacts/.gitkeep

@@ -1,0 +1,15 @@
+# Runtime dependencies for the Text-to-Layout plugin (deterministic core + API).
+# The canonical source is pyproject.toml; this file mirrors it for `pip install -r`.
+# Prefer:  uv sync     (or)    pip install -e .
+
+pydantic>=2.0
+gdsfactory>=8.0
+klayout>=0.29
+fastapi>=0.110
+uvicorn>=0.30
+
+# Dev / quality tooling (see pyproject [dependency-groups].dev):
+#   pytest>=8.0
+#   ruff>=0.6
+#   mypy>=1.11
+#   pytest-cov>=5.0
