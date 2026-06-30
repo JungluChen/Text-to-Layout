@@ -113,7 +113,17 @@ class ResearchReport:
             lines += ["## References", ""]
             for r in self.references:
                 lines.append(f"- {r.citation}" + (f" — {r.note}" if r.note else ""))
-            lines.append("")
+            lines += ["", "See the repository [REFERENCES.md](../../../REFERENCES.md).", ""]
+
+        lines += [
+            "## Evidence status",
+            "",
+            "- A citation supports the analytical **method/model**, not this specific layout.",
+            "- This generated geometry has **not** been EM-simulated (no solver executed).",
+            "- This generated geometry has **not** been measured.",
+            "- This generated geometry is **not** fabrication-ready.",
+            "",
+        ]
 
         return "\n".join(lines).rstrip() + "\n"
 

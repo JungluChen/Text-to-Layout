@@ -1,5 +1,12 @@
 # PROJECT_AUDIT.md — Text-to-GDS → QuantumCAD OS
 
+> ⚠️ **HISTORICAL AUDIT (2026-06-29) — superseded.** This is a point-in-time
+> snapshot. Several negative findings below have since been fixed: the test suite
+> is green, the dead shadowed modules were addressed, the 5 MHz LC physics error
+> is corrected, and provenance + separated verification are in place. **For the
+> current, verified status see [CURRENT_STATUS.md](CURRENT_STATUS.md).** Do not
+> cite the findings below as the present state of the repository.
+
 **Auditor:** Multidisciplinary engineering org (Principal EDA Architect lead)
 **Date:** 2026-06-29
 **Branch:** `main` (working tree dirty — see §1.2)

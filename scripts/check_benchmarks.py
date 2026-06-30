@@ -57,6 +57,17 @@ READY_REQUIRED = {
 TODO_REQUIRED = {"prompt.md", "layout.json", "TODO.md", "verification.json", "evidence.md"}
 LINK_RE = re.compile(r"\]\(([^)]+)\)")
 
+# Signatures of the OLD (1000x-too-small) 5 MHz LC table. These pair a
+# capacitance with the wrong inductance unit; the corrected table never matches.
+WRONG_5MHZ_PATTERNS = (
+    re.compile(r"\|\s*1 pF\s*\|\s*1\.013\s*[μu]H"),  # 1 pF -> uH (should be mH)
+    re.compile(r"\|\s*100 pF\s*\|\s*10\.13\s*nH"),  # 100 pF -> nH (should be uH)
+    re.compile(r"borderline feasible"),
+    re.compile(r"slightly above limit"),
+)
+# A benchmark-table "PASS" that is not qualified as "GEOMETRY PASS" is ambiguous.
+AMBIGUOUS_PASS_RE = re.compile(r"(?<!GEOMETRY )PASS")
+
 
 def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[str]:
     errors: list[str] = []
@@ -67,6 +78,13 @@ def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[
         clean = target.split("#", 1)[0]
         if clean.startswith("examples/benchmarks/") and not (repo_root / clean).exists():
             errors.append(f"README benchmark link does not exist: {clean}")
+
+    # Benchmark-table rows must use qualified status labels (e.g. GEOMETRY PASS),
+    # never a bare/ambiguous "PASS".
+    for line in readme_text.splitlines():
+        if "examples/benchmarks/" in line and AMBIGUOUS_PASS_RE.search(line):
+            errors.append("README benchmark row uses an ambiguous 'PASS' without a qualifier")
+            break
 
     for folder in sorted(path for path in root.iterdir() if path.is_dir()):
         layout_path = folder / "layout.json"
@@ -80,6 +98,29 @@ def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[
         names = {path.name for path in folder.iterdir()}
         relative = folder.relative_to(repo_root).as_posix()
         row = next((line for line in readme_text.splitlines() if relative in line), "")
+
+        # Status-agnostic honesty checks on verification.json (apply to every
+        # benchmark, not just ready ones).
+        vpath = folder / "verification.json"
+        if vpath.is_file():
+            v = json.loads(vpath.read_text(encoding="utf-8"))
+            phys = v.get("physics_verification", {})
+            sim = v.get("simulation_evidence", {})
+            if phys.get("physics_verified") and not sim.get("solver_executed"):
+                errors.append(f"{folder.name}: physics_verified=true but solver_executed=false")
+            if v.get("fabrication_readiness", {}).get("fabrication_ready"):
+                errors.append(f"{folder.name}: fabrication_ready must not be true")
+
+        # The 5 MHz LC benchmark must never regress to the old (wrong) table.
+        if folder.name == "06_lc_5mhz_resonator":
+            for md_name in ("feasibility.md", "evidence.md", "report.md", "TODO.md"):
+                md_path = folder / md_name
+                if md_path.is_file():
+                    text = md_path.read_text(encoding="utf-8")
+                    if any(p.search(text) for p in WRONG_5MHZ_PATTERNS):
+                        errors.append(
+                            f"{folder.name}/{md_name}: contains the old/incorrect 5 MHz LC table"
+                        )
 
         if status == "ready":
             missing = sorted(READY_REQUIRED - names)
@@ -118,11 +159,13 @@ def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[
                     if section not in verification:
                         errors.append(f"{folder.name}: verification.json missing {section}")
 
-                # Check simulation evidence
+                # Solver-owned output files must exist if execution is claimed.
                 sim_evidence = verification.get("simulation_evidence", {})
-                if sim_evidence.get("solver_executed") and not sim_evidence.get("input_files"):
+                if sim_evidence.get("solver_executed") and not sim_evidence.get(
+                    "solver_output_files"
+                ):
                     errors.append(
-                        f"{folder.name}: solver_executed=true but no input_files listed"
+                        f"{folder.name}: solver_executed=true but no solver_output_files listed"
                     )
 
             # Check for misleading claims in README row

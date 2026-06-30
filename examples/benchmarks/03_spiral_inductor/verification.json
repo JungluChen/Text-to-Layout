@@ -121,6 +121,7 @@
     "target": {
       "inductance_nh": 2.0
     },
+    "target_error_percent": null,
     "estimates": {
       "turns": 4,
       "outer_dimension_um": 150.0,
@@ -134,10 +135,11 @@
     "solver_executed": false,
     "solver": "FastHenry",
     "readiness_level": 2,
-    "input_files": [
+    "prepared_input_files": [
       "simulation_manifest.json",
       "spiral.inp"
     ],
+    "solver_output_files": [],
     "note": "A continuous centerline and conductor cross-section were written as FastHenry input."
   },
   "physics_verification": {
@@ -157,7 +159,7 @@
   "provenance": {
     "layout_json_sha256": "05c2b6f52c4739d826aca441a907450bba076c005d1a9dc70b91eda1b08c3dc1",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:03:09.895403+00:00",
+    "generated_at": "2026-06-30T02:31:52.094380+00:00",
     "source_layout_path": "benchmarks/03_spiral_inductor/layout.json"
   }
 }

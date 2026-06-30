@@ -150,3 +150,55 @@ def test_failed_verification_blocks_export(tmp_path: Path) -> None:
     assert not result.report.passed
     assert not result.files, "no final artifacts may be exported when verification fails"
     assert not list(tmp_path.glob("*.gds"))
+
+
+# 11. The 5 MHz benchmark is honestly marked infeasible everywhere.
+def test_5mhz_marked_infeasible() -> None:
+    layout = json.loads((BENCH / "06_lc_5mhz_resonator" / "layout.json").read_text(encoding="utf-8"))
+    md = layout["metadata"]
+    assert md["benchmark_status"] == "infeasible"
+    assert md["geometry_status"] == "not_generated"
+    assert md["simulation_readiness_level"] == 0
+    assert md["solver_executed"] is False
+    assert md["physics_verified"] is False
+    assert md["fabrication_ready"] is False
+    v = json.loads((BENCH / "06_lc_5mhz_resonator" / "verification.json").read_text(encoding="utf-8"))
+    assert v["status"] == "infeasible"
+    assert v["physics_verification"]["status"] == "infeasible"
+    # No fake final outputs for an infeasible benchmark.
+    assert not list((BENCH / "06_lc_5mhz_resonator").glob("output.*"))
+
+
+# 12. Verification JSON uses the separated schema with the documented fields.
+def test_verification_separated_schema() -> None:
+    v = json.loads((BENCH / "01_idc_0p6pf" / "verification.json").read_text(encoding="utf-8"))
+    for section in (
+        "geometry_verification",
+        "artifact_verification",
+        "analytical_evidence",
+        "simulation_evidence",
+        "physics_verification",
+        "fabrication_readiness",
+    ):
+        assert section in v, f"missing {section}"
+    assert "target_error_percent" in v["analytical_evidence"]
+    se = v["simulation_evidence"]
+    assert se["solver_executed"] is False
+    assert se["solver_output_files"] == []  # honest: nothing executed
+
+
+# 13. README must not contain the old (wrong) 5 MHz values.
+def test_readme_has_no_old_5mhz_values() -> None:
+    readme = (REPO / "README.md").read_text(encoding="utf-8")
+    assert "borderline feasible" not in readme
+    assert "slightly above limit" not in readme
+    assert not re.search(r"\|\s*1 pF\s*\|\s*1\.013\s*[μu]H", readme)
+    assert "1.013" in readme or "159 MHz" in readme  # correct physics referenced
+
+
+# 14. API /health returns JSON.
+def test_health_returns_json() -> None:
+    resp = TestClient(create_app()).get("/health")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"].split(";")[0] == "application/json"
+    assert resp.json()["status"] == "ok"

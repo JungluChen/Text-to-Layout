@@ -1007,7 +1007,7 @@
   "provenance": {
     "layout_json_sha256": "53c96cae013b3b74baf38c39337a8ce4fe7dc2692ca1d0595f66c3458c78a107",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:03:09.508722+00:00",
+    "generated_at": "2026-06-30T02:31:51.680371+00:00",
     "source_layout_path": "benchmarks/01_idc_0p6pf/layout.json"
   }
 }

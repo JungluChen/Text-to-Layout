@@ -55,6 +55,14 @@ def _assemble_verification(spec, final_report, research, simulation, provenance)
             if isinstance(p, str) and Path(p).suffix
         }
     )
+    solver_executed = simulation.status == "executed"
+    # Solver-OWNED output files only exist after a real execution; never before.
+    solver_output_files = input_files if solver_executed else []
+    estimates = dict(research.analytical_estimates)
+    target_error_percent = next(
+        (v for k, v in estimates.items() if "vs_target_pct" in k or "target_error" in k),
+        None,
+    )
     return {
         "status": final_report.status,
         "component": spec.component,
@@ -70,15 +78,17 @@ def _assemble_verification(spec, final_report, research, simulation, provenance)
             "status": "analytical_only",
             "model": research.model_name,
             "target": dict(research.physical_target),
-            "estimates": dict(research.analytical_estimates),
+            "target_error_percent": target_error_percent,
+            "estimates": estimates,
             "note": "Analytical estimate only; EM extraction required before any physics claim.",
         },
         "simulation_evidence": {
             "status": simulation.status,
-            "solver_executed": simulation.status == "executed",
+            "solver_executed": solver_executed,
             "solver": simulation.solver,
             "readiness_level": simulation.readiness_level,
-            "input_files": input_files,
+            "prepared_input_files": input_files,
+            "solver_output_files": solver_output_files,
             "note": simulation.reason,
         },
         "physics_verification": {

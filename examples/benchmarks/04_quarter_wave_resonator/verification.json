@@ -125,6 +125,7 @@
     "target": {
       "frequency_ghz": 6.0
     },
+    "target_error_percent": null,
     "estimates": {
       "substrate_eps_r": 11.9,
       "eps_eff": 6.45,
@@ -139,10 +140,11 @@
     "solver_executed": false,
     "solver": "openEMS",
     "readiness_level": 2,
-    "input_files": [
+    "prepared_input_files": [
       "openems_model.json",
       "simulation_manifest.json"
     ],
+    "solver_output_files": [],
     "note": "Verified geometry, material assumptions, ports, and expected outputs were serialized."
   },
   "physics_verification": {
@@ -162,7 +164,7 @@
   "provenance": {
     "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:03:10.060618+00:00",
+    "generated_at": "2026-06-30T02:31:52.287906+00:00",
     "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"
   }
 }

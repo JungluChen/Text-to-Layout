@@ -121,6 +121,7 @@
     "target": {
       "impedance_ohm": 50.0
     },
+    "target_error_percent": null,
     "estimates": {
       "substrate_eps_r": 11.9,
       "eps_eff": 6.45,
@@ -136,10 +137,11 @@
     "solver_executed": false,
     "solver": "openEMS",
     "readiness_level": 2,
-    "input_files": [
+    "prepared_input_files": [
       "openems_model.json",
       "simulation_manifest.json"
     ],
+    "solver_output_files": [],
     "note": "Verified geometry, material assumptions, ports, and expected outputs were serialized."
   },
   "physics_verification": {
@@ -159,7 +161,7 @@
   "provenance": {
     "layout_json_sha256": "7b70d2c8fdbb7df54a6b68f6e99d3edad04a8888f562d078ab8b4610dd9a408c",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:03:09.686724+00:00",
+    "generated_at": "2026-06-30T02:31:51.886264+00:00",
     "source_layout_path": "benchmarks/02_cpw_50ohm/layout.json"
   }
 }

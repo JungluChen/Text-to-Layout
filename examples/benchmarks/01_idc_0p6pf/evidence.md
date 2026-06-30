@@ -62,3 +62,12 @@
 - I. J. Bahl, 'Lumped Elements for RF and Microwave Circuits', Artech House, 2003, Ch. 2. — Closed-form interdigital capacitance used here.
 - G. D. Alley, 'Interdigital Capacitors and Their Application to Lumped-Element Microwave Integrated Circuits', IEEE Trans. MTT-18 (1970) 1028. — Original per-finger capacitance coefficients.
 - S. S. Gevorgian et al., 'CAD models for multilayered substrate interdigital capacitors', IEEE Trans. MTT-44 (1996) 896. — More accurate multilayer/finite-thickness models for EM cross-check.
+
+See the repository [REFERENCES.md](../../../REFERENCES.md).
+
+## Evidence status
+
+- A citation supports the analytical **method/model**, not this specific layout.
+- This generated geometry has **not** been EM-simulated (no solver executed).
+- This generated geometry has **not** been measured.
+- This generated geometry is **not** fabrication-ready.
