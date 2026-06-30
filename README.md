@@ -291,6 +291,22 @@ py -3 scripts/check_benchmarks.py
 - **No benchmark is PHYSICS VERIFIED** - all analytical estimates require solver execution and comparison.
 - **No benchmark is FABRICATION READY** - all require process-specific DRC and expert review.
 
+## References
+
+Analytical models and open-source solvers are documented in
+[REFERENCES.md](REFERENCES.md), with full per-benchmark citations inline in each
+`examples/benchmarks/*/evidence.md`.
+
+> A paper citation supports the **analytical method** (the equation used). It does
+> **not** prove that a generated geometry meets its target. Only a real solver
+> result or a measurement can establish that, which is why every analytical result
+> is labelled `ANALYTICAL ONLY` until a solver-owned artifact exists.
+
+Key sources: Bahl (2003) and Alley (MTT-18, 1970) for the IDC; Simons (2001) and
+Hilberg (MTT-17, 1969) for the CPW; Mohan et al. (JSSC, 1999) and Wheeler (1928)
+for the spiral; Pozar (2012) for λ/4 and LCR resonance; Clarke & Braginski (2004)
+and Tinkham (2004) for SQUID/Josephson physics.
+
 ## License
 
 MIT; see [LICENSE](LICENSE).

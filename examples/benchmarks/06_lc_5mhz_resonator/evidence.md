@@ -4,110 +4,72 @@
 **Model:** f0 = 1/(2π√LC)
 **Target:** resonance_frequency_hz = 5,000,000
 
-## First-principles analysis
+## Analytical model and reference
 
-### Resonance frequency equation
+- **Model:** lumped parallel/series LC resonance, `f0 = 1/(2π√LC)`.
+- **Reference:** standard LCR resonance (e.g. Pozar, *Microwave Engineering*,
+  4th ed., Ch. 6). See [`../../../REFERENCES.md`](../../../REFERENCES.md).
+- **What it supports:** the *required* LC product for a target frequency.
+- **What it does NOT prove:** that any specific on-chip geometry realizes the
+  required L and C with usable Q. Only EM extraction or measurement can do that.
+
+## Required LC product
 
 ```
-f0 = 1/(2π√LC)
+LC = 1/(2πf0)² = 1/(2π × 5×10⁶)² ≈ 1.013×10⁻¹⁵ s²
 ```
 
-Rearranging for required LC product:
+### Required L for a given C (LC = 1.013×10⁻¹⁵ s²)
+
+| C | Required L | On-chip feasibility |
+|---|-----------|---------------------|
+| 1 pF | 1.013 mH | ❌ Impossible |
+| 10 pF | 101.3 μH | ❌ Impossible |
+| 100 pF | 10.13 μH | ❌ Impractical |
+| 1 nF | 1.013 μH | ❌ Impractical |
+| 10 nF | 101.3 nH | ❌ C impractical on-chip |
+| 100 nF | 10.13 nH | ❌ C impossible on-chip |
+
+## On-chip limits and the resulting gap
+
+- Practical spiral L: ~1-10 nH (usable Q), up to ~100 nH aggressive.
+- Practical MIM C: ~0.1-10 pF, up to ~100 pF aggressive (~0.1 mm²).
+
+Best *comfortable* on-chip values:
 
 ```
-LC = 1/(2πf0)²
-LC = 1/(2π × 5×10⁶)²
-LC = 1/(3.14159×10⁷)²
-LC = 1/9.8696×10¹⁴
-LC ≈ 1.013×10⁻¹⁵ s²
+L = 10 nH, C = 100 pF
+f0 = 1/(2π√(10×10⁻⁹ × 100×10⁻¹²)) = 1/(2π√(10⁻¹⁸)) = 159 MHz
 ```
 
-### Required component combinations
+This is **31× higher** than the 5 MHz target. The required LC product is
+**~100-1000× larger** than any practical on-chip combination, so L = 10 nH with
+C = 100 pF is **not** close to 5 MHz.
 
-| C | Required L | Feasibility |
-|---|-----------|-------------|
-| 1 pF | 1.013 μH | ❌ Extremely large (~100 turns) |
-| 10 pF | 101.3 nH | ⚠️ Large (~20-30 turns) |
-| 100 pF | 10.13 nH | ⚠️ Most feasible |
-| 1 nF | 1.013 nH | ✅ L possible, ❌ C impossible |
+| On-chip combination | LC (s²) | f0 | LC gap vs target |
+|---|---|---|---|
+| L = 10 nH, C = 100 pF | 1×10⁻¹⁸ | 159 MHz | ~1000× |
+| L = 100 nH, C = 100 pF | 1×10⁻¹⁷ | 50.3 MHz | ~100× |
+| L = 1 µH, C = 100 pF | 1×10⁻¹⁶ | 15.9 MHz | ~10× |
 
-### On-chip constraints
+To reach 5 MHz you would need L ≈ 10.13 µH (with 100 pF) or C ≈ 101 nF (with
+10 nH); neither is realizable on-chip.
 
-**Inductor:**
-- Practical range: 1 nH to 100 nH
-- Maximum: ~1 μH (100+ turns, ~2 mm²)
-- Q-factor at 5 MHz: 2-10 (substrate loss dominated)
+## Why 5 MHz is infeasible on-chip
 
-**Capacitor:**
-- MIM density: 1-2 fF/μm²
-- Practical range: 100 fF to 10 pF
-- Maximum: ~100 pF (100,000 μm² = 0.1 mm²)
-
-### Feasibility verdict
-
-**Best achievable:** L = 10 nH, C = 100 pF
-```
-f0 = 1/(2π√(10×10⁻⁹ × 100×10⁻¹²))
-f0 = 1/(2π√(10⁻¹⁸))
-f0 = 1/(2π × 10⁻⁹)
-f0 = 159 MHz
-```
-
-**Result:** 31× higher than 5 MHz target.
-
-## Why 5 MHz is infeasible
-
-### 1. Component size mismatch
-
-| Frequency | Typical LC | Ratio to 5 MHz |
-|-----------|-----------|----------------|
-| 5 GHz | 1×10⁻¹⁸ s² | 1000× smaller |
-| 2.4 GHz | 4×10⁻¹⁸ s² | 250× smaller |
-| 1 GHz | 2.5×10⁻¹⁷ s² | 100× smaller |
-| 100 MHz | 2.5×10⁻¹⁵ s² | 2.5× smaller |
-| **5 MHz** | **1×10⁻¹⁵ s²** | **Target** |
-
-### 2. Parasitic dominance
-
-At 5 MHz:
-- Wirebond inductance: 1-10 nH (comparable to target L)
-- Stray capacitance: 0.1-1 pF (significant fraction of target C)
-- **Parasitic LC can shift resonance by >50%**
-
-### 3. Q-factor degradation
-
-On-chip spiral inductors at 5 MHz:
-- Substrate eddy current losses dominate
-- Typical Q: 2-10 (vs. 10-50 at GHz)
-- **Low Q broadens resonance peak, making frequency ambiguous**
-
-### 4. Area penalty
-
-Achievable on-chip:
-- L = 10 nH → 200 μm × 200 μm = 0.04 mm²
-- C = 100 pF → 300 μm × 300 μm = 0.09 mm²
-- **Total: ~0.13 mm²** (vs. ~0.001 mm² for GHz circuits)
+1. Required LC exceeds practical on-chip limits by ~100-1000×.
+2. Parasitics (wirebond ~1-10 nH, stray C ~0.1-1 pF) dominate and shift f0 >50%.
+3. On-chip spiral Q at 5 MHz is ~2-10, broadening the peak.
+4. Area penalty is mm²-scale.
 
 ## Recommendation
 
-**Status: INFEASIBLE**
-
-The 5 MHz LC resonator is not achievable with on-chip lumped LC components because:
-1. Required LC product exceeds practical limits by 100-1000×
-2. Parasitic effects dominate and make frequency unpredictable
-3. Q-factor is too low for meaningful resonance characterization
-4. Area penalty is excessive for a single resonator
-
-**Alternative approaches for 5 MHz:**
-- Discrete components (off-chip inductor + capacitor)
-- Ceramic resonator or crystal
-- Active LC simulation (gyrator circuit)
-- Consider 159 MHz as minimum feasible on-chip frequency
+**Status: INFEASIBLE.** For 5 MHz use discrete components, a crystal/ceramic
+resonator, or an active (gyrator) LC realization. The minimum comfortable on-chip
+resonance with these passives is ≈ 159 MHz.
 
 ## What this proves
 
-This benchmark demonstrates that Text-to-Layout can:
-1. Reason from circuit requirements to physical feasibility
-2. Identify when a target is impossible
-3. Explain why and propose alternatives
-4. **Not just draw layouts that look correct but are physically wrong**
+Text-to-Layout reasons from circuit requirements to physical feasibility,
+identifies impossible targets, explains why, and proposes alternatives — rather
+than drawing a layout that looks correct but is physically wrong.

@@ -7,11 +7,14 @@ Roadmap entries remain explicit TODOs and never receive fake geometry files.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
+import textlayout
 from textlayout import build_default_workflow
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation import simulate_layout
@@ -19,6 +22,79 @@ from textlayout.verification import Check, CheckStatus, VerificationReport
 
 REQUIRED_INPUTS = ("prompt.md", "layout.json")
 FORMATS = ("gds", "svg", "json", "png")
+
+
+def _provenance_block(folder: Path) -> dict[str, str]:
+    """Reproducibility provenance; ``layout_json_sha256`` detects stale artifacts."""
+    layout_path = folder / "layout.json"
+    return {
+        "layout_json_sha256": hashlib.sha256(layout_path.read_bytes()).hexdigest(),
+        "generator_version": textlayout.__version__,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "source_layout_path": layout_path.relative_to(folder.parents[1]).as_posix(),
+    }
+
+
+def _section_status(checks: list[Check]) -> str:
+    return "fail" if any(c.status is CheckStatus.FAIL for c in checks) else "pass"
+
+
+def _assemble_verification(spec, final_report, research, simulation, provenance):  # noqa: ANN001
+    """Build the separated verification.json from research + simulation + checks.
+
+    Separating geometry/artifact/analytical/simulation/physics/fabrication status
+    is what keeps the report honest: a geometry pass never implies physics or
+    fabrication readiness.
+    """
+    geom = [c for c in final_report.checks if not c.name.startswith("output_")]
+    art = [c for c in final_report.checks if c.name.startswith("output_")]
+    input_files = sorted(
+        {
+            Path(p).name
+            for p in simulation.artifacts.values()
+            if isinstance(p, str) and Path(p).suffix
+        }
+    )
+    return {
+        "status": final_report.status,
+        "component": spec.component,
+        "geometry_verification": {
+            "status": _section_status(geom),
+            "checks": [c.to_dict() for c in geom],
+        },
+        "artifact_verification": {
+            "status": _section_status(art),
+            "checks": [c.to_dict() for c in art],
+        },
+        "analytical_evidence": {
+            "status": "analytical_only",
+            "model": research.model_name,
+            "target": dict(research.physical_target),
+            "estimates": dict(research.analytical_estimates),
+            "note": "Analytical estimate only; EM extraction required before any physics claim.",
+        },
+        "simulation_evidence": {
+            "status": simulation.status,
+            "solver_executed": simulation.status == "executed",
+            "solver": simulation.solver,
+            "readiness_level": simulation.readiness_level,
+            "input_files": input_files,
+            "note": simulation.reason,
+        },
+        "physics_verification": {
+            "status": "pending",
+            "physics_verified": False,
+            "note": "Requires solver execution and target comparison.",
+        },
+        "fabrication_readiness": {
+            "status": "not_ready",
+            "fabrication_ready": False,
+            "note": "Requires process-specific DRC, EM simulation, and expert review.",
+        },
+        "warnings": final_report.warnings,
+        "errors": final_report.errors,
+        "provenance": provenance,
+    }
 
 
 def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
@@ -97,8 +173,12 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
                         )
                     )
                 final_report = VerificationReport.from_checks(spec.component, base_checks)
+                provenance = _provenance_block(folder)
+                verification_doc = _assemble_verification(
+                    spec, final_report, result.research, simulation, provenance
+                )
                 (folder / "verification.json").write_text(
-                    json.dumps(final_report.to_dict(), indent=2) + "\n", encoding="utf-8"
+                    json.dumps(verification_doc, indent=2) + "\n", encoding="utf-8"
                 )
                 report_text = Path(result.files["report"]).read_text(encoding="utf-8")
                 for kind, old_path in result.files.items():
@@ -113,6 +193,10 @@ def generate_benchmarks(root: Path, *, strict: bool = False) -> int:
                     ),
                 )
                 (folder / "report.md").write_text(report_text, encoding="utf-8")
+                output_json = folder / "output.json"
+                output_data = json.loads(output_json.read_text(encoding="utf-8"))
+                output_data["provenance"] = provenance
+                output_json.write_text(json.dumps(output_data, indent=2) + "\n", encoding="utf-8")
                 generated += 1
                 print(f"PASS  {folder.name}")
 

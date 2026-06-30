@@ -11,7 +11,7 @@ from collections.abc import Callable
 from typing import Any
 
 from textlayout.models import Technology
-from textlayout.errors import MissingResearchError
+from textlayout.errors import InvalidParametersError, MissingResearchError
 from textlayout.research.cpw_research import research_cpw, research_quarter_wave_resonator
 from textlayout.research.idc_research import research_idc
 from textlayout.research.models import ResearchReport
@@ -45,4 +45,9 @@ def research(spec: LayoutSpec, tech: Technology) -> ResearchReport:
         fn = _RESEARCHERS[spec.component]
     except KeyError:
         raise MissingResearchError(spec.component, research_components()) from None
-    return fn(dict(spec.target), dict(spec.parameters), tech)
+    try:
+        return fn(dict(spec.target), dict(spec.parameters), tech)
+    except ValueError as exc:
+        # A first-principles formula rejected the inputs (e.g. non-positive
+        # dimensions). Surface as a structured 400, not an unhandled 500.
+        raise InvalidParametersError(spec.component, str(exc)) from exc

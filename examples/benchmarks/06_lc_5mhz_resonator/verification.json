@@ -14,31 +14,35 @@
     "model": "f0 = 1/(2π√LC)",
     "target_frequency_hz": 5000000,
     "required_lc_product_s2": 1.013e-15,
-    "feasible_lc_product_s2": 1e-15,
-    "gap_factor": 1.013,
-    "note": "Required LC product exceeds practical on-chip limits"
+    "best_practical_onchip_lc_product_s2": 1e-18,
+    "best_practical_onchip_combination": "L = 10 nH, C = 100 pF",
+    "best_practical_onchip_f0_hz": 159000000,
+    "lc_gap_factor": 1013,
+    "note": "Required LC product is ~100-1000x larger than any practical on-chip spiral+MIM combination. Reaching 5 MHz needs L ~= 10.13 uH (with 100 pF) or C ~= 101 nF (with 10 nH), neither realizable on-chip."
   },
   "simulation_evidence": {
     "status": "not_applicable",
     "solver_executed": false,
     "solver": "None - infeasible",
     "input_files": [],
-    "note": "No simulation possible for infeasible target"
+    "note": "No simulation possible for an infeasible target"
   },
   "physics_verification": {
     "status": "infeasible",
-    "note": "Target frequency is not achievable with on-chip LC components"
+    "physics_verified": false,
+    "note": "Target frequency is not achievable with practical on-chip LC components"
   },
   "fabrication_readiness": {
     "status": "not_applicable",
+    "fabrication_ready": false,
     "note": "No layout to fabricate"
   },
   "warnings": [
-    "5 MHz LC resonator is INFEASIBLE for on-chip layout",
-    "Required LC product (1.013e-15 s²) exceeds practical limits by 100-1000×",
-    "Parasitic effects dominate at 5 MHz, making frequency unpredictable",
-    "On-chip spiral Q-factor too low (2-10) for meaningful resonance"
+    "5 MHz LC resonator is INFEASIBLE for a practical fully on-chip passive design",
+    "Required LC product (1.013e-15 s^2) exceeds practical on-chip limits by ~100-1000x",
+    "L = 10 nH, C = 100 pF resonates at 159 MHz (31x higher than target), not near 5 MHz",
+    "Parasitics dominate and on-chip spiral Q (~2-10) is too low at 5 MHz"
   ],
   "errors": [],
-  "recommendation": "Use discrete components, crystal, or active LC simulation for 5 MHz applications"
+  "recommendation": "Use discrete components, a crystal/ceramic resonator, or an active (gyrator) LC realization for 5 MHz. Minimum comfortable on-chip resonance with these passives is ~159 MHz."
 }

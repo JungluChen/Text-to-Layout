@@ -3,9 +3,43 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
+
+PROVENANCE_FIELDS = (
+    "layout_json_sha256",
+    "generator_version",
+    "generated_at",
+    "source_layout_path",
+)
+
+
+def _check_provenance(folder: Path, layout_sha: str) -> list[str]:
+    """Validate reproducibility provenance and detect stale artifacts."""
+    errors: list[str] = []
+    for name in ("output.json", "verification.json"):
+        path = folder / name
+        if not path.is_file():
+            errors.append(f"{folder.name}: missing {name} for provenance check")
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        provenance = data.get("provenance")
+        if not isinstance(provenance, dict):
+            errors.append(f"{folder.name}: {name} missing provenance block")
+            continue
+        for field in PROVENANCE_FIELDS:
+            if field not in provenance:
+                errors.append(f"{folder.name}: {name} provenance missing {field}")
+        recorded = provenance.get("layout_json_sha256")
+        if recorded and recorded != layout_sha:
+            errors.append(
+                f"{folder.name}: {name} is STALE "
+                f"(layout_json_sha256 {recorded[:12]} != current {layout_sha[:12]}); "
+                "re-run scripts/generate_benchmarks.py"
+            )
+    return errors
 
 READY_REQUIRED = {
     "prompt.md",
@@ -24,7 +58,7 @@ TODO_REQUIRED = {"prompt.md", "layout.json", "TODO.md", "verification.json", "ev
 LINK_RE = re.compile(r"\]\(([^)]+)\)")
 
 
-def check_benchmarks(root: Path, readme: Path) -> list[str]:
+def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[str]:
     errors: list[str] = []
     readme_text = readme.read_text(encoding="utf-8")
     repo_root = readme.parent
@@ -40,6 +74,7 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
             errors.append(f"{folder.name}: missing layout.json")
             continue
         spec = json.loads(layout_path.read_text(encoding="utf-8"))
+        layout_sha = hashlib.sha256(layout_path.read_bytes()).hexdigest()
         metadata = spec.get("metadata", {})
         status = metadata.get("benchmark_status", "todo")
         names = {path.name for path in folder.iterdir()}
@@ -123,6 +158,13 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
                         f"{folder.name}: solver_executed=true but no solver output files found"
                     )
 
+            # Reproducibility provenance + stale-artifact detection.
+            errors.extend(_check_provenance(folder, layout_sha))
+
+            # An image must never exist without its source GDS.
+            if (folder / "output.png").is_file() and not (folder / "output.gds").is_file():
+                errors.append(f"{folder.name}: output.png exists but output.gds is missing")
+
         elif status == "geometry_candidate":
             # Special handling for SQUID-like benchmarks
             if "warning" not in metadata:
@@ -145,6 +187,8 @@ def check_benchmarks(root: Path, readme: Path) -> list[str]:
                 errors.append(f"{folder.name}: README row should explain infeasibility")
 
         elif status == "todo":
+            if strict:
+                errors.append(f"{folder.name}: TODO benchmark is incomplete (strict mode)")
             missing = sorted(TODO_REQUIRED - names)
             if missing:
                 errors.append(f"{folder.name}: TODO benchmark missing {missing}")
@@ -170,8 +214,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("examples/benchmarks"))
     parser.add_argument("--readme", type=Path, default=Path("README.md"))
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Treat incomplete (TODO) benchmarks as failures.",
+    )
     args = parser.parse_args()
-    errors = check_benchmarks(args.root, args.readme)
+    errors = check_benchmarks(args.root, args.readme, strict=args.strict)
     for error in errors:
         print(f"FAIL  {error}")
     if errors:

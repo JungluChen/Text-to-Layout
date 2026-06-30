@@ -9,11 +9,13 @@
   "parameters": {
     "inductor": {
       "type": "spiral",
-      "target_inductance_h": 1.013e-8,
+      "required_inductance_h": 1.013e-5,
+      "achievable_inductance_h": 1.0e-8,
       "turns": 10,
       "outer_dimension_um": 250.0,
       "trace_width_um": 4.0,
-      "spacing_um": 2.0
+      "spacing_um": 2.0,
+      "note": "To reach 5 MHz with C = 100 pF requires L = 10.13 uH; a 10-turn 250 um spiral only realizes ~10 nH, hence infeasible."
     },
     "capacitor": {
       "type": "MIM",
