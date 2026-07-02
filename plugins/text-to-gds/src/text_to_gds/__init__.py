@@ -1,5 +1,10 @@
 """AI-Native Quantum Design Intelligence Platform.
 
+.. note:: **FROZEN LEGACY PACKAGE.** ``text_to_gds`` is maintained only as the
+   MCP-server surface and is not actively developed. New work belongs in
+   ``src/textlayout`` (see ``docs/ARCHITECTURE.md``). Do not add features here;
+   dead-code removal is tracked as a separate, explicitly-scoped follow-up.
+
 Transforms natural-language device descriptions into production-ready
 GDS layouts with full physics traceability, multi-agent review, and
 closed-loop scientific reasoning.

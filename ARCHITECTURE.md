@@ -1,5 +1,10 @@
 # Architecture — Text-to-GDS Physics Compiler
 
+> **Scope note (2026-07-02):** this document describes the **frozen legacy**
+> `src/text_to_gds` MCP package. The supported product path is `src/textlayout`
+> — see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), including the
+> "How to add a new generator" walkthrough.
+
 **Version:** 2.0  
 **Updated:** 2026-06-24
 

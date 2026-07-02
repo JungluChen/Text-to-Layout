@@ -120,6 +120,64 @@ Demo report states explicitly: geometry verification PASS, simulation status
 performed"), optimizer converged at 0.0% analytical error, and the
 not-fabrication-ready limitation.
 
+## Consolidation & Restructure (2026-07-02, post-sprint)
+
+Rollback point: tag `pre-consolidation-2026-07-02` (= efba53b, pushed).
+Full merge audit trail: [BRANCH_INVENTORY.md](BRANCH_INVENTORY.md).
+
+### Branches merged
+
+- No named branches carried unmerged commits (`git cherry` + ancestry checks on
+  the recorded tips of the three branches deleted earlier on 2026-07-02
+  retroactively confirmed nothing was lost).
+- **One real unmerged item found:** `stash@{0}` "epitaxy: pre-switch from
+  mvp2-trust-hardening" (90 files, +3416/−943 vs its parent a87f6b8) — the
+  uncommitted MVP2 working tree. Materialized as branch `recovered/mvp2-stash`
+  (commit 63ae636), merged into main as **e0f4ad3**, branch + stash deleted
+  only after the merged tree passed the full gate.
+
+### Conflicts resolved (each side stated, none silent)
+
+- 9 add/add and content conflicts (`prompt.py`, `optimization/*`,
+  `workflows/from_text.py`, `workflows/__init__.py`, backend files, README,
+  `test_readme_claims.py`) resolved **toward main's committed rebuilds**; the
+  stash held older drafts of the same features (see BRANCH_INVENTORY §1).
+- `cli.py`/`errors.py` auto-merged BOTH implementations (duplicate
+  `_cmd_prompt`, broken import, orphaned `compile` subcommand,
+  `PromptCompilationError`); cleaned to main's implementation by hand.
+- Stash README rework discarded; its intent (linked trust artifacts, explicit
+  not-public-plugin disclaimer) preserved via the new README
+  "Trust and reproducibility" section; `test_product_docs.py` table-split
+  assertion adapted to the consolidated single benchmark table + support matrix.
+- **Policy reversal:** `examples/**/.generation_meta.json` untracked and
+  gitignored (stash intent wins — they hold real wall-clock timestamps;
+  committed provenance is the normalized block in output/verification.json).
+
+### Structure changes (Phase D, one line each)
+
+- `docs/ARCHITECTURE.md` created: one-minute map + dependency rule + "How to
+  add a new generator" walkthrough mapped to support levels A/B/C.
+- Root `ARCHITECTURE.md` scoped with a legacy banner pointing to the new doc.
+- `src/text_to_gds/__init__.py` carries an explicit FROZEN LEGACY notice;
+  package intentionally NOT moved to `legacy/` — the import path is
+  load-bearing for the MCP server, 5 console scripts, and ~60 test modules
+  (reason recorded in docs/ARCHITECTURE.md §Legacy).
+- Duplicate target-comparison logic consolidated: shared
+  `simulation/models.py::target_comparison()` now used by both `runners.py`
+  and `fastercap.py` (was: two hand-rolled copies of the same dict).
+- Dead drafts removed in the merge: `evidence_contract.py`,
+  `check_readme_claims.py`, draft prompt/optimization/from_text modules and
+  their tests (zero remaining references verified by grep).
+- CI `quality-gates` job (from the stash) wired to `validate_readme_claims.py`
+  (the canonical validator) instead of the deleted `check_readme_claims.py`.
+
+### Test count
+
+| Point | Result |
+| - | - |
+| Before consolidation (baseline) | 763 passed, 8 skipped |
+| After merge + consistency fixes | **794 passed, 8 skipped** (+31 from recovered tests) |
+
 ## Still open (honest backlog)
 
 - CPW/Spiral/Resonator closed-loop tuning (only IDC has the full loop).

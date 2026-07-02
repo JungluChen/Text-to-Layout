@@ -22,7 +22,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from textlayout.simulation.models import SimulationResult
+from textlayout.simulation.models import SimulationResult, target_comparison as _compare
 
 
 def find_executable(names: tuple[str, ...], explicit: str | None = None) -> str | None:
@@ -312,17 +312,3 @@ def _read_touchstone_s21_fallback(path: Path) -> tuple[list[float], list[float]]
     return freqs, mags
 
 
-def _compare(
-    value: float, target: float | None, tolerance_pct: float, key: str
-) -> dict[str, Any] | None:
-    if target is None:
-        return None
-    error_pct = 100.0 * (value - target) / target if target else float("inf")
-    return {
-        "quantity": key,
-        "extracted": value,
-        "target": target,
-        "error_pct": round(error_pct, 3),
-        "tolerance_pct": tolerance_pct,
-        "within_tolerance": abs(error_pct) <= tolerance_pct,
-    }

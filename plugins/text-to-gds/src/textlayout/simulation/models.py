@@ -6,6 +6,27 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+def target_comparison(
+    value: float, target: float | None, tolerance_pct: float, quantity: str
+) -> dict[str, Any] | None:
+    """The one shared extracted-vs-target comparison record for solver results.
+
+    Returns ``None`` when no target was stated (nothing to compare against);
+    ``within_tolerance`` here feeds :attr:`SimulationResult.physics_verified`.
+    """
+    if target is None or target == 0:
+        return None
+    error_pct = 100.0 * (value - target) / target
+    return {
+        "quantity": quantity,
+        "extracted": value,
+        "target": target,
+        "error_pct": round(error_pct, 3),
+        "tolerance_pct": tolerance_pct,
+        "within_tolerance": abs(error_pct) <= tolerance_pct,
+    }
+
+
 READINESS_LABELS = {
     0: "analytical estimate only",
     1: "geometry generated and verified",

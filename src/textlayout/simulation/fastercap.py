@@ -10,7 +10,7 @@ from pathlib import Path
 
 from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
-from textlayout.simulation.models import SimulationResult
+from textlayout.simulation.models import SimulationResult, target_comparison
 
 _UM_TO_M = 1e-6
 _MATRIX_RE = re.compile(r"CAPACITANCE MATRIX,\s*([A-Za-z]+)", re.IGNORECASE)
@@ -201,17 +201,11 @@ def run_fastercap(
         )
 
     mutual_pf = abs(matrix_pf[0][1]) if len(matrix_pf) >= 2 and len(matrix_pf[0]) >= 2 else None
-    comparison: dict[str, object] | None = None
-    if target_capacitance_pf and mutual_pf is not None:
-        error_pct = 100.0 * (mutual_pf - target_capacitance_pf) / target_capacitance_pf
-        comparison = {
-            "quantity": "mutual_capacitance_pf",
-            "extracted": mutual_pf,
-            "target": target_capacitance_pf,
-            "error_pct": round(error_pct, 3),
-            "tolerance_pct": tolerance_pct,
-            "within_tolerance": abs(error_pct) <= tolerance_pct,
-        }
+    comparison = (
+        target_comparison(mutual_pf, target_capacitance_pf, tolerance_pct, "mutual_capacitance_pf")
+        if mutual_pf is not None
+        else None
+    )
     result_path = list_file.parent / "simulation_result.json"
     payload = {
         "schema": "textlayout.simulation-result.v1",
