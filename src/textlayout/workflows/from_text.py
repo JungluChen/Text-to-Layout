@@ -25,10 +25,10 @@ from typing import Any
 from textlayout.evidence import EvidenceStatus, QuantityEvidence
 from textlayout.optimization import IDCOptimizationResult, optimize_idc
 from textlayout.prompt import DesignIntent, parse_prompt
+from textlayout.research import formulas as F
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation import simulate_layout
-from textlayout.simulation.evidence_map import capacitance_evidence
-from textlayout.simulation.fastercap import run_fastercap
+from textlayout.simulation.evidence_map import capacitance_evidence, quantity_evidence
 from textlayout.workflows.generate import GenerateResult, GenerateWorkflow
 
 FROM_TEXT_SCHEMA = "textlayout.from-text.v1"
@@ -114,15 +114,62 @@ class FromTextWorkflow:
                 **parameters,
             }
         elif intent.component == "CPW":
+            width = 10.0
+            target_z0 = intent.target.get("impedance_ohm", 50.0)
+            parameters = {
+                "center_width_um": width,
+                "gap_um": round(F.cpw_gap_for_z0(target_z0, width, technology.substrate_epsilon_r), 4),
+                "length_um": 1000.0,
+                **{k: v for k, v in parameters.items() if k in {"gap_um"}},
+            }
+        elif intent.component == "SpiralInductor":
+            turns = int(parameters.get("turns", 4))
+            width = 5.0
+            spacing = 3.0
+            target_nh = intent.target.get("inductance_nh")
+            outer = _spiral_outer_for_target(turns, width, spacing, target_nh)
+            parameters = {
+                "turns": turns,
+                "outer_dimension_um": round(outer, 4),
+                "trace_width_um": width,
+                "spacing_um": spacing,
+                "thickness_um": 0.2,
+            }
+        elif intent.component == "QuarterWaveResonator":
+            frequency = intent.target.get("frequency_ghz", 6.0)
+            length = F.cpw_quarter_wave_length_um(
+                frequency, F.cpw_eps_eff(technology.substrate_epsilon_r)
+            )
             parameters = {
                 "center_width_um": 10.0,
                 "gap_um": 6.0,
-                "length_um": 1000.0,
-                **{k: v for k, v in parameters.items() if k in {"gap_um"}},
+                "length_um": round(length, 4),
+                "coupling_gap_um": 4.0,
+            }
+        elif intent.component == "SQUID":
+            parameters = {
+                "loop_inner_width_um": 20.0,
+                "loop_inner_height_um": 20.0,
+                "trace_width_um": 2.0,
+                "junction_gap_um": 1.0,
+                "junction_width_um": 1.0,
+                **parameters,
             }
         if optimization is not None:
             files["optimization"] = _write_json(
                 out / "optimization.json", optimization.model_dump(mode="json")
+            )
+        else:
+            files["optimization"] = _write_json(
+                out / "optimization.json",
+                {
+                    "schema": "textlayout.analytical-sizing.v1",
+                    "component": intent.component,
+                    "method": "deterministic analytical sizing",
+                    "target": dict(intent.target),
+                    "final_parameters": dict(parameters),
+                    "solver_executed": False,
+                },
             )
 
         spec = LayoutSpec(
@@ -198,39 +245,54 @@ class FromTextWorkflow:
                 notes=["Geometry verification failed; simulation was not attempted."],
             )
 
-        if intent.component != "IDC":
-            return QuantityEvidence(
-                quantity="characteristic_impedance" if intent.component == "CPW" else "unknown",
-                analytical_value=_first_float(
-                    result.research.analytical_estimates, "estimated_z0_ohm"
-                ),
-                analytical_model=result.research.model_name,
-                tolerance_percent=tolerance_percent,
-                status=EvidenceStatus.ANALYTICAL_ONLY,
-                notes=[
-                    f"The closed solver loop currently supports IDC only; "
-                    f"{intent.component} stops at the analytical estimate."
-                ],
-            )
-
-        prepared = simulate_layout(
+        simulation = simulate_layout(
             spec,
             result.geometry,
             self._generate.technology(spec.technology),
             out / "simulation",
-            solver="fastercap",
+            solver="auto",
+            execute=execute_solver,
+            executable=solver_executable,
         )
-        simulation = (
-            run_fastercap(prepared, executable=solver_executable)
-            if execute_solver
-            else prepared
-        )
-        return capacitance_evidence(
+        if intent.component == "IDC":
+            return capacitance_evidence(
+                simulation,
+                target_capacitance_pf=target_c,
+                tolerance_percent=tolerance_percent,
+                analytical_value_pf=analytical_value,
+                analytical_model=_ANALYTICAL_MODEL_IDC,
+            )
+        evidence_config = {
+            "CPW": (
+                "characteristic_impedance", "characteristic_impedance_ohm", "ohm",
+                intent.target.get("impedance_ohm"), "estimated_z0_ohm",
+                "textlayout.simulation.runners.extract_cpw_from_touchstone",
+            ),
+            "SpiralInductor": (
+                "inductance", "inductance_nh", "nH", intent.target.get("inductance_nh"),
+                "estimated_inductance_nh", "textlayout.simulation.runners.parse_fasthenry_inductance",
+            ),
+            "QuarterWaveResonator": (
+                "resonance_frequency", "resonance_frequency_ghz", "GHz",
+                intent.target.get("frequency_ghz"), "target_frequency_ghz",
+                "textlayout.simulation.runners.extract_resonance_from_touchstone",
+            ),
+            "SQUID": (
+                "mean_voltage", "mean_voltage_uv", "uV", intent.target.get("voltage_uv"),
+                "josephson_inductance_ph_per_junction", "textlayout.simulation.josim.parse_josim_csv",
+            ),
+        }
+        quantity, key, unit, target, estimate_key, parser = evidence_config[intent.component]
+        return quantity_evidence(
             simulation,
-            target_capacitance_pf=target_c,
+            quantity=quantity,
+            extracted_key=key,
+            unit=unit,
+            target_value=target,
             tolerance_percent=tolerance_percent,
-            analytical_value_pf=analytical_value,
-            analytical_model=_ANALYTICAL_MODEL_IDC,
+            parser=parser,
+            analytical_value=_first_float(result.research.analytical_estimates, estimate_key),
+            analytical_model=result.research.model_name,
         )
 
 
@@ -245,6 +307,24 @@ def _first_float(mapping: Mapping[str, Any], *keys: str) -> float | None:
         if isinstance(value, (int, float)):
             return float(value)
     return None
+
+
+def _spiral_outer_for_target(
+    turns: int, width_um: float, spacing_um: float, target_nh: float | None
+) -> float:
+    minimum = 2.0 * turns * width_um + 2.0 * (turns - 1) * spacing_um + 1.0
+    if target_nh is None:
+        return max(200.0, minimum)
+    lo, hi = minimum, max(500.0, minimum * 2.0)
+    for _ in range(80):
+        mid = 0.5 * (lo + hi)
+        inner = mid - 2.0 * turns * width_um - 2.0 * (turns - 1) * spacing_um
+        estimate = F.spiral_inductance_nh(turns, mid, inner)
+        if estimate < target_nh:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
 
 
 _STATUS_EXPLANATIONS = {

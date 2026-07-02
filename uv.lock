@@ -4605,7 +4605,7 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.30" },
     { name = "uvicorn", marker = "extra == 'api'", specifier = ">=0.30" },
 ]
-provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "measurement", "quantum", "metal", "epr", "hfss", "mesh", "research"]
+provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "squid", "measurement", "quantum", "metal", "epr", "hfss", "mesh", "research"]
 
 [package.metadata.requires-dev]
 dev = [

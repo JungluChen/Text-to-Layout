@@ -8,6 +8,7 @@
 - `substrate_eps_r` = 11.9
 - `eps_eff` = 6.45
 - `estimated_z0_ohm` = 50.04
+- `analytical_backend` = built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)
 - `target_z0_ohm` = 50.0
 - `proposed_gap_um_for_target` = 5.983
 - `proposed_gap_meets_min_spacing` = True
@@ -56,6 +57,8 @@
 
 - R. N. Simons, 'Coplanar Waveguide Circuits, Components, and Systems', Wiley, 2001. — Conformal-mapping CPW impedance model.
 - W. Hilberg, 'From approximations to exact relations for characteristic impedances', IEEE Trans. MTT-17 (1969) 259. — Closed-form K(k)/K(k') used here (error < 8e-6).
+- G. Ghione and C. Naldi, 'Analytical Formulas for Coplanar Lines in Hybrid and Monolithic MICs', Electronics Letters 20(4), 1984, 179-181. — Finite-substrate quasi-static model implemented by optional scikit-rf CPW.
+- A. Arsenovic et al., 'scikit-rf: An Open Source Python Package for Microwave Network Creation, Analysis, and Calibration', IEEE Microwave Magazine 23(1), 2022, 98-105, doi:10.1109/MMM.2021.3117139. — Optional BSD-3 analytical and Touchstone implementation.
 - D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012. — Transmission-line and λ/4 theory.
 
 See the repository [REFERENCES.md](../../../REFERENCES.md).

@@ -86,7 +86,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-solver", action="store_true",
         help="Prepare solver inputs but do not attempt to execute a solver.",
     )
-    p_prompt.add_argument("--executable", default=None, help="Explicit FasterCap/FastCap path.")
+    p_prompt.add_argument(
+        "--executable",
+        default=None,
+        help="Explicit component solver path (FasterCap, Octave/openEMS, FastHenry, or JoSIM).",
+    )
     p_prompt.set_defaults(func=_cmd_prompt)
 
     p_gen = sub.add_parser("generate", help="Generate verified artifacts from a DSL file.")

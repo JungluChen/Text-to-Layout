@@ -64,3 +64,26 @@ def test_unknown_substrate_rejected_not_guessed() -> None:
 def test_ambiguous_multi_component_prompt_rejected() -> None:
     with pytest.raises(PromptParseError, match="multiple components"):
         parse_prompt("Create a 0.6 pF IDC and a CPW feedline")
+
+
+@pytest.mark.parametrize(
+    ("prompt", "component", "target_key", "target_value"),
+    [
+        (
+            "Design a CPW transmission line on silicon at 6 GHz with 50 ohm impedance",
+            "CPW",
+            "impedance_ohm",
+            50.0,
+        ),
+        ("Create a 3 nH spiral inductor with 4 turns", "SpiralInductor", "inductance_nh", 3.0),
+        ("Create a 6 GHz quarter-wave resonator", "QuarterWaveResonator", "frequency_ghz", 6.0),
+        ("Create a symmetric DC SQUID", "SQUID", None, None),
+    ],
+)
+def test_extended_component_prompts(
+    prompt: str, component: str, target_key: str | None, target_value: float | None
+) -> None:
+    intent = parse_prompt(prompt)
+    assert intent.component == component
+    if target_key is not None:
+        assert intent.target[target_key] == target_value

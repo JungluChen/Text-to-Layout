@@ -11,6 +11,7 @@ from pathlib import Path
 from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation.models import SimulationResult, target_comparison
+from textlayout.solvers.base import run_subprocess
 
 _UM_TO_M = 1e-6
 _MATRIX_RE = re.compile(r"CAPACITANCE MATRIX,\s*([A-Za-z]+)", re.IGNORECASE)
@@ -145,13 +146,10 @@ def run_fastercap(
 
     command = _solver_command(solver, list_file)
     try:
-        completed = subprocess.run(
+        completed = run_subprocess(
             command,
             cwd=list_file.parent,
-            capture_output=True,
-            text=True,
-            timeout=timeout_seconds,
-            check=False,
+            timeout_seconds=timeout_seconds,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return SimulationResult(
@@ -165,10 +163,8 @@ def run_fastercap(
             command=tuple(command),
         )
 
-    stdout_path = list_file.parent / "solver.stdout.txt"
-    stderr_path = list_file.parent / "solver.stderr.txt"
-    stdout_path.write_text(completed.stdout, encoding="utf-8")
-    stderr_path.write_text(completed.stderr, encoding="utf-8")
+    stdout_path = completed.stdout_path
+    stderr_path = completed.stderr_path
     artifacts = {
         **prepared.artifacts,
         "solver_stdout": str(stdout_path),

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 from textlayout.models import Technology
+from textlayout.research.formulas import josephson_inductance_ph, rectangular_loop_inductance_ph
 from textlayout.research.models import Equation, Reference, ResearchReport
 
 FLUX_QUANTUM_WB = 2.067_833_848e-15
@@ -34,6 +35,31 @@ def research_squid(
         estimates["field_modulation_period_uT"] = round(
             FLUX_QUANTUM_WB / (area * 1e-12) * 1e6, 4
         )
+    iw = parameters.get("loop_inner_width_um")
+    ih = parameters.get("loop_inner_height_um")
+    width = parameters.get("trace_width_um")
+    if all(isinstance(value, (int, float)) for value in (iw, ih, width)):
+        estimates["estimated_loop_inductance_ph"] = round(
+            rectangular_loop_inductance_ph(
+                float(cast(int | float, iw)),
+                float(cast(int | float, ih)),
+                float(cast(int | float, width)),
+            ),
+            4,
+        )
+    ic = parameters.get("critical_current_ua")
+    if isinstance(ic, (int, float)):
+        estimates["josephson_inductance_ph_per_junction"] = round(
+            josephson_inductance_ph(float(ic)), 4
+        )
+        loop_l = parameters.get("loop_inductance_ph") or estimates.get(
+            "estimated_loop_inductance_ph"
+        )
+        if isinstance(loop_l, (int, float)):
+            estimates["screening_parameter_beta_l"] = round(
+                2.0 * float(loop_l) * 1e-12 * float(ic) * 1e-6 / FLUX_QUANTUM_WB,
+                6,
+            )
     return ResearchReport(
         component="SQUID",
         model_name="DC-SQUID loop, first-principles flux quantization",
@@ -55,7 +81,7 @@ def research_squid(
         ),
         simulation_recommendation={
             "loop_inductance": "FastHenry or Elmer after a foundry stack and conductor thickness are supplied.",
-            "junction_response": "Use a validated Josephson circuit solver with extracted Ic and L.",
+            "junction_response": "JoSIM RCSJ transient simulation with explicit Ic, R, C, and loop L.",
         },
         proposed_parameters=dict(parameters) if parameters else None,
     )

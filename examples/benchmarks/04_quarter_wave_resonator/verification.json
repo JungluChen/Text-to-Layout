@@ -130,6 +130,7 @@
       "substrate_eps_r": 11.9,
       "eps_eff": 6.45,
       "estimated_z0_ohm": 50.04,
+      "analytical_backend": "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)",
       "target_frequency_ghz": 6.0,
       "quarter_wave_length_um": 4918.4652
     },
@@ -142,10 +143,11 @@
     "readiness_level": 2,
     "prepared_input_files": [
       "openems_model.json",
+      "openems_model.m",
       "simulation_manifest.json"
     ],
     "solver_output_files": [],
-    "note": "Verified geometry, material assumptions, ports, and expected outputs were serialized."
+    "note": "A runnable openEMS/CSXCAD Octave model and manifest were generated."
   },
   "physics_verification": {
     "status": "pending",

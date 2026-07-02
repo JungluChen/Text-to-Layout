@@ -35,6 +35,7 @@ docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
 layout = ["kqcircuits", "qiskit-metal"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
+squid = []  # JoSIM is an optional external executable; no Python package is vendored.
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
 metal = ["qiskit-metal"]

@@ -20,9 +20,10 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from textlayout.simulation.models import SimulationResult, target_comparison as _compare
+from textlayout.solvers.base import run_subprocess
 
 
 def find_executable(names: tuple[str, ...], explicit: str | None = None) -> str | None:
@@ -88,24 +89,21 @@ def run_fasthenry(
 
     work = input_path.parent
     try:
-        completed = subprocess.run(
+        completed = run_subprocess(
             [solver, input_path.name],
             cwd=work,
-            capture_output=True,
-            text=True,
-            timeout=timeout_seconds,
-            check=False,
+            timeout_seconds=timeout_seconds,
+            log_prefix="fasthenry",
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return _failed(prepared, f"FastHenry execution failed: {exc}")
 
-    (work / "fasthenry.stdout.txt").write_text(completed.stdout, encoding="utf-8")
     zc = work / "Zc.mat"
     if completed.returncode != 0 or not zc.is_file():
         return _failed(
             prepared,
             f"FastHenry exited {completed.returncode} without a Zc.mat output.",
-            solver_stdout=work / "fasthenry.stdout.txt",
+            solver_stdout=completed.stdout_path,
         )
     try:
         inductance_h = parse_fasthenry_inductance(zc.read_text(encoding="utf-8"))
@@ -161,7 +159,7 @@ def parse_fasthenry_inductance(text: str) -> float:
 
 
 # --- openEMS (S-parameters / resonance) via scikit-rf -------------------------
-_OPENEMS_NAMES = ("openEMS", "openEMS.exe", "openems")
+_OPENEMS_NAMES = ("octave-cli", "octave-cli.exe", "octave", "octave.exe")
 
 
 def run_openems(
@@ -171,56 +169,183 @@ def run_openems(
     tolerance_pct: float = 5.0,
     touchstone: str | Path | None = None,
     executable: str | None = None,
+    timeout_seconds: int = 1800,
 ) -> SimulationResult:
-    """Post-process an openEMS Touchstone result, when one exists.
-
-    The textlayout openEMS adapter currently prepares a solver-input manifest,
-    not a runnable CSXCAD model (see the TODO note in the returned ``reason``).
-    This runner therefore does the honest, useful half: if a Touchstone file is
-    available (produced by a manual openEMS run or the legacy
-    ``text_to_gds.openems_runner``), it extracts the resonance with scikit-rf and
-    compares it against the target. Otherwise it reports the missing piece
-    without faking a result.
-    """
+    """Execute the generated openEMS Octave driver and parse Touchstone output."""
     s2p = _find_touchstone(prepared, touchstone)
     if s2p is None:
         solver = find_executable(_OPENEMS_NAMES, executable)
-        reason = (
-            "No Touchstone output found. Generating a runnable CSXCAD model from the "
-            "prepared manifest is not yet implemented in textlayout "
-            "(TODO: port text_to_gds.openems_runner). "
-            + ("openEMS is installed; " if solver else "openEMS is not installed; ")
-            + "run it externally and pass touchstone=<path> to extract and compare."
-        )
-        return SimulationResult(
-            status="skipped" if solver is None else "failed",
-            solver=prepared.solver,
-            readiness_level=prepared.readiness_level,
-            reason=reason,
-            output_dir=prepared.output_dir,
-            artifacts=dict(prepared.artifacts),
-            warnings=prepared.warnings,
-        )
+        if solver is None:
+            return _skipped(prepared, _OPENEMS_NAMES)
+        driver = Path(prepared.artifacts.get("driver", ""))
+        if not driver.is_file():
+            return _failed(prepared, "No runnable openEMS Octave driver was prepared.")
+        try:
+            completed = run_subprocess(
+                [solver, "--quiet", "--no-gui", driver.name],
+                cwd=driver.parent,
+                timeout_seconds=timeout_seconds,
+                log_prefix="solver",
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return _failed(prepared, f"openEMS execution failed: {exc}")
+        artifacts = {
+            **prepared.artifacts,
+            "solver_stdout": str(completed.stdout_path),
+            "solver_stderr": str(completed.stderr_path),
+        }
+        if completed.returncode != 0:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS Octave driver exited with code {completed.returncode}.",
+                output_dir=prepared.output_dir,
+                artifacts=artifacts,
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
+        s2p = _find_touchstone(prepared, None)
+        if s2p is None:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason="openEMS completed without a non-empty Touchstone output.",
+                output_dir=prepared.output_dir,
+                artifacts=artifacts,
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
+    else:
+        artifacts = dict(prepared.artifacts)
+        completed = None
     try:
-        resonance_ghz = extract_resonance_from_touchstone(s2p)
+        component = _prepared_component(prepared)
+        if component == "CPW":
+            extracted = extract_cpw_from_touchstone(s2p, target_frequency_ghz)
+            quantity = "characteristic_impedance_ohm"
+            value = extracted[quantity]
+        else:
+            value = extract_resonance_from_touchstone(s2p)
+            extracted = {"resonance_frequency_ghz": value}
+            quantity = "resonance_frequency_ghz"
     except (ValueError, OSError) as exc:
         return _failed(prepared, f"Could not extract resonance from {s2p.name}: {exc}")
 
-    extracted = {"resonance_frequency_ghz": resonance_ghz}
-    comparison = _compare(
-        resonance_ghz, target_frequency_ghz, tolerance_pct, "resonance_frequency_ghz"
-    )
+    target = target_frequency_ghz
+    if quantity == "characteristic_impedance_ohm":
+        target = _prepared_target(prepared, "impedance_ohm") or _prepared_target(prepared, "z0_ohm")
+    comparison = _compare(value, target, tolerance_pct, quantity)
     return SimulationResult(
         status="executed",
         solver=f"{prepared.solver}+scikit-rf",
         readiness_level=4 if comparison else 3,
-        reason=f"Extracted resonance from {s2p.name} via scikit-rf.",
+        reason=f"Extracted {quantity} from solver-owned {s2p.name}.",
         output_dir=prepared.output_dir,
-        artifacts={**prepared.artifacts, "touchstone": str(s2p), "result": str(s2p)},
+        artifacts={**artifacts, "touchstone": str(s2p), "result": str(s2p)},
         extracted_quantities=extracted,
         target_comparison=comparison,
         warnings=prepared.warnings,
+        command=completed.command if completed is not None else (),
     )
+
+
+def _prepared_payload(prepared: SimulationResult) -> dict[str, Any]:
+    model = prepared.artifacts.get("model")
+    if model is None:
+        return {}
+    try:
+        import json
+
+        return cast(dict[str, Any], json.loads(Path(model).read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        return {}
+
+
+def _prepared_component(prepared: SimulationResult) -> str:
+    return str(_prepared_payload(prepared).get("component", "QuarterWaveResonator"))
+
+
+def _prepared_target(prepared: SimulationResult, name: str) -> float | None:
+    target = _prepared_payload(prepared).get("target", {})
+    value = target.get(name) if isinstance(target, dict) else None
+    return float(value) if isinstance(value, (int, float)) else None
+
+
+def extract_cpw_from_touchstone(
+    path: str | Path, frequency_ghz: float | None = None
+) -> dict[str, float]:
+    """Estimate a through-line CPW impedance from its complex S11/S21.
+
+    This uses the symmetric reciprocal two-port conversion
+    ``Z0 = Zref*sqrt(((1+S11)^2-S21^2)/((1-S11)^2-S21^2))`` at the requested
+    frequency (or sweep centre). The output is a solver-derived port impedance,
+    not the analytical CPW formula.
+    """
+    freqs, s11, s21 = _read_touchstone_complex(path)
+    if not freqs:
+        raise ValueError("no frequency points")
+    desired = frequency_ghz * 1e9 if frequency_ghz is not None else freqs[len(freqs) // 2]
+    index = min(range(len(freqs)), key=lambda i: abs(freqs[i] - desired))
+    numerator = (1 + s11[index]) ** 2 - s21[index] ** 2
+    denominator = (1 - s11[index]) ** 2 - s21[index] ** 2
+    if abs(denominator) < 1e-15:
+        raise ValueError("singular S-to-Z conversion")
+    z0 = 50.0 * complex(numerator / denominator) ** 0.5
+    return {
+        "characteristic_impedance_ohm": float(abs(z0)),
+        "sample_frequency_ghz": freqs[index] / 1e9,
+    }
+
+
+def _read_touchstone_complex(path: str | Path) -> tuple[list[float], list[complex], list[complex]]:
+    """Read two-port S11/S21 using scikit-rf, with an RI fallback."""
+    try:
+        import skrf  # type: ignore
+
+        network = skrf.Network(str(path))
+        if network.nports < 2:
+            raise ValueError("CPW extraction requires a two-port Touchstone file")
+        return (
+            [float(value) for value in network.f],
+            [complex(value) for value in network.s[:, 0, 0]],
+            [complex(value) for value in network.s[:, 1, 0]],
+        )
+    except ImportError:
+        return _read_touchstone_ri_fallback(Path(path))
+
+
+def _read_touchstone_ri_fallback(path: Path) -> tuple[list[float], list[complex], list[complex]]:
+    scale = 1.0
+    fmt = "ri"
+    freqs: list[float] = []
+    s11: list[complex] = []
+    s21: list[complex] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("!"):
+            continue
+        if line.startswith("#"):
+            tokens = line.lower().split()
+            scale = 1e9 if "ghz" in tokens else 1e6 if "mhz" in tokens else 1e3 if "khz" in tokens else 1.0
+            fmt = next((token for token in tokens if token in {"ri", "ma", "db"}), "ri")
+            continue
+        values = [float(token) for token in line.split()]
+        if len(values) < 9:
+            continue
+        freqs.append(values[0] * scale)
+        s11.append(_complex_pair(values[1], values[2], fmt))
+        s21.append(_complex_pair(values[3], values[4], fmt))
+    return freqs, s11, s21
+
+
+def _complex_pair(first: float, second: float, fmt: str) -> complex:
+    if fmt == "ri":
+        return complex(first, second)
+    magnitude = 10 ** (first / 20.0) if fmt == "db" else first
+    angle = math.radians(second)
+    return magnitude * complex(math.cos(angle), math.sin(angle))
 
 
 def _find_touchstone(prepared: SimulationResult, explicit: str | Path | None) -> Path | None:
@@ -258,7 +383,7 @@ def extract_resonance_from_touchstone(path: str | Path) -> float:
 def _read_touchstone_s21(path: str | Path) -> tuple[list[float], list[float]]:
     path = Path(path)
     try:
-        import skrf  # type: ignore
+        import skrf
 
         network = skrf.Network(str(path))
         freqs = [float(f) for f in network.f]
@@ -310,5 +435,3 @@ def _read_touchstone_s21_fallback(path: Path) -> tuple[list[float], list[float]]
         freqs.append(freq)
         mags.append(magnitude)
     return freqs, mags
-
-

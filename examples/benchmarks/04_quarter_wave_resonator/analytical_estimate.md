@@ -12,6 +12,7 @@
 - `substrate_eps_r`: `11.9`
 - `eps_eff`: `6.45`
 - `estimated_z0_ohm`: `50.04`
+- `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
 - `target_frequency_ghz`: `6.0`
 - `quarter_wave_length_um`: `4918.4652`
 

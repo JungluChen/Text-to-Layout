@@ -1,21 +1,18 @@
 <div align="center">
 
-# Text-to-Layout
-
-**AI-assisted, research-first, evidence-backed layout generation for IC, RF, and superconducting designs.**
-
-Natural-language intent becomes a researched Layout DSL, deterministic geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
-
-[Plugin design](docs/plugin_design.md) | [Tool API](docs/tool_api.md) | [Text-to-CAD study](docs/lessons_from_text_to_cad.md) | [Simulation workflows](simulation/README.md)
-
-</div>
-
 ## 30-second demo
 
 One command runs the full closed loop — natural language → intent → tuned Layout DSL → verified geometry → solver preparation (execution if a solver is installed) → honest evidence report:
 
 ```bash
 textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_demo
+```
+
+The same eight-file contract is available for the new closed-loop paths:
+
+```bash
+textlayout prompt "Design a CPW transmission line on silicon at 6 GHz with 50 ohm impedance" --out out/cpw_demo
+textlayout prompt "Create a 3 nH spiral inductor with 4 turns" --out out/spiral_demo
 ```
 
 Generated files in `out/idc_demo/`:
@@ -33,9 +30,9 @@ report.md            target-vs-result report with explicit evidence status
 
 Result on a machine **without** FasterCap installed (the honest default):
 
-| Quantity | Target | Analytical estimate | Solver-extracted | Error | Evidence status |
-| - | - | - | - | - | - |
-| capacitance | 0.6 pF | 0.6 pF (Bahl/Alley, optimizer converged, 0.0% analytical error) | — (solver not installed) | — | `SKIPPED_SOLVER_ABSENT` |
+| Quantity    | Target | Analytical estimate                                             | Solver-extracted          | Error | Evidence status           |
+| ----------- | ------ | --------------------------------------------------------------- | ------------------------- | ----- | ------------------------- |
+| capacitance | 0.6 pF | 0.6 pF (Bahl/Alley, optimizer converged, 0.0% analytical error) | — (solver not installed) | —    | `SKIPPED_SOLVER_ABSENT` |
 
 With FasterCap/FastCap on `PATH` (or `--executable`), the solver is executed, its output is parsed, and the status becomes `SIMULATION_EXECUTED` — or `PHYSICS_VERIFIED` only when the extracted value is within tolerance of the target.
 
@@ -45,13 +42,17 @@ With FasterCap/FastCap on `PATH` (or `--executable`), the solver is executed, it
 
 Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below must be backed by committed code, tests, and artifacts, or the build fails.
 
-| Component | Geometry | Analytical estimate | Solver input | Solver executed | Physics verified | Status |
-| - | - | - | - | - | - | - |
-| IDC | yes | yes (Bahl/Alley) | yes (FasterCap/FastCap) | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (never claimed without solver output) | Supported — full closed loop |
-| CPW | yes | yes (Simons/Hilberg) | yes (openEMS manifest) | no | no | Supported — geometry + analytical |
-| SpiralInductor | yes | yes (Mohan/Wheeler) | yes (FastHenry) | no | no | Supported — geometry + analytical |
-| QuarterWaveResonator | yes | yes (λ/4 line theory) | yes (openEMS manifest) | no | no | Supported — geometry + analytical |
-| SQUID | yes | yes (flux quantization) | yes (plan only) | no | no | Experimental — generic JJ placeholders, not foundry-qualified |
+| Component            | Geometry | Analytical estimate                                                | Solver input                                      | Solver executed                                                    | Physics verified                                                 | Status                                                                 |
+| -------------------- | -------- | ------------------------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| IDC                  | yes      | yes (Bahl/Alley)                                                   | yes (FasterCap/FastCap)                           | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (never claimed without solver output)      | Supported — full closed loop                                          |
+| CPW                  | yes      | yes (scikit-rf Ghione/Naldi with`[rf]`; Simons/Hilberg fallback) | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
+| SpiralInductor       | yes      | yes (Mohan/Wheeler)                                                | yes (FastHenry)                                   | environment-dependent (external FastHenry)                         | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
+| QuarterWaveResonator | yes      | yes (λ/4 line theory)                                             | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
+| SQUID                | yes      | yes (RSJ/Josephson + rectangular-loop estimate)                    | conditional (JoSIM deck requires explicit Ic/R/C) | environment-dependent (JoSIM + explicit inputs)                    | no by default (circuit extraction is not geometry qualification) | Experimental — Option B; generic JJ geometry is not foundry-qualified |
+
+Install optional Python RF support with `pip install "text-to-gds[rf]"`.
+openEMS, FastHenry, FasterCap/FastCap, and JoSIM remain separately installed
+external executables; no solver source is vendored or linked into this project.
 
 ## Trust and reproducibility
 
@@ -86,15 +87,15 @@ If required verification fails, final geometry artifacts are not exported.
 
 This project uses explicit status labels to avoid misleading claims:
 
-| Label | Meaning |
-| - | - |
-| **GEOMETRY PASS** | Files exist, parameters verified, geometry is valid |
-| **ANALYTICAL ONLY** | Equations computed; no solver executed |
-| **SIMULATION INPUT PREPARED** | Solver input files exist; solver not executed |
-| **SIMULATION EXECUTED** | Solver ran and produced non-empty output file |
-| **PHYSICS VERIFIED** | Extracted values compared against target with tolerance |
-| **FABRICATION READY** | Process-specific DRC, EM simulation, and expert review complete |
-| **INFEASIBLE** | Target not achievable under realistic constraints |
+| Label                               | Meaning                                                         |
+| ----------------------------------- | --------------------------------------------------------------- |
+| **GEOMETRY PASS**             | Files exist, parameters verified, geometry is valid             |
+| **ANALYTICAL ONLY**           | Equations computed; no solver executed                          |
+| **SIMULATION INPUT PREPARED** | Solver input files exist; solver not executed                   |
+| **SIMULATION EXECUTED**       | Solver ran and produced non-empty output file                   |
+| **PHYSICS VERIFIED**          | Extracted values compared against target with tolerance         |
+| **FABRICATION READY**         | Process-specific DRC, EM simulation, and expert review complete |
+| **INFEASIBLE**                | Target not achievable under realistic constraints               |
 
 **No benchmark in this repository is currently PHYSICS VERIFIED or FABRICATION READY.**
 
@@ -102,14 +103,14 @@ This project uses explicit status labels to avoid misleading claims:
 
 Each benchmark shows honest status across geometry, simulation, evidence, and fabrication.
 
-| # | Target | Prompt | Output | Geometry Status | Simulation Status | Evidence Status | Fabrication Status |
-| - | ------ | ------ | ------ | --------------- | ----------------- | --------------- | ------------------ |
-| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | **GEOMETRY PASS** (parameters, width, gap, layer, bbox, ports, gdsfactory lowering, KLayout readback) | **SIMULATION INPUT PREPARED** (FasterCap/FastCap input exists; solver not executed) | **ANALYTICAL ONLY** (Bahl/Alley estimate = 0.6983 pF; target error = 16.4%) | **NOT READY** |
-| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | [![CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) | **GEOMETRY PASS** (dimensions, GSG ports, layers, bbox, gdsfactory lowering) | **SIMULATION INPUT PREPARED** (openEMS manifest exists; solver not executed) | **ANALYTICAL ONLY** (Simons conformal mapping estimate = 50.04 ohm; EM correlation pending) | **NOT READY** |
-| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) | **GEOMETRY PASS** (typed parameters, width, spacing, ports, bbox, gdsfactory lowering) | **SIMULATION INPUT PREPARED** (FastHenry input exists; solver not executed) | **ANALYTICAL ONLY** (Mohan/Wheeler estimate; no solver result) | **NOT READY** |
-| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) | **GEOMETRY PASS** (open/short topology, coupling gap, GSG ports, bbox) | **SIMULATION INPUT PREPARED** (openEMS input exists; solver not executed) | **ANALYTICAL ONLY** (L = vp/(4f) gives 4918.5 um; EM result pending) | **NOT READY** |
-| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) | **GEOMETRY PASS** (candidate; symmetry, two JJ placeholders, loop area, ports, layers) | **NOT READY** (no foundry JJ-stack solver possible) | **ANALYTICAL ONLY** (flux quantization model; generic JJ placeholders not foundry-qualified) | **NOT READY** |
-| 6 | [5 MHz LC resonator](examples/benchmarks/06_lc_5mhz_resonator/) | Design a lumped LC resonator layout that targets 5 MHz resonance frequency. | **NOT GENERATED** (infeasible target) | **NOT GENERATED** (no layout created) | **NOT APPLICABLE** (no simulation possible) | **INFEASIBLE** (required LC = 1.013×10⁻¹⁵ s² exceeds on-chip limits by 100-1000×; 159 MHz is the minimum feasible) | **NOT APPLICABLE** |
+| # | Target                                                                  | Prompt                                                                              | Output                                                                                                                            | Geometry Status                                                                                             | Simulation Status                                                                         | Evidence Status                                                                                                                | Fabrication Status       |
+| - | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/)                       | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg)                                 | **GEOMETRY PASS** (parameters, width, gap, layer, bbox, ports, gdsfactory lowering, KLayout readback) | **SIMULATION INPUT PREPARED** (FasterCap/FastCap input exists; solver not executed) | **ANALYTICAL ONLY** (Bahl/Alley estimate = 0.6983 pF; target error = 16.4%)                                              | **NOT READY**      |
+| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/)                          | Create a 50 ohm CPW on silicon.                                                     | [![CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg)                                 | **GEOMETRY PASS** (dimensions, GSG ports, layers, bbox, gdsfactory lowering)                          | **SIMULATION INPUT PREPARED** (openEMS manifest exists; solver not executed)        | **ANALYTICAL ONLY** (Simons conformal mapping estimate = 50.04 ohm; EM correlation pending)                              | **NOT READY**      |
+| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/)               | Create a compact planar spiral with target inductance.                              | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg)                  | **GEOMETRY PASS** (typed parameters, width, spacing, ports, bbox, gdsfactory lowering)                | **SIMULATION INPUT PREPARED** (FastHenry input exists; solver not executed)         | **ANALYTICAL ONLY** (Mohan/Wheeler estimate; no solver result)                                                           | **NOT READY**      |
+| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator.                                          | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) | **GEOMETRY PASS** (open/short topology, coupling gap, GSG ports, bbox)                                | **SIMULATION INPUT PREPARED** (openEMS input exists; solver not executed)           | **ANALYTICAL ONLY** (L = vp/(4f) gives 4918.5 um; EM result pending)                                                     | **NOT READY**      |
+| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/)                         | Create a symmetric two-junction SQUID test structure.                               | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg)                             | **GEOMETRY PASS** (candidate; symmetry, two JJ placeholders, loop area, ports, layers)                | **NOT READY** (no foundry JJ-stack solver possible)                                 | **ANALYTICAL ONLY** (flux quantization model; generic JJ placeholders not foundry-qualified)                             | **NOT READY**      |
+| 6 | [5 MHz LC resonator](examples/benchmarks/06_lc_5mhz_resonator/)          | Design a lumped LC resonator layout that targets 5 MHz resonance frequency.         | **NOT GENERATED** (infeasible target)                                                                                       | **NOT GENERATED** (no layout created)                                                                 | **NOT APPLICABLE** (no simulation possible)                                         | **INFEASIBLE** (required LC = 1.013×10⁻¹⁵ s² exceeds on-chip limits by 100-1000×; 159 MHz is the minimum feasible) | **NOT APPLICABLE** |
 
 ### Benchmark artifacts
 
@@ -156,15 +157,15 @@ report.md             target comparison and simulation status
 
 ### Simulation readiness
 
-| Level | Meaning | Status |
-| - | - | - |
-| 0 | Analytical estimate only | All benchmarks start here |
-| 1 | Geometry generated and verified | IDC, CPW, Spiral, Resonator, SQUID achieve this |
-| 2 | Solver input prepared | IDC, CPW, Spiral, Resonator achieve this |
-| 3 | Solver executed and result artifact exists | **No benchmark achieves this** |
-| 4 | Result compared against target | **No benchmark achieves this** |
-| 5 | Optimization loop implemented | **No benchmark achieves this** |
-| INFEASIBLE | Target not achievable | **5 MHz LC resonator** |
+| Level      | Meaning                                    | Status                                          |
+| ---------- | ------------------------------------------ | ----------------------------------------------- |
+| 0          | Analytical estimate only                   | All benchmarks start here                       |
+| 1          | Geometry generated and verified            | IDC, CPW, Spiral, Resonator, SQUID achieve this |
+| 2          | Solver input prepared                      | IDC, CPW, Spiral, Resonator achieve this        |
+| 3          | Solver executed and result artifact exists | **No benchmark achieves this**            |
+| 4          | Result compared against target             | **No benchmark achieves this**            |
+| 5          | Optimization loop implemented              | **No benchmark achieves this**            |
+| INFEASIBLE | Target not achievable                      | **5 MHz LC resonator**                    |
 
 **No benchmark is Level 3 or higher.** SQUID is Level 1 because a foundry-qualified junction stack is absent.
 
@@ -176,13 +177,13 @@ Text-to-Layout adopts the same reader-facing clarity and reproducibility. It doe
 
 ## Supported generation
 
-| Component | Status | Notes |
-| - | - | - |
-| IDC | Geometry ready, analytical only | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
-| CPW | Geometry ready, analytical only | Typed DSL, six signal/ground-reference ports, analytical Z0, verified artifacts |
-| Spiral | Geometry ready, analytical only | Typed square spiral, two ports, Mohan estimate, FastHenry input |
-| Quarter-wave resonator | Geometry ready, analytical only | Explicit coupled open end, grounded short, feedline ports, openEMS manifest |
-| SQUID | Geometry candidate only | Symmetric loop and two JJ placeholders; not valid for fabrication without a foundry stack |
+| Component              | Status                          | Notes                                                                                                |
+| ---------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| IDC                    | Geometry ready, analytical only | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports     |
+| CPW                    | Conditional solver closed loop  | Typed DSL, GSG ports, scikit-rf correlation, runnable openEMS model, parsed S-parameters             |
+| Spiral                 | Conditional solver closed loop  | Typed square spiral, Mohan estimate, FastHenry input, parsed`Zc.mat`                               |
+| Quarter-wave resonator | Conditional solver closed loop  | Explicit open/short topology, runnable openEMS model, parsed resonance                               |
+| SQUID                  | Option B experimental           | Symmetric loop, analytical L/Josephson estimates, conditional JoSIM RCSJ deck; not foundry-qualified |
 
 ## Install
 
@@ -239,18 +240,18 @@ textlayout serve --host 127.0.0.1 --port 8000
 py -3 -m uv run uvicorn textlayout.backend.app:create_app --factory
 ```
 
-Interactive OpenAPI docs: <http://127.0.0.1:8000/docs>
+Interactive OpenAPI docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-| Method | Endpoint | Purpose |
-| - | - | - |
-| GET | `/health` | Discover generators, technologies, and formats |
-| POST | `/layout/research` | Produce equations, assumptions, references, estimates, and simulation plan |
-| POST | `/layout/generate` | Research, build, verify, and export requested artifacts |
-| POST | `/layout/verify` | Run geometry/process checks without export |
-| POST | `/layout/export?format=gds` | Export one verified artifact |
-| POST | `/layout/simulate` | Prepare or explicitly execute a supported open-source simulation |
-| POST | `/layout/benchmark` | Generate a complete benchmark packet |
-| POST | `/layout/report` | Return evidence, verification, files, and simulation steps |
+| Method | Endpoint                      | Purpose                                                                    |
+| ------ | ----------------------------- | -------------------------------------------------------------------------- |
+| GET    | `/health`                   | Discover generators, technologies, and formats                             |
+| POST   | `/layout/research`          | Produce equations, assumptions, references, estimates, and simulation plan |
+| POST   | `/layout/generate`          | Research, build, verify, and export requested artifacts                    |
+| POST   | `/layout/verify`            | Run geometry/process checks without export                                 |
+| POST   | `/layout/export?format=gds` | Export one verified artifact                                               |
+| POST   | `/layout/simulate`          | Prepare or explicitly execute a supported open-source simulation           |
+| POST   | `/layout/benchmark`         | Generate a complete benchmark packet                                       |
+| POST   | `/layout/report`            | Return evidence, verification, files, and simulation steps                 |
 
 ```bash
 curl -s -X POST http://127.0.0.1:8000/layout/generate \
@@ -286,23 +287,24 @@ See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [p
 
 ## Skills
 
-| Skill | Enforces |
-| - | - |
-| [`layout-research`](skills/layout-research/SKILL.md) | Research and first-principles reasoning before geometry |
-| [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md) | DSL-first deterministic gdsfactory generation |
-| [`layout-verification`](skills/layout-verification/SKILL.md) | Pre-export and post-export gates |
-| [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance |
+| Skill                                                                       | Enforces                                                |
+| --------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [`layout-research`](skills/layout-research/SKILL.md)                       | Research and first-principles reasoning before geometry |
+| [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md)                   | DSL-first deterministic gdsfactory generation           |
+| [`layout-verification`](skills/layout-verification/SKILL.md)               | Pre-export and post-export gates                        |
+| [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance        |
 
 ## Open-source simulation workflow
 
 Open-source tools are the default base workflow. Commercial tools remain optional correlation/signoff connectors.
 
-| Target | Open-source path | Current status |
-| - | - | - |
-| IDC capacitance | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented |
-| CPW and resonator S-parameters | openEMS + scikit-rf | Input preparation implemented |
-| Spiral L/R/Q | FastHenry/FastHenry2 | Input preparation implemented |
-| General FDTD/FEM | Meep / Elmer | Planned connectors |
+| Target                         | Open-source path                                 | Current status                                                                  |
+| ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------- |
+| IDC capacitance                | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented                                                   |
+| CPW and resonator S-parameters | openEMS + scikit-rf                              | Runnable Octave/CSXCAD model, guarded execution, Touchstone parsing             |
+| Spiral L/R/Q                   | FastHenry/FastHenry2                             | Input generation, guarded execution,`Zc.mat` parsing                          |
+| SQUID circuit response         | JoSIM                                            | Conditional RCSJ deck, guarded execution, CSV parsing; explicit Ic/R/C required |
+| General FDTD/FEM               | Meep / Elmer                                     | Planned connectors                                                              |
 
 Prepare IDC input without claiming a result:
 

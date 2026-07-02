@@ -59,6 +59,36 @@ def cpw_z0(center_width_um: float, gap_um: float, eps_r: float) -> tuple[float, 
     return z0, eps_eff
 
 
+def cpw_skrf_z0(
+    center_width_um: float,
+    gap_um: float,
+    eps_r: float,
+    *,
+    substrate_height_um: float = 500.0,
+    thickness_um: float | None = None,
+) -> tuple[float, float] | None:
+    """Use scikit-rf's Ghione/Naldi CPW model when the ``rf`` extra exists.
+
+    Returns ``None`` when scikit-rf is not installed so the core installation
+    can retain the cited thick-substrate Simons model without a hard RF stack.
+    """
+    try:
+        from skrf import Frequency  # type: ignore
+        from skrf.media import CPW  # type: ignore
+    except ImportError:
+        return None
+    media = CPW(
+        frequency=Frequency(1, 1, 1, unit="GHz"),
+        w=center_width_um * 1e-6,
+        s=gap_um * 1e-6,
+        h=substrate_height_um * 1e-6,
+        t=None if thickness_um is None else thickness_um * 1e-6,
+        ep_r=eps_r,
+        has_metal_backside=False,
+    )
+    return float(abs(media.z0[0])), float(media.ep_reff[0].real)
+
+
 def cpw_gap_for_z0(
     target_z0_ohm: float, center_width_um: float, eps_r: float
 ) -> float:
@@ -131,3 +161,36 @@ def spiral_inductance_nh(turns: int, outer_um: float, inner_um: float) -> float:
     mu0 = 4.0 * math.pi * 1e-7
     inductance_h = 2.34 * mu0 * turns**2 * d_avg_m / (1.0 + 2.75 * rho)
     return inductance_h * 1e9
+
+
+def rectangular_loop_inductance_ph(
+    inner_width_um: float,
+    inner_height_um: float,
+    trace_width_um: float,
+    thickness_um: float = 0.2,
+) -> float:
+    """Approximate thin rectangular-loop inductance in pH.
+
+    Uses the Grover/Greenhouse partial-inductance form for four straight
+    segments. It is a circuit starting value only; corner current crowding,
+    kinetic inductance, and mutual terms require extraction.
+    """
+    if min(inner_width_um, inner_height_um, trace_width_um, thickness_um) <= 0:
+        raise ValueError("loop dimensions must be positive")
+    a = (inner_width_um + trace_width_um) * 1e-6
+    b = (inner_height_um + trace_width_um) * 1e-6
+    radius = 0.2235 * (trace_width_um + thickness_um) * 1e-6
+    mu0 = 4.0 * math.pi * 1e-7
+
+    def segment(length: float) -> float:
+        return length * (math.log(2.0 * length / radius) - 1.0)
+
+    return max(mu0 / math.pi * (segment(a) + segment(b)), 0.0) * 1e12
+
+
+def josephson_inductance_ph(critical_current_ua: float) -> float:
+    """Zero-phase Josephson inductance, Phi0/(2*pi*Ic), in pH."""
+    if critical_current_ua <= 0:
+        raise ValueError("critical current must be positive")
+    phi0 = 2.067_833_848e-15
+    return phi0 / (2.0 * math.pi * critical_current_ua * 1e-6) * 1e12

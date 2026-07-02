@@ -6,7 +6,7 @@ downstream. It therefore extracts only what the prompt actually states and
 raises :class:`~textlayout.errors.PromptParseError` when the request is
 ambiguous — silent guessing is treated as a bug, not a convenience.
 
-Supported today: IDC (full closed loop) and CPW (geometry + analytical).
+Supported: IDC, CPW, spiral inductors, quarter-wave resonators, and SQUID candidates.
 """
 
 from __future__ import annotations
@@ -23,6 +23,9 @@ INTENT_SCHEMA = "textlayout.design-intent.v1"
 _COMPONENT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("IDC", re.compile(r"\b(?:idc|interdigit(?:at)?ed?\s+capacitor|interdigital\s+capacitor)\b", re.I)),
     ("CPW", re.compile(r"\b(?:cpw|coplanar\s+waveguide)\b", re.I)),
+    ("SpiralInductor", re.compile(r"\b(?:spiral\s+inductor|planar\s+spiral)\b", re.I)),
+    ("QuarterWaveResonator", re.compile(r"\b(?:quarter[- ]wave|lambda\s*/?\s*4|λ\s*/?\s*4).*\bresonator\b|\bquarter[- ]wave\s+resonator\b", re.I)),
+    ("SQUID", re.compile(r"\b(?:dc[- ]?)?squid\b", re.I)),
 )
 
 _NUM = r"(\d+(?:\.\d+)?)"
@@ -30,6 +33,9 @@ _UM = r"(?:um|µm|μm|micron(?:s)?|micrometer(?:s)?|micrometre(?:s)?)"
 
 _CAPACITANCE_RE = re.compile(rf"{_NUM}\s*(pf|ff|nf)\b", re.I)
 _FREQUENCY_RE = re.compile(rf"(?:\bat\s+)?{_NUM}\s*(ghz|mhz)\b", re.I)
+_IMPEDANCE_RE = re.compile(rf"{_NUM}\s*(?:ohm|Ω)s?\b", re.I)
+_INDUCTANCE_RE = re.compile(rf"{_NUM}\s*(nh|ph|uh|µh)\b", re.I)
+_TURNS_RE = re.compile(r"(\d+)\s+turns?\b", re.I)
 _MIN_GAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?gap", re.I)
 _MIN_GAP_ALT_RE = re.compile(rf"(?:min(?:imum)?\.?\s+)gap\s+(?:of\s+)?{_NUM}\s*{_UM}", re.I)
 _MIN_WIDTH_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?(?:finger\s+)?width", re.I)
@@ -85,6 +91,13 @@ def parse_prompt(prompt: str) -> DesignIntent:
         target["frequency_ghz"] = round(
             float(freq.group(1)) * _FREQ_UNIT_TO_GHZ[freq.group(2).lower()], 6
         )
+    impedance = _IMPEDANCE_RE.search(text)
+    if impedance:
+        target["impedance_ohm"] = float(impedance.group(1))
+    inductance = _INDUCTANCE_RE.search(text)
+    if inductance:
+        scale = {"ph": 1e-3, "nh": 1.0, "uh": 1e3, "µh": 1e3}
+        target["inductance_nh"] = float(inductance.group(1)) * scale[inductance.group(2).lower()]
 
     substrate: str | None = None
     technology = "generic_2metal"
@@ -122,6 +135,9 @@ def parse_prompt(prompt: str) -> DesignIntent:
     layer = _METAL_LAYER_RE.search(text)
     if layer:
         parameters["metal_layer"] = (layer.group(1) or layer.group(2)).upper()
+    turns = _TURNS_RE.search(text)
+    if turns:
+        parameters["turns"] = int(turns.group(1))
 
     if component == "IDC" and not target and not parameters:
         raise PromptParseError(
@@ -157,7 +173,7 @@ def _parse_component(text: str) -> str:
             text,
             "no supported component was recognised",
             hints=[
-                "supported: IDC (interdigitated capacitor), CPW (coplanar waveguide)",
+                "supported: IDC, CPW, spiral inductor, quarter-wave resonator, SQUID",
                 "e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'",
             ],
         )

@@ -13,6 +13,7 @@
 - Estimate `substrate_eps_r`: `11.9`
 - Estimate `eps_eff`: `6.45`
 - Estimate `estimated_z0_ohm`: `50.04`
+- Estimate `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
 - Estimate `target_z0_ohm`: `50.0`
 - Estimate `proposed_gap_um_for_target`: `5.983`
 - Estimate `proposed_gap_meets_min_spacing`: `True`
