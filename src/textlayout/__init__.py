@@ -18,12 +18,14 @@ from textlayout.geometry import GeometryEngine
 from textlayout.knowledge import TechnologyLibrary, default_technology_library
 from textlayout.schemas.dsl import DSL_VERSION, LayoutSpec
 from textlayout.verification import VerificationReport, default_verifier
-from textlayout.workflows import GenerateResult, GenerateWorkflow
+from textlayout.workflows import FromTextResult, FromTextWorkflow, GenerateResult, GenerateWorkflow
 
 __version__ = "0.2.0"
 
 __all__ = [
     "DSL_VERSION",
+    "FromTextResult",
+    "FromTextWorkflow",
     "GenerateResult",
     "GenerateWorkflow",
     "GeneratorRegistry",
@@ -33,6 +35,7 @@ __all__ = [
     "VerificationReport",
     "__version__",
     "build_default_workflow",
+    "build_from_text_workflow",
 ]
 
 
@@ -53,4 +56,15 @@ def build_default_workflow(
         engine=engine,
         verifier=default_verifier(),
         exporters=default_exporters(),
+    )
+
+
+def build_from_text_workflow(
+    *,
+    registry: GeneratorRegistry | None = None,
+    technologies: TechnologyLibrary | None = None,
+) -> FromTextWorkflow:
+    """Compose the prompt → closed-loop workflow on top of the default core."""
+    return FromTextWorkflow(
+        build_default_workflow(registry=registry, technologies=technologies)
     )

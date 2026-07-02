@@ -1,0 +1,169 @@
+"""Deterministic natural-language → design-intent parser (no LLM, no API key).
+
+The parser is rule-based on purpose: the default demo must be reproducible from
+a fresh clone with zero credentials, and a wrong guess here poisons everything
+downstream. It therefore extracts only what the prompt actually states and
+raises :class:`~textlayout.errors.PromptParseError` when the request is
+ambiguous — silent guessing is treated as a bug, not a convenience.
+
+Supported today: IDC (full closed loop) and CPW (geometry + analytical).
+"""
+
+from __future__ import annotations
+
+import re
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
+
+from textlayout.errors import PromptParseError
+
+INTENT_SCHEMA = "textlayout.design-intent.v1"
+
+_COMPONENT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("IDC", re.compile(r"\b(?:idc|interdigit(?:at)?ed?\s+capacitor|interdigital\s+capacitor)\b", re.I)),
+    ("CPW", re.compile(r"\b(?:cpw|coplanar\s+waveguide)\b", re.I)),
+)
+
+_NUM = r"(\d+(?:\.\d+)?)"
+_UM = r"(?:um|µm|μm|micron(?:s)?|micrometer(?:s)?|micrometre(?:s)?)"
+
+_CAPACITANCE_RE = re.compile(rf"{_NUM}\s*(pf|ff|nf)\b", re.I)
+_FREQUENCY_RE = re.compile(rf"(?:\bat\s+)?{_NUM}\s*(ghz|mhz)\b", re.I)
+_MIN_GAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?gap", re.I)
+_MIN_GAP_ALT_RE = re.compile(rf"(?:min(?:imum)?\.?\s+)gap\s+(?:of\s+)?{_NUM}\s*{_UM}", re.I)
+_MIN_WIDTH_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?(?:finger\s+)?width", re.I)
+_OVERLAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+overlap|overlap\s+(?:of\s+|length\s+)?{_NUM}\s*{_UM}", re.I)
+_FINGER_PAIRS_RE = re.compile(r"(\d+)\s+finger\s+pairs?", re.I)
+_METAL_LAYER_RE = re.compile(r"\bon\s+(M\d+)\b|\blayer\s+(M\d+)\b", re.I)
+_SUBSTRATE_RE = re.compile(r"\bon\s+(silicon|sapphire|quartz|gaas|fused\s+silica)\b", re.I)
+
+_CAP_UNIT_TO_PF = {"pf": 1.0, "ff": 1e-3, "nf": 1e3}
+_FREQ_UNIT_TO_GHZ = {"ghz": 1.0, "mhz": 1e-3}
+
+#: Substrates the built-in technology library can actually model today.
+_KNOWN_SUBSTRATES = {"silicon": "generic_2metal"}
+
+
+class DesignIntent(BaseModel):
+    """Structured, typed record of what the user asked for — nothing more."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    schema_version: str = Field(default=INTENT_SCHEMA)
+    prompt: str
+    component: str
+    technology: str = Field(default="generic_2metal")
+    substrate: str | None = None
+    target: dict[str, float] = Field(default_factory=dict)
+    constraints: dict[str, float] = Field(default_factory=dict)
+    parameters: dict[str, Any] = Field(default_factory=dict)
+    notes: list[str] = Field(default_factory=list)
+
+
+def parse_prompt(prompt: str) -> DesignIntent:
+    """Parse a layout request into a :class:`DesignIntent`.
+
+    Raises :class:`PromptParseError` when the component cannot be identified or
+    an explicitly-stated quantity cannot be interpreted.
+    """
+    text = prompt.strip()
+    if not text:
+        raise PromptParseError(prompt, "the prompt is empty")
+
+    component = _parse_component(text)
+    notes: list[str] = []
+
+    target: dict[str, float] = {}
+    cap = _CAPACITANCE_RE.search(text)
+    if cap:
+        target["capacitance_pf"] = round(
+            float(cap.group(1)) * _CAP_UNIT_TO_PF[cap.group(2).lower()], 6
+        )
+    freq = _FREQUENCY_RE.search(text)
+    if freq:
+        target["frequency_ghz"] = round(
+            float(freq.group(1)) * _FREQ_UNIT_TO_GHZ[freq.group(2).lower()], 6
+        )
+
+    substrate: str | None = None
+    technology = "generic_2metal"
+    sub = _SUBSTRATE_RE.search(text)
+    if sub:
+        substrate = sub.group(1).lower()
+        mapped = _KNOWN_SUBSTRATES.get(substrate)
+        if mapped is None:
+            raise PromptParseError(
+                prompt,
+                f"substrate {substrate!r} has no registered technology",
+                hints=[f"supported substrates: {sorted(_KNOWN_SUBSTRATES)}"],
+            )
+        technology = mapped
+
+    constraints: dict[str, float] = {}
+    gap = _MIN_GAP_RE.search(text) or _MIN_GAP_ALT_RE.search(text)
+    if gap:
+        constraints["min_gap_um"] = float(gap.group(1))
+    width = _MIN_WIDTH_RE.search(text)
+    if width:
+        constraints["min_width_um"] = float(width.group(1))
+
+    parameters: dict[str, Any] = {}
+    pairs = _FINGER_PAIRS_RE.search(text)
+    if pairs:
+        parameters["finger_pairs"] = int(pairs.group(1))
+    overlap = _OVERLAP_RE.search(text)
+    if overlap:
+        parameters["overlap_um"] = float(overlap.group(1) or overlap.group(2))
+    if width:
+        parameters["finger_width_um"] = float(width.group(1))
+    if gap:
+        parameters["gap_um"] = float(gap.group(1))
+    layer = _METAL_LAYER_RE.search(text)
+    if layer:
+        parameters["metal_layer"] = (layer.group(1) or layer.group(2)).upper()
+
+    if component == "IDC" and not target and not parameters:
+        raise PromptParseError(
+            prompt,
+            "an IDC request needs a target capacitance or explicit geometry parameters",
+            hints=["e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'"],
+        )
+    if component == "IDC" and "capacitance_pf" not in target and "finger_pairs" not in parameters:
+        notes.append(
+            "No target capacitance or finger count stated; a default finger count "
+            "will be used downstream."
+        )
+
+    if "frequency_ghz" not in target and component == "IDC":
+        notes.append("No operating frequency stated; self-resonance headroom is unchecked.")
+
+    return DesignIntent(
+        prompt=text,
+        component=component,
+        technology=technology,
+        substrate=substrate,
+        target=target,
+        constraints=constraints,
+        parameters=parameters,
+        notes=notes,
+    )
+
+
+def _parse_component(text: str) -> str:
+    matches = [name for name, pattern in _COMPONENT_PATTERNS if pattern.search(text)]
+    if not matches:
+        raise PromptParseError(
+            text,
+            "no supported component was recognised",
+            hints=[
+                "supported: IDC (interdigitated capacitor), CPW (coplanar waveguide)",
+                "e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'",
+            ],
+        )
+    if len(matches) > 1:
+        raise PromptParseError(
+            text,
+            f"the prompt mentions multiple components {matches}; ask for one at a time",
+        )
+    return matches[0]

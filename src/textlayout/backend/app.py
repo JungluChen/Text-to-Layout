@@ -33,6 +33,8 @@ from textlayout.backend.api_models import (
     ErrorResponse,
     BenchmarkResponse,
     ExportResponse,
+    FromTextRequest,
+    FromTextResponse,
     GenerateResponse,
     HealthResponse,
     PreviewResponse,
@@ -47,6 +49,7 @@ from textlayout.errors import (
     ExportError,
     InvalidParametersError,
     MissingResearchError,
+    PromptParseError,
     TextLayoutError,
     UnknownComponentError,
     UnknownExporterError,
@@ -55,9 +58,10 @@ from textlayout.errors import (
 )
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation import simulate_layout
-from textlayout.workflows import GenerateResult, GenerateWorkflow
+from textlayout.workflows import FromTextWorkflow, GenerateResult, GenerateWorkflow
 
 _STATUS_CODES: dict[type[TextLayoutError], int] = {
+    PromptParseError: 400,
     InvalidParametersError: 400,
     UnknownComponentError: 400,
     UnknownTechnologyError: 400,
@@ -117,6 +121,40 @@ def create_app(
             components=workflow.component_names,
             technologies=workflow.technology_names,
             formats=workflow.export_formats,
+        )
+
+    @app.post("/layout/from-text", response_model=FromTextResponse, tags=["layout"])
+    async def from_text(request: FromTextRequest) -> FromTextResponse:
+        from_text_workflow = FromTextWorkflow(workflow)
+        output_dir = (
+            Path(request.output_dir)
+            if request.output_dir
+            else settings.workspace / "from_text" / uuid.uuid4().hex
+        )
+        result = await run_in_threadpool(
+            from_text_workflow.run,
+            request.prompt,
+            output_dir,
+            tolerance_percent=request.tolerance_percent,
+            execute_solver=request.execute_solver,
+        )
+        return FromTextResponse(
+            status="ok" if result.ok else "verification_failed",
+            component=result.spec.component,
+            target=dict(result.spec.target),
+            intent=result.intent.model_dump(mode="json"),
+            simulation_status=result.evidence.status.value,
+            simulation_summary=result.evidence.summary_line(),
+            evidence=result.evidence.model_dump(mode="json"),
+            optimization=(
+                result.optimization.model_dump(mode="json")
+                if result.optimization is not None
+                else None
+            ),
+            verification=VerifyResponse(**result.generate.report.to_dict()),
+            artifacts={name: Path(p).name for name, p in result.files.items()},
+            files=dict(result.files),
+            output_dir=str(result.output_dir),
         )
 
     @app.post("/layout/generate", response_model=GenerateResponse, tags=["layout"])

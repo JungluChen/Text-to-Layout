@@ -70,6 +70,23 @@ class MissingResearchError(TextLayoutError):
         )
 
 
+class PromptParseError(TextLayoutError):
+    """Raised when a natural-language prompt cannot be parsed unambiguously.
+
+    Failing loudly is a feature: the deterministic parser never silently guesses
+    a component or a target the user did not state.
+    """
+
+    def __init__(self, prompt: str, reason: str, hints: list[str] | None = None) -> None:
+        self.prompt = prompt
+        self.reason = reason
+        self.hints = hints or []
+        detail = f"Could not parse prompt: {reason}"
+        if self.hints:
+            detail += " Hints: " + "; ".join(self.hints)
+        super().__init__(detail)
+
+
 class VerificationFailedError(TextLayoutError):
     """Raised when an endpoint requires an artifact but verification failed."""
 
