@@ -16,7 +16,20 @@
   "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
   "evidence": {
     "analytical_model": "Simons/Pozar quarter-wave CPW estimate",
-    "open_source_solver": "openEMS"
+    "open_source_solver": "openEMS",
+    "solver_input_prepared": true,
+    "solver_executed": false
   },
-  "metadata": {"benchmark_status": "ready", "explicit_ground_reference_ports": true}
+  "metadata": {
+    "benchmark_status": "ready",
+    "geometry_status": "pass",
+    "simulation_readiness_level": 2,
+    "solver_executed": false,
+    "physics_verified": false,
+    "fabrication_ready": false,
+    "explicit_ground_reference_ports": true,
+    "analytical_model": "L = vp/(4f)",
+    "analytical_length_um": 4918.5,
+    "note": "Length calculated from phase velocity; EM simulation required to verify resonance"
+  }
 }

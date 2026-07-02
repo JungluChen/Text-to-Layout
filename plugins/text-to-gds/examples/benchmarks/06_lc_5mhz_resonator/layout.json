@@ -1,0 +1,58 @@
+{
+  "dsl_version": "1.0",
+  "component": "LCResonator",
+  "technology": "generic_2metal",
+  "target": {
+    "resonance_frequency_hz": 5000000,
+    "topology": "parallel_lc_tank"
+  },
+  "parameters": {
+    "inductor": {
+      "type": "spiral",
+      "required_inductance_h": 1.013e-5,
+      "achievable_inductance_h": 1.0e-8,
+      "turns": 10,
+      "outer_dimension_um": 250.0,
+      "trace_width_um": 4.0,
+      "spacing_um": 2.0,
+      "note": "To reach 5 MHz with C = 100 pF requires L = 10.13 uH; a 10-turn 250 um spiral only realizes ~10 nH, hence infeasible."
+    },
+    "capacitor": {
+      "type": "MIM",
+      "target_capacitance_f": 1e-10,
+      "area_um2": 90000.0,
+      "metal_layer": "M1"
+    }
+  },
+  "rules": {
+    "min_width_um": 2.0,
+    "min_gap_um": 2.0
+  },
+  "outputs": {
+    "gds": false,
+    "svg": false,
+    "json": true,
+    "png": false,
+    "report": true
+  },
+  "metadata": {
+    "benchmark_status": "infeasible",
+    "geometry_status": "not_generated",
+    "simulation_readiness_level": 0,
+    "solver_executed": false,
+    "physics_verified": false,
+    "fabrication_ready": false,
+    "infeasibility_reason": "Required LC product (1.013e-15 s²) exceeds practical on-chip limits by 100-1000×. At 5 MHz, on-chip spiral inductors and MIM capacitors cannot achieve the required values without excessive area, parasitic dominance, and Q-factor degradation.",
+    "feasible_alternative_frequency_hz": 159000000,
+    "feasible_alternative_l_h": 1e-8,
+    "feasible_alternative_c_f": 1e-10
+  },
+  "evidence": {
+    "analytical_model": "f0 = 1/(2π√LC)",
+    "simulation_required": true,
+    "open_source_solver": "None - infeasible",
+    "solver_input_prepared": false,
+    "solver_executed": false,
+    "infeasibility_analysis": "See feasibility.md for complete analysis"
+  }
+}

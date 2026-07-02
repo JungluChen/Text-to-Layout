@@ -85,3 +85,22 @@ fabricated links.
 These tools, when actually executed, produce solver-owned artifacts that can
 upgrade a benchmark from `ANALYTICAL ONLY` to `SIMULATION EXECUTED`. A prepared
 input file alone does not.
+
+## Evidence interpretation (worked examples)
+
+> **IDC (benchmark 01).** Bahl (2003) and Alley (1970) support the *analytical
+> interdigital-capacitance model* used to pick finger count and overlap. They do
+> **not** prove that the generated `output.gds` reaches 0.6 pF. The committed
+> value (0.6983 pF for 22 pairs) is an analytical estimate with ~16% target
+> error; EM extraction (FasterCap/Q3D) or measurement is still required.
+
+> **Quarter-wave resonator (benchmark 04).** Simons (2001) and Pozar (2012)
+> support the `L = v_p/(4f)` length formula (≈4918 µm at 6 GHz). They do **not**
+> prove the generated geometry resonates at 6 GHz — coupling and boundary effects
+> shift `f0`, so an openEMS eigenmode / `S21` extraction is required before any
+> `PHYSICS VERIFIED` claim.
+
+> **5 MHz LC (benchmark 06 / acceptance A).** Pozar (2012) supports the
+> `f0 = 1/(2π√LC)` relation used to compute the *required* `LC = 1.013×10⁻¹⁵ s²`.
+> That same physics proves the target is **INFEASIBLE** on-chip — here the
+> reference supports a *refusal*, not a layout.

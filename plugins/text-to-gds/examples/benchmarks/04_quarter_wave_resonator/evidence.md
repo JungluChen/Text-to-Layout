@@ -59,3 +59,12 @@
 - R. N. Simons, 'Coplanar Waveguide Circuits, Components, and Systems', Wiley, 2001. — Conformal-mapping CPW impedance model.
 - W. Hilberg, 'From approximations to exact relations for characteristic impedances', IEEE Trans. MTT-17 (1969) 259. — Closed-form K(k)/K(k') used here (error < 8e-6).
 - D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012. — Transmission-line and λ/4 theory.
+
+See the repository [REFERENCES.md](../../../REFERENCES.md).
+
+## Evidence status
+
+- A citation supports the analytical **method/model**, not this specific layout.
+- This generated geometry has **not** been EM-simulated (no solver executed).
+- This generated geometry has **not** been measured.
+- This generated geometry is **not** fabrication-ready.

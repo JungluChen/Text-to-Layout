@@ -16,6 +16,12 @@ from textlayout.ports.exporter import Exporter
 
 _FALLBACK_COLOR = "#888888"
 
+# Pin PNG metadata so the only run-to-run variation is matplotlib's own
+# rasteriser version. By default matplotlib stamps a "Software: Matplotlib
+# <version>" chunk; fixing it keeps the committed previews stable as long as the
+# matplotlib version is held. (See docs/artifact_policy.md.)
+_PNG_METADATA = {"Software": "textlayout"}
+
 
 class PngExporter(Exporter):
     """Renders the Geometry IR to a PNG image."""
@@ -32,13 +38,17 @@ class PngExporter(Exporter):
 
     def render_bytes(self, geometry: Geometry, tech: Technology) -> bytes:
         buf = io.BytesIO()
-        self._figure(geometry, tech).savefig(buf, format="png", dpi=self._dpi, bbox_inches="tight")
+        self._figure(geometry, tech).savefig(
+            buf, format="png", dpi=self._dpi, bbox_inches="tight", metadata=_PNG_METADATA
+        )
         return buf.getvalue()
 
     def write(self, geometry: Geometry, tech: Technology, path: str | Path) -> Path:
         out = Path(path)
         out.parent.mkdir(parents=True, exist_ok=True)
-        self._figure(geometry, tech).savefig(out, dpi=self._dpi, bbox_inches="tight")
+        self._figure(geometry, tech).savefig(
+            out, dpi=self._dpi, bbox_inches="tight", metadata=_PNG_METADATA
+        )
         return out
 
     def _figure(self, geometry: Geometry, tech: Technology):  # type: ignore[no-untyped-def]

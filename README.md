@@ -53,6 +53,14 @@ Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below mus
 | QuarterWaveResonator | yes | yes (λ/4 line theory) | yes (openEMS manifest) | no | no | Supported — geometry + analytical |
 | SQUID | yes | yes (flux quantization) | yes (plan only) | no | no | Experimental — generic JJ placeholders, not foundry-qualified |
 
+## Trust and reproducibility
+
+The honesty claims above are backed by committed, checkable artifacts:
+
+- [CLEAN_ROOM_VERIFICATION.md](CLEAN_ROOM_VERIFICATION.md) — what was verified from a fresh clone (local CLI / API / plugin-style). This repo is **not** claimed to be "public ChatGPT plugin ready"; that requires a public HTTPS deployment (see [docs/public_gpt_action_deployment.md](docs/public_gpt_action_deployment.md)).
+- [docs/artifact_policy.md](docs/artifact_policy.md) — why committed benchmark artifacts are byte-reproducible (normalized timestamps, stable GDS top-cell names, `gds2_write_timestamps=False`).
+- [examples/acceptance/](examples/acceptance/) — three physics-fit acceptance packets: an infeasible target that is *refused* (5 MHz LC), a feasible resonator, and an auto-sized IDC.
+
 ## What it does
 
 Text-to-Layout is not "AI randomly draws layout." The AI researches the target and proposes a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, simulation preparation, and export.

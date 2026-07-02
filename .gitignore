@@ -12,6 +12,14 @@ skills-lock.json
 # textlayout plugin server output (any workspace variant)
 workspace/textlayout*/
 
+# CLI / CI scratch output directories
+out/
+ci_out/
+
+# Non-reproducible benchmark generation metadata (wall-clock time, tool versions).
+# The committed provenance uses a normalized timestamp; the real time lives here.
+examples/**/.generation_meta.json
+
 workspace/artifacts/*
 !workspace/artifacts/.gitkeep
 plugins/*/workspace/artifacts/*
@@ -22,5 +30,4 @@ external_repos/
 quantum-eda-stack/
 references/
 workspace/catalog.py
-
-out/
+plugins/*/examples/**/.generation_meta.json

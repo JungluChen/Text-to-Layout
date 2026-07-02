@@ -494,7 +494,8 @@
   "provenance": {
     "layout_json_sha256": "05c2b6f52c4739d826aca441a907450bba076c005d1a9dc70b91eda1b08c3dc1",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:31:52.094380+00:00",
+    "generated_at": "normalized",
+    "timestamp_normalized": true,
     "source_layout_path": "benchmarks/03_spiral_inductor/layout.json"
   }
 }

@@ -1,0 +1,52 @@
+{
+  "name": "C_idc_autosize_0p6pf",
+  "prompt": "Design an IDC targeting 0.6 pF using 4 um width, 2 um gap, and 250 um overlap. Choose the finger pair count automatically.",
+  "verdict": "GEOMETRY_PASS",
+  "geometry_generated": true,
+  "artifact_generated": true,
+  "analytical_estimate": {
+    "target_capacitance_pf": 0.6,
+    "reference_finger_pairs": 22,
+    "reference_estimate_pf": 0.6983,
+    "reference_error_pct": 16.38,
+    "chosen_finger_pairs": 19,
+    "chosen_estimate_pf": 0.5988,
+    "chosen_error_pct": -0.2,
+    "smallest_count_reaching_target": 20,
+    "smallest_reaching_estimate_pf": 0.6319,
+    "smallest_reaching_error_pct": 5.32,
+    "error_improvement_pct_points": 16.17,
+    "model": "Bahl/Alley quasi-static IDC"
+  },
+  "solver_input_prepared": true,
+  "solver_executed": false,
+  "extracted_result": null,
+  "target_comparison": {
+    "target_pf": 0.6,
+    "analytical_pf": 0.5988,
+    "error_pct": -0.2,
+    "method": "analytical",
+    "solver_executed": false
+  },
+  "physics_verified": false,
+  "fabrication_ready": false,
+  "notes": [
+    "Auto-sized to 19 finger pairs (|error| 0.20%) vs reference 22 (|error| 16.38%).",
+    "Analytical (Bahl/Alley) only \u2014 no EM solver executed, so no EM-verified capacitance is claimed."
+  ],
+  "alternatives": [],
+  "references": [
+    "I. J. Bahl, 'Lumped Elements for RF and Microwave Circuits', Artech House, 2003, Ch. 2.",
+    "G. D. Alley, IEEE Trans. MTT-18 (1970) 1028 \u2014 interdigital capacitor model."
+  ],
+  "evidence_ladder": {
+    "geometry_generated": true,
+    "artifact_generated": true,
+    "analytical_estimate": true,
+    "solver_input_prepared": true,
+    "solver_executed": false,
+    "extracted_and_compared": false,
+    "physics_verified": false,
+    "fabrication_ready": false
+  }
+}

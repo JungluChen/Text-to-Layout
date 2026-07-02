@@ -100,7 +100,8 @@
   "provenance": {
     "layout_json_sha256": "7b70d2c8fdbb7df54a6b68f6e99d3edad04a8888f562d078ab8b4610dd9a408c",
     "generator_version": "0.2.0",
-    "generated_at": "2026-06-30T02:31:51.886264+00:00",
+    "generated_at": "normalized",
+    "timestamp_normalized": true,
     "source_layout_path": "benchmarks/02_cpw_50ohm/layout.json"
   }
 }

@@ -11,6 +11,7 @@ layer legality, and geometry sanity.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 import math
 
 from textlayout.models import Polygon
@@ -148,7 +149,7 @@ def check_geometry_spacing(ctx: VerificationContext) -> Check:
         polys = ctx.geometry.on_layer(layer)
         for i in range(len(polys)):
             for j in range(i + 1, len(polys)):
-                gap = _bbox_gap(polys[i], polys[j])
+                gap = _polygon_gap(polys[i], polys[j])
                 if 0.0 < gap < limit - _EPS and (worst is None or gap < worst[1]):
                     worst = (layer, gap, limit)
     if worst is None:
@@ -280,14 +281,95 @@ DEFAULT_CHECKS = (
 )
 
 
-def _bbox_gap(a: Polygon, b: Polygon) -> float:
-    ba, bb = a.bbox, b.bbox
-    dx = max(ba.xmin - bb.xmax, bb.xmin - ba.xmax, 0.0)
-    dy = max(ba.ymin - bb.ymax, bb.ymin - ba.ymax, 0.0)
-    if dx == 0.0 and dy == 0.0:
+def _polygon_gap(a: Polygon, b: Polygon) -> float:
+    """Return exact edge-to-edge clearance between two simple polygons."""
+    edges_a = tuple(_edges(a.points))
+    edges_b = tuple(_edges(b.points))
+    if any(_segments_intersect(*edge_a, *edge_b) for edge_a in edges_a for edge_b in edges_b):
         return 0.0
-    if dx == 0.0:
-        return dy
-    if dy == 0.0:
-        return dx
-    return math.hypot(dx, dy)
+    if _point_in_polygon(a.points[0], b.points) or _point_in_polygon(b.points[0], a.points):
+        return 0.0
+    return min(
+        _segment_distance(*edge_a, *edge_b) for edge_a in edges_a for edge_b in edges_b
+    )
+
+
+def _edges(
+    points: tuple[tuple[float, float], ...],
+) -> Iterator[tuple[tuple[float, float], tuple[float, float]]]:
+    for index, start in enumerate(points):
+        yield start, points[(index + 1) % len(points)]
+
+
+def _segments_intersect(
+    a: tuple[float, float],
+    b: tuple[float, float],
+    c: tuple[float, float],
+    d: tuple[float, float],
+) -> bool:
+    def cross(p: tuple[float, float], q: tuple[float, float], r: tuple[float, float]) -> float:
+        return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+
+    def on_segment(
+        p: tuple[float, float], q: tuple[float, float], r: tuple[float, float]
+    ) -> bool:
+        return (
+            min(p[0], r[0]) - _EPS <= q[0] <= max(p[0], r[0]) + _EPS
+            and min(p[1], r[1]) - _EPS <= q[1] <= max(p[1], r[1]) + _EPS
+        )
+
+    o1, o2, o3, o4 = cross(a, b, c), cross(a, b, d), cross(c, d, a), cross(c, d, b)
+    if (o1 > _EPS and o2 < -_EPS or o1 < -_EPS and o2 > _EPS) and (
+        o3 > _EPS and o4 < -_EPS or o3 < -_EPS and o4 > _EPS
+    ):
+        return True
+    return (
+        abs(o1) <= _EPS and on_segment(a, c, b)
+        or abs(o2) <= _EPS and on_segment(a, d, b)
+        or abs(o3) <= _EPS and on_segment(c, a, d)
+        or abs(o4) <= _EPS and on_segment(c, b, d)
+    )
+
+
+def _point_in_polygon(
+    point: tuple[float, float], polygon: tuple[tuple[float, float], ...]
+) -> bool:
+    x, y = point
+    inside = False
+    for (x1, y1), (x2, y2) in _edges(polygon):
+        if (y1 > y) != (y2 > y):
+            intersection_x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
+            if x < intersection_x:
+                inside = not inside
+    return inside
+
+
+def _segment_distance(
+    a: tuple[float, float],
+    b: tuple[float, float],
+    c: tuple[float, float],
+    d: tuple[float, float],
+) -> float:
+    return min(
+        _point_segment_distance(a, c, d),
+        _point_segment_distance(b, c, d),
+        _point_segment_distance(c, a, b),
+        _point_segment_distance(d, a, b),
+    )
+
+
+def _point_segment_distance(
+    point: tuple[float, float],
+    start: tuple[float, float],
+    end: tuple[float, float],
+) -> float:
+    dx, dy = end[0] - start[0], end[1] - start[1]
+    length_squared = dx * dx + dy * dy
+    if length_squared <= _EPS:
+        return math.hypot(point[0] - start[0], point[1] - start[1])
+    projection = (
+        (point[0] - start[0]) * dx + (point[1] - start[1]) * dy
+    ) / length_squared
+    projection = max(0.0, min(1.0, projection))
+    closest = (start[0] + projection * dx, start[1] + projection * dy)
+    return math.hypot(point[0] - closest[0], point[1] - closest[1])

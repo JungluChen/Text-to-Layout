@@ -83,6 +83,32 @@ class GdsExporter(Exporter):
             return path.read_bytes()
 
 
+def canonicalize_gds(path: str | Path, *, cell_name: str) -> Path:
+    """Rewrite a GDS in place with a deterministic top-cell name.
+
+    gdsfactory gives each export a unique ``<name>_<uuid8>`` top cell to avoid
+    process-global registry collisions, so two regenerations of the *same*
+    geometry differ only by that random suffix. For committed benchmark
+    artifacts that random suffix is the sole source of GDS byte churn. This
+    helper reads the file back through KLayout, renames the single top cell to a
+    stable ``cell_name``, and rewrites it. KLayout's writer emits no wall-clock
+    timestamp, so repeated runs over identical geometry are byte-for-byte equal.
+    """
+    import klayout.db as kdb
+
+    layout = kdb.Layout()
+    layout.read(str(path))
+    tops = layout.top_cells()
+    if len(tops) == 1:
+        tops[0].name = cell_name
+    options = kdb.SaveLayoutOptions()
+    # GDSII BGNLIB/BGNSTR records carry a wall-clock timestamp (1 s resolution);
+    # disabling it is what makes the bytes byte-identical across separate runs.
+    options.gds2_write_timestamps = False
+    layout.write(str(path), options)
+    return Path(path)
+
+
 def _layer_tuple(tech: Technology, layer_name: str) -> tuple[int, int]:
     if tech.has_layer(layer_name):
         info = tech.layer(layer_name)

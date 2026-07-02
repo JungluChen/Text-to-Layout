@@ -108,6 +108,43 @@ class SimulationResponse(BaseModel):
     simulation: dict[str, Any]
 
 
+class FromTextRequest(BaseModel):
+    """Natural-language layout request (deterministic parser; no LLM needed)."""
+
+    prompt: str = Field(
+        description="e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'."
+    )
+    output_dir: str | None = Field(
+        default=None,
+        description="Optional output directory; defaults to a workspace subfolder.",
+    )
+    tolerance_percent: float = Field(default=5.0, gt=0)
+    execute_solver: bool = Field(
+        default=True,
+        description="Attempt to run FasterCap/FastCap if installed; skipped honestly if absent.",
+    )
+
+
+class FromTextResponse(BaseModel):
+    status: str = Field(description="'ok' or 'verification_failed'.")
+    component: str
+    target: dict[str, float]
+    intent: dict[str, Any] = Field(description="Parsed design intent (intent.json).")
+    simulation_status: str = Field(
+        description="Evidence status: ANALYTICAL_ONLY | SIMULATION_INPUT_PREPARED | "
+        "SIMULATION_EXECUTED | PHYSICS_VERIFIED | FAILED | SKIPPED_SOLVER_ABSENT."
+    )
+    simulation_summary: str
+    evidence: dict[str, Any] = Field(description="Typed QuantityEvidence record.")
+    optimization: dict[str, Any] | None = Field(
+        default=None, description="Closed-loop tuning record, when a target was optimised."
+    )
+    verification: VerificationModel
+    artifacts: dict[str, str] = Field(description="Artifact file names keyed by kind.")
+    files: dict[str, str] = Field(description="Absolute paths keyed by kind.")
+    output_dir: str
+
+
 class ErrorResponse(BaseModel):
     error: str = Field(description="Error type, e.g. 'InvalidParametersError'.")
     message: str

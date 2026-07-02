@@ -21,6 +21,13 @@ Never translate natural language directly into polygons. Use this pipeline:
 8. Confirm every requested file exists and is non-empty.
 9. Prepare the component's open-source solver input when an adapter exists; do not convert preparation into a simulation claim.
 
+## What gdsfactory output proves
+
+- **GDS file existence proves geometry generation**, not electrical correctness.
+- **SVG/PNG previews are not evidence** - they are visual verification aids.
+- **GDS file existence is not simulation evidence** - solver execution is required.
+- **Geometry verification passes** do not mean the device physics is verified.
+
 ## Commands
 
 ```bash

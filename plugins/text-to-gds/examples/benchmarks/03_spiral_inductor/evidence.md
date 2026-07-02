@@ -51,3 +51,12 @@
 
 - S. S. Mohan, M. del Mar Hershenson, S. P. Boyd, T. H. Lee, 'Simple Accurate Expressions for Planar Spiral Inductances', IEEE JSSC 34(10) (1999) 1419. — Modified-Wheeler and current-sheet expressions used here.
 - H. A. Wheeler, 'Simple Inductance Formulas for Radio Coils', Proc. IRE 16 (1928) 1398.
+
+See the repository [REFERENCES.md](../../../REFERENCES.md).
+
+## Evidence status
+
+- A citation supports the analytical **method/model**, not this specific layout.
+- This generated geometry has **not** been EM-simulated (no solver executed).
+- This generated geometry has **not** been measured.
+- This generated geometry is **not** fabrication-ready.
