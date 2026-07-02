@@ -15,6 +15,18 @@ READINESS_LABELS = {
     5: "optimization loop implemented",
 }
 
+# The execution-evidence ladder. Each adapter advances through these stages; the
+# stage is *derived* from the result's status/contents so it can never disagree
+# with the artifacts on disk.
+EVIDENCE_STAGES = (
+    "solver_missing",
+    "input_prepared",
+    "executed",
+    "parsed",
+    "compared",
+    "failed_gracefully",
+)
+
 
 @dataclass(frozen=True, slots=True)
 class SimulationResult:
@@ -27,6 +39,7 @@ class SimulationResult:
     output_dir: Path | None = None
     artifacts: dict[str, str] = field(default_factory=dict)
     extracted_quantities: dict[str, Any] = field(default_factory=dict)
+    target_comparison: dict[str, Any] | None = None
     warnings: tuple[str, ...] = ()
     command: tuple[str, ...] = ()
 
@@ -34,16 +47,58 @@ class SimulationResult:
     def readiness_label(self) -> str:
         return READINESS_LABELS[self.readiness_level]
 
+    @property
+    def evidence_stage(self) -> str:
+        """Position on the execution-evidence ladder, derived from artifacts.
+
+        Maps the internal status (kept stable for backward compatibility) onto
+        the explicit ``solver_missing | input_prepared | executed | parsed |
+        compared | failed_gracefully`` vocabulary.
+        """
+        if self.status == "skipped":
+            return "solver_missing"
+        if self.status == "failed":
+            return "failed_gracefully"
+        if self.status == "executed":
+            if self.target_comparison is not None:
+                return "compared"
+            if self.extracted_quantities:
+                return "parsed"
+            return "executed"
+        return "input_prepared"
+
+    @property
+    def solver_executed(self) -> bool:
+        return self.status == "executed"
+
+    @property
+    def physics_verified(self) -> bool:
+        """Only true with a real run, a parsed value, and an in-tolerance compare.
+
+        This is the single gate that downstream code must use before claiming a
+        target was met. A prepared input or an analytical estimate can never make
+        it true."""
+        return (
+            self.status == "executed"
+            and bool(self.extracted_quantities)
+            and self.target_comparison is not None
+            and bool(self.target_comparison.get("within_tolerance"))
+        )
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "status": self.status,
+            "evidence_stage": self.evidence_stage,
             "solver": self.solver,
+            "solver_executed": self.solver_executed,
+            "physics_verified": self.physics_verified,
             "readiness_level": self.readiness_level,
             "readiness_label": self.readiness_label,
             "reason": self.reason,
             "output_dir": str(self.output_dir) if self.output_dir is not None else None,
             "artifacts": dict(self.artifacts),
             "extracted_quantities": dict(self.extracted_quantities),
+            "target_comparison": self.target_comparison,
             "warnings": list(self.warnings),
             "command": list(self.command),
         }

@@ -17,6 +17,7 @@ from pathlib import Path
 from textlayout import __version__, build_default_workflow
 from textlayout.errors import TextLayoutError
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.workflows import compile_text, run_from_text
 
 
 def _load_spec(path: str) -> LayoutSpec:
@@ -41,6 +42,24 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     report = workflow.verify_only(_load_spec(args.spec))
     print(json.dumps(report.to_dict(), indent=2))
     return 0 if report.passed else 2
+
+
+def _cmd_prompt(args: argparse.Namespace) -> int:
+    result = run_from_text(
+        args.prompt,
+        args.out,
+        tolerance_pct=args.tolerance_pct,
+        analytical_tolerance_pct=args.analytical_tolerance_pct,
+        solver_executable=args.solver_executable,
+    )
+    print(json.dumps(result.to_dict(), indent=2))
+    return 0 if result.verification["status"] == "pass" else 2
+
+
+def _cmd_compile_prompt(args: argparse.Namespace) -> int:
+    result = compile_text(args.prompt, analytical_tolerance_pct=args.analytical_tolerance_pct)
+    print(json.dumps(result.to_dict(), indent=2))
+    return 0
 
 
 def _cmd_serve(args: argparse.Namespace) -> int:
@@ -69,6 +88,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_ver = sub.add_parser("verify", help="Verify a DSL file (no export).")
     p_ver.add_argument("spec", help="Path to a Layout DSL JSON file.")
     p_ver.set_defaults(func=_cmd_verify)
+
+    p_prompt = sub.add_parser(
+        "prompt", help="Compile an IDC/CPW text prompt into verified layout artifacts."
+    )
+    p_prompt.add_argument("prompt", help="Natural-language layout request.")
+    p_prompt.add_argument("--out", default="out/textlayout", help="Output directory.")
+    p_prompt.add_argument("--tolerance-pct", type=float, default=5.0)
+    p_prompt.add_argument("--analytical-tolerance-pct", type=float, default=1.0)
+    p_prompt.add_argument("--solver-executable", default=None)
+    p_prompt.set_defaults(func=_cmd_prompt)
+
+    p_compile = sub.add_parser(
+        "compile", help="Compile an IDC/CPW text prompt into a typed Layout DSL."
+    )
+    p_compile.add_argument("prompt", help="Natural-language layout request.")
+    p_compile.add_argument("--analytical-tolerance-pct", type=float, default=1.0)
+    p_compile.set_defaults(func=_cmd_compile_prompt)
 
     p_srv = sub.add_parser("serve", help="Run the FastAPI plugin server.")
     p_srv.add_argument("--host", default="127.0.0.1")

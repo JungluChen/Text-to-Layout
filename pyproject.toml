@@ -25,6 +25,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Clarity groups for the textlayout product (installable as `pip install -e ".[name]"`).
+# These do not change the clean-room core install.
+dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11", "pytest-cov>=5.0"]
+api = ["fastapi>=0.110", "uvicorn>=0.30"]  # also in core deps; named for clarity
+solvers = ["scikit-rf>=1.0"]  # open-source Touchstone / S-parameter post-processing
+docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
+
 layout = ["kqcircuits", "qiskit-metal"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
@@ -73,6 +80,9 @@ dev = [
 [project.entry-points."textlayout.generators"]
 IDC = "textlayout.generators.idc:IDCGenerator"
 CPW = "textlayout.generators.cpw:CPWGenerator"
+SpiralInductor = "textlayout.generators.spiral:SpiralInductorGenerator"
+QuarterWaveResonator = "textlayout.generators.resonator:QuarterWaveResonatorGenerator"
+SQUID = "textlayout.generators.squid:SQUIDGenerator"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/text_to_gds", "src/textlayout"]

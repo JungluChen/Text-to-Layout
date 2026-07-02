@@ -123,6 +123,8 @@ def run_fastercap(
     *,
     executable: str | None = None,
     timeout_seconds: int = 600,
+    target_capacitance_pf: float | None = None,
+    tolerance_pct: float = 10.0,
 ) -> SimulationResult:
     """Execute a prepared model, returning skipped/failed honestly."""
     list_file = Path(prepared.artifacts["list_file"])
@@ -199,6 +201,17 @@ def run_fastercap(
         )
 
     mutual_pf = abs(matrix_pf[0][1]) if len(matrix_pf) >= 2 and len(matrix_pf[0]) >= 2 else None
+    comparison: dict[str, object] | None = None
+    if target_capacitance_pf and mutual_pf is not None:
+        error_pct = 100.0 * (mutual_pf - target_capacitance_pf) / target_capacitance_pf
+        comparison = {
+            "quantity": "mutual_capacitance_pf",
+            "extracted": mutual_pf,
+            "target": target_capacitance_pf,
+            "error_pct": round(error_pct, 3),
+            "tolerance_pct": tolerance_pct,
+            "within_tolerance": abs(error_pct) <= tolerance_pct,
+        }
     result_path = list_file.parent / "simulation_result.json"
     payload = {
         "schema": "textlayout.simulation-result.v1",
@@ -206,6 +219,7 @@ def run_fastercap(
         "solver": Path(solver).name,
         "capacitance_matrix_pf": matrix_pf,
         "mutual_capacitance_pf": mutual_pf,
+        "target_comparison": comparison,
         "source_artifact": str(stdout_path),
     }
     result_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -213,7 +227,7 @@ def run_fastercap(
     return SimulationResult(
         status="executed",
         solver=Path(solver).name,
-        readiness_level=3,
+        readiness_level=4 if comparison else 3,
         reason="A real solver returned a parseable capacitance matrix.",
         output_dir=prepared.output_dir,
         artifacts=artifacts,
@@ -221,6 +235,7 @@ def run_fastercap(
             "capacitance_matrix_pf": matrix_pf,
             "mutual_capacitance_pf": mutual_pf,
         },
+        target_comparison=comparison,
         warnings=prepared.warnings,
         command=tuple(command),
     )

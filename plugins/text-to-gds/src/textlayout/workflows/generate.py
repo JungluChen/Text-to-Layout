@@ -85,8 +85,11 @@ class GenerateWorkflow:
         if spec.component not in self._engine.components:
             raise UnknownComponentError(spec.component, self._engine.components)
         technology = self._engine.technology(spec.technology)
-        research_report = research(spec, technology)
+        # Validate typed parameters (engine.build) BEFORE research so invalid
+        # parameters raise InvalidParametersError (HTTP 400) instead of crashing
+        # a research formula (which previously surfaced as HTTP 500).
         build = self._engine.build(spec)
+        research_report = research(spec, technology)
         ctx = VerificationContext(
             spec=spec,
             params=build.params,

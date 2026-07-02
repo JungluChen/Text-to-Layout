@@ -32,7 +32,11 @@ from textlayout import build_default_workflow
 from textlayout.backend.api_models import (
     ErrorResponse,
     BenchmarkResponse,
+    CompileTextRequest,
+    CompileTextResponse,
     ExportResponse,
+    FromTextRequest,
+    FromTextResponse,
     GenerateResponse,
     HealthResponse,
     PreviewResponse,
@@ -47,6 +51,7 @@ from textlayout.errors import (
     ExportError,
     InvalidParametersError,
     MissingResearchError,
+    PromptCompilationError,
     TextLayoutError,
     UnknownComponentError,
     UnknownExporterError,
@@ -55,7 +60,7 @@ from textlayout.errors import (
 )
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation import simulate_layout
-from textlayout.workflows import GenerateResult, GenerateWorkflow
+from textlayout.workflows import GenerateResult, GenerateWorkflow, compile_text, run_from_text
 
 _STATUS_CODES: dict[type[TextLayoutError], int] = {
     InvalidParametersError: 400,
@@ -64,6 +69,7 @@ _STATUS_CODES: dict[type[TextLayoutError], int] = {
     UnknownExporterError: 400,
     ExportError: 500,
     MissingResearchError: 400,
+    PromptCompilationError: 400,
     VerificationFailedError: 422,
 }
 
@@ -106,7 +112,11 @@ def create_app(
         detail: dict[str, object] = {}
         for attr in ("component", "technology", "format", "available", "detail"):
             if hasattr(exc, attr):
-                detail[attr] = getattr(exc, attr)
+                value = getattr(exc, attr)
+                if attr == "detail" and isinstance(value, dict):
+                    detail.update(value)
+                else:
+                    detail[attr] = value
         body = ErrorResponse(error=type(exc).__name__, message=str(exc), detail=detail)
         return JSONResponse(status_code=status, content=body.model_dump())
 
@@ -131,6 +141,28 @@ def create_app(
             files=dict(result.files),
             evidence=result.research.to_dict(),
         )
+
+    @app.post("/layout/from-text", response_model=FromTextResponse, tags=["layout"])
+    async def from_text(request: FromTextRequest) -> FromTextResponse:
+        output_dir = settings.workspace / "from-text" / uuid.uuid4().hex
+        result = await run_in_threadpool(
+            run_from_text,
+            request.prompt,
+            output_dir,
+            tolerance_pct=request.tolerance_pct,
+            analytical_tolerance_pct=request.analytical_tolerance_pct,
+            solver_executable=request.solver_executable,
+        )
+        return FromTextResponse(**result.to_dict())
+
+    @app.post("/layout/compile", response_model=CompileTextResponse, tags=["layout"])
+    async def compile_from_text(request: CompileTextRequest) -> CompileTextResponse:
+        result = await run_in_threadpool(
+            compile_text,
+            request.prompt,
+            analytical_tolerance_pct=request.analytical_tolerance_pct,
+        )
+        return CompileTextResponse(**result.to_dict())
 
     @app.post("/layout/research", response_model=ResearchResponse, tags=["evidence"])
     async def layout_research(spec: LayoutSpec) -> ResearchResponse:

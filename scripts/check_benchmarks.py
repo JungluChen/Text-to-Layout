@@ -17,8 +17,14 @@ PROVENANCE_FIELDS = (
 
 
 def _check_provenance(folder: Path, layout_sha: str) -> list[str]:
-    """Validate reproducibility provenance and detect stale artifacts."""
+    """Validate reproducibility provenance and detect stale artifacts.
+
+    Also enforces *semantic/provenance consistency*: the provenance blocks in
+    ``output.json`` and ``verification.json`` must agree, so the two halves of a
+    benchmark packet can never drift apart silently.
+    """
     errors: list[str] = []
+    blocks: dict[str, dict] = {}
     for name in ("output.json", "verification.json"):
         path = folder / name
         if not path.is_file():
@@ -29,6 +35,7 @@ def _check_provenance(folder: Path, layout_sha: str) -> list[str]:
         if not isinstance(provenance, dict):
             errors.append(f"{folder.name}: {name} missing provenance block")
             continue
+        blocks[name] = provenance
         for field in PROVENANCE_FIELDS:
             if field not in provenance:
                 errors.append(f"{folder.name}: {name} provenance missing {field}")
@@ -39,6 +46,12 @@ def _check_provenance(folder: Path, layout_sha: str) -> list[str]:
                 f"(layout_json_sha256 {recorded[:12]} != current {layout_sha[:12]}); "
                 "re-run scripts/generate_benchmarks.py"
             )
+
+    if len(blocks) == 2 and blocks["output.json"] != blocks["verification.json"]:
+        errors.append(
+            f"{folder.name}: output.json and verification.json provenance disagree "
+            "(re-run scripts/generate_benchmarks.py --force)"
+        )
     return errors
 
 READY_REQUIRED = {
@@ -97,7 +110,10 @@ def check_benchmarks(root: Path, readme: Path, *, strict: bool = False) -> list[
         status = metadata.get("benchmark_status", "todo")
         names = {path.name for path in folder.iterdir()}
         relative = folder.relative_to(repo_root).as_posix()
-        row = next((line for line in readme_text.splitlines() if relative in line), "")
+        # A benchmark is described across multiple README lines now (a visual
+        # row with the preview and a separate engineering-status row), so gather
+        # every line that references it rather than only the first.
+        row = "\n".join(line for line in readme_text.splitlines() if relative in line)
 
         # Status-agnostic honesty checks on verification.json (apply to every
         # benchmark, not just ready ones).

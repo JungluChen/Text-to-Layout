@@ -12,6 +12,14 @@ class TextLayoutError(Exception):
     """Base class for every error raised by the textlayout core."""
 
 
+class PromptCompilationError(TextLayoutError):
+    """Raised when text cannot be converted into an unambiguous layout request."""
+
+    def __init__(self, message: str, unresolved: list[str] | None = None) -> None:
+        self.detail = {"unresolved_questions": list(unresolved or ())}
+        super().__init__(message)
+
+
 class UnknownComponentError(TextLayoutError):
     """Raised when a DSL ``component`` has no registered generator."""
 

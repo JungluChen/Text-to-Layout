@@ -14,7 +14,18 @@
   "outputs": {"gds": true, "svg": true, "json": true, "png": true, "report": true},
   "evidence": {
     "analytical_model": "Mohan modified-Wheeler square-spiral estimate",
-    "open_source_solver": "FastHenry"
+    "open_source_solver": "FastHenry",
+    "solver_input_prepared": true,
+    "solver_executed": false
   },
-  "metadata": {"benchmark_status": "ready"}
+  "metadata": {
+    "benchmark_status": "ready",
+    "geometry_status": "pass",
+    "simulation_readiness_level": 2,
+    "solver_executed": false,
+    "physics_verified": false,
+    "fabrication_ready": false,
+    "analytical_model": "Mohan/Wheeler",
+    "note": "Analytical estimate only; FastHenry input prepared but not executed"
+  }
 }

@@ -108,6 +108,36 @@ class SimulationResponse(BaseModel):
     simulation: dict[str, Any]
 
 
+class FromTextRequest(BaseModel):
+    prompt: str = Field(min_length=1)
+    tolerance_pct: float = Field(default=5.0, gt=0)
+    analytical_tolerance_pct: float = Field(default=1.0, gt=0)
+    solver_executable: str | None = None
+
+
+class CompileTextRequest(BaseModel):
+    prompt: str = Field(min_length=1)
+    analytical_tolerance_pct: float = Field(default=1.0, gt=0)
+
+
+class CompileTextResponse(BaseModel):
+    status: str
+    intent: dict[str, Any]
+    assumptions: list[str]
+    unresolved_questions: list[str]
+    layout: dict[str, Any]
+    optimization: dict[str, Any] | None = None
+
+
+class FromTextResponse(BaseModel):
+    intent: dict[str, Any]
+    layout: dict[str, Any]
+    files: dict[str, str]
+    verification: dict[str, Any]
+    simulation: dict[str, Any]
+    optimization: dict[str, Any] | None = None
+
+
 class ErrorResponse(BaseModel):
     error: str = Field(description="Error type, e.g. 'InvalidParametersError'.")
     message: str

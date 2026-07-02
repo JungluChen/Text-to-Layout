@@ -4,134 +4,177 @@
 
 **AI-assisted, research-first, evidence-backed layout generation for IC, RF, and superconducting designs.**
 
-Natural-language intent becomes a researched Layout DSL, deterministic geometry, verification results, and reproducible GDS/SVG/PNG/JSON artifacts.
+Natural-language intent becomes a researched Layout DSL, deterministic geometry, verification results, and reproducible GDS / SVG / PNG / JSON artifacts.
 
-[Plugin design](docs/plugin_design.md) | [Tool API](docs/tool_api.md) | [Text-to-CAD study](docs/lessons_from_text_to_cad.md) | [Simulation workflows](simulation/README.md)
+[![CI](https://github.com/JungluChen/Text-to-Layout/actions/workflows/ci.yml/badge.svg)](https://github.com/JungluChen/Text-to-Layout/actions/workflows/ci.yml)
+
+[Clean-room verification](CLEAN_ROOM_VERIFICATION.md) · [Artifact policy](docs/artifact_policy.md) · [Plugin design](docs/plugin_design.md) · [GPT Action deployment](docs/public_gpt_action_deployment.md)
 
 </div>
 
+---
+
+## 30-second IDC demo
+
+```bash
+uv run textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_demo
+```
+
+The command deterministically parses the prompt, tunes the Bahl/Alley estimate,
+generates geometry, verifies it, and prepares FasterCap/FastCap input. It writes:
+
+```text
+out/idc_demo/
+  intent.json       inferred prompt values
+  layout.json       final structured Layout DSL
+  output.gds        deterministic layout
+  output.svg        layout preview
+  verification.json geometry and analytical checks
+  simulation.json   solver command/artifact/evidence status
+  report.md         target comparison and limitations
+```
+
+[![IDC layout preview](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg)
+
+For the command above, the deterministic analytical loop targets `0.6 pF` and
+converges to approximately `0.600001 pF`. If FasterCap/FastCap is absent,
+`simulation.json` reports `SIMULATION_INPUT_PREPARED` with
+`SKIPPED_SOLVER_ABSENT`; extracted capacitance remains unavailable and physics
+verification remains false. If a solver is present, its output is parsed and
+compared against the configured tolerance. This is not fabrication readiness.
+
+---
+
 ## What it does
 
-Text-to-Layout is not "AI randomly draws layout." The AI researches the target and proposes a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, simulation preparation, and export.
+Text-to-Layout is **not** "AI randomly draws a layout." The AI researches the
+target and proposes a typed Layout DSL. Deterministic code owns geometry, layer
+mapping, ports, verification, simulation preparation, and export.
 
 ```text
 Research
-  -> first-principles model
-  -> initial parameter calculation
-  -> Layout DSL (Pydantic v2)
-  -> deterministic geometry
-  -> gdsfactory Component
-  -> verification gate
-  -> SVG / PNG / GDS / JSON
-  -> open-source simulation preparation or execution
-  -> evidence-backed report
+  → first-principles model
+  → initial parameter calculation
+  → Layout DSL (Pydantic v2)
+  → deterministic geometry
+  → gdsfactory Component
+  → verification gate
+  → SVG / PNG / GDS / JSON
+  → open-source simulation preparation or execution
+  → evidence-backed report
 ```
 
-If required verification fails, final geometry artifacts are not exported.
+If required verification fails, **final geometry artifacts are not exported**.
 
-> **Warning:** Generated layouts are design candidates, not fabrication-ready masks. Final fabrication requires process-specific DRC, EM simulation, expert review, and foundry or lab rule validation.
+> **⚠️ Generated layouts are design candidates, not fabrication-ready masks.**
+> Final fabrication requires process-specific DRC, EM simulation, expert review,
+> and foundry or lab rule validation.
+
+The project's value is not that it draws many layouts. It is that it can prove
+**whether a layout meets — or cannot meet — a physical specification**, and
+labels every claim with the evidence behind it.
+
+---
 
 ## Status vocabulary
 
-This project uses explicit status labels to avoid misleading claims:
+Explicit labels are used everywhere to avoid misleading claims:
 
 | Label | Meaning |
-| - | - |
+| --- | --- |
 | **GEOMETRY PASS** | Files exist, parameters verified, geometry is valid |
-| **ANALYTICAL ONLY** | Equations computed; no solver executed |
+| **ANALYTICAL ONLY** | Closed-form equations computed; no solver executed |
 | **SIMULATION INPUT PREPARED** | Solver input files exist; solver not executed |
-| **SIMULATION EXECUTED** | Solver ran and produced non-empty output file |
-| **PHYSICS VERIFIED** | Extracted values compared against target with tolerance |
-| **FABRICATION READY** | Process-specific DRC, EM simulation, and expert review complete |
+| **SIMULATION EXECUTED** | Solver ran and produced a non-empty output file |
+| **PHYSICS VERIFIED** | Extracted value compared against target within tolerance |
+| **FAILED** | Verification or attempted solver execution failed |
+| **SKIPPED SOLVER ABSENT** | Solver was requested but no executable was found |
+| **FABRICATION READY** | Process DRC, EM simulation, and expert review complete |
 | **INFEASIBLE** | Target not achievable under realistic constraints |
 
 **No benchmark in this repository is currently PHYSICS VERIFIED or FABRICATION READY.**
 
-## Layout Benchmarks
+---
 
-Each benchmark shows honest status across geometry, simulation, evidence, and fabrication.
+## Layout benchmarks
 
-| # | Target | Prompt | Output | Geometry Status | Simulation Status | Evidence Status | Fabrication Status |
-| - | ------ | ------ | ------ | --------------- | ----------------- | --------------- | ------------------ |
-| 1 | [IDC capacitor](examples/benchmarks/01_idc_0p6pf/) | Create a 0.6 pF IDC with 22 finger pairs, 4 um width, 2 um gap, and 250 um overlap. | [![IDC](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) | **GEOMETRY PASS** (parameters, width, gap, layer, bbox, ports, gdsfactory lowering, KLayout readback) | **SIMULATION INPUT PREPARED** (FasterCap/FastCap input exists; solver not executed) | **ANALYTICAL ONLY** (Bahl/Alley estimate = 0.6983 pF; target error = 16.4%) | **NOT READY** |
-| 2 | [50 ohm CPW](examples/benchmarks/02_cpw_50ohm/) | Create a 50 ohm CPW on silicon. | [![CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) | **GEOMETRY PASS** (dimensions, GSG ports, layers, bbox, gdsfactory lowering) | **SIMULATION INPUT PREPARED** (openEMS manifest exists; solver not executed) | **ANALYTICAL ONLY** (Simons conformal mapping estimate = 50.04 ohm; EM correlation pending) | **NOT READY** |
-| 3 | [Spiral inductor](examples/benchmarks/03_spiral_inductor/) | Create a compact planar spiral with target inductance. | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) | **GEOMETRY PASS** (typed parameters, width, spacing, ports, bbox, gdsfactory lowering) | **SIMULATION INPUT PREPARED** (FastHenry input exists; solver not executed) | **ANALYTICAL ONLY** (Mohan/Wheeler estimate; no solver result) | **NOT READY** |
-| 4 | [Quarter-wave resonator](examples/benchmarks/04_quarter_wave_resonator/) | Create a 6 GHz quarter-wave CPW resonator. | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) | **GEOMETRY PASS** (open/short topology, coupling gap, GSG ports, bbox) | **SIMULATION INPUT PREPARED** (openEMS input exists; solver not executed) | **ANALYTICAL ONLY** (L = vp/(4f) gives 4918.5 um; EM result pending) | **NOT READY** |
-| 5 | [SQUID loop](examples/benchmarks/05_squid_loop/) | Create a symmetric two-junction SQUID test structure. | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) | **GEOMETRY PASS** (candidate; symmetry, two JJ placeholders, loop area, ports, layers) | **NOT READY** (no foundry JJ-stack solver possible) | **ANALYTICAL ONLY** (flux quantization model; generic JJ placeholders not foundry-qualified) | **NOT READY** |
-| 6 | [5 MHz LC resonator](examples/benchmarks/06_lc_5mhz_resonator/) | Design a lumped LC resonator layout that targets 5 MHz resonance frequency. | **NOT GENERATED** (infeasible target) | **NOT GENERATED** (no layout created) | **NOT APPLICABLE** (no simulation possible) | **INFEASIBLE** (required LC = 1.013×10⁻¹⁵ s² exceeds on-chip limits by 100-1000×; 159 MHz is the minimum feasible) | **NOT APPLICABLE** |
+Each benchmark is a self-contained packet under
+[`examples/benchmarks/`](examples/benchmarks/). The first table shows the prompt
+and preview; the second shows the honest engineering status.
 
-### Benchmark artifacts
+### 1. Visual
 
-Each benchmark folder contains:
+| # | Target | Prompt | Preview |
+| --- | --- | --- | --- |
+| 1 | IDC capacitor | Create a 0.6 pF IDC with 22 finger pairs, 4 µm width, 2 µm gap, 250 µm overlap. | [![IDC](examples/benchmarks/01_idc_0p6pf/output.png)](examples/benchmarks/01_idc_0p6pf/output.svg) |
+| 2 | 50 Ω CPW | Create a 50 Ω CPW on silicon. | [![CPW](examples/benchmarks/02_cpw_50ohm/output.png)](examples/benchmarks/02_cpw_50ohm/output.svg) |
+| 3 | Spiral inductor | Create a compact planar spiral with target inductance. | [![Spiral](examples/benchmarks/03_spiral_inductor/output.png)](examples/benchmarks/03_spiral_inductor/output.svg) |
+| 4 | λ/4 resonator | Create a 6 GHz quarter-wave CPW resonator. | [![Resonator](examples/benchmarks/04_quarter_wave_resonator/output.png)](examples/benchmarks/04_quarter_wave_resonator/output.svg) |
+| 5 | SQUID loop | Create a symmetric two-junction SQUID test structure. | [![SQUID](examples/benchmarks/05_squid_loop/output.png)](examples/benchmarks/05_squid_loop/output.svg) |
+| 6 | 5 MHz LC | Design a lumped LC resonator targeting 5 MHz. | _no layout (infeasible)_ |
+
+### 2. Engineering status
+
+| # | Benchmark | Geometry | Simulation | Evidence | Fabrication |
+| --- | --- | --- | --- | --- | --- |
+| 1 | [IDC](examples/benchmarks/01_idc_0p6pf/) | GEOMETRY PASS | SIMULATION INPUT PREPARED (FasterCap) | ANALYTICAL ONLY · est. 0.6983 pF · 16.4% error | NOT READY |
+| 2 | [CPW](examples/benchmarks/02_cpw_50ohm/) | GEOMETRY PASS | SIMULATION INPUT PREPARED (openEMS) | ANALYTICAL ONLY · est. 50.04 Ω | NOT READY |
+| 3 | [Spiral](examples/benchmarks/03_spiral_inductor/) | GEOMETRY PASS | SIMULATION INPUT PREPARED (FastHenry) | ANALYTICAL ONLY · Mohan/Wheeler | NOT READY |
+| 4 | [Resonator](examples/benchmarks/04_quarter_wave_resonator/) | GEOMETRY PASS | SIMULATION INPUT PREPARED (openEMS) | ANALYTICAL ONLY · L = 4918.5 µm | NOT READY |
+| 5 | [SQUID](examples/benchmarks/05_squid_loop/) | GEOMETRY PASS (candidate) | NOT READY (no foundry JJ stack) | ANALYTICAL ONLY · flux quantization | NOT READY |
+| 6 | [5 MHz LC](examples/benchmarks/06_lc_5mhz_resonator/) | NOT GENERATED | NOT APPLICABLE | INFEASIBLE · required LC = 1.013×10⁻¹⁵ s²; 159 MHz is the on-chip minimum | NOT APPLICABLE |
+
+Each `ready` benchmark folder contains:
 
 ```text
-prompt.md             original request
-layout.json           Layout DSL and provenance
-output.svg/.png       human previews
-output.gds            primary layout artifact
-output.json           geometry IR and metadata
-verification.json     measured checks and limits
-analytical_estimate.md equations and calculated starting values
-simulation_plan.md    readiness level, prepared inputs, expected extraction
-evidence.md           equations, assumptions, references, limitations
-report.md             target comparison and simulation status
+prompt.md               original request
+layout.json             Layout DSL + provenance (the source of truth)
+output.gds              primary layout artifact
+output.svg / .png       human previews
+output.json             geometry IR and metadata
+verification.json       separated geometry/artifact/analytical/simulation/physics/fab status
+analytical_estimate.md  equations and calculated starting values
+simulation_plan.md      readiness level, prepared inputs, expected extraction
+evidence.md             equations, assumptions, references, limitations
+report.md               target comparison and simulation status
 ```
 
-### IDC benchmark details
+---
 
-- **Target:** 0.6 pF
-- **Bahl/Alley estimate with 22 finger pairs:** 0.6983 pF
-- **Error from target:** 16.4%
-- **Proposed finger pairs for closer target:** 20
-- **Proposed estimate:** 0.6319 pF
-- **Current layout uses 22 finger pairs** because that was the user prompt
-- **This is not yet EM verified**
-- **FasterCap/FastCap input is prepared**, but not executed
-- **Q3D/HFSS/Sonnet cross-check is still required** before fabrication
+## Physics-fit acceptance tests
 
-### 5 MHz LC resonator benchmark (INFEASIBLE)
+A benchmark asks "does it draw?". An **acceptance test**
+([`examples/acceptance/`](examples/acceptance/)) asks the harder question:
+does the layout meet the physical requirement, or does the system correctly
+refuse an infeasible one?
 
-- **Target:** 5 MHz resonance frequency
-- **Required LC product:** 1.013×10⁻¹⁵ s²
-- **Best achievable on-chip:** L = 10 nH, C = 100 pF → f0 = 159 MHz (31× higher)
-- **Status:** INFEASIBLE for on-chip layout
-- **Reason:** Required component values exceed practical limits by 100-1000×
-- **Parasitic effects:** Wirebond/stray LC shifts resonance by >50%
-- **Q-factor:** On-chip spiral Q ~ 2-10 at 5 MHz (too low)
-- **Area penalty:** ~0.13 mm² minimum (vs. ~0.001 mm² for GHz circuits)
-- **Alternative:** Discrete components, crystal, or active LC simulation
+| # | Prompt | Verdict | What it proves |
+| --- | --- | --- | --- |
+| A | Fully on-chip passive LC resonator at 5 MHz | `INFEASIBLE` | Refuses to fake a layout; required `LC = 1.013×10⁻¹⁵ s²`, unreachable on-chip |
+| B | 6 GHz quarter-wave CPW resonator | `GEOMETRY PASS` | Length derived from `v_p/(4f)` ≈ 4918 µm; openEMS input prepared; **not** physics-verified without a solver run |
+| C | IDC targeting 0.6 pF, auto-size fingers | `GEOMETRY PASS` | Auto-sizes to 19 finger pairs (≈0.2% error) vs the prompt's 22 (≈16.4%); analytical only |
 
-**This benchmark tests whether Text-to-Layout can reason about physical feasibility, not just draw layouts.**
+`PHYSICS_VERIFIED` is only reachable when a real solver runs, a value is
+extracted, and it matches the target within tolerance. Pass rules are enforced in
+[`tests/textlayout_suite/test_acceptance_physics.py`](tests/textlayout_suite/test_acceptance_physics.py).
 
-### Simulation readiness
+---
+
+## Simulation readiness levels
 
 | Level | Meaning | Status |
-| - | - | - |
-| 0 | Analytical estimate only | All benchmarks start here |
-| 1 | Geometry generated and verified | IDC, CPW, Spiral, Resonator, SQUID achieve this |
-| 2 | Solver input prepared | IDC, CPW, Spiral, Resonator achieve this |
-| 3 | Solver executed and result artifact exists | **No benchmark achieves this** |
-| 4 | Result compared against target | **No benchmark achieves this** |
-| 5 | Optimization loop implemented | **No benchmark achieves this** |
-| INFEASIBLE | Target not achievable | **5 MHz LC resonator** |
+| --- | --- | --- |
+| 0 | Analytical estimate only | all benchmarks start here |
+| 1 | Geometry generated and verified | IDC, CPW, Spiral, Resonator, SQUID |
+| 2 | Solver input prepared | IDC, CPW, Spiral, Resonator |
+| 3 | Solver executed and result artifact exists | **no benchmark** |
+| 4 | Result compared against target | **no benchmark** |
+| 5 | Optimization loop implemented | IDC prompt flow (analytical closed loop) |
+| — | Target not achievable | **5 MHz LC resonator (INFEASIBLE)** |
 
-**No benchmark is Level 3 or higher.** SQUID is Level 1 because a foundry-qualified junction stack is absent.
+SQUID stays at Level 1 because a foundry-qualified junction stack is absent.
 
-## What Text-to-CAD taught this project
-
-[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad) makes its value obvious through a visual README, one prompt per benchmark, linked benchmark test cases, one-line skill installation, local preview tooling, and self-contained skill runtimes.
-
-Text-to-Layout adopts the same reader-facing clarity and reproducibility. It does not copy mechanical B-rep logic: IC layout needs named process layers, minimum features, electrical ports, substrate assumptions, parasitic analysis, EM extraction, and evidence status that distinguishes analytical, planned, and executed work. See the [full study](docs/lessons_from_text_to_cad.md).
-
-## Supported generation
-
-| Component | Status | Notes |
-| - | - | - |
-| IDC | Geometry ready, analytical only | Typed DSL, analytical starting model, ports, GDS/SVG/PNG/JSON, verification and evidence reports |
-| CPW | Geometry ready, analytical only | Typed DSL, six signal/ground-reference ports, analytical Z0, verified artifacts |
-| Spiral | Geometry ready, analytical only | Typed square spiral, two ports, Mohan estimate, FastHenry input |
-| Quarter-wave resonator | Geometry ready, analytical only | Explicit coupled open end, grounded short, feedline ports, openEMS manifest |
-| SQUID | Geometry candidate only | Symmetric loop and two JJ placeholders; not valid for fabrication without a foundry stack |
+---
 
 ## Install
 
@@ -140,60 +183,79 @@ Python 3.11+ is required.
 ```bash
 git clone https://github.com/JungluChen/Text-to-Layout.git
 cd Text-to-Layout
-py -3 -m pip install -e .
+pip install -e .
 ```
 
-With `uv`:
+With [`uv`](https://docs.astral.sh/uv/):
 
 ```bash
-py -3 -m uv sync
+uv sync
 ```
 
-Install the repository's agent skills:
+### Optional dependency groups
 
 ```bash
-npx skills install JungluChen/Text-to-Layout
+pip install -e ".[dev]"      # pytest, ruff, mypy
+pip install -e ".[api]"      # FastAPI + uvicorn server (included by default)
+pip install -e ".[solvers]"  # scikit-rf for Touchstone post-processing
 ```
 
-## Generate the IDC example
+Native solvers (FasterCap, FastHenry, openEMS) are **not** Python packages —
+install them separately; the workflow detects them and degrades gracefully when
+they are absent.
+
+---
+
+## Command line
 
 ```bash
+# Natural language to a complete IDC evidence packet (no API key required)
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_demo
+
+# Generate verified artifacts from a DSL file
 textlayout generate examples/benchmarks/01_idc_0p6pf/layout.json --out out/idc
-```
 
-The command writes the requested geometry plus `*.layout.json`, `*.verification.json`, `*.evidence.md`, and `*.report.md` sidecars. A failed pre-export check returns exit code 2 and writes no final geometry artifact.
-
-## Regenerate benchmarks
-
-```bash
-py -3 -m uv run python scripts/generate_benchmarks.py
-py -3 -m uv run python scripts/check_benchmarks.py
-```
-
-Use `--strict` in CI when every benchmark must be complete. Without it, explicit TODO rows are skipped and cannot acquire fake output files.
-
-## Run verification
-
-```bash
+# Verify a DSL file without exporting (exit code 2 on failure)
 textlayout verify examples/benchmarks/01_idc_0p6pf/layout.json
+
+# Compile natural language to an inspectable DSL without writing artifacts
+textlayout compile "Create a 50 ohm CPW on silicon"
+
+# Compile, verify, export, and prepare/attempt solver execution
+textlayout prompt "Create a 0.6 pF IDC" --out out/idc-from-text
+
+# Run the plugin API server
+textlayout serve --host 127.0.0.1 --port 8000
 ```
 
-Checks cover typed required parameters, positive dimensions, minimum width and gap, layer mapping, bounding box, ports, geometry spacing, research/equation/reference presence, simulation-plan presence, gdsfactory component sanity, and final file existence.
+`generate` writes the geometry plus `*.layout.json`, `*.verification.json`,
+`*.evidence.md`, `*.analytical_estimate.md`, `*.simulation_plan.md`, and
+`*.report.md` sidecars. A failed pre-export check returns exit code 2 and writes
+no final geometry artifact.
 
-## Run the API/plugin server
+Regenerate and audit the benchmarks (see [artifact policy](docs/artifact_policy.md)):
+
+```bash
+python scripts/generate_benchmarks.py          # reproducible; skips unchanged
+python scripts/check_benchmarks.py --strict     # audit links + honesty contract
+python scripts/generate_acceptance.py           # physics-fit acceptance packets
+```
+
+---
+
+## HTTP API
 
 ```bash
 textlayout serve --host 127.0.0.1 --port 8000
-# or
-py -3 -m uv run uvicorn textlayout.backend.app:create_app --factory
+# interactive docs at http://127.0.0.1:8000/docs
 ```
 
-Interactive OpenAPI docs: <http://127.0.0.1:8000/docs>
-
 | Method | Endpoint | Purpose |
-| - | - | - |
+| --- | --- | --- |
 | GET | `/health` | Discover generators, technologies, and formats |
-| POST | `/layout/research` | Produce equations, assumptions, references, estimates, and simulation plan |
+| POST | `/layout/compile` | Compile an IDC/CPW prompt to typed DSL without writing files |
+| POST | `/layout/from-text` | Compile, verify, export, and prepare or execute simulation |
+| POST | `/layout/research` | Equations, assumptions, references, estimates, simulation plan |
 | POST | `/layout/generate` | Research, build, verify, and export requested artifacts |
 | POST | `/layout/verify` | Run geometry/process checks without export |
 | POST | `/layout/export?format=gds` | Export one verified artifact |
@@ -207,7 +269,90 @@ curl -s -X POST http://127.0.0.1:8000/layout/generate \
   --data-binary @examples/benchmarks/01_idc_0p6pf/layout.json
 ```
 
-See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [plugin manifest](plugin_manifest.example.json).
+Endpoints always return JSON (including structured error bodies), never HTML
+error pages. See [tool API](docs/tool_api.md) and [OpenAPI usage](docs/openapi_usage.md).
+
+---
+
+## Plugin / GPT Action
+
+The same server backs a local plugin manifest
+([`plugin_manifest.example.json`](plugin_manifest.example.json)) and an OpenAPI
+schema importable into a custom GPT Action.
+
+> **Local plugin-style ready.** The manifest and `/openapi.json` work against
+> `http://127.0.0.1:8000`, which is enough for local tools and MCP-style use.
+>
+> **Public GPT Actions require a public HTTPS endpoint.** ChatGPT cannot reach
+> `localhost`. The repository is **not** claimed to be "public ChatGPT plugin
+> ready" — no public HTTPS endpoint has been deployed or tested here. The path to
+> deploy one (Docker, Fly.io, Render, Railway, a VPS + reverse proxy, or a
+> tunnel for development) is documented in
+> [docs/public_gpt_action_deployment.md](docs/public_gpt_action_deployment.md).
+
+---
+
+## Open-source simulation
+
+Open-source tools are the default base workflow; commercial tools remain optional
+correlation/signoff connectors.
+
+| Target | Open-source path | Status |
+| --- | --- | --- |
+| IDC capacitance | FasterCap / FastCap | input prepared; execution + parse + compare implemented |
+| Spiral L / R / Q | FastHenry / FastHenry2 | input prepared; execution + parse + compare implemented |
+| CPW / resonator S-parameters | openEMS + scikit-rf | input prepared; Touchstone post-processing implemented |
+| General FDTD / FEM | Meep / Elmer | planned connectors |
+
+Execution is **graceful**: a missing solver yields `status="skipped"`
+(evidence stage `solver_missing`), never an exception, and the prepared input
+files remain on disk. The evidence ladder is
+`solver_missing → input_prepared → executed → parsed → compared`, and
+`physics_verified` is only set when a real run is parsed and compared within
+tolerance.
+
+```python
+from textlayout.simulation import simulate_layout
+# execute=True runs the solver if installed, else returns a graceful skip
+result = simulate_layout(spec, geometry, tech, "out/sim", solver="auto", execute=True)
+print(result.evidence_stage, result.physics_verified)
+```
+
+---
+
+## Reproducibility
+
+Benchmark artifacts are **reproducible for a pinned toolchain**, and regenerating
+them twice in a row produces no git diff:
+
+- `generated_at` is normalized; the real time is kept out of version control.
+- GDS top-cell names are stabilized and the GDSII timestamp is zeroed.
+- Unchanged benchmarks are skipped, never rewritten.
+
+Provenance (`layout_json_sha256`) detects stale artifacts, and
+`check_benchmarks.py` enforces that `output.json` and `verification.json`
+provenance agree. Full details and known limitations are in
+[docs/artifact_policy.md](docs/artifact_policy.md). The clean-room install/test
+run is recorded in [CLEAN_ROOM_VERIFICATION.md](CLEAN_ROOM_VERIFICATION.md):
+**local CLI / API / plugin-style verification PASS.**
+
+---
+
+## Tests and quality gates
+
+```bash
+pytest
+ruff check .
+python scripts/check_benchmarks.py --strict
+```
+
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the test suite on
+Linux and Windows (Python 3.11 / 3.12), the strict benchmark audit, the CLI
+smoke checks, benchmark determinism, and an API smoke test. Optional native
+solvers are absent in CI, so simulation stays in the input-prepared /
+solver-missing states and nothing is over-claimed.
+
+---
 
 ## Layout DSL
 
@@ -226,70 +371,29 @@ See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [p
   },
   "rules": {"min_width_um": 2, "min_gap_um": 2},
   "outputs": {"gds": true, "svg": true, "png": true, "json": true, "report": true},
-  "evidence": {
-    "analytical_model": "Bahl/Alley IDC estimate",
-    "simulation_required": true
-  }
+  "evidence": {"analytical_model": "Bahl/Alley IDC estimate", "simulation_required": true}
 }
 ```
 
-## Skills
+Supported components: `IDC`, `CPW`, `SpiralInductor`, `QuarterWaveResonator`,
+`SQUID` (geometry candidate only).
 
-| Skill | Enforces |
-| - | - |
-| [`layout-research`](skills/layout-research/SKILL.md) | Research and first-principles reasoning before geometry |
-| [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md) | DSL-first deterministic gdsfactory generation |
-| [`layout-verification`](skills/layout-verification/SKILL.md) | Pre-export and post-export gates |
-| [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance |
+---
 
-## Open-source simulation workflow
+## Packages and naming
 
-Open-source tools are the default base workflow. Commercial tools remain optional correlation/signoff connectors.
+| Name | What it is |
+| --- | --- |
+| **Text-to-Layout** | Product / repository name |
+| `textlayout` | Primary CLI and clean-architecture Python package (`src/textlayout`) |
+| `text-to-gds` | Distribution name on PyPI metadata + legacy MCP entry point |
+| `text_to_gds` | Legacy import namespace (`src/text_to_gds`), migrated module-by-module |
 
-| Target | Open-source path | Current status |
-| - | - | - |
-| IDC capacitance | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented |
-| CPW and resonator S-parameters | openEMS + scikit-rf | Input preparation implemented |
-| Spiral L/R/Q | FastHenry/FastHenry2 | Input preparation implemented |
-| General FDTD/FEM | Meep / Elmer | Planned connectors |
+The legacy `text_to_gds` MCP server still ships for backward compatibility; new
+work targets `textlayout`. See [AGENTS.md](AGENTS.md) and
+[ARCHITECTURE.md](ARCHITECTURE.md).
 
-Prepare IDC input without claiming a result:
-
-```bash
-py -3 -m uv run python simulation/idc_fastercap/generate_fastercap_input.py \
-  examples/benchmarks/01_idc_0p6pf/layout.json \
-  --out examples/benchmarks/01_idc_0p6pf/simulation
-```
-
-Attempt execution; this returns `status=skipped` and exit code 2 when the solver is absent:
-
-```bash
-py -3 -m uv run python simulation/idc_fastercap/run_fastercap.py \
-  examples/benchmarks/01_idc_0p6pf/layout.json
-```
-
-- [HFSS](simulation/hfss_workflow.md)
-- [Q3D](simulation/q3d_workflow.md)
-- [ADS](simulation/ads_workflow.md)
-- [Sonnet](simulation/sonnet_workflow.md)
-
-## Tests
-
-```bash
-py -3 -m uv run pytest tests/textlayout_suite
-py -3 -m uv run ruff check src/textlayout scripts simulation tests/textlayout_suite
-py -3 scripts/check_benchmarks.py
-```
-
-## Limitations and next work
-
-- The generic technology is not a foundry PDK.
-- IDC capacitance is an analytical starting estimate, not solver or measurement evidence.
-- The Level 2 FasterCap model uses zero-thickness panels and an effective dielectric; it requires mesh convergence and higher-fidelity correlation.
-- Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
-- The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
-- **No benchmark is PHYSICS VERIFIED** - all analytical estimates require solver execution and comparison.
-- **No benchmark is FABRICATION READY** - all require process-specific DRC and expert review.
+---
 
 ## References
 
@@ -306,6 +410,8 @@ Key sources: Bahl (2003) and Alley (MTT-18, 1970) for the IDC; Simons (2001) and
 Hilberg (MTT-17, 1969) for the CPW; Mohan et al. (JSSC, 1999) and Wheeler (1928)
 for the spiral; Pozar (2012) for λ/4 and LCR resonance; Clarke & Braginski (2004)
 and Tinkham (2004) for SQUID/Josephson physics.
+
+---
 
 ## License
 
