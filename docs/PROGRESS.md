@@ -1,33 +1,130 @@
 # Upgrade Progress Log
 
-Living log for the trust-hardening sprint (branch `mvp2-trust-hardening`).
+Living log for the trust-hardening sprint (branch `mvp2-trust-hardening`, merged to `main` 2026-07-02).
 Each phase lists: what changed, why, what was verified, what's still open.
 
 ## Checklist
 
-- [x] Phase 0 — Baseline & setup (ruff PASS, pytest 726 passed / 8 skipped, uv build PASS; see docs/AUDIT_REPORT.md)
+- [x] Phase 0 — Baseline & setup
 - [x] Phase 1 — Whole-project audit (docs/AUDIT_REPORT.md)
-- [ ] Phase 2 — Trustworthy evidence model (`textlayout/evidence.py`)
-- [ ] Phase 3 — Text entry point (`textlayout prompt`, `POST /layout/from-text`)
-- [ ] Phase 4 — Closed-loop IDC optimization
-- [ ] Phase 5 — Correct simulation flow (FasterCap evidence mapping)
-- [ ] Phase 6 — Geometry & verification regression coverage
-- [ ] Phase 7 — Generator consistency matrix
-- [ ] Phase 8 — Claim-validation CI (`scripts/validate_readme_claims.py`)
-- [ ] Phase 9 — Testing requirements (8 categories)
-- [ ] Phase 10 — README improvement (30-second demo + support matrix)
-- [ ] Phase 11 — Final acceptance
+- [x] Phase 2 — Trustworthy evidence model (`textlayout/evidence.py`)
+- [x] Phase 3 — Text entry point (`textlayout prompt`, `POST /layout/from-text`)
+- [x] Phase 4 — Closed-loop IDC optimization (`textlayout/optimization/idc.py`)
+- [x] Phase 5 — Correct simulation flow (FasterCap evidence mapping)
+- [x] Phase 6 — Geometry & verification regression coverage
+- [x] Phase 7 — Generator consistency matrix (README, validated by Phase 8)
+- [x] Phase 8 — Claim-validation CI (`scripts/validate_readme_claims.py`)
+- [x] Phase 9 — Testing requirements (all 8 categories)
+- [x] Phase 10 — README improvement (30-second demo + support matrix)
+- [x] Phase 11 — Final acceptance
 
 ## Log
 
-### 2026-07-02 — Phase 0 + 1 complete
+### 2026-07-02 — Phase 0 + 1 (commit `df04e71`)
 
-- Measured baseline (see AUDIT_REPORT.md §Phase 0): ruff clean, 726 passed /
-  8 skipped, build OK. Suite is GREEN at baseline.
-- Branch review: `review-fixes` and `codex/evidence-first-layout-plugin` are
-  fully merged into `main` (ahead 0); deleted locally and on origin. Current
-  branch `mvp2-trust-hardening` is identical to `main`; sprint work lands here
-  and merges to `main` at the end.
-- Removed stale `__pycache__` bytecode for never-committed modules
-  (`prompt`, `evidence_contract`, `acceptance`, `optimization.idc`,
-  `workflows.from_text`, `simulation.runners`, `ports.validator`).
+- Measured baseline: ruff clean, **726 passed / 8 skipped**, `uv build` OK. Suite GREEN.
+- Branch review: `review-fixes` and `codex/evidence-first-layout-plugin` were fully
+  merged into `main` (`git rev-list --count` = ahead 0); deleted locally and on origin.
+- Removed stale never-committed bytecode from `src/textlayout/__pycache__`.
+
+### 2026-07-02 — Phase 2 (commit `0d5ef33`)
+
+- `src/textlayout/evidence.py`: `EvidenceStatus` (ANALYTICAL_ONLY,
+  SIMULATION_INPUT_PREPARED, SIMULATION_EXECUTED, PHYSICS_VERIFIED, FAILED,
+  SKIPPED_SOLVER_ABSENT) + `QuantityEvidence` pydantic model. A pydantic
+  validator makes false claims *unconstructible*: PHYSICS_VERIFIED requires a
+  named solver + parser, an existing non-empty solver-owned output file, and
+  error ≤ tolerance; ANALYTICAL_ONLY cannot name a solver; skipped/prepared
+  cannot carry extracted values. `compare_extracted_to_target()` computes the
+  status — callers can never pass it in.
+- Verified: `tests/textlayout_suite/test_evidence_contract.py` (8 tests) proves
+  each rule, including the missing/empty-output-file rejections.
+
+### 2026-07-02 — Phases 3 + 4 + 5 (commit `a4a5669`)
+
+- Phase 3: `prompt.py` deterministic regex parser (no LLM/API key) →
+  `DesignIntent`; raises `PromptParseError` on ambiguity (empty prompt, unknown
+  component, unknown substrate, multi-component requests, bare IDC with no
+  information). CLI subcommand `textlayout prompt` and API
+  `POST /layout/from-text` (HTTP 400 on parse errors). All three brief example
+  prompts parse under unit test; four malformed prompts fail loudly.
+- Phase 4: `optimization/idc.py` closed loop — coarse `finger_pairs`, fine
+  `overlap_um` (capacitance linear in overlap); width/gap honoured as
+  constraints, never tuned below process minimums; user-supplied values are
+  fixed, not overridden. Converges on 0.2/0.6/1.5 pF under test; impossible
+  constraints return `converged=False` with an explanatory note.
+- Phase 5: `simulation/evidence_map.py` — single conservative mapping from
+  `SimulationResult` to `QuantityEvidence` (`input_files_prepared` →
+  SIMULATION_INPUT_PREPARED, `skipped` → SKIPPED_SOLVER_ABSENT, `failed` →
+  FAILED, `executed` → tolerance comparison; unknown statuses demote to FAILED).
+  Empty stderr logs are excluded from claimed solver outputs.
+- `workflows/from_text.py` orchestrates the full closed loop and writes the
+  eight contract files: intent.json, layout.json, output.gds, output.svg,
+  verification.json, simulation.json, optimization.json, report.md.
+- Verified: solver-absent path (SKIPPED_SOLVER_ABSENT, no extracted value, no
+  PHYSICS_VERIFIED anywhere in the report) and solver-present path via a real
+  fake-solver subprocess (PHYSICS_VERIFIED at 0.33% error; SIMULATION_EXECUTED
+  at 25% error). mypy strict clean (65 files), ruff clean, 759 passed.
+
+### 2026-07-02 — Phase 6
+
+- Already covered by `tests/textlayout_suite/test_verification.py`
+  (`test_gap_below_min_fails`, `test_width_below_min`, `test_unknown_layer_fails`,
+  rules-override failure) — deliberately invalid geometry fails verification,
+  and `GenerateWorkflow` never exports failing geometry. No new code needed;
+  gap analysis recorded in AUDIT_REPORT.md.
+
+### 2026-07-02 — Phases 7 + 8 + 10 (commit `cd05dbd`)
+
+- README: new `## 30-second demo` (exact demo command + generated-files list +
+  honest solver-absent result table + limitation statement) and
+  `## Component support matrix` (IDC full closed loop; CPW/Spiral/Resonator
+  geometry+analytical; SQUID experimental).
+- `scripts/validate_readme_claims.py`: parses the support matrix; every
+  Geometry/Analytical/Solver-input "yes" must map to committed files; a
+  "Solver executed"/"Physics verified" **yes** requires committed solver-owned
+  output artifacts (and a PHYSICS_VERIFIED evidence record); benchmark-table
+  execution claims require artifacts in the linked folder; the demo command
+  must exist in the CLI; the limitation sentence is mandatory.
+- CI (`.github/workflows/ci.yml`) runs the validator before ruff/pytest/build.
+- Guardrail proof (Phase 8 DoD): `test_readme_claims.py` injects three false
+  claims into a doctored README copy and asserts the validator fails each —
+  the permanent equivalent of the scratch-branch experiment.
+
+### 2026-07-02 — Phase 9 (test coverage by category)
+
+1. Prompt parsing — `test_prompt_parsing.py` (9 tests)
+2. IDC optimization — `test_idc_optimization.py` (8 tests)
+3. CLI integration — `test_from_text_workflow.py::test_cli_prompt_produces_all_required_files`
+4. API integration — `test_api_from_text.py` (2 tests)
+5. Solver-absent — `test_from_text_workflow.py::test_solver_absent_is_never_physics_verified`
+   (+ existing `test_open_source_simulation.py`)
+6. Solver-present — `test_from_text_workflow.py::test_solver_present_*` (real
+   subprocess fake solver; verified vs executed-not-verified)
+7. Golden IDC benchmark — `test_from_text_workflow.py::test_golden_idc_benchmark_is_stable_and_honest`
+8. README claims — `test_readme_claims.py` (4 tests)
+
+### 2026-07-02 — Phase 11 final acceptance (all measured)
+
+| Gate | Result |
+| - | - |
+| `uv run python scripts/validate_readme_claims.py` | PASS |
+| `uv run ruff check .` | PASS |
+| `uv run pytest` | **763 passed, 8 skipped** |
+| `uv build` | PASS |
+| `uv run mypy` (strict, src/textlayout) | PASS (65 files) |
+| Demo command → 8 contract files | PASS (exit 0; all files non-empty) |
+
+Demo report states explicitly: geometry verification PASS, simulation status
+`SKIPPED_SOLVER_ABSENT` ("solver not installed; no physics verification was
+performed"), optimizer converged at 0.0% analytical error, and the
+not-fabrication-ready limitation.
+
+## Still open (honest backlog)
+
+- CPW/Spiral/Resonator closed-loop tuning (only IDC has the full loop).
+- No committed solver-executed benchmark artifact (requires FasterCap in CI or
+  a locally-run benchmark commit); the support matrix truthfully says
+  "environment-dependent".
+- Legacy `src/text_to_gds` package remains frozen (documented decision, see
+  AUDIT_REPORT.md §Package architecture); full retirement is future work.
