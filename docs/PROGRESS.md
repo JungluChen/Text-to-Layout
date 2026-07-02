@@ -171,6 +171,14 @@ Full merge audit trail: [BRANCH_INVENTORY.md](BRANCH_INVENTORY.md).
 - CI `quality-gates` job (from the stash) wired to `validate_readme_claims.py`
   (the canonical validator) instead of the deleted `check_readme_claims.py`.
 
+### Incident note
+
+`Text-to-GDS_Academic_Industrial_Validation_Roadmap.md` and `TopTask.md`
+disappeared from the working tree between merge `e0f4ad3` and `84b7bdb`
+(cause unidentified — no repo script touches them) and were accidentally
+committed as deletions by a bulk `git add -A`. Restored in `803c494`; any
+intentional removal should be its own reviewed commit.
+
 ### Test count
 
 | Point | Result |
