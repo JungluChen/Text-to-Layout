@@ -22,3 +22,5 @@ external_repos/
 quantum-eda-stack/
 references/
 workspace/catalog.py
+
+out/

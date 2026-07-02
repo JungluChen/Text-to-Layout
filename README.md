@@ -10,6 +10,49 @@ Natural-language intent becomes a researched Layout DSL, deterministic geometry,
 
 </div>
 
+## 30-second demo
+
+One command runs the full closed loop — natural language → intent → tuned Layout DSL → verified geometry → solver preparation (execution if a solver is installed) → honest evidence report:
+
+```bash
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_demo
+```
+
+Generated files in `out/idc_demo/`:
+
+```text
+intent.json          parsed design intent (deterministic parser, no LLM/API key)
+layout.json          tuned Layout DSL
+output.gds           layout artifact
+output.svg           preview
+verification.json    geometry + design-rule check results
+simulation.json      typed simulation evidence (status vocabulary below)
+optimization.json    closed-loop analytical tuning record
+report.md            target-vs-result report with explicit evidence status
+```
+
+Result on a machine **without** FasterCap installed (the honest default):
+
+| Quantity | Target | Analytical estimate | Solver-extracted | Error | Evidence status |
+| - | - | - | - | - | - |
+| capacitance | 0.6 pF | 0.6 pF (Bahl/Alley, optimizer converged, 0.0% analytical error) | — (solver not installed) | — | `SKIPPED_SOLVER_ABSENT` |
+
+With FasterCap/FastCap on `PATH` (or `--executable`), the solver is executed, its output is parsed, and the status becomes `SIMULATION_EXECUTED` — or `PHYSICS_VERIFIED` only when the extracted value is within tolerance of the target.
+
+> This project is not fabrication-ready by default. Geometry generation and analytical estimation are supported. Physics verification is only claimed when an external solver is executed and its output is parsed successfully.
+
+## Component support matrix
+
+Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below must be backed by committed code, tests, and artifacts, or the build fails.
+
+| Component | Geometry | Analytical estimate | Solver input | Solver executed | Physics verified | Status |
+| - | - | - | - | - | - | - |
+| IDC | yes | yes (Bahl/Alley) | yes (FasterCap/FastCap) | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (never claimed without solver output) | Supported — full closed loop |
+| CPW | yes | yes (Simons/Hilberg) | yes (openEMS manifest) | no | no | Supported — geometry + analytical |
+| SpiralInductor | yes | yes (Mohan/Wheeler) | yes (FastHenry) | no | no | Supported — geometry + analytical |
+| QuarterWaveResonator | yes | yes (λ/4 line theory) | yes (openEMS manifest) | no | no | Supported — geometry + analytical |
+| SQUID | yes | yes (flux quantization) | yes (plan only) | no | no | Experimental — generic JJ placeholders, not foundry-qualified |
+
 ## What it does
 
 Text-to-Layout is not "AI randomly draws layout." The AI researches the target and proposes a typed Layout DSL. Deterministic code owns geometry, layer mapping, ports, verification, simulation preparation, and export.
