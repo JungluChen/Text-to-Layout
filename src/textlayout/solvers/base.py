@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol, TypeVar
 import subprocess
+import time
 
 from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
@@ -26,6 +27,8 @@ class SolverAdapter(Protocol[ParsedT]):
     def name(self) -> str: ...
 
     def discover(self, explicit: str | None = None) -> str | None: ...
+
+    def available(self, explicit: str | None = None) -> bool: ...
 
     def prepare(
         self,
@@ -43,7 +46,19 @@ class SolverAdapter(Protocol[ParsedT]):
         timeout_seconds: int = 600,
     ) -> SimulationResult: ...
 
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult: ...
+
     def parse(self, output: Path) -> ParsedT: ...
+
+    def verify(self, result: SimulationResult) -> bool: ...
+
+    def to_evidence(self, result: SimulationResult) -> dict[str, Any]: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,6 +71,7 @@ class SolverExecution:
     stderr_path: Path
     stdout: str
     stderr: str
+    runtime_seconds: float
 
 
 def run_subprocess(
@@ -66,6 +82,7 @@ def run_subprocess(
     log_prefix: str = "solver",
 ) -> SolverExecution:
     """Run one solver command and always retain stdout/stderr on disk."""
+    started = time.perf_counter()
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -78,6 +95,7 @@ def run_subprocess(
     stderr_path = cwd / f"{log_prefix}.stderr.txt"
     stdout_path.write_text(completed.stdout, encoding="utf-8")
     stderr_path.write_text(completed.stderr, encoding="utf-8")
+    runtime = time.perf_counter() - started
     return SolverExecution(
         command=tuple(command),
         returncode=completed.returncode,
@@ -85,6 +103,7 @@ def run_subprocess(
         stderr_path=stderr_path,
         stdout=completed.stdout,
         stderr=completed.stderr,
+        runtime_seconds=runtime,
     )
 
 

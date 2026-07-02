@@ -101,9 +101,7 @@ def test_solver_present_within_tolerance_is_physics_verified(tmp_path: Path) -> 
     # The claim is backed by a real solver-owned output file.
     for output in result.evidence.output_files:
         assert Path(output).is_file() and Path(output).stat().st_size > 0
-    simulation = json.loads(
-        (tmp_path / "run" / "simulation.json").read_text(encoding="utf-8")
-    )
+    simulation = json.loads((tmp_path / "run" / "simulation.json").read_text(encoding="utf-8"))
     assert simulation["evidence"][0]["status"] == "PHYSICS_VERIFIED"
 
 

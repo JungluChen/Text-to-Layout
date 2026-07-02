@@ -73,8 +73,20 @@ class SQUIDGenerator(Generator):
             )
         )
         ports = (
-            Port("BIAS_P", (x0, top1 + trace + params.pad_height_um), params.pad_width_um, 90.0, params.metal),
-            Port("BIAS_N", (x0, bottom0 - trace - params.pad_height_um), params.pad_width_um, 270.0, params.metal),
+            Port(
+                "BIAS_P",
+                (x0, top1 + trace + params.pad_height_um),
+                params.pad_width_um,
+                90.0,
+                params.metal,
+            ),
+            Port(
+                "BIAS_N",
+                (x0, bottom0 - trace - params.pad_height_um),
+                params.pad_width_um,
+                270.0,
+                params.metal,
+            ),
         )
         loop_area = iw * ih
         return Geometry(
@@ -95,4 +107,3 @@ class SQUIDGenerator(Generator):
                 "analytical_quantity": "flux modulation period",
             },
         )
-

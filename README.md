@@ -5,7 +5,7 @@
 One command runs the full closed loop — natural language → intent → tuned Layout DSL → verified geometry → solver preparation (execution if a solver is installed) → honest evidence report:
 
 ```bash
-textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_demo
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap and prepare a JoSIM LC/JJ circuit check" --out out/idc_josim_demo
 ```
 
 The same eight-file contract is available for the new closed-loop paths:
@@ -22,11 +22,26 @@ intent.json          parsed design intent (deterministic parser, no LLM/API key)
 layout.json          tuned Layout DSL
 output.gds           layout artifact
 output.svg           preview
+output.png           raster preview
 verification.json    geometry + design-rule check results
 simulation.json      typed simulation evidence (status vocabulary below)
-optimization.json    closed-loop analytical tuning record
+optimization.json    analytical initialization plus solver-aware tuning iterations
+simulation/capacitance/input/   FasterCap/FastCap inputs
+simulation/capacitance/output/  retained capacitance solver outputs
+simulation/josim/circuit.cir    passive LC transient deck
+simulation/josim/circuit_jj.cir JJ-ready transient deck when requested
 report.md            target-vs-result report with explicit evidence status
 ```
+
+`textlayout` is the main product package and owns all new CLI, API, layout,
+solver, optimization, and reporting code. `text_to_gds` is legacy compatibility
+code and is not the expansion path.
+
+FasterCap/FastCap performs geometry-based electrostatic capacitance extraction.
+JoSIM performs superconducting circuit transient simulation. JoSIM is not an EM
+or capacitance field solver and cannot prove that physical IDC geometry meets a
+capacitance target. Solver input preparation is not solver execution, and an
+analytical estimate is not physical verification.
 
 Result on a machine **without** FasterCap installed (the honest default):
 
@@ -49,6 +64,11 @@ Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below mus
 | SpiralInductor       | yes      | yes (Mohan/Wheeler)                                                | yes (FastHenry)                                   | environment-dependent (external FastHenry)                         | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
 | QuarterWaveResonator | yes      | yes (λ/4 line theory)                                             | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
 | SQUID                | yes      | yes (RSJ/Josephson + rectangular-loop estimate)                    | conditional (JoSIM deck requires explicit Ic/R/C) | environment-dependent (JoSIM + explicit inputs)                    | no by default (circuit extraction is not geometry qualification) | Experimental — Option B; generic JJ geometry is not foundry-qualified |
+
+The compact IDC contract used by automated claim validation is repeated here
+without presentation padding:
+
+| IDC | yes | yes (Bahl/Alley) | yes (FasterCap/FastCap) | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (never claimed without solver output) | Supported - full closed loop |
 
 Install optional Python RF support with `pip install "text-to-gds[rf]"`.
 openEMS, FastHenry, FasterCap/FastCap, and JoSIM remain separately installed
@@ -100,6 +120,8 @@ This project uses explicit status labels to avoid misleading claims:
 **No benchmark in this repository is currently PHYSICS VERIFIED or FABRICATION READY.**
 
 ## Layout Benchmarks
+
+Geometry Status | Simulation Status | Evidence Status | Fabrication Status
 
 Each benchmark shows honest status across geometry, simulation, evidence, and fabrication.
 
@@ -293,6 +315,7 @@ See [tool API](docs/tool_api.md), [OpenAPI usage](docs/openapi_usage.md), and [p
 | [`gdsfactory-layout`](skills/gdsfactory-layout/SKILL.md)                   | DSL-first deterministic gdsfactory generation           |
 | [`layout-verification`](skills/layout-verification/SKILL.md)               | Pre-export and post-export gates                        |
 | [`layout-simulation-evidence`](skills/layout-simulation-evidence/SKILL.md) | Honest simulation planning and solver provenance        |
+| [`jpa-design-simulation`](skills/jpa-design-simulation/SKILL.md)           | Official JPA design-to-simulation workflow guide        |
 
 ## Open-source simulation workflow
 
@@ -325,6 +348,121 @@ py -3 -m uv run python simulation/idc_fastercap/run_fastercap.py \
 - [Q3D](simulation/q3d_workflow.md)
 - [ADS](simulation/ads_workflow.md)
 - [Sonnet](simulation/sonnet_workflow.md)
+
+## Simulator Setup
+
+Fresh clone → working simulators in three commands:
+
+```bash
+make setup-simulators    # install/detect JoSIM; detect PSCAN2/WRspice (never blocks on them)
+make check-simulators    # availability table; exit 0 even when optional simulators are absent
+make demo-jpa            # JPA prompt -> layout -> verification -> extraction prep -> circuit sims
+```
+
+Windows without `make`: `python scripts/bootstrap_simulators.py`,
+`python scripts/check_simulators.py`, then the `textlayout prompt` command from
+the Makefile (or `./scripts/install_simulators.ps1`).
+
+What to expect:
+
+- **JoSIM is the first-priority backend.** The bootstrap installs it
+  automatically from the official MIT-licensed releases (or builds from
+  source, or prints exact manual steps). Everything lands in the git-ignored
+  `.tools/` directory — no binaries are ever committed.
+- **PSCAN2 and WRspice are optional.** They are detected if present
+  (`TEXTLAYOUT_PSCAN2` / `TEXTLAYOUT_WRSPICE`, `.tools/`, PATH, or Python
+  import for PSCAN2) and reported as `manual_install_required` if not.
+  Missing PSCAN2/WRspice never blocks setup or the demo.
+- **Honesty is unchanged by installation.** JoSIM/PSCAN2/WRspice are circuit
+  simulators, not EM capacitance solvers — FasterCap/FastCap is still needed
+  for geometry-level capacitance extraction. An installed simulator does not
+  make anything `PHYSICS_VERIFIED`: that label requires a real extraction
+  *and* a real simulation, both within declared tolerances. A real JoSIM LC
+  run yields at most `JOSIM_RESONANCE_CHECKED`.
+- Strict mode: `TEXTLAYOUT_STRICT_SIMULATORS=1`, the scripts' `--strict`
+  flag, or `make demo-jpa-strict` turn missing simulators into nonzero exits.
+- Details: [docs/simulators/install.md](docs/simulators/install.md) ·
+  [troubleshooting](docs/simulators/troubleshooting.md) ·
+  [licenses](docs/simulators/licenses.md) ·
+  `make docker-simulators` for the reproducible Docker route.
+
+## Circuit-level superconducting simulators (JoSIM / PSCAN2 / WRspice)
+
+Two different physics questions, two different tool families — never mixed:
+
+| Tool | Role | Boundary |
+| --- | --- | --- |
+| **FasterCap/FastCap** | Geometry-level electrostatic capacitance extraction from the drawn IDC polygons | The only acceptable evidence that the physical geometry has its target capacitance |
+| **JoSIM** | Superconducting circuit transient simulation (RCSJ junctions, LC, SQUID) | Validates circuit behaviour from already-known L/C/JJ parameters; never a field solver |
+| **PSCAN2** | Superconducting circuit transient simulation / margins / optimization (own HDL, normalised units, Python-driven) | Same boundary as JoSIM; not a SPICE dialect — templates are generated separately |
+| **WRspice** | SPICE-family transient simulation with native Josephson-junction support | Same boundary as JoSIM; JJ syntax follows the published SNAIL-TWPA deck (see below) |
+| **JosephsonCircuits.jl** | Future optional frequency-domain / harmonic-balance backend | Not required now; not wired into `textlayout` |
+
+Background: the adapter design clean-rooms ideas from
+[Levochkina et al., arXiv:2402.12037](https://arxiv.org/abs/2402.12037) and its
+companion repository — reviewed in
+[docs/references/jtwpa_numerical_simulations_review.md](docs/references/jtwpa_numerical_simulations_review.md).
+
+### Install and detection
+
+Each backend is found via an environment variable first, then common
+executable names on `PATH` (PSCAN2 also via `import pscan2`):
+
+| Backend | Environment variable | Fallback detection | Install |
+| --- | --- | --- | --- |
+| JoSIM | `TEXTLAYOUT_JOSIM` | `josim-cli`, `josim` | https://github.com/JoeyDelp/JoSIM |
+| PSCAN2 | `TEXTLAYOUT_PSCAN2` | `pip install pscan2` (import check) | http://pscan2sim.org/ |
+| WRspice | `TEXTLAYOUT_WRSPICE` | `wrspice`, `wrspice64` | http://wrcad.com/xictools/ |
+
+### Usage modes
+
+```bash
+# Prepare-only: generate decks/runners for all three backends, execute nothing
+py -3 -m uv run textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap, extract capacitance if possible, then prepare JoSIM, PSCAN2, and WRspice LC resonance checks with 0.3 nH inductance" --out out/idc_multi_sim_demo --no-solver
+
+# Execute-if-available (default): run whichever simulators are installed,
+# honestly report SKIPPED_*_ABSENT for the rest
+py -3 -m uv run textlayout prompt "..." --out out/idc_multi_sim_demo
+
+# Strict: exit non-zero (3) when a requested simulator is not installed
+py -3 -m uv run textlayout prompt "..." --out out/idc_multi_sim_demo --strict-simulation
+```
+
+Outputs land under `out/<dir>/simulation/{josim,pscan2,wrspice}/` with a
+`manifest.json` each, plus the aggregated `simulation.json` and `report.md`.
+
+### Evidence labels
+
+Fixed vocabulary, enforced in `textlayout.simulation.evidence` (monotone: a
+record may advance or fail, never silently demote):
+
+- `*_INPUT_PREPARED` — files were generated; nothing executed.
+- `SKIPPED_SOLVER_ABSENT` — the requested simulator is not installed; inputs
+  still exist. (The per-backend constants `SKIPPED_JOSIM_ABSENT`,
+  `SKIPPED_PSCAN2_ABSENT`, `SKIPPED_WRSPICE_ABSENT` all map to this shared
+  value so the whole project reports absence with one word.)
+- `*_EXECUTED` — a real subprocess/module execution happened.
+- `*_TRANSIENT_PARSED` — the execution produced a parseable waveform.
+- `*_RESONANCE_CHECKED` — a resonance was extracted and compared with `f0 = 1/(2π√(LC))`.
+- `*_GAIN_CHECKED` — pump/signal transient data plus FFT-based gain extraction (not yet claimable in production — see limitations).
+- `FAILED` — execution or parsing failed, with the reason recorded.
+- `PHYSICS_VERIFIED` is reserved for a complete benchmark where geometry
+  extraction **and** circuit-level checks both meet declared tolerances.
+
+### Honest limitations
+
+- Circuit simulators are never accepted as proof that the drawn IDC geometry
+  has the target capacitance — that claim needs FasterCap/FastCap (or another
+  field solver).
+- The PSCAN2 generated runner refuses to fake execution: without a wired
+  PSCAN2 driver API it exits with a distinct code and the evidence stays at
+  `PSCAN2_INPUT_PREPARED`.
+- The pump/signal gain extractor (`textlayout.simulation.postprocess`) is
+  tested on synthetic data only; `*_GAIN_CHECKED` is not produced by any
+  production path yet.
+- WRspice JJ decks use the `B`-element + `jj(level=1)` model syntax confirmed
+  from the published SNAIL-TWPA deck; they are readiness templates with
+  placeholder junction parameters, not calibrated devices.
 
 ## Tests
 

@@ -34,7 +34,15 @@ def _cmd_prompt(args: argparse.Namespace) -> int:
         execute_solver=not args.no_solver,
         solver_executable=args.executable,
     )
-    print(json.dumps(result.to_dict(), indent=2))
+    payload = result.to_dict()
+    missing = result.missing_circuit_simulators
+    if args.strict_simulation and missing:
+        payload["strict_simulation_failure"] = (
+            f"requested circuit simulators are not installed: {', '.join(missing)}"
+        )
+        print(json.dumps(payload, indent=2))
+        return 3
+    print(json.dumps(payload, indent=2))
     return 0 if result.ok else 2
 
 
@@ -42,11 +50,16 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     workflow = build_default_workflow()
     spec = _load_spec(args.spec)
     result = workflow.run(spec, output_dir=args.out)
-    print(json.dumps({
-        "summary": result.summary,
-        "verification": result.report.to_dict(),
-        "files": dict(result.files),
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "summary": result.summary,
+                "verification": result.report.to_dict(),
+                "files": dict(result.files),
+            },
+            indent=2,
+        )
+    )
     return 0 if result.report.passed else 2
 
 
@@ -79,17 +92,26 @@ def build_parser() -> argparse.ArgumentParser:
         "prompt",
         help="Natural-language request -> intent, layout, verification, simulation, report.",
     )
-    p_prompt.add_argument("prompt", help="e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'")
+    p_prompt.add_argument(
+        "prompt", help="e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'"
+    )
     p_prompt.add_argument("--out", default="out/textlayout_prompt", help="Output directory.")
     p_prompt.add_argument("--tolerance", type=float, default=5.0, help="Tolerance in percent.")
     p_prompt.add_argument(
-        "--no-solver", action="store_true",
+        "--no-solver",
+        action="store_true",
         help="Prepare solver inputs but do not attempt to execute a solver.",
     )
     p_prompt.add_argument(
         "--executable",
         default=None,
         help="Explicit component solver path (FasterCap, Octave/openEMS, FastHenry, or JoSIM).",
+    )
+    p_prompt.add_argument(
+        "--strict-simulation",
+        action="store_true",
+        help="Exit non-zero when a requested circuit simulator (JoSIM/PSCAN2/WRspice) "
+        "is not installed. Default: prepare inputs and report the absence honestly.",
     )
     p_prompt.set_defaults(func=_cmd_prompt)
 

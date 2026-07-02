@@ -8,9 +8,7 @@ from textlayout.schemas.dsl import IDCSpec
 
 
 def _geom(**kw: object):
-    base = dict(
-        finger_pairs=22, finger_width_um=4, gap_um=2, overlap_um=250, bus_width_um=25
-    )
+    base = dict(finger_pairs=22, finger_width_um=4, gap_um=2, overlap_um=250, bus_width_um=25)
     base.update(kw)
     params = IDCSpec(**base)  # type: ignore[arg-type]
     return IDCGenerator().generate(params, GENERIC_2METAL, origin=(0.0, 0.0))

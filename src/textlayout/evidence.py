@@ -112,9 +112,7 @@ class QuantityEvidence(BaseModel):
                     f"({self.error_percent:.3f}% > {self.tolerance_percent:.3f}%)"
                 )
         if status is EvidenceStatus.ANALYTICAL_ONLY and (self.solver or self.output_files):
-            raise EvidenceError(
-                "ANALYTICAL_ONLY must not claim a solver or solver output files"
-            )
+            raise EvidenceError("ANALYTICAL_ONLY must not claim a solver or solver output files")
         if (
             status
             in {EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.SIMULATION_INPUT_PREPARED}

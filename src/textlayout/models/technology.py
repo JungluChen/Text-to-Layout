@@ -52,8 +52,7 @@ class Technology:
             return self.layers[name]
         except KeyError as exc:
             raise KeyError(
-                f"Layer {name!r} not in technology {self.name!r}; "
-                f"have {sorted(self.layers)}"
+                f"Layer {name!r} not in technology {self.name!r}; have {sorted(self.layers)}"
             ) from exc
 
     def min_spacing_for(self, layer: str) -> float:

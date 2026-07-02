@@ -31,3 +31,4 @@ quantum-eda-stack/
 references/
 workspace/catalog.py
 plugins/*/examples/**/.generation_meta.json
+external_references/

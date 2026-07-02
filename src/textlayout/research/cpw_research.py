@@ -29,12 +29,21 @@ _REFERENCES = (
         "2022, 98-105, doi:10.1109/MMM.2021.3117139.",
         "Optional BSD-3 analytical and Touchstone implementation.",
     ),
-    Reference("D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012.", "Transmission-line and λ/4 theory."),
+    Reference(
+        "D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012.",
+        "Transmission-line and λ/4 theory.",
+    ),
 )
 
 _EQUATIONS = (
-    Equation("CPW impedance", "Z0 = (30*pi / sqrt(eps_eff)) * K(k')/K(k)", "k = w/(w+2g), k'=sqrt(1-k^2)."),
-    Equation("Effective permittivity", "eps_eff = (1 + eps_r) / 2", "Thick-substrate quasi-static CPW."),
+    Equation(
+        "CPW impedance",
+        "Z0 = (30*pi / sqrt(eps_eff)) * K(k')/K(k)",
+        "k = w/(w+2g), k'=sqrt(1-k^2).",
+    ),
+    Equation(
+        "Effective permittivity", "eps_eff = (1 + eps_r) / 2", "Thick-substrate quasi-static CPW."
+    ),
     Equation("Phase velocity", "v_p = c / sqrt(eps_eff)", ""),
     Equation("Quarter-wave length", "L = v_p / (4 f)", "Physical length of a λ/4 resonator at f."),
 )
@@ -80,7 +89,9 @@ def research_cpw(
             estimates["scikit_rf_eps_eff"] = round(skrf_estimate[1], 6)
             estimates["analytical_backend"] = "scikit-rf CPW (Ghione/Naldi)"
         else:
-            estimates["analytical_backend"] = "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)"
+            estimates["analytical_backend"] = (
+                "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)"
+            )
 
     target_z0 = target.get("impedance_ohm") or target.get("z0_ohm")
     if target_z0:

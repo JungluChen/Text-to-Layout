@@ -40,7 +40,9 @@ def _verifications() -> list[tuple[str, dict]]:
 # 1. README benchmark links exist.
 def test_readme_benchmark_links_exist() -> None:
     readme = (REPO / "README.md").read_text(encoding="utf-8")
-    targets = {t.split("#")[0] for t in LINK_RE.findall(readme) if t.startswith("examples/benchmarks/")}
+    targets = {
+        t.split("#")[0] for t in LINK_RE.findall(readme) if t.startswith("examples/benchmarks/")
+    }
     assert targets, "expected benchmark links in README"
     missing = [t for t in targets if not (REPO / t).exists()]
     assert not missing, f"README links to missing paths: {missing}"
@@ -112,7 +114,9 @@ def test_api_openapi_valid() -> None:
 
 # 8. Plugin manifest points to a schema reachable in the local server.
 def test_plugin_manifest_points_to_reachable_schema() -> None:
-    manifest = json.loads((REPO / "docs" / "plugin_manifest.example.json").read_text(encoding="utf-8"))
+    manifest = json.loads(
+        (REPO / "docs" / "plugin_manifest.example.json").read_text(encoding="utf-8")
+    )
     url = manifest["api"]["url"]
     assert url.endswith("/openapi.json")
     client = TestClient(create_app())
@@ -154,7 +158,9 @@ def test_failed_verification_blocks_export(tmp_path: Path) -> None:
 
 # 11. The 5 MHz benchmark is honestly marked infeasible everywhere.
 def test_5mhz_marked_infeasible() -> None:
-    layout = json.loads((BENCH / "06_lc_5mhz_resonator" / "layout.json").read_text(encoding="utf-8"))
+    layout = json.loads(
+        (BENCH / "06_lc_5mhz_resonator" / "layout.json").read_text(encoding="utf-8")
+    )
     md = layout["metadata"]
     assert md["benchmark_status"] == "infeasible"
     assert md["geometry_status"] == "not_generated"
@@ -162,7 +168,9 @@ def test_5mhz_marked_infeasible() -> None:
     assert md["solver_executed"] is False
     assert md["physics_verified"] is False
     assert md["fabrication_ready"] is False
-    v = json.loads((BENCH / "06_lc_5mhz_resonator" / "verification.json").read_text(encoding="utf-8"))
+    v = json.loads(
+        (BENCH / "06_lc_5mhz_resonator" / "verification.json").read_text(encoding="utf-8")
+    )
     assert v["status"] == "infeasible"
     assert v["physics_verification"]["status"] == "infeasible"
     # No fake final outputs for an infeasible benchmark.

@@ -53,9 +53,7 @@ class SvgExporter(Exporter):
             'fill="white"/>',
         ]
         for poly in geometry.polygons:
-            color = (
-                tech.layer(poly.layer).color if tech.has_layer(poly.layer) else _FALLBACK_COLOR
-            )
+            color = tech.layer(poly.layer).color if tech.has_layer(poly.layer) else _FALLBACK_COLOR
             pts = " ".join(f"{_n(x)},{_n(y_flip - y)}" for x, y in poly.points)
             parts.append(
                 f'<polygon points="{pts}" fill="{color}" fill-opacity="0.6" '

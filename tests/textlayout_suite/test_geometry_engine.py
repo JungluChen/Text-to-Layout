@@ -47,7 +47,9 @@ def test_engine_unknown_technology(engine: GeometryEngine) -> None:
 
 
 def test_engine_invalid_parameters(engine: GeometryEngine) -> None:
-    spec = LayoutSpec(component="CPW", parameters={"center_width_um": -10, "gap_um": 6, "length_um": 200})
+    spec = LayoutSpec(
+        component="CPW", parameters={"center_width_um": -10, "gap_um": 6, "length_um": 200}
+    )
     with pytest.raises(InvalidParametersError) as exc:
         engine.build(spec)
     assert "center_width_um" in str(exc.value)

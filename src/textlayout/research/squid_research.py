@@ -32,9 +32,7 @@ def research_squid(
     area = target.get("loop_area_um2")
     if area:
         estimates["loop_area_um2"] = area
-        estimates["field_modulation_period_uT"] = round(
-            FLUX_QUANTUM_WB / (area * 1e-12) * 1e6, 4
-        )
+        estimates["field_modulation_period_uT"] = round(FLUX_QUANTUM_WB / (area * 1e-12) * 1e6, 4)
     iw = parameters.get("loop_inner_width_um")
     ih = parameters.get("loop_inner_height_um")
     width = parameters.get("trace_width_um")

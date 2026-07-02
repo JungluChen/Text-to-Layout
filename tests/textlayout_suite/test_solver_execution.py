@@ -37,7 +37,14 @@ ROOT = Path(__file__).resolve().parents[2]
 )
 def test_registered_solver_adapters_share_four_method_shape(component: str) -> None:
     adapter = adapter_for(LayoutSpec(component=component, parameters={}))
-    for method in ("discover", "prepare", "execute", "parse"):
+    for method in (
+        "available",
+        "prepare",
+        "run",
+        "parse",
+        "verify",
+        "to_evidence",
+    ):
         assert callable(getattr(adapter, method))
 
 
@@ -81,8 +88,12 @@ def test_openems_missing_touchstone_is_graceful(tmp_path: Path) -> None:
     wf = build_default_workflow()
     built = wf.run(spec, formats=())
     result = simulate_layout(
-        spec, built.geometry, wf.technology(spec.technology), tmp_path,
-        solver="openems", execute=True,
+        spec,
+        built.geometry,
+        wf.technology(spec.technology),
+        tmp_path,
+        solver="openems",
+        execute=True,
     )
     # No Touchstone and no CSXCAD model generator yet -> honest non-result.
     assert result.physics_verified is False
@@ -96,8 +107,12 @@ def test_cpw_openems_driver_uses_native_cpw_ports(tmp_path: Path) -> None:
     wf = build_default_workflow()
     built = wf.run(spec, formats=())
     prepared = simulate_layout(
-        spec, built.geometry, wf.technology(spec.technology), tmp_path,
-        solver="openems", execute=False,
+        spec,
+        built.geometry,
+        wf.technology(spec.technology),
+        tmp_path,
+        solver="openems",
+        execute=False,
     )
     driver = Path(prepared.artifacts["driver"]).read_text(encoding="utf-8")
     assert "AddCPWPort" in driver
@@ -160,8 +175,12 @@ def test_openems_post_processing_sets_physics_verified(tmp_path: Path) -> None:
     s2p.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     prepared = SimulationResult(
-        status="input_files_prepared", solver="openEMS", readiness_level=2,
-        reason="prepared", output_dir=tmp_path, artifacts={},
+        status="input_files_prepared",
+        solver="openEMS",
+        readiness_level=2,
+        reason="prepared",
+        output_dir=tmp_path,
+        artifacts={},
     )
     result = run_openems(prepared, target_frequency_ghz=6.0, touchstone=s2p)
     assert result.status == "executed"
@@ -173,13 +192,19 @@ def test_openems_post_processing_sets_physics_verified(tmp_path: Path) -> None:
 
 def test_openems_present_uses_real_subprocess_and_touchstone_parser(tmp_path: Path) -> None:
     spec = LayoutSpec.model_validate(
-        json.loads((ROOT / "examples/benchmarks/04_quarter_wave_resonator/layout.json").read_text("utf-8"))
+        json.loads(
+            (ROOT / "examples/benchmarks/04_quarter_wave_resonator/layout.json").read_text("utf-8")
+        )
     )
     wf = build_default_workflow()
     built = wf.run(spec, formats=())
     prepared = simulate_layout(
-        spec, built.geometry, wf.technology(spec.technology), tmp_path / "run",
-        solver="openems", execute=False,
+        spec,
+        built.geometry,
+        wf.technology(spec.technology),
+        tmp_path / "run",
+        solver="openems",
+        execute=False,
     )
     driver = Path(prepared.artifacts["driver"]).read_text(encoding="utf-8")
     assert "RunOpenEMS" in driver
@@ -210,8 +235,12 @@ def test_cpw_openems_present_subprocess_extracts_impedance(tmp_path: Path) -> No
     wf = build_default_workflow()
     built = wf.run(spec, formats=())
     prepared = simulate_layout(
-        spec, built.geometry, wf.technology(spec.technology), tmp_path / "run",
-        solver="openems", execute=False,
+        spec,
+        built.geometry,
+        wf.technology(spec.technology),
+        tmp_path / "run",
+        solver="openems",
+        execute=False,
     )
     # Matched, reciprocal 50-ohm line with -45 degree transmission phase.
     rows = ["# GHz S RI R 50", "6 0 0 0.70710678 -0.70710678 0.70710678 -0.70710678 0 0"]
@@ -274,8 +303,12 @@ def test_openems_off_target_is_not_physics_verified(tmp_path: Path) -> None:
         lines.append(f"{f_ghz:.4f} 1.0 180 {s21:.4f} 0 {s21:.4f} 0 1.0 180")
     s2p.write_text("\n".join(lines) + "\n", encoding="utf-8")
     prepared = SimulationResult(
-        status="input_files_prepared", solver="openEMS", readiness_level=2,
-        reason="prepared", output_dir=tmp_path, artifacts={},
+        status="input_files_prepared",
+        solver="openEMS",
+        readiness_level=2,
+        reason="prepared",
+        output_dir=tmp_path,
+        artifacts={},
     )
     result = run_openems(prepared, target_frequency_ghz=6.0, touchstone=s2p)
     assert result.status == "executed"  # it ran and parsed
@@ -296,7 +329,10 @@ def test_physics_verified_requires_execution_and_comparison() -> None:
     assert executed_no_compare.physics_verified is False  # no target comparison
 
     compared = SimulationResult(
-        "executed", "FasterCap", 4, "ran",
+        "executed",
+        "FasterCap",
+        4,
+        "ran",
         extracted_quantities={"c": 1.0},
         target_comparison={"within_tolerance": True},
     )

@@ -27,7 +27,13 @@ from textlayout.models import Geometry, Technology
 from textlayout.ports.exporter import Exporter
 from textlayout.research import ResearchReport, research
 from textlayout.schemas.dsl import LayoutSpec
-from textlayout.verification import Check, CheckStatus, VerificationContext, VerificationReport, Verifier
+from textlayout.verification import (
+    Check,
+    CheckStatus,
+    VerificationContext,
+    VerificationReport,
+    Verifier,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -97,9 +103,7 @@ class GenerateWorkflow:
             technology=build.technology,
             component_built=True,
         )
-        pre_export_report = self._with_evidence_checks(
-            self._verifier.verify(ctx), research_report
-        )
+        pre_export_report = self._with_evidence_checks(self._verifier.verify(ctx), research_report)
 
         # Geometry that fails verification is diagnostic only. It is never
         # rendered or written as a final artifact.
@@ -211,7 +215,9 @@ class GenerateWorkflow:
             Check(
                 "research_evidence",
                 CheckStatus.PASS if references_ok and equations_ok else CheckStatus.FAIL,
-                "" if references_ok and equations_ok else "Research requires equations and references.",
+                ""
+                if references_ok and equations_ok
+                else "Research requires equations and references.",
             ),
             Check(
                 "simulation_workflow_documented",
@@ -271,11 +277,20 @@ class GenerateWorkflow:
         if not isinstance(exporter, GdsExporter):
             return VerificationReport.from_checks(
                 report.component,
-                (*report.checks, Check("gdsfactory_component_sanity", CheckStatus.FAIL, "GDS exporter is not gdsfactory-backed.")),
+                (
+                    *report.checks,
+                    Check(
+                        "gdsfactory_component_sanity",
+                        CheckStatus.FAIL,
+                        "GDS exporter is not gdsfactory-backed.",
+                    ),
+                ),
             )
         try:
             component = exporter.build_component(geometry, technology)
-            polygon_count = sum(len(polygons) for polygons in component.get_polygons(by="tuple").values())
+            polygon_count = sum(
+                len(polygons) for polygons in component.get_polygons(by="tuple").values()
+            )
             ok = polygon_count > 0 and len(component.ports) == len(geometry.ports)
             message = "" if ok else "gdsfactory component lost polygons or ports during lowering."
         except Exception as exc:  # pragma: no cover - backend defensive boundary
@@ -317,9 +332,7 @@ class GenerateWorkflow:
             json.dumps(verification.to_dict(), indent=2) + "\n", encoding="utf-8"
         )
         evidence_path.write_text(research_report.to_markdown(), encoding="utf-8")
-        analytical_path.write_text(
-            research_report.analytical_estimate_markdown(), encoding="utf-8"
-        )
+        analytical_path.write_text(research_report.analytical_estimate_markdown(), encoding="utf-8")
         simulation_plan_path.write_text(
             research_report.simulation_plan_markdown(), encoding="utf-8"
         )
@@ -376,7 +389,10 @@ def _render_report(
         lines.append(f"- Estimate `{key}`: `{value}`")
     lines += ["", "## Verification", ""]
     for check in verification.checks:
-        lines.append(f"- `{check.status.value.upper()}` {check.name}" + (f": {check.message}" if check.message else ""))
+        lines.append(
+            f"- `{check.status.value.upper()}` {check.name}"
+            + (f": {check.message}" if check.message else "")
+        )
     lines += ["", "## Artifacts", ""]
     for kind, filename in files.items():
         lines.append(f"- `{kind}`: `{filename}`")

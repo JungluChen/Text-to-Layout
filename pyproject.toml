@@ -93,6 +93,16 @@ line-length = 100
 target-version = "py311"
 extend-exclude = [
   "quantum-eda-stack",
+  # The quality gate follows the strangler boundary: new product code and its
+  # tests are under src/textlayout + tests/textlayout_suite. Legacy mirrors and
+  # compatibility scripts are intentionally not reformatted by modern work.
+  "src/text_to_gds",
+  "plugins",
+  "examples",
+  "measurements",
+  "scripts",
+  "simulation",
+  "tests/test_*.py",
 ]
 
 # Strict static typing is enforced on the new clean-architecture package only.
@@ -122,6 +132,7 @@ norecursedirs = [
   ".ruff_cache",
   ".tools",
   ".venv",
+  "external_references",
   "external_repos",
   "plugins",
   "workspace",

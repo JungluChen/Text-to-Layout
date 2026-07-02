@@ -72,4 +72,3 @@ class SpiralInductorGenerator(Generator):
                 "analytical_quantity": "inductance",
             },
         )
-

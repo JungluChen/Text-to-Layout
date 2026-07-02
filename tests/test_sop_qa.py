@@ -421,6 +421,7 @@ def test_asset_naming_convention_no_overlap() -> None:
 
 
 REQUIRED_SKILLS = [
+    "jpa-design-simulation",
     "text-to-gds",
     "text-to-gds-simulation",
     "text-to-gds-circuit-design",

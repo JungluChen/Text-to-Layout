@@ -48,8 +48,7 @@ def _columns(row: str) -> int:
 # 1. Benchmark tables are well-formed (every row matches its header width).
 def test_readme_benchmark_tables_well_formed() -> None:
     benchmark_tables = [
-        t for t in _markdown_tables(README)
-        if any("examples/benchmarks/" in row for row in t)
+        t for t in _markdown_tables(README) if any("examples/benchmarks/" in row for row in t)
     ]
     assert benchmark_tables, "expected at least one benchmark table in README"
     for table in benchmark_tables:

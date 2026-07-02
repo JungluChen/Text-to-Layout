@@ -133,9 +133,7 @@ def test_evidence_ladder_extraction_requires_solver(all_results: list[Acceptance
 
 # --- Committed packets match a fresh evaluation (regeneration consistency) ----
 def test_committed_acceptance_packets_match_evaluation() -> None:
-    for name, result in (
-        ("A_infeasible_5mhz_lc", evaluate_lc_resonator_feasibility(5e6)),
-    ):
+    for name, result in (("A_infeasible_5mhz_lc", evaluate_lc_resonator_feasibility(5e6)),):
         committed = json.loads((ACCEPTANCE / name / "result.json").read_text(encoding="utf-8"))
         assert committed["verdict"] == result.verdict
         assert committed["analytical_estimate"]["required_LC_product_s2"] == pytest.approx(

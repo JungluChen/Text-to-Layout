@@ -65,6 +65,4 @@ def build_from_text_workflow(
     technologies: TechnologyLibrary | None = None,
 ) -> FromTextWorkflow:
     """Compose the prompt → closed-loop workflow on top of the default core."""
-    return FromTextWorkflow(
-        build_default_workflow(registry=registry, technologies=technologies)
-    )
+    return FromTextWorkflow(build_default_workflow(registry=registry, technologies=technologies))

@@ -54,6 +54,8 @@ class IDCOptimizationResult(BaseModel):
     iterations: list[dict[str, float | int]]
     final_parameters: dict[str, Any]
     fixed_parameters: list[str]
+    solver_iterations: list[dict[str, Any]] = Field(default_factory=list)
+    final_basis: str = "analytical"
     notes: list[str] = Field(default_factory=list)
 
 
@@ -83,7 +85,9 @@ def optimize_idc(
     fixed = sorted(k for k in supplied if k in {"finger_pairs", "overlap_um"})
     notes: list[str] = []
 
-    width = max(float(supplied.get("finger_width_um", _DEFAULTS["finger_width_um"])), min_finger_width_um)
+    width = max(
+        float(supplied.get("finger_width_um", _DEFAULTS["finger_width_um"])), min_finger_width_um
+    )
     gap = max(float(supplied.get("gap_um", _DEFAULTS["gap_um"])), min_gap_um)
     if width != supplied.get("finger_width_um", width):
         notes.append(f"finger_width_um raised to process minimum {min_finger_width_um} um.")
@@ -125,10 +129,14 @@ def optimize_idc(
         if not overlap_fixed:
             # Capacitance is exactly linear in overlap: one scaling step lands on
             # target unless a bound intervenes.
-            overlap = _clamp(overlap * target_capacitance_pf / estimate, _MIN_OVERLAP_UM, _MAX_OVERLAP_UM)
+            overlap = _clamp(
+                overlap * target_capacitance_pf / estimate, _MIN_OVERLAP_UM, _MAX_OVERLAP_UM
+            )
             if not pairs_fixed and overlap in (_MIN_OVERLAP_UM, _MAX_OVERLAP_UM):
                 pairs = _clamp_pairs(
-                    F.idc_finger_pairs_for_target(target_capacitance_pf, overlap, substrate_epsilon_r)
+                    F.idc_finger_pairs_for_target(
+                        target_capacitance_pf, overlap, substrate_epsilon_r
+                    )
                 )
         elif not pairs_fixed:
             step = 1 if estimate < target_capacitance_pf else -1
@@ -138,9 +146,7 @@ def optimize_idc(
                 break
             pairs = next_pairs
         else:
-            notes.append(
-                "finger_pairs and overlap_um are both user-fixed; nothing is tunable."
-            )
+            notes.append("finger_pairs and overlap_um are both user-fixed; nothing is tunable.")
             break
 
     assert best is not None

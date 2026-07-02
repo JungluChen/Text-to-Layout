@@ -31,7 +31,9 @@ _EQUATIONS = (
         "C = (eps_re + 1) * l * [(N - 3)*A1 + A2]",
         "N = 2*finger_pairs; l = overlap length [cm]; A1=0.089, A2=0.10 pF/cm.",
     ),
-    Equation("Effective permittivity", "eps_re = (eps_r + 1) / 2", "Surface IDC on a thick substrate."),
+    Equation(
+        "Effective permittivity", "eps_re = (eps_r + 1) / 2", "Surface IDC on a thick substrate."
+    ),
     Equation(
         "Self-resonance (qualitative)",
         "f_SRF ~ 1 / (2*pi*sqrt(L_par * C))",

@@ -21,10 +21,19 @@ from textlayout.errors import PromptParseError
 INTENT_SCHEMA = "textlayout.design-intent.v1"
 
 _COMPONENT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("IDC", re.compile(r"\b(?:idc|interdigit(?:at)?ed?\s+capacitor|interdigital\s+capacitor)\b", re.I)),
+    (
+        "IDC",
+        re.compile(r"\b(?:idc|interdigit(?:at)?ed?\s+capacitor|interdigital\s+capacitor)\b", re.I),
+    ),
     ("CPW", re.compile(r"\b(?:cpw|coplanar\s+waveguide)\b", re.I)),
     ("SpiralInductor", re.compile(r"\b(?:spiral\s+inductor|planar\s+spiral)\b", re.I)),
-    ("QuarterWaveResonator", re.compile(r"\b(?:quarter[- ]wave|lambda\s*/?\s*4|λ\s*/?\s*4).*\bresonator\b|\bquarter[- ]wave\s+resonator\b", re.I)),
+    (
+        "QuarterWaveResonator",
+        re.compile(
+            r"\b(?:quarter[- ]wave|lambda\s*/?\s*4|λ\s*/?\s*4).*\bresonator\b|\bquarter[- ]wave\s+resonator\b",
+            re.I,
+        ),
+    ),
     ("SQUID", re.compile(r"\b(?:dc[- ]?)?squid\b", re.I)),
 )
 
@@ -33,13 +42,17 @@ _UM = r"(?:um|µm|μm|micron(?:s)?|micrometer(?:s)?|micrometre(?:s)?)"
 
 _CAPACITANCE_RE = re.compile(rf"{_NUM}\s*(pf|ff|nf)\b", re.I)
 _FREQUENCY_RE = re.compile(rf"(?:\bat\s+)?{_NUM}\s*(ghz|mhz)\b", re.I)
+_BANDWIDTH_RE = re.compile(rf"{_NUM}\s*(ghz|mhz)\s+bandwidth\b", re.I)
+_GAIN_RE = re.compile(rf"{_NUM}\s*dB\s+gain(?:\s+target)?\b", re.I)
 _IMPEDANCE_RE = re.compile(rf"{_NUM}\s*(?:ohm|Ω)s?\b", re.I)
 _INDUCTANCE_RE = re.compile(rf"{_NUM}\s*(nh|ph|uh|µh)\b", re.I)
 _TURNS_RE = re.compile(r"(\d+)\s+turns?\b", re.I)
 _MIN_GAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?gap", re.I)
 _MIN_GAP_ALT_RE = re.compile(rf"(?:min(?:imum)?\.?\s+)gap\s+(?:of\s+)?{_NUM}\s*{_UM}", re.I)
 _MIN_WIDTH_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?(?:finger\s+)?width", re.I)
-_OVERLAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+overlap|overlap\s+(?:of\s+|length\s+)?{_NUM}\s*{_UM}", re.I)
+_OVERLAP_RE = re.compile(
+    rf"{_NUM}\s*{_UM}\s+overlap|overlap\s+(?:of\s+|length\s+)?{_NUM}\s*{_UM}", re.I
+)
 _FINGER_PAIRS_RE = re.compile(r"(\d+)\s+finger\s+pairs?", re.I)
 _METAL_LAYER_RE = re.compile(r"\bon\s+(M\d+)\b|\blayer\s+(M\d+)\b", re.I)
 _SUBSTRATE_RE = re.compile(r"\bon\s+(silicon|sapphire|quartz|gaas|fused\s+silica)\b", re.I)
@@ -65,6 +78,11 @@ class DesignIntent(BaseModel):
     constraints: dict[str, float] = Field(default_factory=dict)
     parameters: dict[str, Any] = Field(default_factory=dict)
     notes: list[str] = Field(default_factory=list)
+    topology: str | None = None
+    capacitor_type: str | None = None
+    inductance_assumption: dict[str, Any] | None = None
+    simulator_requests: list[str] = Field(default_factory=list)
+    evidence_status: list[str] = Field(default_factory=lambda: ["INTENT_PARSED"])
 
 
 def parse_prompt(prompt: str) -> DesignIntent:
@@ -91,6 +109,15 @@ def parse_prompt(prompt: str) -> DesignIntent:
         target["frequency_ghz"] = round(
             float(freq.group(1)) * _FREQ_UNIT_TO_GHZ[freq.group(2).lower()], 6
         )
+    bandwidth = _BANDWIDTH_RE.search(text)
+    if bandwidth:
+        target["bandwidth_mhz"] = round(
+            float(bandwidth.group(1)) * (1000.0 if bandwidth.group(2).lower() == "ghz" else 1.0),
+            6,
+        )
+    gain = _GAIN_RE.search(text)
+    if gain:
+        target["gain_db"] = float(gain.group(1))
     impedance = _IMPEDANCE_RE.search(text)
     if impedance:
         target["impedance_ohm"] = float(impedance.group(1))
@@ -138,6 +165,25 @@ def parse_prompt(prompt: str) -> DesignIntent:
     turns = _TURNS_RE.search(text)
     if turns:
         parameters["turns"] = int(turns.group(1))
+    wants_jj = bool(re.search(r"\b(?:jj|josephson|squid|jpa)\b", text, re.I))
+    if re.search(r"\bjosim\b|\bcircuit(?:-level)?\s+check\b", text, re.I):
+        parameters["josim_check"] = True
+        parameters["josim_jj_check"] = wants_jj
+    if re.search(r"\bpscan\s*2?\b", text, re.I):
+        parameters["pscan2_check"] = True
+        parameters["pscan2_jj_check"] = wants_jj
+    if re.search(r"\bwr[- ]?spice\b", text, re.I):
+        parameters["wrspice_check"] = True
+        parameters["wrspice_jj_check"] = wants_jj
+    simulator_requests = [
+        name.upper() if name != "wrspice" else "WRspice"
+        for name in ("josim", "pscan2", "wrspice")
+        if parameters.get(f"{name}_check")
+    ]
+    if component == "IDC" and "inductance_nh" in target:
+        # For an IDC, a stated inductance is the LC-check companion inductor,
+        # not a design target of the capacitor itself.
+        parameters["lc_inductance_nh"] = target.pop("inductance_nh")
 
     if component == "IDC" and not target and not parameters:
         raise PromptParseError(
@@ -163,10 +209,25 @@ def parse_prompt(prompt: str) -> DesignIntent:
         constraints=constraints,
         parameters=parameters,
         notes=notes,
+        topology="lumped_element_jpa" if component == "JPA" else None,
+        capacitor_type="IDC" if component == "JPA" else None,
+        inductance_assumption=(
+            {
+                "type": "SQUID-equivalent",
+                "value_nh": float(target.get("inductance_nh", 3.0)),
+                "source": ("user_provided" if "inductance_nh" in target else "workflow_default"),
+                "user_provided": "inductance_nh" in target,
+            }
+            if component == "JPA"
+            else None
+        ),
+        simulator_requests=simulator_requests,
     )
 
 
 def _parse_component(text: str) -> str:
+    if re.search(r"\bjpa\b|josephson\s+parametric\s+amplifier", text, re.I):
+        return "JPA"
     matches = [name for name, pattern in _COMPONENT_PATTERNS if pattern.search(text)]
     if not matches:
         raise PromptParseError(

@@ -19,7 +19,7 @@ SPEED_OF_LIGHT_M_PER_S = 299_792_458.0
 # I. J. Bahl, "Lumped Elements for RF and Microwave Circuits", Artech House,
 # 2003, Ch. 2; after G. D. Alley, IEEE Trans. MTT-18 (1970) 1028.
 _IDC_A1 = 0.089  # interior fingers
-_IDC_A2 = 0.10   # the two terminal fingers
+_IDC_A2 = 0.10  # the two terminal fingers
 
 
 def cpw_eps_eff(eps_r: float) -> float:
@@ -89,9 +89,7 @@ def cpw_skrf_z0(
     return float(abs(media.z0[0])), float(media.ep_reff[0].real)
 
 
-def cpw_gap_for_z0(
-    target_z0_ohm: float, center_width_um: float, eps_r: float
-) -> float:
+def cpw_gap_for_z0(target_z0_ohm: float, center_width_um: float, eps_r: float) -> float:
     """Solve for the CPW gap (µm) that yields ``target_z0_ohm`` at a fixed width.
 
     Z0 increases monotonically with gap, so a bisection is robust and exact to
@@ -132,9 +130,7 @@ def idc_capacitance_pf(finger_pairs: int, overlap_um: float, eps_r: float) -> fl
     return (eps_re + 1.0) * l_cm * ((n_fingers - 3) * _IDC_A1 + _IDC_A2)
 
 
-def idc_finger_pairs_for_target(
-    target_pf: float, overlap_um: float, eps_r: float
-) -> int:
+def idc_finger_pairs_for_target(target_pf: float, overlap_um: float, eps_r: float) -> int:
     """Smallest finger-pair count whose Bahl estimate reaches ``target_pf``."""
     if target_pf <= 0:
         raise ValueError("target capacitance must be positive")

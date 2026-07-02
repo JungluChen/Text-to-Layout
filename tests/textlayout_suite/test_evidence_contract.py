@@ -73,9 +73,7 @@ def test_physics_verified_rejects_out_of_tolerance(tmp_path: Path) -> None:
 def test_physics_verified_accepts_real_evidence(tmp_path: Path) -> None:
     real = tmp_path / "solver.stdout.txt"
     real.write_text("CAPACITANCE MATRIX, picofarads\n1 P1 0.9 -0.598\n", encoding="utf-8")
-    record = QuantityEvidence(
-        status=EvidenceStatus.PHYSICS_VERIFIED, **_solver_kwargs(str(real))
-    )
+    record = QuantityEvidence(status=EvidenceStatus.PHYSICS_VERIFIED, **_solver_kwargs(str(real)))
     assert record.is_physics_verified
     assert "PHYSICS_VERIFIED" in record.summary_line()
 

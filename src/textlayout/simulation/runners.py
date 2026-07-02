@@ -328,7 +328,15 @@ def _read_touchstone_ri_fallback(path: Path) -> tuple[list[float], list[complex]
             continue
         if line.startswith("#"):
             tokens = line.lower().split()
-            scale = 1e9 if "ghz" in tokens else 1e6 if "mhz" in tokens else 1e3 if "khz" in tokens else 1.0
+            scale = (
+                1e9
+                if "ghz" in tokens
+                else 1e6
+                if "mhz" in tokens
+                else 1e3
+                if "khz" in tokens
+                else 1.0
+            )
             fmt = next((token for token in tokens if token in {"ri", "ma", "db"}), "ri")
             continue
         values = [float(token) for token in line.split()]

@@ -83,7 +83,10 @@ class ResearchReport:
         if self.equations:
             lines += ["## First-principles equations", ""]
             for e in self.equations:
-                lines.append(f"- **{e.name}:** `{e.expression}`" + (f" — {e.description}" if e.description else ""))
+                lines.append(
+                    f"- **{e.name}:** `{e.expression}`"
+                    + (f" — {e.description}" if e.description else "")
+                )
             lines.append("")
 
         if self.proposed_parameters is not None:

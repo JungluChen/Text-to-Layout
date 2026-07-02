@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+
 def target_comparison(
     value: float, target: float | None, tolerance_pct: float, quantity: str
 ) -> dict[str, Any] | None:
@@ -63,6 +64,10 @@ class SimulationResult:
     target_comparison: dict[str, Any] | None = None
     warnings: tuple[str, ...] = ()
     command: tuple[str, ...] = ()
+    return_code: int | None = None
+    runtime_seconds: float | None = None
+    evidence_level: str | None = None
+    solver_version: str | None = None
 
     @property
     def readiness_label(self) -> str:
@@ -122,6 +127,10 @@ class SimulationResult:
             "target_comparison": self.target_comparison,
             "warnings": list(self.warnings),
             "command": list(self.command),
+            "return_code": self.return_code,
+            "runtime_seconds": self.runtime_seconds,
+            "evidence_level": self.evidence_level,
+            "solver_version": self.solver_version,
         }
 
     def to_markdown(self) -> str:

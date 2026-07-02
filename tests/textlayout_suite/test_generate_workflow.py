@@ -41,7 +41,9 @@ def test_generate_reports_spacing_violation_without_raising() -> None:
 
 def test_generate_unknown_format_raises() -> None:
     workflow = build_default_workflow()
-    spec = LayoutSpec(component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 100})
+    spec = LayoutSpec(
+        component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 100}
+    )
     with pytest.raises(UnknownExporterError):
         workflow.run(spec, formats=("dxf",))
 

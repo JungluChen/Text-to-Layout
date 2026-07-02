@@ -9,7 +9,9 @@ from textlayout.schemas.dsl import DSL_VERSION, CPWSpec, LayoutSpec
 
 
 def test_layout_spec_defaults() -> None:
-    spec = LayoutSpec(component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 100})
+    spec = LayoutSpec(
+        component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 100}
+    )
     assert spec.dsl_version == DSL_VERSION
     assert spec.technology == "generic_2metal"
     assert spec.origin == (0.0, 0.0)

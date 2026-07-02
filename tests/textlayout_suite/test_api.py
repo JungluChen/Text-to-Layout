@@ -38,9 +38,7 @@ def test_health(client: TestClient) -> None:
     body = resp.json()
     assert body["status"] == "ok"
     assert "IDC" in body["components"]
-    assert {"CPW", "SpiralInductor", "QuarterWaveResonator", "SQUID"} <= set(
-        body["components"]
-    )
+    assert {"CPW", "SpiralInductor", "QuarterWaveResonator", "SQUID"} <= set(body["components"])
     assert "gds" in body["formats"]
 
 
@@ -125,9 +123,7 @@ def test_benchmark_returns_complete_packet(client: TestClient) -> None:
         "simulation_plan",
         "evidence",
         "report",
-    } <= set(
-        body["files"]
-    )
+    } <= set(body["files"])
     assert "No EM solver was executed" in body["report_markdown"]
     assert body["simulation"]["readiness_level"] == 2
     assert body["simulation"]["status"] == "input_files_prepared"
@@ -144,10 +140,10 @@ def test_simulate_prepares_open_source_idc_inputs(client: TestClient) -> None:
 
 
 def test_simulate_prepares_cpw_openems_manifest(client: TestClient) -> None:
-    cpw = (ROOT / "examples/benchmarks/02_cpw_50ohm/layout.json").read_text(
-        encoding="utf-8"
+    cpw = (ROOT / "examples/benchmarks/02_cpw_50ohm/layout.json").read_text(encoding="utf-8")
+    resp = client.post(
+        "/layout/simulate", content=cpw, headers={"content-type": "application/json"}
     )
-    resp = client.post("/layout/simulate", content=cpw, headers={"content-type": "application/json"})
     assert resp.status_code == 200
     simulation = resp.json()["simulation"]
     assert simulation["solver"] == "openEMS"

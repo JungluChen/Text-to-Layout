@@ -76,10 +76,16 @@ SIMULATION_NEXT_STEPS = [
         stage="prepare",
         description="Prepare open-source FasterCap/FastCap or openEMS inputs from verified geometry.",
     ),
-    SimulationStep(stage="setup", description="Assign metal/substrate materials, ports, boundaries."),
+    SimulationStep(
+        stage="setup", description="Assign metal/substrate materials, ports, boundaries."
+    ),
     SimulationStep(stage="extract", description="EM-extract C, L, Q, S-parameters, resonance."),
-    SimulationStep(stage="compare", description="Compare extracted values against the design target."),
-    SimulationStep(stage="optimize", description="Feed deltas back into a DSL parameter-tuning loop."),
+    SimulationStep(
+        stage="compare", description="Compare extracted values against the design target."
+    ),
+    SimulationStep(
+        stage="optimize", description="Feed deltas back into a DSL parameter-tuning loop."
+    ),
     SimulationStep(stage="report", description="Emit a signed-off report with provenance."),
 ]
 

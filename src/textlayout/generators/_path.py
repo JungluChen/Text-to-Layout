@@ -27,5 +27,6 @@ def orthogonal_path_rectangles(
 
 def path_length(points: Sequence[Point]) -> float:
     """Return Manhattan centerline length."""
-    return sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(points, points[1:], strict=False))
-
+    return sum(
+        abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(points, points[1:], strict=False)
+    )

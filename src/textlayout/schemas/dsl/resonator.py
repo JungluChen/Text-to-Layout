@@ -18,4 +18,3 @@ class QuarterWaveResonatorSpec(BaseModel):
     feedline_length_um: float = Field(default=500.0, gt=0)
     short_width_um: float = Field(default=10.0, gt=0)
     metal: str = Field(default="M1")
-

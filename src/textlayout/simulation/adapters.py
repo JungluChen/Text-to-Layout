@@ -45,13 +45,19 @@ class FasterCapAdapter:
     def discover(self, explicit: str | None = None) -> str | None:
         return _find_solver(explicit)
 
+    def available(self, explicit: str | None = None) -> bool:
+        return self.discover(explicit) is not None
+
     def prepare(
         self, spec: LayoutSpec, geometry: Geometry, technology: Technology, output_dir: str | Path
     ) -> SimulationResult:
         return prepare_idc_fastercap(spec, geometry, technology, output_dir)
 
     def execute(
-        self, prepared: SimulationResult, *, executable: str | None = None,
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
         timeout_seconds: int = 600,
     ) -> SimulationResult:
         return run_fastercap(
@@ -61,8 +67,23 @@ class FasterCapAdapter:
             target_capacitance_pf=self.target_capacitance_pf,
         )
 
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult:
+        return self.execute(prepared, executable=executable, timeout_seconds=timeout_seconds)
+
     def parse(self, output: Path) -> list[list[float]]:
         return _parse_capacitance_matrix_pf(output.read_text(encoding="utf-8"))
+
+    def verify(self, result: SimulationResult) -> bool:
+        return result.physics_verified
+
+    def to_evidence(self, result: SimulationResult) -> dict[str, Any]:
+        return result.to_dict()
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,6 +97,9 @@ class OpenEMSAdapter:
     def discover(self, explicit: str | None = None) -> str | None:
         return find_executable(_OPENEMS_NAMES, explicit)
 
+    def available(self, explicit: str | None = None) -> bool:
+        return self.discover(explicit) is not None
+
     def prepare(
         self, spec: LayoutSpec, geometry: Geometry, technology: Technology, output_dir: str | Path
     ) -> SimulationResult:
@@ -84,7 +108,10 @@ class OpenEMSAdapter:
         return prepare_resonator_openems(spec, geometry, technology, output_dir)
 
     def execute(
-        self, prepared: SimulationResult, *, executable: str | None = None,
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
         timeout_seconds: int = 1800,
     ) -> SimulationResult:
         return run_openems(
@@ -99,6 +126,21 @@ class OpenEMSAdapter:
             return extract_cpw_from_touchstone(output, self.target_frequency_ghz)
         return extract_resonance_from_touchstone(output)
 
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult:
+        return self.execute(prepared, executable=executable, timeout_seconds=timeout_seconds)
+
+    def verify(self, result: SimulationResult) -> bool:
+        return result.physics_verified
+
+    def to_evidence(self, result: SimulationResult) -> dict[str, Any]:
+        return result.to_dict()
+
 
 @dataclass(frozen=True, slots=True)
 class FastHenryAdapter:
@@ -110,13 +152,19 @@ class FastHenryAdapter:
     def discover(self, explicit: str | None = None) -> str | None:
         return find_executable(_FASTHENRY_NAMES, explicit)
 
+    def available(self, explicit: str | None = None) -> bool:
+        return self.discover(explicit) is not None
+
     def prepare(
         self, spec: LayoutSpec, geometry: Geometry, technology: Technology, output_dir: str | Path
     ) -> SimulationResult:
         return prepare_spiral_fasthenry(spec, geometry, technology, output_dir)
 
     def execute(
-        self, prepared: SimulationResult, *, executable: str | None = None,
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
         timeout_seconds: int = 600,
     ) -> SimulationResult:
         return run_fasthenry(
@@ -129,6 +177,21 @@ class FastHenryAdapter:
     def parse(self, output: Path) -> float:
         return parse_fasthenry_inductance(output.read_text(encoding="utf-8"))
 
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult:
+        return self.execute(prepared, executable=executable, timeout_seconds=timeout_seconds)
+
+    def verify(self, result: SimulationResult) -> bool:
+        return result.physics_verified
+
+    def to_evidence(self, result: SimulationResult) -> dict[str, Any]:
+        return result.to_dict()
+
 
 @dataclass(frozen=True, slots=True)
 class JoSIMAdapter:
@@ -140,13 +203,19 @@ class JoSIMAdapter:
     def discover(self, explicit: str | None = None) -> str | None:
         return find_josim(explicit)
 
+    def available(self, explicit: str | None = None) -> bool:
+        return self.discover(explicit) is not None
+
     def prepare(
         self, spec: LayoutSpec, geometry: Geometry, technology: Technology, output_dir: str | Path
     ) -> SimulationResult:
         return prepare_squid_josim(spec, geometry, technology, output_dir)
 
     def execute(
-        self, prepared: SimulationResult, *, executable: str | None = None,
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
         timeout_seconds: int = 600,
     ) -> SimulationResult:
         return run_josim(
@@ -156,8 +225,27 @@ class JoSIMAdapter:
             timeout_seconds=timeout_seconds,
         )
 
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult:
+        return self.execute(prepared, executable=executable, timeout_seconds=timeout_seconds)
+
     def parse(self, output: Path) -> dict[str, float]:
         return parse_josim_csv(output)
+
+    def verify(self, result: SimulationResult) -> bool:
+        return result.evidence_level in {
+            "JOSIM_RESONANCE_CHECKED",
+            "JOSIM_JJ_DYNAMICS_CHECKED",
+            "JOSIM_PARAMETRIC_GAIN_CHECKED",
+        }
+
+    def to_evidence(self, result: SimulationResult) -> dict[str, Any]:
+        return result.to_dict()
 
 
 def adapter_for(spec: LayoutSpec) -> SolverAdapter[Any]:

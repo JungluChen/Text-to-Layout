@@ -4,17 +4,39 @@ from __future__ import annotations
 
 import csv
 import json
-import shutil
+import math
 import subprocess
 from pathlib import Path
+from typing import Any
 
 from textlayout.models import Geometry, Technology
 from textlayout.research.formulas import rectangular_loop_inductance_ph
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.simulation.base import CircuitSimulatorAdapter, capture_version, find_simulator
 from textlayout.simulation.models import SimulationResult, target_comparison
+from textlayout.simulation.postprocess import (
+    Waveform,
+    estimate_resonance_ghz,
+    parse_waveform_table,
+)
+from textlayout.simulation.templates import LCResonanceCheck
 from textlayout.solvers.base import run_subprocess
 
+_ENV_VAR = "TEXTLAYOUT_JOSIM"
 _NAMES = ("josim-cli", "josim-cli.exe", "josim", "josim.exe")
+
+#: Backwards-compatible aliases — the implementations now live in
+#: :mod:`textlayout.simulation.postprocess` shared by all three backends.
+JoSIMTransient = Waveform
+parse_josim_transient = parse_waveform_table
+
+JOSIM_INPUT_PREPARED = "JOSIM_INPUT_PREPARED"
+SKIPPED_JOSIM_ABSENT = "SKIPPED_SOLVER_ABSENT"
+JOSIM_EXECUTED = "JOSIM_EXECUTED"
+JOSIM_TRANSIENT_PARSED = "JOSIM_TRANSIENT_PARSED"
+JOSIM_RESONANCE_CHECKED = "JOSIM_RESONANCE_CHECKED"
+JOSIM_JJ_DYNAMICS_CHECKED = "JOSIM_JJ_DYNAMICS_CHECKED"
+JOSIM_PARAMETRIC_GAIN_CHECKED = "JOSIM_PARAMETRIC_GAIN_CHECKED"
 
 
 def prepare_squid_josim(
@@ -66,7 +88,8 @@ def prepare_squid_josim(
                 f".iv SQUIDJJ {max_bias_ua * 1e-6:.12g} {iv_csv.name}",
                 ".end",
             )
-        ) + "\n",
+        )
+        + "\n",
         encoding="ascii",
     )
     manifest = out / "simulation_manifest.json"
@@ -97,10 +120,12 @@ def prepare_squid_josim(
         readiness_level=2,
         reason="JoSIM RCSJ SQUID netlist generated from explicit junction parameters.",
         output_dir=out,
-        artifacts={"input": str(netlist), "manifest": str(manifest), "expected_output": str(result_csv)},
-        warnings=(
-            "JoSIM verifies circuit behavior, not fabrication validity of the JJ polygons.",
-        ),
+        artifacts={
+            "input": str(netlist),
+            "manifest": str(manifest),
+            "expected_output": str(result_csv),
+        },
+        warnings=("JoSIM verifies circuit behavior, not fabrication validity of the JJ polygons.",),
     )
 
 
@@ -162,7 +187,8 @@ def run_josim(
             artifacts=prepared.artifacts,
             warnings=prepared.warnings,
         )
-    output = input_path.parent / "squid_result.csv"
+    expected = prepared.artifacts.get("expected_output")
+    output = Path(expected) if expected else input_path.parent / "squid_result.csv"
     try:
         execution = run_subprocess(
             [solver, "-o", output.name, input_path.name],
@@ -178,7 +204,9 @@ def run_josim(
         "solver_stderr": str(execution.stderr_path),
     }
     if execution.returncode != 0 or not output.is_file() or output.stat().st_size == 0:
-        return _failed(prepared, f"JoSIM exited {execution.returncode} without CSV output.", artifacts)
+        return _failed(
+            prepared, f"JoSIM exited {execution.returncode} without CSV output.", artifacts
+        )
     try:
         values = parse_josim_csv(output)
     except ValueError as exc:
@@ -197,6 +225,10 @@ def run_josim(
         target_comparison=comparison,
         warnings=prepared.warnings,
         command=execution.command,
+        return_code=execution.returncode,
+        runtime_seconds=execution.runtime_seconds,
+        evidence_level=JOSIM_JJ_DYNAMICS_CHECKED,
+        solver_version=_capture_version(solver, input_path.parent),
     )
 
 
@@ -223,10 +255,236 @@ def parse_josim_csv(path: str | Path) -> dict[str, float]:
 
 
 def _find(explicit: str | None) -> str | None:
-    if explicit:
-        path = Path(explicit)
-        return str(path) if path.is_file() else shutil.which(explicit)
-    return next((found for name in _NAMES if (found := shutil.which(name))), None)
+    return find_simulator(_ENV_VAR, _NAMES, explicit, tool_subdir="josim")
+
+
+def prepare_idc_josim(
+    output_dir: str | Path,
+    *,
+    capacitance_pf: float,
+    capacitance_source: str,
+    target_frequency_ghz: float | None = None,
+    stray_inductance_nh: float | None = None,
+    include_jj: bool = True,
+) -> SimulationResult:
+    """Generate passive-LC and optional JJ-ready JoSIM transient decks for an IDC."""
+    if capacitance_pf <= 0:
+        raise ValueError("capacitance_pf must be positive")
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    if stray_inductance_nh is None:
+        frequency = (target_frequency_ghz or 6.0) * 1e9
+        stray_inductance_nh = (
+            1.0 / ((2.0 * math.pi * frequency) ** 2 * capacitance_pf * 1e-12) * 1e9
+        )
+    expected_ghz = (
+        1.0 / (2.0 * math.pi * math.sqrt(stray_inductance_nh * 1e-9 * capacitance_pf * 1e-12)) / 1e9
+    )
+    circuit = out / "circuit.cir"
+    output = out / "output.csv"
+    circuit.write_text(
+        "\n".join(
+            (
+                "* IDC passive LC transient sanity check generated by textlayout",
+                f".param C_IDC={capacitance_pf:.12g}E-12",
+                f".param L_STRAY={stray_inductance_nh:.12g}E-9",
+                "VDRIVE IN 0 PULSE(0 1E-6 1E-9 1E-12 1E-12 50E-12 100E-9)",
+                "RDRIVE IN OUT 50",
+                "C_IDC OUT 0 {C_IDC}",
+                "L_STRAY OUT 0 {L_STRAY}",
+                ".tran 1E-12 50E-9",
+                ".print V(OUT) I(L_STRAY)",
+                ".end",
+            )
+        )
+        + "\n",
+        encoding="ascii",
+    )
+    artifacts = {"input": str(circuit), "expected_output": str(output)}
+    if include_jj:
+        jj = out / "circuit_jj.cir"
+        jj.write_text(
+            "\n".join(
+                (
+                    "* JJ LC resonator readiness deck; no parametric-gain claim",
+                    f".param C_IDC={capacitance_pf:.12g}E-12",
+                    f".param L_STRAY={stray_inductance_nh:.12g}E-9",
+                    ".model JMODEL jj(IC=2.0E-6 RN=20 R0=1.0E6 C=50E-15 TEMP=4.2)",
+                    "IBIAS JJNODE 0 PULSE(0 1E-6 1E-9 1E-12 1E-12 10E-9 20E-9)",
+                    "BJJ JJNODE 0 JMODEL",
+                    "C_IDC JJNODE 0 {C_IDC}",
+                    "L_STRAY JJNODE 0 {L_STRAY}",
+                    ".option seed=1",
+                    ".tran 1E-12 50E-9",
+                    ".print V(JJNODE) I(IBIAS) P(BJJ)",
+                    ".end",
+                )
+            )
+            + "\n",
+            encoding="ascii",
+        )
+        artifacts["jj_input"] = str(jj)
+    manifest = out / "manifest.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "schema": "textlayout.josim-input.v1",
+                "evidence_level": JOSIM_INPUT_PREPARED,
+                "capacitance_pf": capacitance_pf,
+                "capacitance_source": capacitance_source,
+                "stray_inductance_nh": stray_inductance_nh,
+                "analytical_resonance_ghz": expected_ghz,
+                "solver_executed": False,
+                "parametric_gain_claimed": False,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    artifacts["manifest"] = str(manifest)
+    return SimulationResult(
+        status="input_files_prepared",
+        solver="JoSIM",
+        readiness_level=2,
+        reason="Passive LC and JJ-ready JoSIM transient decks were generated; JoSIM was not run.",
+        output_dir=out,
+        artifacts=artifacts,
+        extracted_quantities={"analytical_resonance_ghz": expected_ghz},
+        warnings=(
+            f"IDC capacitance source is {capacitance_source}; JoSIM is not a field solver.",
+            "The JJ-ready deck is a syntax/readiness template, not a parametric-gain experiment.",
+        ),
+        evidence_level=JOSIM_INPUT_PREPARED,
+    )
+
+
+def run_idc_josim(
+    prepared: SimulationResult,
+    *,
+    executable: str | None = None,
+    timeout_seconds: int = 600,
+    resonance_tolerance_percent: float = 10.0,
+) -> SimulationResult:
+    """Execute and post-process the passive IDC LC deck."""
+    input_path = Path(prepared.artifacts.get("input", ""))
+    solver = _find(executable)
+    if solver is None:
+        return SimulationResult(
+            status="skipped",
+            solver="JoSIM",
+            readiness_level=2,
+            reason="JoSIM executable not found (checked TEXTLAYOUT_JOSIM, josim-cli, "
+            "josim); decks remain prepared.",
+            output_dir=prepared.output_dir,
+            artifacts=prepared.artifacts,
+            extracted_quantities=prepared.extracted_quantities,
+            warnings=prepared.warnings,
+            evidence_level=SKIPPED_JOSIM_ABSENT,
+        )
+    output = Path(prepared.artifacts["expected_output"])
+    if output.exists():
+        output.unlink()
+    try:
+        execution = run_subprocess(
+            [solver, "-o", output.name, input_path.name],
+            cwd=input_path.parent,
+            timeout_seconds=timeout_seconds,
+            log_prefix="josim",
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return _failed(prepared, f"JoSIM execution failed: {exc}")
+    artifacts = {
+        **prepared.artifacts,
+        "solver_stdout": str(execution.stdout_path),
+        "solver_stderr": str(execution.stderr_path),
+    }
+    base: dict[str, Any] = dict(
+        solver=Path(solver).name,
+        output_dir=prepared.output_dir,
+        artifacts=artifacts,
+        warnings=prepared.warnings,
+        command=execution.command,
+        return_code=execution.returncode,
+        runtime_seconds=execution.runtime_seconds,
+        solver_version=_capture_version(solver, input_path.parent),
+    )
+    if execution.returncode != 0 or not output.is_file() or output.stat().st_size == 0:
+        return SimulationResult(
+            status="failed",
+            readiness_level=2,
+            reason=f"JoSIM exited {execution.returncode} without non-empty transient output.",
+            evidence_level=JOSIM_EXECUTED,
+            **base,
+        )
+    artifacts["result"] = str(output)
+    try:
+        transient = parse_josim_transient(output)
+    except ValueError as exc:
+        return SimulationResult(
+            status="executed",
+            readiness_level=3,
+            reason=f"JoSIM ran but transient parsing failed: {exc}",
+            evidence_level=JOSIM_EXECUTED,
+            **base,
+        )
+    extracted: dict[str, object] = {
+        "sample_count": len(transient["time_s"]),
+        "signal_names": list(transient["signals"]),
+    }
+    level = JOSIM_TRANSIENT_PARSED
+    reason = "JoSIM transient output was parsed."
+    expected = prepared.extracted_quantities.get("analytical_resonance_ghz")
+    voltage = next(iter(transient["signals"].values()), [])
+    measured = estimate_resonance_ghz(transient["time_s"], voltage)
+    comparison = None
+    if measured is not None and isinstance(expected, (int, float)):
+        extracted["resonance_ghz"] = measured
+        comparison = target_comparison(
+            measured, float(expected), resonance_tolerance_percent, "resonance_ghz"
+        )
+        level = JOSIM_RESONANCE_CHECKED
+        reason = "JoSIM transient resonance was extracted and compared with analytical LC."
+    return SimulationResult(
+        status="executed",
+        readiness_level=4 if comparison else 3,
+        reason=reason,
+        extracted_quantities=extracted,
+        target_comparison=comparison,
+        evidence_level=level,
+        **base,
+    )
+
+
+def _capture_version(executable: str, cwd: Path) -> str | None:
+    return capture_version(executable, cwd)
+
+
+class JoSIMCircuitAdapter(CircuitSimulatorAdapter):
+    """JoSIM behind the shared circuit-simulator lifecycle."""
+
+    name = "JoSIM"
+    env_var = _ENV_VAR
+    executable_names = _NAMES
+    tool_subdir = "josim"
+
+    def prepare(self, template: LCResonanceCheck, output_dir: str | Path) -> SimulationResult:
+        return prepare_idc_josim(
+            output_dir,
+            capacitance_pf=template.capacitance_pf,
+            capacitance_source=template.capacitance_source,
+            stray_inductance_nh=template.inductance_nh,
+            include_jj=False,
+        )
+
+    def run(
+        self,
+        prepared: SimulationResult,
+        *,
+        executable: str | None = None,
+        timeout_seconds: int = 600,
+    ) -> SimulationResult:
+        return run_idc_josim(prepared, executable=executable, timeout_seconds=timeout_seconds)
 
 
 def _failed(

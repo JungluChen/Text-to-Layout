@@ -40,7 +40,7 @@ def prepare_idc_fastercap(
         raise ValueError("FasterCap preparation currently supports IDC only")
     finger_pairs = int(spec.parameters.get("finger_pairs", 0))
     expected_polygons = 2 + 2 * finger_pairs
-    if finger_pairs <= 0 or len(geometry.polygons) != expected_polygons:
+    if finger_pairs <= 0 or len(geometry.polygons) < expected_polygons:
         raise ValueError(
             f"IDC topology mismatch: expected {expected_polygons} polygons, "
             f"found {len(geometry.polygons)}"
@@ -53,7 +53,7 @@ def prepare_idc_fastercap(
     manifest_path = out / "simulation_manifest.json"
 
     panel_lines = ["0 Text-to-Layout IDC planar conductor panels in metres"]
-    for index, polygon in enumerate(geometry.polygons):
+    for index, polygon in enumerate(geometry.polygons[:expected_polygons]):
         net = _idc_net(index)
         coords: list[str] = []
         for x_um, y_um in polygon.points:
@@ -83,7 +83,7 @@ def prepare_idc_fastercap(
         "solver": "FasterCap/FastCap",
         "component": "IDC",
         "source_layout": spec.model_dump(mode="json"),
-        "panel_count": len(geometry.polygons),
+        "panel_count": expected_polygons,
         "nets": ["P1", "P2"],
         "substrate_epsilon_r": technology.substrate_epsilon_r,
         "effective_permittivity": eps_eff,
@@ -116,6 +116,7 @@ def prepare_idc_fastercap(
             "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
             "Self-resonance and Q are outside this electrostatic model.",
         ),
+        evidence_level="EXTRACTION_INPUT_PREPARED",
     )
 
 
@@ -142,6 +143,7 @@ def run_fastercap(
             output_dir=prepared.output_dir,
             artifacts=prepared.artifacts,
             warnings=prepared.warnings,
+            evidence_level="SKIPPED_SOLVER_ABSENT",
         )
 
     command = _solver_command(solver, list_file)
@@ -228,6 +230,9 @@ def run_fastercap(
         target_comparison=comparison,
         warnings=prepared.warnings,
         command=tuple(command),
+        return_code=completed.returncode,
+        runtime_seconds=completed.runtime_seconds,
+        evidence_level="CAPACITANCE_EXTRACTED",
     )
 
 

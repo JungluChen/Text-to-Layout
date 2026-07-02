@@ -71,9 +71,7 @@ def _prepare_openems(
         "driver": driver.name,
     }
     config.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    driver.write_text(
-        _render_openems_octave(spec, geometry, technology), encoding="utf-8"
-    )
+    driver.write_text(_render_openems_octave(spec, geometry, technology), encoding="utf-8")
     warnings = (
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
         "Boundary placement and mesh convergence must be reviewed before signoff.",
@@ -90,9 +88,7 @@ def _prepare_openems(
     )
 
 
-def _render_openems_octave(
-    spec: LayoutSpec, geometry: Geometry, technology: Technology
-) -> str:
+def _render_openems_octave(spec: LayoutSpec, geometry: Geometry, technology: Technology) -> str:
     """Render a self-contained openEMS Octave driver from verified polygons.
 
     The port call deliberately uses openEMS' native ``AddCPWPort`` API for a
@@ -118,8 +114,8 @@ def _render_openems_octave(
         f"CSX = AddMaterial(CSX, 'substrate', 'Epsilon', {technology.substrate_epsilon_r:.12g});",
         (
             "CSX = AddBox(CSX, 'substrate', 0, "
-            f"[{bbox.xmin-margin:.9g} {bbox.ymin-margin:.9g} {-substrate_h:.9g}], "
-            f"[{bbox.xmax+margin:.9g} {bbox.ymax+margin:.9g} 0]);"
+            f"[{bbox.xmin - margin:.9g} {bbox.ymin - margin:.9g} {-substrate_h:.9g}], "
+            f"[{bbox.xmax + margin:.9g} {bbox.ymax + margin:.9g} 0]);"
         ),
         "CSX = AddMetal(CSX, 'metal');",
     ]
@@ -138,11 +134,11 @@ def _render_openems_octave(
         (
             (
                 "mesh.x = SmoothMeshLines(["
-                f"{bbox.xmin-margin:.9g} {bbox.xmax+margin:.9g}], 20, 1.4);"
+                f"{bbox.xmin - margin:.9g} {bbox.xmax + margin:.9g}], 20, 1.4);"
             ),
             (
                 "mesh.y = SmoothMeshLines(["
-                f"{bbox.ymin-margin:.9g} {bbox.ymax+margin:.9g}], 20, 1.4);"
+                f"{bbox.ymin - margin:.9g} {bbox.ymax + margin:.9g}], 20, 1.4);"
             ),
             f"mesh.z = SmoothMeshLines([{-substrate_h:.9g} 0 100], 20, 1.4);",
             "CSX = DefineRectGrid(CSX, unit, mesh);",
@@ -157,14 +153,14 @@ def _render_openems_octave(
             (
                 (
                     "[CSX, port{1}] = AddCPWPort(CSX, 999, 1, 'metal', "
-                    f"[{x0-width/2:.9g} {bbox.ymin:.9g} {-substrate_h:.9g}], "
-                    f"[{x0+width/2:.9g} {bbox.ymin+min(length*0.1,100):.9g} 50], "
+                    f"[{x0 - width / 2:.9g} {bbox.ymin:.9g} {-substrate_h:.9g}], "
+                    f"[{x0 + width / 2:.9g} {bbox.ymin + min(length * 0.1, 100):.9g} 50], "
                     f"{gap:.9g}, 'y', [1 0 0], 'ExcitePort', true);"
                 ),
                 (
                     "[CSX, port{2}] = AddCPWPort(CSX, 999, 2, 'metal', "
-                    f"[{x0-width/2:.9g} {bbox.ymax-min(length*0.1,100):.9g} {-substrate_h:.9g}], "
-                    f"[{x0+width/2:.9g} {bbox.ymax:.9g} 50], "
+                    f"[{x0 - width / 2:.9g} {bbox.ymax - min(length * 0.1, 100):.9g} {-substrate_h:.9g}], "
+                    f"[{x0 + width / 2:.9g} {bbox.ymax:.9g} 50], "
                     f"{gap:.9g}, 'y', [1 0 0]);"
                 ),
             )
@@ -176,7 +172,7 @@ def _render_openems_octave(
             excite = 1 if number == 1 else 0
             lines.append(
                 f"[CSX, port{{{number}}}] = AddLumpedPort(CSX, {number}, 50, "
-                f"[{x-5:.9g} {y-5:.9g} -1], [{x+5:.9g} {y+5:.9g} 1], "
+                f"[{x - 5:.9g} {y - 5:.9g} -1], [{x + 5:.9g} {y + 5:.9g} 1], "
                 f"'x', {excite});"
             )
     lines.extend(
@@ -225,9 +221,7 @@ def prepare_spiral_fasthenry(
         x, y = point
         lines.append(f"N{index} x={x:.9g} y={y:.9g} z=0")
     for index in range(1, len(points)):
-        lines.append(
-            f"E{index} N{index} N{index + 1} w={width:.9g} h={thickness:.9g}"
-        )
+        lines.append(f"E{index} N{index} N{index + 1} w={width:.9g} h={thickness:.9g}")
     lines.extend((f".external N1 N{len(points)}", ".freq fmin=1e6 fmax=1e10 ndec=20", ".end"))
     input_path = out / "spiral.inp"
     input_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
