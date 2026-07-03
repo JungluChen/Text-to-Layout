@@ -1,0 +1,61 @@
+{
+  "schema": "textlayout.tile-simulation-map.v1",
+  "full_tile_solver_executed": false,
+  "full_tile_status": "NOT_MODELED",
+  "fabrication_status": "NOT_FABRICATION_READY",
+  "statement": "Sub-block evidence is not a full-tile solve. Alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.",
+  "subblocks": {
+    "IDC": {
+      "scope": "FasterCap extraction of the geometry-identical IDC sub-block",
+      "status": "SIMULATION_EXECUTED",
+      "solver": "FasterCap",
+      "solver_executed": true,
+      "physics_verified": false,
+      "extracted_quantities": {
+        "capacitance_matrix_pf": [
+          [
+            0.732766,
+            -0.6973109999999999
+          ],
+          [
+            -0.697313,
+            0.732784
+          ]
+        ],
+        "mutual_capacitance_pf": 0.6973109999999999
+      },
+      "target_comparison": {
+        "quantity": "mutual_capacitance_pf",
+        "extracted": 0.6973109999999999,
+        "target": 0.6,
+        "error_pct": 16.218,
+        "tolerance_pct": 5.0,
+        "within_tolerance": false
+      },
+      "result": "tile_subblocks\\idc\\simulation_result.json"
+    },
+    "CPW": {
+      "scope": "openEMS preparation for the geometry-identical CPW sub-block",
+      "status": "SKIPPED_SOLVER_ABSENT",
+      "solver": "openEMS",
+      "solver_executed": false,
+      "physics_verified": false,
+      "extracted_quantities": {},
+      "target_comparison": null,
+      "result": "tile_subblocks\\cpw\\simulation_result.json"
+    },
+    "SpiralInductor": {
+      "scope": "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target",
+      "status": "SIMULATION_EXECUTED",
+      "solver": "fasthenry",
+      "solver_executed": true,
+      "physics_verified": false,
+      "extracted_quantities": {
+        "inductance_h": 2.751263754746667e-09,
+        "inductance_nh": 2.751263754746667
+      },
+      "target_comparison": null,
+      "result": "tile_subblocks\\spiralinductor\\simulation_result.json"
+    }
+  }
+}

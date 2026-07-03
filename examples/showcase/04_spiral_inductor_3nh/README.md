@@ -29,7 +29,7 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `SpiralInductor_2606cbb1`
+- Top cell: `SpiralInductor_4c67b592`
 - Bounding box: `{"width": 123.697, "height": 123.697}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 18}`
 - Database unit: `0.001` um
@@ -40,27 +40,29 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 
 ## Simulation preparation
 
-- Solver: `FastHenry`
-- Prepared input artifacts: `["input", "manifest"]`
+- Solver: `fasthenry`
+- Prepared input artifacts: `["input", "manifest", "result", "solver_stderr", "solver_stdout", "zc_matrix"]`
 
 ## Solver execution
 
-- Solver executed: **no**
-- No solver output exists for this example; nothing electrical is claimed.
+- Solver executed: **yes**
+- Extracted inductance: `2.751263754746667` nH
 
 ## Target comparison
 
-- No solver-backed target comparison exists (see evidence status).
+- Target: `3.0` nH; extracted: `2.751263754746667` nH
+- Error: `-8.291%` (tolerance `5.0%`)
+- Within tolerance: **False**
 
 ## Evidence status
 
-- **SKIPPED_SOLVER_ABSENT**
+- **SIMULATION_EXECUTED**
 - Geometry: **GEOMETRY_PASS**
 - Fabrication status: **NOT_FABRICATION_READY**
 
 ## Limitation
 
-Inductance is a modified-Wheeler analytical estimate; FastHenry execution is optional/future. Not fabrication-ready.
+FastHenry execution is environment-dependent; conductivity and thickness remain generic process assumptions. Not fabrication-ready.
 
 ## Files
 

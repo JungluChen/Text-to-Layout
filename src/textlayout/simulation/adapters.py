@@ -97,7 +97,7 @@ class OpenEMSAdapter:
     name: str = "openEMS"
 
     def discover(self, explicit: str | None = None) -> str | None:
-        return find_executable(_OPENEMS_NAMES, explicit)
+        return find_executable(_OPENEMS_NAMES, explicit, env_var="TEXTLAYOUT_OPENEMS")
 
     def available(self, explicit: str | None = None) -> bool:
         return self.discover(explicit) is not None
@@ -152,7 +152,7 @@ class FastHenryAdapter:
     name: str = "FastHenry"
 
     def discover(self, explicit: str | None = None) -> str | None:
-        return find_executable(_FASTHENRY_NAMES, explicit)
+        return find_executable(_FASTHENRY_NAMES, explicit, env_var="TEXTLAYOUT_FASTHENRY")
 
     def available(self, explicit: str | None = None) -> bool:
         return self.discover(explicit) is not None

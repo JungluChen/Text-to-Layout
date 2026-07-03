@@ -111,7 +111,7 @@
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
     "gds_path": "output.gds",
-    "top_cell": "CPW_994653aa",
+    "top_cell": "CPW_889eba3b",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 121.966,
@@ -141,7 +141,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "CPW_994653aa"
+        "detail": "CPW_889eba3b"
       },
       {
         "name": "bbox_non_empty",

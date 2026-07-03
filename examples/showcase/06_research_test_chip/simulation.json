@@ -9,9 +9,12 @@
   "capacitance_matrix_pf": null,
   "target_comparison": null,
   "artifacts": {},
-  "capacitance_source": "analytical_estimate_not_geometry_extracted",
+  "quantity": "geometry",
+  "extracted_value": null,
+  "extracted_unit": null,
+  "capacitance_source": "not_applicable",
   "capacitance_pf": null,
-  "capacitance_extraction_status": "EXTRACTION_INPUT_PREPARED",
+  "capacitance_extraction_status": "NOT_APPLICABLE",
   "inductance_source": "prompt_or_workflow_default",
   "inductance_nh": null,
   "analytical_f0_ghz": null,
@@ -34,7 +37,7 @@
       "input_files": [],
       "output_files": [],
       "parser": null,
-      "timestamp": "2026-07-03T05:21:48+00:00",
+      "timestamp": "2026-07-03T06:12:48+00:00",
       "notes": [
         "TestChip is a geometry-level comparison tile; sub-device estimates are analytical and no solver was executed on the assembled tile.",
         "The IDC sub-block geometry is identical to the standalone IDC and can be extracted separately with FasterCap."

@@ -50,12 +50,12 @@
       "artifact_dir": "examples/showcase/04_spiral_inductor_3nh",
       "geometry_status": "GEOMETRY_PASS",
       "klayout_readback_status": "pass",
-      "solver": "FastHenry",
-      "solver_executed": false,
-      "simulation_status": "SKIPPED_SOLVER_ABSENT",
-      "evidence_status": "SKIPPED_SOLVER_ABSENT",
+      "solver": "fasthenry",
+      "solver_executed": true,
+      "simulation_status": "SIMULATION_EXECUTED",
+      "evidence_status": "SIMULATION_EXECUTED",
       "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "Inductance is a modified-Wheeler analytical estimate; FastHenry execution is optional/future. Not fabrication-ready."
+      "limitation": "FastHenry execution is environment-dependent; conductivity and thickness remain generic process assumptions. Not fabrication-ready."
     },
     {
       "id": "05_quarter_wave_resonator_6ghz",
@@ -83,7 +83,7 @@
       "simulation_status": "ANALYTICAL_ONLY",
       "evidence_status": "ANALYTICAL_ONLY",
       "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "Geometry-level comparison tile; sub-device numbers are analytical and no solver ran on the assembled tile. Not fabrication-ready."
+      "limitation": "No full-tile solver ran. The tile map records exact-parameter sub-block execution or preparation without promoting it to tile verification. Not fabrication-ready."
     }
   ]
 }

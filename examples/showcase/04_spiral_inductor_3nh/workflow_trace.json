@@ -1,11 +1,11 @@
 {
   "schema": "textlayout.workflow-trace.v1",
   "orchestrator": "langgraph",
-  "generated_at": "2026-07-03T05:21:44.797+00:00",
+  "generated_at": "2026-07-03T06:12:38.504+00:00",
   "nodes": [
     {
       "node": "ParsePrompt",
-      "start_time": "2026-07-03T05:21:44.287+00:00",
+      "start_time": "2026-07-03T06:12:35.890+00:00",
       "input_summary": {
         "component": null,
         "geometry_status": null,
@@ -15,7 +15,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.292+00:00",
+      "end_time": "2026-07-03T06:12:35.899+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -26,7 +26,7 @@
     },
     {
       "node": "ValidateIntent",
-      "start_time": "2026-07-03T05:21:44.294+00:00",
+      "start_time": "2026-07-03T06:12:35.903+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": null,
@@ -38,7 +38,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.294+00:00",
+      "end_time": "2026-07-03T06:12:35.903+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -48,7 +48,7 @@
     },
     {
       "node": "BuildLayoutDSL",
-      "start_time": "2026-07-03T05:21:44.295+00:00",
+      "start_time": "2026-07-03T06:12:35.905+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": null,
@@ -60,7 +60,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.302+00:00",
+      "end_time": "2026-07-03T06:12:35.912+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -77,7 +77,7 @@
     },
     {
       "node": "OptimizeParameters",
-      "start_time": "2026-07-03T05:21:44.303+00:00",
+      "start_time": "2026-07-03T06:12:35.914+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": null,
@@ -90,7 +90,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.308+00:00",
+      "end_time": "2026-07-03T06:12:35.919+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -100,7 +100,7 @@
     },
     {
       "node": "GenerateGeometry",
-      "start_time": "2026-07-03T05:21:44.310+00:00",
+      "start_time": "2026-07-03T06:12:35.921+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": null,
@@ -114,7 +114,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.532+00:00",
+      "end_time": "2026-07-03T06:12:36.141+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -125,7 +125,7 @@
     },
     {
       "node": "ExportArtifacts",
-      "start_time": "2026-07-03T05:21:44.534+00:00",
+      "start_time": "2026-07-03T06:12:36.141+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "pass",
@@ -139,7 +139,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.534+00:00",
+      "end_time": "2026-07-03T06:12:36.143+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -150,7 +150,7 @@
     },
     {
       "node": "KLayoutReadback",
-      "start_time": "2026-07-03T05:21:44.534+00:00",
+      "start_time": "2026-07-03T06:12:36.143+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "pass",
@@ -167,7 +167,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.543+00:00",
+      "end_time": "2026-07-03T06:12:36.149+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -178,7 +178,7 @@
     },
     {
       "node": "GeometryVerification",
-      "start_time": "2026-07-03T05:21:44.545+00:00",
+      "start_time": "2026-07-03T06:12:36.151+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "pass",
@@ -196,7 +196,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.551+00:00",
+      "end_time": "2026-07-03T06:12:36.156+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -208,7 +208,7 @@
     },
     {
       "node": "PrepareFasterCap",
-      "start_time": "2026-07-03T05:21:44.554+00:00",
+      "start_time": "2026-07-03T06:12:36.158+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
@@ -227,7 +227,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.561+00:00",
+      "end_time": "2026-07-03T06:12:36.163+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -238,7 +238,7 @@
     },
     {
       "node": "RunFasterCapIfAvailable",
-      "start_time": "2026-07-03T05:21:44.562+00:00",
+      "start_time": "2026-07-03T06:12:36.165+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
@@ -257,7 +257,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.770+00:00",
+      "end_time": "2026-07-03T06:12:38.476+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -268,7 +268,7 @@
     },
     {
       "node": "ParseSolverResult",
-      "start_time": "2026-07-03T05:21:44.773+00:00",
+      "start_time": "2026-07-03T06:12:38.480+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
@@ -287,7 +287,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.777+00:00",
+      "end_time": "2026-07-03T06:12:38.483+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -298,7 +298,7 @@
     },
     {
       "node": "CompareTarget",
-      "start_time": "2026-07-03T05:21:44.777+00:00",
+      "start_time": "2026-07-03T06:12:38.486+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
@@ -318,7 +318,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.777+00:00",
+      "end_time": "2026-07-03T06:12:38.486+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -328,11 +328,11 @@
     },
     {
       "node": "RunCircuitChecks",
-      "start_time": "2026-07-03T05:21:44.780+00:00",
+      "start_time": "2026-07-03T06:12:38.489+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -348,7 +348,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.780+00:00",
+      "end_time": "2026-07-03T06:12:38.489+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -359,11 +359,11 @@
     },
     {
       "node": "GenerateReport",
-      "start_time": "2026-07-03T05:21:44.781+00:00",
+      "start_time": "2026-07-03T06:12:38.490+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -379,7 +379,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.794+00:00",
+      "end_time": "2026-07-03T06:12:38.500+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -389,11 +389,11 @@
     },
     {
       "node": "UpdateShowcaseMetadata",
-      "start_time": "2026-07-03T05:21:44.796+00:00",
+      "start_time": "2026-07-03T06:12:38.502+00:00",
       "input_summary": {
         "component": "SpiralInductor",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -412,7 +412,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T05:21:44.796+00:00",
+      "end_time": "2026-07-03T06:12:38.502+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [

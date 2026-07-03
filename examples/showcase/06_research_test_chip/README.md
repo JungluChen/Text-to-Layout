@@ -29,7 +29,7 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestChip_7ea7a5c7`
+- Top cell: `TestChip_7d5894bd`
 - Bounding box: `{"width": 2000.0, "height": 2000.0}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 71, "63/0": 120}`
 - Database unit: `0.001` um
@@ -60,7 +60,7 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 
 ## Limitation
 
-Geometry-level comparison tile; sub-device numbers are analytical and no solver ran on the assembled tile. Not fabrication-ready.
+No full-tile solver ran. The tile map records exact-parameter sub-block execution or preparation without promoting it to tile verification. Not fabrication-ready.
 
 ## Files
 
@@ -76,6 +76,7 @@ Geometry-level comparison tile; sub-device numbers are analytical and no solver 
 - [`optimization.json`](optimization.json)
 - [`workflow_trace.json`](workflow_trace.json)
 - [`report.md`](report.md)
+- [`tile_simulation_map.json`](tile_simulation_map.json) — sub-block scope map
 - [`extraction/`](extraction/) — solver inputs and solver-owned outputs (when executed)
 
 Regenerate with: `uv run python scripts/generate_showcase_examples.py --force`

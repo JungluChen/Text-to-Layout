@@ -21,10 +21,13 @@ def test_doctor_reports_required_checks_ok(tmp_path: Path) -> None:
     report = run_doctor(output_dir=tmp_path / "probe")
     assert report.ok, [c.to_dict() for c in report.checks if c.status == "fail"]
     names = {check.name for check in report.checks}
-    assert "Python version" in names
-    assert "LangGraph import" in names
-    assert "KLayout Python API import" in names
-    assert "FasterCap/FastCap executable discovery" in names
+    assert "Python" in names
+    assert "langgraph.graph" in names
+    assert "klayout.db" in names
+    assert "FasterCap/FastCap" in names
+    assert "openEMS" in names
+    assert "CSXCAD" in names
+    assert "FastHenry/FastHenry2" in names
     assert "output directory write permission" in names
 
 
@@ -34,7 +37,7 @@ def test_doctor_missing_fastercap_is_absent_not_failure(
     monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "definitely-not-a-real-solver")
     report = run_doctor(output_dir=tmp_path / "probe")
     fastercap = next(
-        c for c in report.checks if c.name == "FasterCap/FastCap executable discovery"
+        c for c in report.checks if c.name == "FasterCap/FastCap"
     )
     assert fastercap.status == "absent"
     assert fastercap.required is False
@@ -48,7 +51,7 @@ def test_doctor_strict_mode_fails_when_fastercap_is_missing(
     monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "definitely-not-a-real-solver")
     report = run_doctor(output_dir=tmp_path / "probe", strict=True)
     fastercap = next(
-        c for c in report.checks if c.name == "FasterCap/FastCap executable discovery"
+        c for c in report.checks if c.name == "FasterCap/FastCap"
     )
     assert fastercap.status == "absent"
     assert fastercap.required is True
@@ -60,4 +63,4 @@ def test_doctor_cli_json_output(tmp_path: Path, capsys) -> None:
     payload = json.loads(capsys.readouterr().out)
     assert payload["schema"] == "textlayout.doctor.v1"
     assert code in (0, 1)
-    assert any(check["name"] == "LangGraph import" for check in payload["checks"])
+    assert any(check["name"] == "langgraph.graph" for check in payload["checks"])

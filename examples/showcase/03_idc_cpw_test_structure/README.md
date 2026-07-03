@@ -29,7 +29,7 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestStructure_a8e8b09e`
+- Top cell: `TestStructure_9f8e3598`
 - Bounding box: `{"width": 598.0, "height": 1131.362}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 48}`
 - Database unit: `0.001` um
@@ -46,11 +46,11 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 ## Solver execution
 
 - Solver executed: **yes**
-- Extracted mutual capacitance: `0.610019` pF
+- Extracted capacitance: `0.610019` pF
 
 ## Target comparison
 
-- Target: `0.6`; extracted: `0.610019`
+- Target: `0.6` pF; extracted: `0.610019` pF
 - Error: `1.67%` (tolerance `5.0%`)
 - Within tolerance: **True**
 

@@ -29,7 +29,7 @@ Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum g
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `IDC_afa2268c`
+- Top cell: `IDC_a499a822`
 - Bounding box: `{"width": 238.0, "height": 274.851}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 42}`
 - Database unit: `0.001` um
@@ -46,11 +46,11 @@ Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum g
 ## Solver execution
 
 - Solver executed: **yes**
-- Extracted mutual capacitance: `0.598641` pF
+- Extracted capacitance: `0.598641` pF
 
 ## Target comparison
 
-- Target: `0.6`; extracted: `0.598641`
+- Target: `0.6` pF; extracted: `0.598641` pF
 - Error: `-0.226%` (tolerance `5.0%`)
 - Within tolerance: **True**
 

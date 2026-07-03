@@ -20,10 +20,10 @@ DOCTOR_SCHEMA = "textlayout.doctor.v1"
 
 #: Hard requirements: (check name, module to import).
 _REQUIRED_IMPORTS: tuple[tuple[str, str], ...] = (
-    ("textlayout package import", "textlayout"),
-    ("gdsfactory import", "gdsfactory"),
-    ("KLayout Python API import", "klayout.db"),
-    ("LangGraph import", "langgraph.graph"),
+    ("textlayout", "textlayout"),
+    ("gdsfactory", "gdsfactory"),
+    ("klayout.db", "klayout.db"),
+    ("langgraph.graph", "langgraph.graph"),
 )
 
 _FASTERCAP_ABSENT_MESSAGE = (
@@ -69,7 +69,7 @@ class DoctorReport:
 def _check_python() -> DoctorCheck:
     ok = sys.version_info >= (3, 11)
     return DoctorCheck(
-        name="Python version",
+        name="Python",
         status="ok" if ok else "fail",
         detail=f"{sys.version.split()[0]} (requires >= 3.11)",
     )
@@ -112,13 +112,13 @@ def _check_fastercap(*, strict: bool = False) -> DoctorCheck:
     found = _find_solver(os.environ.get("TEXTLAYOUT_FASTERCAP") or None)
     if found is None:
         return DoctorCheck(
-            name="FasterCap/FastCap executable discovery",
+            name="FasterCap/FastCap",
             status="absent",
             detail=_FASTERCAP_ABSENT_MESSAGE,
             required=strict,
         )
     return DoctorCheck(
-        name="FasterCap/FastCap executable discovery",
+        name="FasterCap/FastCap",
         status="ok",
         detail=found,
         required=False,
@@ -133,12 +133,25 @@ def _optional_solver_checks(*, strict: bool = False) -> list[DoctorCheck]:
     from textlayout.simulation.runners import _FASTHENRY_NAMES, _OPENEMS_NAMES, find_executable
     from textlayout.simulation.wrspice import find_wrspice
 
+    def find_openems_workflow() -> str | None:
+        core = find_executable(("openEMS", "openEMS.exe"))
+        frontend = find_executable(_OPENEMS_NAMES, env_var="TEXTLAYOUT_OPENEMS")
+        if core and frontend:
+            return f"core={core}; frontend={frontend}"
+        return None
+
     discoveries = (
+        ("openEMS", find_openems_workflow),
+        ("CSXCAD", lambda: find_executable(("AppCSXCAD", "AppCSXCAD.exe"), env_var="TEXTLAYOUT_CSXCAD")),
+        (
+            "FastHenry/FastHenry2",
+            lambda: find_executable(
+                _FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY"
+            ),
+        ),
         ("JoSIM", lambda: find_josim(None)),
-        ("openEMS", lambda: find_executable(_OPENEMS_NAMES, None)),
-        ("FastHenry", lambda: find_executable(_FASTHENRY_NAMES, None)),
-        ("PSCAN2", lambda: find_pscan2(None)),
         ("WRspice", lambda: find_wrspice(None)),
+        ("PSCAN2", lambda: find_pscan2(None)),
     )
     for name, finder in discoveries:
         try:
@@ -146,7 +159,7 @@ def _optional_solver_checks(*, strict: bool = False) -> list[DoctorCheck]:
         except Exception as exc:  # noqa: BLE001 - discovery must never crash doctor
             checks.append(
                 DoctorCheck(
-                    name=f"optional solver: {name}",
+                    name=name,
                     status="absent",
                     detail=f"discovery error: {exc}",
                     required=strict,
@@ -155,7 +168,7 @@ def _optional_solver_checks(*, strict: bool = False) -> list[DoctorCheck]:
             continue
         checks.append(
             DoctorCheck(
-                name=f"optional solver: {name}",
+                name=name,
                 status="ok" if found else "absent",
                 detail=str(found) if found else "not found; execution will be skipped honestly",
                 required=strict,
@@ -177,7 +190,7 @@ def run_doctor(output_dir: str | Path = "out", *, strict: bool = False) -> Docto
 
 
 def render_text(report: DoctorReport) -> str:
-    marks = {"ok": "[ok]    ", "fail": "[FAIL]  ", "absent": "[absent]"}
+    marks = {"ok": "[ok]     ", "fail": "[FAIL]   ", "absent": "[missing]"}
     lines = ["textlayout doctor", ""]
     for check in report.checks:
         lines.append(f"{marks[check.status]} {check.name}: {check.detail}")
@@ -186,7 +199,7 @@ def render_text(report: DoctorReport) -> str:
         "Environment OK." if report.ok else "Environment has failures; see [FAIL] lines above."
     )
     lines.append(
-        "Optional solvers marked [absent] cause honest SKIPPED_SOLVER_ABSENT evidence, "
+        "Optional solvers marked [missing] cause honest SKIPPED_SOLVER_ABSENT evidence, "
         "never fake results."
     )
     return "\n".join(lines)

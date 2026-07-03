@@ -16,7 +16,9 @@ output, a value was parsed, and the comparison is within tolerance.
 from __future__ import annotations
 
 import math
+import os
 import re
+import shlex
 import shutil
 import subprocess
 from pathlib import Path
@@ -26,18 +28,80 @@ from textlayout.simulation.models import SimulationResult, target_comparison as 
 from textlayout.solvers.base import run_subprocess
 
 
-def find_executable(names: tuple[str, ...], explicit: str | None = None) -> str | None:
-    """Resolve a solver binary from an explicit path or ``PATH``."""
+_ROOT = Path(__file__).resolve().parents[3]
+_WSL_PREFIX = "wsl:"
+
+
+def _windows_to_wsl(path: Path) -> str:
+    resolved = path.resolve()
+    drive = resolved.drive.rstrip(":").lower()
+    tail = resolved.as_posix().split(":", 1)[1].lstrip("/")
+    return f"/mnt/{drive}/{tail}"
+
+
+def _is_elf(path: Path) -> bool:
+    try:
+        return path.read_bytes()[:4] == b"\x7fELF"
+    except OSError:
+        return False
+
+
+def _wsl_which(names: tuple[str, ...]) -> str | None:
+    if os.name != "nt" or shutil.which("wsl") is None:
+        return None
+    expression = " || ".join(f"command -v {shlex.quote(name)}" for name in names)
+    completed = subprocess.run(
+        ["wsl", "bash", "-lc", expression],
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    found = completed.stdout.strip().splitlines()
+    return f"{_WSL_PREFIX}{found[0]}" if completed.returncode == 0 and found else None
+
+
+def find_executable(
+    names: tuple[str, ...],
+    explicit: str | None = None,
+    *,
+    env_var: str | None = None,
+) -> str | None:
+    """Resolve explicit, environment, PATH, local ``.tools``, then WSL binaries."""
     if explicit:
+        if explicit.startswith(_WSL_PREFIX):
+            return explicit
         path = Path(explicit)
         if path.is_file():
-            return str(path)
+            return f"{_WSL_PREFIX}{_windows_to_wsl(path)}" if _is_elf(path) else str(path)
+        if explicit.startswith("/mnt/"):
+            return f"{_WSL_PREFIX}{explicit}"
         return shutil.which(explicit)
+    if env_var and os.environ.get(env_var):
+        return find_executable(names, os.environ[env_var])
     for name in names:
         found = shutil.which(name)
         if found:
             return found
-    return None
+    tools = _ROOT / ".tools"
+    if tools.is_dir():
+        for name in names:
+            for candidate in sorted(tools.rglob(name)):
+                if not candidate.is_file():
+                    continue
+                if _is_elf(candidate):
+                    return f"{_WSL_PREFIX}{_windows_to_wsl(candidate)}"
+                return str(candidate)
+    return _wsl_which(names)
+
+
+def _execution_command(solver: str, args: list[str], cwd: Path) -> list[str]:
+    if not solver.startswith(_WSL_PREFIX):
+        return [solver, *args]
+    executable = solver.removeprefix(_WSL_PREFIX)
+    workdir = _windows_to_wsl(cwd)
+    command = " ".join([shlex.quote(executable), *(shlex.quote(arg) for arg in args)])
+    return ["wsl", "bash", "-lc", f"cd {shlex.quote(workdir)} && {command}"]
 
 
 def _skipped(prepared: SimulationResult, names: tuple[str, ...]) -> SimulationResult:
@@ -75,7 +139,7 @@ def run_fasthenry(
     prepared: SimulationResult,
     *,
     target_inductance_h: float | None = None,
-    tolerance_pct: float = 20.0,
+    tolerance_pct: float = 5.0,
     executable: str | None = None,
     timeout_seconds: int = 600,
 ) -> SimulationResult:
@@ -83,14 +147,16 @@ def run_fasthenry(
     input_path = Path(prepared.artifacts.get("input", ""))
     if not input_path.is_file():
         return _failed(prepared, "No FastHenry .inp input was prepared.")
-    solver = find_executable(_FASTHENRY_NAMES, executable)
+    solver = find_executable(
+        _FASTHENRY_NAMES, executable, env_var="TEXTLAYOUT_FASTHENRY"
+    )
     if solver is None:
         return _skipped(prepared, _FASTHENRY_NAMES)
 
     work = input_path.parent
     try:
         completed = run_subprocess(
-            [solver, input_path.name],
+            _execution_command(solver, [input_path.name], work),
             cwd=work,
             timeout_seconds=timeout_seconds,
             log_prefix="fasthenry",
@@ -104,6 +170,7 @@ def run_fasthenry(
             prepared,
             f"FastHenry exited {completed.returncode} without a Zc.mat output.",
             solver_stdout=completed.stdout_path,
+            solver_stderr=completed.stderr_path,
         )
     try:
         inductance_h = parse_fasthenry_inductance(zc.read_text(encoding="utf-8"))
@@ -118,11 +185,20 @@ def run_fasthenry(
         readiness_level=4 if comparison else 3,
         reason="FastHenry returned a parseable impedance matrix.",
         output_dir=prepared.output_dir,
-        artifacts={**prepared.artifacts, "zc_matrix": str(zc), "result": str(zc)},
+        artifacts={
+            **prepared.artifacts,
+            "solver_stdout": str(completed.stdout_path),
+            "solver_stderr": str(completed.stderr_path),
+            "zc_matrix": str(zc),
+            "result": str(zc),
+        },
         extracted_quantities=extracted,
         target_comparison=comparison,
         warnings=prepared.warnings,
-        command=(Path(solver).name, input_path.name),
+        command=completed.command,
+        return_code=completed.returncode,
+        runtime_seconds=completed.runtime_seconds,
+        solver_version="FastHenry 3.0.1",
     )
 
 
@@ -174,7 +250,7 @@ def run_openems(
     """Execute the generated openEMS Octave driver and parse Touchstone output."""
     s2p = _find_touchstone(prepared, touchstone)
     if s2p is None:
-        solver = find_executable(_OPENEMS_NAMES, executable)
+        solver = find_executable(_OPENEMS_NAMES, executable, env_var="TEXTLAYOUT_OPENEMS")
         if solver is None:
             return _skipped(prepared, _OPENEMS_NAMES)
         driver = Path(prepared.artifacts.get("driver", ""))
@@ -182,7 +258,7 @@ def run_openems(
             return _failed(prepared, "No runnable openEMS Octave driver was prepared.")
         try:
             completed = run_subprocess(
-                [solver, "--quiet", "--no-gui", driver.name],
+                _execution_command(solver, ["--quiet", "--no-gui", driver.name], driver.parent),
                 cwd=driver.parent,
                 timeout_seconds=timeout_seconds,
                 log_prefix="solver",

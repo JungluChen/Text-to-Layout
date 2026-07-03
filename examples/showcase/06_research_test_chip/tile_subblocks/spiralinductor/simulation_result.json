@@ -1,0 +1,41 @@
+{
+  "schema": "textlayout.simulation-result.v1",
+  "status": "executed",
+  "evidence_stage": "parsed",
+  "solver": "fasthenry",
+  "solver_executed": true,
+  "capacitance_matrix_parsed": false,
+  "target_compared": false,
+  "physics_verified": false,
+  "readiness_level": 3,
+  "readiness_label": "simulation result generated",
+  "reason": "FastHenry returned a parseable impedance matrix.",
+  "output_dir": "tile_subblocks\\spiralinductor",
+  "artifacts": {
+    "input": "tile_subblocks\\spiralinductor\\spiral.inp",
+    "manifest": "tile_subblocks\\spiralinductor\\simulation_manifest.json",
+    "solver_stdout": "tile_subblocks\\spiralinductor\\fasthenry.stdout.txt",
+    "solver_stderr": "tile_subblocks\\spiralinductor\\fasthenry.stderr.txt",
+    "zc_matrix": "tile_subblocks\\spiralinductor\\Zc.mat",
+    "result": "tile_subblocks\\spiralinductor\\Zc.mat"
+  },
+  "extracted_quantities": {
+    "inductance_h": 2.751263754746667e-09,
+    "inductance_nh": 2.751263754746667
+  },
+  "target_comparison": null,
+  "warnings": [
+    "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
+    "Conductor conductivity and thickness are generic and require process replacement."
+  ],
+  "command": [
+    "wsl",
+    "bash",
+    "-lc",
+    "cd tile_subblocks/spiralinductor && .tools/FastHenry2/bin/fasthenry spiral.inp"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 0.4359545999977854,
+  "evidence_level": null,
+  "solver_version": "FastHenry 3.0.1"
+}

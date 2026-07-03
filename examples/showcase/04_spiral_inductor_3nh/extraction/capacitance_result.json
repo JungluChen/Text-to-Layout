@@ -1,22 +1,41 @@
 {
   "schema": "textlayout.capacitance-extraction-result.v1",
-  "status": "SKIPPED_SOLVER_ABSENT",
-  "backend_status": "skipped",
-  "solver": "FastHenry",
-  "solver_version": null,
-  "command": [],
-  "return_code": null,
-  "runtime_seconds": null,
+  "status": "INDUCTANCE_EXTRACTED",
+  "backend_status": "executed",
+  "solver": "fasthenry",
+  "solver_version": "FastHenry 3.0.1",
+  "command": [
+    "wsl",
+    "bash",
+    "-lc",
+    "cd extraction/capacitance_input && .tools/FastHenry2/bin/fasthenry spiral.inp"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 0.2916188000017428,
   "artifacts": {
     "input": "extraction\\capacitance_input\\spiral.inp",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\fasthenry.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\fasthenry.stderr.txt",
+    "zc_matrix": "extraction\\capacitance_input\\Zc.mat",
+    "result": "extraction\\capacitance_input\\Zc.mat"
   },
-  "extracted_quantities": {},
-  "target_comparison": null,
+  "extracted_quantities": {
+    "inductance_h": 2.751263754746667e-09,
+    "inductance_nh": 2.751263754746667
+  },
+  "target_comparison": {
+    "quantity": "inductance_h",
+    "extracted": 2.751263754746667e-09,
+    "target": 3.0000000000000004e-09,
+    "error_pct": -8.291,
+    "tolerance_pct": 5.0,
+    "within_tolerance": false
+  },
   "analytical_capacitance_pf": 3.0,
-  "reason": "FastHenry executable not found (looked for fasthenry, fasthenry.exe, FastHenry, FastHenry2, fasthenry2). Install it or pass an explicit path; prepared input files remain available.",
+  "reason": "FastHenry returned a parseable impedance matrix.",
   "warnings": [
-    "FastHenry has not been executed; no inductance, resistance, or Q result is claimed.",
+    "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
     "Conductor conductivity and thickness are generic and require process replacement."
   ]
 }

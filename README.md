@@ -48,20 +48,17 @@ or capacitance field solver and cannot prove that physical IDC geometry meets a
 capacitance target. Solver input preparation is not solver execution, and an
 analytical estimate is not physical verification.
 
-Result on a machine **without** FasterCap installed (the honest default):
+Current committed showcase evidence includes real FasterCap and FastHenry runs:
 
-| Quantity    | Target | Analytical estimate                                             | Solver-extracted          | Error | Evidence status           |
-| ----------- | ------ | --------------------------------------------------------------- | ------------------------- | ----- | ------------------------- |
-| capacitance | 0.6 pF | 0.6 pF (Bahl/Alley, optimizer converged, 0.0% analytical error) | — (solver not installed) | —    | `SKIPPED_SOLVER_ABSENT` |
+| Quantity | Target | Solver-extracted | Error | Evidence status |
+| --- | --- | --- | --- | --- |
+| IDC capacitance | 0.600000 pF | 0.598641 pF | 0.226% | `PHYSICS_VERIFIED` |
+| Spiral inductance | 3.000000 nH | 2.751264 nH | 8.291% | `SIMULATION_EXECUTED` (outside the 5% evidence tolerance) |
 
-The IDC flow can execute FasterCap/FastCap when the executable is available —
-including a Linux (WSL) FasterCap build auto-detected from Windows. On a
-machine with FasterCap, the same command reaches `PHYSICS_VERIFIED` with a real
-solver run (see showcase example 1: extracted 0.5986 pF vs 0.6 pF target,
-0.23% error). Committed default artifacts remain solver-skipped unless a real
-solver output artifact is committed. `PHYSICS_VERIFIED` is only claimed when a
-solver-owned output is parsed and the result is within tolerance. An executed
-out-of-tolerance result remains `SIMULATION_EXECUTED`.
+Example 3 is `PHYSICS_VERIFIED` only for its embedded IDC region. CPW launches,
+transitions, resonator behavior, and the full test-chip tile are not full-wave
+verified. A solver-owned output must be parsed and compared with its target
+before any `PHYSICS_VERIFIED` claim is allowed.
 
 > This project is not fabrication-ready by default. Geometry generation and analytical estimation are supported. Physics verification is only claimed when an external solver is executed and its output is parsed successfully.
 
@@ -80,26 +77,33 @@ structurally unconstructible (see `src/textlayout/evidence.py`).
 
 ```mermaid
 flowchart LR
-    A[User prompt] --> B[Intent parser]
+    A[User prompt] --> B[Deterministic intent parser]
     B --> C[Typed Layout DSL]
-    C --> D[Parameter optimizer]
+    C --> D[LangGraph workflow]
     D --> E[gdsfactory geometry]
-    E --> F[GDS/SVG/PNG export]
+    E --> F[GDS / SVG / PNG export]
     F --> G[KLayout readback]
     G --> H[Geometry verification]
-    H --> I[FasterCap input]
-    I --> J{Solver installed?}
-    J -- No --> K[Skipped solver evidence]
-    J -- Yes --> L[Run FasterCap]
-    L --> M[Parse capacitance matrix]
-    M --> N[Compare target]
-    N --> O[Evidence report]
-    N -. out of tolerance .-> D
+    H --> I{Component type}
+    I -->|IDC| J[FasterCap / FastCap]
+    I -->|CPW or resonator| K[openEMS / CSXCAD]
+    I -->|Spiral| L[FastHenry]
+    I -->|SQUID/JJ circuit| M[JoSIM / WRspice / PSCAN2]
+    J --> N[Parse extracted C]
+    K --> O[Parse S-parameters / resonance]
+    L --> P[Parse L/R/Q]
+    M --> Q[Parse transient / resonance]
+    N --> R[Target comparison]
+    O --> R
+    P --> R
+    Q --> R
+    R --> S[Evidence report]
+    S --> T{Claim gate}
+    T -->|solver ran and target passed| U[PHYSICS_VERIFIED]
+    T -->|solver missing| V[SKIPPED_SOLVER_ABSENT]
+    T -->|equation only| W[ANALYTICAL_ONLY]
+    T -->|fabrication| X[NOT_FABRICATION_READY]
 ```
-
-The dashed edge is the solver-in-the-loop retune cycle (bounded at 5
-iterations): when FasterCap executes and misses the target, the optimizer
-re-sizes the overlap and the geometry/extraction stages run again.
 
 ## Installation
 
@@ -113,6 +117,12 @@ pip install -e ".[dev]"
 ```
 
 Or with `uv`: `py -3 -m uv sync`.
+
+Install the supported WSL FastHenry build with:
+
+```bash
+uv run python scripts/install_fasthenry.py
+```
 
 ## Required dependencies
 
@@ -153,14 +163,16 @@ full LangGraph pipeline; every cell below links to committed artifacts under
 
 | # | Target | Prompt | Output | Step Results | Evidence Status |
 |---|--------|--------|--------|--------------|-----------------|
-| 1 | 0.6 pF IDC | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [step results](examples/showcase/01_idc_0p6pf/README.md) | **PHYSICS_VERIFIED** — FasterCap real execution; extracted 0.598641 pF versus 0.600000 pF target; 0.226% error. **NOT_FABRICATION_READY** |
-| 2 | 50 ohm CPW feedline | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [step results](examples/showcase/02_cpw_50ohm/README.md) | **SKIPPED_SOLVER_ABSENT** — analytical Z0 only; openEMS input prepared, not executed. **NOT_FABRICATION_READY** |
-| 3 | IDC + CPW test structure | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![Test structure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [step results](examples/showcase/03_idc_cpw_test_structure/README.md) | **PHYSICS_VERIFIED for the embedded IDC region only** — FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error. Launches, transitions, and feedlines were not simulated. **NOT_FABRICATION_READY** |
-| 4 | 3 nH spiral inductor | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![Spiral](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [step results](examples/showcase/04_spiral_inductor_3nh/README.md) | **SKIPPED_SOLVER_ABSENT** — Wheeler analytical estimate; FastHenry input prepared, not executed. **NOT_FABRICATION_READY** |
-| 5 | 6 GHz quarter-wave resonator | Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels. | [![Resonator](examples/showcase/05_quarter_wave_resonator_6ghz/output.png)](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | [step results](examples/showcase/05_quarter_wave_resonator_6ghz/README.md) | **SKIPPED_SOLVER_ABSENT** — analytical λ/4 length; no EM eigenmode verification. **NOT_FABRICATION_READY** |
-| 6 | 2 mm × 2 mm research test chip | Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label. | [![Test chip](examples/showcase/06_research_test_chip/output.png)](examples/showcase/06_research_test_chip/output.svg) | [step results](examples/showcase/06_research_test_chip/README.md) | **ANALYTICAL_ONLY** — geometry pass + KLayout readback; per-sub-device estimates, no tile solve. **NOT_FABRICATION_READY** |
+| 1 | 0.6 pF IDC | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) · [simulation](examples/showcase/01_idc_0p6pf/simulation.json) · [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) | **PHYSICS_VERIFIED** — FasterCap real execution; extracted 0.598641 pF versus 0.600000 pF target; 0.226% error. **NOT_FABRICATION_READY** |
+| 2 | 50 ohm CPW feedline | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) · [simulation](examples/showcase/02_cpw_50ohm/simulation.json) · [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) | **SKIPPED_SOLVER_ABSENT** — openEMS/CSXCAD binaries exist, but the required Octave frontend is unavailable; input prepared, no EM run. **NOT_FABRICATION_READY** |
+| 3 | IDC + CPW test structure | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![Test structure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) · [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) · [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) | **PHYSICS_VERIFIED for the embedded IDC region only** — FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error. FasterCap was run on the IDC extraction region only; CPW launches and transitions are not full-wave verified. **NOT_FABRICATION_READY** |
+| 4 | 3 nH spiral inductor | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![Spiral](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) · [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) · [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) | **SIMULATION_EXECUTED** — FastHenry 3.0.1 extracted 2.751264 nH versus 3.000000 nH target; 8.291% error, outside the 5% evidence tolerance. **NOT_FABRICATION_READY** |
+| 5 | 6 GHz quarter-wave resonator | Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels. | [![Resonator](examples/showcase/05_quarter_wave_resonator_6ghz/output.png)](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | [report](examples/showcase/05_quarter_wave_resonator_6ghz/report.md) · [simulation](examples/showcase/05_quarter_wave_resonator_6ghz/simulation.json) · [trace](examples/showcase/05_quarter_wave_resonator_6ghz/workflow_trace.json) | **SKIPPED_SOLVER_ABSENT** — analytical λ/4 length; no EM resonance execution. **NOT_FABRICATION_READY** |
+| 6 | 2 mm × 2 mm research test chip | Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label. | [![Test chip](examples/showcase/06_research_test_chip/output.png)](examples/showcase/06_research_test_chip/output.svg) | [report](examples/showcase/06_research_test_chip/report.md) · [simulation](examples/showcase/06_research_test_chip/simulation.json) · [trace](examples/showcase/06_research_test_chip/workflow_trace.json) · [tile map](examples/showcase/06_research_test_chip/tile_simulation_map.json) | **ANALYTICAL_ONLY for the full tile** — sub-block map retains real FasterCap IDC and FastHenry spiral outputs; CPW input is prepared; no full-tile EM solve. **NOT_FABRICATION_READY** |
 
-Every example is a research layout candidate and **NOT_FABRICATION_READY**.
+No example is fabrication-ready. All generated layouts are research candidates
+requiring process-specific DRC, expert review, EM correlation, and measurement
+validation. Every example is marked **NOT_FABRICATION_READY**.
 Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 `layout.json`, `output.gds/.svg/.png`, `klayout_readback.json`,
 `verification.json`, `simulation.json`, `optimization.json`,
@@ -185,8 +197,11 @@ Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 examples 1 and 3 (FasterCap 6.0.7 executed; stdout/stderr, command, return
 code, runtime, and parsed matrix are committed next to each example).
 
-**Analytical only (never called verification):** CPW impedance, spiral
-inductance, resonator length, and every estimate on the test-chip tile.
+**Executed but outside tolerance:** showcase example 4 has a real FastHenry
+`Zc.mat` extraction (2.751264 nH versus 3.000000 nH); it is not physics-verified.
+
+**Analytical or solver-skipped:** CPW impedance and resonator length. The test
+chip has sub-block evidence but no whole-tile field solve.
 
 **Not claimed at all:** self-resonance, loss/Q, EM transitions, JJ physics on
 generic placeholders, fabrication readiness of anything.
@@ -203,7 +218,7 @@ Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below mus
 | QuarterWaveResonator | yes      | yes (λ/4 line theory)                                             | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
 | SQUID                | yes      | yes (RSJ/Josephson + rectangular-loop estimate)                    | conditional (JoSIM deck requires explicit Ic/R/C) | environment-dependent (JoSIM + explicit inputs)                    | no by default (circuit extraction is not geometry qualification) | Experimental — Option B; generic JJ geometry is not foundry-qualified |
 | TestStructure        | yes      | yes (Bahl IDC + conformal CPW feed)                                | yes (FasterCap on the embedded IDC region only)   | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (IDC region only; transitions never claimed) | Supported — measurement structure with documented extraction region  |
-| TestChip             | yes      | yes (per-sub-device analytical models)                             | no (tile-level solve is not modeled)              | no (geometry-only comparison tile)                                 | no (analytical sub-device estimates only)                        | Supported — multi-device research tile; geometry + readback only     |
+| TestChip             | yes      | yes (per-sub-device analytical models)                             | yes (IDC, CPW, spiral sub-block decks)             | sub-block only (FasterCap IDC + FastHenry spiral); no full-tile run | no for the full tile                                             | Supported — sub-block evidence map; whole-tile coupling not modeled  |
 
 IDC status: geometry **yes**; analytical estimate **yes**; FasterCap
 input **yes**; FasterCap execution **conditional**; physics verification
@@ -508,7 +523,7 @@ If WSL `sudo` requires a password, follow the manual steps printed by the bootst
 ```bash
 sudo apt-get update
 sudo apt-get install -y build-essential cmake pkg-config libwxgtk3.2-dev git file
-cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap
+cd /path/to/text-to-gds/.tools/FasterCap
 rm -rf build
 cmake -S . -B build -DFASTFIELDSOLVERS_HEADLESS=ON -DCMAKE_BUILD_TYPE=Release -DwxWidgets_CONFIG_EXECUTABLE="$(which wx-config)" -DCMAKE_CXX_FLAGS="$(wx-config --cxxflags)"
 cmake --build build -j"$(nproc)"
@@ -527,13 +542,13 @@ Notes:
 Run the IDC capacitance extraction from WSL (Ubuntu):
 
 ```bash
-cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds
+cd /path/to/text-to-gds
 sudo apt-get install -y python3-venv python3.12-venv python3-pip
 python3 -m venv .wsl-venv
 source .wsl-venv/bin/activate
 python -m pip install -U pip
 pip install pydantic numpy pyyaml pillow matplotlib trimesh
-PYTHONPATH=src python simulation/idc_fastercap/run_fastercap.py examples/benchmarks/01_idc_0p6pf/layout.json --out /tmp/fastercap_work --executable /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap
+PYTHONPATH=src python simulation/idc_fastercap/run_fastercap.py examples/benchmarks/01_idc_0p6pf/layout.json --out workspace/fastercap_work --executable .tools/FasterCap/bin/FasterCap
 ```
 
 Success is reported as `status="executed"` and `evidence_level="CAPACITANCE_EXTRACTED"` with a real `simulation_result.json` written under the `--out` directory.

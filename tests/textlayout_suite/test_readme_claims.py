@@ -92,8 +92,24 @@ def test_showcase_number_mismatch_fails_validation(tmp_path: Path) -> None:
 def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path) -> None:
     fake = _doctored(
         tmp_path,
-        "no tile solve. **NOT_FABRICATION_READY** |",
-        "no tile solve. |",
+        "no full-tile EM solve. **NOT_FABRICATION_READY** |",
+        "no full-tile EM solve. |",
     )
     errors = validate(fake)
     assert any("showcase row must state NOT_FABRICATION_READY" in e for e in errors), errors
+
+
+def test_fast_henry_number_mismatch_fails_validation(tmp_path: Path) -> None:
+    fake = _doctored(tmp_path, "2.751264 nH", "2.900000 nH")
+    errors = validate(fake)
+    assert any("04_spiral_inductor_3nh" in e and "does not match" in e for e in errors), errors
+
+
+def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
+    fake = _doctored(
+        tmp_path,
+        "ANALYTICAL_ONLY for the full tile",
+        "PHYSICS_VERIFIED FOR THE FULL TILE",
+    )
+    errors = validate(fake)
+    assert any("full tile-level solve" in e for e in errors), errors

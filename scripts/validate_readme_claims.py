@@ -112,6 +112,10 @@ SOLVER_OUTPUT_NAMES = ("solver.stdout.txt", "solver.stderr.txt", "simulation_res
 STALE_README_CLAIMS = (
     "No benchmark in this repository is currently PHYSICS VERIFIED",
     "No benchmark is Level 3 or higher",
+    "No benchmark achieves Level 3 or higher",
+    "No benchmark achieves Level 4 or higher",
+    "No benchmark achieves Level 5",
+    "No benchmark achieves solver execution",
     "FasterCap/FastCap input is prepared, but not executed",
     "IDC capacitance is an analytical starting estimate, not solver or measurement evidence",
     "No benchmark is PHYSICS VERIFIED",
@@ -352,8 +356,11 @@ def _check_showcase_paths(root: Path, errors: list[str]) -> None:
         except UnicodeDecodeError:
             continue
         normalized = text.replace("\\\\", "\\")
-        if re.search(r"[A-Za-z]:\\Users\\", normalized, re.IGNORECASE) or re.search(
-            r"/mnt/[a-z]/Users/", text, re.IGNORECASE
+        if (
+            re.search(r"[A-Za-z]:\\Users\\", normalized, re.IGNORECASE)
+            or re.search(r"/mnt/[a-z]/Users/", text, re.IGNORECASE)
+            or "/home/" + "lu/" in text
+            or "/tmp/" + "fastercap_work" in text
         ):
             relative = path.relative_to(root)
             _fail(
@@ -402,7 +409,6 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
                 continue
             if simulation.get("solver_executed") is not True:
                 _fail(errors, f"{folder}: README claims solver execution; artifacts say no")
-                continue
             artifacts = simulation.get("artifacts")
             result_path = root / folder / "simulation.json"
             if not isinstance(artifacts, dict) or not all(
@@ -410,28 +416,30 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
                 or _artifact_nonempty(
                     root / folder / "extraction" / "capacitance_input" / "x", artifacts.get(key)
                 )
-                for key in ("solver_stdout", "solver_stderr")
+                for key in ("solver_stdout", "solver_stderr", "result")
             ):
                 _fail(
                     errors,
-                    f"{folder}: solver claim without committed solver stdout/stderr artifacts",
+                    f"{folder}: solver claim without committed stdout/stderr/result artifacts",
                 )
-        if claims_verified:
-            comparison = simulation.get("target_comparison") if simulation else None
-            if not isinstance(comparison, dict) or comparison.get("within_tolerance") is not True:
-                _fail(
-                    errors,
-                    f"{folder}: README claims PHYSICS_VERIFIED but the committed target "
-                    "comparison is missing or out of tolerance",
-                )
-            else:
-                target = comparison.get("target")
-                extracted = comparison.get("extracted")
+            evidence_records = simulation.get("evidence")
+            evidence = evidence_records[0] if isinstance(evidence_records, list) and evidence_records else {}
+            if not isinstance(evidence, dict) or not isinstance(
+                evidence.get("extracted_value"), (int, float)
+            ):
+                _fail(errors, f"{folder}: solver claim without a parsed extracted value")
+            comparison = simulation.get("target_comparison")
+            if not isinstance(comparison, dict):
+                _fail(errors, f"{folder}: solver claim without target_comparison")
+            elif isinstance(evidence, dict):
+                target = evidence.get("target_value")
+                extracted = evidence.get("extracted_value")
                 error = comparison.get("error_pct")
+                unit = evidence.get("target_unit") or evidence.get("extracted_unit") or ""
                 if all(isinstance(value, (int, float)) for value in (target, extracted, error)):
                     expected_values = (
-                        f"{float(target):.6f} pF",
-                        f"{float(extracted):.6f} pF",
+                        f"{float(target):.6f} {unit}".strip(),
+                        f"{float(extracted):.6f} {unit}".strip(),
                         f"{abs(float(error)):.3f}%",
                     )
                     for value in expected_values:
@@ -441,6 +449,27 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
                                 f"{folder}: README row does not match simulation.json; "
                                 f"missing {value!r}",
                             )
+        if claims_verified:
+            comparison = simulation.get("target_comparison") if simulation else None
+            if not isinstance(comparison, dict) or comparison.get("within_tolerance") is not True:
+                _fail(
+                    errors,
+                    f"{folder}: README claims PHYSICS_VERIFIED but the committed target "
+                    "comparison is missing or out of tolerance",
+                )
+        if folder.endswith("06_research_test_chip"):
+            tile_map_path = root / folder / "tile_simulation_map.json"
+            try:
+                tile_map = json.loads(tile_map_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                _fail(errors, f"{folder}: tile_simulation_map.json is missing or unreadable")
+                tile_map = {}
+            if tile_map.get("full_tile_solver_executed") is not True and (
+                "PHYSICS_VERIFIED FOR THE FULL TILE" in upper
+                or "FULL-TILE EM SOLVE EXECUTED" in upper
+                or "FULL TILE SOLVER EXECUTED" in upper
+            ):
+                _fail(errors, f"{folder}: README overclaims a full tile-level solve")
         # A research-grade claim requires readback pass + stated limitations.
         readback = root / folder / "klayout_readback.json"
         try:

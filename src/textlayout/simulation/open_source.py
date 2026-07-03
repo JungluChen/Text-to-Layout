@@ -226,7 +226,7 @@ def prepare_spiral_fasthenry(
     input_path = out / "spiral.inp"
     input_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     warnings = (
-        "FastHenry has not been executed; no inductance, resistance, or Q result is claimed.",
+        "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
         "Conductor conductivity and thickness are generic and require process replacement.",
     )
     manifest = _write_manifest(

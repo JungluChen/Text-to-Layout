@@ -110,7 +110,8 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
 
     real = (ROOT / "README.md").read_text(encoding="utf-8")
     doctored = real.replace(
-        "**SKIPPED_SOLVER_ABSENT** — analytical Z0 only; openEMS input prepared, not executed",
+        "**SKIPPED_SOLVER_ABSENT** — openEMS/CSXCAD binaries exist, but the required "
+        "Octave frontend is unavailable; input prepared, no EM run",
         "**PHYSICS_VERIFIED** — totally real, trust me",
     )
     assert doctored != real, "expected to find the CPW skipped-status cell to doctor"
@@ -121,6 +122,19 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
         "02_cpw_50ohm" in error and ("PHYSICS_VERIFIED" in error or "solver" in error)
         for error in errors
     ), errors
+
+
+def test_test_chip_has_honest_subblock_simulation_map() -> None:
+    payload = json.loads(
+        (SHOWCASE / "06_research_test_chip" / "tile_simulation_map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert payload["full_tile_solver_executed"] is False
+    assert payload["full_tile_status"] == "NOT_MODELED"
+    assert payload["fabrication_status"] == "NOT_FABRICATION_READY"
+    assert payload["subblocks"]["IDC"]["solver_executed"] is True
+    assert payload["subblocks"]["SpiralInductor"]["solver_executed"] is True
 
 
 def test_root_readme_showcase_rows_link_to_committed_folders() -> None:

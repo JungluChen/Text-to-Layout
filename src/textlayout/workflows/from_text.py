@@ -578,13 +578,13 @@ def _jpa_design_equations(intent: DesignIntent) -> dict[str, Any]:
     }
 
 
-def _capacitance_status_label(simulation: SimulationResult) -> str:
+def _extraction_status_label(simulation: SimulationResult, quantity: str = "capacitance") -> str:
     if simulation.status == "skipped":
         return "SKIPPED_SOLVER_ABSENT"
     if simulation.status == "failed":
         return "FAILED"
     if simulation.status == "executed" and simulation.extracted_quantities:
-        return "CAPACITANCE_EXTRACTED"
+        return f"{quantity.upper()}_EXTRACTED"
     return "EXTRACTION_INPUT_PREPARED"
 
 
@@ -593,7 +593,7 @@ def _capacitance_result_payload(
 ) -> dict[str, Any]:
     return {
         "schema": "textlayout.capacitance-extraction-result.v1",
-        "status": _capacitance_status_label(simulation),
+        "status": _extraction_status_label(simulation, evidence.quantity),
         "backend_status": simulation.status,
         "solver": simulation.solver,
         "solver_version": simulation.solver_version,
@@ -619,11 +619,12 @@ def _simulation_payload(
     jpa_sizing: dict[str, Any] | None,
     physics_verified: bool,
 ) -> dict[str, Any]:
+    is_capacitance = evidence.quantity == "capacitance"
     capacitance_source = (
         "geometry_extracted"
         if evidence.extracted_value is not None
         else "analytical_estimate_not_geometry_extracted"
-    )
+    ) if is_capacitance else "not_applicable"
     inductance_source = (
         (intent.inductance_assumption or {}).get("source", "unspecified")
         if intent.component == "JPA"
@@ -662,11 +663,20 @@ def _simulation_payload(
         ),
         "target_comparison": capacitance_simulation.target_comparison,
         "artifacts": dict(capacitance_simulation.artifacts),
+        "quantity": evidence.quantity,
+        "extracted_value": evidence.extracted_value,
+        "extracted_unit": evidence.extracted_unit,
         "capacitance_source": capacitance_source,
-        "capacitance_pf": evidence.extracted_value or evidence.analytical_value,
-        "capacitance_extraction_status": _capacitance_status_label(capacitance_simulation),
+        "capacitance_pf": (
+            evidence.extracted_value or evidence.analytical_value if is_capacitance else None
+        ),
+        "capacitance_extraction_status": (
+            _extraction_status_label(capacitance_simulation) if is_capacitance else "NOT_APPLICABLE"
+        ),
         "inductance_source": inductance_source,
-        "inductance_nh": lc_inductance_nh,
+        "inductance_nh": (
+            evidence.extracted_value if evidence.quantity == "inductance" else lc_inductance_nh
+        ),
         "analytical_f0_ghz": analytical_f0,
         "gain_target_db": intent.target.get("gain_db"),
         "gain_status": "NOT_SUPPORTED_MVP",

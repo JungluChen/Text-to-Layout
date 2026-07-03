@@ -104,8 +104,8 @@ EXAMPLES: tuple[Example, ...] = (
             "4 um trace width, 2 um spacing, and two labeled ports."
         ),
         limitation=(
-            "Inductance is a modified-Wheeler analytical estimate; FastHenry "
-            "execution is optional/future. Not fabrication-ready."
+            "FastHenry execution is environment-dependent; conductivity and "
+            "thickness remain generic process assumptions. Not fabrication-ready."
         ),
     ),
     Example(
@@ -131,8 +131,9 @@ EXAMPLES: tuple[Example, ...] = (
             "and a title text label."
         ),
         limitation=(
-            "Geometry-level comparison tile; sub-device numbers are analytical and "
-            "no solver ran on the assembled tile. Not fabrication-ready."
+            "No full-tile solver ran. The tile map records exact-parameter sub-block "
+            "execution or preparation without promoting it to tile verification. "
+            "Not fabrication-ready."
         ),
     ),
 )
@@ -191,6 +192,115 @@ def _sanitize_committed_paths(out: Path) -> None:
             sanitized = sanitized.replace(prefix, replacement)
         if sanitized != text:
             path.write_text(sanitized, encoding="utf-8")
+
+
+def _write_tile_simulation_map(out: Path) -> None:
+    """Run or prepare exact-parameter TestChip sub-block simulations."""
+    from textlayout import build_default_workflow
+    from textlayout.schemas.dsl import LayoutSpec
+    from textlayout.schemas.dsl.test_chip import TestChipSpec
+    from textlayout.simulation import simulate_layout
+
+    layout = json.loads((out / "layout.json").read_text(encoding="utf-8"))
+    params = TestChipSpec.model_validate(layout.get("parameters", {}))
+    specs = (
+        (
+            "IDC",
+            LayoutSpec(
+                component="IDC",
+                target={"capacitance_pf": layout.get("target", {}).get("capacitance_pf", 0.6)},
+                parameters={
+                    "finger_pairs": params.idc_finger_pairs,
+                    "finger_width_um": params.idc_finger_width_um,
+                    "gap_um": params.idc_gap_um,
+                    "overlap_um": params.idc_overlap_um,
+                    "bus_width_um": params.idc_bus_width_um,
+                    "metal_layer": params.metal_layer,
+                },
+            ),
+            "FasterCap extraction of the geometry-identical IDC sub-block",
+        ),
+        (
+            "CPW",
+            LayoutSpec(
+                component="CPW",
+                target={"impedance_ohm": layout.get("target", {}).get("impedance_ohm", 50.0)},
+                parameters={
+                    "center_width_um": params.cpw_center_width_um,
+                    "gap_um": params.cpw_gap_um,
+                    "ground_width_um": params.cpw_ground_width_um,
+                    "length_um": params.cpw_length_um,
+                    "metal": params.metal_layer,
+                },
+            ),
+            "openEMS preparation for the geometry-identical CPW sub-block",
+        ),
+        (
+            "SpiralInductor",
+            LayoutSpec(
+                component="SpiralInductor",
+                target={},
+                parameters={
+                    "turns": params.spiral_turns,
+                    "outer_dimension_um": params.spiral_outer_dimension_um,
+                    "trace_width_um": params.spiral_trace_width_um,
+                    "spacing_um": params.spiral_spacing_um,
+                    "metal": params.metal_layer,
+                },
+            ),
+            "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target",
+        ),
+    )
+    workflow = build_default_workflow()
+    subblocks: dict[str, object] = {}
+    for name, spec, scope in specs:
+        built = workflow.run(spec, formats=())
+        subdir = out / "tile_subblocks" / name.lower()
+        result = simulate_layout(
+            spec,
+            built.geometry,
+            workflow.technology(spec.technology),
+            subdir,
+            execute=True,
+            tolerance_pct=5.0,
+        )
+        result_path = subdir / "simulation_result.json"
+        result_path.write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
+        status = (
+            "PHYSICS_VERIFIED"
+            if result.physics_verified
+            else "SIMULATION_EXECUTED"
+            if result.solver_executed
+            else "SKIPPED_SOLVER_ABSENT"
+            if result.status == "skipped"
+            else "SIMULATION_INPUT_PREPARED"
+            if result.status == "input_files_prepared"
+            else "FAILED"
+        )
+        subblocks[name] = {
+            "scope": scope,
+            "status": status,
+            "solver": result.solver,
+            "solver_executed": result.solver_executed,
+            "physics_verified": result.physics_verified,
+            "extracted_quantities": result.extracted_quantities,
+            "target_comparison": result.target_comparison,
+            "result": str(result_path),
+        }
+    payload = {
+        "schema": "textlayout.tile-simulation-map.v1",
+        "full_tile_solver_executed": False,
+        "full_tile_status": "NOT_MODELED",
+        "fabrication_status": "NOT_FABRICATION_READY",
+        "statement": (
+            "Sub-block evidence is not a full-tile solve. Alignment marks, title, "
+            "inter-block coupling, package, transitions, and whole-tile modes are not modeled."
+        ),
+        "subblocks": subblocks,
+    }
+    (out / "tile_simulation_map.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def _example_readme(example: Example, out: Path) -> str:
@@ -259,15 +369,21 @@ def _example_readme(example: Example, out: Path) -> str:
         f"- Solver executed: **{'yes' if solver_executed else 'no'}**",
     ]
     if solver_executed:
+        extracted = evidence.get("extracted_value")
+        unit = evidence.get("extracted_unit") or ""
         lines += [
-            f"- Extracted mutual capacitance: `{simulation.get('mutual_capacitance_pf')}` pF",
+            f"- Extracted {evidence.get('quantity', 'quantity')}: `{extracted}` {unit}",
         ]
     else:
         lines += ["- No solver output exists for this example; nothing electrical is claimed."]
     lines += ["", "## Target comparison", ""]
     if comparison:
+        display_target = evidence.get("target_value", comparison.get("target"))
+        display_extracted = evidence.get("extracted_value", comparison.get("extracted"))
+        display_unit = evidence.get("target_unit") or evidence.get("extracted_unit") or ""
         lines += [
-            f"- Target: `{comparison.get('target')}`; extracted: `{comparison.get('extracted')}`",
+            f"- Target: `{display_target}` {display_unit}; "
+            f"extracted: `{display_extracted}` {display_unit}",
             f"- Error: `{comparison.get('error_pct')}%` "
             f"(tolerance `{comparison.get('tolerance_pct')}%`)",
             f"- Within tolerance: **{comparison.get('within_tolerance')}**",
@@ -292,6 +408,8 @@ def _example_readme(example: Example, out: Path) -> str:
     for name in REQUIRED_FILES:
         if (out / name).is_file():
             lines.append(f"- [`{name}`]({name})")
+    if (out / "tile_simulation_map.json").is_file():
+        lines.append("- [`tile_simulation_map.json`](tile_simulation_map.json) — sub-block scope map")
     lines += [
         "- [`extraction/`](extraction/) — solver inputs and solver-owned outputs (when executed)",
         "",
@@ -317,6 +435,8 @@ def generate_example(example: Example, *, force: bool) -> dict[str, object]:
     workflow = build_from_text_workflow()
     result = workflow.run(example.prompt, out, tolerance_percent=5.0, execute_solver=True)
     _canonicalize_gds(out, example.id)
+    if example.id == "06_research_test_chip":
+        _write_tile_simulation_map(out)
     (out / "README.md").write_text(_example_readme(example, out), encoding="utf-8")
     _sanitize_committed_paths(out)
 

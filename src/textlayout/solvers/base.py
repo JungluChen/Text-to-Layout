@@ -93,8 +93,14 @@ def run_subprocess(
     )
     stdout_path = cwd / f"{log_prefix}.stdout.txt"
     stderr_path = cwd / f"{log_prefix}.stderr.txt"
-    stdout_path.write_text(completed.stdout, encoding="utf-8")
-    stderr_path.write_text(completed.stderr, encoding="utf-8")
+    stdout_path.write_text(
+        completed.stdout or "[textlayout] solver emitted no stdout output.\n",
+        encoding="utf-8",
+    )
+    stderr_path.write_text(
+        completed.stderr or "[textlayout] solver emitted no stderr output.\n",
+        encoding="utf-8",
+    )
     runtime = time.perf_counter() - started
     return SolverExecution(
         command=tuple(command),

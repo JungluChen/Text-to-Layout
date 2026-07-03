@@ -55,21 +55,25 @@
 
 ## Extraction status
 
-- Status: **SKIPPED_SOLVER_ABSENT**
-- Simulation status: **SKIPPED_SOLVER_ABSENT**
+- Status: **SIMULATION_EXECUTED**
+- Simulation status: **SIMULATION_EXECUTED**
 - Prepared FasterCap files: **yes**
-- Solver executed: **no**
+- Solver executed: **yes**
 - Physics verified: **no**
-- Evidence status: **SKIPPED_SOLVER_ABSENT**
-- inductance: SKIPPED_SOLVER_ABSENT — solver not installed; no physics verification was performed
+- Evidence status: **SIMULATION_EXECUTED**
+- inductance: SIMULATION_EXECUTED — fasthenry extracted 2.751263754746667 nH vs target 3.0 nH; tolerance not met or not compared — NOT physics verified
 - Analytical capacitance: `3.0 pF`
-- Solver-extracted capacitance: `not available`
+- Solver-extracted capacitance: `2.751263754746667`
 - Circuit simulators are not capacitance-extraction evidence.
 
-- Reason: FasterCap/FastCap executable not found.
+- Extracted mutual capacitance: `2.75126 pF`
+- Target capacitance: `3 pF`
+- Error: `-8.29%`
+- Tolerance: `+/-5.00%`
+- Reason: extracted value is outside tolerance.
 
-- Legacy simulation status: **SKIPPED_SOLVER_ABSENT**
-- The solver is not installed; solver input files were prepared but **no physics verification was performed**.
+- Legacy simulation status: **SIMULATION_EXECUTED**
+- The solver executed and a value was extracted, but the result does not meet tolerance (or no target was stated) — **not physics verified**.
 
 ## JoSIM status
 
@@ -87,11 +91,11 @@
 
 - Overall status: **NOT VERIFIED**
 - Deterministic layout and geometry checks: **verified**
+- Geometry-level capacitance output was parsed from an executed solver.
 
 ## What is only prepared
 
 - Circuit backends without executed evidence: `none`
-- Capacitance extraction input exists, but no solver result exists.
 
 ## Not yet supported
 

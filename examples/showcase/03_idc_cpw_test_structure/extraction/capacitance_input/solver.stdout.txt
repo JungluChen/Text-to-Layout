@@ -41,11 +41,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 968
 Number of panels after refinement: 968
-Number of potential estimates: 1788
+Number of potential estimates: 1557
 Number of links: 2902 (uncompressed 937024, compression ratio is 99.7%)
 Max recursion level: 11
 Max Mesh relative refinement value: 278.58
-Iteration time: 3.953189s (0 days, 0 hours, 0 mins, 3 s)
+Iteration time: 3.208003s (0 days, 0 hours, 0 mins, 3 s)
 Iteration allocated memory: 16947 kilobytes
 
 Iteration number #1 ***************************
@@ -74,11 +74,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 968
 Number of panels after refinement: 2086
-Number of potential estimates: 38129
+Number of potential estimates: 19300
 Number of links: 59916 (uncompressed 4351396, compression ratio is 98.6%)
 Max recursion level: 23
 Max Mesh relative refinement value: 196.801
-Iteration time: 8.409147s (0 days, 0 hours, 0 mins, 8 s)
+Iteration time: 11.778332s (0 days, 0 hours, 0 mins, 11 s)
 Iteration allocated memory: 17697 kilobytes
 
 Iteration number #2 ***************************
@@ -107,11 +107,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 968
 Number of panels after refinement: 3117
-Number of potential estimates: 42064
+Number of potential estimates: 38255
 Number of links: 117685 (uncompressed 9715689, compression ratio is 98.8%)
 Max recursion level: 25
 Max Mesh relative refinement value: 139.129
-Iteration time: 7.499386s (0 days, 0 hours, 0 mins, 7 s)
+Iteration time: 10.062416s (0 days, 0 hours, 0 mins, 10 s)
 Iteration allocated memory: 18294 kilobytes
 
 Iteration number #3 ***************************
@@ -140,14 +140,14 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 968
 Number of panels after refinement: 5672
-Number of potential estimates: 97956
+Number of potential estimates: 114058
 Number of links: 250604 (uncompressed 32171584, compression ratio is 99.2%)
 Max recursion level: 27
 Max Mesh relative refinement value: 98.3736
-Iteration time: 13.076929s (0 days, 0 hours, 0 mins, 13 s)
+Iteration time: 14.579959s (0 days, 0 hours, 0 mins, 14 s)
 Iteration allocated memory: 19947 kilobytes
 
 Total allocated memory: 19947 kilobytes
-Total time: 2.759448s (0 days, 0 hours, 0 mins, 2 s)
+Total time: 3.106888s (0 days, 0 hours, 0 mins, 3 s)
 
 
