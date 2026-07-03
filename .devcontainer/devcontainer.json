@@ -1,19 +1,10 @@
 {
-  "name": "textlayout-simulators",
+  "name": "TextLayout solver stack",
   "build": {
-    "dockerfile": "../docker/simulators.Dockerfile",
+    "dockerfile": "../docker/solver-full.Dockerfile",
     "context": ".."
   },
-  "postCreateCommand": "pip install uv && uv sync --dev && python scripts/bootstrap_simulators.py && make check-simulators",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "charliermarsh.ruff"
-      ],
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
-    }
-  }
+  "workspaceFolder": "/work",
+  "runArgs": ["--init"],
+  "postCreateCommand": "textlayout doctor --strict-em"
 }

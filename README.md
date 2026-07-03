@@ -189,8 +189,9 @@ Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 examples 1 and 3 (FasterCap 6.0.7 executed; stdout/stderr, command, return
 code, runtime, and parsed matrix are committed next to each example).
 
-**Executed but outside tolerance:** showcase example 4 has a real FastHenry
-`Zc.mat` extraction (2.751264 nH versus 3.000000 nH); it is not physics-verified.
+**Verified after solver-guided optimization:** showcase example 4 has a real
+FastHenry `Zc.mat` extraction (2.958308 nH versus 3.000000 nH; 1.390% error)
+and is `PHYSICS_VERIFIED` within the 5% tolerance.
 
 **Analytical or solver-skipped:** CPW impedance and resonator length. The test
 chip has sub-block evidence but no whole-tile field solve.
@@ -270,11 +271,11 @@ This project uses explicit status labels to avoid misleading claims:
 
 **No `examples/benchmarks/` default artifact is PHYSICS VERIFIED, and nothing in this repository is FABRICATION READY.**
 
-The only PHYSICS_VERIFIED artifacts are showcase examples
+The PHYSICS_VERIFIED artifacts are showcase examples
 [01](examples/showcase/01_idc_0p6pf/) and
-[03](examples/showcase/03_idc_cpw_test_structure/), each backed by committed
-FasterCap output (stdout, stderr, command, return code, parsed matrix) and
-enforced by claim validation.
+[03](examples/showcase/03_idc_cpw_test_structure/) for FasterCap-backed IDC
+extraction, plus [04](examples/showcase/04_spiral_inductor_3nh/) for the
+FastHenry-backed optimized spiral. Claim validation enforces each scope.
 
 ## Legacy analytical benchmarks
 
@@ -694,7 +695,7 @@ py -3 scripts/check_benchmarks.py
 - The Level 2 FasterCap model uses zero-thickness panels and an effective dielectric; it requires mesh convergence and higher-fidelity correlation.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
-- **PHYSICS_VERIFIED exists only for showcase examples 01 and 03** (committed FasterCap runs on the IDC region); everything else is analytical or honestly skipped.
+- **PHYSICS_VERIFIED currently exists for showcase examples 01 and 04, plus the embedded IDC region of example 03.** Other scopes remain analytical, prepared, or honestly skipped unless their solver evidence says otherwise.
 - The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; finite-thickness/full-wave cross-checks are still required.
 - **Nothing in this repository is FABRICATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.
 

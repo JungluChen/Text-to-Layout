@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<openEMS>
+  <FDTD NumberOfTimesteps="180000" endCriteria="0.001" f_max="9000000000">
+    <Excitation Type="0" f0="6000000000" fc="3000000000">
+    </Excitation>
+    <BoundaryCond xmin="2" xmax="2" ymin="2" ymax="2" zmin="2" zmax="2">
+    </BoundaryCond>
+  </FDTD>
+  <ContinuousStructure CoordSystem="0">
+    <Properties>
+      <Material Name="substrate" Epsilon="11.9">
+        <Primitives>
+          <Box Priority="0">
+            <P1 X="-500" Y="-60.983" Z="0">
+            </P1>
+            <P2 X="500" Y="60.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Material>
+      <Metal Name="CPW_PORT">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-500" Y="-5" Z="500">
+            </P1>
+            <P2 X="-300" Y="5" Z="500">
+            </P2>
+          </Box>
+          <Box Priority="999">
+            <P1 X="500" Y="-5" Z="500">
+            </P1>
+            <P2 X="300" Y="5" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Metal>
+      <Metal Name="CPW">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-300" Y="-5" Z="500">
+            </P1>
+            <P2 X="300" Y="5" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Metal>
+      <Metal Name="GND">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-500" Y="-60.983" Z="500">
+            </P1>
+            <P2 X="500" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+          <Box Priority="999">
+            <P1 X="-500" Y="10.983" Z="500">
+            </P1>
+            <P2 X="500" Y="60.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Metal>
+      <ProbeBox Name="port_ut1A1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-346.153846153846" Y="-5" Z="500">
+            </P1>
+            <P2 X="-346.153846153846" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut1A2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-346.153846153846" Y="5" Z="500">
+            </P1>
+            <P2 X="-346.153846153846" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut1B1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-307.692307692308" Y="-5" Z="500">
+            </P1>
+            <P2 X="-307.692307692308" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut1B2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-307.692307692308" Y="5" Z="500">
+            </P1>
+            <P2 X="-307.692307692308" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut1C1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-269.230769230769" Y="-5" Z="500">
+            </P1>
+            <P2 X="-269.230769230769" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut1C2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-269.230769230769" Y="5" Z="500">
+            </P1>
+            <P2 X="-269.230769230769" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_it1A" Type="1" Weight="1">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-326.923076923077" Y="-5.747875" Z="442.307692307692">
+            </P1>
+            <P2 X="-326.923076923077" Y="5.747875" Z="545.73725">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_it1B" Type="1" Weight="1">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-288.461538461538" Y="-5.747875" Z="442.307692307692">
+            </P1>
+            <P2 X="-288.461538461538" Y="5.747875" Z="545.73725">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2A1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="346.153846153846" Y="-5" Z="500">
+            </P1>
+            <P2 X="346.153846153846" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2A2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="346.153846153846" Y="5" Z="500">
+            </P1>
+            <P2 X="346.153846153846" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2B1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="307.692307692308" Y="-5" Z="500">
+            </P1>
+            <P2 X="307.692307692308" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2B2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="307.692307692308" Y="5" Z="500">
+            </P1>
+            <P2 X="307.692307692308" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2C1" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="269.230769230769" Y="-5" Z="500">
+            </P1>
+            <P2 X="269.230769230769" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_ut2C2" Type="0" Weight="0.5">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="269.230769230769" Y="5" Z="500">
+            </P1>
+            <P2 X="269.230769230769" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_it2A" Type="1" Weight="-1">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="326.923076923077" Y="-5.747875" Z="442.307692307692">
+            </P1>
+            <P2 X="326.923076923077" Y="5.747875" Z="545.73725">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <ProbeBox Name="port_it2B" Type="1" Weight="-1">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="288.461538461538" Y="-5.747875" Z="442.307692307692">
+            </P1>
+            <P2 X="288.461538461538" Y="5.747875" Z="545.73725">
+            </P2>
+          </Box>
+        </Primitives>
+      </ProbeBox>
+      <Excitation Name="port_excite_1_1" Type="0" Excite="0,1,0">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-500" Y="-5" Z="500">
+            </P1>
+            <P2 X="-500" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Excitation>
+      <Excitation Name="port_excite_2_1" Type="0" Excite="-0,-1,-0">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-500" Y="5" Z="500">
+            </P1>
+            <P2 X="-500" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </Excitation>
+      <LumpedElement Name="port_resist_1" Direction="1" R="100">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="-500" Y="-5" Z="500">
+            </P1>
+            <P2 X="-500" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+          <Box Priority="999">
+            <P1 X="-500" Y="5" Z="500">
+            </P1>
+            <P2 X="-500" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </LumpedElement>
+      <LumpedElement Name="port_resist_2" Direction="1" R="100">
+        <Primitives>
+          <Box Priority="999">
+            <P1 X="500" Y="-5" Z="500">
+            </P1>
+            <P2 X="500" Y="-10.983" Z="500">
+            </P2>
+          </Box>
+          <Box Priority="999">
+            <P1 X="500" Y="5" Z="500">
+            </P1>
+            <P2 X="500" Y="10.983" Z="500">
+            </P2>
+          </Box>
+        </Primitives>
+      </LumpedElement>
+    </Properties>
+    <RectilinearGrid DeltaUnit="1e-06" CoordSystem="0">
+      <XLines>-621.966,-591.4745,-560.983,-530.4915,-500,-461.538461538462,-423.076923076923,-384.615384615385,-346.153846153846,-307.692307692308,-269.230769230769,-230.769230769231,-192.307692307692,-153.846153846154,-115.384615384615,-76.9230769230769,-38.4615384615385,0,38.4615384615385,76.9230769230769,115.384615384615,153.846153846154,192.307692307692,230.769230769231,269.230769230769,307.692307692308,346.153846153846,384.615384615385,423.076923076923,461.538461538462,500,530.4915,560.983,591.4745,621.966</XLines>
+      <YLines>-182.949,-152.4575,-121.966,-91.4745,-60.983,-40.548029,-35.6517297333333,-30.7554304666667,-25.8591312,-20.113058,-16.00872,-13.07705,-10.983,-9.48725,-7.9915,-6.49575,-5,-3.33333333333333,-1.66666666666667,0,1.66666666666667,3.33333333333333,5,6.49575,7.9915,9.48725,10.983,13.07705,16.00872,20.113058,25.8591312,30.7554304666667,35.6517297333333,40.548029,60.983,91.4745,121.966,152.4575,182.949</YLines>
+      <ZLines>-121.966,-91.4745,-60.983,-30.4915,0,38.4615384615385,76.9230769230769,115.384615384615,153.846153846154,192.307692307692,230.769230769231,269.230769230769,307.692307692308,346.153846153846,384.615384615385,423.076923076923,461.538461538462,500,530.4915,560.983,591.4745,621.966</ZLines>
+    </RectilinearGrid>
+  </ContinuousStructure>
+</openEMS>

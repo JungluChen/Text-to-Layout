@@ -29,7 +29,7 @@ Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geome
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `CPW_d0311fa3`
+- Top cell: `CPW_9e91f43f`
 - Bounding box: `{"width": 121.966, "height": 1000.0}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 3}`
 - Database unit: `0.001` um
@@ -40,21 +40,23 @@ Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geome
 
 ## Simulation preparation
 
-- Solver: `openEMS`
-- Prepared input artifacts: `["driver", "manifest", "model"]`
+- Solver: `openEMS+scikit-rf`
+- Prepared input artifacts: `["driver", "manifest", "metrics_csv", "model", "result", "solver_stderr", "solver_stdout", "touchstone"]`
 
 ## Solver execution
 
-- Solver executed: **no**
-- No solver output exists for this example; nothing electrical is claimed.
+- Solver executed: **yes**
+- Extracted characteristic_impedance: `30.917129182835225` ohm
 
 ## Target comparison
 
-- No solver-backed target comparison exists (see evidence status).
+- Target: `50.0` ohm; extracted: `30.917129182835225` ohm
+- Error: `-38.166%` (tolerance `5.0%`)
+- Within tolerance: **False**
 
 ## Evidence status
 
-- **SKIPPED_SOLVER_ABSENT**
+- **SIMULATION_EXECUTED**
 - Geometry: **GEOMETRY_PASS**
 - Fabrication status: **NOT_FABRICATION_READY**
 

@@ -55,21 +55,25 @@
 
 ## Extraction status
 
-- Status: **SKIPPED_SOLVER_ABSENT**
-- Simulation status: **SKIPPED_SOLVER_ABSENT**
-- Prepared openEMS files: **yes**
-- Solver executed: **no**
+- Status: **SIMULATION_EXECUTED**
+- Simulation status: **SIMULATION_EXECUTED**
+- Prepared openEMS+scikit-rf files: **yes**
+- Solver executed: **yes**
 - Physics verified: **no**
-- Evidence status: **SKIPPED_SOLVER_ABSENT**
-- characteristic_impedance: SKIPPED_SOLVER_ABSENT — solver not installed; no physics verification was performed
+- Evidence status: **SIMULATION_EXECUTED**
+- characteristic_impedance: SIMULATION_EXECUTED — openEMS+scikit-rf extracted 30.917129182835225 ohm vs target 50.0 ohm; tolerance not met or not compared — NOT physics verified
 - Analytical characteristic_impedance: `50.0 ohm`
-- Solver-extracted characteristic_impedance: `not available`
+- Solver-extracted characteristic_impedance: `30.917129182835225 ohm`
 - Circuit simulators are not characteristic_impedance-extraction evidence.
 
-- Reason: openEMS executable not found.
+- Extracted characteristic_impedance: `30.9171 ohm`
+- Target characteristic_impedance: `50 ohm`
+- Error: `-38.166%`
+- Tolerance: `+/-5.00%`
+- Reason: extracted value is outside tolerance.
 
-- Legacy simulation status: **SKIPPED_SOLVER_ABSENT**
-- The solver is not installed; solver input files were prepared but **no physics verification was performed**.
+- Legacy simulation status: **SIMULATION_EXECUTED**
+- The solver executed and a value was extracted, but the result does not meet tolerance (or no target was stated) — **not physics verified**.
 
 ## JoSIM status
 
@@ -87,11 +91,11 @@
 
 - Overall status: **NOT VERIFIED**
 - Deterministic layout and geometry checks: **verified**
+- Geometry-level characteristic_impedance output was parsed from an executed solver.
 
 ## What is only prepared
 
 - Circuit backends without executed evidence: `none`
-- Characteristic_impedance extraction input exists, but no solver result exists.
 
 ## Not yet supported
 

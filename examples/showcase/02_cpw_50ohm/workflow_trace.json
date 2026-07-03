@@ -1,11 +1,11 @@
 {
   "schema": "textlayout.workflow-trace.v1",
   "orchestrator": "langgraph",
-  "generated_at": "2026-07-03T08:18:42.460+00:00",
+  "generated_at": "2026-07-03T09:21:15.408+00:00",
   "nodes": [
     {
       "node": "ParsePrompt",
-      "start_time": "2026-07-03T08:18:11.231+00:00",
+      "start_time": "2026-07-03T09:19:51.198+00:00",
       "input_summary": {
         "component": null,
         "geometry_status": null,
@@ -15,7 +15,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.237+00:00",
+      "end_time": "2026-07-03T09:19:51.205+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -26,7 +26,7 @@
     },
     {
       "node": "ValidateIntent",
-      "start_time": "2026-07-03T08:18:11.240+00:00",
+      "start_time": "2026-07-03T09:19:51.206+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": null,
@@ -38,7 +38,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.240+00:00",
+      "end_time": "2026-07-03T09:19:51.206+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -48,7 +48,7 @@
     },
     {
       "node": "BuildLayoutDSL",
-      "start_time": "2026-07-03T08:18:11.240+00:00",
+      "start_time": "2026-07-03T09:19:51.206+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": null,
@@ -60,7 +60,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.247+00:00",
+      "end_time": "2026-07-03T09:19:51.211+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -78,7 +78,7 @@
     },
     {
       "node": "OptimizeParameters",
-      "start_time": "2026-07-03T08:18:11.247+00:00",
+      "start_time": "2026-07-03T09:19:51.212+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": null,
@@ -91,7 +91,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.251+00:00",
+      "end_time": "2026-07-03T09:19:51.215+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -101,7 +101,7 @@
     },
     {
       "node": "GenerateGeometry",
-      "start_time": "2026-07-03T08:18:11.254+00:00",
+      "start_time": "2026-07-03T09:19:51.215+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": null,
@@ -115,7 +115,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.385+00:00",
+      "end_time": "2026-07-03T09:19:55.461+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -126,7 +126,7 @@
     },
     {
       "node": "ExportArtifacts",
-      "start_time": "2026-07-03T08:18:11.387+00:00",
+      "start_time": "2026-07-03T09:19:55.464+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "pass",
@@ -140,7 +140,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.387+00:00",
+      "end_time": "2026-07-03T09:19:55.464+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -151,7 +151,7 @@
     },
     {
       "node": "KLayoutReadback",
-      "start_time": "2026-07-03T08:18:11.388+00:00",
+      "start_time": "2026-07-03T09:19:55.465+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "pass",
@@ -168,7 +168,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.393+00:00",
+      "end_time": "2026-07-03T09:19:55.468+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -179,7 +179,7 @@
     },
     {
       "node": "GeometryVerification",
-      "start_time": "2026-07-03T08:18:11.394+00:00",
+      "start_time": "2026-07-03T09:19:55.470+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "pass",
@@ -197,7 +197,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:11.396+00:00",
+      "end_time": "2026-07-03T09:19:55.474+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -209,7 +209,7 @@
     },
     {
       "node": "PrepareFasterCap",
-      "start_time": "2026-07-03T08:18:11.400+00:00",
+      "start_time": "2026-07-03T09:19:55.475+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
@@ -228,7 +228,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:23.819+00:00",
+      "end_time": "2026-07-03T09:19:56.871+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -239,7 +239,7 @@
     },
     {
       "node": "RunFasterCapIfAvailable",
-      "start_time": "2026-07-03T08:18:23.820+00:00",
+      "start_time": "2026-07-03T09:19:56.872+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
@@ -258,7 +258,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.427+00:00",
+      "end_time": "2026-07-03T09:21:15.382+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -269,7 +269,7 @@
     },
     {
       "node": "ParseSolverResult",
-      "start_time": "2026-07-03T08:18:42.430+00:00",
+      "start_time": "2026-07-03T09:21:15.384+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
@@ -288,7 +288,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.441+00:00",
+      "end_time": "2026-07-03T09:21:15.390+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -299,7 +299,7 @@
     },
     {
       "node": "CompareTarget",
-      "start_time": "2026-07-03T08:18:42.443+00:00",
+      "start_time": "2026-07-03T09:21:15.394+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
@@ -320,7 +320,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.443+00:00",
+      "end_time": "2026-07-03T09:21:15.394+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -330,11 +330,11 @@
     },
     {
       "node": "RunCircuitChecks",
-      "start_time": "2026-07-03T08:18:42.445+00:00",
+      "start_time": "2026-07-03T09:21:15.396+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -351,7 +351,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.445+00:00",
+      "end_time": "2026-07-03T09:21:15.396+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -362,11 +362,11 @@
     },
     {
       "node": "GenerateReport",
-      "start_time": "2026-07-03T08:18:42.445+00:00",
+      "start_time": "2026-07-03T09:21:15.397+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -383,7 +383,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.458+00:00",
+      "end_time": "2026-07-03T09:21:15.403+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -393,11 +393,11 @@
     },
     {
       "node": "UpdateShowcaseMetadata",
-      "start_time": "2026-07-03T08:18:42.460+00:00",
+      "start_time": "2026-07-03T09:21:15.407+00:00",
       "input_summary": {
         "component": "CPW",
         "geometry_status": "GEOMETRY_PASS",
-        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "evidence_status": "SIMULATION_EXECUTED",
         "iteration": 0,
         "files": [
           "capacitance_result",
@@ -417,7 +417,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T08:18:42.460+00:00",
+      "end_time": "2026-07-03T09:21:15.407+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [

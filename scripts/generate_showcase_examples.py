@@ -200,6 +200,7 @@ def _write_tile_simulation_map(out: Path) -> None:
     from textlayout.schemas.dsl import LayoutSpec
     from textlayout.schemas.dsl.test_chip import TestChipSpec
     from textlayout.simulation import simulate_layout
+    from textlayout.simulation.palace import prepare_palace_fullchip
 
     layout = json.loads((out / "layout.json").read_text(encoding="utf-8"))
     params = TestChipSpec.model_validate(layout.get("parameters", {}))
@@ -313,10 +314,28 @@ def _write_tile_simulation_map(out: Path) -> None:
         "target_comparison": None,
         "limitation": "Non-electrical geometry; no solver model applies.",
     }
+    tile_spec = LayoutSpec.model_validate(layout)
+    tile_built = workflow.run(tile_spec, formats=())
+    palace_dir = out / "full_tile_palace"
+    palace = prepare_palace_fullchip(
+        tile_spec,
+        tile_built.geometry,
+        palace_dir,
+        execute=True,
+    )
+    palace_result = palace_dir / "simulation_result.json"
+    palace_result.write_text(json.dumps(palace.to_dict(), indent=2) + "\n", encoding="utf-8")
     payload = {
         "schema": "textlayout.tile-simulation-map.v1",
-        "full_tile_solver_executed": False,
-        "full_tile_status": "NOT_MODELED",
+        "full_tile_solver_executed": palace.solver_executed,
+        "full_tile_status": "SIMULATION_EXECUTED" if palace.solver_executed else "NOT_MODELED",
+        "full_tile_preparation_status": (
+            "SIMULATION_EXECUTED" if palace.solver_executed else "SIMULATION_INPUT_PREPARED"
+        ),
+        "full_tile_solver": palace.solver,
+        "full_tile_result": str(palace_result),
+        "full_tile_artifacts": palace.artifacts,
+        "full_tile_limitation": palace.reason,
         "fabrication_status": "NOT_FABRICATION_READY",
         "statement": (
             "This is a layout integration candidate with sub-block evidence, not a "

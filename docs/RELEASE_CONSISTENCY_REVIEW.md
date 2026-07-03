@@ -19,7 +19,7 @@ links each showcase row to its report, simulation record, and workflow trace.
 | --- | --- | --- | --- |
 | 01 IDC | FasterCap 6.0.7 | IDC capacitance | 0.598641 pF versus 0.600000 pF; 0.226% error; `PHYSICS_VERIFIED` |
 | 03 IDC + CPW | FasterCap 6.0.7 | Embedded IDC extraction region only | 0.610019 pF versus 0.600000 pF; 1.670% error; `PHYSICS_VERIFIED` for that region only |
-| 04 spiral | FastHenry 3.0.1 | Spiral inductance | 2.751264 nH versus 3.000000 nH; 8.291% error; `SIMULATION_EXECUTED`, outside 5% tolerance |
+| 04 spiral | FastHenry 3.0.1 | Spiral inductance | 2.958308 nH versus 3.000000 nH; 1.390% error; `PHYSICS_VERIFIED` |
 | 06 test chip map | FasterCap and FastHenry 3.0.1 | Geometry-identical IDC and spiral sub-blocks | Sub-block evidence only; no full-tile solve |
 
 Every executed record retains the command, return code, runtime, stdout,
@@ -41,9 +41,8 @@ comparison when a target exists.
 
 - CPW and resonator can be upgraded when a compatible Octave plus openEMS
   frontend is installed and produces parseable Touchstone output.
-- The spiral could become `PHYSICS_VERIFIED` after parameter retuning or a
-  wider, justified tolerance; this release does not change the 5% evidence
-  gate.
+- The spiral is `PHYSICS_VERIFIED` after two FastHenry-guided geometry
+  iterations while retaining the 5% evidence gate.
 - WRspice and PSCAN2 remain optional and missing. JoSIM is installed, but none
   of the six showcase prompts requests a qualified JJ circuit simulation.
 - A real full-tile model requires ports, boundaries, mesh convergence,

@@ -1,0 +1,18 @@
+warning: lines: 5@-60.983  6@-40.548  7@-35.6517
+found resolution decrease smaller than ratio: 0.2396 < 1/1.75=0.57143
+warning: called from
+    CheckMesh at line 59 column 13
+    SmoothMeshLines at line 122 column 5
+    openems_model at line 15 column 8
+
+warning: lines: 33@35.6517  34@40.548  35@60.983
+found resolution increase larger than ratio: 4.1736 > 1.75
+warning: called from
+    CheckMesh at line 50 column 13
+    SmoothMeshLines at line 122 column 5
+    openems_model at line 15 column 8
+
+Operator::CalcGaussianPulsExcitation: Requested excitation pusle would be 215289 timesteps or 9.5493e-10 s long. Cutting to max number of timesteps!
+openEMS::SetupFDTD: Warning, the timestep seems to be very small --> long simulation. Check your mesh!?
+openEMS::SetupFDTD: Warning, max. number of timesteps is smaller than three times the excitation. 
+	You may want to choose a higher number of max. timesteps... 

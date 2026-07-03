@@ -86,8 +86,17 @@ def find_executable(
     tools = _ROOT / ".tools"
     if tools.is_dir():
         for name in names:
-            for candidate in sorted(tools.rglob(name)):
-                if not candidate.is_file():
+            candidates = {
+                *tools.glob(name),
+                *tools.glob(f"*/bin/{name}"),
+                *tools.glob(f"*/*/{name}"),
+            }
+            for candidate in sorted(candidates):
+                try:
+                    is_file = candidate.is_file()
+                except OSError:
+                    continue
+                if not is_file:
                     continue
                 if _is_elf(candidate):
                     return f"{_WSL_PREFIX}{_windows_to_wsl(candidate)}"
@@ -240,6 +249,8 @@ _OPENEMS_NAMES = ("octave-cli", "octave-cli.exe", "octave", "octave.exe")
 
 def discover_openems_stack() -> dict[str, str | None]:
     """Discover the openEMS core, CSXCAD viewer, and Octave frontend independently."""
+    openems_matlab = _find_interface_directory("openEMS")
+    csxcad_matlab = _find_interface_directory("CSXCAD")
     return {
         "openems": find_executable(
             ("openEMS", "openEMS.exe", "openems"), env_var="TEXTLAYOUT_OPENEMS_CORE"
@@ -248,7 +259,44 @@ def discover_openems_stack() -> dict[str, str | None]:
             ("AppCSXCAD", "AppCSXCAD.exe"), env_var="TEXTLAYOUT_CSXCAD"
         ),
         "octave": find_executable(_OPENEMS_NAMES, env_var="TEXTLAYOUT_OPENEMS"),
+        "octave_openems_path": openems_matlab,
+        "octave_csxcad_path": csxcad_matlab,
     }
+
+
+def _find_interface_directory(project: str) -> str | None:
+    """Locate a repo-local or WSL Octave interface directory."""
+    tools = _ROOT / ".tools"
+    if tools.is_dir():
+        marker_name = "InitFDTD.m" if project == "openEMS" else "InitCSX.m"
+        preferred = tools / "openems-wsl" / "share" / project / "matlab" / marker_name
+        markers = [preferred] if preferred.is_file() else []
+        markers.extend(sorted(tools.glob(f"*/share/{project}/matlab/{marker_name}")))
+        markers.extend(sorted(tools.glob(f"*/*/matlab/{marker_name}")))
+        for marker in dict.fromkeys(markers):
+            directory = marker.parent
+            return f"{_WSL_PREFIX}{_windows_to_wsl(directory)}"
+    if os.name == "nt" and shutil.which("wsl"):
+        candidates = (
+            f"/usr/share/{project}/matlab",
+            f"/usr/local/share/{project}/matlab",
+            f"/opt/share/{project}/matlab",
+        )
+        expression = " || ".join(
+            f"test -d {shlex.quote(path)} && printf '%s\\n' {shlex.quote(path)}"
+            for path in candidates
+        )
+        completed = subprocess.run(
+            ["wsl", "bash", "-lc", expression],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+        found = completed.stdout.strip().splitlines()
+        if found:
+            return f"{_WSL_PREFIX}{found[0]}"
+    return None
 
 
 def run_openems(
@@ -263,9 +311,25 @@ def run_openems(
     """Execute the generated openEMS Octave driver and parse Touchstone output."""
     s2p = _find_touchstone(prepared, touchstone)
     if s2p is None:
+        stack = discover_openems_stack()
         solver = find_executable(_OPENEMS_NAMES, executable, env_var="TEXTLAYOUT_OPENEMS")
         if solver is None:
             return _skipped(prepared, _OPENEMS_NAMES)
+        missing = [
+            name
+            for name in ("openems", "octave_openems_path", "octave_csxcad_path")
+            if not stack.get(name)
+        ]
+        if missing:
+            return SimulationResult(
+                status="skipped",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS stack incomplete: missing {', '.join(missing)}.",
+                output_dir=prepared.output_dir,
+                artifacts=dict(prepared.artifacts),
+                warnings=prepared.warnings,
+            )
         driver = Path(prepared.artifacts.get("driver", ""))
         if not driver.is_file():
             return _failed(prepared, "No runnable openEMS Octave driver was prepared.")
@@ -313,6 +377,10 @@ def run_openems(
         component = _prepared_component(prepared)
         if component == "CPW":
             extracted = extract_cpw_from_touchstone(s2p, target_frequency_ghz)
+            metrics = Path(prepared.output_dir or s2p.parent) / "openems_metrics.csv"
+            if metrics.is_file() and metrics.stat().st_size:
+                extracted.update(_extract_openems_cpw_metrics(metrics, target_frequency_ghz))
+                artifacts["metrics_csv"] = str(metrics)
             quantity = "characteristic_impedance_ohm"
             value = extracted[quantity]
         else:
@@ -341,6 +409,26 @@ def run_openems(
         runtime_seconds=completed.runtime_seconds if completed is not None else None,
         solver_version="openEMS via Octave frontend",
     )
+
+
+def _extract_openems_cpw_metrics(
+    path: Path, frequency_ghz: float | None
+) -> dict[str, float]:
+    import csv
+
+    rows = list(csv.DictReader(path.read_text(encoding="utf-8").splitlines()))
+    if not rows:
+        raise ValueError("openEMS metrics CSV has no rows")
+    target = frequency_ghz * 1e9 if frequency_ghz is not None else float(
+        rows[len(rows) // 2]["frequency_hz"]
+    )
+    row = min(rows, key=lambda item: abs(float(item["frequency_hz"]) - target))
+    z0 = complex(float(row["z0_real"]), float(row["z0_imag"]))
+    return {
+        "characteristic_impedance_ohm": abs(z0),
+        "characteristic_impedance_real_ohm": z0.real,
+        "characteristic_impedance_imag_ohm": z0.imag,
+    }
 
 
 def _prepared_payload(prepared: SimulationResult) -> dict[str, Any]:
@@ -375,21 +463,30 @@ def extract_cpw_from_touchstone(
     frequency (or sweep centre). The output is a solver-derived port impedance,
     not the analytical CPW formula.
     """
-    freqs, s11, s21 = _read_touchstone_complex(path)
-    if not freqs:
+    from textlayout.simulation.sparameters import (
+        compute_return_loss_db,
+        estimate_z0_from_network,
+        read_sparameters,
+    )
+
+    data = read_sparameters(path)
+    if not data.frequencies_hz:
         raise ValueError("no frequency points")
-    desired = frequency_ghz * 1e9 if frequency_ghz is not None else freqs[len(freqs) // 2]
-    index = min(range(len(freqs)), key=lambda i: abs(freqs[i] - desired))
-    numerator = (1 + s11[index]) ** 2 - s21[index] ** 2
-    denominator = (1 - s11[index]) ** 2 - s21[index] ** 2
-    if abs(denominator) < 1e-15:
-        raise ValueError("singular S-to-Z conversion")
-    z0 = 50.0 * complex(numerator / denominator) ** 0.5
+    desired = (
+        frequency_ghz * 1e9
+        if frequency_ghz is not None
+        else data.frequencies_hz[len(data.frequencies_hz) // 2]
+    )
+    index = min(
+        range(len(data.frequencies_hz)),
+        key=lambda i: abs(data.frequencies_hz[i] - desired),
+    )
+    z0 = estimate_z0_from_network(path, desired)
     return {
-        "characteristic_impedance_ohm": float(abs(z0)),
-        "sample_frequency_ghz": freqs[index] / 1e9,
-        "s11_magnitude": float(abs(s11[index])),
-        "return_loss_db": float(-20.0 * math.log10(max(abs(s11[index]), 1e-15))),
+        "characteristic_impedance_ohm": z0,
+        "sample_frequency_ghz": data.frequencies_hz[index] / 1e9,
+        "s11_magnitude": float(abs(data.s11[index])),
+        "return_loss_db": compute_return_loss_db(data.s11[index]),
     }
 
 
@@ -476,14 +573,19 @@ def extract_resonance_from_touchstone(path: str | Path) -> float:
 
 def extract_resonance_metrics_from_touchstone(path: str | Path) -> dict[str, float]:
     """Extract resonance and a best-effort loaded-Q estimate from Touchstone data."""
-    freqs_hz, s21_mag = _read_touchstone_s21(path)
+    from textlayout.simulation.sparameters import find_resonance_frequency, read_sparameters
+
+    data = read_sparameters(path)
+    freqs_hz = list(data.frequencies_hz)
+    s21_mag = [abs(value) for value in data.s21]
     if not freqs_hz:
         raise ValueError("no frequency points")
     mean = sum(s21_mag) / len(s21_mag)
     # Pick the extremum with the larger deviation from the mean (notch or peak).
     i_min = min(range(len(s21_mag)), key=lambda i: s21_mag[i])
     i_max = max(range(len(s21_mag)), key=lambda i: s21_mag[i])
-    idx = i_min if (mean - s21_mag[i_min]) >= (s21_mag[i_max] - mean) else i_max
+    resonance_hz = find_resonance_frequency(path)
+    idx = min(range(len(freqs_hz)), key=lambda i: abs(freqs_hz[i] - resonance_hz))
     result = {
         "resonance_frequency_ghz": freqs_hz[idx] / 1e9,
         "s21_magnitude_at_resonance": s21_mag[idx],

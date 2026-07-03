@@ -42,7 +42,7 @@ quantum = ["scqubits>=4.0"]
 metal = ["qiskit-metal"]
 epr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
-mesh = ["gmsh>=4.11"]
+mesh = ["gmsh>=4.11", "meshio>=5.3"]
 research = [
   "kqcircuits",
   "optuna>=4.0",

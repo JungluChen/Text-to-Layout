@@ -38,6 +38,7 @@ class DoctorCheck:
     status: str  # "ok" | "fail" | "absent"
     detail: str = ""
     required: bool = True
+    section: str = "Core"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -45,6 +46,7 @@ class DoctorCheck:
             "status": self.status,
             "detail": self.detail,
             "required": self.required,
+            "section": self.section,
         }
 
 
@@ -75,16 +77,30 @@ def _check_python() -> DoctorCheck:
     )
 
 
-def _check_import(name: str, module: str) -> DoctorCheck:
+def _check_import(
+    name: str, module: str, *, required: bool = True, section: str = "Core"
+) -> DoctorCheck:
     try:
         imported = importlib.import_module(module)
     except Exception as exc:  # noqa: BLE001 - report any import failure honestly
-        return DoctorCheck(name=name, status="fail", detail=f"import {module}: {exc}")
+        return DoctorCheck(
+            name=name,
+            status="fail" if required else "absent",
+            detail=f"import {module}: {exc}",
+            required=required,
+            section=section,
+        )
     version = getattr(imported, "__version__", None)
     if version is None and "." in module:
         parent = importlib.import_module(module.split(".", 1)[0])
         version = getattr(parent, "__version__", None)
-    return DoctorCheck(name=name, status="ok", detail=f"{module} {version or ''}".strip())
+    return DoctorCheck(
+        name=name,
+        status="ok",
+        detail=f"{module} {version or ''}".strip(),
+        required=required,
+        section=section,
+    )
 
 
 def _check_output_dir(output_dir: str | Path) -> DoctorCheck:
@@ -116,68 +132,131 @@ def _check_fastercap(*, strict: bool = False) -> DoctorCheck:
             status="absent",
             detail=_FASTERCAP_ABSENT_MESSAGE,
             required=strict,
+            section="Extraction",
         )
     return DoctorCheck(
         name="FasterCap/FastCap",
         status="ok",
         detail=found,
         required=False,
+        section="Extraction",
     )
 
 
-def _optional_solver_checks(*, strict: bool = False) -> list[DoctorCheck]:
+def _external_check(
+    name: str,
+    finder: Any,
+    *,
+    section: str,
+    required: bool,
+) -> DoctorCheck:
+    try:
+        found = finder()
+    except Exception as exc:  # noqa: BLE001 - discovery must never crash doctor
+        return DoctorCheck(
+            name=name,
+            status="absent",
+            detail=f"discovery error: {exc}",
+            required=required,
+            section=section,
+        )
+    return DoctorCheck(
+        name=name,
+        status="ok" if found else "absent",
+        detail=str(found) if found else "not found; execution will be skipped honestly",
+        required=required,
+        section=section,
+    )
+
+
+def _optional_solver_checks(
+    *, strict: bool = False, strict_em: bool = False, strict_fullchip: bool = False
+) -> list[DoctorCheck]:
     checks: list[DoctorCheck] = []
-    discoveries: tuple[tuple[str, Any], ...]
     from textlayout.simulation.josim import _find as find_josim
-    from textlayout.simulation.pscan2 import find_pscan2
-    from textlayout.simulation.runners import _FASTHENRY_NAMES, _OPENEMS_NAMES, find_executable
+    from textlayout.simulation.runners import (
+        _FASTHENRY_NAMES,
+        discover_openems_stack,
+        find_executable,
+    )
     from textlayout.simulation.wrspice import find_wrspice
 
-    def find_openems_workflow() -> str | None:
-        core = find_executable(("openEMS", "openEMS.exe"))
-        frontend = find_executable(_OPENEMS_NAMES, env_var="TEXTLAYOUT_OPENEMS")
-        if core and frontend:
-            return f"core={core}; frontend={frontend}"
-        return None
-
-    discoveries = (
-        ("openEMS", find_openems_workflow),
-        ("CSXCAD", lambda: find_executable(("AppCSXCAD", "AppCSXCAD.exe"), env_var="TEXTLAYOUT_CSXCAD")),
-        (
+    stack = discover_openems_stack()
+    checks.append(
+        _external_check(
             "FastHenry/FastHenry2",
-            lambda: find_executable(
-                _FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY"
-            ),
-        ),
-        ("JoSIM", lambda: find_josim(None)),
-        ("WRspice", lambda: find_wrspice(None)),
-        ("PSCAN2", lambda: find_pscan2(None)),
+            lambda: find_executable(_FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY"),
+            section="Extraction",
+            required=strict,
+        )
     )
-    for name, finder in discoveries:
-        try:
-            found = finder()
-        except Exception as exc:  # noqa: BLE001 - discovery must never crash doctor
-            checks.append(
-                DoctorCheck(
-                    name=name,
-                    status="absent",
-                    detail=f"discovery error: {exc}",
-                    required=strict,
-                )
-            )
-            continue
+    for name, key in (
+        ("openEMS", "openems"),
+        ("CSXCAD", "csxcad"),
+        ("Octave", "octave"),
+        ("Octave openEMS path", "octave_openems_path"),
+        ("Octave CSXCAD path", "octave_csxcad_path"),
+    ):
+        found = stack.get(key)
         checks.append(
             DoctorCheck(
                 name=name,
                 status="ok" if found else "absent",
                 detail=str(found) if found else "not found; execution will be skipped honestly",
-                required=strict,
+                required=strict or strict_em,
+                section="RF / EM",
             )
         )
+    checks.append(
+        _check_import(
+            "scikit-rf", "skrf", required=strict or strict_em, section="RF / EM"
+        )
+    )
+    checks.extend(
+        (
+            _external_check(
+                "Gmsh",
+                lambda: find_executable(("gmsh", "gmsh.exe"), env_var="TEXTLAYOUT_GMSH"),
+                section="3D FEM future",
+                required=strict or strict_fullchip,
+            ),
+            _check_import(
+                "meshio",
+                "meshio",
+                required=strict or strict_fullchip,
+                section="3D FEM future",
+            ),
+            _external_check(
+                "Palace",
+                lambda: find_executable(("palace", "palace.exe"), env_var="TEXTLAYOUT_PALACE"),
+                section="3D FEM future",
+                required=strict or strict_fullchip,
+            ),
+            _external_check(
+                "JoSIM",
+                lambda: find_josim(None),
+                section="Circuit",
+                required=strict,
+            ),
+            _external_check(
+                "WRspice / ngspice",
+                lambda: find_wrspice(None)
+                or find_executable(("ngspice", "ngspice.exe"), env_var="TEXTLAYOUT_NGSPICE"),
+                section="Circuit",
+                required=strict,
+            ),
+        )
+    )
     return checks
 
 
-def run_doctor(output_dir: str | Path = "out", *, strict: bool = False) -> DoctorReport:
+def run_doctor(
+    output_dir: str | Path = "out",
+    *,
+    strict: bool = False,
+    strict_em: bool = False,
+    strict_fullchip: bool = False,
+) -> DoctorReport:
     """Run every environment check and return the structured report."""
     report = DoctorReport()
     report.checks.append(_check_python())
@@ -185,14 +264,24 @@ def run_doctor(output_dir: str | Path = "out", *, strict: bool = False) -> Docto
         report.checks.append(_check_import(name, module))
     report.checks.append(_check_output_dir(output_dir))
     report.checks.append(_check_fastercap(strict=strict))
-    report.checks.extend(_optional_solver_checks(strict=strict))
+    report.checks.extend(
+        _optional_solver_checks(
+            strict=strict, strict_em=strict_em, strict_fullchip=strict_fullchip
+        )
+    )
     return report
 
 
 def render_text(report: DoctorReport) -> str:
     marks = {"ok": "[ok]     ", "fail": "[FAIL]   ", "absent": "[missing]"}
     lines = ["textlayout doctor", ""]
+    section: str | None = None
     for check in report.checks:
+        if check.section != section:
+            if section is not None:
+                lines.append("")
+            section = check.section
+            lines.append(f"[{section}]")
         lines.append(f"{marks[check.status]} {check.name}: {check.detail}")
     lines.append("")
     lines.append(

@@ -13,7 +13,9 @@
 - Estimate `substrate_eps_r`: `11.9`
 - Estimate `eps_eff`: `6.45`
 - Estimate `estimated_z0_ohm`: `50.04`
-- Estimate `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
+- Estimate `scikit_rf_z0_ohm`: `50.0083`
+- Estimate `scikit_rf_eps_eff`: `6.449543`
+- Estimate `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
 - Estimate `target_frequency_ghz`: `6.0`
 - Estimate `quarter_wave_length_um`: `4918.4652`
 
@@ -46,15 +48,15 @@
 
 ## Artifacts
 
-- `gds`: `output.gds`
-- `svg`: `output.svg`
-- `png`: `output.png`
-- `layout_dsl`: `output.layout.json`
-- `verification`: `output.verification.json`
-- `evidence`: `output.evidence.md`
-- `analytical_estimate`: `output.analytical_estimate.md`
-- `simulation_plan`: `output.simulation_plan.md`
-- `report`: `output.report.md`
+- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.gds`
+- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.svg`
+- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.png`
+- `layout_dsl`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.layout.json`
+- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.verification.json`
+- `evidence`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.evidence.md`
+- `analytical_estimate`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.analytical_estimate.md`
+- `simulation_plan`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.simulation_plan.md`
+- `report`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.report.md`
 
 ## Simulation status
 

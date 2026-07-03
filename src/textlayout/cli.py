@@ -74,7 +74,12 @@ def _cmd_verify(args: argparse.Namespace) -> int:
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from textlayout.doctor import render_text, run_doctor
 
-    report = run_doctor(output_dir=args.out, strict=args.strict)
+    report = run_doctor(
+        output_dir=args.out,
+        strict=args.strict,
+        strict_em=args.strict_em,
+        strict_fullchip=args.strict_fullchip,
+    )
     if args.json:
         print(json.dumps(report.to_dict(), indent=2))
     else:
@@ -143,6 +148,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--strict",
         action="store_true",
         help="Treat missing external solvers as failures. Default: report them as optional.",
+    )
+    p_doc.add_argument(
+        "--strict-em",
+        action="store_true",
+        help="Require openEMS, CSXCAD, Octave interfaces, and scikit-rf.",
+    )
+    p_doc.add_argument(
+        "--strict-fullchip",
+        action="store_true",
+        help="Require Palace, Gmsh, and meshio for the future full-chip FEM path.",
     )
     p_doc.set_defaults(func=_cmd_doctor)
 

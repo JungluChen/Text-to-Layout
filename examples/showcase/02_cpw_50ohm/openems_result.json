@@ -1,23 +1,47 @@
 {
   "schema": "textlayout.capacitance-extraction-result.v1",
-  "status": "SKIPPED_SOLVER_ABSENT",
-  "backend_status": "skipped",
-  "solver": "openEMS",
-  "solver_version": null,
-  "command": [],
-  "return_code": null,
-  "runtime_seconds": null,
+  "status": "CHARACTERISTIC_IMPEDANCE_EXTRACTED",
+  "backend_status": "executed",
+  "solver": "openEMS+scikit-rf",
+  "solver_version": "openEMS via Octave frontend",
+  "command": [
+    "wsl",
+    "bash",
+    "-lc",
+    "cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 76.40208399999756,
   "artifacts": {
     "model": "extraction\\capacitance_input\\openems_model.json",
     "driver": "extraction\\capacitance_input\\openems_model.m",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
+    "metrics_csv": "extraction\\capacitance_input\\openems_metrics.csv",
+    "touchstone": "extraction\\capacitance_input\\openems_result.s2p",
+    "result": "extraction\\capacitance_input\\openems_result.s2p"
   },
-  "extracted_quantities": {},
-  "target_comparison": null,
+  "extracted_quantities": {
+    "characteristic_impedance_ohm": 30.917129182835225,
+    "sample_frequency_ghz": 6.0,
+    "s11_magnitude": 0.05226414371888688,
+    "return_loss_db": 25.635923211383364,
+    "characteristic_impedance_real_ohm": 30.91712917321,
+    "characteristic_impedance_imag_ohm": -0.0007714716915898
+  },
+  "target_comparison": {
+    "quantity": "characteristic_impedance_ohm",
+    "extracted": 30.917129182835225,
+    "target": 50.0,
+    "error_pct": -38.166,
+    "tolerance_pct": 5.0,
+    "within_tolerance": false
+  },
   "analytical_quantity": "characteristic_impedance",
   "analytical_unit": "ohm",
   "analytical_value": 50.0,
-  "reason": "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
+  "reason": "Extracted characteristic_impedance_ohm from solver-owned openems_result.s2p.",
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff."
