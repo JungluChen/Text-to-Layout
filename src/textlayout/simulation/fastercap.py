@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import json
 import re
-import shutil
 import subprocess
+import sys
+from dataclasses import replace
 from pathlib import Path
 
 from textlayout.models import Geometry, Technology
@@ -133,21 +134,19 @@ def run_fastercap(
     list_file = Path(prepared.artifacts["list_file"])
     solver = _find_solver(executable)
     if solver is None:
-        return SimulationResult(
+        return _persist_result(SimulationResult(
             status="skipped",
             solver=prepared.solver,
             readiness_level=2,
-            reason=(
-                "FastCap/FasterCap executable not found. Install FasterCap or FastCap and "
-                "pass --executable; prepared input files remain available."
-            ),
+            reason="FasterCap/FastCap executable not found.",
             output_dir=prepared.output_dir,
             artifacts=prepared.artifacts,
             warnings=prepared.warnings,
             evidence_level="SKIPPED_SOLVER_ABSENT",
-        )
+        ), list_file)
 
     command = _solver_command(solver, list_file)
+    solver_version = _capture_solver_version(solver, list_file.parent)
     try:
         completed = run_subprocess(
             command,
@@ -155,49 +154,68 @@ def run_fastercap(
             timeout_seconds=timeout_seconds,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
-        return SimulationResult(
+        stdout, stderr = _exception_output(exc)
+        stdout_path, stderr_path = _write_attempt_logs(
+            list_file.parent,
+            stdout,
+            stderr or f"Solver execution failed: {exc}\n",
+        )
+        return _persist_result(SimulationResult(
             status="failed",
-            solver=prepared.solver,
+            solver=_solver_label(solver),
             readiness_level=2,
             reason=f"Solver execution failed: {exc}",
             output_dir=prepared.output_dir,
-            artifacts=prepared.artifacts,
+            artifacts={
+                **prepared.artifacts,
+                "solver_stdout": str(stdout_path),
+                "solver_stderr": str(stderr_path),
+            },
             warnings=prepared.warnings,
             command=tuple(command),
-        )
+            solver_version=solver_version,
+        ), list_file)
 
     stdout_path = completed.stdout_path
     stderr_path = completed.stderr_path
+    _ensure_nonempty_log(stdout_path, "Solver produced no stdout.")
+    _ensure_nonempty_log(stderr_path, "Solver produced no stderr.")
     artifacts = {
         **prepared.artifacts,
         "solver_stdout": str(stdout_path),
         "solver_stderr": str(stderr_path),
     }
     if completed.returncode != 0:
-        return SimulationResult(
+        return _persist_result(SimulationResult(
             status="failed",
-            solver=prepared.solver,
+            solver=_solver_label(solver),
             readiness_level=2,
             reason=f"Solver exited with code {completed.returncode}.",
             output_dir=prepared.output_dir,
             artifacts=artifacts,
             warnings=prepared.warnings,
             command=tuple(command),
-        )
+            return_code=completed.returncode,
+            runtime_seconds=completed.runtime_seconds,
+            solver_version=solver_version,
+        ), list_file)
 
     try:
         matrix_pf = _parse_capacitance_matrix_pf(completed.stdout)
     except ValueError as exc:
-        return SimulationResult(
+        return _persist_result(SimulationResult(
             status="failed",
-            solver=prepared.solver,
+            solver=_solver_label(solver),
             readiness_level=2,
-            reason=f"Solver output was not accepted: {exc}",
+            reason=f"Solver parser failed: {exc}",
             output_dir=prepared.output_dir,
             artifacts=artifacts,
             warnings=prepared.warnings,
             command=tuple(command),
-        )
+            return_code=completed.returncode,
+            runtime_seconds=completed.runtime_seconds,
+            solver_version=solver_version,
+        ), list_file)
 
     mutual_pf = abs(matrix_pf[0][1]) if len(matrix_pf) >= 2 and len(matrix_pf[0]) >= 2 else None
     comparison = (
@@ -205,23 +223,17 @@ def run_fastercap(
         if mutual_pf is not None
         else None
     )
-    result_path = list_file.parent / "simulation_result.json"
-    payload = {
-        "schema": "textlayout.simulation-result.v1",
-        "status": "executed",
-        "solver": Path(solver).name,
-        "capacitance_matrix_pf": matrix_pf,
-        "mutual_capacitance_pf": mutual_pf,
-        "target_comparison": comparison,
-        "source_artifact": str(stdout_path),
-    }
-    result_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    artifacts["result"] = str(result_path)
-    return SimulationResult(
+    verified = bool(comparison and comparison.get("within_tolerance"))
+    return _persist_result(SimulationResult(
         status="executed",
-        solver=Path(solver).name,
+        solver=_solver_label(solver),
         readiness_level=4 if comparison else 3,
-        reason="A real solver returned a parseable capacitance matrix.",
+        reason=(
+            "Extracted mutual capacitance is within tolerance."
+            if verified
+            else "A real solver returned a parseable capacitance matrix; "
+            "the target was not met or was not provided."
+        ),
         output_dir=prepared.output_dir,
         artifacts=artifacts,
         extracted_quantities={
@@ -233,8 +245,52 @@ def run_fastercap(
         command=tuple(command),
         return_code=completed.returncode,
         runtime_seconds=completed.runtime_seconds,
-        evidence_level="CAPACITANCE_EXTRACTED",
+        evidence_level="PHYSICS_VERIFIED" if verified else "CAPACITANCE_EXTRACTED",
+        solver_version=solver_version,
+    ), list_file)
+
+
+def _persist_result(result: SimulationResult, list_file: Path) -> SimulationResult:
+    """Write one schema-complete result for every terminal solver status."""
+    result_path = list_file.parent / "simulation_result.json"
+    artifacts = {**result.artifacts, "result": str(result_path)}
+    persisted = replace(result, artifacts=artifacts)
+    payload = persisted.to_dict()
+    payload.update(persisted.extracted_quantities)
+    payload["prepared_inputs"] = all(
+        Path(artifacts[key]).is_file() for key in ("list_file", "panel_file")
     )
+    result_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return persisted
+
+
+def _solver_label(executable: str) -> str:
+    return "FasterCap" if "fastercap" in Path(executable).name.lower() else "FastCap"
+
+
+def _ensure_nonempty_log(path: Path, message: str) -> None:
+    if not path.is_file() or path.stat().st_size == 0:
+        path.write_text(message + "\n", encoding="utf-8")
+
+
+def _write_attempt_logs(output_dir: Path, stdout: str, stderr: str) -> tuple[Path, Path]:
+    stdout_path = output_dir / "solver.stdout.txt"
+    stderr_path = output_dir / "solver.stderr.txt"
+    stdout_path.write_text(stdout or "Solver produced no stdout.\n", encoding="utf-8")
+    stderr_path.write_text(stderr or "Solver produced no stderr.\n", encoding="utf-8")
+    return stdout_path, stderr_path
+
+
+def _exception_output(exc: OSError | subprocess.TimeoutExpired) -> tuple[str, str]:
+    if not isinstance(exc, subprocess.TimeoutExpired):
+        return "", str(exc)
+
+    def decoded(value: str | bytes | None) -> str:
+        if isinstance(value, bytes):
+            return value.decode("utf-8", errors="replace")
+        return value or ""
+
+    return decoded(exc.stdout), decoded(exc.stderr)
 
 
 def _idc_net(polygon_index: int) -> str:
@@ -246,18 +302,47 @@ def _idc_net(polygon_index: int) -> str:
 
 
 def _find_solver(explicit: str | None) -> str | None:
-    return find_simulator(
+    found = find_simulator(
         "TEXTLAYOUT_FASTERCAP",
         ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe"),
         explicit,
         tool_subdir="FasterCap",
     )
+    if found is not None and sys.platform == "win32" and _is_elf(Path(found)):
+        return None
+    return found
+
+
+def _is_elf(path: Path) -> bool:
+    try:
+        return path.is_file() and path.read_bytes()[:4] == b"\x7fELF"
+    except OSError:
+        return False
 
 
 def _solver_command(executable: str, list_file: Path) -> list[str]:
+    prefix = [sys.executable, executable] if Path(executable).suffix.lower() == ".py" else [executable]
     if "fastercap" in Path(executable).name.lower():
-        return [executable, "-b", "-a0.01", str(list_file)]
-    return [executable, f"-l{list_file}"]
+        return [*prefix, "-b", "-a0.01", str(list_file)]
+    return [*prefix, f"-l{list_file}"]
+
+
+def _capture_solver_version(executable: str, cwd: Path) -> str | None:
+    prefix = [sys.executable, executable] if Path(executable).suffix.lower() == ".py" else [executable]
+    flag = "-bv" if "fastercap" in Path(executable).name.lower() else "-v"
+    try:
+        completed = subprocess.run(
+            [*prefix, flag],
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    banner = (completed.stdout or completed.stderr).strip()
+    return banner.splitlines()[0][:200] if banner else None
 
 
 def _parse_capacitance_matrix_pf(text: str) -> list[list[float]]:

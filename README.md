@@ -49,7 +49,11 @@ Result on a machine **without** FasterCap installed (the honest default):
 | ----------- | ------ | --------------------------------------------------------------- | ------------------------- | ----- | ------------------------- |
 | capacitance | 0.6 pF | 0.6 pF (Bahl/Alley, optimizer converged, 0.0% analytical error) | — (solver not installed) | —    | `SKIPPED_SOLVER_ABSENT` |
 
-With FasterCap/FastCap on `PATH` (or `--executable`), the solver is executed, its output is parsed, and the status becomes `SIMULATION_EXECUTED` — or `PHYSICS_VERIFIED` only when the extracted value is within tolerance of the target.
+The IDC flow can execute FasterCap/FastCap when the executable is available.
+Committed default artifacts may remain solver-skipped unless a real solver
+output artifact is committed. `PHYSICS_VERIFIED` is only claimed when a
+solver-owned output is parsed and the result is within tolerance. An executed
+out-of-tolerance result remains `SIMULATION_EXECUTED`.
 
 > This project is not fabrication-ready by default. Geometry generation and analytical estimation are supported. Physics verification is only claimed when an external solver is executed and its output is parsed successfully.
 
@@ -64,6 +68,10 @@ Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below mus
 | SpiralInductor       | yes      | yes (Mohan/Wheeler)                                                | yes (FastHenry)                                   | environment-dependent (external FastHenry)                         | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
 | QuarterWaveResonator | yes      | yes (λ/4 line theory)                                             | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
 | SQUID                | yes      | yes (RSJ/Josephson + rectangular-loop estimate)                    | conditional (JoSIM deck requires explicit Ic/R/C) | environment-dependent (JoSIM + explicit inputs)                    | no by default (circuit extraction is not geometry qualification) | Experimental — Option B; generic JJ geometry is not foundry-qualified |
+
+IDC status: geometry **yes**; analytical estimate **yes**; FasterCap
+input **yes**; FasterCap execution **conditional**; physics verification
+**conditional**; fabrication ready **no**.
 
 The compact IDC contract used by automated claim validation is repeated here
 without presentation padding:
@@ -323,7 +331,7 @@ Open-source tools are the default base workflow. Commercial tools remain optiona
 
 | Target                         | Open-source path                                 | Current status                                                                  |
 | ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------- |
-| IDC capacitance                | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented                                                   |
+| IDC capacitance                | FasterCap/FastCap; Elmer as a future cross-check | Input preparation implemented; execution and physics verification are conditional |
 | CPW and resonator S-parameters | openEMS + scikit-rf                              | Runnable Octave/CSXCAD model, guarded execution, Touchstone parsing             |
 | Spiral L/R/Q                   | FastHenry/FastHenry2                             | Input generation, guarded execution,`Zc.mat` parsing                          |
 | SQUID circuit response         | JoSIM                                            | Conditional RCSJ deck, guarded execution, CSV parsing; explicit Ic/R/C required |

@@ -334,7 +334,9 @@ class FromTextWorkflow:
         resonance_passed = any(_resonance_checked(sim) for sim in circuit_sims.values())
         circuit_failed = any(sim.status == "failed" for sim in circuit_sims.values())
         physics_verified = bool(
-            evidence.is_physics_verified and resonance_passed and not circuit_failed
+            evidence.is_physics_verified
+            and not circuit_failed
+            and (intent.component != "JPA" or resonance_passed)
         )
         extraction_result = _capacitance_result_payload(capacitance_simulation, evidence)
         files["capacitance_result"] = _write_json(
@@ -665,8 +667,26 @@ def _simulation_payload(
                 "Capacitance extraction alone does not verify the complete JPA workflow."
             )
     return {
-        "schema": "textlayout.jpa-simulation-evidence.v1",
-        "status": "PHYSICS_VERIFIED" if physics_verified else "NOT_VERIFIED",
+        "schema": "textlayout.simulation-evidence.v1",
+        "status": (
+            "PHYSICS_VERIFIED"
+            if physics_verified
+            else "NOT_VERIFIED"
+            if intent.component == "JPA"
+            else evidence.status.value
+        ),
+        "solver": capacitance_simulation.solver,
+        "solver_executed": capacitance_simulation.solver_executed,
+        "capacitance_matrix_parsed": capacitance_simulation.capacitance_matrix_parsed,
+        "target_compared": capacitance_simulation.target_compared,
+        "mutual_capacitance_pf": capacitance_simulation.extracted_quantities.get(
+            "mutual_capacitance_pf"
+        ),
+        "capacitance_matrix_pf": capacitance_simulation.extracted_quantities.get(
+            "capacitance_matrix_pf"
+        ),
+        "target_comparison": capacitance_simulation.target_comparison,
+        "artifacts": dict(capacitance_simulation.artifacts),
         "capacitance_source": capacitance_source,
         "capacitance_pf": evidence.extracted_value or evidence.analytical_value,
         "capacitance_extraction_status": _capacitance_status_label(capacitance_simulation),
@@ -857,8 +877,10 @@ def _capacitance_status_label_from_evidence(evidence: QuantityEvidence) -> str:
         return "EXTRACTION_INPUT_PREPARED"
     if evidence.status is EvidenceStatus.FAILED:
         return "FAILED"
-    if evidence.extracted_value is not None:
-        return "CAPACITANCE_EXTRACTED"
+    if evidence.status is EvidenceStatus.PHYSICS_VERIFIED:
+        return "PHYSICS_VERIFIED"
+    if evidence.status is EvidenceStatus.SIMULATION_EXECUTED:
+        return "SIMULATION_EXECUTED"
     return "ANALYTICAL_ONLY"
 
 
@@ -941,6 +963,11 @@ def _render_jpa_report(
         "## Extraction status",
         "",
         f"- Status: **{cap_label}**",
+        f"- Simulation status: **{cap_label}**",
+        "- Prepared FasterCap files: **yes**",
+        "- Solver executed: "
+        f"**{'yes' if evidence.extracted_value is not None else 'attempted' if evidence.command else 'no'}**",
+        f"- Physics verified: **{'yes' if evidence.is_physics_verified else 'no'}**",
         f"- Evidence status: **{evidence.status.value}**",
         f"- {evidence.summary_line()}",
         f"- Analytical capacitance: `{evidence.analytical_value} pF`",
@@ -949,6 +976,28 @@ def _render_jpa_report(
         "- Circuit simulators are not capacitance-extraction evidence.",
         "",
     ]
+    if evidence.extracted_value is not None:
+        lines += [
+            f"- Extracted mutual capacitance: `{evidence.extracted_value:.6g} pF`",
+            f"- Target capacitance: `{evidence.target_value:.6g} pF`"
+            if evidence.target_value is not None
+            else "- Target capacitance: `not provided`",
+            f"- Error: `{((evidence.extracted_value - evidence.target_value) / evidence.target_value * 100):+.2f}%`"
+            if evidence.target_value
+            else "- Error: `not compared`",
+            f"- Tolerance: `+/-{evidence.tolerance_percent:.2f}%`",
+            "- Reason: extracted value is within tolerance."
+            if evidence.is_physics_verified
+            else "- Reason: extracted value is outside tolerance.",
+            "",
+        ]
+    elif evidence.status is EvidenceStatus.SKIPPED_SOLVER_ABSENT:
+        lines += ["- Reason: FasterCap/FastCap executable not found.", ""]
+    elif evidence.status is EvidenceStatus.FAILED:
+        lines += [
+            "- Reason: solver failed or parser could not extract capacitance matrix.",
+            "",
+        ]
     if not is_jpa:
         lines += [
             f"- Legacy simulation status: **{evidence.status.value}**",

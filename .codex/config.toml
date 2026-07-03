@@ -1,0 +1,9 @@
+[mcp_servers.text-to-gds]
+command = "py"
+args = [
+    "-3",
+    "-m",
+    "uv",
+    "run",
+    "text-to-gds",
+]

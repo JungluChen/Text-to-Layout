@@ -47,7 +47,11 @@ def test_missing_solver_is_skipped_without_result(tmp_path: Path) -> None:
     result = run_fastercap(_prepared(tmp_path), executable="solver-that-does-not-exist")
     assert result.status == "skipped"
     assert result.readiness_level == 2
-    assert "result" not in result.artifacts
+    result_path = Path(result.artifacts["result"])
+    payload = json.loads(result_path.read_text(encoding="utf-8"))
+    assert payload["solver_executed"] is False
+    assert payload["physics_verified"] is False
+    assert payload["prepared_inputs"] is True
 
 
 def test_env_var_override_runs_fastercap_and_parses_matrix(tmp_path: Path) -> None:
@@ -143,4 +147,7 @@ def test_runner_script_fails_gracefully_when_solver_missing(tmp_path: Path) -> N
     assert completed.returncode == 2
     payload = json.loads(completed.stdout)
     assert payload["status"] == "skipped"
-    assert not (tmp_path / "simulation_result.json").exists()
+    evidence = json.loads((tmp_path / "simulation_result.json").read_text(encoding="utf-8"))
+    assert evidence["status"] == "skipped"
+    assert evidence["solver_executed"] is False
+    assert evidence["physics_verified"] is False

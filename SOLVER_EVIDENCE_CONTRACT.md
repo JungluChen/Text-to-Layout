@@ -27,6 +27,13 @@ Every executed solver record must include:
 - `output_file`
 - `convergence`
 
+For FasterCap/FastCap, `simulation_result.json` additionally requires
+`solver_executed=true`, `capacitance_matrix_parsed=true`, a non-empty captured
+stdout/stderr pair, `mutual_capacitance_pf`, and `target_comparison`. The
+`physics_verified` field is derived from
+`target_comparison.within_tolerance`; it is never accepted as an independent
+claim.
+
 The `output_file` must exist and be non-empty. Touchstone, CSV, JSON, HDF5, and
 native solver logs are acceptable when the adapter documents how values were
 parsed from them.
@@ -56,4 +63,3 @@ or HDF5.
   solver output file.
 - A report must show `SKIPPED`, `FAILED`, or `INPUT FILES PREPARED` honestly
   when execution evidence is absent.
-

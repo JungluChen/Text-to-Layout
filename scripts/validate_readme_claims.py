@@ -76,7 +76,7 @@ COMPONENTS: dict[str, dict[str, object]] = {
     },
 }
 
-SOLVER_OUTPUT_NAMES = ("solver.stdout.txt", "simulation_result.json")
+SOLVER_OUTPUT_NAMES = ("solver.stdout.txt", "solver.stderr.txt", "simulation_result.json")
 
 _ROW_RE = re.compile(r"^\|\s*(?P<cells>.+)\|\s*$")
 
@@ -112,14 +112,44 @@ def _is_yes(cell: str) -> bool:
     return cell.strip().lower().startswith("yes")
 
 
-def _solver_artifacts(root: Path, benchmark: str) -> list[Path]:
+def _result_records(root: Path, benchmark: str) -> list[tuple[Path, dict[str, object]]]:
     bench = root / benchmark
-    found: list[Path] = []
+    found: list[tuple[Path, dict[str, object]]] = []
     if not bench.is_dir():
         return found
-    for name in SOLVER_OUTPUT_NAMES:
-        found.extend(p for p in bench.rglob(name) if p.is_file() and p.stat().st_size > 0)
+    for path in bench.rglob("simulation_result.json"):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(payload, dict):
+            found.append((path, payload))
     return found
+
+
+def _artifact_nonempty(result_path: Path, value: object) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    path = Path(value)
+    candidates = [path]
+    if not path.is_absolute():
+        candidates.extend((result_path.parent / path, result_path.parent / path.name))
+    return any(candidate.is_file() and candidate.stat().st_size > 0 for candidate in candidates)
+
+
+def _has_executed_evidence(root: Path, benchmark: str) -> bool:
+    for result_path, payload in _result_records(root, benchmark):
+        artifacts = payload.get("artifacts")
+        if not isinstance(artifacts, dict):
+            continue
+        if payload.get("status") != "executed" or payload.get("solver_executed") is not True:
+            continue
+        if all(
+            _artifact_nonempty(result_path, artifacts.get(key))
+            for key in ("solver_stdout", "solver_stderr")
+        ):
+            return True
+    return False
 
 
 def _check_matrix(readme_text: str, root: Path, errors: list[str]) -> None:
@@ -158,8 +188,7 @@ def _check_matrix(readme_text: str, root: Path, errors: list[str]) -> None:
         if not (root / str(spec["benchmark"])).is_dir():
             _fail(errors, f"{component}: benchmark folder {spec['benchmark']} is missing")
         if _is_yes(executed):
-            artifacts = _solver_artifacts(root, str(spec["benchmark"]))
-            if not artifacts:
+            if not _has_executed_evidence(root, str(spec["benchmark"])):
                 _fail(
                     errors,
                     f"{component}: 'Solver executed=yes' but no committed solver output "
@@ -178,19 +207,22 @@ def _check_matrix(readme_text: str, root: Path, errors: list[str]) -> None:
 
 
 def _has_physics_verified_evidence(root: Path, benchmark: str) -> bool:
-    bench = root / benchmark
-    if not bench.is_dir():
-        return False
-    for candidate in bench.rglob("simulation.json"):
-        try:
-            payload = json.loads(candidate.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+    for result_path, payload in _result_records(root, benchmark):
+        artifacts = payload.get("artifacts")
+        comparison = payload.get("target_comparison")
+        if not isinstance(artifacts, dict) or not isinstance(comparison, dict):
             continue
-        for record in payload.get("evidence", []):
-            if record.get("status") == "PHYSICS_VERIFIED" and all(
-                (root / f).is_file() or Path(f).is_file() for f in record.get("output_files", [])
-            ):
-                return True
+        if (
+            payload.get("status") == "executed"
+            and payload.get("solver_executed") is True
+            and payload.get("capacitance_matrix_parsed") is True
+            and comparison.get("within_tolerance") is True
+            and all(
+                _artifact_nonempty(result_path, artifacts.get(key))
+                for key in ("solver_stdout", "solver_stderr")
+            )
+        ):
+            return True
     return False
 
 
@@ -204,9 +236,11 @@ def _check_benchmark_table(readme_text: str, root: Path, errors: list[str]) -> N
         if not line.strip().startswith("|"):
             continue
         upper = line.upper()
-        if "**SIMULATION EXECUTED**" not in upper and "**PHYSICS VERIFIED**" not in upper:
+        executed_claim = re.search(r"SIMULATION[_ ]EXECUTED", upper) is not None
+        verified_claim = re.search(r"PHYSICS[_ ]VERIFIED", upper) is not None
+        if not executed_claim and not verified_claim:
             continue
-        folders = re.findall(r"\]\((examples/benchmarks/[^)\s]+)/?\)", line)
+        folders = re.findall(r"\]\((examples/benchmarks/[^/)\s]+)(?:/[^)\s]*)?\)", line)
         if not folders:
             _fail(
                 errors,
@@ -215,11 +249,18 @@ def _check_benchmark_table(readme_text: str, root: Path, errors: list[str]) -> N
             )
             continue
         for folder in folders:
-            if not _solver_artifacts(root, folder):
+            if executed_claim and not _has_executed_evidence(root, folder):
                 _fail(
                     errors,
                     f"benchmark row claims solver execution but {folder} has no solver "
-                    "output artifact",
+                    "execution result with non-empty stdout/stderr artifacts",
+                )
+            if verified_claim and not _has_physics_verified_evidence(root, folder):
+                _fail(
+                    errors,
+                    f"benchmark row claims solver execution and PHYSICS_VERIFIED but {folder} "
+                    "has no parsed "
+                    "in-tolerance simulation result with non-empty stdout/stderr artifacts",
                 )
 
 
