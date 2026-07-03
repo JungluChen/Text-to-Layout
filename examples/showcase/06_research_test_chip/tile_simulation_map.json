@@ -3,7 +3,7 @@
   "full_tile_solver_executed": false,
   "full_tile_status": "NOT_MODELED",
   "fabrication_status": "NOT_FABRICATION_READY",
-  "statement": "Sub-block evidence is not a full-tile solve. Alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.",
+  "statement": "This is a layout integration candidate with sub-block evidence, not a full-chip EM-verified design. Inter-block coupling, package, transitions, and whole-tile modes are not modeled.",
   "subblocks": {
     "IDC": {
       "scope": "FasterCap extraction of the geometry-identical IDC sub-block",
@@ -32,7 +32,8 @@
         "tolerance_pct": 5.0,
         "within_tolerance": false
       },
-      "result": "tile_subblocks\\idc\\simulation_result.json"
+      "result": "tile_subblocks\\idc\\simulation_result.json",
+      "limitation": "FasterCap extraction of the geometry-identical IDC sub-block"
     },
     "CPW": {
       "scope": "openEMS preparation for the geometry-identical CPW sub-block",
@@ -42,7 +43,8 @@
       "physics_verified": false,
       "extracted_quantities": {},
       "target_comparison": null,
-      "result": "tile_subblocks\\cpw\\simulation_result.json"
+      "result": "tile_subblocks\\cpw\\simulation_result.json",
+      "limitation": "openEMS preparation for the geometry-identical CPW sub-block"
     },
     "SpiralInductor": {
       "scope": "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target",
@@ -55,7 +57,29 @@
         "inductance_nh": 2.751263754746667
       },
       "target_comparison": null,
-      "result": "tile_subblocks\\spiralinductor\\simulation_result.json"
+      "result": "tile_subblocks\\spiralinductor\\simulation_result.json",
+      "limitation": "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target"
+    },
+    "Resonator": {
+      "scope": "Nominal 6 GHz resonator reference sub-block; not embedded in the current tile geometry",
+      "status": "SKIPPED_SOLVER_ABSENT",
+      "solver": "openEMS",
+      "solver_executed": false,
+      "physics_verified": false,
+      "extracted_quantities": {},
+      "target_comparison": null,
+      "result": "tile_subblocks\\resonator\\simulation_result.json",
+      "limitation": "Nominal 6 GHz resonator reference sub-block; not embedded in the current tile geometry"
+    },
+    "AlignmentMarksAndLabels": {
+      "scope": "Alignment marks and title labels in the assembled tile",
+      "status": "GEOMETRY_ONLY",
+      "solver": "none",
+      "solver_executed": false,
+      "physics_verified": false,
+      "extracted_quantities": {},
+      "target_comparison": null,
+      "limitation": "Non-electrical geometry; no solver model applies."
     }
   }
 }

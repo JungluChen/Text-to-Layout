@@ -1,0 +1,25 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "SKIPPED_SOLVER_ABSENT",
+  "backend_status": "skipped",
+  "solver": "openEMS",
+  "solver_version": null,
+  "command": [],
+  "return_code": null,
+  "runtime_seconds": null,
+  "artifacts": {
+    "model": "extraction\\capacitance_input\\openems_model.json",
+    "driver": "extraction\\capacitance_input\\openems_model.m",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
+  },
+  "extracted_quantities": {},
+  "target_comparison": null,
+  "analytical_quantity": "characteristic_impedance",
+  "analytical_unit": "ohm",
+  "analytical_value": 50.0,
+  "reason": "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ]
+}

@@ -725,6 +725,31 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
                     f"{folder}: README claims PHYSICS_VERIFIED but the committed target "
                     "comparison is missing or out of tolerance",
                 )
+            artifacts = simulation.get("artifacts", {}) if simulation else {}
+            evidence_records = simulation.get("evidence", []) if simulation else []
+            evidence = evidence_records[0] if evidence_records else {}
+            solver = str(simulation.get("solver", "")) if simulation else ""
+            if folder.endswith("02_cpw_50ohm"):
+                if "openems" not in solver.casefold() or not _artifact_nonempty(
+                    root / folder / "simulation.json", artifacts.get("touchstone")
+                ):
+                    _fail(errors, f"{folder}: CPW verification requires openEMS Touchstone output")
+                if evidence.get("quantity") != "characteristic_impedance":
+                    _fail(errors, f"{folder}: CPW verification lacks parsed impedance evidence")
+            if folder.endswith("04_spiral_inductor_3nh"):
+                if "fasthenry" not in solver.casefold() or not _artifact_nonempty(
+                    root / folder / "simulation.json", artifacts.get("zc_matrix")
+                ):
+                    _fail(errors, f"{folder}: spiral verification requires FastHenry Zc.mat output")
+                if evidence.get("quantity") != "inductance":
+                    _fail(errors, f"{folder}: spiral verification lacks extracted inductance")
+            if folder.endswith("05_quarter_wave_resonator_6ghz"):
+                if "openems" not in solver.casefold() or not _artifact_nonempty(
+                    root / folder / "simulation.json", artifacts.get("touchstone")
+                ):
+                    _fail(errors, f"{folder}: resonator verification requires openEMS Touchstone output")
+                if evidence.get("quantity") != "resonance_frequency":
+                    _fail(errors, f"{folder}: resonator verification lacks parsed resonance frequency")
         if folder.endswith("06_research_test_chip"):
             tile_map_path = root / folder / "tile_simulation_map.json"
             try:

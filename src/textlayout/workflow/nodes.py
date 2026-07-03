@@ -9,6 +9,7 @@ geometry → export → readback → solver → evidence → report.
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -93,6 +94,7 @@ class PromptPipeline:
             "circuit_requests": sizing.circuit_requests,
             "lc_inductance_nh": sizing.lc_inductance_nh,
             "target_capacitance_pf": sizing.target_capacitance_pf,
+            "target_inductance_nh": sizing.target_inductance_nh,
             "jpa_sizing": sizing.jpa_sizing,
             "files": files,
         }
@@ -201,27 +203,56 @@ class PromptPipeline:
         files["capacitance_result"] = _write_json(
             out / "extraction" / "capacitance_result.json", payload
         )
+        if state.layout_dsl is not None and state.layout_dsl.component == "SpiralInductor":
+            files["fasthenry_result"] = _write_json(out / "fasthenry_result.json", payload)
+        elif state.layout_dsl is not None and state.layout_dsl.component in {
+            "CPW", "QuarterWaveResonator"
+        }:
+            files["openems_result"] = _write_json(out / "openems_result.json", payload)
         return {"simulation_result": payload, "files": files}
 
     # 12. CompareTarget (records one solver-loop iteration and its verdict)
     def compare_target(self, state: LayoutWorkflowState) -> dict[str, Any]:
         assert state.evidence is not None
         updates: dict[str, Any] = {"evidence_status": state.evidence.status.value}
-        if state.optimization is not None and state.target_capacitance_pf is not None:
+        if (
+            state.optimization is not None and state.target_capacitance_pf is not None
+        ) or (
+            state.layout_dsl is not None
+            and state.layout_dsl.component == "SpiralInductor"
+            and state.target_inductance_nh is not None
+        ):
             simulation = state.simulation
             assert simulation is not None and state.layout_dsl is not None
             generate = state.generate
             iterations = list(state.solver_iterations)
+            is_spiral = state.layout_dsl.component == "SpiralInductor"
+            extracted_key = "inductance_nh" if is_spiral else "mutual_capacitance_pf"
+            quantity_key = "extracted_inductance_nh" if is_spiral else "extracted_capacitance_pf"
+            candidate_artifacts: dict[str, str] = {}
+            if is_spiral:
+                candidate_dir = (
+                    Path(state.output_dir)
+                    / "optimization_candidates"
+                    / f"iteration_{state.iteration + 1}"
+                )
+                candidate_dir.mkdir(parents=True, exist_ok=True)
+                for name in ("output.gds", "output.svg", "output.png", "klayout_readback.json"):
+                    source = Path(state.output_dir) / name
+                    if source.is_file():
+                        destination = candidate_dir / name
+                        shutil.copy2(source, destination)
+                        candidate_artifacts[name] = str(destination.relative_to(state.output_dir))
             iterations.append(
                 {
                     "iteration": state.iteration + 1,
                     "parameters": dict(state.layout_dsl.parameters),
                     "solver_status": simulation.status,
-                    "extracted_capacitance_pf": simulation.extracted_quantities.get(
-                        "mutual_capacitance_pf"
-                    ),
+                    quantity_key: simulation.extracted_quantities.get(extracted_key),
                     "target_comparison": simulation.target_comparison,
                     "verification_passed": bool(generate and generate.report.passed),
+                    "klayout_readback_passed": bool(state.readback and state.readback.passed),
+                    "artifacts": candidate_artifacts,
                 }
             )
             updates["solver_iterations"] = iterations
@@ -232,12 +263,21 @@ class PromptPipeline:
     def retune_parameters(self, state: LayoutWorkflowState) -> dict[str, Any]:
         spec = state.layout_dsl
         simulation = state.simulation
-        target_c = state.target_capacitance_pf
-        assert spec is not None and simulation is not None and target_c is not None
-        extracted = simulation.extracted_quantities.get("mutual_capacitance_pf")
+        assert spec is not None and simulation is not None
+        is_spiral = spec.component == "SpiralInductor"
+        target = state.target_inductance_nh if is_spiral else state.target_capacitance_pf
+        extracted = simulation.extracted_quantities.get(
+            "inductance_nh" if is_spiral else "mutual_capacitance_pf"
+        )
+        assert target is not None
         assert isinstance(extracted, (int, float)) and extracted > 0
         tuned = dict(spec.parameters)
-        tuned["overlap_um"] = _retuned_overlap(float(tuned["overlap_um"]), target_c, extracted)
+        if is_spiral:
+            tuned["outer_dimension_um"] = _retuned_spiral_outer(
+                float(tuned["outer_dimension_um"]), target, extracted, tuned
+            )
+        else:
+            tuned["overlap_um"] = _retuned_overlap(float(tuned["overlap_um"]), target, extracted)
         new_spec = spec.model_copy(update={"parameters": tuned})
         files = dict(state.files)
         files["layout"] = _write_json(
@@ -288,6 +328,49 @@ class PromptPipeline:
                 out / "optimization.json", optimization.model_dump(mode="json")
             )
             updates["optimization"] = optimization
+            updates["files"] = files
+        elif (
+            state.layout_dsl is not None
+            and state.layout_dsl.component == "SpiralInductor"
+            and state.target_inductance_nh is not None
+        ):
+            simulation = state.simulation
+            assert simulation is not None
+            iterations = list(state.solver_iterations)
+            comparison = simulation.target_comparison or {}
+            successful = [
+                item
+                for item in iterations
+                if isinstance(item.get("extracted_inductance_nh"), (int, float))
+            ]
+            selected = min(
+                successful,
+                key=lambda item: abs(float(item["target_comparison"]["error_pct"])),
+            ) if successful else None
+            reason = (
+                "target tolerance reached"
+                if comparison.get("within_tolerance") is True
+                else "solver unavailable or failed"
+                if simulation.status != "executed"
+                else "maximum iterations reached without meeting tolerance"
+            )
+            payload = {
+                "schema": "textlayout.fasthenry-closed-loop-optimization.v1",
+                "target_inductance_nh": state.target_inductance_nh,
+                "tolerance_pct": state.tolerance_percent,
+                "max_iterations": MAX_SOLVER_ITERATIONS,
+                "design_variables": [
+                    "outer_dimension_um", "trace_width_um", "spacing_um", "turns"
+                ],
+                "candidates": iterations,
+                "selected_candidate": selected,
+                "final_parameters": dict(state.layout_dsl.parameters),
+                "solver_executed": simulation.solver_executed,
+                "physics_verified": simulation.physics_verified,
+                "reason_for_stopping": reason,
+            }
+            files = dict(state.files)
+            files["optimization"] = _write_json(out / "optimization.json", payload)
             updates["files"] = files
         return updates
 
@@ -356,21 +439,34 @@ def should_retune(state: LayoutWorkflowState) -> bool:
     solver executed, extracted a positive value that misses tolerance, the
     overlap knob still moves, and the iteration budget remains.
     """
-    if state.optimization is None or state.target_capacitance_pf is None:
+    spec = state.layout_dsl
+    is_spiral = bool(spec and spec.component == "SpiralInductor")
+    if is_spiral:
+        if state.target_inductance_nh is None:
+            return False
+    elif state.optimization is None or state.target_capacitance_pf is None:
         return False
     if state.iteration >= MAX_SOLVER_ITERATIONS:
         return False
     simulation = state.simulation
     if simulation is None or simulation.status != "executed":
         return False
-    extracted = simulation.extracted_quantities.get("mutual_capacitance_pf")
+    extracted = simulation.extracted_quantities.get(
+        "inductance_nh" if is_spiral else "mutual_capacitance_pf"
+    )
     if not isinstance(extracted, (int, float)) or extracted <= 0:
         return False
     comparison = simulation.target_comparison
     if comparison is not None and comparison.get("within_tolerance"):
         return False
-    spec = state.layout_dsl
-    if spec is None or "overlap_um" not in spec.parameters:
+    if spec is None:
+        return False
+    if is_spiral:
+        current = float(spec.parameters["outer_dimension_um"])
+        return _retuned_spiral_outer(
+            current, state.target_inductance_nh, float(extracted), spec.parameters
+        ) != current
+    if "overlap_um" not in spec.parameters:
         return False
     current = float(spec.parameters["overlap_um"])
     return _retuned_overlap(current, state.target_capacitance_pf, float(extracted)) != current
@@ -378,6 +474,26 @@ def should_retune(state: LayoutWorkflowState) -> bool:
 
 def _retuned_overlap(current_um: float, target_pf: float, extracted_pf: float) -> float:
     return round(max(20.0, min(2000.0, current_um * target_pf / extracted_pf)), 4)
+
+
+def _retuned_spiral_outer(
+    current_um: float,
+    target_nh: float,
+    extracted_nh: float,
+    parameters: dict[str, Any],
+) -> float:
+    """Scale spiral size using the measured inductance response.
+
+    The square-root step is intentionally conservative because inductance grows
+    approximately with linear size while parasitic coupling is geometry dependent.
+    Bounds preserve winding clearance and the showcase's 1 mm allocation.
+    """
+    turns = int(parameters["turns"])
+    width = float(parameters["trace_width_um"])
+    spacing = float(parameters["spacing_um"])
+    minimum = 2.0 * turns * width + 2.0 * (turns - 1) * spacing + 1.0
+    scaled = current_um * (target_nh / extracted_nh) ** 0.5
+    return round(max(minimum, min(1000.0, scaled)), 4)
 
 
 def summarize_state(state: LayoutWorkflowState) -> dict[str, Any]:

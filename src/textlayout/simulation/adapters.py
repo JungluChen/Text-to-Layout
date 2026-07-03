@@ -94,6 +94,7 @@ class OpenEMSAdapter:
 
     component: str
     target_frequency_ghz: float | None = None
+    tolerance_pct: float = 5.0
     name: str = "openEMS"
 
     def discover(self, explicit: str | None = None) -> str | None:
@@ -119,6 +120,7 @@ class OpenEMSAdapter:
         return run_openems(
             prepared,
             target_frequency_ghz=self.target_frequency_ghz,
+            tolerance_pct=self.tolerance_pct,
             executable=executable,
             timeout_seconds=timeout_seconds,
         )
@@ -149,6 +151,7 @@ class FastHenryAdapter:
     """Planar-inductor FastHenry adapter."""
 
     target_inductance_h: float | None = None
+    tolerance_pct: float = 5.0
     name: str = "FastHenry"
 
     def discover(self, explicit: str | None = None) -> str | None:
@@ -172,6 +175,7 @@ class FastHenryAdapter:
         return run_fasthenry(
             prepared,
             target_inductance_h=self.target_inductance_h,
+            tolerance_pct=self.tolerance_pct,
             executable=executable,
             timeout_seconds=timeout_seconds,
         )
@@ -255,7 +259,11 @@ def adapter_for(spec: LayoutSpec) -> SolverAdapter[Any]:
     if spec.component == "IDC":
         return FasterCapAdapter(spec.target.get("capacitance_pf"))
     if spec.component in {"CPW", "QuarterWaveResonator"}:
-        return OpenEMSAdapter(spec.component, spec.target.get("frequency_ghz"))
+        return OpenEMSAdapter(
+            spec.component,
+            spec.target.get("frequency_ghz"),
+            10.0 if spec.component == "CPW" else 5.0,
+        )
     if spec.component == "SpiralInductor":
         target = spec.target.get("inductance_h")
         if target is None and spec.target.get("inductance_nh") is not None:

@@ -53,7 +53,7 @@ Current committed showcase evidence includes real FasterCap and FastHenry runs:
 | Quantity | Target | Solver-extracted | Error | Evidence status |
 | --- | --- | --- | --- | --- |
 | IDC capacitance | 0.600000 pF | 0.598641 pF | 0.226% | `PHYSICS_VERIFIED` |
-| Spiral inductance | 3.000000 nH | 2.751264 nH | 8.291% | `SIMULATION_EXECUTED` (outside the 5% evidence tolerance) |
+| Spiral inductance | 3.000000 nH | 2.958308 nH | 1.390% | `PHYSICS_VERIFIED` after two FastHenry-guided geometry iterations |
 
 Example 3 is `PHYSICS_VERIFIED` only for its embedded IDC region. CPW launches,
 transitions, resonator behavior, and the full test-chip tile are not full-wave
@@ -77,32 +77,24 @@ structurally unconstructible (see `src/textlayout/evidence.py`).
 
 ```mermaid
 flowchart LR
-    A[User prompt] --> B[Deterministic intent parser]
+    A[Prompt] --> B[Intent parser]
     B --> C[Typed Layout DSL]
     C --> D[LangGraph workflow]
     D --> E[gdsfactory geometry]
-    E --> F[GDS / SVG / PNG export]
-    F --> G[KLayout readback]
-    G --> H[Geometry verification]
-    H --> I{Component type}
-    I -->|IDC| J[FasterCap / FastCap]
-    I -->|CPW or resonator| K[openEMS / CSXCAD]
-    I -->|Spiral| L[FastHenry]
-    I -->|SQUID/JJ circuit| M[JoSIM / WRspice / PSCAN2]
-    J --> N[Parse extracted C]
-    K --> O[Parse S-parameters / resonance]
-    L --> P[Parse L/R/Q]
-    M --> Q[Parse transient / resonance]
-    N --> R[Target comparison]
-    O --> R
-    P --> R
-    Q --> R
-    R --> S[Evidence report]
-    S --> T{Claim gate}
-    T -->|solver ran and target passed| U[PHYSICS_VERIFIED]
-    T -->|solver missing| V[SKIPPED_SOLVER_ABSENT]
-    T -->|equation only| W[ANALYTICAL_ONLY]
-    T -->|fabrication| X[NOT_FABRICATION_READY]
+    E --> F[KLayout readback]
+    F --> G[Verification]
+    G --> H{Solver route}
+    H -->|IDC| I[FasterCap]
+    H -->|Spiral| J[FastHenry]
+    H -->|CPW / Resonator| K[openEMS]
+    I --> L[Parse C]
+    J --> M[Parse L/R]
+    K --> N[Parse S-parameters]
+    L --> O[Target comparison]
+    M --> O
+    N --> O
+    O --> P[Evidence gate]
+    P --> Q[Report]
 ```
 
 ## Installation
@@ -166,7 +158,7 @@ full LangGraph pipeline; every cell below links to committed artifacts under
 | 1 | 0.6 pF IDC | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) · [simulation](examples/showcase/01_idc_0p6pf/simulation.json) · [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) | **PHYSICS_VERIFIED** — FasterCap real execution; extracted 0.598641 pF versus 0.600000 pF target; 0.226% error. **NOT_FABRICATION_READY** |
 | 2 | 50 ohm CPW feedline | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) · [simulation](examples/showcase/02_cpw_50ohm/simulation.json) · [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) | **SKIPPED_SOLVER_ABSENT** — openEMS/CSXCAD binaries exist, but the required Octave frontend is unavailable; input prepared, no EM run. **NOT_FABRICATION_READY** |
 | 3 | IDC + CPW test structure | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![Test structure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) · [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) · [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) | **PHYSICS_VERIFIED for the embedded IDC region only** — FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error. FasterCap was run on the IDC extraction region only; CPW launches and transitions are not full-wave verified. **NOT_FABRICATION_READY** |
-| 4 | 3 nH spiral inductor | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![Spiral](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) · [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) · [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) | **SIMULATION_EXECUTED** — FastHenry 3.0.1 extracted 2.751264 nH versus 3.000000 nH target; 8.291% error, outside the 5% evidence tolerance. **NOT_FABRICATION_READY** |
+| 4 | 3 nH spiral inductor | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![Spiral](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) · [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) · [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) | **PHYSICS_VERIFIED** — FastHenry 3.0.1 extracted 2.958308 nH versus 3.000000 nH target after two geometry iterations; 1.390% error, within the 5% evidence tolerance. **NOT_FABRICATION_READY** |
 | 5 | 6 GHz quarter-wave resonator | Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels. | [![Resonator](examples/showcase/05_quarter_wave_resonator_6ghz/output.png)](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | [report](examples/showcase/05_quarter_wave_resonator_6ghz/report.md) · [simulation](examples/showcase/05_quarter_wave_resonator_6ghz/simulation.json) · [trace](examples/showcase/05_quarter_wave_resonator_6ghz/workflow_trace.json) | **SKIPPED_SOLVER_ABSENT** — analytical λ/4 length; no EM resonance execution. **NOT_FABRICATION_READY** |
 | 6 | 2 mm × 2 mm research test chip | Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label. | [![Test chip](examples/showcase/06_research_test_chip/output.png)](examples/showcase/06_research_test_chip/output.svg) | [report](examples/showcase/06_research_test_chip/report.md) · [simulation](examples/showcase/06_research_test_chip/simulation.json) · [trace](examples/showcase/06_research_test_chip/workflow_trace.json) · [tile map](examples/showcase/06_research_test_chip/tile_simulation_map.json) | **ANALYTICAL_ONLY for the full tile** — sub-block map retains real FasterCap IDC and FastHenry spiral outputs; CPW input is prepared; no full-tile EM solve. **NOT_FABRICATION_READY** |
 

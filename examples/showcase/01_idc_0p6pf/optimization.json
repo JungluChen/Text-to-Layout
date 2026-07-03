@@ -52,7 +52,14 @@
         "tolerance_pct": 5.0,
         "within_tolerance": false
       },
-      "verification_passed": true
+      "verification_passed": true,
+      "klayout_readback_passed": true,
+      "artifacts": {
+        "output.gds": "optimization_candidates\\iteration_1\\output.gds",
+        "output.svg": "optimization_candidates\\iteration_1\\output.svg",
+        "output.png": "optimization_candidates\\iteration_1\\output.png",
+        "klayout_readback.json": "optimization_candidates\\iteration_1\\klayout_readback.json"
+      }
     },
     {
       "iteration": 2,
@@ -74,7 +81,14 @@
         "tolerance_pct": 5.0,
         "within_tolerance": true
       },
-      "verification_passed": true
+      "verification_passed": true,
+      "klayout_readback_passed": true,
+      "artifacts": {
+        "output.gds": "optimization_candidates\\iteration_2\\output.gds",
+        "output.svg": "optimization_candidates\\iteration_2\\output.svg",
+        "output.png": "optimization_candidates\\iteration_2\\output.png",
+        "klayout_readback.json": "optimization_candidates\\iteration_2\\klayout_readback.json"
+      }
     }
   ],
   "final_basis": "solver_extracted",

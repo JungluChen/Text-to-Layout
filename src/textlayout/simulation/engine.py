@@ -8,7 +8,7 @@ from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
 from dataclasses import replace
 
-from textlayout.simulation.adapters import FasterCapAdapter, adapter_for
+from textlayout.simulation.adapters import FastHenryAdapter, FasterCapAdapter, OpenEMSAdapter, adapter_for
 from textlayout.simulation.models import SimulationResult
 
 
@@ -100,7 +100,9 @@ def _run_adapter(
 ) -> SimulationResult:
     """Apply the common prepare/execute lifecycle for every registered adapter."""
     adapter = adapter_for(spec)
-    if tolerance_pct is not None and isinstance(adapter, FasterCapAdapter):
+    if tolerance_pct is not None and isinstance(
+        adapter, (FasterCapAdapter, FastHenryAdapter, OpenEMSAdapter)
+    ):
         adapter = replace(adapter, tolerance_pct=tolerance_pct)
     prepared = adapter.prepare(spec, geometry, technology, output_dir)
     if not execute or prepared.status != "input_files_prepared":

@@ -250,6 +250,21 @@ def _write_tile_simulation_map(out: Path) -> None:
             ),
             "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target",
         ),
+        (
+            "Resonator",
+            LayoutSpec(
+                component="QuarterWaveResonator",
+                target={"frequency_ghz": 6.0},
+                parameters={
+                    "center_width_um": params.cpw_center_width_um,
+                    "gap_um": params.cpw_gap_um,
+                    "length_um": 4800.0,
+                    "coupling_gap_um": 4.0,
+                    "metal": params.metal_layer,
+                },
+            ),
+            "Nominal 6 GHz resonator reference sub-block; not embedded in the current tile geometry",
+        ),
     )
     workflow = build_default_workflow()
     subblocks: dict[str, object] = {}
@@ -286,21 +301,143 @@ def _write_tile_simulation_map(out: Path) -> None:
             "extracted_quantities": result.extracted_quantities,
             "target_comparison": result.target_comparison,
             "result": str(result_path),
+            "limitation": scope,
         }
+    subblocks["AlignmentMarksAndLabels"] = {
+        "scope": "Alignment marks and title labels in the assembled tile",
+        "status": "GEOMETRY_ONLY",
+        "solver": "none",
+        "solver_executed": False,
+        "physics_verified": False,
+        "extracted_quantities": {},
+        "target_comparison": None,
+        "limitation": "Non-electrical geometry; no solver model applies.",
+    }
     payload = {
         "schema": "textlayout.tile-simulation-map.v1",
         "full_tile_solver_executed": False,
         "full_tile_status": "NOT_MODELED",
         "fabrication_status": "NOT_FABRICATION_READY",
         "statement": (
-            "Sub-block evidence is not a full-tile solve. Alignment marks, title, "
-            "inter-block coupling, package, transitions, and whole-tile modes are not modeled."
+            "This is a layout integration candidate with sub-block evidence, not a "
+            "full-chip EM-verified design. Inter-block coupling, package, transitions, "
+            "and whole-tile modes are not modeled."
         ),
         "subblocks": subblocks,
     }
     (out / "tile_simulation_map.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8"
     )
+
+
+def _write_region_evidence_map(out: Path) -> None:
+    """Record separate IDC, CPW-feed, and transition evidence for Example 3."""
+    from textlayout import build_default_workflow
+    from textlayout.schemas.dsl import LayoutSpec
+    from textlayout.schemas.dsl.test_structure import TestStructureSpec
+    from textlayout.simulation import simulate_layout
+
+    layout = json.loads((out / "layout.json").read_text(encoding="utf-8"))
+    params = TestStructureSpec.model_validate(layout.get("parameters", {}))
+    standalone = json.loads((out / "simulation.json").read_text(encoding="utf-8"))
+    idc_evidence = (standalone.get("evidence") or [{}])[0]
+    comparison = standalone.get("target_comparison") or {}
+
+    cpw_spec = LayoutSpec(
+        component="CPW",
+        target={"impedance_ohm": layout.get("target", {}).get("impedance_ohm", 50.0)},
+        parameters={
+            "center_width_um": params.feed_width_um,
+            "gap_um": params.feed_gap_um,
+            "ground_width_um": params.ground_width_um,
+            "length_um": 2.0 * params.feed_length_um,
+            "metal": params.metal_layer,
+        },
+    )
+    workflow = build_default_workflow()
+    generated = workflow.run(cpw_spec, formats=())
+    cpw_dir = out / "region_simulations" / "cpw_launch_and_feed"
+    cpw_result = simulate_layout(
+        cpw_spec,
+        generated.geometry,
+        workflow.technology(cpw_spec.technology),
+        cpw_dir,
+        execute=True,
+        tolerance_pct=10.0,
+    )
+    cpw_result_path = cpw_dir / "simulation_result.json"
+    cpw_result_path.write_text(json.dumps(cpw_result.to_dict(), indent=2) + "\n", encoding="utf-8")
+    cpw_status = (
+        "PHYSICS_VERIFIED"
+        if cpw_result.physics_verified
+        else "SIMULATION_EXECUTED"
+        if cpw_result.solver_executed
+        else "SKIPPED_SOLVER_ABSENT"
+        if cpw_result.status == "skipped"
+        else "SIMULATION_INPUT_PREPARED"
+        if cpw_result.status == "input_files_prepared"
+        else "FAILED"
+    )
+    payload = {
+        "schema": "textlayout.region-evidence-map.v1",
+        "regions": [
+            {
+                "name": "embedded_idc",
+                "solver": idc_evidence.get("solver", standalone.get("solver")),
+                "status": idc_evidence.get("status"),
+                "target": f"{idc_evidence.get('target_value')} {idc_evidence.get('target_unit')}",
+                "extracted": f"{idc_evidence.get('extracted_value')} {idc_evidence.get('extracted_unit')}",
+                "error_pct": comparison.get("error_pct"),
+                "limitation": "FasterCap verification applies only to the embedded IDC extraction region.",
+            },
+            {
+                "name": "cpw_launch_and_feed",
+                "solver": cpw_result.solver,
+                "status": cpw_status,
+                "extracted_quantities": cpw_result.extracted_quantities,
+                "target_comparison": cpw_result.target_comparison,
+                "reason": cpw_result.reason,
+                "result": str(cpw_result_path),
+                "limitation": "Standalone feed model; it excludes launch pads and the IDC transition.",
+            },
+            {
+                "name": "transition_region",
+                "solver": "not modeled",
+                "status": "NOT_MODELED",
+                "limitation": "No full-wave transition model was executed.",
+            },
+        ],
+        "whole_structure_solver_executed": False,
+        "whole_structure_verified": False,
+        "statement": (
+            "FasterCap verification applies only to the embedded IDC extraction region. "
+            "CPW launches, feedlines, and transitions are not full-wave verified unless "
+            "a whole-structure openEMS execution is available."
+        ),
+    }
+    (out / "region_evidence_map.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def _append_region_summary_to_report(out: Path) -> None:
+    path = out / "region_evidence_map.json"
+    report = out / "report.md"
+    if not path.is_file() or not report.is_file():
+        return
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    lines = ["## Region-level evidence", "", f"- {payload['statement']}"]
+    for region in payload["regions"]:
+        lines.append(
+            f"- **{region['name']}**: `{region['status']}` via `{region['solver']}`; "
+            f"{region.get('limitation', region.get('reason', ''))}"
+        )
+    lines += ["", "- Whole structure verified: **false**", ""]
+    text = report.read_text(encoding="utf-8")
+    marker = "## Limitations"
+    summary = "\n".join(lines)
+    text = text.replace(marker, summary + "\n" + marker, 1) if marker in text else text + summary
+    report.write_text(text, encoding="utf-8")
 
 
 def _tile_summary_lines(tile_map: dict[str, object]) -> list[str]:
@@ -404,7 +541,7 @@ def _example_readme(example: Example, out: Path) -> str:
         "",
         "![layout](output.png)",
         "",
-        f"- GDS: [`output.gds`](output.gds), SVG: [`output.svg`](output.svg)",
+        "- GDS: [`output.gds`](output.gds), SVG: [`output.svg`](output.svg)",
         "",
         "## KLayout readback",
         "",
@@ -463,6 +600,16 @@ def _example_readme(example: Example, out: Path) -> str:
     if tile_map_path.is_file():
         tile_map = json.loads(tile_map_path.read_text(encoding="utf-8"))
         lines += _tile_summary_lines(tile_map)
+    region_map_path = out / "region_evidence_map.json"
+    if region_map_path.is_file():
+        region_map = json.loads(region_map_path.read_text(encoding="utf-8"))
+        lines += ["## Region-level evidence", "", f"- {region_map.get('statement')}"]
+        for region in region_map.get("regions", []):
+            lines.append(
+                f"- **{region.get('name')}**: `{region.get('status')}` via "
+                f"`{region.get('solver')}`; {region.get('limitation', region.get('reason', ''))}"
+            )
+        lines += ["", "- Whole structure verified: **false**", ""]
     lines += [
         "## Limitation",
         "",
@@ -501,6 +648,9 @@ def generate_example(example: Example, *, force: bool) -> dict[str, object]:
     workflow = build_from_text_workflow()
     result = workflow.run(example.prompt, out, tolerance_percent=5.0, execute_solver=True)
     _canonicalize_gds(out, example.id)
+    if example.id == "03_idc_cpw_test_structure":
+        _write_region_evidence_map(out)
+        _append_region_summary_to_report(out)
     if example.id == "06_research_test_chip":
         _write_tile_simulation_map(out)
         _append_tile_summary_to_report(out)

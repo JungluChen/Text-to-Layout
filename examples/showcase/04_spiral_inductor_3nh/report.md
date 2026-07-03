@@ -55,25 +55,25 @@
 
 ## Extraction status
 
-- Status: **SIMULATION_EXECUTED**
-- Simulation status: **SIMULATION_EXECUTED**
+- Status: **PHYSICS_VERIFIED**
+- Simulation status: **PHYSICS_VERIFIED**
 - Prepared fasthenry files: **yes**
 - Solver executed: **yes**
-- Physics verified: **no**
-- Evidence status: **SIMULATION_EXECUTED**
-- inductance: SIMULATION_EXECUTED — fasthenry extracted 2.751263754746667 nH vs target 3.0 nH; tolerance not met or not compared — NOT physics verified
-- Analytical inductance: `3.0 nH`
-- Solver-extracted inductance: `2.751263754746667 nH`
+- Physics verified: **yes**
+- Evidence status: **PHYSICS_VERIFIED**
+- inductance: PHYSICS_VERIFIED — fasthenry extracted 2.9583084202149137 nH vs target 3.0 nH (error 1.39% <= 5.0%)
+- Analytical inductance: `3.2227 nH`
+- FastHenry-extracted inductance: `2.9583084202149137 nH`
 - Circuit simulators are not inductance-extraction evidence.
 
-- Extracted inductance: `2.75126 nH`
+- Extracted inductance: `2.95831 nH`
 - Target inductance: `3 nH`
-- Error: `-8.29%`
+- Error: `-1.390%`
 - Tolerance: `+/-5.00%`
-- Reason: extracted value is outside tolerance.
+- Reason: extracted value is within tolerance.
 
-- Legacy simulation status: **SIMULATION_EXECUTED**
-- The solver executed and a value was extracted, but the result does not meet tolerance (or no target was stated) — **not physics verified**.
+- Legacy simulation status: **PHYSICS_VERIFIED**
+- The solver executed, its output was parsed, and the extracted value is within tolerance of the target.
 
 ## JoSIM status
 
@@ -89,7 +89,7 @@
 
 ## What is verified
 
-- Overall status: **NOT VERIFIED**
+- Overall status: **PHYSICS_VERIFIED**
 - Deterministic layout and geometry checks: **verified**
 - Geometry-level inductance output was parsed from an executed solver.
 
@@ -106,6 +106,7 @@
 ## Artifacts
 
 - `capacitance_result`: `extraction\capacitance_result.json`
+- `fasthenry_result`: `fasthenry_result.json`
 - `gds`: `output.gds`
 - `intent`: `intent.json`
 - `klayout_readback`: `klayout_readback.json`

@@ -52,8 +52,8 @@
       "klayout_readback_status": "pass",
       "solver": "fasthenry",
       "solver_executed": true,
-      "simulation_status": "SIMULATION_EXECUTED",
-      "evidence_status": "SIMULATION_EXECUTED",
+      "simulation_status": "PHYSICS_VERIFIED",
+      "evidence_status": "PHYSICS_VERIFIED",
       "fabrication_status": "NOT_FABRICATION_READY",
       "limitation": "FastHenry execution is environment-dependent; conductivity and thickness remain generic process assumptions. Not fabrication-ready."
     },

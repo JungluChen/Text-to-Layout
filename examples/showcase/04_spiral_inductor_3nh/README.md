@@ -18,7 +18,7 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 ## Layout DSL summary
 
 - DSL component: `SpiralInductor` (schema v1.0)
-- Parameters: `{"turns": 4, "outer_dimension_um": 123.6974, "trace_width_um": 4.0, "spacing_um": 2.0, "thickness_um": 0.2}`
+- Parameters: `{"turns": 4, "outer_dimension_um": 129.168, "trace_width_um": 4.0, "spacing_um": 2.0, "thickness_um": 0.2}`
 
 ## Generated geometry
 
@@ -29,8 +29,8 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `SpiralInductor_cde5ee8d`
-- Bounding box: `{"width": 123.697, "height": 123.697}` um
+- Top cell: `SpiralInductor_9b0396ff`
+- Bounding box: `{"width": 129.168, "height": 129.168}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 18}`
 - Database unit: `0.001` um
 
@@ -46,17 +46,17 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 ## Solver execution
 
 - Solver executed: **yes**
-- Extracted inductance: `2.751263754746667` nH
+- Extracted inductance: `2.9583084202149137` nH
 
 ## Target comparison
 
-- Target: `3.0` nH; extracted: `2.751263754746667` nH
-- Error: `-8.291%` (tolerance `5.0%`)
-- Within tolerance: **False**
+- Target: `3.0` nH; extracted: `2.9583084202149137` nH
+- Error: `-1.39%` (tolerance `5.0%`)
+- Within tolerance: **True**
 
 ## Evidence status
 
-- **SIMULATION_EXECUTED**
+- **PHYSICS_VERIFIED**
 - Geometry: **GEOMETRY_PASS**
 - Fabrication status: **NOT_FABRICATION_READY**
 

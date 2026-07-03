@@ -2,7 +2,7 @@
   "schema": "textlayout.klayout-readback.v1",
   "status": "pass",
   "gds_path": "output.gds",
-  "top_cell": "TestChip_409b9339",
+  "top_cell": "TestChip_0d4392ba",
   "dbu_um": 0.001,
   "bbox_um": {
     "width": 2000.0,
@@ -33,7 +33,7 @@
     {
       "name": "top_cell_exists",
       "passed": true,
-      "detail": "TestChip_409b9339"
+      "detail": "TestChip_0d4392ba"
     },
     {
       "name": "bbox_non_empty",

@@ -6,9 +6,9 @@
 ## Analytical estimate
 
 - `turns` = 4
-- `outer_dimension_um` = 123.6974
-- `inner_dimension_um` = 79.6974
-- `estimated_inductance_nh` = 3.0
+- `outer_dimension_um` = 129.168
+- `inner_dimension_um` = 85.168
+- `estimated_inductance_nh` = 3.2227
 
 ## First-principles equations
 
@@ -20,7 +20,7 @@
 ```json
 {
   "turns": 4,
-  "outer_dimension_um": 123.6974,
+  "outer_dimension_um": 129.168,
   "trace_width_um": 4.0,
   "spacing_um": 2.0,
   "thickness_um": 0.2

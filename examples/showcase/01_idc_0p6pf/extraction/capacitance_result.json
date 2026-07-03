@@ -12,7 +12,7 @@
     "extraction/capacitance_input/idc.lst"
   ],
   "return_code": 0,
-  "runtime_seconds": 13.591363600000477,
+  "runtime_seconds": 18.262522799999715,
   "artifacts": {
     "panel_file": "extraction\\capacitance_input\\idc.qui",
     "list_file": "extraction\\capacitance_input\\idc.lst",

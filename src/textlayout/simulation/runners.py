@@ -238,6 +238,19 @@ def parse_fasthenry_inductance(text: str) -> float:
 _OPENEMS_NAMES = ("octave-cli", "octave-cli.exe", "octave", "octave.exe")
 
 
+def discover_openems_stack() -> dict[str, str | None]:
+    """Discover the openEMS core, CSXCAD viewer, and Octave frontend independently."""
+    return {
+        "openems": find_executable(
+            ("openEMS", "openEMS.exe", "openems"), env_var="TEXTLAYOUT_OPENEMS_CORE"
+        ),
+        "csxcad": find_executable(
+            ("AppCSXCAD", "AppCSXCAD.exe"), env_var="TEXTLAYOUT_CSXCAD"
+        ),
+        "octave": find_executable(_OPENEMS_NAMES, env_var="TEXTLAYOUT_OPENEMS"),
+    }
+
+
 def run_openems(
     prepared: SimulationResult,
     *,
@@ -303,8 +316,8 @@ def run_openems(
             quantity = "characteristic_impedance_ohm"
             value = extracted[quantity]
         else:
-            value = extract_resonance_from_touchstone(s2p)
-            extracted = {"resonance_frequency_ghz": value}
+            extracted = extract_resonance_metrics_from_touchstone(s2p)
+            value = extracted["resonance_frequency_ghz"]
             quantity = "resonance_frequency_ghz"
     except (ValueError, OSError) as exc:
         return _failed(prepared, f"Could not extract resonance from {s2p.name}: {exc}")
@@ -324,6 +337,9 @@ def run_openems(
         target_comparison=comparison,
         warnings=prepared.warnings,
         command=completed.command if completed is not None else (),
+        return_code=completed.returncode if completed is not None else 0,
+        runtime_seconds=completed.runtime_seconds if completed is not None else None,
+        solver_version="openEMS via Octave frontend",
     )
 
 
@@ -372,6 +388,8 @@ def extract_cpw_from_touchstone(
     return {
         "characteristic_impedance_ohm": float(abs(z0)),
         "sample_frequency_ghz": freqs[index] / 1e9,
+        "s11_magnitude": float(abs(s11[index])),
+        "return_loss_db": float(-20.0 * math.log10(max(abs(s11[index]), 1e-15))),
     }
 
 
@@ -453,6 +471,11 @@ def extract_resonance_from_touchstone(path: str | Path) -> float:
     covers both notch and peak topologies. Falls back to a minimal Touchstone
     parser if scikit-rf is not installed.
     """
+    return extract_resonance_metrics_from_touchstone(path)["resonance_frequency_ghz"]
+
+
+def extract_resonance_metrics_from_touchstone(path: str | Path) -> dict[str, float]:
+    """Extract resonance and a best-effort loaded-Q estimate from Touchstone data."""
     freqs_hz, s21_mag = _read_touchstone_s21(path)
     if not freqs_hz:
         raise ValueError("no frequency points")
@@ -461,7 +484,34 @@ def extract_resonance_from_touchstone(path: str | Path) -> float:
     i_min = min(range(len(s21_mag)), key=lambda i: s21_mag[i])
     i_max = max(range(len(s21_mag)), key=lambda i: s21_mag[i])
     idx = i_min if (mean - s21_mag[i_min]) >= (s21_mag[i_max] - mean) else i_max
-    return freqs_hz[idx] / 1e9
+    result = {
+        "resonance_frequency_ghz": freqs_hz[idx] / 1e9,
+        "s21_magnitude_at_resonance": s21_mag[idx],
+    }
+    if len(freqs_hz) >= 3:
+        is_notch = idx == i_min
+        baseline = max(s21_mag[0], s21_mag[-1]) if is_notch else min(
+            s21_mag[0], s21_mag[-1]
+        )
+        threshold_power = (
+            (baseline * baseline + s21_mag[idx] * s21_mag[idx]) / 2.0
+            if is_notch
+            else s21_mag[idx] * s21_mag[idx] / 2.0
+        )
+        crossings = [
+            i
+            for i in range(len(s21_mag) - 1)
+            if (s21_mag[i] ** 2 - threshold_power)
+            * (s21_mag[i + 1] ** 2 - threshold_power)
+            <= 0
+        ]
+        left = [i for i in crossings if i < idx]
+        right = [i for i in crossings if i >= idx]
+        if left and right:
+            bandwidth_hz = freqs_hz[right[0] + 1] - freqs_hz[left[-1]]
+            if bandwidth_hz > 0:
+                result["loaded_q_estimate"] = freqs_hz[idx] / bandwidth_hz
+    return result
 
 
 def _read_touchstone_s21(path: str | Path) -> tuple[list[float], list[float]]:

@@ -29,7 +29,7 @@
     {
       "name": "bounding_box",
       "status": "pass",
-      "value_um2": 15301.0468
+      "value_um2": 16684.3722
     },
     {
       "name": "ports_exist",
@@ -111,11 +111,11 @@
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
     "gds_path": "output.gds",
-    "top_cell": "SpiralInductor_cde5ee8d",
+    "top_cell": "SpiralInductor_9b0396ff",
     "dbu_um": 0.001,
     "bbox_um": {
-      "width": 123.697,
-      "height": 123.697
+      "width": 129.168,
+      "height": 129.168
     },
     "layers": {
       "1/0": 18
@@ -141,12 +141,12 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "SpiralInductor_cde5ee8d"
+        "detail": "SpiralInductor_9b0396ff"
       },
       {
         "name": "bbox_non_empty",
         "passed": true,
-        "detail": "123.6970 x 123.6970 um"
+        "detail": "129.1680 x 129.1680 um"
       },
       {
         "name": "polygon_count_positive",
@@ -166,7 +166,7 @@
       {
         "name": "bbox_matches_ir",
         "passed": true,
-        "detail": "IR 123.6974x123.6974 um vs GDS 123.6970x123.6970 um"
+        "detail": "IR 129.1680x129.1680 um vs GDS 129.1680x129.1680 um"
       },
       {
         "name": "ports_declared",

@@ -96,6 +96,7 @@ class SizingOutcome:
     circuit_requests: dict[str, tuple[bool, bool]]
     lc_inductance_nh: Any
     target_capacitance_pf: float | None
+    target_inductance_nh: float | None
     jpa_sizing: dict[str, Any] | None
 
 
@@ -128,6 +129,7 @@ def size_parameters(
         if jpa_sizing is not None
         else intent.target.get("capacitance_pf")
     )
+    target_l = intent.target.get("inductance_nh")
     if intent.component in {"IDC", "JPA", "TestStructure"} and target_c is not None:
         optimization = optimize_idc(
             target_capacitance_pf=target_c,
@@ -217,6 +219,7 @@ def size_parameters(
         circuit_requests=circuit_requests,
         lc_inductance_nh=lc_inductance_nh,
         target_capacitance_pf=target_c,
+        target_inductance_nh=float(target_l) if target_l is not None else None,
         jpa_sizing=jpa_sizing,
     )
 
@@ -951,6 +954,11 @@ def _render_jpa_report(
     extracted_unit = evidence.extracted_unit or ""
     target_unit = evidence.target_unit or extracted_unit
     solver_label = evidence.solver or "the requested solver"
+    extracted_label = (
+        "FastHenry-extracted inductance"
+        if quantity_label.lower() == "inductance" and "fasthenry" in solver_label.casefold()
+        else f"Solver-extracted {quantity_label}"
+    )
     solver_backed_final_value = (
         evidence.extracted_value is not None and quantity_label.lower() == "capacitance"
     )
@@ -978,7 +986,7 @@ def _render_jpa_report(
         f"- Evidence status: **{evidence.status.value}**",
         f"- {evidence.summary_line()}",
         f"- Analytical {quantity_label}: `{evidence.analytical_value} {target_unit}`".rstrip(),
-        f"- Solver-extracted {quantity_label}: "
+        f"- {extracted_label}: "
         f"`{evidence.extracted_value if evidence.extracted_value is not None else 'not available'}"
         f"{' ' + extracted_unit if evidence.extracted_value is not None and extracted_unit else ''}`",
         f"- Circuit simulators are not {quantity_label}-extraction evidence.",
@@ -990,7 +998,7 @@ def _render_jpa_report(
             f"- Target {quantity_label}: `{evidence.target_value:.6g} {target_unit}`".rstrip()
             if evidence.target_value is not None
             else f"- Target {quantity_label}: `not provided`",
-            f"- Error: `{((evidence.extracted_value - evidence.target_value) / evidence.target_value * 100):+.2f}%`"
+            f"- Error: `{((evidence.extracted_value - evidence.target_value) / evidence.target_value * 100):+.3f}%`"
             if evidence.target_value
             else "- Error: `not compared`",
             f"- Tolerance: `+/-{evidence.tolerance_percent:.2f}%`",

@@ -10,9 +10,9 @@
 ## Calculated values
 
 - `turns`: `4`
-- `outer_dimension_um`: `123.6974`
-- `inner_dimension_um`: `79.6974`
-- `estimated_inductance_nh`: `3.0`
+- `outer_dimension_um`: `129.168`
+- `inner_dimension_um`: `85.168`
+- `estimated_inductance_nh`: `3.2227`
 
 ## Equations
 

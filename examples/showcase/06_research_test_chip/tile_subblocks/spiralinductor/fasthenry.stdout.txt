@@ -1,6 +1,6 @@
 Running FastHenry 3.0.1 (28May12)
 Source code fixes and compilation by FastFieldSolvers, 2012
-  Date: Fri Jul  3 15:26:24 2026
+  Date: Fri Jul  3 16:21:45 2026
   Host: Lu
 Solution technique: ITERATIVE
 Matrix vector product method: MULTIPOLE
@@ -443,11 +443,11 @@ Calling gmres...
 
 All impedance matrices dumped to file Zc.mat
 
-Times:  Read geometry   0.001301
-        Multipole setup 0.004083
-        Scanning graph  3.5e-05
-        Form A M and Z  2.4e-05
-        form M'ZM       5.6e-05
-        Form precond    0.001004
-        GMRES time      0.013761
-   Total:               0.020264
+Times:  Read geometry   0.001533
+        Multipole setup 0.002985
+        Scanning graph  1.8e-05
+        Form A M and Z  1.8e-05
+        form M'ZM       0.000113
+        Form precond    0.002189
+        GMRES time      0.034543
+   Total:               0.041399

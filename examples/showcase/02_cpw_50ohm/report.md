@@ -106,6 +106,7 @@
 - `intent`: `intent.json`
 - `klayout_readback`: `klayout_readback.json`
 - `layout`: `layout.json`
+- `openems_result`: `openems_result.json`
 - `optimization`: `optimization.json`
 - `png`: `output.png`
 - `simulation`: `simulation\simulation.json`

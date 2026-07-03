@@ -29,7 +29,7 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestStructure_bcf136c0`
+- Top cell: `TestStructure_256dc46d`
 - Bounding box: `{"width": 598.0, "height": 1131.362}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 48}`
 - Database unit: `0.001` um
@@ -59,6 +59,15 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 - **PHYSICS_VERIFIED**
 - Geometry: **GEOMETRY_PASS**
 - Fabrication status: **NOT_FABRICATION_READY**
+
+## Region-level evidence
+
+- FasterCap verification applies only to the embedded IDC extraction region. CPW launches, feedlines, and transitions are not full-wave verified unless a whole-structure openEMS execution is available.
+- **embedded_idc**: `PHYSICS_VERIFIED` via `FasterCap`; FasterCap verification applies only to the embedded IDC extraction region.
+- **cpw_launch_and_feed**: `SKIPPED_SOLVER_ABSENT` via `openEMS`; Standalone feed model; it excludes launch pads and the IDC transition.
+- **transition_region**: `NOT_MODELED` via `not modeled`; No full-wave transition model was executed.
+
+- Whole structure verified: **false**
 
 ## Limitation
 

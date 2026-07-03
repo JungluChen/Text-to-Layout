@@ -2,7 +2,7 @@
 
 - Verification: **PASS**
 - Technology: `generic_2metal`
-- Bounding box: `123.6974 um x 123.6974 um`
+- Bounding box: `129.1680 um x 129.1680 um`
 - Polygons: `18`
 - Ports: `2`
 
@@ -11,9 +11,9 @@
 - Model: Modified-Wheeler / Mohan planar spiral inductor
 - Target `inductance_nh`: `3.0`
 - Estimate `turns`: `4`
-- Estimate `outer_dimension_um`: `123.6974`
-- Estimate `inner_dimension_um`: `79.6974`
-- Estimate `estimated_inductance_nh`: `3.0`
+- Estimate `outer_dimension_um`: `129.168`
+- Estimate `inner_dimension_um`: `85.168`
+- Estimate `estimated_inductance_nh`: `3.2227`
 
 ## Verification
 

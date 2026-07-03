@@ -135,6 +135,37 @@ def test_test_chip_has_honest_subblock_simulation_map() -> None:
     assert payload["fabrication_status"] == "NOT_FABRICATION_READY"
     assert payload["subblocks"]["IDC"]["solver_executed"] is True
     assert payload["subblocks"]["SpiralInductor"]["solver_executed"] is True
+    assert payload["subblocks"]["Resonator"]["solver"] == "openEMS"
+    assert payload["subblocks"]["AlignmentMarksAndLabels"]["status"] == "GEOMETRY_ONLY"
+
+
+def test_spiral_optimizer_retains_candidates_and_selects_verified_geometry() -> None:
+    folder = SHOWCASE / "04_spiral_inductor_3nh"
+    payload = json.loads((folder / "optimization.json").read_text(encoding="utf-8"))
+    assert payload["schema"] == "textlayout.fasthenry-closed-loop-optimization.v1"
+    assert payload["physics_verified"] is True
+    assert payload["reason_for_stopping"] == "target tolerance reached"
+    assert len(payload["candidates"]) >= 2
+    selected = payload["selected_candidate"]
+    assert selected["target_comparison"]["within_tolerance"] is True
+    assert selected["klayout_readback_passed"] is True
+    for candidate in payload["candidates"]:
+        assert candidate["verification_passed"] is True
+        for relative in candidate["artifacts"].values():
+            assert (folder / relative).is_file()
+
+
+def test_idc_cpw_region_map_does_not_promote_whole_structure() -> None:
+    payload = json.loads(
+        (SHOWCASE / "03_idc_cpw_test_structure" / "region_evidence_map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    regions = {region["name"]: region for region in payload["regions"]}
+    assert regions["embedded_idc"]["status"] == "PHYSICS_VERIFIED"
+    assert regions["cpw_launch_and_feed"]["solver"] == "openEMS"
+    assert regions["transition_region"]["status"] == "NOT_MODELED"
+    assert payload["whole_structure_verified"] is False
 
 
 def test_root_readme_showcase_rows_link_to_committed_folders() -> None:

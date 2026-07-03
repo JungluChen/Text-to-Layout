@@ -101,7 +101,7 @@ def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path
 
 
 def test_fast_henry_number_mismatch_fails_validation(tmp_path: Path) -> None:
-    fake = _doctored(tmp_path, "2.751264 nH", "2.900000 nH")
+    fake = _doctored(tmp_path, "2.958308 nH", "2.900000 nH")
     errors = validate(fake)
     assert any("04_spiral_inductor_3nh" in e and "does not match" in e for e in errors), errors
 

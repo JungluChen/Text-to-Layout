@@ -68,7 +68,7 @@
 
 - Extracted capacitance: `0.610019 pF`
 - Target capacitance: `0.6 pF`
-- Error: `+1.67%`
+- Error: `+1.670%`
 - Tolerance: `+/-5.00%`
 - Reason: extracted value is within tolerance.
 
@@ -122,6 +122,15 @@
 - `simulation_legacy`: `simulation.json`
 - `svg`: `output.svg`
 - `verification`: `verification.json`
+
+## Region-level evidence
+
+- FasterCap verification applies only to the embedded IDC extraction region. CPW launches, feedlines, and transitions are not full-wave verified unless a whole-structure openEMS execution is available.
+- **embedded_idc**: `PHYSICS_VERIFIED` via `FasterCap`; FasterCap verification applies only to the embedded IDC extraction region.
+- **cpw_launch_and_feed**: `SKIPPED_SOLVER_ABSENT` via `openEMS`; Standalone feed model; it excludes launch pads and the IDC transition.
+- **transition_region**: `NOT_MODELED` via `not modeled`; No full-wave transition model was executed.
+
+- Whole structure verified: **false**
 
 ## Limitations
 

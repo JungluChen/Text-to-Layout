@@ -48,6 +48,9 @@ def _prepare_openems(
     config = out / "openems_model.json"
     driver = out / "openems_model.m"
     bbox = geometry.bbox()
+    from textlayout.simulation.runners import discover_openems_stack
+
+    stack = discover_openems_stack()
     payload = {
         "status": "input_files_prepared",
         "solver": "openEMS",
@@ -68,6 +71,7 @@ def _prepare_openems(
         ],
         "expected_outputs": list(expected),
         "execution": "not_run",
+        "discovery": stack,
         "driver": driver.name,
     }
     config.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -77,6 +81,9 @@ def _prepare_openems(
         "Boundary placement and mesh convergence must be reviewed before signoff.",
     )
     manifest = _write_manifest(out, "openEMS", spec.component, expected, warnings)
+    manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+    manifest_payload["discovery"] = stack
+    manifest.write_text(json.dumps(manifest_payload, indent=2) + "\n", encoding="utf-8")
     return SimulationResult(
         status="input_files_prepared",
         solver="openEMS",

@@ -70,7 +70,7 @@
 
 - Extracted capacitance: `0.598641 pF`
 - Target capacitance: `0.6 pF`
-- Error: `-0.23%`
+- Error: `-0.226%`
 - Tolerance: `+/-5.00%`
 - Reason: extracted value is within tolerance.
 

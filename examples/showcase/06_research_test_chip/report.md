@@ -114,11 +114,13 @@
 
 - Full-tile solver executed: **False**
 - Full-tile status: **NOT_MODELED**
-- Sub-block evidence is not a full-tile solve. Alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
+- This is a layout integration candidate with sub-block evidence, not a full-chip EM-verified design. Inter-block coupling, package, transitions, and whole-tile modes are not modeled.
 
 - **IDC** sub-block: `SIMULATION_EXECUTED` via `FasterCap` — FasterCap extraction of the geometry-identical IDC sub-block; extracted `0.6973109999999999` vs target `0.6` (mutual_capacitance_pf); error `16.218%` (tolerance `5.0%`); within tolerance: **False**
 - **CPW** sub-block: `SKIPPED_SOLVER_ABSENT` via `openEMS` — openEMS preparation for the geometry-identical CPW sub-block
 - **SpiralInductor** sub-block: `SIMULATION_EXECUTED` via `fasthenry` — FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target
+- **Resonator** sub-block: `SKIPPED_SOLVER_ABSENT` via `openEMS` — Nominal 6 GHz resonator reference sub-block; not embedded in the current tile geometry
+- **AlignmentMarksAndLabels** sub-block: `GEOMETRY_ONLY` via `none` — Alignment marks and title labels in the assembled tile
 
 Full-tile EM solve status: **NOT EXECUTED**. Sub-block evidence above is not a full-tile verification; alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
 

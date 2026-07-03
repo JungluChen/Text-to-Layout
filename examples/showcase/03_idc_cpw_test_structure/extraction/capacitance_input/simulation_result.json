@@ -53,7 +53,7 @@
     "extraction/capacitance_input/idc.lst"
   ],
   "return_code": 0,
-  "runtime_seconds": 1.9726413999997021,
+  "runtime_seconds": 2.4920579999998154,
   "evidence_level": "PHYSICS_VERIFIED",
   "solver_version": "Running FasterCap version 6.0.7",
   "capacitance_matrix_pf": [

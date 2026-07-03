@@ -7,7 +7,7 @@
   },
   "parameters": {
     "turns": 4,
-    "outer_dimension_um": 123.6974,
+    "outer_dimension_um": 129.168,
     "trace_width_um": 4.0,
     "spacing_um": 2.0,
     "thickness_um": 0.2

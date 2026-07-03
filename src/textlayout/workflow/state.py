@@ -40,6 +40,7 @@ class LayoutWorkflowState(BaseModel):
     circuit_requests: dict[str, tuple[bool, bool]] = Field(default_factory=dict)
     lc_inductance_nh: Any = None
     target_capacitance_pf: float | None = None
+    target_inductance_nh: float | None = None
 
     generate: GenerateResult | None = None
     readback: ReadbackResult | None = None

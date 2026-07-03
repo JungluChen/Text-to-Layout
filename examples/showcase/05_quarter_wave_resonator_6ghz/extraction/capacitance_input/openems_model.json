@@ -81,5 +81,10 @@
     "S21"
   ],
   "execution": "not_run",
+  "discovery": {
+    "openems": ".tools\\openEMS-v0.0.36\\openEMS\\openEMS.exe",
+    "csxcad": ".tools\\openEMS-v0.0.36\\openEMS\\AppCSXCAD.exe",
+    "octave": null
+  },
   "driver": "openems_model.m"
 }

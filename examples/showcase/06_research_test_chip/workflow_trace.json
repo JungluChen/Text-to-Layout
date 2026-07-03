@@ -1,11 +1,11 @@
 {
   "schema": "textlayout.workflow-trace.v1",
   "orchestrator": "langgraph",
-  "generated_at": "2026-07-03T07:24:33.198+00:00",
+  "generated_at": "2026-07-03T08:19:39.625+00:00",
   "nodes": [
     {
       "node": "ParsePrompt",
-      "start_time": "2026-07-03T07:24:31.119+00:00",
+      "start_time": "2026-07-03T08:19:37.451+00:00",
       "input_summary": {
         "component": null,
         "geometry_status": null,
@@ -15,7 +15,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:31.124+00:00",
+      "end_time": "2026-07-03T08:19:37.456+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -26,7 +26,7 @@
     },
     {
       "node": "ValidateIntent",
-      "start_time": "2026-07-03T07:24:31.125+00:00",
+      "start_time": "2026-07-03T08:19:37.458+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": null,
@@ -38,7 +38,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:31.125+00:00",
+      "end_time": "2026-07-03T08:19:37.458+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -48,7 +48,7 @@
     },
     {
       "node": "BuildLayoutDSL",
-      "start_time": "2026-07-03T07:24:31.127+00:00",
+      "start_time": "2026-07-03T08:19:37.459+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": null,
@@ -60,7 +60,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:31.131+00:00",
+      "end_time": "2026-07-03T08:19:37.463+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -71,13 +71,14 @@
           "lc_inductance_nh",
           "optimization",
           "sized_parameters",
-          "target_capacitance_pf"
+          "target_capacitance_pf",
+          "target_inductance_nh"
         ]
       }
     },
     {
       "node": "OptimizeParameters",
-      "start_time": "2026-07-03T07:24:31.133+00:00",
+      "start_time": "2026-07-03T08:19:37.464+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": null,
@@ -90,7 +91,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:31.136+00:00",
+      "end_time": "2026-07-03T08:19:37.467+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -100,7 +101,7 @@
     },
     {
       "node": "GenerateGeometry",
-      "start_time": "2026-07-03T07:24:31.138+00:00",
+      "start_time": "2026-07-03T08:19:37.469+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": null,
@@ -114,7 +115,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.155+00:00",
+      "end_time": "2026-07-03T08:19:39.586+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -125,7 +126,7 @@
     },
     {
       "node": "ExportArtifacts",
-      "start_time": "2026-07-03T07:24:33.156+00:00",
+      "start_time": "2026-07-03T08:19:39.586+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "pass",
@@ -139,7 +140,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.156+00:00",
+      "end_time": "2026-07-03T08:19:39.586+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -150,7 +151,7 @@
     },
     {
       "node": "KLayoutReadback",
-      "start_time": "2026-07-03T07:24:33.158+00:00",
+      "start_time": "2026-07-03T08:19:39.587+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "pass",
@@ -167,7 +168,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.165+00:00",
+      "end_time": "2026-07-03T08:19:39.593+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -178,7 +179,7 @@
     },
     {
       "node": "GeometryVerification",
-      "start_time": "2026-07-03T07:24:33.168+00:00",
+      "start_time": "2026-07-03T08:19:39.594+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "pass",
@@ -196,7 +197,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.175+00:00",
+      "end_time": "2026-07-03T08:19:39.597+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -208,7 +209,7 @@
     },
     {
       "node": "PrepareFasterCap",
-      "start_time": "2026-07-03T07:24:33.176+00:00",
+      "start_time": "2026-07-03T08:19:39.599+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -227,7 +228,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.177+00:00",
+      "end_time": "2026-07-03T08:19:39.599+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -238,7 +239,7 @@
     },
     {
       "node": "RunFasterCapIfAvailable",
-      "start_time": "2026-07-03T07:24:33.178+00:00",
+      "start_time": "2026-07-03T08:19:39.600+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -257,7 +258,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.178+00:00",
+      "end_time": "2026-07-03T08:19:39.600+00:00",
       "status": "ok",
       "output_summary": {
         "updated": []
@@ -265,7 +266,7 @@
     },
     {
       "node": "ParseSolverResult",
-      "start_time": "2026-07-03T07:24:33.179+00:00",
+      "start_time": "2026-07-03T08:19:39.601+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -284,7 +285,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.184+00:00",
+      "end_time": "2026-07-03T08:19:39.605+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -295,7 +296,7 @@
     },
     {
       "node": "CompareTarget",
-      "start_time": "2026-07-03T07:24:33.185+00:00",
+      "start_time": "2026-07-03T08:19:39.606+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -315,7 +316,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.185+00:00",
+      "end_time": "2026-07-03T08:19:39.606+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -325,7 +326,7 @@
     },
     {
       "node": "RunCircuitChecks",
-      "start_time": "2026-07-03T07:24:33.187+00:00",
+      "start_time": "2026-07-03T08:19:39.608+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -345,7 +346,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.187+00:00",
+      "end_time": "2026-07-03T08:19:39.609+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -356,7 +357,7 @@
     },
     {
       "node": "GenerateReport",
-      "start_time": "2026-07-03T07:24:33.187+00:00",
+      "start_time": "2026-07-03T08:19:39.610+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -376,7 +377,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.195+00:00",
+      "end_time": "2026-07-03T08:19:39.622+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -386,7 +387,7 @@
     },
     {
       "node": "UpdateShowcaseMetadata",
-      "start_time": "2026-07-03T07:24:33.198+00:00",
+      "start_time": "2026-07-03T08:19:39.624+00:00",
       "input_summary": {
         "component": "TestChip",
         "geometry_status": "GEOMETRY_PASS",
@@ -409,7 +410,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T07:24:33.198+00:00",
+      "end_time": "2026-07-03T08:19:39.624+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
