@@ -10,7 +10,9 @@
   "artifacts": {},
   "extracted_quantities": {},
   "target_comparison": null,
-  "analytical_capacitance_pf": null,
+  "analytical_quantity": "geometry",
+  "analytical_unit": "",
+  "analytical_value": null,
   "reason": "No tile-level solver is registered; sub-blocks are geometry-only here.",
   "warnings": []
 }

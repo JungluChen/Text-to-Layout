@@ -591,9 +591,11 @@ def _extraction_status_label(simulation: SimulationResult, quantity: str = "capa
 def _capacitance_result_payload(
     simulation: SimulationResult, evidence: QuantityEvidence
 ) -> dict[str, Any]:
-    return {
+    quantity = evidence.quantity or "quantity"
+    unit = evidence.target_unit or evidence.extracted_unit or ""
+    payload: dict[str, Any] = {
         "schema": "textlayout.capacitance-extraction-result.v1",
-        "status": _extraction_status_label(simulation, evidence.quantity),
+        "status": _extraction_status_label(simulation, quantity),
         "backend_status": simulation.status,
         "solver": simulation.solver,
         "solver_version": simulation.solver_version,
@@ -603,10 +605,16 @@ def _capacitance_result_payload(
         "artifacts": dict(simulation.artifacts),
         "extracted_quantities": dict(simulation.extracted_quantities),
         "target_comparison": simulation.target_comparison,
-        "analytical_capacitance_pf": evidence.analytical_value,
+        "analytical_quantity": quantity,
+        "analytical_unit": unit,
+        "analytical_value": evidence.analytical_value,
         "reason": simulation.reason,
         "warnings": list(simulation.warnings),
     }
+    if quantity == "capacitance":
+        # Backward-compatible alias for capacitance-specific consumers.
+        payload["analytical_capacitance_pf"] = evidence.analytical_value
+    return payload
 
 
 def _simulation_payload(
@@ -939,8 +947,22 @@ def _render_jpa_report(
         "",
         f"- Geometry verification: **{'PASS' if geometry_pass else 'FAIL'}**",
     ]
+    quantity_label = evidence.quantity or "quantity"
+    extracted_unit = evidence.extracted_unit or ""
+    target_unit = evidence.target_unit or extracted_unit
+    solver_label = evidence.solver or "the requested solver"
+    solver_backed_final_value = (
+        evidence.extracted_value is not None and quantity_label.lower() == "capacitance"
+    )
     for check in result.report.checks:
-        suffix = f": {check.message}" if check.message else ""
+        if check.name == "analytical_estimate" and solver_backed_final_value:
+            message = (
+                "Initial sizing used an analytical model; final capacitance "
+                "evidence comes from FasterCap extraction."
+            )
+        else:
+            message = check.message
+        suffix = f": {message}" if message else ""
         lines.append(f"- `{check.status.value.upper()}` {check.name}{suffix}")
 
     lines += [
@@ -949,24 +971,25 @@ def _render_jpa_report(
         "",
         f"- Status: **{cap_label}**",
         f"- Simulation status: **{cap_label}**",
-        "- Prepared FasterCap files: **yes**",
+        f"- Prepared {solver_label} files: **yes**",
         "- Solver executed: "
         f"**{'yes' if evidence.extracted_value is not None else 'attempted' if evidence.command else 'no'}**",
         f"- Physics verified: **{'yes' if evidence.is_physics_verified else 'no'}**",
         f"- Evidence status: **{evidence.status.value}**",
         f"- {evidence.summary_line()}",
-        f"- Analytical capacitance: `{evidence.analytical_value} pF`",
-        "- Solver-extracted capacitance: "
-        f"`{evidence.extracted_value if evidence.extracted_value is not None else 'not available'}`",
-        "- Circuit simulators are not capacitance-extraction evidence.",
+        f"- Analytical {quantity_label}: `{evidence.analytical_value} {target_unit}`".rstrip(),
+        f"- Solver-extracted {quantity_label}: "
+        f"`{evidence.extracted_value if evidence.extracted_value is not None else 'not available'}"
+        f"{' ' + extracted_unit if evidence.extracted_value is not None and extracted_unit else ''}`",
+        f"- Circuit simulators are not {quantity_label}-extraction evidence.",
         "",
     ]
     if evidence.extracted_value is not None:
         lines += [
-            f"- Extracted mutual capacitance: `{evidence.extracted_value:.6g} pF`",
-            f"- Target capacitance: `{evidence.target_value:.6g} pF`"
+            f"- Extracted {quantity_label}: `{evidence.extracted_value:.6g} {extracted_unit}`".rstrip(),
+            f"- Target {quantity_label}: `{evidence.target_value:.6g} {target_unit}`".rstrip()
             if evidence.target_value is not None
-            else "- Target capacitance: `not provided`",
+            else f"- Target {quantity_label}: `not provided`",
             f"- Error: `{((evidence.extracted_value - evidence.target_value) / evidence.target_value * 100):+.2f}%`"
             if evidence.target_value
             else "- Error: `not compared`",
@@ -977,10 +1000,10 @@ def _render_jpa_report(
             "",
         ]
     elif evidence.status is EvidenceStatus.SKIPPED_SOLVER_ABSENT:
-        lines += ["- Reason: FasterCap/FastCap executable not found.", ""]
+        lines += [f"- Reason: {solver_label} executable not found.", ""]
     elif evidence.status is EvidenceStatus.FAILED:
         lines += [
-            "- Reason: solver failed or parser could not extract capacitance matrix.",
+            f"- Reason: solver failed or parser could not extract the {quantity_label} result.",
             "",
         ]
     if not is_jpa:
@@ -1022,7 +1045,9 @@ def _render_jpa_report(
         f"- Deterministic layout and geometry checks: **{'verified' if geometry_pass else 'failed'}**",
     ]
     if evidence.extracted_value is not None:
-        lines.append("- Geometry-level capacitance output was parsed from an executed solver.")
+        lines.append(
+            f"- Geometry-level {quantity_label} output was parsed from an executed solver."
+        )
     if any(_resonance_checked(sim) for sim in circuit_sims.values()):
         lines.append("- At least one circuit-level resonance result passed its tolerance.")
 
@@ -1034,7 +1059,10 @@ def _render_jpa_report(
         f"- Circuit backends without executed evidence: `{', '.join(prepared) or 'none'}`",
     ]
     if evidence.extracted_value is None:
-        lines.append("- Capacitance extraction input exists, but no solver result exists.")
+        lines.append(
+            f"- {quantity_label.capitalize()} extraction input exists, but no solver "
+            "result exists."
+        )
 
     lines += [
         "",

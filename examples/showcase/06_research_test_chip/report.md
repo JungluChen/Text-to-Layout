@@ -56,14 +56,14 @@
 
 - Status: **ANALYTICAL_ONLY**
 - Simulation status: **ANALYTICAL_ONLY**
-- Prepared FasterCap files: **yes**
+- Prepared the requested solver files: **yes**
 - Solver executed: **no**
 - Physics verified: **no**
 - Evidence status: **ANALYTICAL_ONLY**
 - geometry: ANALYTICAL_ONLY — estimate None (per-sub-device analytical estimates (see research report)); this is NOT a solver result
-- Analytical capacitance: `None pF`
-- Solver-extracted capacitance: `not available`
-- Circuit simulators are not capacitance-extraction evidence.
+- Analytical geometry: `None `
+- Solver-extracted geometry: `not available`
+- Circuit simulators are not geometry-extraction evidence.
 
 - Legacy simulation status: **ANALYTICAL_ONLY**
 - Only an analytical formula was used. **This is not a solver result.**
@@ -88,7 +88,7 @@
 ## What is only prepared
 
 - Circuit backends without executed evidence: `none`
-- Capacitance extraction input exists, but no solver result exists.
+- Geometry extraction input exists, but no solver result exists.
 
 ## Not yet supported
 
@@ -109,6 +109,18 @@
 - `simulation_legacy`: `simulation.json`
 - `svg`: `output.svg`
 - `verification`: `verification.json`
+
+## Tile sub-block evidence
+
+- Full-tile solver executed: **False**
+- Full-tile status: **NOT_MODELED**
+- Sub-block evidence is not a full-tile solve. Alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
+
+- **IDC** sub-block: `SIMULATION_EXECUTED` via `FasterCap` — FasterCap extraction of the geometry-identical IDC sub-block; extracted `0.6973109999999999` vs target `0.6` (mutual_capacitance_pf); error `16.218%` (tolerance `5.0%`); within tolerance: **False**
+- **CPW** sub-block: `SKIPPED_SOLVER_ABSENT` via `openEMS` — openEMS preparation for the geometry-identical CPW sub-block
+- **SpiralInductor** sub-block: `SIMULATION_EXECUTED` via `fasthenry` — FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target
+
+Full-tile EM solve status: **NOT EXECUTED**. Sub-block evidence above is not a full-tile verification; alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
 
 ## Limitations
 

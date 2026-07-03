@@ -38,7 +38,7 @@
 - `PASS` bounding_box
 - `PASS` ports_exist
 - `PASS` geometry_min_spacing
-- `WARN` analytical_estimate: Capacitance is an analytical estimate only. EM extraction is required before fabrication.
+- `WARN` analytical_estimate: Initial sizing used an analytical model; final capacitance evidence comes from FasterCap extraction.
 - `PASS` research_evidence
 - `PASS` simulation_workflow_documented
 - `PASS` gdsfactory_component_sanity
@@ -63,10 +63,10 @@
 - Evidence status: **PHYSICS_VERIFIED**
 - capacitance: PHYSICS_VERIFIED — FasterCap extracted 0.610019 pF vs target 0.6 pF (error 1.67% <= 5.0%)
 - Analytical capacitance: `0.6 pF`
-- Solver-extracted capacitance: `0.610019`
+- Solver-extracted capacitance: `0.610019 pF`
 - Circuit simulators are not capacitance-extraction evidence.
 
-- Extracted mutual capacitance: `0.610019 pF`
+- Extracted capacitance: `0.610019 pF`
 - Target capacitance: `0.6 pF`
 - Error: `+1.67%`
 - Tolerance: `+/-5.00%`

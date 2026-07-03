@@ -59,7 +59,7 @@
         "extraction\\capacitance_input\\Zc.mat"
       ],
       "parser": "textlayout.simulation.runners.parse_fasthenry_inductance",
-      "timestamp": "2026-07-03T06:12:38+00:00",
+      "timestamp": "2026-07-03T07:24:23+00:00",
       "notes": [
         "FastHenry returned a parseable impedance matrix.",
         "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",

@@ -58,16 +58,16 @@
 
 - Status: **SKIPPED_SOLVER_ABSENT**
 - Simulation status: **SKIPPED_SOLVER_ABSENT**
-- Prepared FasterCap files: **yes**
+- Prepared openEMS files: **yes**
 - Solver executed: **no**
 - Physics verified: **no**
 - Evidence status: **SKIPPED_SOLVER_ABSENT**
 - resonance_frequency: SKIPPED_SOLVER_ABSENT — solver not installed; no physics verification was performed
-- Analytical capacitance: `6.0 pF`
-- Solver-extracted capacitance: `not available`
-- Circuit simulators are not capacitance-extraction evidence.
+- Analytical resonance_frequency: `6.0 GHz`
+- Solver-extracted resonance_frequency: `not available`
+- Circuit simulators are not resonance_frequency-extraction evidence.
 
-- Reason: FasterCap/FastCap executable not found.
+- Reason: openEMS executable not found.
 
 - Legacy simulation status: **SKIPPED_SOLVER_ABSENT**
 - The solver is not installed; solver input files were prepared but **no physics verification was performed**.
@@ -92,7 +92,7 @@
 ## What is only prepared
 
 - Circuit backends without executed evidence: `none`
-- Capacitance extraction input exists, but no solver result exists.
+- Resonance_frequency extraction input exists, but no solver result exists.
 
 ## Not yet supported
 

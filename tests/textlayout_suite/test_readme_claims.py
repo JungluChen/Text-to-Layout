@@ -7,6 +7,7 @@ the Phase 8 'add a false claim in a scratch branch' proof.
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -113,3 +114,92 @@ def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
     )
     errors = validate(fake)
     assert any("full tile-level solve" in e for e in errors), errors
+
+
+def test_committed_repo_has_no_local_absolute_paths() -> None:
+    errors = validate(README)
+    assert not any("local absolute machine path" in e for e in errors), errors
+
+
+def test_new_absolute_path_leak_in_json_fails_validation(tmp_path: Path) -> None:
+    leaky = ROOT / "docs" / "path-leak-regression.json"
+    leaky.write_text('{"path": "C:\\\\Users\\\\realuser\\\\Desktop\\\\artifact"}\n', encoding="utf-8")
+    try:
+        errors = validate(README)
+    finally:
+        leaky.unlink(missing_ok=True)
+    assert any(
+        "local absolute machine path" in e and "path-leak-regression.json" in e for e in errors
+    ), errors
+
+
+def test_placeholder_path_in_docs_does_not_fail_validation(tmp_path: Path) -> None:
+    placeholder = ROOT / "docs" / "path-placeholder-regression.md"
+    placeholder.write_text("cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds\n", encoding="utf-8")
+    try:
+        errors = validate(README)
+    finally:
+        placeholder.unlink(missing_ok=True)
+    assert not any("path-placeholder-regression.md" in e for e in errors), errors
+
+
+def test_inductance_report_with_capacitance_language_fails_validation(tmp_path: Path) -> None:
+    report = ROOT / "examples/showcase/04_spiral_inductor_3nh/report.md"
+    original = report.read_text(encoding="utf-8")
+    assert "Analytical inductance" in original
+    try:
+        report.write_text(
+            original.replace("Analytical inductance", "Analytical capacitance"),
+            encoding="utf-8",
+        )
+        errors = validate(README)
+    finally:
+        report.write_text(original, encoding="utf-8")
+    assert any(
+        "04_spiral_inductor_3nh" in e and "capacitance/pF language" in e for e in errors
+    ), errors
+
+
+def test_tile_map_without_report_summary_fails_validation(tmp_path: Path) -> None:
+    report = ROOT / "examples/showcase/06_research_test_chip/report.md"
+    readme = ROOT / "examples/showcase/06_research_test_chip/README.md"
+    original_report = report.read_text(encoding="utf-8")
+    original_readme = readme.read_text(encoding="utf-8")
+    try:
+        stripped = re.sub(
+            r"\n## Tile sub-block evidence.*?(?=\n## Limitations)",
+            "\n",
+            original_report,
+            flags=re.DOTALL,
+        )
+        report.write_text(stripped, encoding="utf-8")
+        stripped_readme = re.sub(
+            r"\n## Tile sub-block evidence.*?(?=\n## Limitation)",
+            "\n",
+            original_readme,
+            flags=re.DOTALL,
+        )
+        readme.write_text(stripped_readme, encoding="utf-8")
+        errors = validate(README)
+    finally:
+        report.write_text(original_report, encoding="utf-8")
+        readme.write_text(original_readme, encoding="utf-8")
+    assert any(
+        "06_research_test_chip" in e and "full-tile status" in e for e in errors
+    ), errors
+
+
+def test_collapsed_showcase_table_row_fails_validation(tmp_path: Path) -> None:
+    text = README.read_text(encoding="utf-8")
+    section = re.search(r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", text, re.DOTALL)
+    assert section is not None
+    rows = [
+        line
+        for line in section.group(1).splitlines()
+        if line.strip().startswith("|") and "examples/showcase/" in line
+    ]
+    assert len(rows) >= 2
+    collapsed = rows[0] + rows[1]
+    fake = _doctored(tmp_path, rows[0] + "\n" + rows[1], collapsed)
+    errors = validate(fake)
+    assert any("collapsed onto a single Markdown line" in e for e in errors), errors

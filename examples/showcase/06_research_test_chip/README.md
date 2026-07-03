@@ -29,7 +29,7 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestChip_7d5894bd`
+- Top cell: `TestChip_409b9339`
 - Bounding box: `{"width": 2000.0, "height": 2000.0}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 71, "63/0": 120}`
 - Database unit: `0.001` um
@@ -57,6 +57,18 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 - **ANALYTICAL_ONLY**
 - Geometry: **GEOMETRY_PASS**
 - Fabrication status: **NOT_FABRICATION_READY**
+
+## Tile sub-block evidence
+
+- Full-tile solver executed: **False**
+- Full-tile status: **NOT_MODELED**
+- Sub-block evidence is not a full-tile solve. Alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
+
+- **IDC** sub-block: `SIMULATION_EXECUTED` via `FasterCap` — FasterCap extraction of the geometry-identical IDC sub-block; extracted `0.6973109999999999` vs target `0.6` (mutual_capacitance_pf); error `16.218%` (tolerance `5.0%`); within tolerance: **False**
+- **CPW** sub-block: `SKIPPED_SOLVER_ABSENT` via `openEMS` — openEMS preparation for the geometry-identical CPW sub-block
+- **SpiralInductor** sub-block: `SIMULATION_EXECUTED` via `fasthenry` — FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target
+
+Full-tile EM solve status: **NOT EXECUTED**. Sub-block evidence above is not a full-tile verification; alignment marks, title, inter-block coupling, package, transitions, and whole-tile modes are not modeled.
 
 ## Limitation
 

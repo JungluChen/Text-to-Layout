@@ -2,7 +2,7 @@
   "schema": "textlayout.klayout-readback.v1",
   "status": "pass",
   "gds_path": "output.gds",
-  "top_cell": "IDC_a499a822",
+  "top_cell": "IDC_07e23b81",
   "dbu_um": 0.001,
   "bbox_um": {
     "width": 238.0,
@@ -32,7 +32,7 @@
     {
       "name": "top_cell_exists",
       "passed": true,
-      "detail": "IDC_a499a822"
+      "detail": "IDC_07e23b81"
     },
     {
       "name": "bbox_non_empty",

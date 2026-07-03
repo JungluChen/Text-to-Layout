@@ -35,7 +35,7 @@
     "cd tile_subblocks/spiralinductor && .tools/FastHenry2/bin/fasthenry spiral.inp"
   ],
   "return_code": 0,
-  "runtime_seconds": 0.4359545999977854,
+  "runtime_seconds": 0.30309570000099484,
   "evidence_level": null,
   "solver_version": "FastHenry 3.0.1"
 }

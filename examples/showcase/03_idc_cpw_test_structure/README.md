@@ -29,7 +29,7 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestStructure_9f8e3598`
+- Top cell: `TestStructure_bcf136c0`
 - Bounding box: `{"width": 598.0, "height": 1131.362}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 48}`
 - Database unit: `0.001` um

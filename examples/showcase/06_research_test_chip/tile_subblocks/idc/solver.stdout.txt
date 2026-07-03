@@ -41,11 +41,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 1048
-Number of potential estimates: 1091
+Number of potential estimates: 1555
 Number of links: 3142 (uncompressed 1098304, compression ratio is 99.7%)
 Max recursion level: 11
 Max Mesh relative refinement value: 260.354
-Iteration time: 3.601239s (0 days, 0 hours, 0 mins, 3 s)
+Iteration time: 2.790219s (0 days, 0 hours, 0 mins, 2 s)
 Iteration allocated memory: 16989 kilobytes
 
 Iteration number #1 ***************************
@@ -74,11 +74,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 2256
-Number of potential estimates: 20869
+Number of potential estimates: 17689
 Number of links: 66752 (uncompressed 5089536, compression ratio is 98.7%)
 Max recursion level: 25
 Max Mesh relative refinement value: 184.075
-Iteration time: 7.557629s (0 days, 0 hours, 0 mins, 7 s)
+Iteration time: 7.306959s (0 days, 0 hours, 0 mins, 7 s)
 Iteration allocated memory: 17800 kilobytes
 
 Iteration number #2 ***************************
@@ -107,11 +107,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 3348
-Number of potential estimates: 48456
+Number of potential estimates: 45566
 Number of links: 129308 (uncompressed 11209104, compression ratio is 98.8%)
 Max recursion level: 26
 Max Mesh relative refinement value: 130.159
-Iteration time: 8.726483s (0 days, 0 hours, 0 mins, 8 s)
+Iteration time: 6.181633s (0 days, 0 hours, 0 mins, 6 s)
 Iteration allocated memory: 18432 kilobytes
 
 Iteration number #3 ***************************
@@ -140,11 +140,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 6125
-Number of potential estimates: 128474
+Number of potential estimates: 83332
 Number of links: 274775 (uncompressed 37515625, compression ratio is 99.3%)
 Max recursion level: 29
 Max Mesh relative refinement value: 91.9805
-Iteration time: 13.657704s (0 days, 0 hours, 0 mins, 13 s)
+Iteration time: 10.706984s (0 days, 0 hours, 0 mins, 10 s)
 Iteration allocated memory: 20227 kilobytes
 
 Iteration number #4 ***************************
@@ -173,11 +173,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 8822
-Number of potential estimates: 235961
+Number of potential estimates: 178933
 Number of links: 544754 (uncompressed 77827684, compression ratio is 99.3%)
 Max recursion level: 30
 Max Mesh relative refinement value: 65.0388
-Iteration time: 10.071792s (0 days, 0 hours, 0 mins, 10 s)
+Iteration time: 10.623271s (0 days, 0 hours, 0 mins, 10 s)
 Iteration allocated memory: 21894 kilobytes
 
 Iteration number #5 ***************************
@@ -206,11 +206,11 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 13635
-Number of potential estimates: 469755
+Number of potential estimates: 338472
 Number of links: 1152625 (uncompressed 185913225, compression ratio is 99.4%)
 Max recursion level: 32
 Max Mesh relative refinement value: 45.9884
-Iteration time: 12.659978s (0 days, 0 hours, 0 mins, 12 s)
+Iteration time: 10.153869s (0 days, 0 hours, 0 mins, 10 s)
 Iteration allocated memory: 41467 kilobytes
 
 Iteration number #6 ***************************
@@ -223,6 +223,10 @@ Mesh refinement (-m): 32.5187
 Computing the links.. 
 Number of panels after refinement: 18531
 Number of links to be computed: 2257872
+Estimated memory required for storing panel interaction links is: 34 Mbytes
+Available free memory left is: 96 Mbytes
+Estimated links memory is more than 20% of the available free memory. Going out-of-core.
+Out-of-core temporary files folder: '/tmp'
 Done computing links
 ***************************************
 Precond Type(s) (-p): Jacobi 
@@ -239,12 +243,12 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 18531
-Number of potential estimates: 943016
+Number of potential estimates: 741507
 Number of links: 2276403 (uncompressed 343397961, compression ratio is 99.3%)
 Max recursion level: 33
 Max Mesh relative refinement value: 32.5187
-Iteration time: 18.173452s (0 days, 0 hours, 0 mins, 18 s)
-Iteration allocated memory: 60954 kilobytes
+Iteration time: 78.840363s (0 days, 0 hours, 1 mins, 18 s)
+Iteration allocated memory: 28186 kilobytes
 
 Iteration number #7 ***************************
 
@@ -257,7 +261,7 @@ Computing the links..
 Number of panels after refinement: 31529
 Number of links to be computed: 4753838
 Estimated memory required for storing panel interaction links is: 72 Mbytes
-Available free memory left is: 348 Mbytes
+Available free memory left is: 106 Mbytes
 Estimated links memory is more than 20% of the available free memory. Going out-of-core.
 Out-of-core temporary files folder: '/tmp'
 Done computing links
@@ -276,12 +280,12 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 31529
-Number of potential estimates: 1750612
+Number of potential estimates: 1615226
 Number of links: 4785367 (uncompressed 994077841, compression ratio is 99.5%)
 Max recursion level: 34
 Max Mesh relative refinement value: 22.9941
-Iteration time: 90.419502s (0 days, 0 hours, 1 mins, 30 s)
-Iteration allocated memory: 85823 kilobytes
+Iteration time: 142.336853s (0 days, 0 hours, 2 mins, 22 s)
+Iteration allocated memory: 36670 kilobytes
 
 Iteration number #8 ***************************
 
@@ -294,7 +298,7 @@ Computing the links..
 Number of panels after refinement: 44107
 Number of links to be computed: 9471722
 Estimated memory required for storing panel interaction links is: 144 Mbytes
-Available free memory left is: 333 Mbytes
+Available free memory left is: 94 Mbytes
 Estimated links memory is more than 20% of the available free memory. Going out-of-core.
 Out-of-core temporary files folder: '/tmp'
 Done computing links
@@ -313,14 +317,14 @@ Solve statistics:
 Number of input panels: 42 of which 42 conductors and 0 dielectric
 Number of input panels to solver engine: 1048
 Number of panels after refinement: 44107
-Number of potential estimates: 3159917
+Number of potential estimates: 2955180
 Number of links: 9515829 (uncompressed 1945427449, compression ratio is 99.5%)
 Max recursion level: 36
 Max Mesh relative refinement value: 16.2593
-Iteration time: 143.199615s (0 days, 0 hours, 2 mins, 23 s)
-Iteration allocated memory: 93893 kilobytes
+Iteration time: 302.887238s (0 days, 0 hours, 5 mins, 2 s)
+Iteration allocated memory: 44741 kilobytes
 
-Total allocated memory: 93893 kilobytes
-Total time: 95.439598s (0 days, 0 hours, 1 mins, 35 s)
+Total allocated memory: 44741 kilobytes
+Total time: 102.497086s (0 days, 0 hours, 1 mins, 42 s)
 
 

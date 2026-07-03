@@ -1,8 +1,8 @@
 {
   "schema": "text-to-gds.sidecar.v0",
   "pcell": "fabrication_real_cpw_resonator",
-  "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\workspace\\artifacts\\fabrication_real_cpw_resonator.gds",
-  "screenshot_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\workspace\\artifacts\\fabrication_real_cpw_resonator.layout.png",
+  "gds_path": "workspace\\artifacts\\fabrication_real_cpw_resonator.gds",
+  "screenshot_path": "workspace\\artifacts\\fabrication_real_cpw_resonator.layout.png",
   "bbox_um": [
     [
       -1001.25,

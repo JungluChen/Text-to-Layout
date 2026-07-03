@@ -57,17 +57,17 @@
 
 - Status: **SIMULATION_EXECUTED**
 - Simulation status: **SIMULATION_EXECUTED**
-- Prepared FasterCap files: **yes**
+- Prepared fasthenry files: **yes**
 - Solver executed: **yes**
 - Physics verified: **no**
 - Evidence status: **SIMULATION_EXECUTED**
 - inductance: SIMULATION_EXECUTED — fasthenry extracted 2.751263754746667 nH vs target 3.0 nH; tolerance not met or not compared — NOT physics verified
-- Analytical capacitance: `3.0 pF`
-- Solver-extracted capacitance: `2.751263754746667`
-- Circuit simulators are not capacitance-extraction evidence.
+- Analytical inductance: `3.0 nH`
+- Solver-extracted inductance: `2.751263754746667 nH`
+- Circuit simulators are not inductance-extraction evidence.
 
-- Extracted mutual capacitance: `2.75126 pF`
-- Target capacitance: `3 pF`
+- Extracted inductance: `2.75126 nH`
+- Target inductance: `3 nH`
 - Error: `-8.29%`
 - Tolerance: `+/-5.00%`
 - Reason: extracted value is outside tolerance.
@@ -91,7 +91,7 @@
 
 - Overall status: **NOT VERIFIED**
 - Deterministic layout and geometry checks: **verified**
-- Geometry-level capacitance output was parsed from an executed solver.
+- Geometry-level inductance output was parsed from an executed solver.
 
 ## What is only prepared
 

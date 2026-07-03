@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -369,6 +370,273 @@ def _check_showcase_paths(root: Path, errors: list[str]) -> None:
             )
 
 
+#: File suffixes in scope for the repo-wide local-path leak gate. Covers the
+#: JSON/Markdown/trace/report/manifest/README artifact families named in the
+#: release-consistency contract.
+_PATH_LEAK_SUFFIXES = frozenset({".json", ".md", ".markdown"})
+
+#: A prefix immediately followed by one of these is a documentation
+#: placeholder (e.g. ``/mnt/c/Users/<you>/...``), not a real leaked path.
+_PLACEHOLDER_PREFIX = re.compile(r"^(<|\$\{?\w|%[A-Za-z_])")
+
+
+#: Directories that are never part of the committed release surface — used
+#: only as a fallback when ``git`` is unavailable (e.g. large gitignored
+#: third-party clones such as ``external_repos/`` and ``quantum-eda-stack/``).
+_PATH_LEAK_EXCLUDED_DIRS = frozenset(
+    {
+        ".git",
+        ".venv",
+        ".wsl-venv",
+        ".tools",
+        "node_modules",
+        "__pycache__",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".mypy_cache",
+        "dist",
+        "build",
+        "external_repos",
+        "quantum-eda-stack",
+        "references",
+        "external_references",
+        "out",
+    }
+)
+
+
+def _scannable_files(root: Path) -> list[Path]:
+    """Files that are (or are about to be) part of the committed release
+    surface: everything ``git`` already tracks, plus any new file that is not
+    gitignored — so this gate catches a leak the instant it is written, not
+    only after ``git add``.
+
+    Falls back to a pruned filesystem walk when ``git`` is unavailable.
+    """
+    seen: set[Path] = set()
+    ok = True
+    for args in (["ls-files"], ["ls-files", "--others", "--exclude-standard"]):
+        try:
+            completed = subprocess.run(
+                ["git", *args],
+                cwd=root,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        except (OSError, subprocess.CalledProcessError):
+            ok = False
+            break
+        seen.update(root / line for line in completed.stdout.splitlines() if line.strip())
+    if ok:
+        return sorted(seen)
+
+    found: list[Path] = []
+    stack = [root]
+    while stack:
+        current = stack.pop()
+        try:
+            entries = list(current.iterdir())
+        except OSError:
+            continue
+        for entry in entries:
+            if entry.is_dir():
+                if entry.name in _PATH_LEAK_EXCLUDED_DIRS:
+                    continue
+                stack.append(entry)
+            elif entry.is_file():
+                found.append(entry)
+    return found
+
+
+def _find_local_path_leak(text: str) -> str | None:
+    """Return a description of the first real (non-placeholder) path leak.
+
+    Only the two username-revealing patterns are checked repo-wide: a bare
+    ``/tmp/...`` or ``/home/...`` directory name is a portable Unix
+    convention on its own and is legitimate in instructional documentation
+    (e.g. AGENTS.md's WSL walkthrough); it is only a leak once it is paired
+    with a real machine path, which the showcase-artifact scan
+    (:func:`_check_showcase_paths`) already enforces for generated evidence.
+    """
+    normalized = text.replace("\\\\", "\\")
+    for pattern, label in (
+        (re.compile(r"[A-Za-z]:\\Users\\", re.IGNORECASE), "C:\\Users\\"),
+        (re.compile(r"/mnt/[a-z]/Users/", re.IGNORECASE), "/mnt/c/Users/"),
+    ):
+        for match in pattern.finditer(normalized):
+            tail = normalized[match.end() : match.end() + 24]
+            if _PLACEHOLDER_PREFIX.match(tail):
+                continue
+            return label
+    return None
+
+
+def _check_no_committed_absolute_paths(root: Path, errors: list[str]) -> None:
+    """Fail if any committed JSON/Markdown/trace/report/manifest/README file
+    contains a real local absolute machine path (as opposed to a documented
+    ``<placeholder>``/``$VAR``/``%VAR%`` template)."""
+    for path in _scannable_files(root):
+        if not path.is_file():
+            continue
+        if path.suffix.lower() not in _PATH_LEAK_SUFFIXES and path.name.upper() != "README":
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        leak = _find_local_path_leak(text)
+        if leak is not None:
+            relative = path.relative_to(root)
+            _fail(
+                errors,
+                f"committed artifact contains a local absolute machine path "
+                f"({leak}...): {relative}",
+            )
+
+
+#: Historical bug signatures: hardcoded quantity/unit phrasing that ignored
+#: the evidence record's actual quantity (e.g. an inductance example report
+#: claiming "capacitance"/"pF").
+_CAPACITANCE_PHRASES = (
+    "Analytical capacitance",
+    "Solver-extracted capacitance",
+    "Extracted mutual capacitance",
+    "Target capacitance",
+)
+_INDUCTANCE_PHRASES = (
+    "Analytical inductance",
+    "Solver-extracted inductance",
+    "Extracted inductance",
+    "Target inductance",
+)
+
+
+def _evidence_quantity(root: Path, folder: str) -> str | None:
+    simulation = _showcase_simulation(root, folder)
+    if simulation is None:
+        return None
+    evidence_records = simulation.get("evidence")
+    evidence = evidence_records[0] if isinstance(evidence_records, list) and evidence_records else {}
+    if not isinstance(evidence, dict):
+        return None
+    quantity = evidence.get("quantity")
+    return quantity if isinstance(quantity, str) else None
+
+
+def _check_showcase_unit_language(root: Path, errors: list[str]) -> None:
+    """Fail if a showcase example's report mixes up capacitance/inductance
+    quantity language for its target/result values."""
+    showcase = root / "examples" / "showcase"
+    if not showcase.is_dir():
+        return
+    for folder_path in sorted(showcase.iterdir()):
+        if not folder_path.is_dir():
+            continue
+        folder = f"examples/showcase/{folder_path.name}"
+        quantity = _evidence_quantity(root, folder)
+        if quantity is None:
+            continue
+        report_path = folder_path / "report.md"
+        if not report_path.is_file():
+            continue
+        try:
+            report_text = report_path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        if quantity == "inductance":
+            for phrase in _CAPACITANCE_PHRASES:
+                if phrase in report_text:
+                    _fail(
+                        errors,
+                        f"{folder}: report.md is an inductance example but uses "
+                        f"capacitance/pF language {phrase!r}",
+                    )
+        elif quantity == "capacitance":
+            for phrase in _INDUCTANCE_PHRASES:
+                if phrase in report_text:
+                    _fail(
+                        errors,
+                        f"{folder}: report.md is a capacitance example but uses "
+                        f"inductance/nH language {phrase!r}",
+                    )
+
+
+def _check_tile_simulation_map_summary(root: Path, errors: list[str]) -> None:
+    """Fail if a tile_simulation_map.json exists but its example's committed
+    report doesn't summarize full-tile status and every sub-block's evidence."""
+    showcase = root / "examples" / "showcase"
+    if not showcase.is_dir():
+        return
+    for folder_path in sorted(showcase.iterdir()):
+        tile_map_path = folder_path / "tile_simulation_map.json"
+        if not tile_map_path.is_file():
+            continue
+        folder = f"examples/showcase/{folder_path.name}"
+        try:
+            tile_map = json.loads(tile_map_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            _fail(errors, f"{folder}: tile_simulation_map.json is unreadable")
+            continue
+        subblocks = tile_map.get("subblocks")
+        expected_names = list(subblocks.keys()) if isinstance(subblocks, dict) else []
+        for doc_name in ("report.md", "README.md"):
+            doc_path = folder_path / doc_name
+            if not doc_path.is_file():
+                _fail(errors, f"{folder}: missing {doc_name} required by tile_simulation_map.json")
+                continue
+            text = doc_path.read_text(encoding="utf-8")
+            upper = text.upper()
+            if "FULL-TILE" not in upper and "FULL TILE" not in upper:
+                _fail(
+                    errors,
+                    f"{folder}/{doc_name}: tile_simulation_map.json exists but the report "
+                    "does not mention full-tile status",
+                )
+            missing_subblocks = [name for name in expected_names if name not in text]
+            if missing_subblocks:
+                _fail(
+                    errors,
+                    f"{folder}/{doc_name}: tile_simulation_map.json sub-blocks "
+                    f"{missing_subblocks} are not summarized in the report",
+                )
+            if re.search(r"FULL[\s_-]TILE[^.\n]{0,40}(VERIFIED|EXECUTED)\b", upper) and (
+                "NOT EXECUTED" not in upper and "NOT_MODELED" not in upper
+            ):
+                _fail(
+                    errors,
+                    f"{folder}/{doc_name}: report language suggests a full-tile solve "
+                    "was verified/executed, which tile_simulation_map.json denies",
+                )
+
+
+_ROW_START_RE = re.compile(r"\|\s*[1-6]\s*\|")
+
+
+def _check_showcase_table_formatting(readme_text: str, errors: list[str]) -> None:
+    """Fail if the six-example table is collapsed into unreadable single lines."""
+    section = re.search(
+        r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
+    )
+    if section is None:
+        return
+    for line in section.group(1).splitlines():
+        if not line.strip().startswith("|"):
+            continue
+        if len(_ROW_START_RE.findall(line)) > 1:
+            _fail(
+                errors,
+                "six-example table has more than one row collapsed onto a single "
+                f"Markdown line: {line.strip()[:120]}...",
+            )
+        if len(line) > 4000:
+            _fail(
+                errors,
+                "six-example table row exceeds a readable line length "
+                f"({len(line)} chars); rows must not be collapsed",
+            )
+
+
 def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
     """Validate the six-example showcase table against committed artifacts."""
     section = re.search(
@@ -497,6 +765,10 @@ def validate(readme: Path, root: Path = ROOT) -> list[str]:
     _check_benchmark_table(text, root, errors)
     _check_showcase(text, root, errors)
     _check_showcase_paths(root, errors)
+    _check_no_committed_absolute_paths(root, errors)
+    _check_showcase_unit_language(root, errors)
+    _check_tile_simulation_map_summary(root, errors)
+    _check_showcase_table_formatting(text, errors)
     _check_demo_section(text, errors)
     return errors
 

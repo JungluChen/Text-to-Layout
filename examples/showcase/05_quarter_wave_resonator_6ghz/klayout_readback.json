@@ -2,7 +2,7 @@
   "schema": "textlayout.klayout-readback.v1",
   "status": "pass",
   "gds_path": "output.gds",
-  "top_cell": "QuarterWaveResonator_cd066a3b",
+  "top_cell": "QuarterWaveResonator_0d9f3e77",
   "dbu_um": 0.001,
   "bbox_um": {
     "width": 500.0,
@@ -32,7 +32,7 @@
     {
       "name": "top_cell_exists",
       "passed": true,
-      "detail": "QuarterWaveResonator_cd066a3b"
+      "detail": "QuarterWaveResonator_0d9f3e77"
     },
     {
       "name": "bbox_non_empty",

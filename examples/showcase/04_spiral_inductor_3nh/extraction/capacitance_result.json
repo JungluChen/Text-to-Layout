@@ -11,7 +11,7 @@
     "cd extraction/capacitance_input && .tools/FastHenry2/bin/fasthenry spiral.inp"
   ],
   "return_code": 0,
-  "runtime_seconds": 0.2916188000017428,
+  "runtime_seconds": 0.27748349999819766,
   "artifacts": {
     "input": "extraction\\capacitance_input\\spiral.inp",
     "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
@@ -32,7 +32,9 @@
     "tolerance_pct": 5.0,
     "within_tolerance": false
   },
-  "analytical_capacitance_pf": 3.0,
+  "analytical_quantity": "inductance",
+  "analytical_unit": "nH",
+  "analytical_value": 3.0,
   "reason": "FastHenry returned a parseable impedance matrix.",
   "warnings": [
     "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",

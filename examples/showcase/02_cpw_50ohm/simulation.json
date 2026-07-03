@@ -45,7 +45,7 @@
       ],
       "output_files": [],
       "parser": null,
-      "timestamp": "2026-07-03T06:12:30+00:00",
+      "timestamp": "2026-07-03T07:24:18+00:00",
       "notes": [
         "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",

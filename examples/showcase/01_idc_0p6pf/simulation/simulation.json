@@ -68,7 +68,7 @@
         "extraction\\capacitance_input\\simulation_result.json"
       ],
       "parser": "textlayout.simulation.fastercap._parse_capacitance_matrix_pf",
-      "timestamp": "2026-07-03T06:12:23+00:00",
+      "timestamp": "2026-07-03T07:24:11+00:00",
       "notes": [
         "Extracted mutual capacitance is within tolerance.",
         "Effective-medium capacitance is not a full air/silicon interface extraction.",

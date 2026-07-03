@@ -67,7 +67,7 @@ Validated Windows-local installs:
 C:\msys64\usr\bin\pacman.exe -Sy --noconfirm mingw-w64-ucrt-x86_64-ngspice
 
 # Magic VLSI extracted from Ubuntu packages into .tools/ for WSL execution
-wsl -e sh -lc 'cd /mnt/c/Users/justi/Desktop/Layout/text-to-gds; mkdir -p .tools/magic-wsl-download .tools/magic-wsl-root; cd .tools/magic-wsl-download; apt-get download magic libtcl8.6 tcl8.6 libglu1-mesa libopengl0; for f in *.deb; do dpkg -x "$f" ../magic-wsl-root; done'
+wsl -e sh -lc 'cd /path/to/text-to-gds; mkdir -p .tools/magic-wsl-download .tools/magic-wsl-root; cd .tools/magic-wsl-download; apt-get download magic libtcl8.6 tcl8.6 libglu1-mesa libopengl0; for f in *.deb; do dpkg -x "$f" ../magic-wsl-root; done'
 ```
 
 The project discovers `C:\msys64\ucrt64\bin\ngspice.exe` and

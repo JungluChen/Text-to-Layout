@@ -303,6 +303,66 @@ def _write_tile_simulation_map(out: Path) -> None:
     )
 
 
+def _tile_summary_lines(tile_map: dict[str, object]) -> list[str]:
+    """Render a human-readable summary of ``tile_simulation_map.json``.
+
+    Never claims a full-tile solve; only restates the sub-block evidence that
+    is actually recorded (or its absence) for each sub-device.
+    """
+    lines = [
+        "## Tile sub-block evidence",
+        "",
+        f"- Full-tile solver executed: **{tile_map.get('full_tile_solver_executed')}**",
+        f"- Full-tile status: **{tile_map.get('full_tile_status')}**",
+        f"- {tile_map.get('statement', '')}".rstrip(),
+        "",
+    ]
+    subblocks = tile_map.get("subblocks")
+    if isinstance(subblocks, dict):
+        for name, info in subblocks.items():
+            if not isinstance(info, dict):
+                continue
+            solver = info.get("solver") or "no solver"
+            status = info.get("status", "UNKNOWN")
+            scope = info.get("scope", "")
+            line = f"- **{name}** sub-block: `{status}` via `{solver}` — {scope}"
+            comparison = info.get("target_comparison")
+            if isinstance(comparison, dict):
+                line += (
+                    f"; extracted `{comparison.get('extracted')}` vs target "
+                    f"`{comparison.get('target')}` ({comparison.get('quantity')}); "
+                    f"error `{comparison.get('error_pct')}%` "
+                    f"(tolerance `{comparison.get('tolerance_pct')}%`); "
+                    f"within tolerance: **{comparison.get('within_tolerance')}**"
+                )
+            lines.append(line)
+    lines += [
+        "",
+        "Full-tile EM solve status: **NOT EXECUTED**. Sub-block evidence above is "
+        "not a full-tile verification; alignment marks, title, inter-block "
+        "coupling, package, transitions, and whole-tile modes are not modeled.",
+        "",
+    ]
+    return lines
+
+
+def _append_tile_summary_to_report(out: Path) -> None:
+    """Append the tile sub-block evidence summary to the committed report.md."""
+    tile_map_path = out / "tile_simulation_map.json"
+    report_path = out / "report.md"
+    if not tile_map_path.is_file() or not report_path.is_file():
+        return
+    tile_map = json.loads(tile_map_path.read_text(encoding="utf-8"))
+    summary = "\n".join(_tile_summary_lines(tile_map))
+    report_text = report_path.read_text(encoding="utf-8")
+    marker = "## Limitations"
+    if marker in report_text:
+        report_text = report_text.replace(marker, summary + "\n" + marker, 1)
+    else:
+        report_text = report_text.rstrip() + "\n\n" + summary
+    report_path.write_text(report_text, encoding="utf-8")
+
+
 def _example_readme(example: Example, out: Path) -> str:
     intent = json.loads((out / "intent.json").read_text(encoding="utf-8"))
     layout = json.loads((out / "layout.json").read_text(encoding="utf-8"))
@@ -398,6 +458,12 @@ def _example_readme(example: Example, out: Path) -> str:
         f"- Geometry: **{'GEOMETRY_PASS' if verification.get('status') == 'pass' and readback.get('status') == 'pass' else 'FAILED'}**",
         "- Fabrication status: **NOT_FABRICATION_READY**",
         "",
+    ]
+    tile_map_path = out / "tile_simulation_map.json"
+    if tile_map_path.is_file():
+        tile_map = json.loads(tile_map_path.read_text(encoding="utf-8"))
+        lines += _tile_summary_lines(tile_map)
+    lines += [
         "## Limitation",
         "",
         f"{example.limitation}",
@@ -437,6 +503,7 @@ def generate_example(example: Example, *, force: bool) -> dict[str, object]:
     _canonicalize_gds(out, example.id)
     if example.id == "06_research_test_chip":
         _write_tile_simulation_map(out)
+        _append_tile_summary_to_report(out)
     (out / "README.md").write_text(_example_readme(example, out), encoding="utf-8")
     _sanitize_committed_paths(out)
 

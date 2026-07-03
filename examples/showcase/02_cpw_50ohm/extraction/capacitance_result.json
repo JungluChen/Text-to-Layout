@@ -14,7 +14,9 @@
   },
   "extracted_quantities": {},
   "target_comparison": null,
-  "analytical_capacitance_pf": 50.0,
+  "analytical_quantity": "characteristic_impedance",
+  "analytical_unit": "ohm",
+  "analytical_value": 50.0,
   "reason": "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",

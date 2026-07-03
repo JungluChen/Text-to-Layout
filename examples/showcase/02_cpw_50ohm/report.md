@@ -57,16 +57,16 @@
 
 - Status: **SKIPPED_SOLVER_ABSENT**
 - Simulation status: **SKIPPED_SOLVER_ABSENT**
-- Prepared FasterCap files: **yes**
+- Prepared openEMS files: **yes**
 - Solver executed: **no**
 - Physics verified: **no**
 - Evidence status: **SKIPPED_SOLVER_ABSENT**
 - characteristic_impedance: SKIPPED_SOLVER_ABSENT — solver not installed; no physics verification was performed
-- Analytical capacitance: `50.0 pF`
-- Solver-extracted capacitance: `not available`
-- Circuit simulators are not capacitance-extraction evidence.
+- Analytical characteristic_impedance: `50.0 ohm`
+- Solver-extracted characteristic_impedance: `not available`
+- Circuit simulators are not characteristic_impedance-extraction evidence.
 
-- Reason: FasterCap/FastCap executable not found.
+- Reason: openEMS executable not found.
 
 - Legacy simulation status: **SKIPPED_SOLVER_ABSENT**
 - The solver is not installed; solver input files were prepared but **no physics verification was performed**.
@@ -91,7 +91,7 @@
 ## What is only prepared
 
 - Circuit backends without executed evidence: `none`
-- Capacitance extraction input exists, but no solver result exists.
+- Characteristic_impedance extraction input exists, but no solver result exists.
 
 ## Not yet supported
 

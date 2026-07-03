@@ -12,7 +12,7 @@
     "extraction/capacitance_input/idc.lst"
   ],
   "return_code": 0,
-  "runtime_seconds": 7.081717400000343,
+  "runtime_seconds": 13.591363600000477,
   "artifacts": {
     "panel_file": "extraction\\capacitance_input\\idc.qui",
     "list_file": "extraction\\capacitance_input\\idc.lst",
@@ -42,11 +42,14 @@
     "tolerance_pct": 5.0,
     "within_tolerance": true
   },
-  "analytical_capacitance_pf": 0.5583,
+  "analytical_quantity": "capacitance",
+  "analytical_unit": "pF",
+  "analytical_value": 0.5583,
   "reason": "Extracted mutual capacitance is within tolerance.",
   "warnings": [
     "Effective-medium capacitance is not a full air/silicon interface extraction.",
     "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
     "Self-resonance and Q are outside this electrostatic model."
-  ]
+  ],
+  "analytical_capacitance_pf": 0.5583
 }

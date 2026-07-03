@@ -276,7 +276,13 @@ This project uses explicit status labels to avoid misleading claims:
 | **FABRICATION READY**         | Process-specific DRC, EM simulation, and expert review complete |
 | **INFEASIBLE**                | Target not achievable under realistic constraints               |
 
-**No `examples/benchmarks/` default artifact is PHYSICS VERIFIED, and nothing in this repository is FABRICATION READY.** The only PHYSICS_VERIFIED artifacts are showcase examples [01](examples/showcase/01_idc_0p6pf/) and [03](examples/showcase/03_idc_cpw_test_structure/), each backed by committed FasterCap output (stdout, stderr, command, return code, parsed matrix) and enforced by claim validation.
+**No `examples/benchmarks/` default artifact is PHYSICS VERIFIED, and nothing in this repository is FABRICATION READY.**
+
+The only PHYSICS_VERIFIED artifacts are showcase examples
+[01](examples/showcase/01_idc_0p6pf/) and
+[03](examples/showcase/03_idc_cpw_test_structure/), each backed by committed
+FasterCap output (stdout, stderr, command, return code, parsed matrix) and
+enforced by claim validation.
 
 ## Legacy analytical benchmarks
 
@@ -354,9 +360,17 @@ report.md             target comparison and simulation status
 
 ## What Text-to-CAD taught this project
 
-[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad) makes its value obvious through a visual README, one prompt per benchmark, linked benchmark test cases, one-line skill installation, local preview tooling, and self-contained skill runtimes.
+[earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad) makes
+its value obvious through a visual README, one prompt per benchmark, linked
+benchmark test cases, one-line skill installation, local preview tooling, and
+self-contained skill runtimes.
 
-Text-to-Layout adopts the same reader-facing clarity and reproducibility. It does not copy mechanical B-rep logic: IC layout needs named process layers, minimum features, electrical ports, substrate assumptions, parasitic analysis, EM extraction, and evidence status that distinguishes analytical, planned, and executed work. See the [full study](docs/lessons_from_text_to_cad.md).
+Text-to-Layout adopts the same reader-facing clarity and reproducibility. It
+does not copy mechanical B-rep logic: IC layout needs named process layers,
+minimum features, electrical ports, substrate assumptions, parasitic
+analysis, EM extraction, and evidence status that distinguishes analytical,
+planned, and executed work. See the
+[full study](docs/lessons_from_text_to_cad.md).
 
 ## Supported generation
 

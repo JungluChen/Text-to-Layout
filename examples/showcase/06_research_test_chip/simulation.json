@@ -37,7 +37,7 @@
       "input_files": [],
       "output_files": [],
       "parser": null,
-      "timestamp": "2026-07-03T06:12:48+00:00",
+      "timestamp": "2026-07-03T07:24:33+00:00",
       "notes": [
         "TestChip is a geometry-level comparison tile; sub-device estimates are analytical and no solver was executed on the assembled tile.",
         "The IDC sub-block geometry is identical to the standalone IDC and can be extracted separately with FasterCap."

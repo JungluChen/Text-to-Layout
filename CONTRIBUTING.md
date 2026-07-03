@@ -26,10 +26,14 @@ Validate installable skill and plugin outputs after changing `src/`, `skills/`,
 
 ```powershell
 py -3 scripts\bundle_plugin.py
-py -3 C:\Users\justi\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py plugins\text-to-gds
-py -3 C:\Users\justi\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\text-to-gds
-py -3 C:\Users\justi\.codex\skills\.system\skill-creator\scripts\quick_validate.py plugins\text-to-gds\skills\text-to-gds
+py -3 <path-to-codex-skills>\.system\plugin-creator\scripts\validate_plugin.py plugins\text-to-gds
+py -3 <path-to-codex-skills>\.system\skill-creator\scripts\quick_validate.py skills\text-to-gds
+py -3 <path-to-codex-skills>\.system\skill-creator\scripts\quick_validate.py plugins\text-to-gds\skills\text-to-gds
 ```
+
+`<path-to-codex-skills>` is your local Codex/Claude skills root (for example
+`%USERPROFILE%\.codex\skills` on Windows or `~/.codex/skills` on Linux/macOS),
+not a path inside this repository.
 
 ## Contribution Guidelines
 
