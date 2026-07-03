@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -190,3 +191,190 @@ def test_readme_documents_setup_flow() -> None:
 def test_tools_dir_is_gitignored() -> None:
     gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
     assert ".tools/" in gitignore.splitlines()
+
+
+def test_fastercap_local_cmake_patch_is_idempotent() -> None:
+    original = (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
+        encoding="utf-8"
+    )
+    once = bootstrap_simulators.apply_textlayout_local_patch_to_fastercap_cmakelists(original)
+    twice = bootstrap_simulators.apply_textlayout_local_patch_to_fastercap_cmakelists(once)
+    assert once == twice
+    assert bootstrap_simulators._TEXTLAYOUT_PATCH_BEGIN in once
+    assert bootstrap_simulators._TEXTLAYOUT_PATCH_END in once
+    assert "--version=3.0" not in once
+    assert "--libs std,core,base" in once
+    assert "${TEXTLAYOUT_WX_CONFIG_LIBS}" in once
+
+
+def test_fastercap_wsl_build_ignores_object_files(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    tools = tmp_path / "tools"
+    (tools / "FasterCap").mkdir(parents=True)
+    (tools / "FasterCap" / "CMakeLists.txt").write_text(
+        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
+            encoding="utf-8"
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(bootstrap_simulators.shutil, "which", lambda name: "C:\\Windows\\wsl.exe" if name == "wsl.exe" else None)
+
+    calls: list[str] = []
+
+    def fake_wsl_run(command: str, *, timeout: int = 3600) -> subprocess.CompletedProcess[str]:
+        calls.append(command)
+        if "sudo -n true" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="OK\n", stderr="")
+        if "apt-get install" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+        if "cmake --build build" in command and "FASTER_CAP_BUILD_FAILED:" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="FasterCap 9.9\n", stderr="")
+        if "./bin/FasterCap --help >/dev/null" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+        return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(bootstrap_simulators, "_wsl_run", fake_wsl_run)
+    monkeypatch.setattr(check_simulators, "detect_fastercap", lambda *_: check_simulators.Detection(name="FasterCap"))
+
+    bootstrap_simulators.ensure_fastercap(tools, detect_only=False)
+    build_cmds = [cmd for cmd in calls if "cmake --build build" in cmd]
+    assert build_cmds, calls
+    cmd = build_cmds[0]
+    assert "find build -type f -perm -111" in cmd
+    assert "! -name '*.o'" in cmd
+    assert "! -name '*.a'" in cmd
+    assert "-name 'FasterCap' -o -name 'fastercap'" in cmd
+    assert 'wx_cxxflags="$($wx_config --cxxflags)"' in cmd
+    assert 'wx_libs="$($wx_config --libs std,core,base)"' in cmd
+    assert "$($wx_config --cxxflags)" in cmd
+    assert "$($wx_config --libs std,core,base)" in cmd
+
+
+def test_fastercap_failed_build_is_not_marked_ready(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    tools = tmp_path / "tools"
+    (tools / "FasterCap").mkdir(parents=True)
+    (tools / "FasterCap" / "CMakeLists.txt").write_text(
+        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
+            encoding="utf-8"
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(bootstrap_simulators.shutil, "which", lambda name: "C:\\Windows\\wsl.exe" if name == "wsl.exe" else None)
+
+    def fake_wsl_run(command: str, *, timeout: int = 3600) -> subprocess.CompletedProcess[str]:
+        if "sudo -n true" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="OK\n", stderr="")
+        if "apt-get install" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+        if "cmake --build build" in command:
+            return subprocess.CompletedProcess(
+                args=["wsl"],
+                returncode=2,
+                stdout="",
+                stderr="undefined reference to wxTheAssertHandler\n",
+            )
+        return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(bootstrap_simulators, "_wsl_run", fake_wsl_run)
+    monkeypatch.setattr(check_simulators, "detect_fastercap", lambda *_: check_simulators.Detection(name="FasterCap"))
+
+    bootstrap_simulators.ensure_fastercap(tools, detect_only=False)
+    manifest = json.loads((tools / "simulators.json").read_text(encoding="utf-8"))
+    assert manifest["fastercap"]["status"] == check_simulators.STATUS_INSTALL_FAILED
+    assert "wxWidgets link failed" in (manifest["fastercap"].get("reason") or "")
+
+
+def test_fastercap_successful_mocked_build_is_recorded_ready(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    tools = tmp_path / "tools"
+    (tools / "FasterCap").mkdir(parents=True)
+    (tools / "FasterCap" / "CMakeLists.txt").write_text(
+        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
+            encoding="utf-8"
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(bootstrap_simulators.shutil, "which", lambda name: "C:\\Windows\\wsl.exe" if name == "wsl.exe" else None)
+
+    def fake_wsl_run(command: str, *, timeout: int = 3600) -> subprocess.CompletedProcess[str]:
+        if "sudo -n true" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="OK\n", stderr="")
+        if "apt-get install" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+        if "./bin/FasterCap" in command:
+            return subprocess.CompletedProcess(
+                args=["wsl"],
+                returncode=0,
+                stdout="bin/FasterCap: ELF 64-bit LSB pie executable\nFasterCap version 1.2.3\n",
+                stderr="",
+            )
+        if "cmake --build build" in command:
+            return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="FasterCap 1.2.3\n", stderr="")
+        return subprocess.CompletedProcess(args=["wsl"], returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(bootstrap_simulators, "_wsl_run", fake_wsl_run)
+    monkeypatch.setattr(check_simulators, "detect_fastercap", lambda *_: check_simulators.Detection(name="FasterCap"))
+
+    bootstrap_simulators.ensure_fastercap(tools, detect_only=False)
+    manifest = json.loads((tools / "simulators.json").read_text(encoding="utf-8"))
+    assert manifest["fastercap"]["status"] == check_simulators.STATUS_READY
+    assert manifest["fastercap"]["version"] == "FasterCap version 1.2.3"
+
+
+def test_fastercap_existing_verified_wsl_binary_is_recorded_ready(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    tools = tmp_path / "tools"
+    (tools / "FasterCap").mkdir(parents=True)
+    (tools / "FasterCap" / "CMakeLists.txt").write_text(
+        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
+            encoding="utf-8"
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(
+        bootstrap_simulators.shutil,
+        "which",
+        lambda name: "C:\\Windows\\wsl.exe" if name == "wsl.exe" else None,
+    )
+
+    def fake_wsl_run(command: str, *, timeout: int = 3600) -> subprocess.CompletedProcess[str]:
+        if "./bin/FasterCap" in command:
+            return subprocess.CompletedProcess(
+                args=["wsl"],
+                returncode=0,
+                stdout="bin/FasterCap: ELF 64-bit LSB pie executable\nFasterCap version 6.0.7\n",
+                stderr="",
+            )
+        raise AssertionError(command)
+
+    monkeypatch.setattr(bootstrap_simulators, "_wsl_run", fake_wsl_run)
+    monkeypatch.setattr(check_simulators, "detect_fastercap", lambda *_: check_simulators.Detection(name="FasterCap"))
+
+    bootstrap_simulators.ensure_fastercap(tools, detect_only=False)
+    manifest = json.loads((tools / "simulators.json").read_text(encoding="utf-8"))
+    assert manifest["fastercap"]["status"] == check_simulators.STATUS_READY
+    assert manifest["fastercap"]["method"] == "wsl-existing"
+    assert manifest["fastercap"]["version"] == "FasterCap version 6.0.7"
+
+
+def test_checker_marks_verified_wsl_fastercap_ready_on_windows(no_simulators: Path) -> None:
+    check_simulators.write_manifest_entry(
+        no_simulators,
+        "fastercap",
+        {
+            "status": check_simulators.STATUS_READY,
+            "path": "/mnt/c/repo/.tools/FasterCap/bin/FasterCap",
+            "method": "wsl-existing",
+            "version": "FasterCap version 6.0.7",
+            "reason": "verified from WSL",
+        },
+    )
+    reports = check_simulators.collect_reports(no_simulators, env={})
+    by_name = {report.name: report for report in reports}
+    fastercap = by_name["FasterCap"]
+    assert fastercap.status == check_simulators.STATUS_READY
+    assert fastercap.path == "/mnt/c/repo/.tools/FasterCap/bin/FasterCap"
+    assert any("Ubuntu/WSL" in note or "WSL/Linux" in note for note in fastercap.notes)

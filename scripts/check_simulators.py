@@ -45,6 +45,7 @@ STATUS_STRICT_MISSING = "strict_missing"
 
 JOSIM_NAMES = ("josim-cli", "josim-cli.exe", "josim", "josim.exe")
 WRSPICE_NAMES = ("wrspice", "wrspice.exe", "wrspice64", "wrspice64.exe")
+FASTERCAP_NAMES = ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe")
 
 _MANIFEST_NAME = "simulators.json"
 
@@ -211,6 +212,39 @@ def detect_pscan2(
     return detection
 
 
+def detect_fastercap(
+    tools_dir: Path | None = None, env: Mapping[str, str] | None = None
+) -> Detection:
+    env = os.environ if env is None else env
+    tools_dir = default_tools_dir(env) if tools_dir is None else tools_dir
+    manifest = read_manifest(tools_dir)
+    detection = _detect_executable(
+        "FasterCap", "TEXTLAYOUT_FASTERCAP", FASTERCAP_NAMES, "FasterCap", tools_dir, env
+    )
+    if not detection.available:
+        recorded = manifest.get("fastercap", {})
+        recorded_path = recorded.get("path")
+        if isinstance(recorded_path, str) and recorded_path:
+            detection.method = f"manifest:{recorded.get('method', 'recorded')}"
+            detection.path = recorded_path
+            if os.name == "nt" and str(recorded.get("method", "")).startswith("wsl"):
+                detection.notes.append("WSL-built FasterCap recorded; run inside Ubuntu/WSL to execute")
+    if detection.available and detection.path:
+        suffix = Path(detection.path).suffix.lower()
+        if os.name == "nt" and suffix not in (".exe", ".bat", ".cmd"):
+            detection.available = False
+            recorded = manifest.get("fastercap", {})
+            recorded_path = recorded.get("path")
+            if isinstance(recorded_path, str) and recorded_path:
+                detection.method = f"manifest:{recorded.get('method', 'recorded')}"
+                detection.path = recorded_path
+            else:
+                detection.method = "tools_dir"
+                detection.path = None
+            detection.notes.append("found a non-Windows executable; install/run FasterCap from WSL")
+    return detection
+
+
 def _assign_status(
     detection: Detection,
     *,
@@ -228,6 +262,16 @@ def _assign_status(
         )
         return
     recorded = manifest.get(simulator_key, {})
+    if simulator_key == "fastercap" and recorded.get("status") == STATUS_READY:
+        detection.status = STATUS_READY
+        detection.notes.append(
+            "verified WSL/Linux FasterCap recorded; execute it from Ubuntu/WSL"
+        )
+        detection.notes.append(
+            "installed != physics verified; PHYSICS_VERIFIED needs real extraction "
+            "+ simulation within tolerance"
+        )
+        return
     if recorded.get("status") == STATUS_INSTALL_FAILED:
         detection.status = STATUS_INSTALL_FAILED
         reason = recorded.get("reason")
@@ -236,6 +280,11 @@ def _assign_status(
     elif simulator_key == "josim":
         detection.status = STATUS_ABSENT
         detection.notes.append("primary backend; run `make setup-simulators` to install")
+    elif simulator_key == "fastercap":
+        detection.status = STATUS_MANUAL
+        detection.notes.append(
+            "capacitance extraction is WSL/Linux-first; run `python scripts/bootstrap_simulators.py`"
+        )
     else:
         detection.status = STATUS_MANUAL
         detection.notes.append(
@@ -262,6 +311,7 @@ def collect_reports(
     reports: list[Detection] = []
     for key, detector in (
         ("josim", detect_josim),
+        ("fastercap", detect_fastercap),
         ("pscan2", detect_pscan2),
         ("wrspice", detect_wrspice),
     ):
@@ -348,8 +398,8 @@ def main(argv: list[str] | None = None) -> int:
         print(render_table(reports))
         print()
         print(
-            "Reminder: JoSIM/PSCAN2/WRspice are circuit simulators, not EM capacitance "
-            "solvers; FasterCap/FastCap is still required for geometry-level extraction."
+            "Reminder: circuit simulators do not replace geometry-level extraction; "
+            "FasterCap/FastCap is required for IDC capacitance evidence."
         )
     if strict:
         missing = [report for report in reports if report.status == STATUS_STRICT_MISSING]

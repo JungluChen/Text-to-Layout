@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -47,6 +48,80 @@ def test_missing_solver_is_skipped_without_result(tmp_path: Path) -> None:
     assert result.status == "skipped"
     assert result.readiness_level == 2
     assert "result" not in result.artifacts
+
+
+def test_env_var_override_runs_fastercap_and_parses_matrix(tmp_path: Path) -> None:
+    prepared = _prepared(tmp_path)
+    matrix_lines = [
+        "CAPACITANCE MATRIX, picofarads",
+        "1 P1  1.0  -0.5",
+        "2 P2 -0.5   1.0",
+    ]
+    if sys.platform == "win32":
+        fake = tmp_path / "fake_fastercap.bat"
+        fake.write_text(
+            "@echo off\n" + "\n".join(f"echo {line}" for line in matrix_lines) + "\n",
+            encoding="ascii",
+        )
+    else:
+        fake = tmp_path / "fake_fastercap"
+        fake.write_text(
+            "#!/bin/sh\nset -eu\n" + "\n".join(f"echo '{line}'" for line in matrix_lines) + "\n",
+            encoding="ascii",
+        )
+        os.chmod(fake, 0o755)
+
+    original = os.environ.get("TEXTLAYOUT_FASTERCAP")
+    os.environ["TEXTLAYOUT_FASTERCAP"] = str(fake)
+    try:
+        result = run_fastercap(prepared)
+    finally:
+        if original is None:
+            os.environ.pop("TEXTLAYOUT_FASTERCAP", None)
+        else:
+            os.environ["TEXTLAYOUT_FASTERCAP"] = original
+
+    assert result.status == "executed"
+    assert result.extracted_quantities["mutual_capacitance_pf"] == 0.5
+    assert "result" in result.artifacts
+
+
+def test_env_var_override_parses_fastercap_console_matrix_format(tmp_path: Path) -> None:
+    prepared = _prepared(tmp_path)
+    matrix_lines = [
+        "Running FasterCap version 6.0.7",
+        "Capacitance matrix is:",
+        "Dimension 2 x 2",
+        "g1_P1  1e-12  -5e-13",
+        "g1_P2  -5e-13  1e-12",
+    ]
+    if sys.platform == "win32":
+        fake = tmp_path / "fake_fastercap.bat"
+        fake.write_text(
+            "@echo off\n" + "\n".join(f"echo {line}" for line in matrix_lines) + "\n",
+            encoding="ascii",
+        )
+    else:
+        fake = tmp_path / "fake_fastercap"
+        fake.write_text(
+            "#!/bin/sh\nset -eu\n" + "\n".join(f"echo '{line}'" for line in matrix_lines) + "\n",
+            encoding="ascii",
+        )
+        os.chmod(fake, 0o755)
+
+    original = os.environ.get("TEXTLAYOUT_FASTERCAP")
+    os.environ["TEXTLAYOUT_FASTERCAP"] = str(fake)
+    try:
+        result = run_fastercap(prepared)
+    finally:
+        if original is None:
+            os.environ.pop("TEXTLAYOUT_FASTERCAP", None)
+        else:
+            os.environ["TEXTLAYOUT_FASTERCAP"] = original
+
+    assert result.status == "executed"
+    assert result.extracted_quantities["mutual_capacitance_pf"] == 0.5
+    assert "result" in result.artifacts
 
 
 def test_runner_script_fails_gracefully_when_solver_missing(tmp_path: Path) -> None:

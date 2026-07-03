@@ -344,6 +344,52 @@ py -3 -m uv run python simulation/idc_fastercap/run_fastercap.py \
   examples/benchmarks/01_idc_0p6pf/layout.json
 ```
 
+### FasterCap/FastCap on Windows via WSL (Ubuntu)
+
+FasterCap is built and executed as a Linux ELF binary. On Windows, run it from Ubuntu/WSL (the binary under `.tools/FasterCap/bin/FasterCap` is not a Windows `.exe`).
+
+Build and verify (Windows):
+
+```bash
+python scripts/bootstrap_simulators.py --tools-dir .tools
+python scripts/check_simulators.py --tools-dir .tools
+```
+
+If WSL `sudo` requires a password, follow the manual steps printed by the bootstrap. The essential WSL flow is:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential cmake pkg-config libwxgtk3.2-dev git file
+cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap
+rm -rf build
+cmake -S . -B build -DFASTFIELDSOLVERS_HEADLESS=ON -DCMAKE_BUILD_TYPE=Release -DwxWidgets_CONFIG_EXECUTABLE="$(which wx-config)" -DCMAKE_CXX_FLAGS="$(wx-config --cxxflags)"
+cmake --build build -j"$(nproc)"
+cp -f build/FasterCap bin/FasterCap
+chmod +x bin/FasterCap
+file bin/FasterCap
+./bin/FasterCap -bv
+```
+
+Notes:
+
+- `file bin/FasterCap` must report an ELF executable (not `relocatable`).
+- FasterCap does not accept `--help`; use `-bv` (version) or `-b?` (console usage).
+- This repository applies a local-only CMake patch in `.tools/FasterCap/CMakeLists.txt` with markers `# TEXTLAYOUT LOCAL PATCH BEGIN/END` and keeps a backup at `.tools/FasterCap/CMakeLists.txt.textlayout.bak`.
+
+Run the IDC capacitance extraction from WSL (Ubuntu):
+
+```bash
+cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds
+sudo apt-get install -y python3-venv python3.12-venv python3-pip
+python3 -m venv .wsl-venv
+source .wsl-venv/bin/activate
+python -m pip install -U pip
+pip install pydantic numpy pyyaml pillow matplotlib trimesh
+PYTHONPATH=src python simulation/idc_fastercap/run_fastercap.py examples/benchmarks/01_idc_0p6pf/layout.json --out /tmp/fastercap_work --executable /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap
+```
+
+Success is reported as `status="executed"` and `evidence_level="CAPACITANCE_EXTRACTED"` with a real `simulation_result.json` written under the `--out` directory.
+
 - [HFSS](simulation/hfss_workflow.md)
 - [Q3D](simulation/q3d_workflow.md)
 - [ADS](simulation/ads_workflow.md)

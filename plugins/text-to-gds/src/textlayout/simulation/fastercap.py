@@ -10,6 +10,7 @@ from pathlib import Path
 
 from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.simulation.base import find_simulator
 from textlayout.simulation.models import SimulationResult, target_comparison
 
 _UM_TO_M = 1e-6
@@ -244,16 +245,12 @@ def _idc_net(polygon_index: int) -> str:
 
 
 def _find_solver(explicit: str | None) -> str | None:
-    if explicit:
-        path = Path(explicit)
-        if path.is_file():
-            return str(path)
-        return shutil.which(explicit)
-    for name in ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe"):
-        found = shutil.which(name)
-        if found:
-            return found
-    return None
+    return find_simulator(
+        "TEXTLAYOUT_FASTERCAP",
+        ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe"),
+        explicit,
+        tool_subdir="FasterCap",
+    )
 
 
 def _solver_command(executable: str, list_file: Path) -> list[str]:

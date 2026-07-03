@@ -10,6 +10,7 @@ from pathlib import Path
 
 from textlayout.models import Geometry, Technology
 from textlayout.schemas.dsl import LayoutSpec
+from textlayout.simulation.base import find_simulator
 from textlayout.simulation.models import SimulationResult, target_comparison
 from textlayout.solvers.base import run_subprocess
 
@@ -245,16 +246,12 @@ def _idc_net(polygon_index: int) -> str:
 
 
 def _find_solver(explicit: str | None) -> str | None:
-    if explicit:
-        path = Path(explicit)
-        if path.is_file():
-            return str(path)
-        return shutil.which(explicit)
-    for name in ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe"):
-        found = shutil.which(name)
-        if found:
-            return found
-    return None
+    return find_simulator(
+        "TEXTLAYOUT_FASTERCAP",
+        ("FasterCap", "FasterCap.exe", "fastcap", "fastcap.exe"),
+        explicit,
+        tool_subdir="FasterCap",
+    )
 
 
 def _solver_command(executable: str, list_file: Path) -> list[str]:
@@ -266,6 +263,47 @@ def _solver_command(executable: str, list_file: Path) -> list[str]:
 def _parse_capacitance_matrix_pf(text: str) -> list[list[float]]:
     match = _MATRIX_RE.search(text)
     if match is None:
+        for line_index, line in enumerate(text.splitlines()):
+            if line.strip().lower().startswith("capacitance matrix is"):
+                remaining = text.splitlines()[line_index + 1 :]
+                dimension_re = re.compile(r"Dimension\s+(\d+)\s*x\s*(\d+)", re.IGNORECASE)
+                dim = None
+                for candidate in remaining[:10]:
+                    dim_match = dimension_re.search(candidate)
+                    if dim_match:
+                        dim = (int(dim_match.group(1)), int(dim_match.group(2)))
+                        break
+                if dim is None or dim[0] != dim[1] or dim[0] < 2:
+                    raise ValueError("missing or invalid FasterCap matrix dimension")
+                n = dim[0]
+                rows: list[list[float]] = []
+                for data_line in remaining:
+                    stripped = data_line.strip()
+                    if not stripped:
+                        continue
+                    tokens = stripped.split()
+                    if tokens and tokens[0].lower() == "dimension":
+                        continue
+                    if len(tokens) < 1 + n:
+                        if rows:
+                            break
+                        continue
+                    try:
+                        values = [float(token) * 1e12 for token in tokens[1 : 1 + n]]
+                    except ValueError:
+                        if rows:
+                            break
+                        continue
+                    rows.append(values)
+                    if len(rows) >= n:
+                        break
+                if len(rows) < 2:
+                    raise ValueError("fewer than two FasterCap capacitance-matrix rows")
+                width = len(rows[0])
+                if width < 2 or any(len(row) != width for row in rows):
+                    raise ValueError("malformed FasterCap capacitance matrix")
+                return rows[:width]
+
         raise ValueError("missing CAPACITANCE MATRIX heading")
     scale = _UNIT_TO_PF.get(match.group(1).lower())
     if scale is None:

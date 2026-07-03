@@ -20,6 +20,33 @@ uv run python scripts/check_external_tools.py # backend status
 uv run python examples/zero_to_one_demos.py all
 ```
 
+## FasterCap (WSL on Windows) Guide
+
+FasterCap is built and executed as a Linux ELF binary. When installed via this repository's WSL bootstrap, it must be run inside Ubuntu/WSL (not from Windows).
+
+Checklist:
+
+- Verify the solver is a real ELF executable (not an object file): `file .tools/FasterCap/bin/FasterCap` must not report `relocatable`.
+- Verify it runs: `./.tools/FasterCap/bin/FasterCap -bv` (FasterCap does not accept `--help`; use `-bv` or `-b?`).
+- Do not mark FasterCap as `ready` in `.tools/simulators.json` unless the executable exists and a version/help probe runs successfully.
+- Do not copy build artifacts using broad find patterns that can match `.o` files.
+
+Local build patch:
+
+- The repository applies a local-only patch to `.tools/FasterCap/CMakeLists.txt` with markers `# TEXTLAYOUT LOCAL PATCH BEGIN/END`.
+- A backup is kept at `.tools/FasterCap/CMakeLists.txt.textlayout.bak`.
+
+WSL IDC run (requires a WSL Python venv):
+
+```bash
+cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds
+python3 -m venv .wsl-venv
+source .wsl-venv/bin/activate
+python -m pip install -U pip
+pip install pydantic numpy pyyaml pillow matplotlib trimesh
+PYTHONPATH=src python simulation/idc_fastercap/run_fastercap.py examples/benchmarks/01_idc_0p6pf/layout.json --out /tmp/fastercap_work --executable /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap
+```
+
 ---
 
 ## Project Layout

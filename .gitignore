@@ -1,4 +1,5 @@
 .venv/
+.wsl-venv/
 .tools/
 __pycache__/
 *.py[cod]
