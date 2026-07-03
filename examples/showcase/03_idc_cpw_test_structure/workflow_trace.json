@@ -1,0 +1,428 @@
+{
+  "schema": "textlayout.workflow-trace.v1",
+  "orchestrator": "langgraph",
+  "generated_at": "2026-07-03T04:56:59.299+00:00",
+  "nodes": [
+    {
+      "node": "ParsePrompt",
+      "start_time": "2026-07-03T04:56:55.948+00:00",
+      "input_summary": {
+        "component": null,
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": []
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:55.953+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "intent"
+        ]
+      }
+    },
+    {
+      "node": "ValidateIntent",
+      "start_time": "2026-07-03T04:56:55.954+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:55.954+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "BuildLayoutDSL",
+      "start_time": "2026-07-03T04:56:55.954+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:55.958+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_requests",
+          "files",
+          "jpa_sizing",
+          "layout_dsl",
+          "lc_inductance_nh",
+          "optimization",
+          "sized_parameters",
+          "target_capacitance_pf"
+        ]
+      }
+    },
+    {
+      "node": "OptimizeParameters",
+      "start_time": "2026-07-03T04:56:55.960+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:55.962+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T04:56:55.965+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:56.541+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T04:56:56.542+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:56.542+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T04:56:56.542+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:56.547+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T04:56:56.549+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:56.553+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T04:56:56.555+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:56.561+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T04:56:56.564+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.216+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T04:56:59.217+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.230+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T04:56:59.233+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.233+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status",
+          "iteration",
+          "solver_iterations"
+        ]
+      }
+    },
+    {
+      "node": "RunCircuitChecks",
+      "start_time": "2026-07-03T04:56:59.238+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.255+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_simulations",
+          "files",
+          "optimization",
+          "physics_verified"
+        ]
+      }
+    },
+    {
+      "node": "GenerateReport",
+      "start_time": "2026-07-03T04:56:59.266+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.290+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "UpdateShowcaseMetadata",
+      "start_time": "2026-07-03T04:56:59.294+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "report",
+          "simulation",
+          "simulation_legacy",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:56:59.299+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "artifacts"
+        ]
+      }
+    }
+  ]
+}

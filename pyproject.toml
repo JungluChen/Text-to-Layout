@@ -13,6 +13,7 @@ authors = [{ name = "Text-to-GDS contributors" }]
 dependencies = [
   "gdsfactory>=8.0",
   "klayout>=0.29",
+  "langgraph>=0.2",
   "matplotlib>=3.9",
   "mcp[cli]>=1.2.0",
   "numpy>=1.26",
@@ -84,6 +85,8 @@ CPW = "textlayout.generators.cpw:CPWGenerator"
 SpiralInductor = "textlayout.generators.spiral:SpiralInductorGenerator"
 QuarterWaveResonator = "textlayout.generators.resonator:QuarterWaveResonatorGenerator"
 SQUID = "textlayout.generators.squid:SQUIDGenerator"
+TestStructure = "textlayout.generators.test_structure:TestStructureGenerator"
+TestChip = "textlayout.generators.test_chip:TestChipGenerator"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/text_to_gds", "src/textlayout"]

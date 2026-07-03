@@ -74,7 +74,38 @@ COMPONENTS: dict[str, dict[str, object]] = {
         "tests": ["tests/textlayout_suite/test_extended_generators.py"],
         "benchmark": "examples/benchmarks/05_squid_loop",
     },
+    "TestStructure": {
+        "generator": "src/textlayout/generators/test_structure.py",
+        "schema": "src/textlayout/schemas/dsl/test_structure.py",
+        "research": "src/textlayout/research/test_structure_research.py",
+        "tests": ["tests/textlayout_suite/test_multi_device_generators.py"],
+        "benchmark": "examples/showcase/03_idc_cpw_test_structure",
+    },
+    "TestChip": {
+        "generator": "src/textlayout/generators/test_chip.py",
+        "schema": "src/textlayout/schemas/dsl/test_chip.py",
+        "research": "src/textlayout/research/test_chip_research.py",
+        "tests": ["tests/textlayout_suite/test_multi_device_generators.py"],
+        "benchmark": "examples/showcase/06_research_test_chip",
+    },
 }
+
+#: Full artifact chain every showcased example must commit.
+SHOWCASE_REQUIRED_FILES = (
+    "prompt.txt",
+    "intent.json",
+    "layout.json",
+    "output.gds",
+    "output.svg",
+    "output.png",
+    "verification.json",
+    "klayout_readback.json",
+    "simulation.json",
+    "optimization.json",
+    "workflow_trace.json",
+    "report.md",
+    "README.md",
+)
 
 SOLVER_OUTPUT_NAMES = ("solver.stdout.txt", "solver.stderr.txt", "simulation_result.json")
 
@@ -174,13 +205,14 @@ def _check_matrix(readme_text: str, root: Path, errors: list[str]) -> None:
                     _fail(errors, f"{component}: Geometry=yes but {spec[key]} is missing")
         if _is_yes(analytical) and not _existing_nonempty(root, str(spec["research"])):
             _fail(errors, f"{component}: Analytical=yes but {spec['research']} is missing")
-        if _is_yes(solver_input) and not _existing_nonempty(
-            root, f"{spec['benchmark']}/simulation_plan.md"
+        if _is_yes(solver_input) and not (
+            _existing_nonempty(root, f"{spec['benchmark']}/simulation_plan.md")
+            or _existing_nonempty(root, f"{spec['benchmark']}/output.simulation_plan.md")
         ):
             _fail(
                 errors,
-                f"{component}: Solver input=yes but {spec['benchmark']}/simulation_plan.md "
-                "is missing",
+                f"{component}: Solver input=yes but {spec['benchmark']} has no "
+                "simulation_plan.md / output.simulation_plan.md",
             )
         for test in spec["tests"]:  # type: ignore[union-attr]
             if not _existing_nonempty(root, str(test)):
@@ -280,6 +312,89 @@ def _check_demo_section(readme_text: str, errors: list[str]) -> None:
         _fail(errors, f"README is missing the limitation statement: {LIMITATION_SENTENCE!r}")
 
 
+def _showcase_simulation(root: Path, folder: str) -> dict[str, object] | None:
+    path = root / folder / "simulation.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
+    """Validate the six-example showcase table against committed artifacts."""
+    section = re.search(
+        r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
+    )
+    if section is None:
+        _fail(errors, "README is missing the '## Six research-grade examples' table")
+        return
+    rows = [
+        line
+        for line in section.group(1).splitlines()
+        if line.strip().startswith("|") and "examples/showcase/" in line
+    ]
+    if len(rows) < 6:
+        _fail(errors, f"showcase table lists {len(rows)} examples; six are required")
+    for line in rows:
+        folders = sorted(set(re.findall(r"examples/showcase/([\w-]+)", line)))
+        if not folders:
+            continue
+        folder = f"examples/showcase/{folders[0]}"
+        for name in SHOWCASE_REQUIRED_FILES:
+            if not _existing_nonempty(root, f"{folder}/{name}"):
+                _fail(errors, f"showcase row links {folder} but {name} is missing/empty")
+        upper = line.upper()
+        simulation = _showcase_simulation(root, folder)
+        if re.search(r"FABRICATION[_ ]READY", upper) and "NOT_FABRICATION_READY" not in upper:
+            _fail(errors, f"showcase row claims FABRICATION_READY without signoff: {folder}")
+        claims_verified = "PHYSICS_VERIFIED" in upper
+        claims_executed = claims_verified or "SIMULATION_EXECUTED" in upper
+        if claims_executed:
+            if simulation is None:
+                _fail(errors, f"{folder}: solver claim but simulation.json is unreadable")
+                continue
+            if simulation.get("solver_executed") is not True:
+                _fail(errors, f"{folder}: README claims solver execution; artifacts say no")
+                continue
+            artifacts = simulation.get("artifacts")
+            result_path = root / folder / "simulation.json"
+            if not isinstance(artifacts, dict) or not all(
+                _artifact_nonempty(result_path, artifacts.get(key))
+                or _artifact_nonempty(
+                    root / folder / "extraction" / "capacitance_input" / "x", artifacts.get(key)
+                )
+                for key in ("solver_stdout", "solver_stderr")
+            ):
+                _fail(
+                    errors,
+                    f"{folder}: solver claim without committed solver stdout/stderr artifacts",
+                )
+        if claims_verified:
+            comparison = simulation.get("target_comparison") if simulation else None
+            if not isinstance(comparison, dict) or comparison.get("within_tolerance") is not True:
+                _fail(
+                    errors,
+                    f"{folder}: README claims PHYSICS_VERIFIED but the committed target "
+                    "comparison is missing or out of tolerance",
+                )
+        # A research-grade claim requires readback pass + stated limitations.
+        readback = root / folder / "klayout_readback.json"
+        try:
+            readback_payload = json.loads(readback.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            readback_payload = {}
+        if readback_payload.get("status") != "pass":
+            _fail(errors, f"{folder}: showcased example without passing KLayout readback")
+        example_readme = root / folder / "README.md"
+        if example_readme.is_file():
+            body = example_readme.read_text(encoding="utf-8")
+            if "## Limitation" not in body:
+                _fail(errors, f"{folder}: example README lacks a Limitation section")
+            if "NOT_FABRICATION_READY" not in body:
+                _fail(errors, f"{folder}: example README must state NOT_FABRICATION_READY")
+
+
 def validate(readme: Path, root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     if not readme.is_file():
@@ -287,6 +402,7 @@ def validate(readme: Path, root: Path = ROOT) -> list[str]:
     text = readme.read_text(encoding="utf-8")
     _check_matrix(text, root, errors)
     _check_benchmark_table(text, root, errors)
+    _check_showcase(text, root, errors)
     _check_demo_section(text, errors)
     return errors
 

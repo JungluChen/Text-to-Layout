@@ -1,0 +1,178 @@
+{
+  "status": "pass",
+  "component": "CPW",
+  "checks": [
+    {
+      "name": "component_generated",
+      "status": "pass"
+    },
+    {
+      "name": "positive_dimensions",
+      "status": "pass"
+    },
+    {
+      "name": "minimum_width",
+      "status": "pass",
+      "value_um": 10.0,
+      "limit_um": 2.0
+    },
+    {
+      "name": "minimum_gap",
+      "status": "pass",
+      "value_um": 5.983,
+      "limit_um": 2.0
+    },
+    {
+      "name": "layer_exists",
+      "status": "pass"
+    },
+    {
+      "name": "bounding_box",
+      "status": "pass",
+      "value_um2": 121966.0
+    },
+    {
+      "name": "ports_exist",
+      "status": "pass",
+      "value_count": 6.0,
+      "limit_count": 6.0
+    },
+    {
+      "name": "explicit_rf_ground_ports",
+      "status": "pass"
+    },
+    {
+      "name": "geometry_min_spacing",
+      "status": "pass"
+    },
+    {
+      "name": "analytical_estimate",
+      "status": "warn",
+      "message": "Characteristic impedance is an analytical estimate only. EM extraction is required before fabrication."
+    },
+    {
+      "name": "research_evidence",
+      "status": "pass"
+    },
+    {
+      "name": "simulation_workflow_documented",
+      "status": "pass"
+    },
+    {
+      "name": "gdsfactory_component_sanity",
+      "status": "pass"
+    },
+    {
+      "name": "output_gds_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_svg_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_png_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_layout_dsl_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_verification_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_evidence_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_analytical_estimate_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_simulation_plan_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_report_exists",
+      "status": "pass"
+    },
+    {
+      "name": "klayout_gds_readback",
+      "status": "pass"
+    }
+  ],
+  "warnings": [
+    "Characteristic impedance is an analytical estimate only. EM extraction is required before fabrication."
+  ],
+  "errors": [],
+  "klayout_readback": {
+    "schema": "textlayout.klayout-readback.v1",
+    "status": "pass",
+    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\output.gds",
+    "top_cell": "CPW_11e9b426",
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "width": 121.966,
+      "height": 1000.0
+    },
+    "layers": {
+      "1/0": 3
+    },
+    "polygon_count": 3,
+    "label_count": 0,
+    "checks": [
+      {
+        "name": "gds_file_exists",
+        "passed": true,
+        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\output.gds"
+      },
+      {
+        "name": "gds_readable",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "database_unit_sane",
+        "passed": true,
+        "detail": "dbu = 0.001 um"
+      },
+      {
+        "name": "top_cell_exists",
+        "passed": true,
+        "detail": "CPW_11e9b426"
+      },
+      {
+        "name": "bbox_non_empty",
+        "passed": true,
+        "detail": "121.9660 x 1000.0000 um"
+      },
+      {
+        "name": "polygon_count_positive",
+        "passed": true,
+        "detail": "3 polygons read back"
+      },
+      {
+        "name": "expected_layers_present",
+        "passed": true,
+        "detail": "all expected layers found"
+      },
+      {
+        "name": "per_layer_polygon_counts_match",
+        "passed": true,
+        "detail": "IR and GDS polygon counts agree"
+      },
+      {
+        "name": "bbox_matches_ir",
+        "passed": true,
+        "detail": "IR 121.9660x1000.0000 um vs GDS 121.9660x1000.0000 um"
+      },
+      {
+        "name": "ports_declared",
+        "passed": true,
+        "detail": "6 port(s) declared in the IR/sidecar; GDS text labels found: 0"
+      }
+    ]
+  }
+}

@@ -16,13 +16,31 @@ py -3 -m uv sync                              # core install
 py -3 -m uv sync --extra research             # all optional backends
 uv run pytest                                  # full suite
 uv run ruff check .                            # lint
+uv run mypy src/textlayout                     # strict typing (product package)
+uv run python scripts/validate_readme_claims.py  # README claim gate
 uv run python scripts/check_external_tools.py # backend status
 uv run python examples/zero_to_one_demos.py all
+textlayout doctor                              # environment + solver health
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/demo
+python scripts/generate_showcase_examples.py --force   # regenerate examples/showcase
 ```
+
+The `textlayout prompt` path runs a LangGraph pipeline (see
+`src/textlayout/workflow/`): ParsePrompt → ValidateIntent → BuildLayoutDSL →
+OptimizeParameters → GenerateGeometry → ExportArtifacts → KLayoutReadback →
+GeometryVerification → PrepareFasterCap → RunFasterCapIfAvailable →
+ParseSolverResult → CompareTarget (bounded retune loop) → RunCircuitChecks →
+GenerateReport → UpdateShowcaseMetadata. Every run writes
+`workflow_trace.json` and `klayout_readback.json`. LangGraph owns
+orchestration only; deterministic Python owns all geometry and evidence.
 
 ## FasterCap (WSL on Windows) Guide
 
-FasterCap is built and executed as a Linux ELF binary. When installed via this repository's WSL bootstrap, it must be run inside Ubuntu/WSL (not from Windows).
+FasterCap is built and executed as a Linux ELF binary. Since the LangGraph
+workflow upgrade, `textlayout` auto-detects the WSL ELF build from Windows and
+invokes it through `wsl` with `/mnt/c/...` path translation — no manual WSL
+session is needed for the product path. The manual WSL venv flow below remains
+valid for debugging the solver directly.
 
 Checklist:
 

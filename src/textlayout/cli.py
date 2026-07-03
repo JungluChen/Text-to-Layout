@@ -5,6 +5,7 @@ Four subcommands cover the usage modes from a single shared core:
     textlayout prompt "Create a 0.6 pF IDC ..." --out out/idc_demo  # NL -> closed loop
     textlayout generate spec.json --out out_dir   # DSL file -> verified artifacts
     textlayout verify   spec.json                 # DSL file -> verification report
+    textlayout doctor                             # environment + solver health check
     textlayout serve    --host 0.0.0.0 --port 8000  # run the plugin API server
 """
 
@@ -70,6 +71,17 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     return 0 if report.passed else 2
 
 
+def _cmd_doctor(args: argparse.Namespace) -> int:
+    from textlayout.doctor import render_text, run_doctor
+
+    report = run_doctor(output_dir=args.out)
+    if args.json:
+        print(json.dumps(report.to_dict(), indent=2))
+    else:
+        print(render_text(report))
+    return 0 if report.ok else 1
+
+
 def _cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -123,6 +135,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_ver = sub.add_parser("verify", help="Verify a DSL file (no export).")
     p_ver.add_argument("spec", help="Path to a Layout DSL JSON file.")
     p_ver.set_defaults(func=_cmd_verify)
+
+    p_doc = sub.add_parser("doctor", help="Check the environment (imports, solvers, write perms).")
+    p_doc.add_argument("--out", default="out", help="Output directory to probe for writability.")
+    p_doc.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
+    p_doc.set_defaults(func=_cmd_doctor)
 
     p_srv = sub.add_parser("serve", help="Run the FastAPI plugin server.")
     p_srv.add_argument("--host", default="127.0.0.1")

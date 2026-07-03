@@ -22,6 +22,90 @@ Core invariants that no SOP step may violate:
 5. Level 5+ is required for any claim of "physics signoff".
 6. Level 6 is required for any claim of "measurement-calibrated".
 
+> **A layout candidate is not fabrication-ready unless process-specific DRC,
+> expert review, and measurement planning are complete.**
+
+---
+
+## SOP-A: Run the project from a fresh clone (textlayout product path)
+
+The `textlayout` package is the main product path; `text_to_gds` is legacy.
+Everything below works with zero credentials and no LLM API key.
+
+### 1. Environment setup
+
+```bash
+git clone https://github.com/JungluChen/Text-to-Layout
+cd Text-to-Layout
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+python -m pip install -U pip
+pip install -e ".[dev]"
+```
+
+Or with uv: `py -3 -m uv sync`.
+
+### 2. Dependency check
+
+```bash
+textlayout doctor
+```
+
+Required checks (Python ≥ 3.11, textlayout / gdsfactory / KLayout / LangGraph
+imports, output-directory write permission) must be `[ok]`. Optional solvers
+(FasterCap, openEMS, FastHenry, JoSIM, PSCAN2, WRspice) may be `[absent]` —
+execution is then skipped honestly; input preparation still works. A WSL
+FasterCap build under `.tools/FasterCap` is auto-detected on Windows.
+
+### 3. Run one text-to-layout demo
+
+```bash
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/idc_0p6pf
+```
+
+This runs the LangGraph pipeline (ParsePrompt → … → UpdateShowcaseMetadata)
+and writes `intent.json`, `layout.json`, `output.gds/.svg/.png`,
+`klayout_readback.json`, `verification.json`, `simulation.json`,
+`optimization.json`, `workflow_trace.json`, and `report.md`.
+
+### 4. Run FasterCap directly if available
+
+```bash
+python simulation/idc_fastercap/run_fastercap.py out/idc_0p6pf/layout.json --out out/idc_0p6pf/simulation --tolerance-pct 5
+```
+
+### 5. Run verification gates
+
+```bash
+uv run ruff check .
+uv run pytest
+uv run python scripts/validate_readme_claims.py
+uv build
+```
+
+### 6. Regenerate the README showcase artifacts
+
+```bash
+python scripts/generate_showcase_examples.py --force
+```
+
+Deterministic and re-runnable; it never overwrites existing example folders
+without `--force`, and it never invents solver output — on machines without
+FasterCap the IDC examples record `SKIPPED_SOLVER_ABSENT`.
+
+### 7. Commit workflow
+
+```bash
+git status
+git add README.md SOP.md docs/ skills/ src/ tests/ scripts/ examples/ pyproject.toml requirements.txt uv.lock
+git commit -m "Upgrade research-grade text-to-layout workflow"
+```
+
+Claim rules for every commit: statuses in README tables must match committed
+artifacts (`scripts/validate_readme_claims.py` enforces this in CI);
+`PHYSICS_VERIFIED` requires committed solver-owned output within tolerance;
+**never** claim fabrication readiness.
+
 ---
 
 ## SOP-0: Intake

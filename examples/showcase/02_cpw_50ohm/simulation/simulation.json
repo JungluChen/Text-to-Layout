@@ -1,0 +1,59 @@
+{
+  "schema": "textlayout.simulation-evidence.v1",
+  "status": "SKIPPED_SOLVER_ABSENT",
+  "solver": "openEMS",
+  "solver_executed": false,
+  "capacitance_matrix_parsed": false,
+  "target_compared": false,
+  "mutual_capacitance_pf": null,
+  "capacitance_matrix_pf": null,
+  "target_comparison": null,
+  "artifacts": {
+    "model": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\openems_model.json",
+    "driver": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\openems_model.m",
+    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\simulation_manifest.json"
+  },
+  "capacitance_source": "analytical_estimate_not_geometry_extracted",
+  "capacitance_pf": 50.0,
+  "capacitance_extraction_status": "SKIPPED_SOLVER_ABSENT",
+  "inductance_source": "prompt_or_workflow_default",
+  "inductance_nh": null,
+  "analytical_f0_ghz": 6.0,
+  "gain_target_db": null,
+  "gain_status": "NOT_SUPPORTED_MVP",
+  "evidence": [
+    {
+      "quantity": "characteristic_impedance",
+      "target_value": 50.0,
+      "target_unit": "ohm",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "analytical_value": 50.0,
+      "analytical_model": "Conformal-mapping CPW (Simons/Hilberg) + \u03bb/4 transmission-line theory",
+      "error_percent": null,
+      "tolerance_percent": 5.0,
+      "status": "SKIPPED_SOLVER_ABSENT",
+      "solver": "openEMS",
+      "command": null,
+      "input_files": [
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\simulation_manifest.json",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\openems_model.m",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\extraction\\capacitance_input\\openems_model.json"
+      ],
+      "output_files": [],
+      "parser": null,
+      "timestamp": "2026-07-03T04:56:55+00:00",
+      "notes": [
+        "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
+        "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+        "Boundary placement and mesh convergence must be reviewed before signoff."
+      ]
+    }
+  ],
+  "backends": {
+    "josim": null,
+    "pscan2": null,
+    "wrspice": null
+  },
+  "physics_verified": false
+}

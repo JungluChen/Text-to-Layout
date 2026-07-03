@@ -17,6 +17,8 @@ from textlayout.research.idc_research import research_idc
 from textlayout.research.models import ResearchReport
 from textlayout.research.spiral_research import research_spiral
 from textlayout.research.squid_research import research_squid
+from textlayout.research.test_chip_research import research_test_chip
+from textlayout.research.test_structure_research import research_test_structure
 from textlayout.schemas.dsl import LayoutSpec
 
 ResearchFn = Callable[[dict[str, float], dict[str, Any], Technology], ResearchReport]
@@ -27,6 +29,8 @@ _RESEARCHERS: dict[str, ResearchFn] = {
     "SpiralInductor": research_spiral,
     "QuarterWaveResonator": research_quarter_wave_resonator,
     "SQUID": research_squid,
+    "TestStructure": research_test_structure,
+    "TestChip": research_test_chip,
 }
 
 

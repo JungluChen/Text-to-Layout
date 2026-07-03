@@ -1,0 +1,89 @@
+{
+  "schema": "textlayout.showcase-index.v1",
+  "examples": [
+    {
+      "id": "01_idc_0p6pf",
+      "target": "0.6 pF interdigitated capacitor for a lumped LC / JPA front end",
+      "prompt": "Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports.",
+      "artifact_dir": "examples/showcase/01_idc_0p6pf",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "FasterCap",
+      "solver_executed": true,
+      "simulation_status": "PHYSICS_VERIFIED",
+      "evidence_status": "PHYSICS_VERIFIED",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Effective-medium electrostatic model; no self-resonance, loss, or finite-thickness model. Not fabrication-ready."
+    },
+    {
+      "id": "02_cpw_50ohm",
+      "target": "50 ohm coplanar-waveguide feedline for microwave routing",
+      "prompt": "Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports.",
+      "artifact_dir": "examples/showcase/02_cpw_50ohm",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "openEMS",
+      "solver_executed": false,
+      "simulation_status": "SKIPPED_SOLVER_ABSENT",
+      "evidence_status": "SKIPPED_SOLVER_ABSENT",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Impedance is a conformal-mapping analytical estimate; no EM solver was executed. Not fabrication-ready."
+    },
+    {
+      "id": "03_idc_cpw_test_structure",
+      "target": "0.6 pF IDC with CPW launches for on-chip measurement",
+      "prompt": "Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels.",
+      "artifact_dir": "examples/showcase/03_idc_cpw_test_structure",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "FasterCap",
+      "solver_executed": true,
+      "simulation_status": "PHYSICS_VERIFIED",
+      "evidence_status": "PHYSICS_VERIFIED",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Only the embedded IDC region is extracted; launches, feeds, and transitions are not simulated. Not fabrication-ready."
+    },
+    {
+      "id": "04_spiral_inductor_3nh",
+      "target": "Compact planar spiral inductor targeting 3 nH",
+      "prompt": "Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports.",
+      "artifact_dir": "examples/showcase/04_spiral_inductor_3nh",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "FastHenry",
+      "solver_executed": false,
+      "simulation_status": "SKIPPED_SOLVER_ABSENT",
+      "evidence_status": "SKIPPED_SOLVER_ABSENT",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Inductance is a modified-Wheeler analytical estimate; FastHenry execution is optional/future. Not fabrication-ready."
+    },
+    {
+      "id": "05_quarter_wave_resonator_6ghz",
+      "target": "6 GHz quarter-wave CPW resonator layout candidate",
+      "prompt": "Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels.",
+      "artifact_dir": "examples/showcase/05_quarter_wave_resonator_6ghz",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "openEMS",
+      "solver_executed": false,
+      "simulation_status": "SKIPPED_SOLVER_ABSENT",
+      "evidence_status": "SKIPPED_SOLVER_ABSENT",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Length uses the analytical lambda/4 estimate with effective permittivity; no EM eigenmode verification. Not fabrication-ready."
+    },
+    {
+      "id": "06_research_test_chip",
+      "target": "Multi-device comparison tile (IDC + CPW + spiral + marks + title)",
+      "prompt": "Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label.",
+      "artifact_dir": "examples/showcase/06_research_test_chip",
+      "geometry_status": "GEOMETRY_PASS",
+      "klayout_readback_status": "pass",
+      "solver": "none",
+      "solver_executed": false,
+      "simulation_status": "ANALYTICAL_ONLY",
+      "evidence_status": "ANALYTICAL_ONLY",
+      "fabrication_status": "NOT_FABRICATION_READY",
+      "limitation": "Geometry-level comparison tile; sub-device numbers are analytical and no solver ran on the assembled tile. Not fabrication-ready."
+    }
+  ]
+}

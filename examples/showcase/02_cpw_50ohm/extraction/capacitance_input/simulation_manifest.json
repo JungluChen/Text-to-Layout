@@ -1,0 +1,17 @@
+{
+  "status": "input_files_prepared",
+  "solver": "openEMS",
+  "component": "CPW",
+  "readiness_level": 2,
+  "expected_outputs": [
+    "Z0",
+    "S11",
+    "S21",
+    "effective_permittivity"
+  ],
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ],
+  "solver_executed": false
+}

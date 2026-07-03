@@ -1,0 +1,22 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "SKIPPED_SOLVER_ABSENT",
+  "backend_status": "skipped",
+  "solver": "FastHenry",
+  "solver_version": null,
+  "command": [],
+  "return_code": null,
+  "runtime_seconds": null,
+  "artifacts": {
+    "input": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\spiral.inp",
+    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\simulation_manifest.json"
+  },
+  "extracted_quantities": {},
+  "target_comparison": null,
+  "analytical_capacitance_pf": 3.0,
+  "reason": "FastHenry executable not found (looked for fasthenry, fasthenry.exe, FastHenry, FastHenry2, fasthenry2). Install it or pass an explicit path; prepared input files remain available.",
+  "warnings": [
+    "FastHenry has not been executed; no inductance, resistance, or Q result is claimed.",
+    "Conductor conductivity and thickness are generic and require process replacement."
+  ]
+}

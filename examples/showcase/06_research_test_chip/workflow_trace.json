@@ -1,0 +1,421 @@
+{
+  "schema": "textlayout.workflow-trace.v1",
+  "orchestrator": "langgraph",
+  "generated_at": "2026-07-03T04:57:04.133+00:00",
+  "nodes": [
+    {
+      "node": "ParsePrompt",
+      "start_time": "2026-07-03T04:57:01.399+00:00",
+      "input_summary": {
+        "component": null,
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": []
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.404+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "intent"
+        ]
+      }
+    },
+    {
+      "node": "ValidateIntent",
+      "start_time": "2026-07-03T04:57:01.406+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.406+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "BuildLayoutDSL",
+      "start_time": "2026-07-03T04:57:01.407+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.410+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_requests",
+          "files",
+          "jpa_sizing",
+          "layout_dsl",
+          "lc_inductance_nh",
+          "optimization",
+          "sized_parameters",
+          "target_capacitance_pf"
+        ]
+      }
+    },
+    {
+      "node": "OptimizeParameters",
+      "start_time": "2026-07-03T04:57:01.413+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.416+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T04:57:01.418+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.068+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T04:57:04.080+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.080+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T04:57:04.081+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.098+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T04:57:04.102+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.107+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T04:57:04.109+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.109+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T04:57:04.110+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.110+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": []
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T04:57:04.111+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.115+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T04:57:04.116+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.116+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status"
+        ]
+      }
+    },
+    {
+      "node": "RunCircuitChecks",
+      "start_time": "2026-07-03T04:57:04.119+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "ANALYTICAL_ONLY",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.119+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_simulations",
+          "physics_verified"
+        ]
+      }
+    },
+    {
+      "node": "GenerateReport",
+      "start_time": "2026-07-03T04:57:04.120+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "ANALYTICAL_ONLY",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.129+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "UpdateShowcaseMetadata",
+      "start_time": "2026-07-03T04:57:04.132+00:00",
+      "input_summary": {
+        "component": "TestChip",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "ANALYTICAL_ONLY",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "report",
+          "simulation",
+          "simulation_legacy",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:04.132+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "artifacts"
+        ]
+      }
+    }
+  ]
+}

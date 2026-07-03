@@ -1,0 +1,50 @@
+{
+  "schema": "textlayout.simulation-evidence.v1",
+  "status": "ANALYTICAL_ONLY",
+  "solver": "none",
+  "solver_executed": false,
+  "capacitance_matrix_parsed": false,
+  "target_compared": false,
+  "mutual_capacitance_pf": null,
+  "capacitance_matrix_pf": null,
+  "target_comparison": null,
+  "artifacts": {},
+  "capacitance_source": "analytical_estimate_not_geometry_extracted",
+  "capacitance_pf": null,
+  "capacitance_extraction_status": "EXTRACTION_INPUT_PREPARED",
+  "inductance_source": "prompt_or_workflow_default",
+  "inductance_nh": null,
+  "analytical_f0_ghz": null,
+  "gain_target_db": null,
+  "gain_status": "NOT_SUPPORTED_MVP",
+  "evidence": [
+    {
+      "quantity": "geometry",
+      "target_value": null,
+      "target_unit": null,
+      "extracted_value": null,
+      "extracted_unit": null,
+      "analytical_value": null,
+      "analytical_model": "per-sub-device analytical estimates (see research report)",
+      "error_percent": null,
+      "tolerance_percent": 5.0,
+      "status": "ANALYTICAL_ONLY",
+      "solver": null,
+      "command": null,
+      "input_files": [],
+      "output_files": [],
+      "parser": null,
+      "timestamp": "2026-07-03T04:57:04+00:00",
+      "notes": [
+        "TestChip is a geometry-level comparison tile; sub-device estimates are analytical and no solver was executed on the assembled tile.",
+        "The IDC sub-block geometry is identical to the standalone IDC and can be extracted separately with FasterCap."
+      ]
+    }
+  ],
+  "backends": {
+    "josim": null,
+    "pscan2": null,
+    "wrspice": null
+  },
+  "physics_verified": false
+}

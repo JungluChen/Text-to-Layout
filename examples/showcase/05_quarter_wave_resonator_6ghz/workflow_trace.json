@@ -1,0 +1,424 @@
+{
+  "schema": "textlayout.workflow-trace.v1",
+  "orchestrator": "langgraph",
+  "generated_at": "2026-07-03T04:57:01.036+00:00",
+  "nodes": [
+    {
+      "node": "ParsePrompt",
+      "start_time": "2026-07-03T04:57:00.494+00:00",
+      "input_summary": {
+        "component": null,
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": []
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.498+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "intent"
+        ]
+      }
+    },
+    {
+      "node": "ValidateIntent",
+      "start_time": "2026-07-03T04:57:00.502+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.502+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "BuildLayoutDSL",
+      "start_time": "2026-07-03T04:57:00.503+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.508+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_requests",
+          "files",
+          "jpa_sizing",
+          "layout_dsl",
+          "lc_inductance_nh",
+          "optimization",
+          "sized_parameters",
+          "target_capacitance_pf"
+        ]
+      }
+    },
+    {
+      "node": "OptimizeParameters",
+      "start_time": "2026-07-03T04:57:00.510+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.514+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T04:57:00.516+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.820+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T04:57:00.822+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.822+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T04:57:00.822+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.826+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T04:57:00.828+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.833+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T04:57:00.835+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:00.843+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T04:57:00.844+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.011+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T04:57:01.013+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.017+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T04:57:01.020+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.020+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status"
+        ]
+      }
+    },
+    {
+      "node": "RunCircuitChecks",
+      "start_time": "2026-07-03T04:57:01.021+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.021+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_simulations",
+          "physics_verified"
+        ]
+      }
+    },
+    {
+      "node": "GenerateReport",
+      "start_time": "2026-07-03T04:57:01.023+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.032+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "UpdateShowcaseMetadata",
+      "start_time": "2026-07-03T04:57:01.035+00:00",
+      "input_summary": {
+        "component": "QuarterWaveResonator",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SKIPPED_SOLVER_ABSENT",
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "report",
+          "simulation",
+          "simulation_legacy",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T04:57:01.035+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "artifacts"
+        ]
+      }
+    }
+  ]
+}

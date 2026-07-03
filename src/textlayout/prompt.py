@@ -6,7 +6,8 @@ downstream. It therefore extracts only what the prompt actually states and
 raises :class:`~textlayout.errors.PromptParseError` when the request is
 ambiguous — silent guessing is treated as a bug, not a convenience.
 
-Supported: IDC, CPW, spiral inductors, quarter-wave resonators, and SQUID candidates.
+Supported: IDC, CPW, spiral inductors, quarter-wave resonators, SQUID candidates,
+IDC+CPW test structures, and multi-device test-chip tiles.
 """
 
 from __future__ import annotations
@@ -59,6 +60,13 @@ _SUBSTRATE_RE = re.compile(r"\bon\s+(silicon|sapphire|quartz|gaas|fused\s+silica
 
 _CAP_UNIT_TO_PF = {"pf": 1.0, "ff": 1e-3, "nf": 1e3}
 _FREQ_UNIT_TO_GHZ = {"ghz": 1.0, "mhz": 1e-3}
+
+# Multi-device structures take precedence over single-component detection
+# (their prompts legitimately mention several components at once).
+_TEST_CHIP_RE = re.compile(r"\btest\s+chip\b|\bchip\s+tile\b|\btest[- ]chip\s+tile\b", re.I)
+_TEST_STRUCTURE_RE = re.compile(r"\btest\s+structure\b|\bmeasurement\s+structure\b", re.I)
+_TILE_SIZE_RE = re.compile(rf"{_NUM}\s*mm\s*(?:by|x|×)\s*{_NUM}\s*mm", re.I)
+_TURNS_WORD_RE = re.compile(r"(\d+)[- ]turn\b", re.I)
 
 #: Substrates the built-in technology library can actually model today.
 _KNOWN_SUBSTRATES = {"silicon": "generic_2metal"}
@@ -162,9 +170,32 @@ def parse_prompt(prompt: str) -> DesignIntent:
     layer = _METAL_LAYER_RE.search(text)
     if layer:
         parameters["metal_layer"] = (layer.group(1) or layer.group(2)).upper()
-    turns = _TURNS_RE.search(text)
+    turns = _TURNS_RE.search(text) or _TURNS_WORD_RE.search(text)
     if turns:
         parameters["turns"] = int(turns.group(1))
+    if component == "SpiralInductor":
+        trace = re.search(rf"{_NUM}\s*{_UM}\s+trace\s+width", text, re.I)
+        if trace:
+            parameters["trace_width_um"] = float(trace.group(1))
+            parameters.pop("finger_width_um", None)
+        spacing = re.search(rf"{_NUM}\s*{_UM}\s+spacing", text, re.I)
+        if spacing:
+            parameters["spacing_um"] = float(spacing.group(1))
+    tile = _TILE_SIZE_RE.search(text)
+    if tile and component == "TestChip":
+        parameters["tile_width_um"] = float(tile.group(1)) * 1000.0
+        parameters["tile_height_um"] = float(tile.group(2)) * 1000.0
+    if component == "TestChip":
+        # The tile spec namespaces sub-device parameters.
+        if "turns" in parameters:
+            parameters["spiral_turns"] = parameters.pop("turns")
+        if "finger_width_um" in parameters:
+            parameters["idc_finger_width_um"] = parameters.pop("finger_width_um")
+        if "gap_um" in parameters:
+            parameters["idc_gap_um"] = parameters.pop("gap_um")
+        if "finger_pairs" in parameters:
+            parameters["idc_finger_pairs"] = parameters.pop("finger_pairs")
+        parameters.pop("overlap_um", None)
     wants_jj = bool(re.search(r"\b(?:jj|josephson|squid|jpa)\b", text, re.I))
     if re.search(r"\bjosim\b|\bcircuit(?:-level)?\s+check\b", text, re.I):
         parameters["josim_check"] = True
@@ -228,13 +259,18 @@ def parse_prompt(prompt: str) -> DesignIntent:
 def _parse_component(text: str) -> str:
     if re.search(r"\bjpa\b|josephson\s+parametric\s+amplifier", text, re.I):
         return "JPA"
+    if _TEST_CHIP_RE.search(text):
+        return "TestChip"
+    if _TEST_STRUCTURE_RE.search(text):
+        return "TestStructure"
     matches = [name for name, pattern in _COMPONENT_PATTERNS if pattern.search(text)]
     if not matches:
         raise PromptParseError(
             text,
             "no supported component was recognised",
             hints=[
-                "supported: IDC, CPW, spiral inductor, quarter-wave resonator, SQUID",
+                "supported: IDC, CPW, spiral inductor, quarter-wave resonator, SQUID, "
+                "test structure, test chip",
                 "e.g. 'Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap'",
             ],
         )

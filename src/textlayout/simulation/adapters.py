@@ -41,6 +41,7 @@ class FasterCapAdapter:
 
     target_capacitance_pf: float | None = None
     name: str = "FasterCap/FastCap"
+    tolerance_pct: float = 10.0
 
     def discover(self, explicit: str | None = None) -> str | None:
         return _find_solver(explicit)
@@ -65,6 +66,7 @@ class FasterCapAdapter:
             executable=executable,
             timeout_seconds=timeout_seconds,
             target_capacitance_pf=self.target_capacitance_pf,
+            tolerance_pct=self.tolerance_pct,
         )
 
     def run(

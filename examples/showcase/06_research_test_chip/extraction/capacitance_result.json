@@ -1,0 +1,16 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "EXTRACTION_INPUT_PREPARED",
+  "backend_status": "planned",
+  "solver": "none",
+  "solver_version": null,
+  "command": [],
+  "return_code": null,
+  "runtime_seconds": null,
+  "artifacts": {},
+  "extracted_quantities": {},
+  "target_comparison": null,
+  "analytical_capacitance_pf": null,
+  "reason": "No tile-level solver is registered; sub-blocks are geometry-only here.",
+  "warnings": []
+}

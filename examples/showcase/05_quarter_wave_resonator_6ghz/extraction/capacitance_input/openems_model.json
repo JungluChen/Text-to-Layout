@@ -1,0 +1,85 @@
+{
+  "status": "input_files_prepared",
+  "solver": "openEMS",
+  "component": "QuarterWaveResonator",
+  "target": {
+    "frequency_ghz": 6.0
+  },
+  "technology": "generic_2metal",
+  "substrate_epsilon_r": 11.9,
+  "bbox_um": [
+    -250.0,
+    0.0,
+    250.0,
+    4988.4652
+  ],
+  "ports": [
+    {
+      "name": "RF_IN",
+      "center_um": [
+        -250.0,
+        4927.4652
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 180.0,
+      "layer": "M1"
+    },
+    {
+      "name": "RF_OUT",
+      "center_um": [
+        250.0,
+        4927.4652
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 0.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_TOP_IN",
+      "center_um": [
+        -250.0,
+        4963.4652
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 180.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_TOP_OUT",
+      "center_um": [
+        250.0,
+        4963.4652
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 0.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_BOTTOM_IN",
+      "center_um": [
+        -250.0,
+        4891.4652
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 180.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_BOTTOM_OUT",
+      "center_um": [
+        250.0,
+        4891.4652
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 0.0,
+      "layer": "M1"
+    }
+  ],
+  "expected_outputs": [
+    "resonance_frequency",
+    "loaded_Q",
+    "S21"
+  ],
+  "execution": "not_run",
+  "driver": "openems_model.m"
+}

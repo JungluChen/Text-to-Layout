@@ -1,0 +1,52 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "CAPACITANCE_EXTRACTED",
+  "backend_status": "executed",
+  "solver": "FasterCap",
+  "solver_version": "Running FasterCap version 6.0.7",
+  "command": [
+    "wsl",
+    "/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap",
+    "-b",
+    "-a0.01",
+    "/mnt/c/Users/justi/Desktop/Layout/text-to-gds/examples/showcase/03_idc_cpw_test_structure/extraction/capacitance_input/idc.lst"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 2.3782995000001392,
+  "artifacts": {
+    "panel_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.qui",
+    "list_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.lst",
+    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stderr.txt",
+    "result": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_result.json"
+  },
+  "extracted_quantities": {
+    "capacitance_matrix_pf": [
+      [
+        0.6446200000000001,
+        -0.610019
+      ],
+      [
+        -0.609113,
+        0.643883
+      ]
+    ],
+    "mutual_capacitance_pf": 0.610019
+  },
+  "target_comparison": {
+    "quantity": "mutual_capacitance_pf",
+    "extracted": 0.610019,
+    "target": 0.6,
+    "error_pct": 1.67,
+    "tolerance_pct": 5.0,
+    "within_tolerance": true
+  },
+  "analytical_capacitance_pf": 0.6,
+  "reason": "Extracted mutual capacitance is within tolerance.",
+  "warnings": [
+    "Effective-medium capacitance is not a full air/silicon interface extraction.",
+    "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
+    "Self-resonance and Q are outside this electrostatic model."
+  ]
+}
