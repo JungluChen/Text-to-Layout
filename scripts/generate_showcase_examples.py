@@ -150,6 +150,49 @@ def _canonicalize_gds(out: Path, cell_name: str) -> None:
         canonicalize_gds(gds, cell_name=cell_name)
 
 
+def _wsl_path(path: Path) -> str | None:
+    """Return the conventional WSL mount path for a Windows path."""
+    drive = path.drive.rstrip(":")
+    if not drive:
+        return None
+    tail = path.as_posix().split(":", 1)[1].lstrip("/")
+    return f"/mnt/{drive.lower()}/{tail}"
+
+
+def _sanitize_committed_paths(out: Path) -> None:
+    """Remove machine-specific checkout prefixes from committed text artifacts.
+
+    Runtime objects retain absolute paths while the workflow is executing. The
+    showcase is a portable release packet, so paths persisted under it are
+    rewritten relative to either the example directory or repository root.
+    """
+    replacements: list[tuple[str, str]] = []
+    for base, replacement in ((out, ""), (ROOT, "")):
+        variants = {str(base), base.as_posix()}
+        wsl = _wsl_path(base)
+        if wsl:
+            variants.add(wsl)
+        for variant in variants:
+            for separator in ("/", "\\"):
+                prefix = variant.rstrip("/\\") + separator
+                replacements.append((prefix, replacement))
+                replacements.append((prefix.replace("\\", "\\\\"), replacement))
+    replacements.sort(key=lambda item: len(item[0]), reverse=True)
+
+    for path in out.rglob("*"):
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        sanitized = text
+        for prefix, replacement in replacements:
+            sanitized = sanitized.replace(prefix, replacement)
+        if sanitized != text:
+            path.write_text(sanitized, encoding="utf-8")
+
+
 def _example_readme(example: Example, out: Path) -> str:
     intent = json.loads((out / "intent.json").read_text(encoding="utf-8"))
     layout = json.loads((out / "layout.json").read_text(encoding="utf-8"))
@@ -275,6 +318,7 @@ def generate_example(example: Example, *, force: bool) -> dict[str, object]:
     result = workflow.run(example.prompt, out, tolerance_percent=5.0, execute_solver=True)
     _canonicalize_gds(out, example.id)
     (out / "README.md").write_text(_example_readme(example, out), encoding="utf-8")
+    _sanitize_committed_paths(out)
 
     missing = [name for name in REQUIRED_FILES if not (out / name).is_file()]
     if missing:

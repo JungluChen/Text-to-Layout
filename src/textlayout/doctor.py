@@ -106,7 +106,7 @@ def _check_output_dir(output_dir: str | Path) -> DoctorCheck:
     )
 
 
-def _check_fastercap() -> DoctorCheck:
+def _check_fastercap(*, strict: bool = False) -> DoctorCheck:
     from textlayout.simulation.fastercap import _find_solver
 
     found = _find_solver(os.environ.get("TEXTLAYOUT_FASTERCAP") or None)
@@ -115,7 +115,7 @@ def _check_fastercap() -> DoctorCheck:
             name="FasterCap/FastCap executable discovery",
             status="absent",
             detail=_FASTERCAP_ABSENT_MESSAGE,
-            required=False,
+            required=strict,
         )
     return DoctorCheck(
         name="FasterCap/FastCap executable discovery",
@@ -125,7 +125,7 @@ def _check_fastercap() -> DoctorCheck:
     )
 
 
-def _optional_solver_checks() -> list[DoctorCheck]:
+def _optional_solver_checks(*, strict: bool = False) -> list[DoctorCheck]:
     checks: list[DoctorCheck] = []
     discoveries: tuple[tuple[str, Any], ...]
     from textlayout.simulation.josim import _find as find_josim
@@ -149,7 +149,7 @@ def _optional_solver_checks() -> list[DoctorCheck]:
                     name=f"optional solver: {name}",
                     status="absent",
                     detail=f"discovery error: {exc}",
-                    required=False,
+                    required=strict,
                 )
             )
             continue
@@ -158,21 +158,21 @@ def _optional_solver_checks() -> list[DoctorCheck]:
                 name=f"optional solver: {name}",
                 status="ok" if found else "absent",
                 detail=str(found) if found else "not found; execution will be skipped honestly",
-                required=False,
+                required=strict,
             )
         )
     return checks
 
 
-def run_doctor(output_dir: str | Path = "out") -> DoctorReport:
+def run_doctor(output_dir: str | Path = "out", *, strict: bool = False) -> DoctorReport:
     """Run every environment check and return the structured report."""
     report = DoctorReport()
     report.checks.append(_check_python())
     for name, module in _REQUIRED_IMPORTS:
         report.checks.append(_check_import(name, module))
     report.checks.append(_check_output_dir(output_dir))
-    report.checks.append(_check_fastercap())
-    report.checks.extend(_optional_solver_checks())
+    report.checks.append(_check_fastercap(strict=strict))
+    report.checks.extend(_optional_solver_checks(strict=strict))
     return report
 
 

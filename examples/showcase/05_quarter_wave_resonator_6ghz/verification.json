@@ -114,8 +114,8 @@
   "klayout_readback": {
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
-    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\output.gds",
-    "top_cell": "QuarterWaveResonator_adeb4ba5",
+    "gds_path": "output.gds",
+    "top_cell": "QuarterWaveResonator_b993b724",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 500.0,
@@ -130,7 +130,7 @@
       {
         "name": "gds_file_exists",
         "passed": true,
-        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\output.gds"
+        "detail": "output.gds"
       },
       {
         "name": "gds_readable",
@@ -145,7 +145,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "QuarterWaveResonator_adeb4ba5"
+        "detail": "QuarterWaveResonator_b993b724"
       },
       {
         "name": "bbox_non_empty",

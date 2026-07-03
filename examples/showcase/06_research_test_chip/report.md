@@ -98,17 +98,17 @@
 
 ## Artifacts
 
-- `capacitance_result`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\extraction\capacitance_result.json`
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.gds`
-- `intent`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\intent.json`
-- `klayout_readback`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\klayout_readback.json`
-- `layout`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\layout.json`
-- `optimization`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\optimization.json`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.png`
-- `simulation`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\simulation\simulation.json`
-- `simulation_legacy`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\simulation.json`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.svg`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\verification.json`
+- `capacitance_result`: `extraction\capacitance_result.json`
+- `gds`: `output.gds`
+- `intent`: `intent.json`
+- `klayout_readback`: `klayout_readback.json`
+- `layout`: `layout.json`
+- `optimization`: `optimization.json`
+- `png`: `output.png`
+- `simulation`: `simulation\simulation.json`
+- `simulation_legacy`: `simulation.json`
+- `svg`: `output.svg`
+- `verification`: `verification.json`
 
 ## Limitations
 

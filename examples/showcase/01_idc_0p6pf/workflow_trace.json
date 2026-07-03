@@ -1,11 +1,11 @@
 {
   "schema": "textlayout.workflow-trace.v1",
   "orchestrator": "langgraph",
-  "generated_at": "2026-07-03T04:56:54.920+00:00",
+  "generated_at": "2026-07-03T05:21:38.746+00:00",
   "nodes": [
     {
       "node": "ParsePrompt",
-      "start_time": "2026-07-03T04:56:29.288+00:00",
+      "start_time": "2026-07-03T05:21:17.404+00:00",
       "input_summary": {
         "component": null,
         "geometry_status": null,
@@ -15,7 +15,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:29.294+00:00",
+      "end_time": "2026-07-03T05:21:17.411+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -26,7 +26,7 @@
     },
     {
       "node": "ValidateIntent",
-      "start_time": "2026-07-03T04:56:29.297+00:00",
+      "start_time": "2026-07-03T05:21:17.412+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": null,
@@ -38,7 +38,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:29.297+00:00",
+      "end_time": "2026-07-03T05:21:17.412+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -48,7 +48,7 @@
     },
     {
       "node": "BuildLayoutDSL",
-      "start_time": "2026-07-03T04:56:29.298+00:00",
+      "start_time": "2026-07-03T05:21:17.414+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": null,
@@ -60,7 +60,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:29.303+00:00",
+      "end_time": "2026-07-03T05:21:17.417+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -77,7 +77,7 @@
     },
     {
       "node": "OptimizeParameters",
-      "start_time": "2026-07-03T04:56:29.303+00:00",
+      "start_time": "2026-07-03T05:21:17.419+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": null,
@@ -90,7 +90,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:29.309+00:00",
+      "end_time": "2026-07-03T05:21:17.423+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -100,7 +100,7 @@
     },
     {
       "node": "GenerateGeometry",
-      "start_time": "2026-07-03T04:56:29.310+00:00",
+      "start_time": "2026-07-03T05:21:17.423+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": null,
@@ -114,7 +114,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:39.405+00:00",
+      "end_time": "2026-07-03T05:21:23.700+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -125,7 +125,7 @@
     },
     {
       "node": "ExportArtifacts",
-      "start_time": "2026-07-03T04:56:39.407+00:00",
+      "start_time": "2026-07-03T05:21:23.703+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -139,7 +139,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:39.407+00:00",
+      "end_time": "2026-07-03T05:21:23.703+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -150,7 +150,7 @@
     },
     {
       "node": "KLayoutReadback",
-      "start_time": "2026-07-03T04:56:39.407+00:00",
+      "start_time": "2026-07-03T05:21:23.703+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -167,7 +167,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:39.412+00:00",
+      "end_time": "2026-07-03T05:21:23.710+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -178,7 +178,7 @@
     },
     {
       "node": "GeometryVerification",
-      "start_time": "2026-07-03T04:56:39.412+00:00",
+      "start_time": "2026-07-03T05:21:23.713+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -196,7 +196,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:39.417+00:00",
+      "end_time": "2026-07-03T05:21:23.717+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -208,7 +208,7 @@
     },
     {
       "node": "PrepareFasterCap",
-      "start_time": "2026-07-03T04:56:39.419+00:00",
+      "start_time": "2026-07-03T05:21:23.721+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -227,7 +227,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:39.427+00:00",
+      "end_time": "2026-07-03T05:21:23.729+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -238,7 +238,7 @@
     },
     {
       "node": "RunFasterCapIfAvailable",
-      "start_time": "2026-07-03T04:56:39.427+00:00",
+      "start_time": "2026-07-03T05:21:23.731+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -257,7 +257,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:47.628+00:00",
+      "end_time": "2026-07-03T05:21:31.471+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -268,7 +268,7 @@
     },
     {
       "node": "ParseSolverResult",
-      "start_time": "2026-07-03T04:56:47.630+00:00",
+      "start_time": "2026-07-03T05:21:31.473+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -287,7 +287,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:47.636+00:00",
+      "end_time": "2026-07-03T05:21:31.478+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -298,7 +298,7 @@
     },
     {
       "node": "CompareTarget",
-      "start_time": "2026-07-03T04:56:47.638+00:00",
+      "start_time": "2026-07-03T05:21:31.479+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -318,7 +318,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:47.638+00:00",
+      "end_time": "2026-07-03T05:21:31.479+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -330,7 +330,7 @@
     },
     {
       "node": "RetuneParameters",
-      "start_time": "2026-07-03T04:56:47.642+00:00",
+      "start_time": "2026-07-03T05:21:31.482+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -350,7 +350,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:47.647+00:00",
+      "end_time": "2026-07-03T05:21:31.485+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -361,7 +361,7 @@
     },
     {
       "node": "GenerateGeometry",
-      "start_time": "2026-07-03T04:56:47.649+00:00",
+      "start_time": "2026-07-03T05:21:31.488+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -381,7 +381,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:48.123+00:00",
+      "end_time": "2026-07-03T05:21:31.847+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -392,7 +392,7 @@
     },
     {
       "node": "ExportArtifacts",
-      "start_time": "2026-07-03T04:56:48.125+00:00",
+      "start_time": "2026-07-03T05:21:31.847+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -412,7 +412,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:48.125+00:00",
+      "end_time": "2026-07-03T05:21:31.847+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -423,7 +423,7 @@
     },
     {
       "node": "KLayoutReadback",
-      "start_time": "2026-07-03T04:56:48.127+00:00",
+      "start_time": "2026-07-03T05:21:31.847+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -443,7 +443,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:48.132+00:00",
+      "end_time": "2026-07-03T05:21:31.852+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -454,7 +454,7 @@
     },
     {
       "node": "GeometryVerification",
-      "start_time": "2026-07-03T04:56:48.134+00:00",
+      "start_time": "2026-07-03T05:21:31.852+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "pass",
@@ -474,7 +474,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:48.138+00:00",
+      "end_time": "2026-07-03T05:21:31.857+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -486,7 +486,7 @@
     },
     {
       "node": "PrepareFasterCap",
-      "start_time": "2026-07-03T04:56:48.139+00:00",
+      "start_time": "2026-07-03T05:21:31.858+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -506,7 +506,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:48.146+00:00",
+      "end_time": "2026-07-03T05:21:31.864+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -517,7 +517,7 @@
     },
     {
       "node": "RunFasterCapIfAvailable",
-      "start_time": "2026-07-03T04:56:48.146+00:00",
+      "start_time": "2026-07-03T05:21:31.865+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -537,7 +537,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.889+00:00",
+      "end_time": "2026-07-03T05:21:38.712+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -548,7 +548,7 @@
     },
     {
       "node": "ParseSolverResult",
-      "start_time": "2026-07-03T04:56:54.891+00:00",
+      "start_time": "2026-07-03T05:21:38.713+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -568,7 +568,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.896+00:00",
+      "end_time": "2026-07-03T05:21:38.718+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -579,7 +579,7 @@
     },
     {
       "node": "CompareTarget",
-      "start_time": "2026-07-03T04:56:54.898+00:00",
+      "start_time": "2026-07-03T05:21:38.721+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -599,7 +599,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.898+00:00",
+      "end_time": "2026-07-03T05:21:38.721+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -611,7 +611,7 @@
     },
     {
       "node": "RunCircuitChecks",
-      "start_time": "2026-07-03T04:56:54.900+00:00",
+      "start_time": "2026-07-03T05:21:38.723+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -631,7 +631,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.904+00:00",
+      "end_time": "2026-07-03T05:21:38.727+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -644,7 +644,7 @@
     },
     {
       "node": "GenerateReport",
-      "start_time": "2026-07-03T04:56:54.906+00:00",
+      "start_time": "2026-07-03T05:21:38.729+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -664,7 +664,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.917+00:00",
+      "end_time": "2026-07-03T05:21:38.742+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [
@@ -674,7 +674,7 @@
     },
     {
       "node": "UpdateShowcaseMetadata",
-      "start_time": "2026-07-03T04:56:54.919+00:00",
+      "start_time": "2026-07-03T05:21:38.744+00:00",
       "input_summary": {
         "component": "IDC",
         "geometry_status": "GEOMETRY_PASS",
@@ -697,7 +697,7 @@
       },
       "warnings": [],
       "errors": [],
-      "end_time": "2026-07-03T04:56:54.919+00:00",
+      "end_time": "2026-07-03T05:21:38.744+00:00",
       "status": "ok",
       "output_summary": {
         "updated": [

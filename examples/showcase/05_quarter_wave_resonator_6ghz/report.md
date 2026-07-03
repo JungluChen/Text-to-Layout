@@ -102,17 +102,17 @@
 
 ## Artifacts
 
-- `capacitance_result`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\extraction\capacitance_result.json`
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.gds`
-- `intent`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\intent.json`
-- `klayout_readback`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\klayout_readback.json`
-- `layout`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\layout.json`
-- `optimization`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\optimization.json`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.png`
-- `simulation`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\simulation\simulation.json`
-- `simulation_legacy`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\simulation.json`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\output.svg`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\05_quarter_wave_resonator_6ghz\verification.json`
+- `capacitance_result`: `extraction\capacitance_result.json`
+- `gds`: `output.gds`
+- `intent`: `intent.json`
+- `klayout_readback`: `klayout_readback.json`
+- `layout`: `layout.json`
+- `optimization`: `optimization.json`
+- `png`: `output.png`
+- `simulation`: `simulation\simulation.json`
+- `simulation_legacy`: `simulation.json`
+- `svg`: `output.svg`
+- `verification`: `verification.json`
 
 ## Limitations
 

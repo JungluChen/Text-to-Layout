@@ -110,8 +110,8 @@
   "klayout_readback": {
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
-    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\output.gds",
-    "top_cell": "CPW_11e9b426",
+    "gds_path": "output.gds",
+    "top_cell": "CPW_994653aa",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 121.966,
@@ -126,7 +126,7 @@
       {
         "name": "gds_file_exists",
         "passed": true,
-        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\02_cpw_50ohm\\output.gds"
+        "detail": "output.gds"
       },
       {
         "name": "gds_readable",
@@ -141,7 +141,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "CPW_11e9b426"
+        "detail": "CPW_994653aa"
       },
       {
         "name": "bbox_non_empty",

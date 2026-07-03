@@ -44,15 +44,15 @@
 
 ## Artifacts
 
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.gds`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.svg`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.png`
-- `layout_dsl`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.layout.json`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.verification.json`
-- `evidence`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.evidence.md`
-- `analytical_estimate`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.analytical_estimate.md`
-- `simulation_plan`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.simulation_plan.md`
-- `report`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\06_research_test_chip\output.report.md`
+- `gds`: `output.gds`
+- `svg`: `output.svg`
+- `png`: `output.png`
+- `layout_dsl`: `output.layout.json`
+- `verification`: `output.verification.json`
+- `evidence`: `output.evidence.md`
+- `analytical_estimate`: `output.analytical_estimate.md`
+- `simulation_plan`: `output.simulation_plan.md`
+- `report`: `output.report.md`
 
 ## Simulation status
 

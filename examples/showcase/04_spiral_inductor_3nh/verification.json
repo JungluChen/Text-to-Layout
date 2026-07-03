@@ -110,8 +110,8 @@
   "klayout_readback": {
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
-    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\output.gds",
-    "top_cell": "SpiralInductor_96c1c09e",
+    "gds_path": "output.gds",
+    "top_cell": "SpiralInductor_2606cbb1",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 123.697,
@@ -126,7 +126,7 @@
       {
         "name": "gds_file_exists",
         "passed": true,
-        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\output.gds"
+        "detail": "output.gds"
       },
       {
         "name": "gds_readable",
@@ -141,7 +141,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "SpiralInductor_96c1c09e"
+        "detail": "SpiralInductor_2606cbb1"
       },
       {
         "name": "bbox_non_empty",

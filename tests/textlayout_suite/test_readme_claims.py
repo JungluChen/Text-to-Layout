@@ -60,3 +60,40 @@ def test_removed_limitation_statement_fails_validation(tmp_path: Path) -> None:
     )
     errors = validate(fake)
     assert any("limitation statement" in e for e in errors), errors
+
+
+def test_stale_no_verified_benchmark_claim_fails_validation(tmp_path: Path) -> None:
+    fake = tmp_path / "README.md"
+    fake.write_text(
+        README.read_text(encoding="utf-8")
+        + "\nNo benchmark in this repository is currently PHYSICS VERIFIED.\n",
+        encoding="utf-8",
+    )
+    errors = validate(fake)
+    assert any("stale release claim" in e for e in errors), errors
+
+
+def test_showcase_absolute_path_fails_validation(tmp_path: Path) -> None:
+    artifact = ROOT / "examples/showcase/06_research_test_chip/path-regression.json"
+    artifact.write_text('{"path":"C:\\\\Users\\\\example\\\\artifact"}\n', encoding="utf-8")
+    try:
+        errors = validate(README)
+    finally:
+        artifact.unlink(missing_ok=True)
+    assert any("absolute user path" in e for e in errors), errors
+
+
+def test_showcase_number_mismatch_fails_validation(tmp_path: Path) -> None:
+    fake = _doctored(tmp_path, "0.598641 pF", "0.599999 pF")
+    errors = validate(fake)
+    assert any("does not match simulation.json" in e for e in errors), errors
+
+
+def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path) -> None:
+    fake = _doctored(
+        tmp_path,
+        "no tile solve. **NOT_FABRICATION_READY** |",
+        "no tile solve. |",
+    )
+    errors = validate(fake)
+    assert any("showcase row must state NOT_FABRICATION_READY" in e for e in errors), errors

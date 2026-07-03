@@ -111,17 +111,17 @@
 
 ## Artifacts
 
-- `capacitance_result`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\extraction\capacitance_result.json`
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\output.gds`
-- `intent`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\intent.json`
-- `klayout_readback`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\klayout_readback.json`
-- `layout`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\layout.json`
-- `optimization`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\optimization.json`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\output.png`
-- `simulation`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\simulation\simulation.json`
-- `simulation_legacy`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\simulation.json`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\output.svg`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\03_idc_cpw_test_structure\verification.json`
+- `capacitance_result`: `extraction\capacitance_result.json`
+- `gds`: `output.gds`
+- `intent`: `intent.json`
+- `klayout_readback`: `klayout_readback.json`
+- `layout`: `layout.json`
+- `optimization`: `optimization.json`
+- `png`: `output.png`
+- `simulation`: `simulation\simulation.json`
+- `simulation_legacy`: `simulation.json`
+- `svg`: `output.svg`
+- `verification`: `verification.json`
 
 ## Limitations
 

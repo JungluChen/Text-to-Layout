@@ -6,20 +6,20 @@
   "solver_version": "Running FasterCap version 6.0.7",
   "command": [
     "wsl",
-    "/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap",
+    ".tools/FasterCap/bin/FasterCap",
     "-b",
     "-a0.01",
-    "/mnt/c/Users/justi/Desktop/Layout/text-to-gds/examples/showcase/01_idc_0p6pf/extraction/capacitance_input/idc.lst"
+    "extraction/capacitance_input/idc.lst"
   ],
   "return_code": 0,
-  "runtime_seconds": 6.440479000000778,
+  "runtime_seconds": 6.592397399999754,
   "artifacts": {
-    "panel_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\idc.qui",
-    "list_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\idc.lst",
-    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\solver.stdout.txt",
-    "solver_stderr": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\solver.stderr.txt",
-    "result": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\extraction\\capacitance_input\\simulation_result.json"
+    "panel_file": "extraction\\capacitance_input\\idc.qui",
+    "list_file": "extraction\\capacitance_input\\idc.lst",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
+    "result": "extraction\\capacitance_input\\simulation_result.json"
   },
   "extracted_quantities": {
     "capacitance_matrix_pf": [

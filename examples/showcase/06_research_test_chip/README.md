@@ -29,7 +29,7 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 ## KLayout readback
 
 - Status: **PASS**
-- Top cell: `TestChip_b47c70af`
+- Top cell: `TestChip_7ea7a5c7`
 - Bounding box: `{"width": 2000.0, "height": 2000.0}` um
 - Layers (GDS layer/datatype -> polygons): `{"1/0": 71, "63/0": 120}`
 - Database unit: `0.001` um

@@ -9,8 +9,8 @@
   "capacitance_matrix_pf": null,
   "target_comparison": null,
   "artifacts": {
-    "input": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\spiral.inp",
-    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\simulation_manifest.json"
+    "input": "extraction\\capacitance_input\\spiral.inp",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
   },
   "capacitance_source": "analytical_estimate_not_geometry_extracted",
   "capacitance_pf": 3.0,
@@ -35,12 +35,12 @@
       "solver": "FastHenry",
       "command": null,
       "input_files": [
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\simulation_manifest.json",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\04_spiral_inductor_3nh\\extraction\\capacitance_input\\spiral.inp"
+        "extraction\\capacitance_input\\simulation_manifest.json",
+        "extraction\\capacitance_input\\spiral.inp"
       ],
       "output_files": [],
       "parser": null,
-      "timestamp": "2026-07-03T04:57:00+00:00",
+      "timestamp": "2026-07-03T05:21:44+00:00",
       "notes": [
         "FastHenry executable not found (looked for fasthenry, fasthenry.exe, FastHenry, FastHenry2, fasthenry2). Install it or pass an explicit path; prepared input files remain available.",
         "FastHenry has not been executed; no inductance, resistance, or Q result is claimed.",

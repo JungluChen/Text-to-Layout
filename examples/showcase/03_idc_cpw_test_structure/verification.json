@@ -111,8 +111,8 @@
   "klayout_readback": {
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
-    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\output.gds",
-    "top_cell": "TestStructure_7e3848b7",
+    "gds_path": "output.gds",
+    "top_cell": "TestStructure_a8e8b09e",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 598.0,
@@ -127,7 +127,7 @@
       {
         "name": "gds_file_exists",
         "passed": true,
-        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\output.gds"
+        "detail": "output.gds"
       },
       {
         "name": "gds_readable",
@@ -142,7 +142,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "TestStructure_7e3848b7"
+        "detail": "TestStructure_a8e8b09e"
       },
       {
         "name": "bbox_non_empty",

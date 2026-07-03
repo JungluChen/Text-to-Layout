@@ -109,6 +109,14 @@ SHOWCASE_REQUIRED_FILES = (
 
 SOLVER_OUTPUT_NAMES = ("solver.stdout.txt", "solver.stderr.txt", "simulation_result.json")
 
+STALE_README_CLAIMS = (
+    "No benchmark in this repository is currently PHYSICS VERIFIED",
+    "No benchmark is Level 3 or higher",
+    "FasterCap/FastCap input is prepared, but not executed",
+    "IDC capacitance is an analytical starting estimate, not solver or measurement evidence",
+    "No benchmark is PHYSICS VERIFIED",
+)
+
 _ROW_RE = re.compile(r"^\|\s*(?P<cells>.+)\|\s*$")
 
 
@@ -261,7 +269,11 @@ def _has_physics_verified_evidence(root: Path, benchmark: str) -> bool:
 def _check_benchmark_table(readme_text: str, root: Path, errors: list[str]) -> None:
     # Only the benchmark table makes per-artifact claims; the status-vocabulary
     # table merely *defines* the labels and must not trip the check.
-    section = re.search(r"## Layout Benchmarks\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL)
+    section = re.search(
+        r"## Legacy analytical benchmarks\s*\n(.*?)(?:\n## |\Z)",
+        readme_text,
+        re.DOTALL,
+    )
     if section is None:
         return
     for line in section.group(1).splitlines():
@@ -321,6 +333,35 @@ def _showcase_simulation(root: Path, folder: str) -> dict[str, object] | None:
     return payload if isinstance(payload, dict) else None
 
 
+def _check_stale_claims(readme_text: str, errors: list[str]) -> None:
+    for claim in STALE_README_CLAIMS:
+        if claim.casefold() in readme_text.casefold():
+            _fail(errors, f"README contains stale release claim: {claim!r}")
+
+
+def _check_showcase_paths(root: Path, errors: list[str]) -> None:
+    showcase = root / "examples" / "showcase"
+    if not showcase.is_dir():
+        _fail(errors, "examples/showcase is missing")
+        return
+    for path in showcase.rglob("*"):
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        normalized = text.replace("\\\\", "\\")
+        if re.search(r"[A-Za-z]:\\Users\\", normalized, re.IGNORECASE) or re.search(
+            r"/mnt/[a-z]/Users/", text, re.IGNORECASE
+        ):
+            relative = path.relative_to(root)
+            _fail(
+                errors,
+                f"committed showcase artifact contains an absolute user path: {relative}",
+            )
+
+
 def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
     """Validate the six-example showcase table against committed artifacts."""
     section = re.search(
@@ -329,6 +370,9 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
     if section is None:
         _fail(errors, "README is missing the '## Six research-grade examples' table")
         return
+    expected_header = "| # | Target | Prompt | Output | Step Results | Evidence Status |"
+    if expected_header not in section.group(1):
+        _fail(errors, f"showcase table is missing required header: {expected_header}")
     rows = [
         line
         for line in section.group(1).splitlines()
@@ -345,6 +389,8 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
             if not _existing_nonempty(root, f"{folder}/{name}"):
                 _fail(errors, f"showcase row links {folder} but {name} is missing/empty")
         upper = line.upper()
+        if "NOT_FABRICATION_READY" not in upper:
+            _fail(errors, f"showcase row must state NOT_FABRICATION_READY: {folder}")
         simulation = _showcase_simulation(root, folder)
         if re.search(r"FABRICATION[_ ]READY", upper) and "NOT_FABRICATION_READY" not in upper:
             _fail(errors, f"showcase row claims FABRICATION_READY without signoff: {folder}")
@@ -378,6 +424,23 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
                     f"{folder}: README claims PHYSICS_VERIFIED but the committed target "
                     "comparison is missing or out of tolerance",
                 )
+            else:
+                target = comparison.get("target")
+                extracted = comparison.get("extracted")
+                error = comparison.get("error_pct")
+                if all(isinstance(value, (int, float)) for value in (target, extracted, error)):
+                    expected_values = (
+                        f"{float(target):.6f} pF",
+                        f"{float(extracted):.6f} pF",
+                        f"{abs(float(error)):.3f}%",
+                    )
+                    for value in expected_values:
+                        if value not in line:
+                            _fail(
+                                errors,
+                                f"{folder}: README row does not match simulation.json; "
+                                f"missing {value!r}",
+                            )
         # A research-grade claim requires readback pass + stated limitations.
         readback = root / folder / "klayout_readback.json"
         try:
@@ -400,9 +463,11 @@ def validate(readme: Path, root: Path = ROOT) -> list[str]:
     if not readme.is_file():
         return [f"README not found: {readme}"]
     text = readme.read_text(encoding="utf-8")
+    _check_stale_claims(text, errors)
     _check_matrix(text, root, errors)
     _check_benchmark_table(text, root, errors)
     _check_showcase(text, root, errors)
+    _check_showcase_paths(root, errors)
     _check_demo_section(text, errors)
     return errors
 

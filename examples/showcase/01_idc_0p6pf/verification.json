@@ -121,8 +121,8 @@
   "klayout_readback": {
     "schema": "textlayout.klayout-readback.v1",
     "status": "pass",
-    "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\output.gds",
-    "top_cell": "IDC_6de244fa",
+    "gds_path": "output.gds",
+    "top_cell": "IDC_afa2268c",
     "dbu_um": 0.001,
     "bbox_um": {
       "width": 238.0,
@@ -137,7 +137,7 @@
       {
         "name": "gds_file_exists",
         "passed": true,
-        "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\01_idc_0p6pf\\output.gds"
+        "detail": "output.gds"
       },
       {
         "name": "gds_readable",
@@ -152,7 +152,7 @@
       {
         "name": "top_cell_exists",
         "passed": true,
-        "detail": "IDC_6de244fa"
+        "detail": "IDC_afa2268c"
       },
       {
         "name": "bbox_non_empty",

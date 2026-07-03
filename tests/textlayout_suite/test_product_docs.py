@@ -64,7 +64,7 @@ def test_readme_benchmark_tables_well_formed() -> None:
 # visual/engineering table split; the consolidated README serves the same
 # intent with one 8-column benchmark table plus the support matrix.)
 def test_readme_has_benchmark_and_support_tables() -> None:
-    assert "## Layout Benchmarks" in README
+    assert "## Legacy analytical benchmarks" in README
     assert "Geometry Status | Simulation Status | Evidence Status | Fabrication Status" in README
     assert "## Component support matrix" in README
 

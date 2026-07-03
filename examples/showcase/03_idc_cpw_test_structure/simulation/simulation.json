@@ -25,12 +25,12 @@
     "within_tolerance": true
   },
   "artifacts": {
-    "panel_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.qui",
-    "list_file": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.lst",
-    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stdout.txt",
-    "solver_stderr": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stderr.txt",
-    "result": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_result.json"
+    "panel_file": "extraction\\capacitance_input\\idc.qui",
+    "list_file": "extraction\\capacitance_input\\idc.lst",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
+    "result": "extraction\\capacitance_input\\simulation_result.json"
   },
   "capacitance_source": "geometry_extracted",
   "capacitance_pf": 0.610019,
@@ -53,19 +53,19 @@
       "tolerance_percent": 5.0,
       "status": "PHYSICS_VERIFIED",
       "solver": "FasterCap",
-      "command": "wsl /mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap -b -a0.01 /mnt/c/Users/justi/Desktop/Layout/text-to-gds/examples/showcase/03_idc_cpw_test_structure/extraction/capacitance_input/idc.lst",
+      "command": "wsl .tools/FasterCap/bin/FasterCap -b -a0.01 extraction/capacitance_input/idc.lst",
       "input_files": [
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.qui",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\idc.lst",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_manifest.json"
+        "extraction\\capacitance_input\\idc.qui",
+        "extraction\\capacitance_input\\idc.lst",
+        "extraction\\capacitance_input\\simulation_manifest.json"
       ],
       "output_files": [
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stdout.txt",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\solver.stderr.txt",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\03_idc_cpw_test_structure\\extraction\\capacitance_input\\simulation_result.json"
+        "extraction\\capacitance_input\\solver.stdout.txt",
+        "extraction\\capacitance_input\\solver.stderr.txt",
+        "extraction\\capacitance_input\\simulation_result.json"
       ],
       "parser": "textlayout.simulation.fastercap._parse_capacitance_matrix_pf",
-      "timestamp": "2026-07-03T04:56:59+00:00",
+      "timestamp": "2026-07-03T05:21:43+00:00",
       "notes": [
         "Extracted mutual capacitance is within tolerance.",
         "Effective-medium capacitance is not a full air/silicon interface extraction.",

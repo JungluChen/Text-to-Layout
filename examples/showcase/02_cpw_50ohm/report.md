@@ -101,17 +101,17 @@
 
 ## Artifacts
 
-- `capacitance_result`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\extraction\capacitance_result.json`
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\output.gds`
-- `intent`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\intent.json`
-- `klayout_readback`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\klayout_readback.json`
-- `layout`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\layout.json`
-- `optimization`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\optimization.json`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\output.png`
-- `simulation`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\simulation\simulation.json`
-- `simulation_legacy`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\simulation.json`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\output.svg`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\02_cpw_50ohm\verification.json`
+- `capacitance_result`: `extraction\capacitance_result.json`
+- `gds`: `output.gds`
+- `intent`: `intent.json`
+- `klayout_readback`: `klayout_readback.json`
+- `layout`: `layout.json`
+- `optimization`: `optimization.json`
+- `png`: `output.png`
+- `simulation`: `simulation\simulation.json`
+- `simulation_legacy`: `simulation.json`
+- `svg`: `output.svg`
+- `verification`: `verification.json`
 
 ## Limitations
 

@@ -9,9 +9,9 @@
   "capacitance_matrix_pf": null,
   "target_comparison": null,
   "artifacts": {
-    "model": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.json",
-    "driver": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.m",
-    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\simulation_manifest.json"
+    "model": "extraction\\capacitance_input\\openems_model.json",
+    "driver": "extraction\\capacitance_input\\openems_model.m",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
   },
   "capacitance_source": "analytical_estimate_not_geometry_extracted",
   "capacitance_pf": 6.0,
@@ -36,13 +36,13 @@
       "solver": "openEMS",
       "command": null,
       "input_files": [
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\simulation_manifest.json",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.m",
-        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.json"
+        "extraction\\capacitance_input\\simulation_manifest.json",
+        "extraction\\capacitance_input\\openems_model.m",
+        "extraction\\capacitance_input\\openems_model.json"
       ],
       "output_files": [],
       "parser": null,
-      "timestamp": "2026-07-03T04:57:01+00:00",
+      "timestamp": "2026-07-03T05:21:45+00:00",
       "notes": [
         "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",

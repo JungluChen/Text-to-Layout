@@ -113,17 +113,17 @@
 
 ## Artifacts
 
-- `capacitance_result`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\extraction\capacitance_result.json`
-- `gds`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\output.gds`
-- `intent`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\intent.json`
-- `klayout_readback`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\klayout_readback.json`
-- `layout`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\layout.json`
-- `optimization`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\optimization.json`
-- `png`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\output.png`
-- `simulation`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\simulation\simulation.json`
-- `simulation_legacy`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\simulation.json`
-- `svg`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\output.svg`
-- `verification`: `C:\Users\justi\Desktop\Layout\text-to-gds\examples\showcase\01_idc_0p6pf\verification.json`
+- `capacitance_result`: `extraction\capacitance_result.json`
+- `gds`: `output.gds`
+- `intent`: `intent.json`
+- `klayout_readback`: `klayout_readback.json`
+- `layout`: `layout.json`
+- `optimization`: `optimization.json`
+- `png`: `output.png`
+- `simulation`: `simulation\simulation.json`
+- `simulation_legacy`: `simulation.json`
+- `svg`: `output.svg`
+- `verification`: `verification.json`
 
 ## Limitations
 

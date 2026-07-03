@@ -12,7 +12,7 @@ from textlayout.doctor import run_doctor
 def test_required_layout_dependencies_import() -> None:
     import klayout.db as kdb
     import gdsfactory as gf
-    import langgraph
+    import langgraph.graph as langgraph
 
     assert kdb is not None and gf is not None and langgraph is not None
 
@@ -40,6 +40,19 @@ def test_doctor_missing_fastercap_is_absent_not_failure(
     assert fastercap.required is False
     assert "skipped" in fastercap.detail.lower()
     assert report.ok  # optional solver absence never fails the environment
+
+
+def test_doctor_strict_mode_fails_when_fastercap_is_missing(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "definitely-not-a-real-solver")
+    report = run_doctor(output_dir=tmp_path / "probe", strict=True)
+    fastercap = next(
+        c for c in report.checks if c.name == "FasterCap/FastCap executable discovery"
+    )
+    assert fastercap.status == "absent"
+    assert fastercap.required is True
+    assert report.ok is False
 
 
 def test_doctor_cli_json_output(tmp_path: Path, capsys) -> None:

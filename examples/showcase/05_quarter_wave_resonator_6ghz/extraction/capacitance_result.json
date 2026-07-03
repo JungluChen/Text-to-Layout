@@ -8,9 +8,9 @@
   "return_code": null,
   "runtime_seconds": null,
   "artifacts": {
-    "model": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.json",
-    "driver": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\openems_model.m",
-    "manifest": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\05_quarter_wave_resonator_6ghz\\extraction\\capacitance_input\\simulation_manifest.json"
+    "model": "extraction\\capacitance_input\\openems_model.json",
+    "driver": "extraction\\capacitance_input\\openems_model.m",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json"
   },
   "extracted_quantities": {},
   "target_comparison": null,

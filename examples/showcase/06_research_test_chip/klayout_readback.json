@@ -1,8 +1,8 @@
 {
   "schema": "textlayout.klayout-readback.v1",
   "status": "pass",
-  "gds_path": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\06_research_test_chip\\output.gds",
-  "top_cell": "TestChip_b47c70af",
+  "gds_path": "output.gds",
+  "top_cell": "TestChip_7ea7a5c7",
   "dbu_um": 0.001,
   "bbox_um": {
     "width": 2000.0,
@@ -18,7 +18,7 @@
     {
       "name": "gds_file_exists",
       "passed": true,
-      "detail": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\examples\\showcase\\06_research_test_chip\\output.gds"
+      "detail": "output.gds"
     },
     {
       "name": "gds_readable",
@@ -33,7 +33,7 @@
     {
       "name": "top_cell_exists",
       "passed": true,
-      "detail": "TestChip_b47c70af"
+      "detail": "TestChip_7ea7a5c7"
     },
     {
       "name": "bbox_non_empty",

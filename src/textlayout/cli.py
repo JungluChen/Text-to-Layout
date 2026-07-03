@@ -74,7 +74,7 @@ def _cmd_verify(args: argparse.Namespace) -> int:
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from textlayout.doctor import render_text, run_doctor
 
-    report = run_doctor(output_dir=args.out)
+    report = run_doctor(output_dir=args.out, strict=args.strict)
     if args.json:
         print(json.dumps(report.to_dict(), indent=2))
     else:
@@ -139,6 +139,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_doc = sub.add_parser("doctor", help="Check the environment (imports, solvers, write perms).")
     p_doc.add_argument("--out", default="out", help="Output directory to probe for writability.")
     p_doc.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
+    p_doc.add_argument(
+        "--strict",
+        action="store_true",
+        help="Treat missing external solvers as failures. Default: report them as optional.",
+    )
     p_doc.set_defaults(func=_cmd_doctor)
 
     p_srv = sub.add_parser("serve", help="Run the FastAPI plugin server.")
