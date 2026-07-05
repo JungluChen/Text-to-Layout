@@ -41,7 +41,7 @@ states than a plain solver run:
 | --- | --- | --- |
 | `analytical_surface_scaling` | `EPR_ANALYTICAL_ONLY` | Documented order-of-magnitude scaling model (below). Always available; used in CI. |
 | `field_energy_import` | `FIELD_ENERGY_IMPORTED` (or `EPR_SKIPPED_SOLVER_ABSENT` if the export file is missing) | Parses an already-exported field-energy JSON (the same per-region electric-energy numbers a real pyEPR run produces) and combines it with materials-DB loss tangents. CI-safe: no HFSS or pyEPR needed. See "Field-energy import" below. |
-| `pyepr` | `EPR_SKIPPED_SOLVER_ABSENT` unless pyEPR + an HFSS eigenmode project exist | Live field-solved participation extraction slot. Never fabricates numbers. |
+| `pyepr` | `EPR_SKIPPED_SOLVER_ABSENT` unless pyEPR + an HFSS eigenmode project exist | Live field-solved participation extraction slot — interface only, not implemented. Never fabricates numbers. See [pyepr_hfss_integration.md](pyepr_hfss_integration.md) for the contract a real implementation must meet (and why `field_energy_import` above is usually the faster path). |
 
 ### The analytical scaling model
 

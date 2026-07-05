@@ -182,6 +182,13 @@ class PyEPRBackend(EPRBackend):
     HFSS project — which cannot exist in CI — so this adapter's executable path
     is exercised only in environments that provide one. It never fabricates
     field-solved participations.
+
+    Not implemented beyond the honest skip path: driving a live HFSS session
+    needs an interactive Ansys connection this project cannot test against.
+    See ``docs/pyepr_hfss_integration.md`` for the contract a real
+    implementation must meet, and for the faster path (most users should
+    reach for ``FieldEnergyImportBackend`` instead — export participation
+    data from your own pyEPR/HFSS session once, no live driving required).
     """
 
     name = "pyepr"
