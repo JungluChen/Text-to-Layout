@@ -15,10 +15,14 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from textlayout import __version__, build_default_workflow, build_from_text_workflow
 from textlayout.errors import TextLayoutError
 from textlayout.schemas.dsl import LayoutSpec
+
+if TYPE_CHECKING:  # pragma: no cover
+    from textlayout.epr import EPRResult
 
 
 def _load_spec(path: str) -> LayoutSpec:
@@ -66,9 +70,35 @@ def _cmd_generate(args: argparse.Namespace) -> int:
 
 def _cmd_verify(args: argparse.Namespace) -> int:
     workflow = build_default_workflow()
-    report = workflow.verify_only(_load_spec(args.spec))
-    print(json.dumps(report.to_dict(), indent=2))
+    spec = _load_spec(args.spec)
+    report = workflow.verify_only(spec)
+    payload = report.to_dict()
+    if getattr(args, "include_epr", False):
+        payload["epr"] = _run_epr(spec, frequency_ghz=args.frequency_ghz).to_dict()
+    print(json.dumps(payload, indent=2))
     return 0 if report.passed else 2
+
+
+def _run_epr(spec: LayoutSpec, *, frequency_ghz: float | None) -> "EPRResult":
+    from textlayout.epr import default_epr_backend
+
+    frequency = frequency_ghz
+    if frequency is None:
+        target = spec.target.get("frequency_ghz")
+        frequency = float(target) if isinstance(target, (int, float)) and target > 0 else 6.0
+    return default_epr_backend().analyze(spec, frequency_ghz=frequency)
+
+
+def _cmd_epr(args: argparse.Namespace) -> int:
+    from textlayout.epr import write_epr_report
+
+    spec = _load_spec(args.spec)
+    result = _run_epr(spec, frequency_ghz=args.frequency_ghz)
+    payload = result.to_dict()
+    if args.out:
+        payload["files"] = write_epr_report(result, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0 if result.status != "SKIPPED_SOLVER_ABSENT" or not args.strict else 3
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
@@ -139,7 +169,41 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_ver = sub.add_parser("verify", help="Verify a DSL file (no export).")
     p_ver.add_argument("spec", help="Path to a Layout DSL JSON file.")
+    p_ver.add_argument(
+        "--include-epr",
+        action="store_true",
+        help="Append an ANALYTICAL_ONLY loss-participation / coherence estimate "
+        "to the verification report.",
+    )
+    p_ver.add_argument(
+        "--frequency-ghz",
+        type=float,
+        default=None,
+        help="Frequency for the EPR coherence estimate (default: spec target or 6 GHz).",
+    )
     p_ver.set_defaults(func=_cmd_verify)
+
+    p_epr = sub.add_parser(
+        "epr",
+        help="Loss-participation (EPR) and coherence estimate for a DSL file. "
+        "ANALYTICAL_ONLY by default; never a field solution.",
+    )
+    p_epr.add_argument("spec", help="Path to a Layout DSL JSON file.")
+    p_epr.add_argument(
+        "--frequency-ghz",
+        type=float,
+        default=None,
+        help="Analysis frequency (default: spec target frequency or 6 GHz).",
+    )
+    p_epr.add_argument(
+        "--out", default=None, help="Directory for epr_report.json / epr_report.md."
+    )
+    p_epr.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit non-zero when the EPR backend is unavailable (skipped).",
+    )
+    p_epr.set_defaults(func=_cmd_epr)
 
     p_doc = sub.add_parser("doctor", help="Check the environment (imports, solvers, write perms).")
     p_doc.add_argument("--out", default="out", help="Output directory to probe for writability.")
