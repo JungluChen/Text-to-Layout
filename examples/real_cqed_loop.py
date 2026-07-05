@@ -293,6 +293,8 @@ def main() -> dict[str, object]:
         "steps": [step1, step2, step3, step5, step6, step7],
         "status_legend": {
             "ANALYTICAL_ONLY": "Equation/model estimate; no solver executed.",
+            "EPR_ANALYTICAL_ONLY": "EPR-specific: participations from a scaling model, "
+            "not a field solution.",
             "GEOMETRY_PASS": "Layout generated and verified; no physics claim.",
             "SYNTHETIC": "Modeling/Monte Carlo result, not measured on real hardware.",
             "SKIPPED_SOLVER_ABSENT": "A solver was requested but is not installed.",
