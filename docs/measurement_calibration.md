@@ -85,3 +85,8 @@ one process*." Treat every correction factor as provisional until it is
 stable across multiple wafers and cooldowns. This module makes that
 comparison possible and auditable; it does not make the underlying physics
 correct by itself.
+
+See [signoff_levels.md](signoff_levels.md): a non-synthetic
+`CalibrationFile` produced here is the one thing that can advance a design
+from Level 5 (physics signoff, simulation only) to Level 6
+(measurement-calibrated).

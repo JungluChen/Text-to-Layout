@@ -117,6 +117,17 @@ class PDKGrid(BaseModel):
     default_min_width_um: float = Field(gt=0)
 
 
+#: Three-way calibration status, more granular than the plain foundry_validated
+#: bool: an "internal_calibrated" PDK has been correlated against real
+#: measurements (see textlayout.measurement) but is not foundry-qualified.
+CALIBRATION_ILLUSTRATIVE = "illustrative"
+CALIBRATION_INTERNAL = "internal_calibrated"
+CALIBRATION_FOUNDRY = "foundry_calibrated"
+_VALID_CALIBRATION_STATUSES = frozenset(
+    {CALIBRATION_ILLUSTRATIVE, CALIBRATION_INTERNAL, CALIBRATION_FOUNDRY}
+)
+
+
 class PDK(BaseModel):
     """A named, versioned foundry process description."""
 
@@ -127,7 +138,12 @@ class PDK(BaseModel):
     version: str
     foundry_validated: bool = Field(
         description="True only for a real foundry-qualified process. "
-        "MUST be False for any illustrative/example PDK."
+        "MUST be False for any illustrative/example PDK. Kept for backward "
+        "compatibility; equivalent to calibration_status == 'foundry_calibrated'."
+    )
+    calibration_status: str = Field(
+        default=CALIBRATION_ILLUSTRATIVE,
+        description="illustrative | internal_calibrated | foundry_calibrated",
     )
     source: str = Field(description="Where these numbers came from.")
     grid: PDKGrid
@@ -148,6 +164,26 @@ class PDK(BaseModel):
             raise ValueError(f"duplicate (gds_layer, gds_datatype) pairs in PDK {self.name!r}")
         return self
 
+    @model_validator(mode="after")
+    def _calibration_status_consistent_with_foundry_validated(self) -> PDK:
+        if self.calibration_status not in _VALID_CALIBRATION_STATUSES:
+            raise ValueError(
+                f"calibration_status {self.calibration_status!r} not in "
+                f"{sorted(_VALID_CALIBRATION_STATUSES)}"
+            )
+        if self.foundry_validated and self.calibration_status != CALIBRATION_FOUNDRY:
+            raise ValueError(
+                f"PDK {self.name!r}: foundry_validated=True requires "
+                f"calibration_status={CALIBRATION_FOUNDRY!r}, got "
+                f"{self.calibration_status!r}"
+            )
+        if not self.foundry_validated and self.calibration_status == CALIBRATION_FOUNDRY:
+            raise ValueError(
+                f"PDK {self.name!r}: calibration_status={CALIBRATION_FOUNDRY!r} requires "
+                "foundry_validated=True"
+            )
+        return self
+
     def layer(self, name: str) -> PDKLayer:
         for layer in self.layers:
             if layer.name == name:
@@ -158,10 +194,18 @@ class PDK(BaseModel):
         return [layer.name for layer in self.layers]
 
     def summary(self) -> dict[str, object]:
-        """Compact provenance record for embedding in evidence artifacts."""
+        """Compact provenance record for embedding in evidence artifacts.
+
+        Does not include a file hash — that is a property of the file this
+        PDK was loaded *from*, not of the PDK content itself. Use
+        :func:`textlayout.pdk.provenance.describe_pdk_file` for the full
+        provenance record (name, version, hash, calibration status) that
+        every report should carry.
+        """
         return {
             "pdk_name": self.name,
             "pdk_version": self.version,
             "foundry_validated": self.foundry_validated,
+            "calibration_status": self.calibration_status,
             "source": self.source,
         }

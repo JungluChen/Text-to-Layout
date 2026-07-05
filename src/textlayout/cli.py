@@ -39,6 +39,24 @@ def _load_lattice(path: str) -> "QubitLattice":
     return QubitLattice.model_validate(data)
 
 
+def _pdk_provenance_payload(technology_name: str) -> dict[str, object]:
+    """Every report must record which PDK backed it -- name, version, file
+    hash, and calibration status -- or say plainly that none is available.
+    """
+    from textlayout.pdk import find_pdk_provenance_for_technology
+
+    provenance = find_pdk_provenance_for_technology(technology_name)
+    if provenance is None:
+        return {
+            "available": False,
+            "technology": technology_name,
+            "note": f"Technology {technology_name!r} is not backed by a PDK YAML "
+            "(e.g. the built-in generic_2metal Technology, which predates the "
+            "PDK schema). No PDK provenance is available.",
+        }
+    return {"available": True, **provenance.model_dump(mode="json")}
+
+
 def _cmd_prompt(args: argparse.Namespace) -> int:
     workflow = build_from_text_workflow()
     result = workflow.run(
@@ -49,6 +67,7 @@ def _cmd_prompt(args: argparse.Namespace) -> int:
         solver_executable=args.executable,
     )
     payload = result.to_dict()
+    payload["pdk_provenance"] = _pdk_provenance_payload(result.spec.technology)
     if getattr(args, "include_epr", False):
         from textlayout.epr import render_markdown as render_epr_markdown
         from textlayout.epr import write_epr_report
@@ -80,6 +99,7 @@ def _cmd_generate(args: argparse.Namespace) -> int:
                 "summary": result.summary,
                 "verification": result.report.to_dict(),
                 "files": dict(result.files),
+                "pdk_provenance": _pdk_provenance_payload(spec.technology),
             },
             indent=2,
         )
@@ -109,6 +129,7 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     spec = _load_spec(args.spec)
     report = workflow.verify_only(spec)
     payload = report.to_dict()
+    payload["pdk_provenance"] = _pdk_provenance_payload(spec.technology)
     if getattr(args, "include_epr", False):
         payload["epr"] = _run_epr(spec, frequency_ghz=args.frequency_ghz).to_dict()
     print(json.dumps(payload, indent=2))

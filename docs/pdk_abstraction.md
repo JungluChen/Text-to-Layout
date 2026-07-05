@@ -38,10 +38,16 @@ malformed PDK file is skipped, never fatal, at startup.
 | `layers[]` | Purpose (`metal`\|`junction`\|`ground`\|`via`\|`text`\|`marker`\|`dielectric`), GDS layer/datatype, min width/spacing, thickness, sheet resistance, **kinetic inductance** (pH/sq — superconducting films), loss tangent, density-rule placeholder (min/max fill fraction). |
 | `junction_process` | Target Jc, wafer-level Jc sigma, min junction area, Tc — feeds `textlayout.yield_model` directly. |
 
-Every `PDK` carries `foundry_validated: bool` and `source: str`. **No PDK
-shipped in this repository sets `foundry_validated=True`** — both examples
-are illustrative, and this is enforced by a test
-(`test_built_in_pdk_loads_and_is_not_foundry_validated`).
+Every `PDK` carries `foundry_validated: bool`, `source: str`, and
+`calibration_status: str` — a more granular three-way status than the bool
+alone: `illustrative` | `internal_calibrated` | `foundry_calibrated`.
+`internal_calibrated` means the process has been correlated against real
+measurements (see `textlayout.measurement`) but is not foundry-qualified.
+The two are kept mutually consistent by validation:
+`foundry_validated=True` if and only if `calibration_status="foundry_calibrated"`.
+**No PDK shipped in this repository sets either** — both examples are
+illustrative, enforced by a test
+(`test_no_shipped_pdk_claims_foundry_calibrated`).
 
 ## The two shipped examples
 
@@ -64,11 +70,21 @@ textlayout pdk info example_superconducting_pdk  # full PDK provenance + process
 
 ## Evidence provenance
 
-Every generated artifact already records `"technology": spec.technology` in
-its verification summary — for a PDK-backed technology, that name *is* the
-PDK name, and `textlayout pdk info <name>` recovers the full provenance
-(version, `foundry_validated`, source, every layer's numbers) from that one
-string. There is no separate provenance channel to keep in sync.
+Every `textlayout generate`/`verify`/`prompt` JSON payload carries a
+`pdk_provenance` field: `{available, pdk_name, pdk_version, file_path,
+file_hash_sha256, calibration_status, foundry_validated, source}` when the
+spec's technology is backed by a PDK YAML, or `{available: false, note: ...}`
+when it isn't (e.g. the hardcoded `generic_2metal` Technology, which predates
+the PDK schema). The file hash is a SHA-256 of the exact YAML bytes — computed
+at report time, not stored on the `PDK` model itself, so it reflects the exact
+file on disk even if its content changes without a version bump.
+
+```python
+from textlayout.pdk import describe_pdk_file, find_pdk_provenance_for_technology
+
+provenance = find_pdk_provenance_for_technology("example_superconducting_pdk")
+print(provenance.file_hash_sha256, provenance.calibration_status)
+```
 
 ## DRC and LVS hooks
 

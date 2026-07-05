@@ -8,6 +8,7 @@ schema_version: textlayout.pdk.v1
 name: example_superconducting_pdk
 version: "0.1.0"
 foundry_validated: false
+calibration_status: illustrative
 source: "Illustrative example combining published order-of-magnitude Nb/Al-on-Si process figures; NOT a real foundry PDK."
 grid:
   grid_nm: 1.0

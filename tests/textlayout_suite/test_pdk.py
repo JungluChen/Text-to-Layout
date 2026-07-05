@@ -129,6 +129,7 @@ class TestPDKSchema:
             "pdk_name": "test_pdk",
             "pdk_version": "0.0.1",
             "foundry_validated": False,
+            "calibration_status": "illustrative",
             "source": "unit test fixture",
         }
 
