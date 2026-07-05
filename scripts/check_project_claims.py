@@ -17,6 +17,10 @@ on any of:
    is `foundry_validated: true`.
 5. `pyproject.toml`'s description contradicts the documented architecture
    (`textlayout` = product path, `text_to_gds` = frozen legacy).
+6. `examples/showcase/index.json`'s `solver_executed` disagrees with the same
+   example's own `simulation.json` (in either direction — a summary claiming
+   LESS evidence than the underlying artifact is just as much a bug as
+   claiming more).
 
 Usage:
     python scripts/check_project_claims.py
@@ -101,6 +105,46 @@ def check_physics_verified_and_execution_claims(errors: list[str]) -> None:
                 f"index.json solver_executed=False (status="
                 f"{example.get('simulation_status')!r})",
             )
+
+
+#: index.json fields that must agree with the per-example simulation.json.
+_INDEX_VS_SIMULATION_FIELDS = (("solver_executed", "solver_executed"),)
+
+
+def check_index_matches_simulation_json(errors: list[str]) -> None:
+    """examples/showcase/index.json must agree with each example's own simulation.json.
+
+    index.json is a hand-maintained (or regenerated-but-not-always-in-sync)
+    summary; simulation.json is written directly by the workflow that ran the
+    solver. When they disagree, simulation.json is authoritative — but the
+    disagreement itself, in either direction, is a real bug: it means some
+    reader of index.json (a dashboard, the README) is seeing a claim that
+    doesn't match the underlying evidence.
+    """
+    for example in _load_showcase_index():
+        example_id = example.get("id")
+        artifact_dir = example.get("artifact_dir")
+        if not example_id or not artifact_dir:
+            continue
+        sim_path = ROOT / artifact_dir / "simulation.json"
+        if not sim_path.is_file():
+            continue  # a missing simulation.json is a different, separate problem
+        try:
+            simulation = json.loads(sim_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        for index_field, sim_field in _INDEX_VS_SIMULATION_FIELDS:
+            if index_field not in example or sim_field not in simulation:
+                continue
+            index_value = example[index_field]
+            sim_value = simulation[sim_field]
+            if bool(index_value) != bool(sim_value):
+                _fail(
+                    errors,
+                    f"{example_id}: index.json {index_field}={index_value!r} but "
+                    f"{artifact_dir}/simulation.json {sim_field}={sim_value!r} -- "
+                    "index.json is stale relative to the evidence it summarizes",
+                )
 
 
 def check_version_consistency(errors: list[str]) -> None:
@@ -196,6 +240,7 @@ def check_textlayout_text_to_gds_roles(errors: list[str]) -> None:
 def run_all_checks() -> list[str]:
     errors: list[str] = []
     check_physics_verified_and_execution_claims(errors)
+    check_index_matches_simulation_json(errors)
     check_version_consistency(errors)
     check_fabrication_readiness_claims(errors)
     check_textlayout_text_to_gds_roles(errors)

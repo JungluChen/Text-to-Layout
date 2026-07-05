@@ -32,7 +32,7 @@
         "tolerance_pct": 5.0,
         "within_tolerance": false
       },
-      "result": "tile_subblocks\\idc\\simulation_result.json",
+      "result": "tile_subblocks/idc/simulation_result.json",
       "limitation": "FasterCap extraction of the geometry-identical IDC sub-block"
     },
     "CPW": {
@@ -43,7 +43,7 @@
       "physics_verified": false,
       "extracted_quantities": {},
       "target_comparison": null,
-      "result": "tile_subblocks\\cpw\\simulation_result.json",
+      "result": "tile_subblocks/cpw/simulation_result.json",
       "limitation": "openEMS preparation for the geometry-identical CPW sub-block"
     },
     "SpiralInductor": {
@@ -57,7 +57,7 @@
         "inductance_nh": 2.751263754746667
       },
       "target_comparison": null,
-      "result": "tile_subblocks\\spiralinductor\\simulation_result.json",
+      "result": "tile_subblocks/spiralinductor/simulation_result.json",
       "limitation": "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target"
     },
     "Resonator": {
@@ -68,7 +68,7 @@
       "physics_verified": false,
       "extracted_quantities": {},
       "target_comparison": null,
-      "result": "tile_subblocks\\resonator\\simulation_result.json",
+      "result": "tile_subblocks/resonator/simulation_result.json",
       "limitation": "Nominal 6 GHz resonator reference sub-block; not embedded in the current tile geometry"
     },
     "AlignmentMarksAndLabels": {

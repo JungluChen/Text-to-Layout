@@ -17,7 +17,7 @@
       "extracted_quantities": {},
       "target_comparison": null,
       "reason": "openEMS executable not found (looked for octave-cli, octave-cli.exe, octave, octave.exe). Install it or pass an explicit path; prepared input files remain available.",
-      "result": "region_simulations\\cpw_launch_and_feed\\simulation_result.json",
+      "result": "region_simulations/cpw_launch_and_feed/simulation_result.json",
       "limitation": "Standalone feed model; it excludes launch pads and the IDC transition."
     },
     {

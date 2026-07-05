@@ -25,12 +25,12 @@
     "within_tolerance": true
   },
   "artifacts": {
-    "panel_file": "extraction\\capacitance_input\\idc.qui",
-    "list_file": "extraction\\capacitance_input\\idc.lst",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
-    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
-    "result": "extraction\\capacitance_input\\simulation_result.json"
+    "panel_file": "extraction/capacitance_input/idc.qui",
+    "list_file": "extraction/capacitance_input/idc.lst",
+    "manifest": "extraction/capacitance_input/simulation_manifest.json",
+    "solver_stdout": "extraction/capacitance_input/solver.stdout.txt",
+    "solver_stderr": "extraction/capacitance_input/solver.stderr.txt",
+    "result": "extraction/capacitance_input/simulation_result.json"
   },
   "quantity": "capacitance",
   "extracted_value": 0.598641,
@@ -58,14 +58,14 @@
       "solver": "FasterCap",
       "command": "wsl .tools/FasterCap/bin/FasterCap -b -a0.01 extraction/capacitance_input/idc.lst",
       "input_files": [
-        "extraction\\capacitance_input\\idc.qui",
-        "extraction\\capacitance_input\\idc.lst",
-        "extraction\\capacitance_input\\simulation_manifest.json"
+        "extraction/capacitance_input/idc.qui",
+        "extraction/capacitance_input/idc.lst",
+        "extraction/capacitance_input/simulation_manifest.json"
       ],
       "output_files": [
-        "extraction\\capacitance_input\\solver.stdout.txt",
-        "extraction\\capacitance_input\\solver.stderr.txt",
-        "extraction\\capacitance_input\\simulation_result.json"
+        "extraction/capacitance_input/solver.stdout.txt",
+        "extraction/capacitance_input/solver.stderr.txt",
+        "extraction/capacitance_input/simulation_result.json"
       ],
       "parser": "textlayout.simulation.fastercap._parse_capacitance_matrix_pf",
       "timestamp": "2026-07-03T08:18:10+00:00",

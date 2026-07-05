@@ -16,14 +16,14 @@
     "within_tolerance": false
   },
   "artifacts": {
-    "model": "extraction\\capacitance_input\\openems_model.json",
-    "driver": "extraction\\capacitance_input\\openems_model.m",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
-    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
-    "metrics_csv": "extraction\\capacitance_input\\openems_metrics.csv",
-    "touchstone": "extraction\\capacitance_input\\openems_result.s2p",
-    "result": "extraction\\capacitance_input\\openems_result.s2p"
+    "model": "extraction/capacitance_input/openems_model.json",
+    "driver": "extraction/capacitance_input/openems_model.m",
+    "manifest": "extraction/capacitance_input/simulation_manifest.json",
+    "solver_stdout": "extraction/capacitance_input/solver.stdout.txt",
+    "solver_stderr": "extraction/capacitance_input/solver.stderr.txt",
+    "metrics_csv": "extraction/capacitance_input/openems_metrics.csv",
+    "touchstone": "extraction/capacitance_input/openems_result.s2p",
+    "result": "extraction/capacitance_input/openems_result.s2p"
   },
   "quantity": "characteristic_impedance",
   "extracted_value": 30.917129182835225,
@@ -51,15 +51,15 @@
       "solver": "openEMS+scikit-rf",
       "command": "wsl bash -lc cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m",
       "input_files": [
-        "extraction\\capacitance_input\\simulation_manifest.json",
-        "extraction\\capacitance_input\\openems_model.m",
-        "extraction\\capacitance_input\\openems_model.json"
+        "extraction/capacitance_input/simulation_manifest.json",
+        "extraction/capacitance_input/openems_model.m",
+        "extraction/capacitance_input/openems_model.json"
       ],
       "output_files": [
-        "extraction\\capacitance_input\\solver.stdout.txt",
-        "extraction\\capacitance_input\\solver.stderr.txt",
-        "extraction\\capacitance_input\\openems_result.s2p",
-        "extraction\\capacitance_input\\openems_result.s2p"
+        "extraction/capacitance_input/solver.stdout.txt",
+        "extraction/capacitance_input/solver.stderr.txt",
+        "extraction/capacitance_input/openems_result.s2p",
+        "extraction/capacitance_input/openems_result.s2p"
       ],
       "parser": "textlayout.simulation.runners.extract_cpw_from_touchstone",
       "timestamp": "2026-07-03T09:21:15+00:00",

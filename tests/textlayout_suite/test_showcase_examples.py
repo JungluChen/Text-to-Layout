@@ -110,16 +110,16 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
 
     real = (ROOT / "README.md").read_text(encoding="utf-8")
     doctored = real.replace(
-        "**SKIPPED_SOLVER_ABSENT** — openEMS/CSXCAD binaries exist, but the required "
-        "Octave frontend is unavailable; input prepared, no EM run",
-        "**PHYSICS_VERIFIED** — totally real, trust me",
+        "**SKIPPED_SOLVER_ABSENT** — analytical λ/4 length; no EM resonance execution.",
+        "**PHYSICS_VERIFIED** — totally real, trust me.",
     )
-    assert doctored != real, "expected to find the CPW skipped-status cell to doctor"
+    assert doctored != real, "expected to find the quarter-wave resonator skipped-status cell to doctor"
     fake_readme = tmp_path / "README.md"
     fake_readme.write_text(doctored, encoding="utf-8")
     errors = module.validate(fake_readme, root=ROOT)
     assert any(
-        "02_cpw_50ohm" in error and ("PHYSICS_VERIFIED" in error or "solver" in error)
+        "05_quarter_wave_resonator_6ghz" in error
+        and ("PHYSICS_VERIFIED" in error or "solver" in error)
         for error in errors
     ), errors
 

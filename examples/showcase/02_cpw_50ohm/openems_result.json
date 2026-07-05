@@ -13,14 +13,14 @@
   "return_code": 0,
   "runtime_seconds": 76.40208399999756,
   "artifacts": {
-    "model": "extraction\\capacitance_input\\openems_model.json",
-    "driver": "extraction\\capacitance_input\\openems_model.m",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
-    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
-    "metrics_csv": "extraction\\capacitance_input\\openems_metrics.csv",
-    "touchstone": "extraction\\capacitance_input\\openems_result.s2p",
-    "result": "extraction\\capacitance_input\\openems_result.s2p"
+    "model": "extraction/capacitance_input/openems_model.json",
+    "driver": "extraction/capacitance_input/openems_model.m",
+    "manifest": "extraction/capacitance_input/simulation_manifest.json",
+    "solver_stdout": "extraction/capacitance_input/solver.stdout.txt",
+    "solver_stderr": "extraction/capacitance_input/solver.stderr.txt",
+    "metrics_csv": "extraction/capacitance_input/openems_metrics.csv",
+    "touchstone": "extraction/capacitance_input/openems_result.s2p",
+    "result": "extraction/capacitance_input/openems_result.s2p"
   },
   "extracted_quantities": {
     "characteristic_impedance_ohm": 30.917129182835225,

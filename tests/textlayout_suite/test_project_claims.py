@@ -239,6 +239,88 @@ class TestFullCheckAgainstRealRepo:
         assert errors == [], f"Repo has claim inconsistencies: {errors}"
 
 
+class TestIndexMatchesSimulationJson:
+    """Regression guard for a real bug found during Sprint 5: index.json claimed
+    SKIPPED_SOLVER_ABSENT for examples/showcase/02_cpw_50ohm while its own
+    simulation.json showed a real, completed openEMS execution -- a summary
+    file silently under-reporting the evidence it was supposed to summarize."""
+
+    def _fixture(self, tmp_path, *, index_executed: bool, simulation_executed: bool) -> None:
+        showcase = tmp_path / "examples" / "showcase"
+        example_dir = showcase / "02_cpw"
+        example_dir.mkdir(parents=True)
+        (showcase / "index.json").write_text(
+            json.dumps(
+                {
+                    "examples": [
+                        {
+                            "id": "02_cpw",
+                            "artifact_dir": "examples/showcase/02_cpw",
+                            "solver_executed": index_executed,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        (example_dir / "simulation.json").write_text(
+            json.dumps({"solver_executed": simulation_executed}), encoding="utf-8"
+        )
+
+    def test_agreement_passes(self, tmp_path, monkeypatch, claims_module) -> None:
+        self._fixture(tmp_path, index_executed=True, simulation_executed=True)
+        monkeypatch.setattr(claims_module, "ROOT", tmp_path)
+        errors: list[str] = []
+        claims_module.check_index_matches_simulation_json(errors)
+        assert errors == []
+
+    def test_index_under_reporting_execution_is_caught(self, tmp_path, monkeypatch, claims_module) -> None:
+        """The exact real-world case: index.json says skipped, simulation.json says executed."""
+        self._fixture(tmp_path, index_executed=False, simulation_executed=True)
+        monkeypatch.setattr(claims_module, "ROOT", tmp_path)
+        errors: list[str] = []
+        claims_module.check_index_matches_simulation_json(errors)
+        assert len(errors) == 1
+        assert "02_cpw" in errors[0]
+        assert "stale" in errors[0]
+
+    def test_index_over_reporting_execution_is_also_caught(
+        self, tmp_path, monkeypatch, claims_module
+    ) -> None:
+        """The opposite direction is equally a bug: over-claiming evidence."""
+        self._fixture(tmp_path, index_executed=True, simulation_executed=False)
+        monkeypatch.setattr(claims_module, "ROOT", tmp_path)
+        errors: list[str] = []
+        claims_module.check_index_matches_simulation_json(errors)
+        assert len(errors) == 1
+
+    def test_missing_simulation_json_is_not_an_error_here(
+        self, tmp_path, monkeypatch, claims_module
+    ) -> None:
+        """A missing simulation.json is a different problem (validate_readme_claims.py
+        catches that); this check only compares fields when both files exist."""
+        showcase = tmp_path / "examples" / "showcase"
+        showcase.mkdir(parents=True)
+        (showcase / "index.json").write_text(
+            json.dumps(
+                {
+                    "examples": [
+                        {
+                            "id": "03_no_sim",
+                            "artifact_dir": "examples/showcase/03_no_sim",
+                            "solver_executed": True,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(claims_module, "ROOT", tmp_path)
+        errors: list[str] = []
+        claims_module.check_index_matches_simulation_json(errors)
+        assert errors == []
+
+
 class TestProjectStatusGenerator:
     def test_build_status_has_required_sections(self, status_module) -> None:
         status = status_module.build_status()

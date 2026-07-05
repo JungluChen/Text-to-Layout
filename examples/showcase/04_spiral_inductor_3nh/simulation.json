@@ -16,12 +16,12 @@
     "within_tolerance": true
   },
   "artifacts": {
-    "input": "extraction\\capacitance_input\\spiral.inp",
-    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
-    "solver_stdout": "extraction\\capacitance_input\\fasthenry.stdout.txt",
-    "solver_stderr": "extraction\\capacitance_input\\fasthenry.stderr.txt",
-    "zc_matrix": "extraction\\capacitance_input\\Zc.mat",
-    "result": "extraction\\capacitance_input\\Zc.mat"
+    "input": "extraction/capacitance_input/spiral.inp",
+    "manifest": "extraction/capacitance_input/simulation_manifest.json",
+    "solver_stdout": "extraction/capacitance_input/fasthenry.stdout.txt",
+    "solver_stderr": "extraction/capacitance_input/fasthenry.stderr.txt",
+    "zc_matrix": "extraction/capacitance_input/Zc.mat",
+    "result": "extraction/capacitance_input/Zc.mat"
   },
   "quantity": "inductance",
   "extracted_value": 2.9583084202149137,
@@ -49,14 +49,14 @@
       "solver": "fasthenry",
       "command": "wsl bash -lc cd extraction/capacitance_input && .tools/FastHenry2/bin/fasthenry spiral.inp",
       "input_files": [
-        "extraction\\capacitance_input\\simulation_manifest.json",
-        "extraction\\capacitance_input\\spiral.inp"
+        "extraction/capacitance_input/simulation_manifest.json",
+        "extraction/capacitance_input/spiral.inp"
       ],
       "output_files": [
-        "extraction\\capacitance_input\\fasthenry.stdout.txt",
-        "extraction\\capacitance_input\\fasthenry.stderr.txt",
-        "extraction\\capacitance_input\\Zc.mat",
-        "extraction\\capacitance_input\\Zc.mat"
+        "extraction/capacitance_input/fasthenry.stdout.txt",
+        "extraction/capacitance_input/fasthenry.stderr.txt",
+        "extraction/capacitance_input/Zc.mat",
+        "extraction/capacitance_input/Zc.mat"
       ],
       "parser": "textlayout.simulation.runners.parse_fasthenry_inductance",
       "timestamp": "2026-07-03T08:19:08+00:00",
