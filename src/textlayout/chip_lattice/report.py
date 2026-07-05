@@ -27,7 +27,9 @@ def _write_collision_csv(result: ChipYieldResult, path: Path) -> None:
         writer = csv.writer(handle)
         writer.writerow(["node_a", "node_b", "rule", "collision_probability"])
         for pair in result.risky_pairs:
-            writer.writerow([pair.node_a, pair.node_b, pair.rule, f"{pair.collision_probability:.6f}"])
+            writer.writerow(
+                [pair.node_a, pair.node_b, pair.rule, f"{pair.collision_probability:.6f}"]
+            )
         if not result.risky_pairs:
             writer.writerow(["(none)", "(none)", "(no violations observed)", "0.000000"])
 

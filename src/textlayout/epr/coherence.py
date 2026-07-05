@@ -59,9 +59,7 @@ def estimate_coherence(
     losses = [(record, record.p_electric * record.tan_delta) for record in participations]
     total_inverse_q = sum(loss for _, loss in losses)
     if total_inverse_q <= 0.0:
-        raise ValueError(
-            "total participation-weighted loss is zero; refusing to claim infinite Q"
-        )
+        raise ValueError("total participation-weighted loss is zero; refusing to claim infinite Q")
 
     q_total = 1.0 / total_inverse_q
     omega = 2.0 * math.pi * frequency_ghz * 1e9  # rad/s

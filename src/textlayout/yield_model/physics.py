@@ -56,9 +56,7 @@ def squid_ic_eff_ua(ic1_ua: float, ic2_ua: float, flux_phi0: float) -> float:
     total = ic1_ua + ic2_ua
     asymmetry = abs(ic1_ua - ic2_ua) / total
     phase = math.pi * flux_phi0
-    return total * math.sqrt(
-        math.cos(phase) ** 2 + (asymmetry * math.sin(phase)) ** 2
-    )
+    return total * math.sqrt(math.cos(phase) ** 2 + (asymmetry * math.sin(phase)) ** 2)
 
 
 def squid_lj_nh(ic1_ua: float, ic2_ua: float, flux_phi0: float) -> float:

@@ -8,9 +8,7 @@ from pathlib import Path
 from textlayout.measurement.models import CalibrationFile, ResidualRecord
 
 
-def write_comparison_report(
-    residuals: list[ResidualRecord], out_dir: str | Path
-) -> dict[str, str]:
+def write_comparison_report(residuals: list[ResidualRecord], out_dir: str | Path) -> dict[str, str]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     json_path = out / "measurement_comparison.json"

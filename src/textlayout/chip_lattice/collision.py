@@ -62,7 +62,10 @@ def evaluate_collisions(
         detuning_mhz = abs(fa - fb) * 1e3
         findings.append(
             _finding(
-                "qubit_qubit", edge.node_a, edge.node_b, detuning_mhz,
+                "qubit_qubit",
+                edge.node_a,
+                edge.node_b,
+                detuning_mhz,
                 rules.qubit_qubit_min_detuning_mhz,
             )
         )
@@ -72,14 +75,20 @@ def evaluate_collisions(
         alpha_mhz = (abs(node_a.anharmonicity_mhz) + abs(node_b.anharmonicity_mhz)) / 2.0
         findings.append(
             _finding(
-                "two_photon", edge.node_a, edge.node_b,
-                abs(detuning_mhz - alpha_mhz), rules.two_photon_min_detuning_mhz,
+                "two_photon",
+                edge.node_a,
+                edge.node_b,
+                abs(detuning_mhz - alpha_mhz),
+                rules.two_photon_min_detuning_mhz,
             )
         )
         findings.append(
             _finding(
-                "charge_parity", edge.node_a, edge.node_b,
-                abs(2.0 * detuning_mhz - alpha_mhz), rules.charge_parity_min_detuning_mhz,
+                "charge_parity",
+                edge.node_a,
+                edge.node_b,
+                abs(2.0 * detuning_mhz - alpha_mhz),
+                rules.charge_parity_min_detuning_mhz,
             )
         )
 
@@ -88,8 +97,11 @@ def evaluate_collisions(
                 detuning = abs(freq - edge.coupler_freq_ghz) * 1e3
                 findings.append(
                     _finding(
-                        "qubit_coupler", node_id, f"coupler({edge.node_a},{edge.node_b})",
-                        detuning, rules.qubit_coupler_min_detuning_mhz,
+                        "qubit_coupler",
+                        node_id,
+                        f"coupler({edge.node_a},{edge.node_b})",
+                        detuning,
+                        rules.qubit_coupler_min_detuning_mhz,
                     )
                 )
 
@@ -100,8 +112,11 @@ def evaluate_collisions(
         detuning_mhz = abs(freq - node.readout_freq_ghz) * 1e3
         findings.append(
             _finding(
-                "qubit_readout", node.qubit_id, f"readout({node.qubit_id})",
-                detuning_mhz, rules.qubit_readout_min_detuning_mhz,
+                "qubit_readout",
+                node.qubit_id,
+                f"readout({node.qubit_id})",
+                detuning_mhz,
+                rules.qubit_readout_min_detuning_mhz,
             )
         )
 

@@ -70,7 +70,9 @@ def run_chip_collision_yield(
     risky_pairs = sorted(
         (
             RiskyPair(
-                node_a=node_a, node_b=node_b, rule=rule,
+                node_a=node_a,
+                node_b=node_b,
+                rule=rule,
                 collision_probability=pair_failures[(node_a, node_b, rule)] / n_samples,
             )
             for (node_a, node_b, rule) in pair_totals

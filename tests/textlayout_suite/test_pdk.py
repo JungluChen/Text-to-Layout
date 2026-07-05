@@ -41,8 +41,13 @@ def _minimal_pdk(**overrides) -> PDK:
         substrate=PDKSubstrate(material="Si", epsilon_r=11.9, loss_tangent=1e-6),
         layers=[
             PDKLayer(
-                name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0,
-                max_density_fraction=0.8, min_density_fraction=0.1,
+                name="M1",
+                purpose="metal",
+                gds_layer=1,
+                min_width_um=1.0,
+                min_spacing_um=1.0,
+                max_density_fraction=0.8,
+                min_density_fraction=0.1,
             ),
         ],
     )
@@ -55,8 +60,20 @@ class TestPDKSchema:
         with pytest.raises(Exception):
             _minimal_pdk(
                 layers=[
-                    PDKLayer(name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0),
-                    PDKLayer(name="M1", purpose="metal", gds_layer=2, min_width_um=1.0, min_spacing_um=1.0),
+                    PDKLayer(
+                        name="M1",
+                        purpose="metal",
+                        gds_layer=1,
+                        min_width_um=1.0,
+                        min_spacing_um=1.0,
+                    ),
+                    PDKLayer(
+                        name="M1",
+                        purpose="metal",
+                        gds_layer=2,
+                        min_width_um=1.0,
+                        min_spacing_um=1.0,
+                    ),
                 ]
             )
 
@@ -64,20 +81,39 @@ class TestPDKSchema:
         with pytest.raises(Exception):
             _minimal_pdk(
                 layers=[
-                    PDKLayer(name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0),
-                    PDKLayer(name="M2", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0),
+                    PDKLayer(
+                        name="M1",
+                        purpose="metal",
+                        gds_layer=1,
+                        min_width_um=1.0,
+                        min_spacing_um=1.0,
+                    ),
+                    PDKLayer(
+                        name="M2",
+                        purpose="metal",
+                        gds_layer=1,
+                        min_width_um=1.0,
+                        min_spacing_um=1.0,
+                    ),
                 ]
             )
 
     def test_invalid_purpose_rejected(self) -> None:
         with pytest.raises(Exception):
-            PDKLayer(name="X", purpose="not_a_purpose", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0)
+            PDKLayer(
+                name="X", purpose="not_a_purpose", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0
+            )
 
     def test_density_bounds_must_be_ordered(self) -> None:
         with pytest.raises(Exception):
             PDKLayer(
-                name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0,
-                min_density_fraction=0.9, max_density_fraction=0.1,
+                name="M1",
+                purpose="metal",
+                gds_layer=1,
+                min_width_um=1.0,
+                min_spacing_um=1.0,
+                min_density_fraction=0.9,
+                max_density_fraction=0.1,
             )
 
     def test_layer_lookup(self) -> None:
@@ -90,8 +126,10 @@ class TestPDKSchema:
         pdk = _minimal_pdk()
         summary = pdk.summary()
         assert summary == {
-            "pdk_name": "test_pdk", "pdk_version": "0.0.1",
-            "foundry_validated": False, "source": "unit test fixture",
+            "pdk_name": "test_pdk",
+            "pdk_version": "0.0.1",
+            "foundry_validated": False,
+            "source": "unit test fixture",
         }
 
 
@@ -171,7 +209,11 @@ class TestTechnologyLibraryIntegration:
 class TestDensityDRC:
     def test_no_rule_configured_is_a_noop_pass(self) -> None:
         pdk = _minimal_pdk(
-            layers=[PDKLayer(name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0)]
+            layers=[
+                PDKLayer(
+                    name="M1", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0
+                )
+            ]
         )
         result = check_density(pdk, "M1", filled_fraction=0.99)
         assert result.passed

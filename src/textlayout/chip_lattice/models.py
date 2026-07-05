@@ -101,9 +101,7 @@ class QubitLattice(BaseModel):
             raise ValueError("duplicate qubit_id in lattice nodes")
         for edge in self.edges:
             if edge.node_a not in ids or edge.node_b not in ids:
-                raise ValueError(
-                    f"edge ({edge.node_a}, {edge.node_b}) references an unknown node"
-                )
+                raise ValueError(f"edge ({edge.node_a}, {edge.node_b}) references an unknown node")
             if edge.node_a == edge.node_b:
                 raise ValueError(f"self-loop edge on node {edge.node_a!r}")
         return self
@@ -129,8 +127,9 @@ class CollisionFinding(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    rule: str = Field(description="qubit_qubit | qubit_readout | qubit_coupler | "
-                                  "two_photon | charge_parity")
+    rule: str = Field(
+        description="qubit_qubit | qubit_readout | qubit_coupler | two_photon | charge_parity"
+    )
     node_a: str
     node_b: str
     detuning_mhz: float

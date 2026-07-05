@@ -101,9 +101,7 @@ class TestAnalyticalBackend:
         wide = backend.analyze(_spec(parameters=wide_params), frequency_ghz=6.0)
 
         def surface_p(result):
-            return sum(
-                p.p_electric for p in result.participations if p.region != "substrate"
-            )
+            return sum(p.p_electric for p in result.participations if p.region != "substrate")
 
         assert surface_p(wide) < surface_p(narrow)
         assert wide.coherence.q_total > narrow.coherence.q_total
@@ -121,9 +119,7 @@ class TestAnalyticalBackend:
 
     def test_total_participation_never_exceeds_unity(self) -> None:
         tight_params = dict(IDC_SPEC["parameters"], gap_um=0.01)
-        result = AnalyticalEPRBackend().analyze(
-            _spec(parameters=tight_params), frequency_ghz=6.0
-        )
+        result = AnalyticalEPRBackend().analyze(_spec(parameters=tight_params), frequency_ghz=6.0)
         assert sum(p.p_electric for p in result.participations) <= 1.0
 
 

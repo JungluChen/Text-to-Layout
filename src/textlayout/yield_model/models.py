@@ -81,9 +81,7 @@ class SquidGeometry(BaseModel):
 
     junction_1: JunctionGeometry
     junction_2: JunctionGeometry
-    flux_bias_phi0: float = Field(
-        default=0.0, description="Operating flux bias in units of Φ₀."
-    )
+    flux_bias_phi0: float = Field(default=0.0, description="Operating flux bias in units of Φ₀.")
 
     @model_validator(mode="after")
     def _warn_symmetric_half_flux(self) -> SquidGeometry:

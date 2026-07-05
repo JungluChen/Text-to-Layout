@@ -74,7 +74,10 @@ class TestResidualComparison:
     def test_compare_all_aggregates_multiple_pairs(self) -> None:
         pairs = [
             (_pred(), _meas()),
-            (_pred(design_hash="x", predicted_frequency_ghz=5.0), _meas(device_id="D002", design_hash="x", measured_frequency_ghz=5.1)),
+            (
+                _pred(design_hash="x", predicted_frequency_ghz=5.0),
+                _meas(device_id="D002", design_hash="x", measured_frequency_ghz=5.1),
+            ),
         ]
         residuals = compare_all(pairs)
         assert {r.device_id for r in residuals} == {"D001", "D002"}
@@ -119,14 +122,18 @@ class TestCorrectionFactorFit:
 
     def test_sigma_pct_computed_for_multiple_devices(self) -> None:
         pairs = [
-            (_pred(design_hash=f"d{i}", predicted_frequency_ghz=6.0),
-             _meas(device_id=f"D{i}", design_hash=f"d{i}", measured_frequency_ghz=6.0 + 0.01 * i,
-                   measured_capacitance_pf=None))
+            (
+                _pred(design_hash=f"d{i}", predicted_frequency_ghz=6.0),
+                _meas(
+                    device_id=f"D{i}",
+                    design_hash=f"d{i}",
+                    measured_frequency_ghz=6.0 + 0.01 * i,
+                    measured_capacitance_pf=None,
+                ),
+            )
             for i in range(4)
         ]
-        pairs = [
-            (p.model_copy(update={"predicted_capacitance_pf": None}), m) for p, m in pairs
-        ]
+        pairs = [(p.model_copy(update={"predicted_capacitance_pf": None}), m) for p, m in pairs]
         corrections = fit_correction_factors(pairs)
         assert corrections.jc_scale_sigma_pct is not None
         assert corrections.jc_scale_sigma_pct >= 0.0
@@ -176,9 +183,7 @@ class TestPairingAndCalibration:
 
     def test_build_calibration_no_overlap_rejected(self) -> None:
         with pytest.raises(ValueError):
-            build_calibration(
-                [_pred(design_hash="a")], [_meas(design_hash="b")]
-            )
+            build_calibration([_pred(design_hash="a")], [_meas(design_hash="b")])
 
     def test_calibration_yaml_roundtrip(self, tmp_path) -> None:
         calibration = build_calibration([_pred()], [_meas()])
@@ -207,11 +212,18 @@ class TestReportsAndCLI:
         meas_path = tmp_path / "measurements.json"
         pred_path.write_text(json.dumps([_pred().model_dump(mode="json")]), encoding="utf-8")
         meas_path.write_text(json.dumps([_meas().model_dump(mode="json")]), encoding="utf-8")
-        code = cli_main([
-            "measurement", "compare",
-            "--predicted", str(pred_path), "--measured", str(meas_path),
-            "--out", str(tmp_path / "evidence"),
-        ])
+        code = cli_main(
+            [
+                "measurement",
+                "compare",
+                "--predicted",
+                str(pred_path),
+                "--measured",
+                str(meas_path),
+                "--out",
+                str(tmp_path / "evidence"),
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert len(payload["residuals"]) == 2
@@ -222,11 +234,18 @@ class TestReportsAndCLI:
         meas_path = tmp_path / "measurements.json"
         pred_path.write_text(json.dumps([_pred().model_dump(mode="json")]), encoding="utf-8")
         meas_path.write_text(json.dumps([_meas().model_dump(mode="json")]), encoding="utf-8")
-        code = cli_main([
-            "measurement", "calibrate",
-            "--predicted", str(pred_path), "--measured", str(meas_path),
-            "--out", str(tmp_path / "evidence"),
-        ])
+        code = cli_main(
+            [
+                "measurement",
+                "calibrate",
+                "--predicted",
+                str(pred_path),
+                "--measured",
+                str(meas_path),
+                "--out",
+                str(tmp_path / "evidence"),
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["synthetic"] is True
@@ -237,11 +256,17 @@ class TestReportsAndCLI:
         meas_path = tmp_path / "measurements.json"
         pred_path.write_text(json.dumps([_pred().model_dump(mode="json")]), encoding="utf-8")
         meas_path.write_text(json.dumps([_meas().model_dump(mode="json")]), encoding="utf-8")
-        code = cli_main([
-            "measurement", "calibrate",
-            "--predicted", str(pred_path), "--measured", str(meas_path),
-            "--production",
-        ])
+        code = cli_main(
+            [
+                "measurement",
+                "calibrate",
+                "--predicted",
+                str(pred_path),
+                "--measured",
+                str(meas_path),
+                "--production",
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["synthetic"] is False

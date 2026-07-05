@@ -86,8 +86,6 @@ def load_calibration(path: str | Path) -> CalibrationFile:
     file_path = Path(path)
     text = file_path.read_text(encoding="utf-8")
     data = (
-        yaml.safe_load(text)
-        if file_path.suffix.lower() in (".yaml", ".yml")
-        else json.loads(text)
+        yaml.safe_load(text) if file_path.suffix.lower() in (".yaml", ".yml") else json.loads(text)
     )
     return CalibrationFile.model_validate(data)

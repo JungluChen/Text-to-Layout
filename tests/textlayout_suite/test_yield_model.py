@@ -115,12 +115,20 @@ class TestJJYieldMonteCarlo:
     def test_seeded_run_is_bit_for_bit_deterministic(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         r1 = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=1000, seed=99,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=1000,
+            seed=99,
         )
         r2 = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=1000, seed=99,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=1000,
+            seed=99,
         )
         assert r1.yield_pct == r2.yield_pct
         assert r1.statistics == r2.statistics
@@ -129,12 +137,20 @@ class TestJJYieldMonteCarlo:
     def test_different_seeds_give_different_samples(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         r1 = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=1000, seed=1,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=1000,
+            seed=1,
         )
         r2 = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=1000, seed=2,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=1000,
+            seed=2,
         )
         assert r1.statistics.mean_ghz != r2.statistics.mean_ghz
 
@@ -142,19 +158,31 @@ class TestJJYieldMonteCarlo:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=1000)
         tight = run_jj_yield(
             process=_process(wafer_jc_sigma_pct=1.0, local_jc_sigma_pct=1.0, cd_sigma_nm=0.0),
-            junction=_junction(), shunt_c_pf=0.07, target=target, n_samples=3000, seed=5,
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=3000,
+            seed=5,
         )
         loose = run_jj_yield(
             process=_process(wafer_jc_sigma_pct=10.0, local_jc_sigma_pct=10.0, cd_sigma_nm=0.0),
-            junction=_junction(), shunt_c_pf=0.07, target=target, n_samples=3000, seed=5,
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=3000,
+            seed=5,
         )
         assert loose.statistics.sigma_mhz > tight.statistics.sigma_mhz
 
     def test_yield_and_confidence_interval_are_valid_percentages(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         result = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=2000, seed=3,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=2000,
+            seed=3,
         )
         assert 0.0 <= result.yield_pct <= 100.0
         low, high = result.yield_ci95_pct
@@ -163,8 +191,12 @@ class TestJJYieldMonteCarlo:
     def test_worst_corners_bound_the_distribution(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         result = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=1500, seed=11,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=1500,
+            seed=11,
         )
         frequencies = [c.frequency_ghz for c in result.worst_corners]
         assert min(frequencies) == pytest.approx(result.statistics.min_ghz)
@@ -173,13 +205,21 @@ class TestJJYieldMonteCarlo:
     def test_synthetic_flag_reflects_calibration(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         illustrative = run_jj_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_samples=200, seed=1,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=200,
+            seed=1,
         )
         assert illustrative.synthetic is True
         measured = run_jj_yield(
-            process=_process(calibration="measured_on_process"), junction=_junction(),
-            shunt_c_pf=0.07, target=target, n_samples=200, seed=1,
+            process=_process(calibration="measured_on_process"),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_samples=200,
+            seed=1,
         )
         assert measured.synthetic is False
 
@@ -187,8 +227,12 @@ class TestJJYieldMonteCarlo:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         with pytest.raises(ValueError):
             run_jj_yield(
-                process=_process(), junction=_junction(), shunt_c_pf=0.07,
-                target=target, n_samples=10, seed=1,
+                process=_process(),
+                junction=_junction(),
+                shunt_c_pf=0.07,
+                target=target,
+                n_samples=10,
+                seed=1,
             )
 
 
@@ -196,12 +240,22 @@ class TestQubitArrayYield:
     def test_deterministic_under_seed(self) -> None:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         r1 = run_qubit_array_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_qubits=8, n_chips=300, seed=42,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_qubits=8,
+            n_chips=300,
+            seed=42,
         )
         r2 = run_qubit_array_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_qubits=8, n_chips=300, seed=42,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_qubits=8,
+            n_chips=300,
+            seed=42,
         )
         assert r1.chip_yield_pct == r2.chip_yield_pct
         assert r1.hit_rate == r2.hit_rate
@@ -210,8 +264,13 @@ class TestQubitArrayYield:
         """All-must-pass yield can never exceed the single-qubit hit rate."""
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         result = run_qubit_array_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_qubits=8, n_chips=500, seed=7,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_qubits=8,
+            n_chips=500,
+            seed=7,
         )
         assert result.chip_yield_pct <= result.hit_rate * 100.0 + 1e-6
 
@@ -219,8 +278,13 @@ class TestQubitArrayYield:
         """The headline result: independent per-qubit variation compounds badly."""
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         result = run_qubit_array_yield(
-            process=_process(), junction=_junction(), shunt_c_pf=0.07,
-            target=target, n_qubits=40, n_chips=300, seed=42,
+            process=_process(),
+            junction=_junction(),
+            shunt_c_pf=0.07,
+            target=target,
+            n_qubits=40,
+            n_chips=300,
+            seed=42,
         )
         assert result.n_qubits_per_chip == 40
         assert result.chip_yield_pct < result.hit_rate * 100.0
@@ -230,20 +294,44 @@ class TestQubitArrayYield:
         target = FrequencyTarget(target_ghz=4.7, tolerance_mhz=50)
         with pytest.raises(ValueError):
             run_qubit_array_yield(
-                process=_process(), junction=_junction(), shunt_c_pf=0.07,
-                target=target, n_qubits=4, n_chips=10, seed=1,
+                process=_process(),
+                junction=_junction(),
+                shunt_c_pf=0.07,
+                target=target,
+                n_qubits=4,
+                n_chips=10,
+                seed=1,
             )
 
 
 class TestYieldCLI:
     def test_cli_yield_jj(self, capsys) -> None:
-        code = cli_main([
-            "yield", "jj",
-            "--jc", str(REALISTIC_JC), "--wafer-sigma-pct", "5", "--local-sigma-pct", "3",
-            "--width-um", "0.1414", "--height-um", "0.1414",
-            "--shunt-c-pf", "0.07", "--target-ghz", "4.7", "--tolerance-mhz", "50",
-            "--n-samples", "500", "--seed", "1",
-        ])
+        code = cli_main(
+            [
+                "yield",
+                "jj",
+                "--jc",
+                str(REALISTIC_JC),
+                "--wafer-sigma-pct",
+                "5",
+                "--local-sigma-pct",
+                "3",
+                "--width-um",
+                "0.1414",
+                "--height-um",
+                "0.1414",
+                "--shunt-c-pf",
+                "0.07",
+                "--target-ghz",
+                "4.7",
+                "--tolerance-mhz",
+                "50",
+                "--n-samples",
+                "500",
+                "--seed",
+                "1",
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["analysis"] == "jj"
@@ -251,13 +339,34 @@ class TestYieldCLI:
         assert payload["synthetic"] is True
 
     def test_cli_yield_qubit_array(self, capsys) -> None:
-        code = cli_main([
-            "yield", "qubit-array",
-            "--jc", str(REALISTIC_JC), "--wafer-sigma-pct", "5", "--local-sigma-pct", "3",
-            "--width-um", "0.1414", "--height-um", "0.1414",
-            "--shunt-c-pf", "0.07", "--target-ghz", "4.7", "--tolerance-mhz", "50",
-            "--n-qubits", "40", "--n-chips", "300", "--seed", "42",
-        ])
+        code = cli_main(
+            [
+                "yield",
+                "qubit-array",
+                "--jc",
+                str(REALISTIC_JC),
+                "--wafer-sigma-pct",
+                "5",
+                "--local-sigma-pct",
+                "3",
+                "--width-um",
+                "0.1414",
+                "--height-um",
+                "0.1414",
+                "--shunt-c-pf",
+                "0.07",
+                "--target-ghz",
+                "4.7",
+                "--tolerance-mhz",
+                "50",
+                "--n-qubits",
+                "40",
+                "--n-chips",
+                "300",
+                "--seed",
+                "42",
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["n_qubits_per_chip"] == 40
@@ -265,13 +374,34 @@ class TestYieldCLI:
 
     def test_cli_yield_jj_writes_evidence(self, tmp_path, capsys) -> None:
         out_dir = tmp_path / "evidence"
-        code = cli_main([
-            "yield", "jj",
-            "--jc", str(REALISTIC_JC), "--wafer-sigma-pct", "5", "--local-sigma-pct", "3",
-            "--width-um", "0.1414", "--height-um", "0.1414",
-            "--shunt-c-pf", "0.07", "--target-ghz", "4.7", "--tolerance-mhz", "50",
-            "--n-samples", "500", "--seed", "1", "--out", str(out_dir),
-        ])
+        code = cli_main(
+            [
+                "yield",
+                "jj",
+                "--jc",
+                str(REALISTIC_JC),
+                "--wafer-sigma-pct",
+                "5",
+                "--local-sigma-pct",
+                "3",
+                "--width-um",
+                "0.1414",
+                "--height-um",
+                "0.1414",
+                "--shunt-c-pf",
+                "0.07",
+                "--target-ghz",
+                "4.7",
+                "--tolerance-mhz",
+                "50",
+                "--n-samples",
+                "500",
+                "--seed",
+                "1",
+                "--out",
+                str(out_dir),
+            ]
+        )
         assert code == 0
         assert (out_dir / "jj_yield_report.json").is_file()
         assert (out_dir / "jj_yield_report.md").is_file()

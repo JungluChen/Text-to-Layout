@@ -27,7 +27,5 @@ def write_pdk(pdk: PDK, path: str | Path) -> Path:
     """Write a PDK to YAML (round-trippable with :func:`load_pdk`)."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(
-        yaml.safe_dump(pdk.model_dump(mode="json"), sort_keys=False), encoding="utf-8"
-    )
+    out.write_text(yaml.safe_dump(pdk.model_dump(mode="json"), sort_keys=False), encoding="utf-8")
     return out

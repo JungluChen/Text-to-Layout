@@ -173,8 +173,7 @@ def read_back_gds(
                 ReadbackCheck(
                     "ir_layers_known_to_technology",
                     False,
-                    f"IR layers not in technology {technology.name!r}: "
-                    f"{sorted(unknown_layers)}",
+                    f"IR layers not in technology {technology.name!r}: {sorted(unknown_layers)}",
                 )
             )
         missing = sorted(set(expected) - set(layer_polygons))
@@ -212,9 +211,7 @@ def read_back_gds(
             if min_width_um <= 0.0:
                 continue
             layer_info = technology.layer(layer_name)
-            checked_index = index_by_key.get(
-                f"{layer_info.gds_layer}/{layer_info.gds_datatype}"
-            )
+            checked_index = index_by_key.get(f"{layer_info.gds_layer}/{layer_info.gds_datatype}")
             if checked_index is None:
                 continue  # absence is reported by expected_layers_present
             region = kdb.Region(top.begin_shapes_rec(checked_index))
@@ -224,8 +221,7 @@ def read_back_gds(
             checked_width_layers += 1
             if markers:
                 width_failures.append(
-                    f"{layer_name}: {markers} drawn feature(s) narrower than "
-                    f"{min_width_um} um"
+                    f"{layer_name}: {markers} drawn feature(s) narrower than {min_width_um} um"
                 )
         if checked_width_layers:
             result.checks.append(

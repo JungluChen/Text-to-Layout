@@ -190,9 +190,7 @@ def run_qubit_array_yield(
         chip_factor = max(float(rng.normal(1.0, process.wafer_jc_sigma_pct / 100.0)), 1e-3)
         chip_ok = True
         for qubit_index in range(n_qubits):
-            jc = _sampled_jc(
-                process, chip_factor, rng, position_mm=qubit_index * qubit_pitch_mm
-            )
+            jc = _sampled_jc(process, chip_factor, rng, position_mm=qubit_index * qubit_pitch_mm)
             area = _sampled_area_um2(junction, process, rng)
             ic = ic_ua(jc, area)
             lj = lj_nh(ic)

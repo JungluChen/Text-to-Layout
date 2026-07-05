@@ -27,8 +27,10 @@ class LossChannel(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    name: str = Field(description="Channel id: substrate | metal_substrate | metal_air | "
-                                  "substrate_air | junction_dielectric")
+    name: str = Field(
+        description="Channel id: substrate | metal_substrate | metal_air | "
+        "substrate_air | junction_dielectric"
+    )
     material: str = Field(description="Human-readable material, e.g. 'high-resistivity Si'.")
     tan_delta: float = Field(gt=0.0, description="Loss tangent (dimensionless).")
     thickness_nm: float | None = Field(
@@ -111,7 +113,7 @@ def illustrative_silicon_db() -> MaterialsDB:
                 thickness_nm=2.0,
                 epsilon_r=10.0,
                 source="illustrative placeholder; junction-loss participation is "
-                       "process-specific and NOT modelled by the analytical backend",
+                "process-specific and NOT modelled by the analytical backend",
             ),
         },
         notes=[

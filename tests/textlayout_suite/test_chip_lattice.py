@@ -122,7 +122,9 @@ class TestCollisionDetection:
             name="readout_collision",
             nodes=[
                 QubitNode(
-                    qubit_id="Q1", target_freq_ghz=6.500, readout_freq_ghz=6.510,
+                    qubit_id="Q1",
+                    target_freq_ghz=6.500,
+                    readout_freq_ghz=6.510,
                     freq_sigma_mhz=5.0,
                 )
             ],
@@ -139,11 +141,7 @@ class TestCollisionDetection:
                 QubitNode(qubit_id="Q1", target_freq_ghz=5.000, freq_sigma_mhz=5.0),
                 QubitNode(qubit_id="Q2", target_freq_ghz=5.500, freq_sigma_mhz=5.0),
             ],
-            edges=[
-                CouplerEdge(
-                    node_a="Q1", node_b="Q2", coupler_freq_ghz=5.010, coupling_mhz=5.0
-                )
-            ],
+            edges=[CouplerEdge(node_a="Q1", node_b="Q2", coupler_freq_ghz=5.010, coupling_mhz=5.0)],
         )
         report = analyze_nominal(lattice)
         coupler_findings = [f for f in report.findings if f.rule == "qubit_coupler"]
@@ -251,11 +249,22 @@ class TestReportsAndCLI:
 
     def test_cli_chip_analyze(self, tmp_path, capsys) -> None:
         lattice_path = tmp_path / "lattice.json"
-        lattice_path.write_text(_pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8")
-        code = cli_main([
-            "chip", "analyze", str(lattice_path),
-            "--n-samples", "500", "--seed", "1", "--out", str(tmp_path / "evidence"),
-        ])
+        lattice_path.write_text(
+            _pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8"
+        )
+        code = cli_main(
+            [
+                "chip",
+                "analyze",
+                str(lattice_path),
+                "--n-samples",
+                "500",
+                "--seed",
+                "1",
+                "--out",
+                str(tmp_path / "evidence"),
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["lattice_name"] == "pair"
@@ -263,20 +272,40 @@ class TestReportsAndCLI:
 
     def test_cli_chip_analyze_strict_exits_nonzero_on_collision(self, tmp_path, capsys) -> None:
         lattice_path = tmp_path / "lattice.json"
-        lattice_path.write_text(_pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8")
-        code = cli_main([
-            "chip", "analyze", str(lattice_path), "--n-samples", "500", "--strict",
-        ])
+        lattice_path.write_text(
+            _pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8"
+        )
+        code = cli_main(
+            [
+                "chip",
+                "analyze",
+                str(lattice_path),
+                "--n-samples",
+                "500",
+                "--strict",
+            ]
+        )
         assert code == 2
         capsys.readouterr()
 
     def test_cli_chip_optimize(self, tmp_path, capsys) -> None:
         lattice_path = tmp_path / "lattice.json"
-        lattice_path.write_text(_pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8")
-        code = cli_main([
-            "chip", "optimize", str(lattice_path),
-            "--max-retune-mhz", "100", "--step-mhz", "5", "--out", str(tmp_path / "evidence"),
-        ])
+        lattice_path.write_text(
+            _pair_lattice(f1=5.000, f2=5.010).model_dump_json(), encoding="utf-8"
+        )
+        code = cli_main(
+            [
+                "chip",
+                "optimize",
+                str(lattice_path),
+                "--max-retune-mhz",
+                "100",
+                "--step-mhz",
+                "5",
+                "--out",
+                str(tmp_path / "evidence"),
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["after"]["schema_version"]

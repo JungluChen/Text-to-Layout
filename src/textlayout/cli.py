@@ -277,12 +277,12 @@ def _cmd_measurement_calibrate(args: argparse.Namespace) -> int:
 
     predictions = _load_predictions(args.predicted)
     measurements = _load_measurements(args.measured)
-    calibration = build_calibration(
-        predictions, measurements, synthetic=not args.production
-    )
+    calibration = build_calibration(predictions, measurements, synthetic=not args.production)
     payload = calibration.to_dict()
     if args.out:
-        files = {"calibration": str(write_calibration(calibration, Path(args.out) / "calibration.yaml"))}
+        files = {
+            "calibration": str(write_calibration(calibration, Path(args.out) / "calibration.yaml"))
+        }
         files.update(write_calibration_report(calibration, args.out))
         payload["files"] = files
     print(json.dumps(payload, indent=2))
@@ -383,9 +383,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Analysis frequency (default: spec target frequency or 6 GHz).",
     )
-    p_epr.add_argument(
-        "--out", default=None, help="Directory for epr_report.json / epr_report.md."
-    )
+    p_epr.add_argument("--out", default=None, help="Directory for epr_report.json / epr_report.md.")
     p_epr.add_argument(
         "--strict",
         action="store_true",
@@ -428,55 +426,58 @@ def build_parser() -> argparse.ArgumentParser:
     def _add_process_args(p: argparse.ArgumentParser) -> None:
         p.add_argument("--jc", type=float, required=True, help="Target Jc (uA/um^2).")
         p.add_argument(
-            "--wafer-sigma-pct", type=float, required=True,
+            "--wafer-sigma-pct",
+            type=float,
+            required=True,
             help="Wafer-to-wafer Jc sigma (%% of mean).",
         )
         p.add_argument(
-            "--local-sigma-pct", type=float, required=True,
+            "--local-sigma-pct",
+            type=float,
+            required=True,
             help="Junction-to-junction local Jc sigma (%% of mean).",
         )
         p.add_argument(
-            "--cd-sigma-nm", type=float, default=0.0,
+            "--cd-sigma-nm",
+            type=float,
+            default=0.0,
             help="Lithography CD sigma per linear dimension (nm).",
         )
         p.add_argument(
-            "--area-bias-um2", type=float, default=0.0,
+            "--area-bias-um2",
+            type=float,
+            default=0.0,
             help="Systematic junction-area bias (um^2).",
         )
         p.add_argument(
-            "--gradient-pct-per-mm", type=float, default=0.0,
+            "--gradient-pct-per-mm",
+            type=float,
+            default=0.0,
             help="Optional linear Jc gradient across the chip (%% of mean per mm).",
         )
         p.add_argument("--width-um", type=float, required=True, help="Drawn junction width (um).")
-        p.add_argument(
-            "--height-um", type=float, required=True, help="Drawn junction height (um)."
-        )
-        p.add_argument(
-            "--shunt-c-pf", type=float, required=True, help="Shunt capacitance (pF)."
-        )
+        p.add_argument("--height-um", type=float, required=True, help="Drawn junction height (um).")
+        p.add_argument("--shunt-c-pf", type=float, required=True, help="Shunt capacitance (pF).")
         p.add_argument("--target-ghz", type=float, required=True, help="Target frequency (GHz).")
         p.add_argument(
-            "--tolerance-mhz", type=float, required=True,
+            "--tolerance-mhz",
+            type=float,
+            required=True,
             help="Acceptance half-window (MHz).",
         )
         p.add_argument("--seed", type=int, default=1234, help="Monte Carlo seed (reproducible).")
-        p.add_argument(
-            "--out", default=None, help="Directory for the JSON/Markdown yield report."
-        )
+        p.add_argument("--out", default=None, help="Directory for the JSON/Markdown yield report.")
 
     p_yield_jj = yield_sub.add_parser(
         "jj", help="Single junction/mode yield: frequency distribution, hit rate, CI95."
     )
     _add_process_args(p_yield_jj)
-    p_yield_jj.add_argument(
-        "--n-samples", type=int, default=5000, help="Monte Carlo sample count."
-    )
+    p_yield_jj.add_argument("--n-samples", type=int, default=5000, help="Monte Carlo sample count.")
     p_yield_jj.set_defaults(func=_cmd_yield_jj)
 
     p_yield_array = yield_sub.add_parser(
         "qubit-array",
-        help="Chip-level yield: probability that ALL qubits on a chip are simultaneously "
-        "in spec.",
+        help="Chip-level yield: probability that ALL qubits on a chip are simultaneously in spec.",
     )
     _add_process_args(p_yield_array)
     p_yield_array.add_argument(
@@ -486,7 +487,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--n-chips", type=int, default=2000, help="Simulated chips (Monte Carlo trials)."
     )
     p_yield_array.add_argument(
-        "--qubit-pitch-mm", type=float, default=1.0,
+        "--qubit-pitch-mm",
+        type=float,
+        default=1.0,
         help="Synthetic qubit placement pitch for the spatial gradient (mm).",
     )
     p_yield_array.set_defaults(func=_cmd_yield_qubit_array)
@@ -508,11 +511,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_chip_analyze.add_argument("--seed", type=int, default=1234, help="Monte Carlo seed.")
     p_chip_analyze.add_argument(
-        "--out", default=None,
+        "--out",
+        default=None,
         help="Directory for chip_yield_report.json/.md and collision_matrix.csv.",
     )
     p_chip_analyze.add_argument(
-        "--strict", action="store_true",
+        "--strict",
+        action="store_true",
         help="Exit non-zero when the nominal (target-frequency) lattice has any collision.",
     )
     p_chip_analyze.set_defaults(func=_cmd_chip_analyze)
@@ -523,18 +528,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_chip_optimize.add_argument("lattice", help="Path to a QubitLattice JSON file.")
     p_chip_optimize.add_argument(
-        "--max-retune-mhz", type=float, default=300.0,
+        "--max-retune-mhz",
+        type=float,
+        default=300.0,
         help="Max allowed retune from each qubit's original target (MHz).",
     )
     p_chip_optimize.add_argument(
         "--step-mhz", type=float, default=5.0, help="Greedy search step size (MHz)."
     )
     p_chip_optimize.add_argument(
-        "--out", default=None,
+        "--out",
+        default=None,
         help="Directory for chip_optimize_report.json/.md.",
     )
     p_chip_optimize.add_argument(
-        "--strict", action="store_true",
+        "--strict",
+        action="store_true",
         help="Exit non-zero when the optimizer does not reach a collision-free result.",
     )
     p_chip_optimize.set_defaults(func=_cmd_chip_optimize)
@@ -590,11 +599,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--measured", required=True, help="Path to a JSON list of MeasurementRecord."
     )
     p_meas_calibrate.add_argument(
-        "--production", action="store_true",
+        "--production",
+        action="store_true",
         help="Mark the resulting calibration as non-synthetic (real cooldown data only).",
     )
     p_meas_calibrate.add_argument(
-        "--out", default=None,
+        "--out",
+        default=None,
         help="Directory for calibration.yaml and calibration_report.md.",
     )
     p_meas_calibrate.set_defaults(func=_cmd_measurement_calibrate)

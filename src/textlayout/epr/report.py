@@ -14,9 +14,7 @@ def write_epr_report(result: EPRResult, out_dir: str | Path) -> dict[str, str]:
     out.mkdir(parents=True, exist_ok=True)
     json_path = out / "epr_report.json"
     md_path = out / "epr_report.md"
-    json_path.write_text(
-        json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8"
-    )
+    json_path.write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
     md_path.write_text(render_markdown(result), encoding="utf-8")
     return {"json": str(json_path), "markdown": str(md_path)}
 
