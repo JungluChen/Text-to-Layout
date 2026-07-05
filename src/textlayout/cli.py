@@ -205,6 +205,40 @@ def _cmd_chip_optimize(args: argparse.Namespace) -> int:
     return 0 if result.after.collision_free or not args.strict else 2
 
 
+def _cmd_pdk_list(args: argparse.Namespace) -> int:
+    from textlayout import build_default_workflow
+
+    workflow = build_default_workflow()
+    print(json.dumps({"technologies": workflow.technology_names}, indent=2))
+    return 0
+
+
+def _cmd_pdk_info(args: argparse.Namespace) -> int:
+    from textlayout.knowledge.technology_library import PDKS_DIR
+    from textlayout.pdk import load_pdk
+
+    for pdk_path in sorted(PDKS_DIR.glob("*.yaml")):
+        pdk = load_pdk(pdk_path)
+        if pdk.name == args.name:
+            payload = pdk.model_dump(mode="json")
+            print(json.dumps(payload, indent=2))
+            return 0
+    print(
+        json.dumps(
+            {
+                "error": "not a PDK-backed technology",
+                "message": (
+                    f"{args.name!r} is not loaded from a PDK YAML (it may be the "
+                    "built-in generic_2metal Technology, which predates the PDK "
+                    "schema). No richer PDK metadata is available."
+                ),
+            }
+        ),
+        file=sys.stderr,
+    )
+    return 1
+
+
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from textlayout.doctor import render_text, run_doctor
 
@@ -454,6 +488,24 @@ def build_parser() -> argparse.ArgumentParser:
         help="Exit non-zero when the optimizer does not reach a collision-free result.",
     )
     p_chip_optimize.set_defaults(func=_cmd_chip_optimize)
+
+    p_pdk = sub.add_parser(
+        "pdk",
+        help="Foundry PDK abstraction: list registered technologies or inspect a PDK's "
+        "full provenance and process parameters.",
+    )
+    pdk_sub = p_pdk.add_subparsers(dest="pdk_command", required=True)
+
+    p_pdk_list = pdk_sub.add_parser(
+        "list", help="List all registered technology names (LayoutSpec.technology values)."
+    )
+    p_pdk_list.set_defaults(func=_cmd_pdk_list)
+
+    p_pdk_info = pdk_sub.add_parser(
+        "info", help="Print full PDK metadata (version, foundry_validated, layers, source)."
+    )
+    p_pdk_info.add_argument("name", help="PDK name, e.g. 'example_superconducting_pdk'.")
+    p_pdk_info.set_defaults(func=_cmd_pdk_info)
 
     return parser
 

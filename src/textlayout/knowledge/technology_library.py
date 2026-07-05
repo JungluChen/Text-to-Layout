@@ -8,8 +8,12 @@ touching the engine or generators.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from textlayout.errors import UnknownTechnologyError
 from textlayout.models import LayerInfo, Technology
+
+PDKS_DIR = Path(__file__).resolve().parent / "pdks"
 
 GENERIC_2METAL = Technology(
     name="generic_2metal",
@@ -58,5 +62,27 @@ class TechnologyLibrary:
 
 
 def default_technology_library() -> TechnologyLibrary:
-    """Construct a library pre-loaded with the built-in technologies."""
-    return TechnologyLibrary([GENERIC_2METAL])
+    """Construct a library pre-loaded with the built-in technologies.
+
+    ``generic_2metal`` stays the hardcoded :class:`Technology` above for zero
+    behavior change on existing examples. Any PDK YAML under
+    ``src/textlayout/knowledge/pdks/`` is additionally loaded and registered
+    under its own PDK name (e.g. ``example_superconducting_pdk``), so new
+    designs can select a richer illustrative process via
+    ``LayoutSpec.technology`` with no CLI/API changes. A PDK that fails to
+    load is skipped, not fatal — the built-in technology must always be
+    available.
+    """
+    library = TechnologyLibrary([GENERIC_2METAL])
+    if PDKS_DIR.is_dir():
+        from textlayout.pdk import load_pdk, pdk_to_technology
+
+        for pdk_path in sorted(PDKS_DIR.glob("*.yaml")):
+            try:
+                pdk = load_pdk(pdk_path)
+            except Exception:  # noqa: BLE001 - a malformed example must not break startup
+                continue
+            if pdk.name in library:
+                continue  # generic_2metal (and any future hardcoded name) wins
+            library.register(pdk_to_technology(pdk))
+    return library

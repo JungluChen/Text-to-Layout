@@ -679,7 +679,7 @@ py -3 scripts/check_benchmarks.py
 
 ## Limitations and next work
 
-- The generic technology is not a foundry PDK.
+- The generic technology is not a foundry PDK. A richer, still-illustrative PDK schema and example (`textlayout pdk list` / `textlayout pdk info`) is documented in [docs/pdk_abstraction.md](docs/pdk_abstraction.md) — real fabrication still requires a foundry-qualified PDK.
 - Legacy `examples/benchmarks/` IDC capacitance is an analytical starting estimate; showcase examples 01 and 03 have the solver evidence stated above.
 - The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; it requires mesh convergence and finite-thickness/full-wave cross-checks.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
