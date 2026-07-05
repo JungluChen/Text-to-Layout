@@ -101,6 +101,76 @@ def _cmd_epr(args: argparse.Namespace) -> int:
     return 0 if result.status != "SKIPPED_SOLVER_ABSENT" or not args.strict else 3
 
 
+def _cmd_yield_jj(args: argparse.Namespace) -> int:
+    from textlayout.yield_model import (
+        FrequencyTarget,
+        JJProcessModel,
+        JunctionGeometry,
+        run_jj_yield,
+        write_yield_report,
+    )
+
+    process = JJProcessModel(
+        target_jc_ua_per_um2=args.jc,
+        wafer_jc_sigma_pct=args.wafer_sigma_pct,
+        local_jc_sigma_pct=args.local_sigma_pct,
+        cd_sigma_nm=args.cd_sigma_nm,
+        junction_area_bias_um2=args.area_bias_um2,
+        spatial_gradient_pct_per_mm=args.gradient_pct_per_mm,
+    )
+    junction = JunctionGeometry(width_um=args.width_um, height_um=args.height_um)
+    target = FrequencyTarget(target_ghz=args.target_ghz, tolerance_mhz=args.tolerance_mhz)
+    result = run_jj_yield(
+        process=process,
+        junction=junction,
+        shunt_c_pf=args.shunt_c_pf,
+        target=target,
+        n_samples=args.n_samples,
+        seed=args.seed,
+    )
+    payload = result.to_dict()
+    if args.out:
+        payload["files"] = write_yield_report(result, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
+def _cmd_yield_qubit_array(args: argparse.Namespace) -> int:
+    from textlayout.yield_model import (
+        FrequencyTarget,
+        JJProcessModel,
+        JunctionGeometry,
+        run_qubit_array_yield,
+        write_yield_report,
+    )
+
+    process = JJProcessModel(
+        target_jc_ua_per_um2=args.jc,
+        wafer_jc_sigma_pct=args.wafer_sigma_pct,
+        local_jc_sigma_pct=args.local_sigma_pct,
+        cd_sigma_nm=args.cd_sigma_nm,
+        junction_area_bias_um2=args.area_bias_um2,
+        spatial_gradient_pct_per_mm=args.gradient_pct_per_mm,
+    )
+    junction = JunctionGeometry(width_um=args.width_um, height_um=args.height_um)
+    target = FrequencyTarget(target_ghz=args.target_ghz, tolerance_mhz=args.tolerance_mhz)
+    result = run_qubit_array_yield(
+        process=process,
+        junction=junction,
+        shunt_c_pf=args.shunt_c_pf,
+        target=target,
+        n_qubits=args.n_qubits,
+        n_chips=args.n_chips,
+        qubit_pitch_mm=args.qubit_pitch_mm,
+        seed=args.seed,
+    )
+    payload = result.to_dict()
+    if args.out:
+        payload["files"] = write_yield_report(result, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from textlayout.doctor import render_text, run_doctor
 
@@ -229,6 +299,79 @@ def build_parser() -> argparse.ArgumentParser:
     p_srv.add_argument("--host", default="127.0.0.1")
     p_srv.add_argument("--port", type=int, default=8000)
     p_srv.set_defaults(func=_cmd_serve)
+
+    p_yield = sub.add_parser(
+        "yield",
+        help="JJ critical-current variability / fabrication-yield Monte Carlo. "
+        "Drawing one SQUID loop proves geometry, not manufacturability.",
+    )
+    yield_sub = p_yield.add_subparsers(dest="yield_command", required=True)
+
+    def _add_process_args(p: argparse.ArgumentParser) -> None:
+        p.add_argument("--jc", type=float, required=True, help="Target Jc (uA/um^2).")
+        p.add_argument(
+            "--wafer-sigma-pct", type=float, required=True,
+            help="Wafer-to-wafer Jc sigma (%% of mean).",
+        )
+        p.add_argument(
+            "--local-sigma-pct", type=float, required=True,
+            help="Junction-to-junction local Jc sigma (%% of mean).",
+        )
+        p.add_argument(
+            "--cd-sigma-nm", type=float, default=0.0,
+            help="Lithography CD sigma per linear dimension (nm).",
+        )
+        p.add_argument(
+            "--area-bias-um2", type=float, default=0.0,
+            help="Systematic junction-area bias (um^2).",
+        )
+        p.add_argument(
+            "--gradient-pct-per-mm", type=float, default=0.0,
+            help="Optional linear Jc gradient across the chip (%% of mean per mm).",
+        )
+        p.add_argument("--width-um", type=float, required=True, help="Drawn junction width (um).")
+        p.add_argument(
+            "--height-um", type=float, required=True, help="Drawn junction height (um)."
+        )
+        p.add_argument(
+            "--shunt-c-pf", type=float, required=True, help="Shunt capacitance (pF)."
+        )
+        p.add_argument("--target-ghz", type=float, required=True, help="Target frequency (GHz).")
+        p.add_argument(
+            "--tolerance-mhz", type=float, required=True,
+            help="Acceptance half-window (MHz).",
+        )
+        p.add_argument("--seed", type=int, default=1234, help="Monte Carlo seed (reproducible).")
+        p.add_argument(
+            "--out", default=None, help="Directory for the JSON/Markdown yield report."
+        )
+
+    p_yield_jj = yield_sub.add_parser(
+        "jj", help="Single junction/mode yield: frequency distribution, hit rate, CI95."
+    )
+    _add_process_args(p_yield_jj)
+    p_yield_jj.add_argument(
+        "--n-samples", type=int, default=5000, help="Monte Carlo sample count."
+    )
+    p_yield_jj.set_defaults(func=_cmd_yield_jj)
+
+    p_yield_array = yield_sub.add_parser(
+        "qubit-array",
+        help="Chip-level yield: probability that ALL qubits on a chip are simultaneously "
+        "in spec.",
+    )
+    _add_process_args(p_yield_array)
+    p_yield_array.add_argument(
+        "--n-qubits", type=int, required=True, help="Qubits per chip that must all pass."
+    )
+    p_yield_array.add_argument(
+        "--n-chips", type=int, default=2000, help="Simulated chips (Monte Carlo trials)."
+    )
+    p_yield_array.add_argument(
+        "--qubit-pitch-mm", type=float, default=1.0,
+        help="Synthetic qubit placement pitch for the spatial gradient (mm).",
+    )
+    p_yield_array.set_defaults(func=_cmd_yield_qubit_array)
 
     return parser
 
