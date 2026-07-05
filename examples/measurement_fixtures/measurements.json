@@ -1,0 +1,38 @@
+[
+  {
+    "device_id": "D001",
+    "wafer_id": "W17",
+    "design_hash": "idc_0p6pf_v1",
+    "measured_frequency_ghz": 6.05,
+    "measured_capacitance_pf": 0.615,
+    "temperature_k": 0.015,
+    "cooldown_id": "CD-2026-01",
+    "notes": [
+      "Synthetic example measurement, not a real cooldown."
+    ]
+  },
+  {
+    "device_id": "D002",
+    "wafer_id": "W17",
+    "design_hash": "spiral_3nh_v1",
+    "measured_frequency_ghz": 5.7,
+    "measured_inductance_nh": 3.12,
+    "temperature_k": 0.015,
+    "cooldown_id": "CD-2026-01",
+    "notes": [
+      "Synthetic example measurement, not a real cooldown."
+    ]
+  },
+  {
+    "device_id": "D003",
+    "wafer_id": "W17",
+    "design_hash": "resonator_6ghz_v1",
+    "measured_frequency_ghz": 6.02,
+    "measured_q": 9500.0,
+    "temperature_k": 0.015,
+    "cooldown_id": "CD-2026-01",
+    "notes": [
+      "Synthetic example measurement, not a real cooldown."
+    ]
+  }
+]

@@ -24,6 +24,7 @@ from textlayout.schemas.dsl import LayoutSpec
 if TYPE_CHECKING:  # pragma: no cover
     from textlayout.chip_lattice import QubitLattice
     from textlayout.epr import EPRResult
+    from textlayout.measurement import MeasurementRecord, SimulatedPrediction
 
 
 def _load_spec(path: str) -> LayoutSpec:
@@ -237,6 +238,55 @@ def _cmd_pdk_info(args: argparse.Namespace) -> int:
         file=sys.stderr,
     )
     return 1
+
+
+def _load_predictions(path: str) -> "list[SimulatedPrediction]":
+    from textlayout.measurement import SimulatedPrediction
+
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    return [SimulatedPrediction.model_validate(item) for item in data]
+
+
+def _load_measurements(path: str) -> "list[MeasurementRecord]":
+    from textlayout.measurement import MeasurementRecord
+
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    return [MeasurementRecord.model_validate(item) for item in data]
+
+
+def _cmd_measurement_compare(args: argparse.Namespace) -> int:
+    from textlayout.measurement import compare_all, pair_by_design_hash, write_comparison_report
+
+    predictions = _load_predictions(args.predicted)
+    measurements = _load_measurements(args.measured)
+    pairs = pair_by_design_hash(predictions, measurements)
+    residuals = compare_all(pairs)
+    payload: dict[str, object] = {"residuals": [r.model_dump(mode="json") for r in residuals]}
+    if args.out:
+        payload["files"] = write_comparison_report(residuals, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
+def _cmd_measurement_calibrate(args: argparse.Namespace) -> int:
+    from textlayout.measurement import (
+        build_calibration,
+        write_calibration,
+        write_calibration_report,
+    )
+
+    predictions = _load_predictions(args.predicted)
+    measurements = _load_measurements(args.measured)
+    calibration = build_calibration(
+        predictions, measurements, synthetic=not args.production
+    )
+    payload = calibration.to_dict()
+    if args.out:
+        files = {"calibration": str(write_calibration(calibration, Path(args.out) / "calibration.yaml"))}
+        files.update(write_calibration_report(calibration, args.out))
+        payload["files"] = files
+    print(json.dumps(payload, indent=2))
+    return 0
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
@@ -506,6 +556,48 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_pdk_info.add_argument("name", help="PDK name, e.g. 'example_superconducting_pdk'.")
     p_pdk_info.set_defaults(func=_cmd_pdk_info)
+
+    p_measurement = sub.add_parser(
+        "measurement",
+        help="Simulation-vs-measurement correlation: the path from illustrative to "
+        "fab-calibrated numbers.",
+    )
+    measurement_sub = p_measurement.add_subparsers(dest="measurement_command", required=True)
+
+    p_meas_compare = measurement_sub.add_parser(
+        "compare",
+        help="Residual table: simulated/predicted vs measured, per device per quantity.",
+    )
+    p_meas_compare.add_argument(
+        "--predicted", required=True, help="Path to a JSON list of SimulatedPrediction."
+    )
+    p_meas_compare.add_argument(
+        "--measured", required=True, help="Path to a JSON list of MeasurementRecord."
+    )
+    p_meas_compare.add_argument(
+        "--out", default=None, help="Directory for measurement_comparison.json/.md."
+    )
+    p_meas_compare.set_defaults(func=_cmd_measurement_compare)
+
+    p_meas_calibrate = measurement_sub.add_parser(
+        "calibrate",
+        help="Fit capacitance/inductance/loss-tangent/Jc correction factors from measurements.",
+    )
+    p_meas_calibrate.add_argument(
+        "--predicted", required=True, help="Path to a JSON list of SimulatedPrediction."
+    )
+    p_meas_calibrate.add_argument(
+        "--measured", required=True, help="Path to a JSON list of MeasurementRecord."
+    )
+    p_meas_calibrate.add_argument(
+        "--production", action="store_true",
+        help="Mark the resulting calibration as non-synthetic (real cooldown data only).",
+    )
+    p_meas_calibrate.add_argument(
+        "--out", default=None,
+        help="Directory for calibration.yaml and calibration_report.md.",
+    )
+    p_meas_calibrate.set_defaults(func=_cmd_measurement_calibrate)
 
     return parser
 
