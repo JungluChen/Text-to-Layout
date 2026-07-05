@@ -112,16 +112,24 @@ def parse_prompt(prompt: str) -> DesignIntent:
         target["capacitance_pf"] = round(
             float(cap.group(1)) * _CAP_UNIT_TO_PF[cap.group(2).lower()], 6
         )
-    freq = _FREQUENCY_RE.search(text)
-    if freq:
-        target["frequency_ghz"] = round(
-            float(freq.group(1)) * _FREQ_UNIT_TO_GHZ[freq.group(2).lower()], 6
-        )
+    # Parse bandwidth first and blank its span out of the frequency search:
+    # "500 MHz bandwidth at 6 GHz" must not read 0.5 GHz as the frequency.
     bandwidth = _BANDWIDTH_RE.search(text)
     if bandwidth:
         target["bandwidth_mhz"] = round(
             float(bandwidth.group(1)) * (1000.0 if bandwidth.group(2).lower() == "ghz" else 1.0),
             6,
+        )
+    frequency_text = (
+        text[: bandwidth.start()] + " " * (bandwidth.end() - bandwidth.start())
+        + text[bandwidth.end():]
+        if bandwidth
+        else text
+    )
+    freq = _FREQUENCY_RE.search(frequency_text)
+    if freq:
+        target["frequency_ghz"] = round(
+            float(freq.group(1)) * _FREQ_UNIT_TO_GHZ[freq.group(2).lower()], 6
         )
     gain = _GAIN_RE.search(text)
     if gain:

@@ -130,9 +130,11 @@ def read_back_gds(
     polygon_count = 0
     label_count = 0
     layer_polygons: dict[str, int] = {}
+    index_by_key: dict[str, int] = {}
     for layer_index in layout.layer_indexes():
         info = layout.get_info(layer_index)
         key = f"{info.layer}/{info.datatype}"
+        index_by_key[key] = layer_index
         count = 0
         for cell in layout.each_cell():
             shapes = cell.shapes(layer_index)
@@ -155,13 +157,26 @@ def read_back_gds(
 
     if geometry is not None and technology is not None:
         expected: dict[str, int] = {}
+        unknown_layers: set[str] = set()
         for polygon in geometry.polygons:
-            if technology.has_layer(polygon.layer):
-                layer_info = technology.layer(polygon.layer)
-                key = f"{layer_info.gds_layer}/{layer_info.gds_datatype}"
-            else:
-                key = "0/0"
+            if not technology.has_layer(polygon.layer):
+                # Never mirror an exporter fallback here: an IR layer the
+                # technology does not know is a verification failure, not a
+                # remapping to layer 0/0.
+                unknown_layers.add(polygon.layer)
+                continue
+            layer_info = technology.layer(polygon.layer)
+            key = f"{layer_info.gds_layer}/{layer_info.gds_datatype}"
             expected[key] = expected.get(key, 0) + 1
+        if unknown_layers:
+            result.checks.append(
+                ReadbackCheck(
+                    "ir_layers_known_to_technology",
+                    False,
+                    f"IR layers not in technology {technology.name!r}: "
+                    f"{sorted(unknown_layers)}",
+                )
+            )
         missing = sorted(set(expected) - set(layer_polygons))
         result.checks.append(
             ReadbackCheck(
@@ -184,6 +199,45 @@ def read_back_gds(
                 else f"(expected, found) per layer: {mismatched}",
             )
         )
+        # Polygon-exact minimum-width DRC on the file itself. Parameter checks
+        # validate the *inputs*; this measures the *drawn* geometry with
+        # KLayout's width_check, so a generator bug producing a sub-rule
+        # feature fails readback even when its parameters looked legal.
+        width_failures: list[str] = []
+        checked_width_layers = 0
+        for layer_name in sorted({polygon.layer for polygon in geometry.polygons}):
+            if not technology.has_layer(layer_name):
+                continue
+            min_width_um = technology.min_width_for(layer_name)
+            if min_width_um <= 0.0:
+                continue
+            layer_info = technology.layer(layer_name)
+            checked_index = index_by_key.get(
+                f"{layer_info.gds_layer}/{layer_info.gds_datatype}"
+            )
+            if checked_index is None:
+                continue  # absence is reported by expected_layers_present
+            region = kdb.Region(top.begin_shapes_rec(checked_index))
+            region.merge()
+            limit_dbu = int(round(min_width_um / layout.dbu))
+            markers = sum(1 for _ in region.width_check(limit_dbu).each())
+            checked_width_layers += 1
+            if markers:
+                width_failures.append(
+                    f"{layer_name}: {markers} drawn feature(s) narrower than "
+                    f"{min_width_um} um"
+                )
+        if checked_width_layers:
+            result.checks.append(
+                ReadbackCheck(
+                    "drawn_min_width",
+                    not width_failures,
+                    f"{checked_width_layers} layer(s) width-checked"
+                    if not width_failures
+                    else "; ".join(width_failures),
+                )
+            )
+
         if not geometry.is_empty and not empty:
             ir_bbox = geometry.bbox()
             width_ok = abs(ir_bbox.width - bbox.width()) <= _BBOX_TOLERANCE_UM

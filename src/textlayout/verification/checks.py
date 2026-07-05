@@ -196,6 +196,13 @@ def check_idc_no_shorts(ctx: VerificationContext) -> Check | None:
     )
     p1 = nets.get(net_names[0], [])
     p2 = nets.get(net_names[1], [])
+    if not p1 or not p2:
+        return Check(
+            "idc_no_comb_shorts",
+            CheckStatus.FAIL,
+            f"IDC net lists {net_names[0]}/{net_names[1]} are empty; "
+            "cannot verify comb clearance.",
+        )
     clearance = min(
         _polygon_gap(ctx.geometry.polygons[i], ctx.geometry.polygons[j]) for i in p1 for j in p2
     )
@@ -221,8 +228,16 @@ def check_geometry_spacing(ctx: VerificationContext) -> Check:
             continue
         limit = ctx.technology.min_spacing_for(layer)
         polys = ctx.geometry.on_layer(layer)
+        # Bounding-box pre-filter: if two boxes are already >= limit apart, the
+        # exact edge-to-edge gap cannot be smaller — skip the O(edges^2) math.
+        # This keeps the exact check but drops the quadratic constant for
+        # large tiles where most polygon pairs are far apart.
+        boxes = [_poly_bbox(poly) for poly in polys]
+        limit_sq = limit * limit
         for i in range(len(polys)):
             for j in range(i + 1, len(polys)):
+                if _bbox_gap_sq(boxes[i], boxes[j]) >= limit_sq:
+                    continue
                 gap = _polygon_gap(polys[i], polys[j])
                 if 0.0 < gap < limit - _EPS and (worst is None or gap < worst[1]):
                     worst = (layer, gap, limit)
@@ -359,6 +374,21 @@ DEFAULT_CHECKS = (
     check_geometry_spacing,
     check_analytical_estimate,
 )
+
+
+def _poly_bbox(poly: Polygon) -> tuple[float, float, float, float]:
+    xs = [p[0] for p in poly.points]
+    ys = [p[1] for p in poly.points]
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def _bbox_gap_sq(
+    a: tuple[float, float, float, float], b: tuple[float, float, float, float]
+) -> float:
+    """Squared axis-aligned separation of two bboxes (0.0 when they touch/overlap)."""
+    dx = max(a[0] - b[2], b[0] - a[2], 0.0)
+    dy = max(a[1] - b[3], b[1] - a[3], 0.0)
+    return dx * dx + dy * dy
 
 
 def _polygon_gap(a: Polygon, b: Polygon) -> float:

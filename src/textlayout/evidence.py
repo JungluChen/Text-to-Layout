@@ -188,6 +188,11 @@ def compare_extracted_to_target(
     """
     if target_value == 0:
         raise EvidenceError("target_value must be non-zero to compute a relative error")
+    if target_unit.strip().lower() != extracted_unit.strip().lower():
+        raise EvidenceError(
+            f"unit mismatch: target in {target_unit!r}, extracted in "
+            f"{extracted_unit!r}; convert to a common unit before comparison"
+        )
     error_percent = abs(extracted_value - target_value) / abs(target_value) * 100.0
     status = (
         EvidenceStatus.PHYSICS_VERIFIED

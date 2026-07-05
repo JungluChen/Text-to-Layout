@@ -83,6 +83,15 @@ class PromptParseError(TextLayoutError):
         super().__init__(detail)
 
 
+class WorkflowStateError(TextLayoutError):
+    """Raised when a workflow node runs with state its stage contract forbids.
+
+    Runtime replacement for ``assert`` statements in the workflow: unlike
+    asserts these survive ``python -O`` and carry a message naming the violated
+    precondition instead of failing later on ``None`` state.
+    """
+
+
 class VerificationFailedError(TextLayoutError):
     """Raised when an endpoint requires an artifact but verification failed."""
 

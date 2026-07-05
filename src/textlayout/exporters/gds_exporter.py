@@ -99,8 +99,13 @@ def canonicalize_gds(path: str | Path, *, cell_name: str) -> Path:
     layout = kdb.Layout()
     layout.read(str(path))
     tops = layout.top_cells()
-    if len(tops) == 1:
-        tops[0].name = cell_name
+    if len(tops) != 1:
+        raise ExportError(
+            f"canonicalize_gds expected exactly 1 top cell in {path}, found "
+            f"{len(tops)} ({[cell.name for cell in tops]}); a skipped rename would "
+            "silently reintroduce byte churn in committed artifacts."
+        )
+    tops[0].name = cell_name
     options = kdb.SaveLayoutOptions()
     # GDSII BGNLIB/BGNSTR records carry a wall-clock timestamp (1 s resolution);
     # disabling it is what makes the bytes byte-identical across separate runs.
@@ -110,10 +115,14 @@ def canonicalize_gds(path: str | Path, *, cell_name: str) -> Path:
 
 
 def _layer_tuple(tech: Technology, layer_name: str) -> tuple[int, int]:
-    if tech.has_layer(layer_name):
-        info = tech.layer(layer_name)
-        return (info.gds_layer, info.gds_datatype)
-    return (0, 0)
+    if not tech.has_layer(layer_name):
+        raise ExportError(
+            f"Layer {layer_name!r} is not defined in technology {tech.name!r} "
+            f"(have {sorted(tech.layers)}); refusing to write GDS with a guessed "
+            "layer number."
+        )
+    info = tech.layer(layer_name)
+    return (info.gds_layer, info.gds_datatype)
 
 
 def _safe_name(name: str) -> str:

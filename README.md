@@ -38,9 +38,12 @@ simulation/josim/circuit_jj.cir JJ-ready transient deck when requested
 report.md            target-vs-result report with explicit evidence status
 ```
 
-`textlayout` is the main product package and owns all new CLI, API, layout,
-solver, optimization, and reporting code. `text_to_gds` is legacy compatibility
-code and is not the expansion path.
+**Naming:** the repository is *Text-to-Layout*, the installable Python
+distribution is `text-to-gds` (historical name), and the supported product
+package you import and run is `textlayout`. `textlayout` owns all new CLI, API,
+layout, solver, optimization, and reporting code. `text_to_gds` is frozen
+legacy compatibility code (the MCP-server surface) and is not the expansion
+path.
 
 FasterCap/FastCap performs geometry-based electrostatic capacitance extraction.
 JoSIM performs superconducting circuit transient simulation. JoSIM is not an EM
@@ -99,6 +102,8 @@ flowchart LR
 
 ## Installation
 
+Python 3.11+ is required.
+
 ```bash
 git clone https://github.com/JungluChen/Text-to-Layout
 cd Text-to-Layout
@@ -108,7 +113,13 @@ python -m pip install -U pip
 pip install -e ".[dev]"
 ```
 
-Or with `uv`: `py -3 -m uv sync`.
+Or with `uv`: `uv sync` (Windows: `py -3 -m uv sync`).
+
+Install the repository's agent skills:
+
+```bash
+npx skills install JungluChen/Text-to-Layout
+```
 
 Install the supported WSL FastHenry build with:
 
@@ -376,28 +387,6 @@ planned, and executed work. See the
 | SQUID                  | Option B experimental           | Symmetric loop, analytical L/Josephson estimates, conditional JoSIM RCSJ deck; not foundry-qualified |
 | Test structure         | Conditional solver closed loop  | IDC + CPW launches; FasterCap extracts the documented IDC region only                                |
 | Test chip tile         | Geometry + readback only        | IDC + CPW + spiral + alignment marks + stroke-font title; per-sub-device analytical estimates        |
-
-## Install
-
-Python 3.11+ is required.
-
-```bash
-git clone https://github.com/JungluChen/Text-to-Layout.git
-cd Text-to-Layout
-py -3 -m pip install -e .
-```
-
-With `uv`:
-
-```bash
-py -3 -m uv sync
-```
-
-Install the repository's agent skills:
-
-```bash
-npx skills install JungluChen/Text-to-Layout
-```
 
 ## Generate the IDC example
 
@@ -692,11 +681,10 @@ py -3 scripts/check_benchmarks.py
 
 - The generic technology is not a foundry PDK.
 - Legacy `examples/benchmarks/` IDC capacitance is an analytical starting estimate; showcase examples 01 and 03 have the solver evidence stated above.
-- The Level 2 FasterCap model uses zero-thickness panels and an effective dielectric; it requires mesh convergence and higher-fidelity correlation.
+- The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; it requires mesh convergence and finite-thickness/full-wave cross-checks.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
 - **PHYSICS_VERIFIED currently exists for showcase examples 01 and 04, plus the embedded IDC region of example 03.** Other scopes remain analytical, prepared, or honestly skipped unless their solver evidence says otherwise.
-- The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; finite-thickness/full-wave cross-checks are still required.
 - **Nothing in this repository is FABRICATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.
 
 ## Development SOP

@@ -515,7 +515,7 @@ def simulate_and_evidence(
     ), simulation
 
 
-def _write_json(path: Path, payload: dict[str, Any]) -> str:
+def write_json(path: Path, payload: dict[str, Any]) -> str:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -591,7 +591,7 @@ def _extraction_status_label(simulation: SimulationResult, quantity: str = "capa
     return "EXTRACTION_INPUT_PREPARED"
 
 
-def _capacitance_result_payload(
+def capacitance_result_payload(
     simulation: SimulationResult, evidence: QuantityEvidence
 ) -> dict[str, Any]:
     quantity = evidence.quantity or "quantity"
@@ -620,7 +620,7 @@ def _capacitance_result_payload(
     return payload
 
 
-def _simulation_payload(
+def simulation_payload(
     intent: DesignIntent,
     evidence: QuantityEvidence,
     capacitance_simulation: SimulationResult,
@@ -750,7 +750,7 @@ _STATUS_EXPLANATIONS = {
 }
 
 
-def _resonance_checked(sim: SimulationResult) -> bool:
+def resonance_checked(sim: SimulationResult) -> bool:
     """True only for an executed run whose resonance met the LC expectation."""
     return bool(
         sim.evidence_level is not None
@@ -880,7 +880,7 @@ def _capacitance_status_label_from_evidence(evidence: QuantityEvidence) -> str:
     return "ANALYTICAL_ONLY"
 
 
-def _render_jpa_report(
+def render_jpa_report(
     intent: DesignIntent,
     spec: LayoutSpec,
     result: GenerateResult,
@@ -1056,7 +1056,7 @@ def _render_jpa_report(
         lines.append(
             f"- Geometry-level {quantity_label} output was parsed from an executed solver."
         )
-    if any(_resonance_checked(sim) for sim in circuit_sims.values()):
+    if any(resonance_checked(sim) for sim in circuit_sims.values()):
         lines.append("- At least one circuit-level resonance result passed its tolerance.")
 
     prepared = [display[name] for name, sim in circuit_sims.items() if not sim.solver_executed]

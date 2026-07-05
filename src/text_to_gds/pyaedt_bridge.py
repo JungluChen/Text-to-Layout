@@ -727,11 +727,25 @@ def _write_script(template: str, config_path: Path, output_path: Path) -> None:
     output_path.write_text(rendered, encoding="utf-8")
 
 
-def _execute_script(script_path: Path, *, solve: bool) -> dict[str, Any]:
+def _execute_script(
+    script_path: Path, *, solve: bool, timeout_seconds: int = 3600
+) -> dict[str, Any]:
     command = [sys.executable, str(script_path), "--overwrite"]
     if solve:
         command.append("--solve")
-    completed = subprocess.run(command, capture_output=True, text=True, check=False)
+    try:
+        completed = subprocess.run(
+            command, capture_output=True, text=True, check=False, timeout=timeout_seconds
+        )
+    except subprocess.TimeoutExpired as exc:
+        stdout = exc.stdout.decode(errors="replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
+        stderr = exc.stderr.decode(errors="replace") if isinstance(exc.stderr, bytes) else (exc.stderr or "")
+        return {
+            "command": command,
+            "returncode": None,
+            "stdout": stdout,
+            "stderr": stderr + f"\n[text-to-gds] AEDT script timed out after {timeout_seconds} s.",
+        }
     return {
         "command": command,
         "returncode": completed.returncode,

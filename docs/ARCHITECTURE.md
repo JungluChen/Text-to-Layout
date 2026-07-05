@@ -1,9 +1,11 @@
 # Architecture — textlayout (the supported product path)
 
-Updated: 2026-07-02 (post branch-consolidation).
-For the frozen legacy MCP package see [§ Legacy](#legacy-src-text_to_gds) below.
-The root [`ARCHITECTURE.md`](../ARCHITECTURE.md) describes that legacy pipeline
-and is historical.
+Updated: 2026-07-05 (root doc now summarizes the product path).
+For the frozen legacy MCP package see [§ Legacy](#legacy-src-text_to_gds) below;
+its full pipeline document is
+[docs/legacy/ARCHITECTURE_text_to_gds.md](legacy/ARCHITECTURE_text_to_gds.md).
+The root [`ARCHITECTURE.md`](../ARCHITECTURE.md) is a short overview of this
+document.
 
 ## The one-minute map
 

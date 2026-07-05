@@ -4,31 +4,45 @@ Every node is a small, pure-ish function ``state -> updates`` that delegates to
 the deterministic stage helpers in :mod:`textlayout.workflows.from_text`. Nodes
 never invent data: they only move the request through parse → size → DSL →
 geometry → export → readback → solver → evidence → report.
+
+Stage preconditions are enforced with :class:`WorkflowStateError` (never
+``assert``): the graph wiring guarantees them, but a violated contract must
+fail loudly even under ``python -O``.
 """
 
 from __future__ import annotations
 
 import json
+import math
 import shutil
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
 
-from textlayout.errors import PromptParseError
+from textlayout.errors import PromptParseError, WorkflowStateError
 from textlayout.prompt import parse_prompt
 from textlayout.verification.klayout_readback import read_back_gds, write_readback_json
 from textlayout.workflow.state import MAX_SOLVER_ITERATIONS, LayoutWorkflowState
 from textlayout.workflows.from_text import (
-    _capacitance_result_payload,
-    _render_jpa_report,
-    _resonance_checked,
-    _simulation_payload,
-    _write_json,
     build_spec,
+    capacitance_result_payload,
+    render_jpa_report,
+    resonance_checked,
     run_circuit_checks,
     simulate_and_evidence,
+    simulation_payload,
     size_parameters,
+    write_json,
 )
 from textlayout.workflows.generate import GenerateWorkflow
+
+_T = TypeVar("_T")
+
+
+def _required(value: _T | None, what: str) -> _T:
+    """Return ``value`` or raise when a stage runs before its inputs exist."""
+    if value is None:
+        raise WorkflowStateError(f"{what} is required at this workflow stage but is missing")
+    return value
 
 
 class PromptPipeline:
@@ -44,13 +58,12 @@ class PromptPipeline:
         out.mkdir(parents=True, exist_ok=True)
         intent = parse_prompt(state.prompt)
         files = dict(state.files)
-        files["intent"] = _write_json(out / "intent.json", intent.model_dump(mode="json"))
+        files["intent"] = write_json(out / "intent.json", intent.model_dump(mode="json"))
         return {"intent": intent, "files": files}
 
     # 2. ValidateIntent
     def validate_intent(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        intent = state.intent
-        assert intent is not None
+        intent = _required(state.intent, "parsed intent")
         layout_component = "IDC" if intent.component == "JPA" else intent.component
         known = self._generate.component_names
         if layout_component not in known:
@@ -75,18 +88,17 @@ class PromptPipeline:
 
     # 3. BuildLayoutDSL (initial sizing → validated DSL)
     def build_layout_dsl(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        intent = state.intent
-        assert intent is not None
+        intent = _required(state.intent, "parsed intent")
         out = Path(state.output_dir)
         technology = self._generate.technology(intent.technology)
         sizing = size_parameters(intent, technology, tolerance_percent=state.tolerance_percent)
         files = dict(state.files)
         if sizing.jpa_sizing is not None:
-            files["design_equations"] = _write_json(
+            files["design_equations"] = write_json(
                 out / "design_equations.json", sizing.jpa_sizing
             )
         spec = build_spec(intent, sizing)
-        files["layout"] = _write_json(out / "layout.json", spec.model_dump(mode="json"))
+        files["layout"] = write_json(out / "layout.json", spec.model_dump(mode="json"))
         return {
             "layout_dsl": spec,
             "sized_parameters": dict(sizing.parameters),
@@ -101,16 +113,15 @@ class PromptPipeline:
 
     # 4. OptimizeParameters (persist the analytical optimization record)
     def optimize_parameters(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        intent = state.intent
-        assert intent is not None
+        intent = _required(state.intent, "parsed intent")
         out = Path(state.output_dir)
         files = dict(state.files)
         if state.optimization is not None:
-            files["optimization"] = _write_json(
+            files["optimization"] = write_json(
                 out / "optimization.json", state.optimization.model_dump(mode="json")
             )
         else:
-            files["optimization"] = _write_json(
+            files["optimization"] = write_json(
                 out / "optimization.json",
                 {
                     "schema": "textlayout.analytical-sizing.v1",
@@ -125,15 +136,13 @@ class PromptPipeline:
 
     # 5. GenerateGeometry
     def generate_geometry(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        spec = state.layout_dsl
-        assert spec is not None
+        spec = _required(state.layout_dsl, "layout DSL")
         result = self._generate.run(spec, output_dir=Path(state.output_dir), stem="output")
         return {"generate": result, "geometry_status": result.report.status}
 
     # 6. ExportArtifacts
     def export_artifacts(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        result = state.generate
-        assert result is not None
+        result = _required(state.generate, "generate result")
         files = dict(state.files)
         files.update({k: v for k, v in result.files.items() if k in {"gds", "svg", "png"}})
         warnings = list(state.warnings)
@@ -145,13 +154,11 @@ class PromptPipeline:
 
     # 7. KLayoutReadback
     def klayout_readback(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        result = state.generate
-        assert result is not None
+        result = _required(state.generate, "generate result")
         gds_path = state.files.get("gds")
         if gds_path is None:
             return {"readback": None}
-        spec = state.layout_dsl
-        assert spec is not None
+        spec = _required(state.layout_dsl, "layout DSL")
         readback = read_back_gds(
             gds_path, result.geometry, self._generate.technology(spec.technology)
         )
@@ -163,14 +170,13 @@ class PromptPipeline:
 
     # 8. GeometryVerification
     def geometry_verification(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        result = state.generate
-        assert result is not None
+        result = _required(state.generate, "generate result")
         out = Path(state.output_dir)
         verification = result.report.to_dict()
         if state.readback is not None:
             verification["klayout_readback"] = state.readback.to_dict()
         files = dict(state.files)
-        files["verification"] = _write_json(out / "verification.json", verification)
+        files["verification"] = write_json(out / "verification.json", verification)
         readback_ok = state.readback.passed if state.readback is not None else False
         geometry_status = "GEOMETRY_PASS" if result.report.passed and readback_ok else "FAILED"
         return {
@@ -196,25 +202,26 @@ class PromptPipeline:
 
     # 11. ParseSolverResult
     def parse_solver_result(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        assert state.simulation is not None and state.evidence is not None
+        simulation = _required(state.simulation, "simulation record")
+        evidence = _required(state.evidence, "evidence record")
         out = Path(state.output_dir)
-        payload = _capacitance_result_payload(state.simulation, state.evidence)
+        payload = capacitance_result_payload(simulation, evidence)
         files = dict(state.files)
-        files["capacitance_result"] = _write_json(
+        files["capacitance_result"] = write_json(
             out / "extraction" / "capacitance_result.json", payload
         )
         if state.layout_dsl is not None and state.layout_dsl.component == "SpiralInductor":
-            files["fasthenry_result"] = _write_json(out / "fasthenry_result.json", payload)
+            files["fasthenry_result"] = write_json(out / "fasthenry_result.json", payload)
         elif state.layout_dsl is not None and state.layout_dsl.component in {
             "CPW", "QuarterWaveResonator"
         }:
-            files["openems_result"] = _write_json(out / "openems_result.json", payload)
+            files["openems_result"] = write_json(out / "openems_result.json", payload)
         return {"simulation_result": payload, "files": files}
 
     # 12. CompareTarget (records one solver-loop iteration and its verdict)
     def compare_target(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        assert state.evidence is not None
-        updates: dict[str, Any] = {"evidence_status": state.evidence.status.value}
+        evidence = _required(state.evidence, "evidence record")
+        updates: dict[str, Any] = {"evidence_status": evidence.status.value}
         if (
             state.optimization is not None and state.target_capacitance_pf is not None
         ) or (
@@ -222,11 +229,11 @@ class PromptPipeline:
             and state.layout_dsl.component == "SpiralInductor"
             and state.target_inductance_nh is not None
         ):
-            simulation = state.simulation
-            assert simulation is not None and state.layout_dsl is not None
+            simulation = _required(state.simulation, "simulation record")
+            layout_dsl = _required(state.layout_dsl, "layout DSL")
             generate = state.generate
             iterations = list(state.solver_iterations)
-            is_spiral = state.layout_dsl.component == "SpiralInductor"
+            is_spiral = layout_dsl.component == "SpiralInductor"
             extracted_key = "inductance_nh" if is_spiral else "mutual_capacitance_pf"
             quantity_key = "extracted_inductance_nh" if is_spiral else "extracted_capacitance_pf"
             candidate_artifacts: dict[str, str] = {}
@@ -246,7 +253,7 @@ class PromptPipeline:
             iterations.append(
                 {
                     "iteration": state.iteration + 1,
-                    "parameters": dict(state.layout_dsl.parameters),
+                    "parameters": dict(layout_dsl.parameters),
                     "solver_status": simulation.status,
                     quantity_key: simulation.extracted_quantities.get(extracted_key),
                     "target_comparison": simulation.target_comparison,
@@ -261,16 +268,21 @@ class PromptPipeline:
 
     # 12b. RetuneParameters (only reached via the conditional edge)
     def retune_parameters(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        spec = state.layout_dsl
-        simulation = state.simulation
-        assert spec is not None and simulation is not None
+        spec = _required(state.layout_dsl, "layout DSL")
+        simulation = _required(state.simulation, "simulation record")
         is_spiral = spec.component == "SpiralInductor"
-        target = state.target_inductance_nh if is_spiral else state.target_capacitance_pf
+        target = _required(
+            state.target_inductance_nh if is_spiral else state.target_capacitance_pf,
+            "design target",
+        )
         extracted = simulation.extracted_quantities.get(
             "inductance_nh" if is_spiral else "mutual_capacitance_pf"
         )
-        assert target is not None
-        assert isinstance(extracted, (int, float)) and extracted > 0
+        if not isinstance(extracted, (int, float)) or extracted <= 0:
+            raise WorkflowStateError(
+                "retune was reached without a positive solver extraction "
+                f"(got {extracted!r}); should_retune() must gate this node"
+            )
         tuned = dict(spec.parameters)
         if is_spiral:
             tuned["outer_dimension_um"] = _retuned_spiral_outer(
@@ -280,16 +292,15 @@ class PromptPipeline:
             tuned["overlap_um"] = _retuned_overlap(float(tuned["overlap_um"]), target, extracted)
         new_spec = spec.model_copy(update={"parameters": tuned})
         files = dict(state.files)
-        files["layout"] = _write_json(
+        files["layout"] = write_json(
             Path(state.output_dir) / "layout.json", new_spec.model_dump(mode="json")
         )
         return {"layout_dsl": new_spec, "files": files}
 
     # 13. RunCircuitChecks (JoSIM / PSCAN2 / WRspice when requested)
     def run_circuit_checks(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        intent = state.intent
-        evidence = state.evidence
-        assert intent is not None and evidence is not None
+        intent = _required(state.intent, "parsed intent")
+        evidence = _required(state.evidence, "evidence record")
         out = Path(state.output_dir)
         circuit_sims = run_circuit_checks(
             intent,
@@ -300,7 +311,7 @@ class PromptPipeline:
             lc_inductance_nh=state.lc_inductance_nh,
             execute_solver=state.execute_solver,
         )
-        resonance_passed = any(_resonance_checked(sim) for sim in circuit_sims.values())
+        resonance_passed = any(resonance_checked(sim) for sim in circuit_sims.values())
         circuit_failed = any(sim.status == "failed" for sim in circuit_sims.values())
         physics_verified = bool(
             evidence.is_physics_verified
@@ -312,19 +323,19 @@ class PromptPipeline:
             "physics_verified": physics_verified,
         }
         if state.optimization is not None and state.target_capacitance_pf is not None:
-            simulation = state.simulation
-            assert simulation is not None and state.layout_dsl is not None
+            simulation = _required(state.simulation, "simulation record")
+            layout_dsl = _required(state.layout_dsl, "layout DSL")
             optimization = state.optimization.model_copy(
                 update={
                     "solver_iterations": list(state.solver_iterations),
-                    "final_parameters": dict(state.layout_dsl.parameters),
+                    "final_parameters": dict(layout_dsl.parameters),
                     "final_basis": (
                         "solver_extracted" if simulation.status == "executed" else "analytical"
                     ),
                 }
             )
             files = dict(state.files)
-            files["optimization"] = _write_json(
+            files["optimization"] = write_json(
                 out / "optimization.json", optimization.model_dump(mode="json")
             )
             updates["optimization"] = optimization
@@ -334,8 +345,7 @@ class PromptPipeline:
             and state.layout_dsl.component == "SpiralInductor"
             and state.target_inductance_nh is not None
         ):
-            simulation = state.simulation
-            assert simulation is not None
+            simulation = _required(state.simulation, "simulation record")
             iterations = list(state.solver_iterations)
             comparison = simulation.target_comparison or {}
             successful = [
@@ -370,18 +380,20 @@ class PromptPipeline:
                 "reason_for_stopping": reason,
             }
             files = dict(state.files)
-            files["optimization"] = _write_json(out / "optimization.json", payload)
+            files["optimization"] = write_json(out / "optimization.json", payload)
             updates["files"] = files
         return updates
 
     # 14. GenerateReport
     def generate_report(self, state: LayoutWorkflowState) -> dict[str, Any]:
-        intent, evidence, simulation = state.intent, state.evidence, state.simulation
-        assert intent is not None and evidence is not None and simulation is not None
-        assert state.layout_dsl is not None and state.generate is not None
+        intent = _required(state.intent, "parsed intent")
+        evidence = _required(state.evidence, "evidence record")
+        simulation = _required(state.simulation, "simulation record")
+        layout_dsl = _required(state.layout_dsl, "layout DSL")
+        generate = _required(state.generate, "generate result")
         out = Path(state.output_dir)
         files = dict(state.files)
-        payload = _simulation_payload(
+        payload = simulation_payload(
             intent,
             evidence,
             simulation,
@@ -390,15 +402,15 @@ class PromptPipeline:
             jpa_sizing=state.jpa_sizing,
             physics_verified=state.physics_verified,
         )
-        files["simulation"] = _write_json(out / "simulation" / "simulation.json", payload)
-        files["simulation_legacy"] = _write_json(out / "simulation.json", payload)
+        files["simulation"] = write_json(out / "simulation" / "simulation.json", payload)
+        files["simulation_legacy"] = write_json(out / "simulation.json", payload)
 
         report_path = out / "report.md"
         report_path.write_text(
-            _render_jpa_report(
+            render_jpa_report(
                 intent,
-                state.layout_dsl,
-                state.generate,
+                layout_dsl,
+                generate,
                 state.optimization,
                 evidence,
                 state.circuit_simulations,
@@ -418,13 +430,14 @@ class PromptPipeline:
 
     # ------------------------------------------------------------------ #
     def _simulate(self, state: LayoutWorkflowState, *, execute: bool) -> tuple[Any, Any]:
-        intent = state.intent
-        assert intent is not None and state.layout_dsl is not None and state.generate is not None
+        intent = _required(state.intent, "parsed intent")
+        layout_dsl = _required(state.layout_dsl, "layout DSL")
+        generate = _required(state.generate, "generate result")
         return simulate_and_evidence(
             self._generate,
             intent,
-            state.layout_dsl,
-            state.generate,
+            layout_dsl,
+            generate,
             Path(state.output_dir),
             tolerance_percent=state.tolerance_percent,
             execute_solver=execute,
@@ -441,11 +454,15 @@ def should_retune(state: LayoutWorkflowState) -> bool:
     """
     spec = state.layout_dsl
     is_spiral = bool(spec and spec.component == "SpiralInductor")
+    target: float | None
     if is_spiral:
-        if state.target_inductance_nh is None:
+        target = state.target_inductance_nh
+        if target is None:
             return False
-    elif state.optimization is None or state.target_capacitance_pf is None:
-        return False
+    else:
+        target = state.target_capacitance_pf
+        if state.optimization is None or target is None:
+            return False
     if state.iteration >= MAX_SOLVER_ITERATIONS:
         return False
     simulation = state.simulation
@@ -464,12 +481,12 @@ def should_retune(state: LayoutWorkflowState) -> bool:
     if is_spiral:
         current = float(spec.parameters["outer_dimension_um"])
         return _retuned_spiral_outer(
-            current, state.target_inductance_nh, float(extracted), spec.parameters
+            current, target, float(extracted), spec.parameters
         ) != current
     if "overlap_um" not in spec.parameters:
         return False
     current = float(spec.parameters["overlap_um"])
-    return _retuned_overlap(current, state.target_capacitance_pf, float(extracted)) != current
+    return _retuned_overlap(current, target, float(extracted)) != current
 
 
 def _retuned_overlap(current_um: float, target_pf: float, extracted_pf: float) -> float:
@@ -492,7 +509,7 @@ def _retuned_spiral_outer(
     width = float(parameters["trace_width_um"])
     spacing = float(parameters["spacing_um"])
     minimum = 2.0 * turns * width + 2.0 * (turns - 1) * spacing + 1.0
-    scaled = current_um * (target_nh / extracted_nh) ** 0.5
+    scaled = current_um * math.sqrt(target_nh / extracted_nh)
     return round(max(minimum, min(1000.0, scaled)), 4)
 
 
