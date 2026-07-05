@@ -29,7 +29,7 @@ def render_markdown(result: EPRResult) -> str:
         f"- **Generated:** {result.timestamp}",
         "",
     ]
-    if result.status == "SKIPPED_SOLVER_ABSENT":
+    if result.status == "EPR_SKIPPED_SOLVER_ABSENT":
         lines += [
             "The requested EPR solver stack is not installed. No participation or",
             "coherence numbers are claimed.",
@@ -79,8 +79,9 @@ def render_markdown(result: EPRResult) -> str:
         "## Honesty statement",
         "",
         "Capacitance/impedance accuracy does **not** imply coherence accuracy.",
-        "An `ANALYTICAL_ONLY` participation model ranks loss channels; it does",
-        "not predict absolute T1. Only field-solved participations plus",
+        "An `EPR_ANALYTICAL_ONLY` participation model ranks loss channels; it does",
+        "not predict absolute T1. Only `FIELD_ENERGY_IMPORTED`/`EPR_EXECUTED`",
+        "participations plus",
         "process-measured loss tangents (see the measurement-calibration loop)",
         "justify quantitative coherence claims.",
         "",

@@ -13,9 +13,15 @@ same schema and the coherence math is unchanged.
 
 from __future__ import annotations
 
+from pathlib import Path
+
+import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
 MATERIALS_SCHEMA = "textlayout.loss-materials.v1"
+
+#: Built-in illustrative materials DB files, mirroring knowledge/pdks/.
+MATERIALS_DIR = Path(__file__).resolve().parents[1] / "knowledge" / "materials"
 
 #: Calibration provenance labels.
 CALIBRATION_ILLUSTRATIVE = "illustrative_literature_range"
@@ -64,61 +70,23 @@ class MaterialsDB(BaseModel):
             ) from exc
 
 
+def load_materials_db(path: str | Path) -> MaterialsDB:
+    """Parse a materials-DB YAML/JSON file. Raises on any schema violation."""
+    file_path = Path(path)
+    text = file_path.read_text(encoding="utf-8")
+    data = yaml.safe_load(text)
+    return MaterialsDB.model_validate(data)
+
+
 def illustrative_silicon_db() -> MaterialsDB:
     """Order-of-magnitude loss database for Nb/Al on high-resistivity silicon.
 
-    NOT calibrated to any foundry. Values are typical of the published
+    NOT calibrated to any foundry. Loaded from
+    ``knowledge/materials/illustrative_si_surface_loss.yaml`` so the same
+    values are reachable from disk (e.g. for a foundry to fork the file) and
+    from this convenience function. Values are typical of the published
     literature and exist so the coherence *machinery* can run and be tested;
     swap in measured values via the measurement-calibration loop before
     trusting any absolute T1 number.
     """
-    return MaterialsDB(
-        name="illustrative_si_surface_loss_v1",
-        channels={
-            "substrate": LossChannel(
-                name="substrate",
-                material="high-resistivity Si (bulk)",
-                tan_delta=1e-6,
-                epsilon_r=11.9,
-                source="illustrative; bulk HR-Si tanδ ~1e-6..1e-7 (McRae 2020 review)",
-            ),
-            "metal_substrate": LossChannel(
-                name="metal_substrate",
-                material="metal-substrate interface oxide",
-                tan_delta=2e-3,
-                thickness_nm=3.0,
-                epsilon_r=10.0,
-                source="illustrative; MS interface tanδ ~1e-3..5e-3 (Wenner 2011)",
-            ),
-            "metal_air": LossChannel(
-                name="metal_air",
-                material="metal-air surface oxide",
-                tan_delta=2e-3,
-                thickness_nm=3.0,
-                epsilon_r=10.0,
-                source="illustrative; MA interface tanδ ~1e-3..5e-3 (Wenner 2011)",
-            ),
-            "substrate_air": LossChannel(
-                name="substrate_air",
-                material="substrate-air surface layer",
-                tan_delta=2e-3,
-                thickness_nm=3.0,
-                epsilon_r=4.0,
-                source="illustrative; SA interface tanδ ~1e-3..5e-3 (Wenner 2011)",
-            ),
-            "junction_dielectric": LossChannel(
-                name="junction_dielectric",
-                material="AlOx tunnel barrier (placeholder)",
-                tan_delta=3e-3,
-                thickness_nm=2.0,
-                epsilon_r=10.0,
-                source="illustrative placeholder; junction-loss participation is "
-                "process-specific and NOT modelled by the analytical backend",
-            ),
-        },
-        notes=[
-            "ILLUSTRATIVE VALUES ONLY — not foundry-calibrated.",
-            "Use `textlayout measurement calibrate` (measurement loop) to replace "
-            "these with process-measured effective loss tangents.",
-        ],
-    )
+    return load_materials_db(MATERIALS_DIR / "illustrative_si_surface_loss.yaml")

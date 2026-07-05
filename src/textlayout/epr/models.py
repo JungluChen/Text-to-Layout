@@ -2,14 +2,24 @@
 
 Every physical number carries its unit in the field name. Every result carries
 provenance (backend, method, assumptions, timestamp) and an honesty ``status``
-drawn from the same vocabulary as the rest of the project:
+drawn from an EPR-specific five-value vocabulary (distinct from the shared
+project-wide vocabulary because an EPR analysis has more real intermediate
+states than a plain solver run — geometry can be prepared, field energy can be
+imported from a real HFSS/pyEPR export without this project having run the
+solver itself, or the whole thing can stay analytical):
 
-- ``ANALYTICAL_ONLY`` — participations come from a documented scaling model,
-  never from a field solution. This is the CI-safe default backend.
-- ``SIMULATION_EXECUTED`` — a real EPR extraction (e.g. pyEPR over HFSS
-  eigenmode fields) ran and was parsed.
-- ``SKIPPED_SOLVER_ABSENT`` — the requested EPR solver stack is not installed;
-  nothing is claimed.
+- ``EPR_INPUT_PREPARED`` — geometry/mesh input for a real EPR extraction was
+  generated; no participation has been computed yet.
+- ``FIELD_ENERGY_IMPORTED`` — a real, solver-exported field-energy file (e.g.
+  from pyEPR/HFSS) was parsed and participations were computed from it. This
+  is real solver-derived evidence even though this project did not run the
+  eigenmode solve itself.
+- ``EPR_ANALYTICAL_ONLY`` — participations come from a documented scaling
+  model, never from a field solution. This is the CI-safe default backend.
+- ``EPR_EXECUTED`` — this project ran a real EPR extraction end to end (e.g.
+  invoked pyEPR against a live HFSS project) and parsed its output directly.
+- ``EPR_SKIPPED_SOLVER_ABSENT`` — the requested EPR solver stack is not
+  installed; nothing is claimed.
 
 Capacitance accuracy does not imply coherence accuracy: a geometry can hit its
 0.6 pF target exactly and still be a poor qubit if surface-loss participation
@@ -26,9 +36,14 @@ from pydantic import BaseModel, ConfigDict, Field
 EPR_SCHEMA = "textlayout.epr-report.v1"
 
 #: Statuses an EPR analysis can honestly report.
-EPR_STATUS_ANALYTICAL = "ANALYTICAL_ONLY"
-EPR_STATUS_EXECUTED = "SIMULATION_EXECUTED"
-EPR_STATUS_SKIPPED = "SKIPPED_SOLVER_ABSENT"
+EPR_STATUS_INPUT_PREPARED = "EPR_INPUT_PREPARED"
+EPR_STATUS_FIELD_ENERGY_IMPORTED = "FIELD_ENERGY_IMPORTED"
+EPR_STATUS_ANALYTICAL = "EPR_ANALYTICAL_ONLY"
+EPR_STATUS_EXECUTED = "EPR_EXECUTED"
+EPR_STATUS_SKIPPED = "EPR_SKIPPED_SOLVER_ABSENT"
+
+#: Statuses that assert a real, solver-derived (not scaling-model) participation.
+EPR_SOLVER_BACKED_STATUSES = frozenset({EPR_STATUS_FIELD_ENERGY_IMPORTED, EPR_STATUS_EXECUTED})
 
 
 class ParticipationRecord(BaseModel):
@@ -84,7 +99,10 @@ class EPRResult(BaseModel):
     schema_version: str = Field(default=EPR_SCHEMA)
     component: str
     backend: str = Field(description="Backend name, e.g. 'analytical_surface_scaling', 'pyepr'.")
-    status: str = Field(description="ANALYTICAL_ONLY | SIMULATION_EXECUTED | SKIPPED_SOLVER_ABSENT")
+    status: str = Field(
+        description="EPR_INPUT_PREPARED | FIELD_ENERGY_IMPORTED | EPR_ANALYTICAL_ONLY | "
+        "EPR_EXECUTED | EPR_SKIPPED_SOLVER_ABSENT"
+    )
     frequency_ghz: float | None = Field(default=None, gt=0.0)
     participations: list[ParticipationRecord] = Field(default_factory=list)
     coherence: CoherenceEstimate | None = None

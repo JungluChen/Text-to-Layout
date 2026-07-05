@@ -49,6 +49,16 @@ def _cmd_prompt(args: argparse.Namespace) -> int:
         solver_executable=args.executable,
     )
     payload = result.to_dict()
+    if getattr(args, "include_epr", False):
+        from textlayout.epr import render_markdown as render_epr_markdown
+        from textlayout.epr import write_epr_report
+
+        epr_result = _run_epr(result.spec, frequency_ghz=None)
+        payload["epr"] = epr_result.to_dict()
+        payload["epr_files"] = write_epr_report(epr_result, args.out)
+        report_path = result.files.get("report")
+        if report_path:
+            _append_epr_section_to_report(Path(report_path), render_epr_markdown(epr_result))
     missing = result.missing_circuit_simulators
     if args.strict_simulation and missing:
         payload["strict_simulation_failure"] = (
@@ -77,6 +87,23 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     return 0 if result.report.passed else 2
 
 
+def _append_epr_section_to_report(report_path: Path, epr_markdown: str) -> None:
+    """Fold the EPR/coherence markdown into the main design report as one section.
+
+    Demotes the EPR report's own top-level heading by one level so it nests
+    under the design report instead of competing with it, then appends a
+    horizontal rule + the demoted section. Never overwrites — the design
+    report's capacitance/inductance content is untouched.
+    """
+    if not report_path.is_file():
+        return
+    demoted = "\n".join(
+        f"#{line}" if line.startswith("#") else line for line in epr_markdown.splitlines()
+    )
+    existing = report_path.read_text(encoding="utf-8")
+    report_path.write_text(existing.rstrip("\n") + "\n\n---\n\n" + demoted, encoding="utf-8")
+
+
 def _cmd_verify(args: argparse.Namespace) -> int:
     workflow = build_default_workflow()
     spec = _load_spec(args.spec)
@@ -99,7 +126,7 @@ def _run_epr(spec: LayoutSpec, *, frequency_ghz: float | None) -> "EPRResult":
 
 
 def _cmd_epr(args: argparse.Namespace) -> int:
-    from textlayout.epr import write_epr_report
+    from textlayout.epr import EPR_STATUS_SKIPPED, write_epr_report
 
     spec = _load_spec(args.spec)
     result = _run_epr(spec, frequency_ghz=args.frequency_ghz)
@@ -107,7 +134,7 @@ def _cmd_epr(args: argparse.Namespace) -> int:
     if args.out:
         payload["files"] = write_epr_report(result, args.out)
     print(json.dumps(payload, indent=2))
-    return 0 if result.status != "SKIPPED_SOLVER_ABSENT" or not args.strict else 3
+    return 0 if result.status != EPR_STATUS_SKIPPED or not args.strict else 3
 
 
 def _cmd_yield_jj(args: argparse.Namespace) -> int:
@@ -348,6 +375,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="Exit non-zero when a requested circuit simulator (JoSIM/PSCAN2/WRspice) "
         "is not installed. Default: prepare inputs and report the absence honestly.",
     )
+    p_prompt.add_argument(
+        "--include-epr",
+        action="store_true",
+        help="Append an EPR_ANALYTICAL_ONLY loss-participation / coherence estimate to "
+        "the design report (epr_report.json/.md alongside the usual artifacts). "
+        "Capacitance/inductance accuracy does not imply coherence accuracy.",
+    )
     p_prompt.set_defaults(func=_cmd_prompt)
 
     p_gen = sub.add_parser("generate", help="Generate verified artifacts from a DSL file.")
@@ -360,7 +394,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_ver.add_argument(
         "--include-epr",
         action="store_true",
-        help="Append an ANALYTICAL_ONLY loss-participation / coherence estimate "
+        help="Append an EPR_ANALYTICAL_ONLY loss-participation / coherence estimate "
         "to the verification report.",
     )
     p_ver.add_argument(
@@ -374,7 +408,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_epr = sub.add_parser(
         "epr",
         help="Loss-participation (EPR) and coherence estimate for a DSL file. "
-        "ANALYTICAL_ONLY by default; never a field solution.",
+        "EPR_ANALYTICAL_ONLY by default; never a field solution.",
     )
     p_epr.add_argument("spec", help="Path to a Layout DSL JSON file.")
     p_epr.add_argument(

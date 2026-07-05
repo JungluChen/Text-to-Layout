@@ -4,9 +4,10 @@ Backend contract (mirrors the FasterCap / FastHenry adapter philosophy):
 
 - ``available()`` never lies about what is installed.
 - ``analyze()`` returns an :class:`EPRResult` whose ``status`` states exactly
-  what happened: ``ANALYTICAL_ONLY`` for the scaling model,
-  ``SIMULATION_EXECUTED`` only when a real field-solved extraction was parsed,
-  ``SKIPPED_SOLVER_ABSENT`` when the requested stack is missing.
+  what happened: ``EPR_ANALYTICAL_ONLY`` for the scaling model,
+  ``FIELD_ENERGY_IMPORTED``/``EPR_EXECUTED`` only when real field-solved data
+  was parsed, ``EPR_SKIPPED_SOLVER_ABSENT`` when the requested stack is
+  missing.
 - No backend ever invents field-solved numbers.
 
 Analytical model
@@ -26,7 +27,7 @@ participation scaling model* for coplanar geometries:
   interface thickness relative to the 3 nm reference.
 
 This is a *scaling model*, not a field solution: participations carry
-``confidence=0.3`` and the result is ``ANALYTICAL_ONLY``. Its purpose is to
+``confidence=0.3`` and the result is ``EPR_ANALYTICAL_ONLY``. Its purpose is to
 make loss participation a first-class, always-available design signal and to
 rank channels — not to predict absolute T1. Capacitance accuracy from
 FasterCap does **not** imply coherence accuracy from this model.
@@ -35,12 +36,15 @@ FasterCap does **not** imply coherence accuracy from this model.
 from __future__ import annotations
 
 import importlib.util
+import json
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from textlayout.epr.coherence import estimate_coherence
 from textlayout.epr.materials import MaterialsDB, illustrative_silicon_db
 from textlayout.epr.models import (
     EPR_STATUS_ANALYTICAL,
+    EPR_STATUS_FIELD_ENERGY_IMPORTED,
     EPR_STATUS_SKIPPED,
     EPRResult,
     ParticipationRecord,
@@ -165,7 +169,7 @@ class AnalyticalEPRBackend(EPRBackend):
                 "reference": "Wenner et al., APL 99, 113513 (2011) — scale only",
             },
             notes=[
-                "ANALYTICAL_ONLY: capacitance accuracy does not imply coherence accuracy.",
+                "EPR_ANALYTICAL_ONLY: capacitance accuracy does not imply coherence accuracy.",
             ],
         )
 
@@ -173,7 +177,7 @@ class AnalyticalEPRBackend(EPRBackend):
 class PyEPRBackend(EPRBackend):
     """Adapter slot for a real pyEPR / HFSS eigenmode participation extraction.
 
-    Reports ``SKIPPED_SOLVER_ABSENT`` honestly when the pyEPR stack is not
+    Reports ``EPR_SKIPPED_SOLVER_ABSENT`` honestly when the pyEPR stack is not
     installed. When pyEPR is present, running a real extraction requires an
     HFSS project — which cannot exist in CI — so this adapter's executable path
     is exercised only in environments that provide one. It never fabricates
@@ -209,6 +213,114 @@ class PyEPRBackend(EPRBackend):
             "pyEPR is importable but driving a live HFSS eigenmode project is "
             "not wired yet; use AnalyticalEPRBackend or contribute the "
             "project-file adapter (see docs/epr_coherence.md)."
+        )
+
+
+#: Schema for the field-energy export file FieldEnergyImportBackend consumes.
+FIELD_ENERGY_EXPORT_SCHEMA = "textlayout.field-energy-export.v1"
+
+
+class FieldEnergyImportBackend(EPRBackend):
+    """Compute real participations from an already-exported field-energy file.
+
+    This is the CI-safe way to test EPR/coherence math against *real*
+    solver-shaped data without HFSS or pyEPR installed: a field-energy export
+    (the same per-region electric-energy-integral numbers a real pyEPR run
+    produces, see ``examples/epr_fixtures/field_energy_export_example.json``) is
+    parsed and combined with loss tangents from a materials DB. The result is
+    ``FIELD_ENERGY_IMPORTED`` — real solver-derived participation ratios, not
+    a scaling-model guess — even though this project did not run the
+    eigenmode solve itself. Confidence is set higher than the analytical
+    backend's (0.6 vs 0.3) to reflect that the participations came from an
+    actual field solution, not a formula.
+    """
+
+    name = "field_energy_import"
+
+    def __init__(self, export_path: str | Path) -> None:
+        self._export_path = Path(export_path)
+
+    def available(self) -> bool:
+        return self._export_path.is_file()
+
+    def analyze(
+        self,
+        spec: LayoutSpec,
+        *,
+        frequency_ghz: float,
+        materials: MaterialsDB | None = None,
+    ) -> EPRResult:
+        if not self.available():
+            return EPRResult(
+                component=spec.component,
+                backend=self.name,
+                status=EPR_STATUS_SKIPPED,
+                frequency_ghz=frequency_ghz,
+                provenance={
+                    "backend": self.name,
+                    "reason": f"field-energy export not found: {self._export_path}",
+                },
+                notes=["No field-energy export file was found; nothing is claimed."],
+            )
+        db = materials or illustrative_silicon_db()
+        payload = json.loads(self._export_path.read_text(encoding="utf-8"))
+        regions = payload.get("regions", [])
+        if not regions:
+            raise ValueError(f"field-energy export {self._export_path} has no regions")
+
+        total_energy_j = sum(float(r["electric_energy_j"]) for r in regions)
+        if total_energy_j <= 0.0:
+            raise ValueError(
+                f"field-energy export {self._export_path} has zero total electric energy"
+            )
+
+        omega = 2.0 * 3.141592653589793 * frequency_ghz * 1e9
+        participations: list[ParticipationRecord] = []
+        for region in regions:
+            region_name = region["region"]
+            channel = db.channel(region_name)
+            p_electric = float(region["electric_energy_j"]) / total_energy_j
+            q_limit = 1.0 / (p_electric * channel.tan_delta) if p_electric > 0 else None
+            participations.append(
+                ParticipationRecord(
+                    region=region_name,
+                    material=channel.material,
+                    p_electric=p_electric,
+                    tan_delta=channel.tan_delta,
+                    q_limit=q_limit,
+                    t1_limit_us=(q_limit / omega * 1e6) if q_limit else None,
+                    source=f"field_energy_export:{self._export_path.name}",
+                    confidence=0.6,
+                )
+            )
+
+        coherence = estimate_coherence(participations, frequency_ghz)
+        return EPRResult(
+            component=spec.component,
+            backend=self.name,
+            status=EPR_STATUS_FIELD_ENERGY_IMPORTED,
+            frequency_ghz=frequency_ghz,
+            participations=participations,
+            coherence=coherence,
+            assumptions=[
+                f"Participations computed from real exported field energies in "
+                f"{self._export_path.name} (schema {payload.get('schema', 'unknown')}), "
+                "not a scaling model.",
+                f"Loss tangents from materials DB {db.name!r} — still "
+                "ILLUSTRATIVE unless calibration says measured_on_process.",
+                "This project did not run the eigenmode solve itself; the field "
+                "energies were exported by an external pyEPR/HFSS session.",
+            ],
+            provenance={
+                "backend": self.name,
+                "materials_db": db.name,
+                "export_file": str(self._export_path),
+                "export_schema": payload.get("schema", "unknown"),
+            },
+            notes=[
+                "FIELD_ENERGY_IMPORTED: real field-solved participation ratios, "
+                "but loss tangents may still be illustrative — see the materials DB.",
+            ],
         )
 
 
