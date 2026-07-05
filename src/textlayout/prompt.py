@@ -121,8 +121,9 @@ def parse_prompt(prompt: str) -> DesignIntent:
             6,
         )
     frequency_text = (
-        text[: bandwidth.start()] + " " * (bandwidth.end() - bandwidth.start())
-        + text[bandwidth.end():]
+        text[: bandwidth.start()]
+        + " " * (bandwidth.end() - bandwidth.start())
+        + text[bandwidth.end() :]
         if bandwidth
         else text
     )

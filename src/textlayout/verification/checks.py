@@ -200,8 +200,7 @@ def check_idc_no_shorts(ctx: VerificationContext) -> Check | None:
         return Check(
             "idc_no_comb_shorts",
             CheckStatus.FAIL,
-            f"IDC net lists {net_names[0]}/{net_names[1]} are empty; "
-            "cannot verify comb clearance.",
+            f"IDC net lists {net_names[0]}/{net_names[1]} are empty; cannot verify comb clearance.",
         )
     clearance = min(
         _polygon_gap(ctx.geometry.polygons[i], ctx.geometry.polygons[j]) for i in p1 for j in p2

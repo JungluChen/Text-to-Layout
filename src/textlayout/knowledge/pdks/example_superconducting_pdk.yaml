@@ -1,0 +1,103 @@
+# NOT FOUNDRY-VALIDATED. This is an illustrative example of the RICHER
+# PDK schema (metal thickness, sheet/kinetic inductance, loss tangents,
+# density rules, JJ process parameters) that a real foundry PDK would carry.
+# Numbers are order-of-magnitude representative of published superconducting
+# (Nb/Al on Si) processes, NOT measured on any specific process. Do not use
+# these values for any fabrication decision — see docs/pdk_abstraction.md.
+schema_version: textlayout.pdk.v1
+name: example_superconducting_pdk
+version: "0.1.0"
+foundry_validated: false
+source: "Illustrative example combining published order-of-magnitude Nb/Al-on-Si process figures; NOT a real foundry PDK."
+grid:
+  grid_nm: 1.0
+  default_min_spacing_um: 2.0
+  default_min_width_um: 1.0
+substrate:
+  material: "high-resistivity silicon"
+  epsilon_r: 11.9
+  loss_tangent: 1.0e-6
+  thickness_um: 500.0
+junction_process:
+  target_jc_ua_per_um2: 1.0
+  jc_sigma_pct: 5.0
+  min_junction_area_um2: 0.01
+  critical_temperature_k: 9.2
+layers:
+  - name: M1
+    purpose: metal
+    gds_layer: 1
+    gds_datatype: 0
+    min_width_um: 1.0
+    min_spacing_um: 1.0
+    thickness_nm: 100.0
+    # sheet_resistance_ohm_per_sq intentionally omitted: superconducting below
+    # Tc, DC sheet resistance is not a meaningful process parameter here.
+    kinetic_inductance_ph_per_sq: 0.3
+    max_density_fraction: 0.8
+    min_density_fraction: 0.1
+    color: "#1f77b4"
+  - name: M2
+    purpose: metal
+    gds_layer: 2
+    gds_datatype: 0
+    min_width_um: 1.0
+    min_spacing_um: 1.0
+    thickness_nm: 200.0
+    kinetic_inductance_ph_per_sq: 0.15
+    max_density_fraction: 0.8
+    min_density_fraction: 0.1
+    color: "#ff7f0e"
+  - name: M3
+    purpose: metal
+    gds_layer: 6
+    gds_datatype: 0
+    min_width_um: 2.0
+    min_spacing_um: 2.0
+    thickness_nm: 300.0
+    kinetic_inductance_ph_per_sq: 0.1
+    color: "#9467bd"
+  - name: JJ
+    purpose: junction
+    gds_layer: 3
+    gds_datatype: 0
+    min_width_um: 0.1
+    min_spacing_um: 0.15
+    thickness_nm: 2.0
+    loss_tangent: 3.0e-3   # AlOx tunnel barrier, illustrative placeholder
+    color: "#d62728"
+  - name: VIA12
+    purpose: via
+    gds_layer: 7
+    gds_datatype: 0
+    min_width_um: 0.3
+    min_spacing_um: 0.3
+    color: "#8c564b"
+  - name: GND
+    purpose: ground
+    gds_layer: 10
+    gds_datatype: 0
+    min_width_um: 2.0
+    min_spacing_um: 2.0
+    thickness_nm: 100.0
+    max_density_fraction: 0.9
+    color: "#7f7f7f"
+  - name: DIELECTRIC
+    purpose: dielectric
+    gds_layer: 20
+    gds_datatype: 0
+    min_width_um: 1.0
+    min_spacing_um: 1.0
+    loss_tangent: 2.0e-3   # interlayer dielectric, illustrative placeholder
+    color: "#e377c2"
+  - name: TEXT
+    purpose: text
+    gds_layer: 63
+    gds_datatype: 0
+    min_width_um: 1.0
+    min_spacing_um: 1.0
+    color: "#2ca02c"
+notes:
+  - "ILLUSTRATIVE EXAMPLE ONLY. Every numeric value is order-of-magnitude, not measured."
+  - "Kinetic inductance and loss tangent values are placeholders for wiring the EPR/yield loops end to end, not process-qualified figures."
+  - "Real fabrication requires a foundry-validated PDK with measured process statistics."
