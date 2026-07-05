@@ -22,12 +22,20 @@ from textlayout.errors import TextLayoutError
 from textlayout.schemas.dsl import LayoutSpec
 
 if TYPE_CHECKING:  # pragma: no cover
+    from textlayout.chip_lattice import QubitLattice
     from textlayout.epr import EPRResult
 
 
 def _load_spec(path: str) -> LayoutSpec:
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     return LayoutSpec.model_validate(data)
+
+
+def _load_lattice(path: str) -> "QubitLattice":
+    from textlayout.chip_lattice import QubitLattice
+
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    return QubitLattice.model_validate(data)
 
 
 def _cmd_prompt(args: argparse.Namespace) -> int:
@@ -169,6 +177,32 @@ def _cmd_yield_qubit_array(args: argparse.Namespace) -> int:
         payload["files"] = write_yield_report(result, args.out)
     print(json.dumps(payload, indent=2))
     return 0
+
+
+def _cmd_chip_analyze(args: argparse.Namespace) -> int:
+    from textlayout.chip_lattice import run_chip_collision_yield, write_chip_yield_report
+
+    lattice = _load_lattice(args.lattice)
+    result = run_chip_collision_yield(lattice, n_samples=args.n_samples, seed=args.seed)
+    payload = result.to_dict()
+    if args.out:
+        payload["files"] = write_chip_yield_report(result, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0 if result.nominal_report.collision_free or not args.strict else 2
+
+
+def _cmd_chip_optimize(args: argparse.Namespace) -> int:
+    from textlayout.chip_lattice import optimize_frequencies, write_chip_optimize_report
+
+    lattice = _load_lattice(args.lattice)
+    result = optimize_frequencies(
+        lattice, max_retune_mhz=args.max_retune_mhz, step_mhz=args.step_mhz
+    )
+    payload = result.to_dict()
+    if args.out:
+        payload["files"] = write_chip_optimize_report(result, args.out)
+    print(json.dumps(payload, indent=2))
+    return 0 if result.after.collision_free or not args.strict else 2
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
@@ -372,6 +406,54 @@ def build_parser() -> argparse.ArgumentParser:
         help="Synthetic qubit placement pitch for the spatial gradient (mm).",
     )
     p_yield_array.set_defaults(func=_cmd_yield_qubit_array)
+
+    p_chip = sub.add_parser(
+        "chip",
+        help="Multi-qubit chip-level frequency-collision analysis. A single-device "
+        "closed loop cannot answer whether a processor works.",
+    )
+    chip_sub = p_chip.add_subparsers(dest="chip_command", required=True)
+
+    p_chip_analyze = chip_sub.add_parser(
+        "analyze",
+        help="Deterministic + Monte Carlo collision analysis of a qubit lattice JSON file.",
+    )
+    p_chip_analyze.add_argument("lattice", help="Path to a QubitLattice JSON file.")
+    p_chip_analyze.add_argument(
+        "--n-samples", type=int, default=2000, help="Monte Carlo sample count."
+    )
+    p_chip_analyze.add_argument("--seed", type=int, default=1234, help="Monte Carlo seed.")
+    p_chip_analyze.add_argument(
+        "--out", default=None,
+        help="Directory for chip_yield_report.json/.md and collision_matrix.csv.",
+    )
+    p_chip_analyze.add_argument(
+        "--strict", action="store_true",
+        help="Exit non-zero when the nominal (target-frequency) lattice has any collision.",
+    )
+    p_chip_analyze.set_defaults(func=_cmd_chip_analyze)
+
+    p_chip_optimize = chip_sub.add_parser(
+        "optimize",
+        help="Greedily retune target frequencies to reduce/eliminate collisions.",
+    )
+    p_chip_optimize.add_argument("lattice", help="Path to a QubitLattice JSON file.")
+    p_chip_optimize.add_argument(
+        "--max-retune-mhz", type=float, default=300.0,
+        help="Max allowed retune from each qubit's original target (MHz).",
+    )
+    p_chip_optimize.add_argument(
+        "--step-mhz", type=float, default=5.0, help="Greedy search step size (MHz)."
+    )
+    p_chip_optimize.add_argument(
+        "--out", default=None,
+        help="Directory for chip_optimize_report.json/.md.",
+    )
+    p_chip_optimize.add_argument(
+        "--strict", action="store_true",
+        help="Exit non-zero when the optimizer does not reach a collision-free result.",
+    )
+    p_chip_optimize.set_defaults(func=_cmd_chip_optimize)
 
     return parser
 

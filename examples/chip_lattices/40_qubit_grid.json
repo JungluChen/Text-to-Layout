@@ -1,0 +1,630 @@
+{
+  "schema_version": "textlayout.chip-lattice.v1",
+  "name": "5x8_grid_40q_two_bin",
+  "nodes": [
+    {
+      "qubit_id": "Q0_0",
+      "target_freq_ghz": 5.001673,
+      "readout_freq_ghz": 6.471501,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_1",
+      "target_freq_ghz": 5.1173,
+      "readout_freq_ghz": 6.483393,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_2",
+      "target_freq_ghz": 5.002838,
+      "readout_freq_ghz": 6.510602,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_3",
+      "target_freq_ghz": 5.124706,
+      "readout_freq_ghz": 6.475216,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_4",
+      "target_freq_ghz": 4.999063,
+      "readout_freq_ghz": 6.471788,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_5",
+      "target_freq_ghz": 5.116624,
+      "readout_freq_ghz": 6.500321,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_6",
+      "target_freq_ghz": 4.994318,
+      "readout_freq_ghz": 6.48193,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q0_7",
+      "target_freq_ghz": 5.121799,
+      "readout_freq_ghz": 6.502696,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_0",
+      "target_freq_ghz": 5.116645,
+      "readout_freq_ghz": 6.505356,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_1",
+      "target_freq_ghz": 5.003713,
+      "readout_freq_ghz": 6.47039,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_2",
+      "target_freq_ghz": 5.12367,
+      "readout_freq_ghz": 6.511888,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_3",
+      "target_freq_ghz": 4.998083,
+      "readout_freq_ghz": 6.479329,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_4",
+      "target_freq_ghz": 5.125487,
+      "readout_freq_ghz": 6.490196,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_5",
+      "target_freq_ghz": 4.995113,
+      "readout_freq_ghz": 6.475803,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_6",
+      "target_freq_ghz": 5.12417,
+      "readout_freq_ghz": 6.506224,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q1_7",
+      "target_freq_ghz": 5.003686,
+      "readout_freq_ghz": 6.513784,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_0",
+      "target_freq_ghz": 5.000435,
+      "readout_freq_ghz": 6.528387,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_1",
+      "target_freq_ghz": 5.118542,
+      "readout_freq_ghz": 6.503122,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_2",
+      "target_freq_ghz": 5.003953,
+      "readout_freq_ghz": 6.507111,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_3",
+      "target_freq_ghz": 5.12434,
+      "readout_freq_ghz": 6.504641,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_4",
+      "target_freq_ghz": 5.002455,
+      "readout_freq_ghz": 6.472749,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_5",
+      "target_freq_ghz": 5.116735,
+      "readout_freq_ghz": 6.487363,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_6",
+      "target_freq_ghz": 4.994958,
+      "readout_freq_ghz": 6.483967,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q2_7",
+      "target_freq_ghz": 5.115212,
+      "readout_freq_ghz": 6.486678,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_0",
+      "target_freq_ghz": 5.121628,
+      "readout_freq_ghz": 6.49189,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_1",
+      "target_freq_ghz": 4.998442,
+      "readout_freq_ghz": 6.48257,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_2",
+      "target_freq_ghz": 5.117204,
+      "readout_freq_ghz": 6.526199,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_3",
+      "target_freq_ghz": 5.001776,
+      "readout_freq_ghz": 6.506548,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_4",
+      "target_freq_ghz": 5.116054,
+      "readout_freq_ghz": 6.513748,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_5",
+      "target_freq_ghz": 4.995961,
+      "readout_freq_ghz": 6.492767,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_6",
+      "target_freq_ghz": 5.125874,
+      "readout_freq_ghz": 6.5084,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q3_7",
+      "target_freq_ghz": 5.000683,
+      "readout_freq_ghz": 6.511077,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_0",
+      "target_freq_ghz": 5.004114,
+      "readout_freq_ghz": 6.51656,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_1",
+      "target_freq_ghz": 5.116749,
+      "readout_freq_ghz": 6.471926,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_2",
+      "target_freq_ghz": 4.997785,
+      "readout_freq_ghz": 6.486064,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_3",
+      "target_freq_ghz": 5.116532,
+      "readout_freq_ghz": 6.526575,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_4",
+      "target_freq_ghz": 5.004516,
+      "readout_freq_ghz": 6.488881,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_5",
+      "target_freq_ghz": 5.121865,
+      "readout_freq_ghz": 6.493738,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_6",
+      "target_freq_ghz": 5.004975,
+      "readout_freq_ghz": 6.497531,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    },
+    {
+      "qubit_id": "Q4_7",
+      "target_freq_ghz": 5.117179,
+      "readout_freq_ghz": 6.484798,
+      "anharmonicity_mhz": -200.0,
+      "freq_sigma_mhz": 8.0
+    }
+  ],
+  "edges": [
+    {
+      "node_a": "Q0_0",
+      "node_b": "Q0_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_0",
+      "node_b": "Q1_0",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_1",
+      "node_b": "Q0_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_1",
+      "node_b": "Q1_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_2",
+      "node_b": "Q0_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_2",
+      "node_b": "Q1_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_3",
+      "node_b": "Q0_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_3",
+      "node_b": "Q1_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_4",
+      "node_b": "Q0_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_4",
+      "node_b": "Q1_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_5",
+      "node_b": "Q0_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_5",
+      "node_b": "Q1_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_6",
+      "node_b": "Q0_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_6",
+      "node_b": "Q1_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q0_7",
+      "node_b": "Q1_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_0",
+      "node_b": "Q1_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_0",
+      "node_b": "Q2_0",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_1",
+      "node_b": "Q1_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_1",
+      "node_b": "Q2_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_2",
+      "node_b": "Q1_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_2",
+      "node_b": "Q2_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_3",
+      "node_b": "Q1_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_3",
+      "node_b": "Q2_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_4",
+      "node_b": "Q1_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_4",
+      "node_b": "Q2_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_5",
+      "node_b": "Q1_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_5",
+      "node_b": "Q2_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_6",
+      "node_b": "Q1_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_6",
+      "node_b": "Q2_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q1_7",
+      "node_b": "Q2_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_0",
+      "node_b": "Q2_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_0",
+      "node_b": "Q3_0",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_1",
+      "node_b": "Q2_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_1",
+      "node_b": "Q3_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_2",
+      "node_b": "Q2_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_2",
+      "node_b": "Q3_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_3",
+      "node_b": "Q2_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_3",
+      "node_b": "Q3_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_4",
+      "node_b": "Q2_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_4",
+      "node_b": "Q3_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_5",
+      "node_b": "Q2_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_5",
+      "node_b": "Q3_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_6",
+      "node_b": "Q2_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_6",
+      "node_b": "Q3_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q2_7",
+      "node_b": "Q3_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_0",
+      "node_b": "Q3_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_0",
+      "node_b": "Q4_0",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_1",
+      "node_b": "Q3_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_1",
+      "node_b": "Q4_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_2",
+      "node_b": "Q3_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_2",
+      "node_b": "Q4_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_3",
+      "node_b": "Q3_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_3",
+      "node_b": "Q4_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_4",
+      "node_b": "Q3_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_4",
+      "node_b": "Q4_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_5",
+      "node_b": "Q3_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_5",
+      "node_b": "Q4_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_6",
+      "node_b": "Q3_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_6",
+      "node_b": "Q4_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q3_7",
+      "node_b": "Q4_7",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_0",
+      "node_b": "Q4_1",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_1",
+      "node_b": "Q4_2",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_2",
+      "node_b": "Q4_3",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_3",
+      "node_b": "Q4_4",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_4",
+      "node_b": "Q4_5",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_5",
+      "node_b": "Q4_6",
+      "coupling_mhz": 8.0
+    },
+    {
+      "node_a": "Q4_6",
+      "node_b": "Q4_7",
+      "coupling_mhz": 8.0
+    }
+  ],
+  "rules": {
+    "qubit_qubit_min_detuning_mhz": 30.0,
+    "qubit_readout_min_detuning_mhz": 500.0,
+    "qubit_coupler_min_detuning_mhz": 300.0,
+    "two_photon_min_detuning_mhz": 30.0,
+    "charge_parity_min_detuning_mhz": 30.0
+  }
+}
