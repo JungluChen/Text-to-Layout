@@ -6,6 +6,45 @@ pull requests and verified benchmark evidence.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-05
+
+Bumped to match the version already claimed (but never actually released) by
+`IMPLEMENTATION_REPORT.md` since 2026-06-26, plus the cQED design-loop
+upgrade added in this cycle.
+
+### Added
+- `textlayout.epr`: energy-participation-ratio analysis and coherence
+  estimation (`AnalyticalEPRBackend`, `PyEPRBackend` interface stub,
+  `1/Q = sum(p*tan_delta)` / `T1 = Q/omega`), illustrative materials DB,
+  CLI `textlayout epr` / `verify --include-epr`.
+- `textlayout.yield_model`: JJ/SQUID critical-current variability, seeded
+  Monte Carlo frequency-yield propagation, CLI `textlayout yield jj` /
+  `yield qubit-array`.
+- `textlayout.chip_lattice`: multi-qubit frequency-collision taxonomy,
+  Monte Carlo collision-free chip yield, greedy retune optimizer, CLI
+  `textlayout chip analyze` / `chip optimize`.
+- `textlayout.pdk`: typed foundry PDK schema beyond `generic_2metal`
+  (layer stack, substrate, JJ process parameters, density-rule
+  placeholders), YAML loader, `pdk_to_technology()` bridge, two shipped
+  illustrative PDKs, CLI `textlayout pdk list` / `pdk info`.
+- `textlayout.measurement`: simulation-vs-measurement residual comparison
+  and correction-factor calibration, CLI `textlayout measurement compare`
+  / `measurement calibrate`.
+- `examples/real_cqed_loop.py`: end-to-end demo composing all of the above.
+- `scripts/generate_project_status.py` + `scripts/check_project_claims.py`:
+  a single machine-readable status manifest (`out/evidence/project_status.json`
+  / `PROJECT_STATUS.md`) and a consistency checker that fails CI on
+  version/claim drift between README, status docs, and package metadata.
+
+### Fixed
+- `run_python_process_drc` (legacy `text_to_gds.drc`) now uses KLayout's
+  exact `Region.width_check`/`space_check` instead of a bounding-box
+  approximation that missed concave-polygon and overlapping-bbox violations.
+- GDS export refuses to write an unknown layer as `(0,0)`; KLayout readback
+  independently verifies drawn minimum width on the exported file.
+- `pyproject.toml` version now matches reality (`IMPLEMENTATION_REPORT.md`
+  had claimed 0.3.0 since 2026-06-26 without a corresponding release).
+
 ## [0.2.0] - 2026-06-22
 
 First tracked release. Consolidates the work previously described informally as

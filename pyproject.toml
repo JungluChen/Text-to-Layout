@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "text-to-gds"
-version = "0.2.0"
-description = "Local-first MCP tools for agentic GDS generation, DRC, and superconducting circuit layout."
+version = "0.3.0"
+description = "Local-first evidence-driven cQED layout and simulation platform. The `textlayout` package (CLI: textlayout) is the supported product path: NL prompt -> typed DSL -> verified GDS -> EPR/coherence -> JJ yield -> chip-collision analysis -> measurement calibration. `text_to_gds` (CLI: text-to-gds) is a frozen legacy MCP-tool surface, kept for compatibility only -- see ARCHITECTURE.md."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

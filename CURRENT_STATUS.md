@@ -1,19 +1,17 @@
 # Current Status
 
-**Last verified:** 2026-06-30. Every result below was produced by running the
-command on this checkout. This file supersedes the historical
-[PROJECT_AUDIT.md](PROJECT_AUDIT.md).
+**Scope note:** this file covers the legacy `examples/benchmarks/` analytical
+packets specifically (see "Benchmark readiness" below) — a different, older
+artifact set than the solver-backed `examples/showcase/` examples described in
+[README.md](README.md). "No benchmark is PHYSICS VERIFIED" below is about
+`examples/benchmarks/`; it does not contradict the showcase examples' real
+`PHYSICS_VERIFIED` claims.
 
-## Quality gates (measured)
-
-| Gate | Command | Result |
-|---|---|---|
-| Lint | `ruff check .` | **clean** |
-| Types | `mypy src/textlayout` (strict) | **clean (59 files)** |
-| Tests | `pytest` | **726 passed, 8 skipped, 0 failed** |
-| Benchmarks | `python scripts/check_benchmarks.py` | **PASS** |
-| Benchmarks (strict) | `python scripts/check_benchmarks.py --strict` | **PASS** |
-| Regenerate | `python scripts/generate_benchmarks.py` | 4 generated, 2 correctly skipped (TODO/infeasible) |
+For live, generated (never hand-edited) quality-gate numbers, run
+`python scripts/generate_project_status.py` and read
+[PROJECT_STATUS.md](PROJECT_STATUS.md) — the hard-coded snapshot that used to
+live in this section went stale (it claimed "726 passed, 0 failed" long after
+the suite had grown past 1000 tests) and has been replaced by that pointer.
 
 ## Clean install (fresh virtual environment)
 
