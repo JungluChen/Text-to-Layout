@@ -35,7 +35,14 @@ def _load_spec(path: str) -> LayoutSpec:
 def _load_lattice(path: str) -> "QubitLattice":
     from textlayout.chip_lattice import QubitLattice
 
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    source = Path(path)
+    text = source.read_text(encoding="utf-8")
+    if source.suffix.lower() in {".yaml", ".yml"}:
+        import yaml
+
+        data = yaml.safe_load(text)
+    else:
+        data = json.loads(text)
     return QubitLattice.model_validate(data)
 
 

@@ -244,8 +244,9 @@ class TestReportsAndCLI:
         lattice = _pair_lattice(f1=5.000, f2=5.010)
         result = optimize_frequencies(lattice, max_retune_mhz=100.0, step_mhz=5.0)
         files = write_chip_optimize_report(result, tmp_path)
-        assert set(files) == {"json", "markdown"}
+        assert set(files) == {"json", "markdown", "retune_proposal"}
         assert (tmp_path / "chip_optimize_report.md").is_file()
+        assert (tmp_path / "retune_proposal.json").is_file()
 
     def test_cli_chip_analyze(self, tmp_path, capsys) -> None:
         lattice_path = tmp_path / "lattice.json"
