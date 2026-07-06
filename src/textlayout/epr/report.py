@@ -75,6 +75,22 @@ def render_markdown(result: EPRResult) -> str:
         lines += ["## Assumptions", ""]
         lines += [f"- {a}" for a in result.assumptions]
         lines.append("")
+    if result.pdk_provenance:
+        pdk = result.pdk_provenance
+        lines += [
+            "## PDK provenance",
+            "",
+            f"- **PDK:** `{pdk.get('pdk_name')}` v{pdk.get('pdk_version')}",
+            f"- **File hash (sha256):** `{pdk.get('file_hash_sha256')}`",
+            f"- **Calibration status:** `{pdk.get('calibration_status')}` — "
+            + (
+                "values are foundry-calibrated"
+                if pdk.get("foundry_validated")
+                else "values are NOT foundry-calibrated; treat all absolute "
+                "numbers as illustrative or internally calibrated at best"
+            ),
+            "",
+        ]
     lines += [
         "## Honesty statement",
         "",

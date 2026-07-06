@@ -99,8 +99,12 @@ measurement-calibration loop.
 ## Usage
 
 ```bash
-# Standalone EPR / coherence report for a DSL file
-textlayout epr examples/benchmarks/01_idc_0p6pf/layout.json --out out/evidence
+# Standalone EPR / coherence report for a DSL file.
+# --out defaults to out/evidence; every report embeds PDK provenance
+# (name, version, sha256 file hash, calibration status) — generic_2metal
+# (illustrative) unless --pdk names another registered PDK or a YAML path.
+textlayout epr examples/benchmarks/01_idc_0p6pf/layout.json
+textlayout epr examples/benchmarks/01_idc_0p6pf/layout.json --pdk example_superconducting_pdk
 
 # Append EPR to a verification run
 textlayout verify examples/benchmarks/01_idc_0p6pf/layout.json --include-epr
@@ -112,7 +116,12 @@ textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" \
 ```
 
 Outputs: `out/evidence/epr_report.json` and `out/evidence/epr_report.md`,
-each carrying backend, materials-DB id, assumptions, timestamp, and status.
+each carrying backend, materials-DB id, assumptions, timestamp, status, and
+PDK provenance. A `--pdk` only changes the *substrate* material inputs (a
+PDK YAML carries no MS/SA/MA interface loss tangents; those stay
+literature-scaled until measurement calibration supplies them) and never
+upgrades the honesty status: the analytical backend stays
+`EPR_ANALYTICAL_ONLY` no matter how calibrated its inputs are.
 With `textlayout prompt --include-epr`, the same content is additionally
 folded into the design's own `report.md` as one nested section, so a single
 report shows capacitance/inductance evidence next to EPR participation,

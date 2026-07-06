@@ -136,21 +136,37 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     return 0 if report.passed else 2
 
 
-def _run_epr(spec: LayoutSpec, *, frequency_ghz: float | None) -> "EPRResult":
-    from textlayout.epr import default_epr_backend
+def _run_epr(
+    spec: LayoutSpec, *, frequency_ghz: float | None, pdk: str | None = None
+) -> "EPRResult":
+    """Run the default EPR backend with PDK-backed materials and provenance.
+
+    Every EPR result carries the exact PDK file (name, version, sha256,
+    calibration status) its material assumptions came from — defaulting to
+    ``generic_2metal`` (illustrative, NOT fabrication-ready) when the caller
+    does not name one. Using a PDK never changes the honesty status: the
+    analytical backend stays EPR_ANALYTICAL_ONLY.
+    """
+    from textlayout.epr import DEFAULT_PDK_NAME, default_epr_backend, materials_db_from_pdk
 
     frequency = frequency_ghz
     if frequency is None:
         target = spec.target.get("frequency_ghz")
         frequency = float(target) if isinstance(target, (int, float)) and target > 0 else 6.0
-    return default_epr_backend().analyze(spec, frequency_ghz=frequency)
+    materials, pdk_provenance = materials_db_from_pdk(pdk or DEFAULT_PDK_NAME)
+    result = default_epr_backend().analyze(spec, frequency_ghz=frequency, materials=materials)
+    return result.model_copy(update={"pdk_provenance": pdk_provenance.model_dump(mode="json")})
 
 
 def _cmd_epr(args: argparse.Namespace) -> int:
     from textlayout.epr import EPR_STATUS_SKIPPED, write_epr_report
 
     spec = _load_spec(args.spec)
-    result = _run_epr(spec, frequency_ghz=args.frequency_ghz)
+    try:
+        result = _run_epr(spec, frequency_ghz=args.frequency_ghz, pdk=args.pdk)
+    except FileNotFoundError as exc:
+        print(json.dumps({"error": str(exc)}, indent=2))
+        return 2
     payload = result.to_dict()
     if args.out:
         payload["files"] = write_epr_report(result, args.out)
@@ -438,7 +454,18 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Analysis frequency (default: spec target frequency or 6 GHz).",
     )
-    p_epr.add_argument("--out", default=None, help="Directory for epr_report.json / epr_report.md.")
+    p_epr.add_argument(
+        "--out",
+        default="out/evidence",
+        help="Directory for epr_report.json / epr_report.md (default: out/evidence).",
+    )
+    p_epr.add_argument(
+        "--pdk",
+        default=None,
+        help="PDK name (e.g. generic_2metal) or YAML path backing the material "
+        "assumptions; recorded with file hash in the report. Default: "
+        "generic_2metal (illustrative, NOT fabrication-ready).",
+    )
     p_epr.add_argument(
         "--strict",
         action="store_true",

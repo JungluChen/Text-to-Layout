@@ -114,6 +114,13 @@ class EPRResult(BaseModel):
         default_factory=dict,
         description="backend version, materials-db id, geometry source, etc.",
     )
+    pdk_provenance: dict[str, object] | None = Field(
+        default=None,
+        description="Which exact PDK file backed the material assumptions: "
+        "name, version, sha256 file hash, calibration_status "
+        "(textlayout.pdk.provenance.PDKProvenance dump). None only for "
+        "legacy callers that predate the PDK requirement.",
+    )
     timestamp: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
     )

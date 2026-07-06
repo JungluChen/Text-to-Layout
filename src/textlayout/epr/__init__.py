@@ -38,6 +38,11 @@ from textlayout.epr.models import (
     EPRResult,
     ParticipationRecord,
 )
+from textlayout.epr.pdk_bridge import (
+    DEFAULT_PDK_NAME,
+    materials_db_from_pdk,
+    resolve_pdk_path,
+)
 from textlayout.epr.report import render_markdown, write_epr_report
 
 __all__ = [
@@ -47,6 +52,7 @@ __all__ = [
     "EPR_STATUS_FIELD_ENERGY_IMPORTED",
     "EPR_STATUS_INPUT_PREPARED",
     "EPR_STATUS_SKIPPED",
+    "DEFAULT_PDK_NAME",
     "FIELD_ENERGY_EXPORT_SCHEMA",
     "MATERIALS_DIR",
     "AnalyticalEPRBackend",
@@ -63,6 +69,8 @@ __all__ = [
     "estimate_coherence",
     "illustrative_silicon_db",
     "load_materials_db",
+    "materials_db_from_pdk",
+    "resolve_pdk_path",
     "render_markdown",
     "write_epr_report",
 ]
