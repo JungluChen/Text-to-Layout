@@ -392,6 +392,18 @@ def run_openems(
                 warnings=prepared.warnings,
                 command=completed.command,
             )
+        convergence_problem = _openems_convergence_problem(Path(completed.stdout_path))
+        if convergence_problem is not None:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS run did NOT converge: {convergence_problem}",
+                output_dir=prepared.output_dir,
+                artifacts={**artifacts, "touchstone": str(s2p)},
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
     else:
         artifacts = dict(prepared.artifacts)
         completed = None
@@ -399,6 +411,10 @@ def run_openems(
         component = _prepared_component(prepared)
         if component == "CPW":
             extracted = extract_cpw_from_touchstone(s2p, target_frequency_ghz)
+            # Keep the S-parameter-derived Z0 under its own key so the port
+            # V/I metric can never silently erase an independent view; two
+            # disagreeing extractions are a diagnostic, not a nuisance.
+            extracted["z0_from_sparams_ohm"] = extracted["characteristic_impedance_ohm"]
             metrics = Path(prepared.output_dir or s2p.parent) / "openems_metrics.csv"
             if metrics.is_file() and metrics.stat().st_size:
                 extracted.update(_extract_openems_cpw_metrics(metrics, target_frequency_ghz))
@@ -431,6 +447,74 @@ def run_openems(
         runtime_seconds=completed.runtime_seconds if completed is not None else None,
         solver_version="openEMS via Octave frontend",
     )
+
+
+#: Minimum end-of-run field-energy decay for a trustworthy openEMS DFT.
+#: The official examples run to -40 dB (EndCriteria 1e-4); -25 dB is the
+#: loosest we accept before the truncation error dominates the S-parameters.
+_OPENEMS_MIN_DECAY_DB = 25.0
+
+_ENERGY_LINE_RE = re.compile(r"Energy:.*\((\s*-?\d+(?:\.\d+)?)dB\)")
+_TIMESTEP_LINE_RE = re.compile(r"Timestep:\s+(\d+)")
+_EXCITATION_LENGTH_RE = re.compile(r"Excitation signal length is:\s+(\d+)\s+timesteps")
+
+
+def _openems_convergence_problem(stdout_path: Path) -> str | None:
+    """Why this openEMS run's spectra cannot be trusted, or None if they can.
+
+    Two truncation modes, both observed on real runs of this project:
+
+    - the run ended while its own Gaussian excitation was still active (a
+      femtosecond timestep makes the source pulse itself hundreds of
+      thousands of steps long), so the recorded signals are mostly source;
+    - the run hit its timestep budget with the field energy still high, so
+      the DFT is cut off mid-ring-down.
+
+    A log without the diagnostics (e.g. a fake test executable) reports no
+    problem — absence of the diagnostic is not evidence of failure.
+    """
+    try:
+        text = stdout_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    timesteps = _TIMESTEP_LINE_RE.findall(text)
+    excitation = _EXCITATION_LENGTH_RE.search(text)
+    if timesteps and excitation:
+        final_ts = int(timesteps[-1])
+        excite_ts = int(excitation.group(1))
+        # The bookkept excitation length covers the full discrete support of
+        # the Gaussian; its last ~10% is below -70 dB amplitude. Ending
+        # inside that tail is fine — ending earlier truncates real source.
+        if final_ts < 0.9 * excite_ts:
+            return (
+                f"the run ended at timestep {final_ts} but the excitation "
+                f"signal itself lasts {excite_ts} timesteps — the recorded "
+                "port signals are mostly the source pulse; every S-parameter "
+                "and impedance from this run is unusable. Shorten the pulse "
+                "(wider bandwidth) or raise the timestep budget."
+            )
+    energies = [float(value) for value in _ENERGY_LINE_RE.findall(text)]
+    if energies and energies[-1] > -_OPENEMS_MIN_DECAY_DB:
+        # A *plateaued* tail is not a truncation: a static (DC) charge
+        # remnant sets a constant energy floor that MUR walls never absorb,
+        # while any remaining RF content would still be decaying. A constant
+        # field contributes nothing to the DFT at RF, so flat-tail runs are
+        # spectrally converged even though the energy level looks high.
+        tail = energies[-5:]
+        plateaued = (
+            len(tail) == 5
+            and max(tail) - min(tail) < 0.2
+            and energies[-1] <= -10.0
+        )
+        if not plateaued:
+            return (
+                f"field energy decayed only {energies[-1]:.1f} dB "
+                f"(need <= -{_OPENEMS_MIN_DECAY_DB:g} dB and still moving); "
+                "the DFT is truncated mid-ring-down and the extracted numbers "
+                "would be systematically wrong. Raise NrTS / fix absorption "
+                "instead."
+            )
+    return None
 
 
 def _extract_openems_cpw_metrics(
@@ -602,10 +686,7 @@ def extract_resonance_metrics_from_touchstone(path: str | Path) -> dict[str, flo
     s21_mag = [abs(value) for value in data.s21]
     if not freqs_hz:
         raise ValueError("no frequency points")
-    mean = sum(s21_mag) / len(s21_mag)
-    # Pick the extremum with the larger deviation from the mean (notch or peak).
     i_min = min(range(len(s21_mag)), key=lambda i: s21_mag[i])
-    i_max = max(range(len(s21_mag)), key=lambda i: s21_mag[i])
     resonance_hz = find_resonance_frequency(path)
     idx = min(range(len(freqs_hz)), key=lambda i: abs(freqs_hz[i] - resonance_hz))
     result = {

@@ -118,11 +118,21 @@ def _render_openems_octave(spec: LayoutSpec, geometry: Geometry, technology: Tec
         "physical_constants;",
         "unit = 1e-6;",
         f"f_start = {f_start:.12g}; f_stop = {f_stop:.12g};",
-        "FDTD = InitFDTD('NrTS', 250000, 'EndCriteria', 1e-3);",
+        # Micron-scale cells force a femtosecond timestep; a high-Q hanger
+        # additionally needs many ring-down time constants, so a converged
+        # resonator run is inherently hours long. The runner's convergence
+        # gate keeps a truncated run honest (FAILED, no numbers) rather than
+        # letting a broadened/edge resonance masquerade as evidence.
+        "FDTD = InitFDTD('NrTS', 1500000, 'EndCriteria', 1e-6);",
         "FDTD = SetGaussExcite(FDTD, (f_start+f_stop)/2, (f_stop-f_start)/2);",
         "FDTD = SetBoundaryCond(FDTD, {'PML_8','PML_8','PML_8','PML_8','PML_8','PML_8'});",
         "CSX = InitCSX();",
-        f"CSX = AddMaterial(CSX, 'substrate', 'Epsilon', {technology.substrate_epsilon_r:.12g});",
+        # AddMaterial's varargin sets generic property attributes, NOT the
+        # material constants — Epsilon passed there is silently ignored and
+        # the "substrate" simulates as vacuum. SetMaterialProperty is the
+        # only call the engine reads (root cause of air-like Z0/eps_eff).
+        "CSX = AddMaterial(CSX, 'substrate');",
+        f"CSX = SetMaterialProperty(CSX, 'substrate', 'Epsilon', {technology.substrate_epsilon_r:.12g});",
         (
             "CSX = AddBox(CSX, 'substrate', 0, "
             f"[{bbox.xmin - margin:.9g} {bbox.ymin - margin:.9g} {-substrate_h:.9g}], "
@@ -141,54 +151,61 @@ def _render_openems_octave(spec: LayoutSpec, geometry: Geometry, technology: Tec
                 f"CSX = AddPolygon(CSX, 'metal', 10, 'z', 0, p{index});",
             )
         )
+    width = float(spec.parameters["center_width_um"])
+    gap = float(spec.parameters["gap_um"])
+    edge_res = max(0.5, min(gap / 3.0, width / 4.0))
+    # A lumped/gap port that does not lie exactly on grid lines rasterizes to
+    # nothing: the excitation injects ZERO energy for the whole run and every
+    # S-parameter becomes 0/0 = NaN (observed: a 250k-timestep run with
+    # "Energy: ~0.00e+00" throughout). Collect the port coordinates BEFORE
+    # DefineRectGrid and force mesh lines through them.
+    port_positions = [port.center for port in geometry.ports[:2]]
+    # Local fine lines only — a fine SmoothMeshLines interval spanning between
+    # two distant ports would explode the cell count by orders of magnitude.
+    fine_x = sorted(
+        {
+            round(coord, 6)
+            for x, _ in port_positions
+            for coord in (x - edge_res, x, x + edge_res)
+        }
+    )
+    fine_y = sorted(
+        {
+            round(coord, 6)
+            for _, y in port_positions
+            for base in (y + width / 2, y + width / 2 + gap)
+            for coord in (base - edge_res, base, base + edge_res)
+        }
+    )
+    port_x = " ".join(f"{value:.9g}" for value in fine_x)
+    port_y = " ".join(f"{value:.9g}" for value in fine_y)
     lines.extend(
         (
             (
                 "mesh.x = SmoothMeshLines(["
-                f"{bbox.xmin - margin:.9g} {bbox.xmax + margin:.9g}], 20, 1.4);"
+                f"{bbox.xmin - margin:.9g} {port_x} {bbox.xmax + margin:.9g}], 20, 1.4);"
             ),
             (
                 "mesh.y = SmoothMeshLines(["
-                f"{bbox.ymin - margin:.9g} {bbox.ymax + margin:.9g}], 20, 1.4);"
+                f"{bbox.ymin - margin:.9g} {port_y} {bbox.ymax + margin:.9g}], 20, 1.4);"
             ),
-            f"mesh.z = SmoothMeshLines([{-substrate_h:.9g} 0 100], 20, 1.4);",
+            # Resolve z finely at the metal plane (z=0) where the CPW gap
+            # fields live; coarsen into the substrate and the air above.
+            f"mesh.z = SmoothMeshLines([{-3*gap:.9g} 0 {3*gap:.9g}], {edge_res:.9g}, 1.3, 0);",
+            f"mesh.z = SmoothMeshLines([{-substrate_h:.9g} mesh.z 100], 20, 1.4);",
             "CSX = DefineRectGrid(CSX, unit, mesh);",
         )
     )
-    if spec.component == "CPW":
-        width = float(spec.parameters["center_width_um"])
-        gap = float(spec.parameters["gap_um"])
-        length = float(spec.parameters["length_um"])
-        x0 = (bbox.xmin + bbox.xmax) / 2.0
-        lines.extend(
-            (
-                (
-                    "[CSX, port{1}] = AddCPWPort(CSX, 999, 1, 'metal', "
-                    f"[{x0 - width / 2:.9g} {bbox.ymin:.9g} 0], "
-                    f"[{x0 + width / 2:.9g} {bbox.ymin + min(length * 0.1, 100):.9g} 0], "
-                    f"{gap:.9g}, 'y', [1 0 0], 'ExcitePort', true, 'Feed_R', 50);"
-                ),
-                (
-                    "[CSX, port{2}] = AddCPWPort(CSX, 999, 2, 'metal', "
-                    f"[{x0 - width / 2:.9g} {bbox.ymax - min(length * 0.1, 100):.9g} 0], "
-                    f"[{x0 + width / 2:.9g} {bbox.ymax:.9g} 0], "
-                    f"{gap:.9g}, 'y', [1 0 0], 'Feed_R', 50);"
-                ),
-            )
+    # Feedline-to-upper-ground gap ports for the hanger; the first is excited.
+    for number, port in enumerate(geometry.ports[:2], 1):
+        x, y = port.center
+        excite = 1 if number == 1 else 0
+        lines.append(
+            f"[CSX, port{{{number}}}] = AddLumpedPort(CSX, 999, {number}, 50, "
+            f"[{x:.9g} {y + width / 2:.9g} 0], "
+            f"[{x:.9g} {y + width / 2 + gap:.9g} 0], "
+            f"[0 1 0], {excite});"
         )
-    else:
-        # Feedline-to-upper-ground gap ports for the hanger; the first is excited.
-        width = float(spec.parameters["center_width_um"])
-        gap = float(spec.parameters["gap_um"])
-        for number, port in enumerate(geometry.ports[:2], 1):
-            x, y = port.center
-            excite = 1 if number == 1 else 0
-            lines.append(
-                f"[CSX, port{{{number}}}] = AddLumpedPort(CSX, 999, {number}, 50, "
-                f"[{x:.9g} {y + width / 2:.9g} 0], "
-                f"[{x:.9g} {y + width / 2 + gap:.9g} 0], "
-                f"[0 1 0], {excite});"
-            )
     lines.extend(
         (
             "Sim_Path = 'openems_run'; Sim_CSX = 'model.xml';",
@@ -239,31 +256,64 @@ def _render_cpw_openems_octave(spec: LayoutSpec, technology: Technology) -> str:
     gap = float(spec.parameters["gap_um"])
     ground = float(spec.parameters.get("ground_width_um", 50.0))
     substrate_h = 500.0
-    substrate_width = 2.0 * (ground + gap + width / 2.0)
+    # A CPW analysis assumes quasi-infinite grounds: keep at least ~10 full
+    # cross-sections of ground+substrate on each side, whatever the drawn
+    # ground width is (a 122 um-wide substrate ribbon under 50 um grounds
+    # measurably shifted both eps_eff and Z0).
+    substrate_width = max(2.0 * (ground + gap + width / 2.0), 20.0 * (width + 2.0 * gap))
     port_length = min(max(length * 0.2, 100.0), length * 0.4)
     f0 = float(spec.target.get("frequency_ghz", 6.0)) * 1e9
-    f_start = max(1e6, f0 * 0.5)
-    f_stop = f0 * 1.5
+    # Micron-scale cells force a femtosecond FDTD timestep, so the Gaussian
+    # source pulse spans hundreds of thousands of timesteps: keep the band
+    # wide (short pulse). But do NOT excite down to DC — MUR boundaries and
+    # the feed resistors never drain the static charge a near-DC pulse
+    # deposits, leaving a permanent energy plateau in the domain.
+    f_start = f0 / 4.0
+    f_stop = 2.0 * f0
     edge_res = max(0.5, min(gap / 3.0, width / 4.0))
     coarse_res = max(10.0, min(40.0, length / 20.0))
     half = length / 2.0
-    air = max(100.0, substrate_width)
+    # Absorbing-boundary clearance and the coarse cell size in the air region
+    # scale with wavelength, not with the (micron-scale) line cross-section.
+    air = 2000.0
+    air_res = 300.0
+    third = edge_res / 3.0
     lines = [
-        "% Generated by textlayout from the official openEMS finite CPW pattern.",
+        "% Generated by textlayout from the official openEMS finite CPW pattern",
+        "% (matlab/examples/transmission_lines/CPW_Line.m).",
         "close all; clear; clc;",
         *_openems_octave_bootstrap_lines(),
         "physical_constants; unit = 1e-6;",
         f"f_start = {f_start:.12g}; f_stop = {f_stop:.12g};",
-        "FDTD = InitFDTD('NrTS', 180000, 'EndCriteria', 1e-3);",
+        # EndCriteria 1e-6 (-60 dB): with a femtosecond timestep the domain
+        # energy tracks the source envelope, so a looser criterion trips on
+        # the Gaussian tail while meaningful source amplitude remains. The
+        # runner additionally refuses to extract numbers when the run covered
+        # less than 90% of the excitation support or ended by NrTS with the
+        # energy still high (truncated DFT = garbage S either way).
+        "FDTD = InitFDTD('NrTS', 1500000, 'EndCriteria', 1e-6);",
         "FDTD = SetGaussExcite(FDTD, (f_start+f_stop)/2, (f_stop-f_start)/2);",
         "FDTD = SetBoundaryCond(FDTD, [2 2 2 2 2 2]);",
         "CSX = InitCSX();",
-        f"mesh.x = SmoothMeshLines([-{half + air:.9g} -{half:.9g} 0 {half:.9g} {half + air:.9g}], {coarse_res:.9g}, 1.4, 0);",
-        f"mesh.y = SmoothMeshLines([{-width/2-gap:.9g} {-width/2:.9g} {width/2:.9g} {width/2+gap:.9g}], {edge_res:.9g}, 1.3, 0);",
-        f"mesh.y = SmoothMeshLines([{-substrate_width/2-air:.9g} {-substrate_width/2:.9g} mesh.y {substrate_width/2:.9g} {substrate_width/2+air:.9g}], {coarse_res:.9g}, 1.4, 0);",
-        f"mesh.z = SmoothMeshLines([{-air:.9g} 0 {substrate_h:.9g} {substrate_h+air:.9g}], {coarse_res:.9g}, 1.4, 0);",
+        f"mesh.x = SmoothMeshLines([-{half:.9g} 0 {half:.9g}], {coarse_res:.9g}, 1.4, 0);",
+        f"mesh.x = SmoothMeshLines([-{half + air:.9g} mesh.x {half + air:.9g}], {air_res:.9g}, 1.4, 0);",
+        # Thirds rule at the four metal edges (1/3 of a cell inside the metal,
+        # 2/3 outside) — the standard treatment of the CPW edge singularity.
+        f"mesh.y = SmoothMeshLines([{width/2 - third:.9g} {width/2 + 2*third:.9g} {width/2 + gap - 2*third:.9g} {width/2 + gap + third:.9g}], {edge_res:.9g}, 1.3, 0);",
+        f"mesh.y = SmoothMeshLines([0 mesh.y], {edge_res:.9g}, 1.3, 0);",
+        "mesh.y = unique(sort([-mesh.y mesh.y]));",
+        f"mesh.y = SmoothMeshLines([{-substrate_width/2 - air:.9g} {-substrate_width/2:.9g} mesh.y {substrate_width/2:.9g} {substrate_width/2 + air:.9g}], {air_res:.9g}, 1.4, 0);",
+        # Resolve z at edge resolution within a few gap-widths of the metal
+        # plane (the field-carrying region for a micron-scale cross-section),
+        # a handful of lines through the substrate, wavelength-scale air.
+        f"mesh.z = SmoothMeshLines([{substrate_h - 3*gap:.9g} {substrate_h:.9g} {substrate_h + 3*gap:.9g}], {edge_res:.9g}, 1.3, 0);",
+        f"mesh.z = SmoothMeshLines([0 {substrate_h/2:.9g} mesh.z], {substrate_h/4:.9g}, 1.4, 0);",
+        f"mesh.z = SmoothMeshLines([{-air:.9g} mesh.z {substrate_h + air:.9g}], {air_res:.9g}, 1.4, 0);",
         "CSX = DefineRectGrid(CSX, unit, mesh);",
-        f"CSX = AddMaterial(CSX, 'substrate', 'Epsilon', {technology.substrate_epsilon_r:.12g});",
+        # SetMaterialProperty, not AddMaterial varargin: only the former sets
+        # the real Epsilon (the latter silently produced a vacuum substrate).
+        "CSX = AddMaterial(CSX, 'substrate');",
+        f"CSX = SetMaterialProperty(CSX, 'substrate', 'Epsilon', {technology.substrate_epsilon_r:.12g});",
         f"CSX = AddBox(CSX, 'substrate', 0, [-{half:.9g} {-substrate_width/2:.9g} 0], [{half:.9g} {substrate_width/2:.9g} {substrate_h:.9g}]);",
         "CSX = AddMetal(CSX, 'CPW_PORT');",
         f"[CSX, port{{1}}] = AddCPWPort(CSX, 999, 1, 'CPW_PORT', [-{half:.9g} {-width/2:.9g} {substrate_h:.9g}], [-{half-port_length:.9g} {width/2:.9g} {substrate_h:.9g}], {gap:.9g}, 'x', [0 1 0], 'ExcitePort', true, 'MeasPlaneShift', {port_length:.9g}, 'Feed_R', 50);",
