@@ -64,12 +64,12 @@
       "artifact_dir": "examples/showcase/05_quarter_wave_resonator_6ghz",
       "geometry_status": "GEOMETRY_PASS",
       "klayout_readback_status": "pass",
-      "solver": "openEMS",
-      "solver_executed": false,
-      "simulation_status": "SKIPPED_SOLVER_ABSENT",
-      "evidence_status": "SKIPPED_SOLVER_ABSENT",
+      "solver": "openEMS+scikit-rf",
+      "solver_executed": true,
+      "simulation_status": "SIMULATION_EXECUTED",
+      "evidence_status": "SIMULATION_EXECUTED",
       "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "Length uses the analytical lambda/4 estimate with effective permittivity; no EM eigenmode verification. Not fabrication-ready."
+      "limitation": "openEMS FDTD ran to completion and produced a real Touchstone file, but the extracted resonance is 3.0 GHz versus the 6.0 GHz target (-50% error, outside the 5% tolerance) -- not physics-verified. Boundary placement and mesh convergence need review. Not fabrication-ready."
     },
     {
       "id": "06_research_test_chip",

@@ -82,11 +82,11 @@
   ],
   "execution": "not_run",
   "discovery": {
-    "openems": "wsl:/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/openems-wsl/bin/openEMS",
-    "csxcad": "wsl:/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/openems-wsl/bin/AppCSXCAD",
+    "openems": "wsl:.tools/openems-wsl/bin/openEMS",
+    "csxcad": "wsl:.tools/openems-wsl/bin/AppCSXCAD",
     "octave": "wsl:/usr/bin/octave-cli",
-    "octave_openems_path": "wsl:/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/openems-wsl/share/openEMS/matlab",
-    "octave_csxcad_path": "wsl:/mnt/c/Users/justi/Desktop/Layout/text-to-gds/.tools/openems-wsl/share/CSXCAD/matlab"
+    "octave_openems_path": "wsl:.tools/openems-wsl/share/openEMS/matlab",
+    "octave_csxcad_path": "wsl:.tools/openems-wsl/share/CSXCAD/matlab"
   },
   "driver": "openems_model.m"
 }

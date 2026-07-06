@@ -1,19 +1,19 @@
 # Project Status
 
-Generated: 2026-07-05T14:54:31+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
+Generated: 2026-07-06T01:22:48+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
 
 ## Showcase evidence
 
 - Total examples: 6
-- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh
-- Skipped (`SKIPPED_SOLVER_ABSENT`): 05_quarter_wave_resonator_6ghz
+- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh, 05_quarter_wave_resonator_6ghz
+- Skipped (`SKIPPED_SOLVER_ABSENT`): (none)
 - Analytical only: 06_research_test_chip
 
 ## Tests
 
-- **450 passed, 14 failed, 0 skipped** (source: pytest tests/textlayout_suite)
+- No saved test report available. No saved test report at out/evidence/test_report.json; run pytest and save a report before trusting a test count here.
 
 ## PDK / fabrication readiness
 

@@ -1,0 +1,4 @@
+Operator::CalcGaussianPulsExcitation: Requested excitation pusle would be 193306 timesteps or 9.54932e-10 s long. Cutting to max number of timesteps!
+openEMS::SetupFDTD: Warning, the timestep seems to be very small --> long simulation. Check your mesh!?
+openEMS::SetupFDTD: Warning, max. number of timesteps is smaller than three times the excitation. 
+	You may want to choose a higher number of max. timesteps... 

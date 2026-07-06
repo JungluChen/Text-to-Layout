@@ -1,0 +1,44 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "RESONANCE_FREQUENCY_EXTRACTED",
+  "backend_status": "executed",
+  "solver": "openEMS+scikit-rf",
+  "solver_version": "openEMS via Octave frontend",
+  "command": [
+    "wsl",
+    "bash",
+    "-lc",
+    "cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 1011.3803195999935,
+  "artifacts": {
+    "model": "extraction/capacitance_input/openems_model.json",
+    "driver": "extraction/capacitance_input/openems_model.m",
+    "manifest": "extraction/capacitance_input/simulation_manifest.json",
+    "solver_stdout": "extraction/capacitance_input/solver.stdout.txt",
+    "solver_stderr": "extraction/capacitance_input/solver.stderr.txt",
+    "touchstone": "extraction/capacitance_input/openems_result.s2p",
+    "result": "extraction/capacitance_input/openems_result.s2p"
+  },
+  "extracted_quantities": {
+    "resonance_frequency_ghz": 3.0,
+    "s21_magnitude_at_resonance": NaN
+  },
+  "target_comparison": {
+    "quantity": "resonance_frequency_ghz",
+    "extracted": 3.0,
+    "target": 6.0,
+    "error_pct": -50.0,
+    "tolerance_pct": 5.0,
+    "within_tolerance": false
+  },
+  "analytical_quantity": "resonance_frequency",
+  "analytical_unit": "GHz",
+  "analytical_value": 6.0,
+  "reason": "Extracted resonance_frequency_ghz from solver-owned openems_result.s2p.",
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ]
+}

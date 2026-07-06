@@ -99,7 +99,7 @@ def test_skipped_examples_carry_no_extracted_value(example_id: str) -> None:
 
 
 def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -> None:
-    """Claim validation must reject PHYSICS_VERIFIED for a solver-skipped example."""
+    """Claim validation must reject PHYSICS_VERIFIED for an out-of-tolerance example."""
     import importlib.util
 
     spec = importlib.util.spec_from_file_location(
@@ -110,10 +110,12 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
 
     real = (ROOT / "README.md").read_text(encoding="utf-8")
     doctored = real.replace(
-        "**SKIPPED_SOLVER_ABSENT** — analytical λ/4 length; no EM resonance execution.",
+        "**SIMULATION_EXECUTED** — openEMS via WSL/Octave ran to completion (real S2P "
+        "Touchstone output); extracted resonance 3.000000 GHz versus 6.000000 GHz target; "
+        "50.000% error, outside the 5% tolerance — not physics-verified.",
         "**PHYSICS_VERIFIED** — totally real, trust me.",
     )
-    assert doctored != real, "expected to find the quarter-wave resonator skipped-status cell to doctor"
+    assert doctored != real, "expected to find the quarter-wave resonator executed-status cell to doctor"
     fake_readme = tmp_path / "README.md"
     fake_readme.write_text(doctored, encoding="utf-8")
     errors = module.validate(fake_readme, root=ROOT)

@@ -1,0 +1,43 @@
+[1m[31mError   : OpenCASCADE point with tag 1 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 4: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 2 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 5: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 3 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 6: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 4 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 7: Could not add point[0m
+[1m[31mError   : OpenCASCADE curve with tag 1 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 8: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 2 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 9: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 3 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 10: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 4 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 11: Could not add line[0m
+[1m[31mError   : OpenCASCADE wire or curve loop with tag 1 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 12: Could not add curve loop[0m
+[1m[31mError   : OpenCASCADE surface with tag 1 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 13: Could not add plane surface[0m
+[1m[31mError   : OpenCASCADE point with tag 5 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 15: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 6 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 16: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 7 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 17: Could not add point[0m
+[1m[31mError   : OpenCASCADE point with tag 8 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 18: Could not add point[0m
+[1m[31mError   : OpenCASCADE curve with tag 5 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 19: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 6 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 20: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 7 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 21: Could not add line[0m
+[1m[31mError   : OpenCASCADE curve with tag 8 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 22: Could not add line[0m
+[1m[31mError   : OpenCASCADE wire or curve loop with tag 2 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 23: Could not add curve loop[0m
+[1m[31mError   : OpenCASCADE surface with tag 2 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 24: Could not add plane surface[0m
+[1m[31mError   : OpenCASCADE point with tag 9 already exists[0m
+[1m[31mError   : 'full_tile.geo', line 26: Could not add point[0m
+[1m[31mError   : Too many errors: aborting parser...[0m

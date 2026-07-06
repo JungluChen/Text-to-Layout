@@ -1,0 +1,32 @@
+{
+  "schema": "textlayout.simulation-result.v1",
+  "status": "input_files_prepared",
+  "evidence_stage": "input_prepared",
+  "solver": "Gmsh + Palace",
+  "solver_executed": false,
+  "capacitance_matrix_parsed": false,
+  "target_compared": false,
+  "physics_verified": false,
+  "readiness_level": 2,
+  "readiness_label": "open-source simulation input prepared",
+  "reason": "Palace full-tile inputs prepared; solver not executed because Palace is missing.",
+  "output_dir": "full_tile_palace",
+  "artifacts": {
+    "gmsh_geo": "full_tile_palace/full_tile.geo",
+    "palace_config": "full_tile_palace/palace.json",
+    "gmsh_stdout": "full_tile_palace/gmsh.stdout.txt",
+    "gmsh_stderr": "full_tile_palace/gmsh.stderr.txt",
+    "mesh": "full_tile_palace/full_tile.msh"
+  },
+  "extracted_quantities": {},
+  "target_comparison": null,
+  "warnings": [
+    "The 3-D extrusion is a simplified research handoff, not a package or foundry model.",
+    "Dielectric loss, enclosure, wirebonds, ports, and material dispersion require review."
+  ],
+  "command": [],
+  "return_code": null,
+  "runtime_seconds": null,
+  "evidence_level": null,
+  "solver_version": null
+}

@@ -119,3 +119,31 @@ def test_compare_computes_status_never_takes_it(tmp_path: Path) -> None:
     bad = compare_extracted_to_target(extracted_value=0.75, **common)
     assert bad.status is EvidenceStatus.SIMULATION_EXECUTED
     assert "NOT physics verified" in bad.summary_line()
+
+
+def test_50_ohm_target_with_30_ohm_result_is_never_physics_verified(tmp_path: Path) -> None:
+    """Regression: a CPW that badly misses its impedance target must not pass.
+
+    This is the exact failure mode of the real showcase 02 run (openEMS
+    extracted ~30.9 ohm against a 50 ohm target): the solver executed and the
+    evidence is real, but the design missed -- the status must stay
+    SIMULATION_EXECUTED, never PHYSICS_VERIFIED.
+    """
+    out = tmp_path / "cpw.s2p"
+    out.write_text("# GHz S RI R 50", encoding="utf-8")
+    record = compare_extracted_to_target(
+        quantity="characteristic_impedance",
+        target_value=50.0,
+        target_unit="ohm",
+        extracted_value=30.0,
+        extracted_unit="ohm",
+        tolerance_percent=5.0,
+        solver="openEMS+scikit-rf",
+        command="octave-cli openems_model.m",
+        input_files=["openems_model.m"],
+        output_files=[str(out)],
+        parser="textlayout.simulation.runners.extract_z0_from_touchstone",
+    )
+    assert record.status is EvidenceStatus.SIMULATION_EXECUTED
+    assert record.status is not EvidenceStatus.PHYSICS_VERIFIED
+    assert "NOT physics verified" in record.summary_line()
