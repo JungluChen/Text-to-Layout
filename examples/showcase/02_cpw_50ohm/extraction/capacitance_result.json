@@ -5,13 +5,13 @@
   "solver": "openEMS+scikit-rf",
   "solver_version": "openEMS via Octave frontend",
   "command": [
-    "wsl",
+    "C:\\Windows\\system32\\wsl.EXE",
     "bash",
     "-lc",
     "cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m"
   ],
   "return_code": 0,
-  "runtime_seconds": 76.40208399999756,
+  "runtime_seconds": 1223.167097700003,
   "artifacts": {
     "model": "extraction\\capacitance_input\\openems_model.json",
     "driver": "extraction\\capacitance_input\\openems_model.m",
@@ -23,20 +23,21 @@
     "result": "extraction\\capacitance_input\\openems_result.s2p"
   },
   "extracted_quantities": {
-    "characteristic_impedance_ohm": 30.917129182835225,
-    "sample_frequency_ghz": 6.0,
-    "s11_magnitude": 0.05226414371888688,
-    "return_loss_db": 25.635923211383364,
-    "characteristic_impedance_real_ohm": 30.91712917321,
-    "characteristic_impedance_imag_ohm": -0.0007714716915898
+    "characteristic_impedance_ohm": 49.88827755069874,
+    "sample_frequency_ghz": 5.98875,
+    "s11_magnitude": 0.0011439061772806117,
+    "return_loss_db": 58.83219189478079,
+    "z0_from_sparams_ohm": 49.71253451171291,
+    "characteristic_impedance_real_ohm": 49.88827753313,
+    "characteristic_impedance_imag_ohm": 0.001323989608695
   },
   "target_comparison": {
     "quantity": "characteristic_impedance_ohm",
-    "extracted": 30.917129182835225,
+    "extracted": 49.88827755069874,
     "target": 50.0,
-    "error_pct": -38.166,
+    "error_pct": -0.223,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": true
   },
   "analytical_quantity": "characteristic_impedance",
   "analytical_unit": "ohm",

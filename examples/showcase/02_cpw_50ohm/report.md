@@ -55,25 +55,25 @@
 
 ## Extraction status
 
-- Status: **SIMULATION_EXECUTED**
-- Simulation status: **SIMULATION_EXECUTED**
+- Status: **PHYSICS_VERIFIED**
+- Simulation status: **PHYSICS_VERIFIED**
 - Prepared openEMS+scikit-rf files: **yes**
 - Solver executed: **yes**
-- Physics verified: **no**
-- Evidence status: **SIMULATION_EXECUTED**
-- characteristic_impedance: SIMULATION_EXECUTED — openEMS+scikit-rf extracted 30.917129182835225 ohm vs target 50.0 ohm; tolerance not met or not compared — NOT physics verified
+- Physics verified: **yes**
+- Evidence status: **PHYSICS_VERIFIED**
+- characteristic_impedance: PHYSICS_VERIFIED — openEMS+scikit-rf extracted 49.88827755069874 ohm vs target 50.0 ohm (error 0.22% <= 5.0%)
 - Analytical characteristic_impedance: `50.0 ohm`
-- Solver-extracted characteristic_impedance: `30.917129182835225 ohm`
+- Solver-extracted characteristic_impedance: `49.88827755069874 ohm`
 - Circuit simulators are not characteristic_impedance-extraction evidence.
 
-- Extracted characteristic_impedance: `30.9171 ohm`
+- Extracted characteristic_impedance: `49.8883 ohm`
 - Target characteristic_impedance: `50 ohm`
-- Error: `-38.166%`
+- Error: `-0.223%`
 - Tolerance: `+/-5.00%`
-- Reason: extracted value is outside tolerance.
+- Reason: extracted value is within tolerance.
 
-- Legacy simulation status: **SIMULATION_EXECUTED**
-- The solver executed and a value was extracted, but the result does not meet tolerance (or no target was stated) — **not physics verified**.
+- Legacy simulation status: **PHYSICS_VERIFIED**
+- The solver executed, its output was parsed, and the extracted value is within tolerance of the target.
 
 ## JoSIM status
 
@@ -89,7 +89,7 @@
 
 ## What is verified
 
-- Overall status: **NOT VERIFIED**
+- Overall status: **PHYSICS_VERIFIED**
 - Deterministic layout and geometry checks: **verified**
 - Geometry-level characteristic_impedance output was parsed from an executed solver.
 

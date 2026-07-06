@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "SIMULATION_EXECUTED",
+  "status": "PHYSICS_VERIFIED",
   "solver": "openEMS+scikit-rf",
   "solver_executed": true,
   "capacitance_matrix_parsed": false,
@@ -9,11 +9,11 @@
   "capacitance_matrix_pf": null,
   "target_comparison": {
     "quantity": "characteristic_impedance_ohm",
-    "extracted": 30.917129182835225,
+    "extracted": 49.88827755069874,
     "target": 50.0,
-    "error_pct": -38.166,
+    "error_pct": -0.223,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": true
   },
   "artifacts": {
     "model": "extraction\\capacitance_input\\openems_model.json",
@@ -26,7 +26,7 @@
     "result": "extraction\\capacitance_input\\openems_result.s2p"
   },
   "quantity": "characteristic_impedance",
-  "extracted_value": 30.917129182835225,
+  "extracted_value": 49.88827755069874,
   "extracted_unit": "ohm",
   "capacitance_source": "not_applicable",
   "capacitance_pf": null,
@@ -41,15 +41,15 @@
       "quantity": "characteristic_impedance",
       "target_value": 50.0,
       "target_unit": "ohm",
-      "extracted_value": 30.917129182835225,
+      "extracted_value": 49.88827755069874,
       "extracted_unit": "ohm",
       "analytical_value": 50.0,
       "analytical_model": "Conformal-mapping CPW (Simons/Hilberg) + \u03bb/4 transmission-line theory",
-      "error_percent": 38.1657,
+      "error_percent": 0.2234,
       "tolerance_percent": 5.0,
-      "status": "SIMULATION_EXECUTED",
+      "status": "PHYSICS_VERIFIED",
       "solver": "openEMS+scikit-rf",
-      "command": "wsl bash -lc cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m",
+      "command": "C:\\Windows\\system32\\wsl.EXE bash -lc cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m",
       "input_files": [
         "extraction\\capacitance_input\\simulation_manifest.json",
         "extraction\\capacitance_input\\openems_model.m",
@@ -62,7 +62,7 @@
         "extraction\\capacitance_input\\openems_result.s2p"
       ],
       "parser": "textlayout.simulation.runners.extract_cpw_from_touchstone",
-      "timestamp": "2026-07-03T09:21:15+00:00",
+      "timestamp": "2026-07-06T08:42:44+00:00",
       "notes": [
         "Extracted characteristic_impedance_ohm from solver-owned openems_result.s2p.",
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
@@ -75,5 +75,5 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": false
+  "physics_verified": true
 }

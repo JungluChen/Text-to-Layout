@@ -24,10 +24,10 @@
       "klayout_readback_status": "pass",
       "solver": "openEMS+scikit-rf",
       "solver_executed": true,
-      "simulation_status": "SIMULATION_EXECUTED",
-      "evidence_status": "SIMULATION_EXECUTED",
+      "simulation_status": "PHYSICS_VERIFIED",
+      "evidence_status": "PHYSICS_VERIFIED",
       "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "openEMS executed via WSL/Octave; extracted 30.917 ohm versus 50 ohm target (-38.2% error), outside the 5% tolerance -- not physics-verified. Boundary placement and mesh convergence not reviewed. Not fabrication-ready."
+      "limitation": "openEMS FDTD executed via WSL/Octave with convergence gates (excitation fully recorded, energy plateau); extracted 49.888 ohm versus 50 ohm target (-0.223% error, within the 5% tolerance). Earlier committed runs simulated a vacuum substrate (CSXCAD AddMaterial varargin silently ignores Epsilon) -- fixed via SetMaterialProperty. Generic process assumptions; not fabrication-ready."
     },
     {
       "id": "03_idc_cpw_test_structure",
