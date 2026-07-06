@@ -46,17 +46,35 @@ def _is_elf(path: Path) -> bool:
         return False
 
 
+def _wsl_exe() -> str | None:
+    """Full path to wsl.exe, resolved via Python's os.environ PATH snapshot.
+
+    Never launch bare ``"wsl"``: native libraries (gmsh.initialize() is the
+    known offender) can truncate the Win32-level PATH with a fixed-size
+    buffer, silently dropping System32 from CreateProcess's search path while
+    shutil.which — which reads Python's os.environ copy — still resolves it.
+    """
+    if os.name != "nt":
+        return None
+    return shutil.which("wsl")
+
+
 def _wsl_which(names: tuple[str, ...]) -> str | None:
-    if os.name != "nt" or shutil.which("wsl") is None:
+    wsl = _wsl_exe()
+    if wsl is None:
         return None
     expression = " || ".join(f"command -v {shlex.quote(name)}" for name in names)
-    completed = subprocess.run(
-        ["wsl", "bash", "-lc", expression],
-        capture_output=True,
-        text=True,
-        timeout=10,
-        check=False,
-    )
+    try:
+        completed = subprocess.run(
+            [wsl, "bash", "-lc", expression],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+    except OSError:
+        # WSL discovery must degrade to "not found", never crash the caller.
+        return None
     found = completed.stdout.strip().splitlines()
     return f"{_WSL_PREFIX}{found[0]}" if completed.returncode == 0 and found else None
 
@@ -110,7 +128,7 @@ def _execution_command(solver: str, args: list[str], cwd: Path) -> list[str]:
     executable = solver.removeprefix(_WSL_PREFIX)
     workdir = _windows_to_wsl(cwd)
     command = " ".join([shlex.quote(executable), *(shlex.quote(arg) for arg in args)])
-    return ["wsl", "bash", "-lc", f"cd {shlex.quote(workdir)} && {command}"]
+    return [_wsl_exe() or "wsl", "bash", "-lc", f"cd {shlex.quote(workdir)} && {command}"]
 
 
 def _skipped(prepared: SimulationResult, names: tuple[str, ...]) -> SimulationResult:
@@ -276,7 +294,8 @@ def _find_interface_directory(project: str) -> str | None:
         for marker in dict.fromkeys(markers):
             directory = marker.parent
             return f"{_WSL_PREFIX}{_windows_to_wsl(directory)}"
-    if os.name == "nt" and shutil.which("wsl"):
+    wsl = _wsl_exe()
+    if wsl is not None:
         candidates = (
             f"/usr/share/{project}/matlab",
             f"/usr/local/share/{project}/matlab",
@@ -286,13 +305,16 @@ def _find_interface_directory(project: str) -> str | None:
             f"test -d {shlex.quote(path)} && printf '%s\\n' {shlex.quote(path)}"
             for path in candidates
         )
-        completed = subprocess.run(
-            ["wsl", "bash", "-lc", expression],
-            capture_output=True,
-            text=True,
-            timeout=10,
-            check=False,
-        )
+        try:
+            completed = subprocess.run(
+                [wsl, "bash", "-lc", expression],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        except OSError:
+            return None
         found = completed.stdout.strip().splitlines()
         if found:
             return f"{_WSL_PREFIX}{found[0]}"

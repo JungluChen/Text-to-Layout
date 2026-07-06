@@ -70,6 +70,29 @@ def _fake_executable(tmp_path: Path, name: str, body: list[str]) -> str:
 
 
 # --- Graceful missing-solver behaviour ---------------------------------------
+def test_wsl_discovery_survives_a_broken_process_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Regression: gmsh.initialize() truncates the Win32-level PATH, which made
+    Popen(["wsl", ...]) raise FileNotFoundError and crash every downstream
+    openEMS prepare step run after any gmsh-using test. Discovery must launch
+    wsl by full resolved path and degrade to "not found" if launch still fails.
+    """
+    from textlayout.simulation import runners
+
+    monkeypatch.setattr(runners.shutil, "which", lambda name: "C:/fake/wsl.exe")
+
+    def _boom(cmd: list[str], **kwargs: object) -> None:
+        # The command must carry the resolved path, never the bare name whose
+        # lookup depends on the (corruptible) CreateProcess search path.
+        assert cmd[0] == "C:/fake/wsl.exe"
+        raise FileNotFoundError(2, "simulated corrupted process environment")
+
+    monkeypatch.setattr(runners.subprocess, "run", _boom)
+    monkeypatch.setattr(runners.os, "name", "nt")
+    assert runners._wsl_which(("octave-cli",)) is None
+
+
 def test_fasthenry_missing_is_graceful(tmp_path: Path) -> None:
     prepared = _spiral_prepared(tmp_path)
     result = run_fasthenry(prepared, executable="fasthenry-does-not-exist")

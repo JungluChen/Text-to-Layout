@@ -344,7 +344,11 @@ def _executable_prefix(executable: str) -> list[str]:
     if Path(executable).suffix.lower() == ".py":
         return [sys.executable, executable]
     if _needs_wsl(executable):
-        return ["wsl", _to_wsl_path(Path(executable))]
+        import shutil
+
+        # Full path, not bare "wsl": native libs (gmsh) can truncate the
+        # Win32-level PATH so CreateProcess no longer finds System32.
+        return [shutil.which("wsl") or "wsl", _to_wsl_path(Path(executable))]
     return [executable]
 
 
