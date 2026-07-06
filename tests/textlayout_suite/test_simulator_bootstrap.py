@@ -176,8 +176,14 @@ def test_docker_and_devcontainer_exist_and_are_wired() -> None:
     devcontainer = json.loads(
         (REPO_ROOT / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8")
     )
-    assert devcontainer["build"]["dockerfile"] == "../docker/simulators.Dockerfile"
-    assert "check-simulators" in devcontainer["postCreateCommand"]
+    # The devcontainer must build from a Dockerfile that actually exists in
+    # docker/ (it moved from simulators.Dockerfile to solver-full.Dockerfile
+    # when the Palace/full solver stack landed) and must run a solver health
+    # check after creation, not silently start with an unverified stack.
+    referenced = devcontainer["build"]["dockerfile"]
+    assert (REPO_ROOT / ".devcontainer" / referenced).resolve().is_file(), referenced
+    post_create = devcontainer["postCreateCommand"]
+    assert "doctor" in post_create or "check-simulators" in post_create, post_create
 
 
 def test_readme_documents_setup_flow() -> None:

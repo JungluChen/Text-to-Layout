@@ -79,7 +79,15 @@ def test_fasthenry_missing_is_graceful(tmp_path: Path) -> None:
     assert "result" not in result.artifacts
 
 
-def test_openems_missing_touchstone_is_graceful(tmp_path: Path) -> None:
+def test_openems_missing_touchstone_is_graceful(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Force solver absence regardless of what this machine has installed:
+    # pointing the discovery env vars at a nonexistent path short-circuits
+    # the PATH/.tools/WSL fallback. Without this, the test launches a real
+    # multi-minute FDTD run on machines with a working openEMS stack.
+    monkeypatch.setenv("TEXTLAYOUT_OPENEMS", str(tmp_path / "no-such-octave"))
+    monkeypatch.setenv("TEXTLAYOUT_OPENEMS_CORE", str(tmp_path / "no-such-openems"))
     spec = LayoutSpec.model_validate(
         json.loads(
             (ROOT / "examples/benchmarks/04_quarter_wave_resonator/layout.json").read_text("utf-8")
@@ -95,7 +103,7 @@ def test_openems_missing_touchstone_is_graceful(tmp_path: Path) -> None:
         solver="openems",
         execute=True,
     )
-    # No Touchstone and no CSXCAD model generator yet -> honest non-result.
+    # No solver available -> honest non-result, never a fabricated Touchstone.
     assert result.physics_verified is False
     assert result.evidence_stage in {"solver_missing", "failed_gracefully"}
 
