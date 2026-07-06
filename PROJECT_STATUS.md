@@ -1,8 +1,21 @@
 # Project Status
 
-Generated: 2026-07-06T01:55:22+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
+Generated: 2026-07-06T02:25:20+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
+
+## CLI commands (introspected from the real parser)
+
+- `textlayout chip` — subcommands: `analyze`, `optimize`
+- `textlayout doctor`
+- `textlayout epr`
+- `textlayout generate`
+- `textlayout measurement` — subcommands: `calibrate`, `compare`
+- `textlayout pdk` — subcommands: `info`, `list`
+- `textlayout prompt`
+- `textlayout serve`
+- `textlayout verify`
+- `textlayout yield` — subcommands: `jj`, `qubit-array`
 
 ## Showcase evidence
 
@@ -23,6 +36,18 @@ Generated: 2026-07-06T01:55:22+00:00 — by `scripts/generate_project_status.py`
 | --- | --- | --- | --- |
 | example_superconducting_pdk | 0.1.0 | False | Illustrative example combining published order-of-magnitude Nb/Al-on-Si process figures; NOT a real foundry PDK. |
 | generic_2metal_pdk | 0.1.0 | False | Mirrors the built-in generic_2metal Technology; illustrative only. |
+
+## EPR / coherence support
+
+- CLI command available: True (also `--include-epr` on `prompt`/`verify`)
+- Statuses: `EPR_ANALYTICAL_ONLY`, `EPR_EXECUTED`, `EPR_INPUT_PREPARED`, `EPR_SKIPPED_SOLVER_ABSENT`, `FIELD_ENERGY_IMPORTED`
+- Default backend: analytical scaling model (EPR_ANALYTICAL_ONLY); a field-solver EPR (pyEPR/HFSS or Palace energies) is imported, never fabricated
+- Field-solver verified by default: **False**
+
+## Measurement calibration support
+
+- `measurement compare`: True · `measurement calibrate`: True
+- Committed fixtures are synthetic: **True** — All committed measurement data is synthetic. Real fabrication confidence requires correlation against measured devices.
 
 ## Known limitations (from README)
 

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-STATUS_SCHEMA = "textlayout.project-status.v1"
+STATUS_SCHEMA = "textlayout.project-status.v2"
 
 #: Statuses that count as real solver-backed evidence (mirrors the shared
 #: evidence vocabulary in textlayout.evidence / textlayout.simulation.evidence).
@@ -98,6 +98,63 @@ def _read_test_report() -> dict[str, Any] | None:
         return None
 
 
+def _cli_commands() -> dict[str, list[str]]:
+    """Introspect the real argparse tree — never a hand-maintained list.
+
+    Returns {command: [subcommand, ...]} for every registered `textlayout`
+    command, so the manifest reflects what `textlayout --help` actually
+    exposes right now.
+    """
+    sys.path.insert(0, str(ROOT / "src"))
+    from textlayout.cli import build_parser
+
+    def _subchoices(parser: Any) -> dict[str, Any]:
+        for action in parser._actions:  # noqa: SLF001 - argparse has no public API for this
+            if getattr(action, "choices", None) and hasattr(action, "add_parser"):
+                return dict(action.choices)
+        return {}
+
+    commands: dict[str, list[str]] = {}
+    for name, sub in _subchoices(build_parser()).items():
+        commands[name] = sorted(_subchoices(sub))
+    return commands
+
+
+def _epr_support(cli_commands: dict[str, list[str]]) -> dict[str, Any]:
+    sys.path.insert(0, str(ROOT / "src"))
+    from textlayout.epr import models as epr_models
+
+    statuses = sorted(
+        value
+        for name, value in vars(epr_models).items()
+        if name.startswith("EPR_STATUS") and isinstance(value, str)
+    )
+    return {
+        "cli_command": "epr" in cli_commands,
+        "prompt_verify_flag": "--include-epr",
+        "statuses": statuses,
+        "default_backend": (
+            "analytical scaling model (EPR_ANALYTICAL_ONLY); a field-solver "
+            "EPR (pyEPR/HFSS or Palace energies) is imported, never fabricated"
+        ),
+        "field_solver_verified_by_default": False,
+    }
+
+
+def _measurement_support(cli_commands: dict[str, list[str]]) -> dict[str, Any]:
+    fixtures = ROOT / "examples" / "measurement_fixtures"
+    return {
+        "compare_command": "compare" in cli_commands.get("measurement", []),
+        "calibrate_command": "calibrate" in cli_commands.get("measurement", []),
+        "fixtures": sorted(p.name for p in fixtures.glob("*")) if fixtures.is_dir() else [],
+        "fixtures_are_synthetic": True,
+        "note": (
+            "All committed measurement data is synthetic. Real fabrication "
+            "confidence requires correlation against measured devices."
+        ),
+    }
+
+
 def _pdk_status() -> dict[str, Any]:
     sys.path.insert(0, str(ROOT / "src"))
     from textlayout.knowledge.technology_library import PDKS_DIR
@@ -133,10 +190,12 @@ def build_status() -> dict[str, Any]:
     showcase_examples = _read_showcase_index()
     classification = _classify_showcase(showcase_examples)
     test_report = _read_test_report()
+    cli_commands = _cli_commands()
     return {
         "schema": STATUS_SCHEMA,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "package_version": _read_package_version(),
+        "cli_commands": cli_commands,
         "showcase": {
             "total_examples": len(showcase_examples),
             **classification,
@@ -149,6 +208,8 @@ def build_status() -> dict[str, Any]:
         },
         "known_limitations": _read_readme_limitations(),
         "pdk_status": _pdk_status(),
+        "epr_support": _epr_support(cli_commands),
+        "measurement_support": _measurement_support(cli_commands),
     }
 
 
@@ -161,6 +222,14 @@ def render_markdown(status: dict[str, Any]) -> str:
         "`out/evidence/project_status.json`.",
         "",
         f"- **Package version:** `{status['package_version']}`",
+        "",
+        "## CLI commands (introspected from the real parser)",
+        "",
+        *(
+            f"- `textlayout {name}`"
+            + (f" — subcommands: {', '.join(f'`{s}`' for s in subs)}" if subs else "")
+            for name, subs in sorted(status["cli_commands"].items())
+        ),
         "",
         "## Showcase evidence",
         "",
@@ -191,6 +260,27 @@ def render_markdown(status: dict[str, Any]) -> str:
         lines.append(
             f"| {pdk['name']} | {pdk['version']} | {pdk['foundry_validated']} | {pdk['source']} |"
         )
+    epr = status["epr_support"]
+    lines += [
+        "",
+        "## EPR / coherence support",
+        "",
+        f"- CLI command available: {epr['cli_command']} "
+        f"(also `{epr['prompt_verify_flag']}` on `prompt`/`verify`)",
+        f"- Statuses: {', '.join(f'`{s}`' for s in epr['statuses'])}",
+        f"- Default backend: {epr['default_backend']}",
+        f"- Field-solver verified by default: **{epr['field_solver_verified_by_default']}**",
+    ]
+    meas = status["measurement_support"]
+    lines += [
+        "",
+        "## Measurement calibration support",
+        "",
+        f"- `measurement compare`: {meas['compare_command']} · "
+        f"`measurement calibrate`: {meas['calibrate_command']}",
+        f"- Committed fixtures are synthetic: **{meas['fixtures_are_synthetic']}** — "
+        f"{meas['note']}",
+    ]
     lines += ["", "## Known limitations (from README)", ""]
     lines += [f"- {item}" for item in status["known_limitations"]]
     lines.append("")

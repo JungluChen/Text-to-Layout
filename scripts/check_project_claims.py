@@ -21,6 +21,14 @@ on any of:
    example's own `simulation.json` (in either direction — a summary claiming
    LESS evidence than the underlying artifact is just as much a bug as
    claiming more).
+7. A hand-edited doc (`README.md`, `CURRENT_STATUS.md`) contains a hard-coded
+   "N passed" test count. Those go stale silently (CURRENT_STATUS.md carried
+   "726 passed, 0 failed" long after the suite passed 1000 tests); the only
+   place a test count may live is the generated `PROJECT_STATUS.md` /
+   `out/evidence/project_status.json`, which carry their own provenance.
+8. `out/evidence/project_status.json` (when present) is stale: wrong schema,
+   package version disagreeing with pyproject.toml, or a CLI command list
+   that no longer matches the real argparse tree.
 
 Usage:
     python scripts/check_project_claims.py
@@ -237,6 +245,77 @@ def check_textlayout_text_to_gds_roles(errors: list[str]) -> None:
         )
 
 
+#: Hand-edited docs that must never carry a literal test count.
+_DOCS_WITHOUT_TEST_COUNTS = ("README.md", "CURRENT_STATUS.md")
+_TEST_COUNT_RE = re.compile(r"\b\d+\s+passed\b", re.I)
+#: A line may mention an old count when explicitly describing it as stale
+#: history (that is how CURRENT_STATUS.md documents why the count was removed).
+_STALE_HISTORY_RE = re.compile(r"\bstale\b|\bhistorical\b", re.I)
+
+_EXPECTED_STATUS_SCHEMA = "textlayout.project-status.v2"
+
+
+def check_no_hardcoded_test_counts(errors: list[str]) -> None:
+    for doc_name in _DOCS_WITHOUT_TEST_COUNTS:
+        doc_path = ROOT / doc_name
+        if not doc_path.is_file():
+            continue
+        for lineno, line in enumerate(doc_path.read_text(encoding="utf-8").splitlines(), 1):
+            if _STALE_HISTORY_RE.search(line):
+                continue
+            if _TEST_COUNT_RE.search(line):
+                _fail(
+                    errors,
+                    f"{doc_name}:{lineno}: hard-coded test count ({line.strip()!r}); "
+                    "test counts belong only in the generated PROJECT_STATUS.md "
+                    "(scripts/generate_project_status.py + save_test_report.py)",
+                )
+
+
+def check_status_manifest_freshness(errors: list[str]) -> None:
+    """out/evidence/project_status.json, when present, must not be stale."""
+    manifest_path = ROOT / "out" / "evidence" / "project_status.json"
+    if not manifest_path.is_file():
+        return  # gitignored artifact; absence just means the generator hasn't run
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        _fail(errors, "out/evidence/project_status.json is not valid JSON")
+        return
+    if manifest.get("schema") != _EXPECTED_STATUS_SCHEMA:
+        _fail(
+            errors,
+            f"project_status.json schema is {manifest.get('schema')!r}, expected "
+            f"{_EXPECTED_STATUS_SCHEMA!r} — rerun scripts/generate_project_status.py",
+        )
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    package_version = str(pyproject["project"]["version"])
+    if manifest.get("package_version") not in (None, package_version):
+        _fail(
+            errors,
+            f"project_status.json records package_version="
+            f"{manifest.get('package_version')!r} but pyproject.toml says "
+            f"{package_version!r} — rerun scripts/generate_project_status.py",
+        )
+    recorded_commands = manifest.get("cli_commands")
+    if isinstance(recorded_commands, dict):
+        sys.path.insert(0, str(ROOT / "src"))
+        from textlayout.cli import build_parser
+
+        actual: set[str] = set()
+        for action in build_parser()._actions:  # noqa: SLF001
+            if getattr(action, "choices", None) and hasattr(action, "add_parser"):
+                actual = set(action.choices)
+                break
+        if set(recorded_commands) != actual:
+            _fail(
+                errors,
+                "project_status.json cli_commands "
+                f"({sorted(recorded_commands)}) no longer match the real CLI "
+                f"({sorted(actual)}) — rerun scripts/generate_project_status.py",
+            )
+
+
 def run_all_checks() -> list[str]:
     errors: list[str] = []
     check_physics_verified_and_execution_claims(errors)
@@ -244,6 +323,8 @@ def run_all_checks() -> list[str]:
     check_version_consistency(errors)
     check_fabrication_readiness_claims(errors)
     check_textlayout_text_to_gds_roles(errors)
+    check_no_hardcoded_test_counts(errors)
+    check_status_manifest_freshness(errors)
     return errors
 
 

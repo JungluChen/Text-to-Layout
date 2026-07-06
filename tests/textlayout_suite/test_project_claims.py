@@ -369,9 +369,24 @@ class TestProjectStatusGenerator:
                 "skipped_solver_absent": [],
                 "analytical_only": [],
             },
+            "cli_commands": {},
             "test_report": {"available": False, "note": "no report saved"},
             "known_limitations": [],
             "pdk_status": {"pdks": [], "fabrication_readiness": "NOT_FABRICATION_READY"},
+            "epr_support": {
+                "cli_command": True,
+                "prompt_verify_flag": "--include-epr",
+                "statuses": ["EPR_ANALYTICAL_ONLY"],
+                "default_backend": "analytical",
+                "field_solver_verified_by_default": False,
+            },
+            "measurement_support": {
+                "compare_command": True,
+                "calibrate_command": True,
+                "fixtures": [],
+                "fixtures_are_synthetic": True,
+                "note": "synthetic",
+            },
         }
         markdown = status_module.render_markdown(status)
         assert "No saved test report available" in markdown

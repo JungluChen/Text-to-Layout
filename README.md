@@ -239,6 +239,15 @@ external executables; no solver source is vendored or linked into this project.
 
 ## Trust and reproducibility
 
+Live project status (package version, CLI surface, solver-backed vs
+analytical vs skipped examples, EPR/measurement support, PDK readiness) is
+**generated, never hand-edited**: run `python scripts/generate_project_status.py`
+and read [PROJECT_STATUS.md](PROJECT_STATUS.md) /
+`out/evidence/project_status.json`. `python scripts/check_project_claims.py`
+fails CI when any hand-written doc drifts from that ground truth (fake
+PHYSICS_VERIFIED claims, stale test counts, version drift, unnegated
+fabrication-readiness language).
+
 The honesty claims above are backed by committed, checkable artifacts:
 
 - [CLEAN_ROOM_VERIFICATION.md](CLEAN_ROOM_VERIFICATION.md) — what was verified from a fresh clone (local CLI / API / plugin-style). This repo is **not** claimed to be "public ChatGPT plugin ready"; that requires a public HTTPS deployment (see [docs/public_gpt_action_deployment.md](docs/public_gpt_action_deployment.md)).
