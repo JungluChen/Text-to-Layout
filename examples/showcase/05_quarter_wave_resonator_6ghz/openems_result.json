@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.capacitance-extraction-result.v1",
-  "status": "RESONANCE_FREQUENCY_EXTRACTED",
+  "status": "SIMULATION_INVALID",
   "backend_status": "executed",
   "solver": "openEMS+scikit-rf",
   "solver_version": "openEMS via Octave frontend",
@@ -21,24 +21,32 @@
     "touchstone": "extraction/capacitance_input/openems_result.s2p",
     "result": "extraction/capacitance_input/openems_result.s2p"
   },
-  "extracted_quantities": {
-    "resonance_frequency_ghz": 3.0,
-    "s21_magnitude_at_resonance": NaN
-  },
+  "extracted_quantities": {},
   "target_comparison": {
     "quantity": "resonance_frequency_ghz",
-    "extracted": 3.0,
+    "extracted": null,
     "target": 6.0,
-    "error_pct": -50.0,
+    "error_pct": null,
     "tolerance_pct": 5.0,
     "within_tolerance": false
   },
   "analytical_quantity": "resonance_frequency",
   "analytical_unit": "GHz",
   "analytical_value": 6.0,
-  "reason": "Extracted resonance_frequency_ghz from solver-owned openems_result.s2p.",
+  "reason": "openEMS exited 0 after 1011 s, but all 401 of 401 S-parameter samples in openems_result.s2p are non-finite (NaN) - the run injected no usable port energy. No quantity was extracted.",
+  "invalid_reasons": [
+    "all 401/401 S-parameter samples are non-finite (NaN/Inf)",
+    "the strongest S21 deviation sits at the lower sweep edge (3.0 GHz), which is what monotonic, resonance-free data looks like"
+  ],
+  "superseded_claim": {
+    "status": "RESONANCE_FREQUENCY_EXTRACTED",
+    "extracted_resonance_frequency_ghz": 3.0,
+    "extracted_s21_magnitude_at_resonance": "NaN",
+    "why_withdrawn": "3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'. textlayout.simulation.sparameters now rejects non-finite Touchstone data, and find_resonance_frequency rejects sweep-edge extrema; this artifact predates those gates and its numbers were never physical."
+  },
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
-    "Boundary placement and mesh convergence must be reviewed before signoff."
+    "Boundary placement and mesh convergence must be reviewed before signoff.",
+    "This run is SIMULATION_INVALID. A valid resonator result requires re-running openEMS with corrected port excitation; see docs/evidence_model.md."
   ]
 }

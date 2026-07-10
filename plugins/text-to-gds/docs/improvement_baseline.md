@@ -148,12 +148,41 @@ manifests.
 `doctor` output above (it lists openEMS as SKIPPED; openEMS executes here).
 Treat generated evidence, not prose, as the source of truth.
 
-## State after the first two commits
+## Two CI jobs were already red at baseline
 
-| Gate | Result |
-| --- | --- |
-| `uv run pytest` | **1178 passed, 6 skipped** |
-| `uv run ruff check .` | passed |
-| `uv run mypy` | 3 errors (pre-existing, unchanged) |
-| `uv run python scripts/check_benchmarks.py --strict` | passed |
-| `uv run python scripts/validate_readme_claims.py` | passed |
+Neither is caused by the work in this branch; both were verified by checking
+out `358c983d` and running the job's own commands.
+
+1. **`bundle-sync`.** Regenerating `plugins/text-to-gds` at the baseline commit
+   produced **65 changed files / 5452 insertions** — the bundled plugin copy
+   had drifted far behind `src/` (`workflows/from_text.py` alone was ~1000
+   lines behind). Fixed in `e6553487`.
+2. **Benchmark determinism, on any machine that has openEMS.** The generator
+   embedded `discover_openems_stack()` output — absolute host paths including
+   the local username — into the committed `openems_model.json` and
+   `simulation_manifest.json`. On the CI runner openEMS is absent so the block
+   was empty and the gate passed; on a solver-equipped machine regenerating
+   dirtied the tree. Fixed in `862d67b3`.
+
+The second is why the baseline default-run appeared clean here: the generator
+skips benchmarks whose `layout.json` is unchanged, which also masked that the
+committed `verification.json` files were missing the `idc_two_net_connectivity`
+and `idc_no_comb_shorts` checks the verifier actually runs.
+
+## State after this work
+
+Every row was run at `e6553487`.
+
+| Gate | Baseline `358c983d` | After |
+| --- | --- | --- |
+| `uv run pytest` | 1165 passed, 6 skipped | **1264 passed, 6 skipped** |
+| `uv run ruff check .` | passed | passed |
+| `uv run mypy` | **3 errors** (ungated) | **Success, 128 files** (now gated in CI) |
+| `uv run uv build` | not run | passed (wheel + sdist) |
+| clean-wheel install | `textlayout --version` → **0.2.0** (wrong) | → **0.3.0** |
+| `check_benchmarks.py --strict` | passed | passed |
+| `validate_readme_claims.py` | passed | passed |
+| acceptance freshness | passed | passed |
+| benchmark determinism | passed *only without openEMS* | passes **with** openEMS |
+| `bundle-sync` | **FAIL** (65 files stale) | passed |
+| API smoke | passed | passed |

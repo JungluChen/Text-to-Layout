@@ -41,6 +41,12 @@ EXPECTED_IDS = (
 )
 
 
+def _reject_json_constant(token: str) -> float:
+    raise AssertionError(
+        f"{token!r} is not valid JSON; a solver artifact must not contain bare NaN/Infinity"
+    )
+
+
 def _index() -> dict:
     return json.loads((SHOWCASE / "index.json").read_text(encoding="utf-8"))
 
@@ -176,3 +182,55 @@ def test_root_readme_showcase_rows_link_to_committed_folders() -> None:
         assert f"examples/showcase/{example_id}" in readme, (
             f"README must link showcase example {example_id}"
         )
+
+
+class TestResonatorRunIsHonestlyInvalid:
+    """showcase 05's openEMS run produced an all-NaN Touchstone.
+
+    It once reported `resonance_frequency_ghz: 3.0` -- the first point of the
+    sweep -- because an argmin over all-NaN magnitudes returns index 0 (every
+    NaN comparison is False). The parser now rejects that data outright; these
+    tests stop the fabricated number from creeping back into the artifact.
+    """
+
+    RESONATOR = SHOWCASE / "05_quarter_wave_resonator_6ghz"
+    TOUCHSTONE = RESONATOR / "extraction" / "capacitance_input" / "openems_result.s2p"
+
+    def _result(self) -> dict:
+        # strict=True: bare NaN is not valid JSON and must not reappear
+        return json.loads(
+            (self.RESONATOR / "openems_result.json").read_text(encoding="utf-8"),
+            parse_constant=_reject_json_constant,
+        )
+
+    def test_touchstone_is_all_non_finite(self) -> None:
+        assert self.TOUCHSTONE.is_file()
+        body = self.TOUCHSTONE.read_text(encoding="utf-8")
+        assert "NaN" in body, "fixture premise changed: the s2p is no longer all-NaN"
+
+    def test_parser_refuses_to_extract_from_it(self) -> None:
+        from textlayout.simulation.runners import extract_resonance_metrics_from_touchstone
+
+        with pytest.raises(ValueError, match="non-finite"):
+            extract_resonance_metrics_from_touchstone(self.TOUCHSTONE)
+
+    def test_artifact_claims_simulation_invalid_and_extracts_nothing(self) -> None:
+        result = self._result()
+        assert result["status"] == "SIMULATION_INVALID"
+        assert result["extracted_quantities"] == {}
+        assert result["target_comparison"]["extracted"] is None
+        assert result["target_comparison"]["within_tolerance"] is False
+
+    def test_artifact_never_reports_the_sweep_edge_as_a_resonance(self) -> None:
+        result = self._result()
+        assert "resonance_frequency_ghz" not in result["extracted_quantities"]
+        # the withdrawn claim is retained for provenance, clearly labelled
+        assert result["superseded_claim"]["extracted_resonance_frequency_ghz"] == 3.0
+        assert "not a resonance" in result["superseded_claim"]["why_withdrawn"]
+
+    def test_solver_execution_is_still_reported_truthfully(self) -> None:
+        """It really did run: rc 0, ~1011 s. Invalid output is not a skipped run."""
+        result = self._result()
+        assert result["backend_status"] == "executed"
+        assert result["return_code"] == 0
+        assert result["runtime_seconds"] > 0
