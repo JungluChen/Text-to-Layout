@@ -257,6 +257,7 @@ def mesh_convergence_evidence(
     threshold_percent: float = 1.0,
     min_levels: int = 3,
     eigen_window_ghz: tuple[float, float] | None = None,
+    extra_checks: list[SanityCheck] | None = None,
     geometry_hash: str | None = None,
     input_file_hashes: dict[str, str] | None = None,
     depends_on: list[ArtifactDependency] | None = None,
@@ -342,7 +343,7 @@ def mesh_convergence_evidence(
         "provenance_gaps": provenance_gaps,
     }
 
-    checks = sanity_checks(levels, eigen_window_ghz=eigen_window_ghz)
+    checks = [*sanity_checks(levels, eigen_window_ghz=eigen_window_ghz), *(extra_checks or [])]
     failed = [check.name for check in checks if not check.passed]
     if failed:
         return CanonicalEvidence(
