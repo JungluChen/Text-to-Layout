@@ -183,3 +183,29 @@ class TestStatusManifestFreshness:
         errors: list[str] = []
         claims_module.check_status_manifest_freshness(errors)
         assert errors == []
+
+
+class TestVersionSingleSourceOfTruth:
+    """`textlayout.__version__` was hardcoded "0.2.0" while the wheel was 0.3.0.
+
+    Nothing tested the canonical package's version, so `textlayout --version`
+    misreported the distribution it was installed from.
+    """
+
+    def test_textlayout_version_matches_the_installed_distribution(self) -> None:
+        from importlib.metadata import version
+
+        import textlayout
+
+        assert textlayout.__version__ == version("text-to-gds")
+
+    def test_both_packages_report_the_same_version(self) -> None:
+        import textlayout
+        import text_to_gds
+
+        assert textlayout.__version__ == text_to_gds.__version__
+
+    def test_version_is_not_the_unknown_fallback(self) -> None:
+        import textlayout
+
+        assert textlayout.__version__ != "0.0.0+unknown"
