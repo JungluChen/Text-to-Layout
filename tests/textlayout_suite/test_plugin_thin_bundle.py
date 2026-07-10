@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
 import sys
 import tomllib
 from pathlib import Path
@@ -22,9 +23,6 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLUGIN_ROOT = REPO_ROOT / "plugins" / "text-to-gds"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
-
-#: Caches are never committed, and are not the bundle's business.
-_TRANSIENT = {"__pycache__", ".ruff_cache", ".pytest_cache"}
 
 
 def _bundler():
@@ -39,13 +37,20 @@ def _bundler():
 
 
 def _bundled_files() -> list[Path]:
-    if not PLUGIN_ROOT.is_dir():
-        return []
-    return [
-        path.relative_to(PLUGIN_ROOT)
-        for path in PLUGIN_ROOT.rglob("*")
-        if path.is_file() and not _TRANSIENT & set(path.relative_to(PLUGIN_ROOT).parts)
-    ]
+    """Paths git *tracks* under the bundle, relative to it.
+
+    Deliberately not a working-tree walk. A copied implementation file is a
+    repository problem once it is committed; untracked build detritus under
+    `plugins/` is the developer's local mess and must not fail their suite.
+    The working-tree check still lives in `bundle_plugin.py --check`, which CI
+    runs before it rebuilds -- a rebuild would delete the very evidence that a
+    copy had been committed.
+    """
+    listing = subprocess.run(
+        ["git", "ls-files", "--", "plugins/text-to-gds"],
+        cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+    ).stdout.splitlines()
+    return [Path(line).relative_to("plugins/text-to-gds") for line in listing if line.strip()]
 
 
 @pytest.fixture(scope="module")
@@ -79,9 +84,13 @@ class TestNoCopiedImplementation:
         ]
         assert offenders == [], f"python outside skills/ in the plugin bundle: {offenders}"
 
-    def test_every_bundled_path_is_allowlisted(self, bundler) -> None:
-        strays = [str(p) for p in bundler._stray_paths()]
-        assert strays == [], f"paths outside BUNDLE_ALLOWLIST: {strays}"
+    def test_every_committed_path_is_allowlisted(self, bundler) -> None:
+        strays = [
+            str(relative)
+            for relative in _bundled_files()
+            if relative.parts[0] not in bundler.BUNDLE_ALLOWLIST
+        ]
+        assert strays == [], f"committed paths outside BUNDLE_ALLOWLIST: {strays}"
 
     def test_the_bundle_stays_small(self) -> None:
         """A guard on intent: metadata is tens of files, an implementation is hundreds."""
@@ -127,8 +136,13 @@ class TestBundleIsInstallableMetadata:
 
 
 class TestBundleCheckGate:
-    def test_check_passes_on_the_committed_bundle(self, bundler) -> None:
-        assert bundler.check() == 0
+    def test_check_rejects_a_stray_in_the_working_tree(self, bundler, tmp_path, monkeypatch) -> None:
+        """`--check` guards the tree; the tests above guard what is committed."""
+        fake_plugin = tmp_path / "plugins" / "text-to-gds"
+        (fake_plugin / "examples").mkdir(parents=True)
+        (fake_plugin / "examples" / "leftover.json").write_text("{}", encoding="utf-8")
+        monkeypatch.setattr(bundler, "PLUGIN_ROOT", fake_plugin)
+        assert [str(p) for p in bundler._stray_paths()] == [str(Path("examples/leftover.json"))]
 
     def test_check_rejects_a_smuggled_implementation_file(
         self, bundler, tmp_path: Path, monkeypatch, capsys
