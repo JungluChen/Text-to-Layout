@@ -1,0 +1,101 @@
+{
+  "device": "quarter-wave coplanar-waveguide resonator, shorted at x=0 by the PEC wall, open at x=L",
+  "executed_at": "2026-07-10T23:40:00+00:00",
+  "geometry_mm": {
+    "L": 5.006564,
+    "box_x": [
+      0.0,
+      6.2
+    ],
+    "box_y": [
+      -1.5,
+      1.5
+    ],
+    "centre_width": 0.2,
+    "gap": 0.12,
+    "substrate_z": [
+      -0.5,
+      0.0
+    ],
+    "vacuum_z": [
+      0.0,
+      0.5
+    ]
+  },
+  "levels": [
+    {
+      "completed": true,
+      "config": "configs/cpw_A.json",
+      "domain_energy_csv": "outputs/domainE_A.csv",
+      "eig_csv": "outputs/eig_A.csv",
+      "lc_far_mm": 0.5,
+      "lc_gap_mm": 0.05625,
+      "mesh": "cpw_A.msh",
+      "mesh_sha256": "d7e6d2bf78a20d315c5c00060541d50364edeafa97d9ae53fb3b3c356cb0ebed",
+      "nd_dofs": 94122,
+      "nodes": 11748,
+      "runtime_seconds": 39.43,
+      "tag": "A",
+      "tetrahedra": 64466
+    },
+    {
+      "completed": true,
+      "config": "configs/cpw_B.json",
+      "domain_energy_csv": "outputs/domainE_B.csv",
+      "eig_csv": "outputs/eig_B.csv",
+      "lc_far_mm": 0.4,
+      "lc_gap_mm": 0.045,
+      "mesh": "cpw_B.msh",
+      "mesh_sha256": "4e728d6351287597bce9e3e394dba720016b6e542a15e19065d92c579fa9e070",
+      "nd_dofs": 157622,
+      "nodes": 19660,
+      "runtime_seconds": 69.46,
+      "tag": "B",
+      "tetrahedra": 110193
+    },
+    {
+      "completed": true,
+      "config": "configs/cpw_C.json",
+      "domain_energy_csv": "outputs/domainE_C.csv",
+      "eig_csv": "outputs/eig_C.csv",
+      "lc_far_mm": 0.32,
+      "lc_gap_mm": 0.036,
+      "mesh": "cpw_C.msh",
+      "mesh_sha256": "8fe21a047963d99349904aa31d7f24cb5d7a85b001b4f7e59dac1ca32e88e100",
+      "nd_dofs": 267350,
+      "nodes": 33545,
+      "runtime_seconds": 128.06,
+      "tag": "C",
+      "tetrahedra": 191838
+    }
+  ],
+  "materials": {
+    "substrate": {
+      "name": "silicon",
+      "permittivity": 11.45
+    },
+    "vacuum": {
+      "permittivity": 1.0
+    }
+  },
+  "mesher": {
+    "name": "Gmsh",
+    "refinement_ratio": 1.25,
+    "type": "unstructured, non-nested; local refinement at metal edges (Distance+Threshold field, DistMin=0.06 mm, DistMax=0.60 mm)",
+    "version": "4.15.2"
+  },
+  "schema": "textlayout.palace-benchmark-manifest.v1",
+  "solver": {
+    "container": "oras://ghcr.io/volkermuehlhaus/palace_016:latest",
+    "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac",
+    "element_order": 1,
+    "formal_order": 2.0,
+    "name": "Palace",
+    "processes": 1,
+    "version": "0.16.0-34-gea2e7b23"
+  },
+  "target": {
+    "frequency_ghz": 6.0,
+    "model": "lambda/4 with eps_eff = (1 + eps_r)/2 = 6.225 (textlayout.research.formulas.cpw_eps_eff); a MODEL, not a closed form"
+  }
+}

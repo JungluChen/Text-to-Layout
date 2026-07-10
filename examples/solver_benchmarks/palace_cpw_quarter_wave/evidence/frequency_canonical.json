@@ -1,0 +1,137 @@
+{
+  "schema_version": "textlayout.canonical-evidence.v3",
+  "evidence_id": "519e3d69f95314a55e880d80abdc3da8",
+  "design_id": "palace_cpw_quarter_wave",
+  "design_hash": "9967c401243ff046025979bdfa6786ba78c0ec7ff8e5151e6c9d31a006fa6940",
+  "geometry_hash": null,
+  "component": "quarter_wave_cpw_resonator",
+  "analysis_scope": "fundamental_quarter_wave_eigenfrequency_in_a_pec_box",
+  "target_quantity": "eigenmode_frequency",
+  "target_value": 6.0,
+  "target_unit": "GHz",
+  "extracted_quantity": "eigenmode_frequency",
+  "extracted_value": 5.709556059993,
+  "extracted_unit": "GHz",
+  "analytical_value": 6.0,
+  "analytical_model": "lambda/4 with eps_eff = (1 + eps_r)/2 = 6.225 (textlayout.research.formulas.cpw_eps_eff); a MODEL, not a closed form",
+  "tolerance_percent": 2.0,
+  "error_percent": -4.840732333450001,
+  "status": "SIMULATION_EXECUTED",
+  "solver_name": "Palace",
+  "solver_version": "0.16.0-34-gea2e7b23",
+  "solver_executable_sha256": null,
+  "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac",
+  "command": [
+    "palace",
+    "-serial",
+    "cpw_C.json"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 236.95,
+  "input_file_hashes": {
+    "cpw_A.msh": "d7e6d2bf78a20d315c5c00060541d50364edeafa97d9ae53fb3b3c356cb0ebed",
+    "cpw_B.msh": "4e728d6351287597bce9e3e394dba720016b6e542a15e19065d92c579fa9e070",
+    "cpw_C.msh": "8fe21a047963d99349904aa31d7f24cb5d7a85b001b4f7e59dac1ca32e88e100",
+    "configs/cpw_A.json": "a57ae58f6ff44c1e5768049eb58abf18bef871f9a970dbe3c7aa843768099101",
+    "configs/cpw_B.json": "3d1e9727e7e4d9c05883bd793a8584b9b221e5010bb556d66b1aaaa9782ef4b2",
+    "configs/cpw_C.json": "bfc7e5aaa67e0a8a3d5f84476d7414fb5aba5750c41f449478e0d11fa5401282"
+  },
+  "output_file_hashes": {
+    "outputs/eig_A.csv": "bae4b03bb3cc0fc50b9df63ade9a85bc9f8476029960d066b49185c76e014c9d",
+    "outputs/domainE_A.csv": "3163dcc971c09245e652c048a91b4fd5026218c4c917059448f3dc0db1ed4b3e",
+    "outputs/eig_B.csv": "498a8bfe1d14fb16524a8c9be63faf83e7b765d93511f56a7c1ca3fe7fd17887",
+    "outputs/domainE_B.csv": "345a5130f7efa9e8292b5fa8acf245d0509bdb9541e6a3c33e227a9885f14722",
+    "outputs/eig_C.csv": "8aa9d6b1905a49f5a5c57e0033c39a4ecf47ae7232fcb782b8e99f20099914b6",
+    "outputs/domainE_C.csv": "989627bb7bc7c5cabc0446b000a178471c7fb01ef8a6e848e0e564037fde287a"
+  },
+  "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+  "parser_version": "1",
+  "extraction_config": {
+    "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+    "parser_version": "1",
+    "mode": "fundamental_quarter_wave",
+    "expected_order": 2.0,
+    "levels_mm": [
+      0.5,
+      0.4,
+      0.32
+    ]
+  },
+  "extraction_config_hash": "aa453a2388519864b5d3666bf8caa972e60a1177f72c3b56aef4b40c2c932398",
+  "convergence": {
+    "method": "mesh_refinement_richardson_gci",
+    "refinement_levels": 3,
+    "delta_percent": 0.697510514154553,
+    "threshold_percent": 0.5,
+    "converged": false,
+    "notes": [
+      "observed order 3.6676 differs from the declared formal order 2.0 by more than 0.5; the levels are not in the asymptotic range of that scheme",
+      "Richardson extrapolation withheld: it presumes a monotone sequence in the asymptotic range, and that presumption does not hold here",
+      "observed order p=3.6676 against the declared formal order 2.0",
+      "GCI 0.6882% (rests on an order that is not established)",
+      "finest-level frequency change 0.6975% against a 0.5% threshold",
+      "substrate participation 0.920350 at the finest level"
+    ]
+  },
+  "sanity_checks": [
+    {
+      "name": "modes_unambiguously_tracked",
+      "passed": true,
+      "detail": "followed one mode through indices [1, 1, 1]; worst match margin 0.2099"
+    },
+    {
+      "name": "element_count_increases_under_refinement",
+      "passed": true,
+      "detail": "A: 64466 tets, B: 110193 tets, C: 191838 tets"
+    },
+    {
+      "name": "degrees_of_freedom_increase_under_refinement",
+      "passed": true,
+      "detail": "A: 94122 ND DOF, B: 157622 ND DOF, C: 267350 ND DOF"
+    },
+    {
+      "name": "field_overlap_match_score_above_0p90",
+      "passed": true,
+      "detail": "min score 0.9595, electric_overlap 1.0000 at every hop"
+    },
+    {
+      "name": "participation_sums_to_unity",
+      "passed": true,
+      "detail": "p_elec[substrate] + p_elec[vacuum] = 1.000000000 at every level"
+    }
+  ],
+  "measurement": null,
+  "depends_on": [
+    {
+      "role": "mesh",
+      "artifact": "cpw_A.msh",
+      "sha256": "d7e6d2bf78a20d315c5c00060541d50364edeafa97d9ae53fb3b3c356cb0ebed"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cpw_B.msh",
+      "sha256": "4e728d6351287597bce9e3e394dba720016b6e542a15e19065d92c579fa9e070"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cpw_C.msh",
+      "sha256": "8fe21a047963d99349904aa31d7f24cb5d7a85b001b4f7e59dac1ca32e88e100"
+    }
+  ],
+  "blocking_reason": null,
+  "git_commit": "1e22f7b647a009959c600a401c7dbb220044798c",
+  "environment_hash": null,
+  "timestamp": "2026-07-10T23:40:00+00:00",
+  "warnings": [
+    "NOT PHYSICS_VERIFIED (1/2): the observed convergence order is 3.6676 against a declared formal order of 2.0 (Nedelec p=1). The meshes are unstructured and non-nested, and the field is singular at the conductor edges, so the three levels do not follow one power law. Richardson extrapolation is withheld; the GCI of 0.6882% is reported but rests on an order that is not established.",
+    "NOT PHYSICS_VERIFIED (2/2): the target is a model, not a closed form. eps_eff = (1 + eps_r)/2 ignores the finite substrate and the PEC lid, both of which pull field into the silicon. The solver gives 5.709556 GHz, -4.8407% from the model. Whether that gap is model error or discretisation error cannot be separated until the latter is bounded, and it is not.",
+    "A closed PEC box has no truncation boundary, so domain-size convergence was not assessed. Widening the box would change the answer and is untested."
+  ],
+  "invalidation_reason": null,
+  "skip_reason": null,
+  "failure_reason": null,
+  "provenance_gaps": [],
+  "superseded": null,
+  "supersedes_evidence_id": null,
+  "confidence_class": "SIMULATED"
+}

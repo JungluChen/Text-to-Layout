@@ -62,9 +62,10 @@
     "threshold_percent": 0.5,
     "converged": true,
     "notes": [
-      "observed order p=1.848486",
+      "observed order p=1.848486 against declared formal order 2.0 (Nedelec p=1, eigenvalue error ~ h^2); in_asymptotic_range=True",
       "Richardson extrapolation 5.999811977 GHz (-0.003134% from the closed form)",
-      "GCI 0.034243%"
+      "GCI 0.034243% (Roache, Fs=1.25), below the 1% requirement",
+      "finest-level frequency change 0.071259%, below the 0.5% requirement"
     ]
   },
   "sanity_checks": [
@@ -77,21 +78,6 @@
       "name": "degrees_of_freedom_increase_under_refinement",
       "passed": true,
       "detail": "N=6: 1854 ND DOF, N=12: 13428 ND DOF, N=24: 102024 ND DOF"
-    },
-    {
-      "name": "observed_order_in_asymptotic_range",
-      "passed": true,
-      "detail": "p=1.848486 against declared formal order 2.0 (Nedelec p=1, eigenvalue error ~ h^2)"
-    },
-    {
-      "name": "grid_convergence_index_below_1_percent",
-      "passed": true,
-      "detail": "GCI=0.034243% (Roache, Fs=1.25)"
-    },
-    {
-      "name": "finest_level_frequency_change_below_0p5_percent",
-      "passed": true,
-      "detail": "|f(h) - f(2h)| / f(h) = 0.071259%"
     },
     {
       "name": "energy_normalisation_error_below_0p1_percent",
@@ -118,7 +104,7 @@
     }
   ],
   "blocking_reason": null,
-  "git_commit": "d86cad15a9af97a352c19658f612f390906484b1",
+  "git_commit": "1e22f7b647a009959c600a401c7dbb220044798c",
   "environment_hash": null,
   "timestamp": "2026-07-10T22:15:00+00:00",
   "warnings": [

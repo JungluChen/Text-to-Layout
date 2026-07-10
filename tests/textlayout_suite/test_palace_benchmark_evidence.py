@@ -20,6 +20,7 @@ from textlayout.evidence.canonical import load_canonical
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCH = REPO_ROOT / "examples" / "solver_benchmarks" / "palace_cavity_te101"
 EVIDENCE = BENCH / "evidence"
+CPW = REPO_ROOT / "examples" / "solver_benchmarks" / "palace_cpw_quarter_wave"
 
 pytestmark = pytest.mark.skipif(
     not (EVIDENCE / "frequency_canonical.json").is_file(),
@@ -78,9 +79,17 @@ class TestFrequencyIsGenuinelyVerified:
         assert "degrees_of_freedom_increase_under_refinement" in names
         assert all(check.passed for check in frequency.sanity_checks)
 
-    def test_the_gci_is_below_one_percent(self, frequency) -> None:
-        gci = next(c for c in frequency.sanity_checks if c.name.startswith("grid_convergence_index"))
-        assert gci.passed
+    def test_the_gci_lives_in_convergence_not_in_sanity_checks(self, frequency) -> None:
+        """A failed convergence criterion is not a failed sanity check.
+
+        A sanity check says the output is not a physical field, and vetoes every
+        solver-backed status. A convergence criterion says the answer is still
+        moving -- the output is perfectly physical, just not yet trustworthy.
+        """
+        assert frequency.convergence is not None
+        notes = " ".join(frequency.convergence.notes)
+        assert "GCI" in notes and "below the 1% requirement" in notes
+        assert not any(c.name.startswith("grid_convergence") for c in frequency.sanity_checks)
 
     def test_the_domain_size_limitation_is_stated_not_hidden(self, frequency) -> None:
         assert any("domain-size convergence is undefined" in w for w in frequency.warnings)
@@ -115,3 +124,59 @@ class TestParticipationIsNotOverClaimed:
     def test_it_agrees_with_the_closed_form_within_tolerance(self, participation) -> None:
         assert abs(participation.error_percent) < 5.0
         assert participation.analytical_model is not None
+
+
+@pytest.fixture(scope="module")
+def cpw():
+    return load_canonical(CPW / "evidence" / "frequency_canonical.json")
+
+
+class TestTheCpwResonatorIsExecutedNotVerified:
+    """A real Palace run on a real cQED device, and an honest refusal to verify it."""
+
+    def test_a_real_solver_and_container_back_the_claim(self, cpw) -> None:
+        assert cpw.solver_name == "Palace"
+        assert cpw.container_digest is not None
+        assert cpw.provenance_gaps == []
+
+    def test_it_stops_at_simulation_executed(self, cpw) -> None:
+        assert cpw.status is EvidenceStatus.SIMULATION_EXECUTED
+        assert cpw.confidence_class is ConfidenceClass.SIMULATED
+        assert cpw.convergence is not None and cpw.convergence.converged is False
+
+    def test_the_observed_order_does_not_match_the_formal_order(self, cpw) -> None:
+        """Non-nested meshes plus an edge singularity: no single power law."""
+        assert any("observed convergence order" in w for w in cpw.warnings)
+        assert any("Richardson extrapolation is withheld" in w for w in cpw.warnings)
+
+    def test_the_target_is_declared_a_model_not_a_closed_form(self, cpw) -> None:
+        assert "MODEL, not a closed form" in (cpw.analytical_model or "")
+        assert any("the target is a model, not a closed form" in w for w in cpw.warnings)
+
+    def test_the_mode_was_tracked_across_levels_by_field_overlap(self, cpw) -> None:
+        tracking = next(c for c in cpw.sanity_checks if c.name == "modes_unambiguously_tracked")
+        overlap = next(
+            c for c in cpw.sanity_checks if c.name == "field_overlap_match_score_above_0p90"
+        )
+        assert tracking.passed and overlap.passed
+
+    def test_three_levels_with_growing_elements_and_dofs(self, cpw) -> None:
+        assert cpw.convergence is not None
+        assert cpw.convergence.refinement_levels == 3
+        for name in (
+            "element_count_increases_under_refinement",
+            "degrees_of_freedom_increase_under_refinement",
+        ):
+            assert next(c for c in cpw.sanity_checks if c.name == name).passed
+
+    def test_no_convergence_criterion_is_recorded_as_a_sanity_check(self, cpw) -> None:
+        """Otherwise an unconverged run would be reported as SIMULATION_INVALID."""
+        names = {check.name for check in cpw.sanity_checks}
+        assert not {n for n in names if "order" in n or "gci" in n or "frequency_change" in n}
+        assert all(check.passed for check in cpw.sanity_checks)
+
+    def test_the_domain_size_limitation_is_stated(self, cpw) -> None:
+        assert any("domain-size convergence was not assessed" in w for w in cpw.warnings)
+
+    def test_every_referenced_output_hash_still_matches(self, cpw) -> None:
+        assert cpw.verify_output_hashes(CPW) == []

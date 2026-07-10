@@ -1,0 +1,67 @@
+{
+  "Boundaries": {
+    "PEC": {
+      "Attributes": [
+        3
+      ]
+    }
+  },
+  "Domains": {
+    "Materials": [
+      {
+        "Attributes": [
+          1
+        ],
+        "Permeability": 1.0,
+        "Permittivity": 11.45
+      },
+      {
+        "Attributes": [
+          2
+        ],
+        "Permeability": 1.0,
+        "Permittivity": 1.0
+      }
+    ],
+    "Postprocessing": {
+      "Energy": [
+        {
+          "Attributes": [
+            1
+          ],
+          "Index": 1
+        },
+        {
+          "Attributes": [
+            2
+          ],
+          "Index": 2
+        }
+      ]
+    }
+  },
+  "Model": {
+    "L0": 0.001,
+    "Mesh": "cpw_C.msh"
+  },
+  "Problem": {
+    "Output": "ppC",
+    "Type": "Eigenmode",
+    "Verbose": 2
+  },
+  "Solver": {
+    "Device": "CPU",
+    "Eigenmode": {
+      "N": 3,
+      "Save": 0,
+      "Target": 3.0,
+      "Tol": 1e-09
+    },
+    "Linear": {
+      "MaxIts": 1000,
+      "Tol": 1e-09,
+      "Type": "Default"
+    },
+    "Order": 1
+  }
+}
