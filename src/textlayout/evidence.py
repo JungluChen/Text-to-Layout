@@ -14,6 +14,14 @@ rules — it *enforces* them structurally in a pydantic validator, so a false
   an analytical estimate can never be dressed up as a simulation.
 - ``SKIPPED_SOLVER_ABSENT`` and ``SIMULATION_INPUT_PREPARED`` must not carry
   an extracted value: no solver ran, so there is nothing to extract.
+- ``SIMULATION_INVALID`` and ``CONVERGENCE_FAILED`` record that a solver ran
+  and its output was rejected. They name the solver but carry no extracted
+  value — a rejected number is not a measurement of anything.
+
+No numeric field may be NaN or infinite. ``NaN`` compares ``False`` against
+every bound, so an unguarded ``error_percent > tolerance_percent`` check would
+silently *admit* a NaN result as PHYSICS_VERIFIED. Non-finite values are
+therefore rejected structurally rather than range-checked.
 
 CLI, API, tests, and reports all consume this one schema; nothing re-implements
 the status logic per module.
@@ -22,6 +30,7 @@ the status logic per module.
 from __future__ import annotations
 
 import enum
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -37,11 +46,36 @@ class EvidenceStatus(str, enum.Enum):
     PHYSICS_VERIFIED = "PHYSICS_VERIFIED"
     FAILED = "FAILED"
     SKIPPED_SOLVER_ABSENT = "SKIPPED_SOLVER_ABSENT"
+    #: A solver ran, but its output failed a physical-sanity check
+    #: (non-finite, empty, negative energy, resonance at a sweep edge, ...).
+    SIMULATION_INVALID = "SIMULATION_INVALID"
+    #: A solver ran, but the result did not converge under refinement.
+    CONVERGENCE_FAILED = "CONVERGENCE_FAILED"
 
 
-#: Statuses that assert a real solver produced parseable output.
+#: Statuses that assert a real solver produced parseable, usable output.
 _SOLVER_OUTPUT_STATUSES = frozenset(
     {EvidenceStatus.SIMULATION_EXECUTED, EvidenceStatus.PHYSICS_VERIFIED}
+)
+
+#: Statuses that assert a solver ran but its result was rejected. They name the
+#: solver, and must never carry an extracted value.
+_SOLVER_REJECTED_STATUSES = frozenset(
+    {EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.CONVERGENCE_FAILED}
+)
+
+#: Statuses that assert no solver ran at all.
+_NO_SOLVER_RAN_STATUSES = frozenset(
+    {EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.SIMULATION_INPUT_PREPARED}
+)
+
+#: Every numeric field that must be a finite real number when present.
+_FINITE_FIELDS = (
+    "target_value",
+    "extracted_value",
+    "analytical_value",
+    "error_percent",
+    "tolerance_percent",
 )
 
 
@@ -85,6 +119,23 @@ class QuantityEvidence(BaseModel):
     @model_validator(mode="after")
     def _enforce_honesty(self) -> QuantityEvidence:
         status = self.status
+        # Run first: NaN defeats every subsequent comparison, so a non-finite
+        # value must be rejected before any tolerance check is attempted.
+        for field in _FINITE_FIELDS:
+            value = getattr(self, field)
+            if value is not None and not math.isfinite(value):
+                raise EvidenceError(
+                    f"{field} must be a finite number, got {value!r}; a non-finite "
+                    "solver output is SIMULATION_INVALID, never a verified quantity"
+                )
+        if status in _SOLVER_REJECTED_STATUSES:
+            if not self.solver:
+                raise EvidenceError(f"{status.value} requires a named solver")
+            if self.extracted_value is not None:
+                raise EvidenceError(
+                    f"{status.value} must not carry an extracted value; the solver "
+                    "output was rejected, so no quantity was extracted from it"
+                )
         if status in _SOLVER_OUTPUT_STATUSES:
             if not self.solver:
                 raise EvidenceError(f"{status.value} requires a named solver")
@@ -113,11 +164,7 @@ class QuantityEvidence(BaseModel):
                 )
         if status is EvidenceStatus.ANALYTICAL_ONLY and (self.solver or self.output_files):
             raise EvidenceError("ANALYTICAL_ONLY must not claim a solver or solver output files")
-        if (
-            status
-            in {EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.SIMULATION_INPUT_PREPARED}
-            and self.extracted_value is not None
-        ):
+        if status in _NO_SOLVER_RAN_STATUSES and self.extracted_value is not None:
             raise EvidenceError(f"{status.value} must not carry an extracted value")
         return self
 
@@ -160,6 +207,16 @@ class QuantityEvidence(BaseModel):
                 f"{self.quantity}: SKIPPED_SOLVER_ABSENT — solver not installed; "
                 "no physics verification was performed"
             )
+        if self.status is EvidenceStatus.SIMULATION_INVALID:
+            return (
+                f"{self.quantity}: SIMULATION_INVALID — {self.solver} ran but its output "
+                "failed a physical-sanity check; no quantity was extracted"
+            )
+        if self.status is EvidenceStatus.CONVERGENCE_FAILED:
+            return (
+                f"{self.quantity}: CONVERGENCE_FAILED — {self.solver} ran but the result "
+                "did not converge under refinement; no quantity was extracted"
+            )
         return f"{self.quantity}: FAILED — solver ran but produced no accepted result"
 
 
@@ -182,9 +239,10 @@ def compare_extracted_to_target(
 ) -> QuantityEvidence:
     """Build the post-solve evidence record; the only path to PHYSICS_VERIFIED.
 
-    The status is *computed*, never passed in: within tolerance ->
-    PHYSICS_VERIFIED, outside -> SIMULATION_EXECUTED. All structural checks of
-    :class:`QuantityEvidence` still apply (output files must exist, etc.).
+    The status is *computed*, never passed in: a non-finite extracted value ->
+    SIMULATION_INVALID, within tolerance -> PHYSICS_VERIFIED, outside ->
+    SIMULATION_EXECUTED. All structural checks of :class:`QuantityEvidence`
+    still apply (output files must exist, etc.).
     """
     if target_value == 0:
         raise EvidenceError("target_value must be non-zero to compute a relative error")
@@ -192,6 +250,30 @@ def compare_extracted_to_target(
         raise EvidenceError(
             f"unit mismatch: target in {target_unit!r}, extracted in "
             f"{extracted_unit!r}; convert to a common unit before comparison"
+        )
+    if not math.isfinite(extracted_value):
+        # A solver that emits NaN/inf ran, but extracted nothing. Preserve the
+        # raw token in the notes for diagnosis; never in a numeric field, where
+        # it would defeat every downstream comparison.
+        return QuantityEvidence(
+            quantity=quantity,
+            target_value=target_value,
+            target_unit=target_unit,
+            extracted_value=None,
+            extracted_unit=extracted_unit,
+            analytical_value=analytical_value,
+            analytical_model=analytical_model,
+            tolerance_percent=tolerance_percent,
+            status=EvidenceStatus.SIMULATION_INVALID,
+            solver=solver,
+            command=command,
+            input_files=list(input_files),
+            output_files=list(output_files),
+            parser=parser,
+            notes=[
+                *(notes or []),
+                f"solver returned a non-finite {quantity}: {extracted_value!r}",
+            ],
         )
     error_percent = abs(extracted_value - target_value) / abs(target_value) * 100.0
     status = (

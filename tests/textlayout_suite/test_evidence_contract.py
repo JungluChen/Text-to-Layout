@@ -147,3 +147,77 @@ def test_50_ohm_target_with_30_ohm_result_is_never_physics_verified(tmp_path: Pa
     assert record.status is EvidenceStatus.SIMULATION_EXECUTED
     assert record.status is not EvidenceStatus.PHYSICS_VERIFIED
     assert "NOT physics verified" in record.summary_line()
+
+
+# --- Non-finite solver output ------------------------------------------------
+#
+# NaN compares False against every bound, so an unguarded
+# `error_percent > tolerance_percent` check *admits* NaN as PHYSICS_VERIFIED.
+# These tests pin the structural rejection that closes that hole.
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_physics_verified_rejects_non_finite_extracted_value(tmp_path: Path, bad: float) -> None:
+    out = tmp_path / "cap.txt"
+    out.write_text("capacitance", encoding="utf-8")
+    kwargs = _solver_kwargs(str(out))
+    kwargs["extracted_value"] = bad
+    kwargs["error_percent"] = bad
+    with pytest.raises(ValidationError, match="must be a finite number"):
+        QuantityEvidence(status=EvidenceStatus.PHYSICS_VERIFIED, **kwargs)
+
+
+@pytest.mark.parametrize("field", ["target_value", "analytical_value", "tolerance_percent"])
+def test_no_numeric_field_may_be_non_finite(tmp_path: Path, field: str) -> None:
+    """Every numeric field rejects NaN.
+
+    `tolerance_percent` is caught earlier by its own `gt=0` constraint (NaN is
+    not > 0), hence the alternation -- what matters is that nothing gets through.
+    """
+    out = tmp_path / "cap.txt"
+    out.write_text("capacitance", encoding="utf-8")
+    kwargs = _solver_kwargs(str(out))
+    kwargs[field] = float("nan")
+    with pytest.raises(ValidationError, match="must be a finite number|greater than 0"):
+        QuantityEvidence(status=EvidenceStatus.SIMULATION_EXECUTED, **kwargs)
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf")])
+def test_compare_classifies_non_finite_output_as_simulation_invalid(
+    tmp_path: Path, bad: float
+) -> None:
+    """A solver emitting NaN/inf ran, but extracted nothing."""
+    out = tmp_path / "cap.txt"
+    out.write_text("garbage", encoding="utf-8")
+    evidence = compare_extracted_to_target(
+        quantity="capacitance",
+        target_value=0.6,
+        target_unit="pF",
+        extracted_value=bad,
+        extracted_unit="pF",
+        tolerance_percent=5.0,
+        solver="FasterCap",
+        command="FasterCap idc.lst",
+        input_files=["idc.lst"],
+        output_files=[str(out)],
+        parser="p.parse",
+    )
+    assert evidence.status is EvidenceStatus.SIMULATION_INVALID
+    assert evidence.is_physics_verified is False
+    # the rejected token is preserved for diagnosis, but never in a numeric field
+    assert evidence.extracted_value is None
+    assert any("non-finite" in note for note in evidence.notes)
+    assert "SIMULATION_INVALID" in evidence.summary_line()
+
+
+def test_rejected_statuses_require_a_solver_and_carry_no_value(tmp_path: Path) -> None:
+    for status in (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.CONVERGENCE_FAILED):
+        with pytest.raises(ValidationError, match="requires a named solver"):
+            QuantityEvidence(quantity="q", status=status)
+        with pytest.raises(ValidationError, match="must not carry an extracted value"):
+            QuantityEvidence(
+                quantity="q", status=status, solver="Palace", extracted_value=1.0
+            )
+        # the honest form is constructible
+        record = QuantityEvidence(quantity="q", status=status, solver="Palace")
+        assert record.is_physics_verified is False
