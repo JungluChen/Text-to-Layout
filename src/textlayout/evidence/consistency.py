@@ -153,6 +153,20 @@ def collect_claims(showcase_dir: Path, repo_root: Path) -> list[Claim]:
                 extracted_unit=payload.get("extracted_unit"),
             )
         )
+        # simulation.json embeds per-quantity QuantityEvidence records: a second
+        # representation of the same claim, and a place drift has hidden before.
+        for position, item in enumerate(payload.get("evidence") or []):
+            if not isinstance(item, dict):
+                continue
+            claims.append(
+                Claim(
+                    source=f"{name}#/evidence[{position}]",
+                    locator=f"{sid}/{name}#/evidence[{position}]/status",
+                    status=str(item.get("status", "")).strip().upper() or None,
+                    extracted_value=_numeric(item.get("extracted_value")),
+                    extracted_unit=item.get("extracted_unit"),
+                )
+            )
 
     for name in sorted(SOLVER_LEVEL_SOURCES):
         payload = _load_json(showcase_dir / name)
@@ -178,15 +192,17 @@ def collect_claims(showcase_dir: Path, repo_root: Path) -> list[Claim]:
 
     trace = _load_json(showcase_dir / "workflow_trace.json")
     if trace is not None:
-        token = _trace_status(trace)
-        if token:
-            claims.append(
-                Claim(
-                    source="workflow_trace.json",
-                    locator=f"{sid}/workflow_trace.json#/nodes[simulate]/status",
-                    status=token,
-                )
+        claims.append(
+            Claim(
+                source="workflow_trace.json",
+                locator=(
+                    f"{sid}/workflow_trace.json#/canonical_evidence_status"
+                    if "canonical_evidence_status" in trace
+                    else f"{sid}/workflow_trace.json (no generated block)"
+                ),
+                status=_trace_status(trace),
             )
+        )
 
     # Markdown: only the generated block is authoritative. A status word that
     # appears in prose (e.g. a sub-block note in the test-chip report) is not a
@@ -263,14 +279,14 @@ def _markdown_value(text: str) -> float | None:
 
 
 def _trace_status(trace: dict[str, Any]) -> str | None:
-    for node in trace.get("nodes", []):
-        if not isinstance(node, dict):
-            continue
-        status = str(node.get("evidence_status") or node.get("status") or "")
-        token = _first_status_token(status)
-        if token:
-            return token
-    return _first_status_token(json.dumps(trace))
+    """Only the canonical stamp is authoritative.
+
+    A trace's per-node summaries record what the workflow observed when it ran.
+    They are audit history -- `run_reported_status` names the status that run
+    reported -- and must never be read as a claim about current evidence.
+    """
+    stamped = trace.get("canonical_evidence_status")
+    return str(stamped).strip().upper() if isinstance(stamped, str) else None
 
 
 def _value_agrees(a: float, b: float) -> bool:

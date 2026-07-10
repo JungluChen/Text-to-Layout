@@ -1,0 +1,78 @@
+{
+  "schema_version": "textlayout.canonical-evidence.v2",
+  "evidence_id": "525c5c091c57223099a616761124d031",
+  "design_id": "02_cpw_50ohm",
+  "design_hash": "85f2cec3fb185e90d7e7ff74772c5b4fedf151935b0cb4e0704bf13eda8f99f8",
+  "geometry_hash": "e5bb73036344c24bb6e8e168731391deb349d1389564da31804cf6cf971ef29e",
+  "component": "CPW",
+  "analysis_scope": "through_line_center_conductor",
+  "target_quantity": "characteristic_impedance",
+  "target_value": 50.0,
+  "target_unit": "ohm",
+  "extracted_quantity": "characteristic_impedance",
+  "extracted_value": 49.71253451171291,
+  "extracted_unit": "ohm",
+  "analytical_value": 50.0,
+  "analytical_model": "Conformal-mapping CPW (Simons/Hilberg) + \u03bb/4 transmission-line theory",
+  "tolerance_percent": 5.0,
+  "error_percent": -0.574931,
+  "status": "PHYSICS_VERIFIED",
+  "solver_name": "openEMS+scikit-rf",
+  "solver_version": "openEMS via Octave frontend",
+  "solver_executable_sha256": null,
+  "container_digest": null,
+  "command": [
+    "C:\\Windows\\system32\\wsl.EXE",
+    "bash",
+    "-lc",
+    "cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 1223.167097700003,
+  "input_file_hashes": {
+    "extraction/capacitance_input/openems_model.json": "24fb017977debd84a04cfe18d794cd995a0e582adfae90808ba51342462bfeaa",
+    "extraction/capacitance_input/openems_model.m": "92b6e9d5281b2b21c1eb267a34fc2dcceed0224479a4fbb90c7564624039021a"
+  },
+  "output_file_hashes": {
+    "extraction/capacitance_input/openems_result.s2p": "ef96a8bbf97afa71b8b7fd297f692e13fadb4b4caa89fd57e72a10da06286488"
+  },
+  "parser": "textlayout.simulation.runners.extract_cpw_from_touchstone",
+  "parser_version": "2",
+  "extraction_config": {
+    "frequency_ghz": 6.0,
+    "method": "symmetric_reciprocal_two_port"
+  },
+  "extraction_config_hash": "7f33b68f99ce5bdf82384f9e0455a92efe9dbedf4f199c066885c95ba70bf16d",
+  "convergence": {
+    "method": "fdtd_energy_decay_and_excitation_support",
+    "refinement_levels": 1,
+    "delta_percent": null,
+    "threshold_percent": null,
+    "converged": true,
+    "notes": [
+      "no mesh-refinement study was performed; only time-domain convergence is evidenced"
+    ]
+  },
+  "git_commit": "ae7cbecbe609c4ccf05be3ce170b8bb516ac6afd",
+  "environment_hash": "ff6d14fe16a4de277c7fd12b46053e0c0dee6d0577456c0f2bb65bf973c5c704",
+  "timestamp": "2026-07-10T06:01:21+00:00",
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ],
+  "invalidation_reason": null,
+  "skip_reason": null,
+  "failure_reason": null,
+  "provenance_gaps": [
+    "solver_executable_hash_unrecorded"
+  ],
+  "superseded": {
+    "evidence_id": null,
+    "status": "CHARACTERISTIC_IMPEDANCE_EXTRACTED",
+    "extracted_value": 49.88827755069874,
+    "extracted_unit": "ohm",
+    "why_withdrawn": "not reproducible from the committed openems_result.s2p. Re-extracting at the design frequency gives 49.712535 ohm; sample_frequency_ghz, s11_magnitude and return_loss_db all reproduce exactly, so the file and the parser agree and only this number is stale. No output hash existed at the time, so it cannot be established whether the Touchstone file or the impedance estimator changed."
+  },
+  "supersedes_evidence_id": null,
+  "confidence_class": "VERIFIED"
+}
