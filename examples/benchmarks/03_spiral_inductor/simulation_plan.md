@@ -12,7 +12,7 @@
 
 ## Limitations
 
-- FastHenry has not been executed; no inductance, resistance, or Q result is claimed.
+- A prepared deck alone is not evidence; retained Zc.mat and logs are required.
 - Conductor conductivity and thickness are generic and require process replacement.
 
 ## Status contract

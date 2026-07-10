@@ -48,9 +48,6 @@ def _prepare_openems(
     config = out / "openems_model.json"
     driver = out / "openems_model.m"
     bbox = geometry.bbox()
-    from textlayout.simulation.runners import discover_openems_stack
-
-    stack = discover_openems_stack()
     payload = {
         "status": "input_files_prepared",
         "solver": "openEMS",
@@ -71,7 +68,6 @@ def _prepare_openems(
         ],
         "expected_outputs": list(expected),
         "execution": "not_run",
-        "discovery": stack,
         "driver": driver.name,
     }
     config.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -80,10 +76,16 @@ def _prepare_openems(
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
         "Boundary placement and mesh convergence must be reviewed before signoff.",
     )
+    # No host-solver discovery is written into these artifacts. They are
+    # committed to the repository and describe *prepared inputs*
+    # (execution="not_run"), so the absolute path of whichever openEMS binary
+    # happens to sit on the generating machine is not evidence about the
+    # design -- it is evidence about the machine. Embedding it made the
+    # artifacts non-reproducible (the CI determinism gate fails for anyone who
+    # has openEMS installed) and leaked local usernames into committed JSON.
+    # Host capability belongs in `textlayout doctor`; solver identity and
+    # version belong in the evidence record of a run that actually executed.
     manifest = _write_manifest(out, "openEMS", spec.component, expected, warnings)
-    manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
-    manifest_payload["discovery"] = stack
-    manifest.write_text(json.dumps(manifest_payload, indent=2) + "\n", encoding="utf-8")
     return SimulationResult(
         status="input_files_prepared",
         solver="openEMS",

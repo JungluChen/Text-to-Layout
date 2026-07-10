@@ -29,6 +29,8 @@
 - `PASS` layer_exists
 - `PASS` bounding_box
 - `PASS` ports_exist
+- `PASS` idc_two_net_connectivity
+- `PASS` idc_no_comb_shorts
 - `PASS` geometry_min_spacing
 - `WARN` analytical_estimate: Capacitance is an analytical estimate only. EM extraction is required before fabrication.
 - `PASS` research_evidence
