@@ -1,9 +1,0 @@
-device_id,wafer_id,design_hash,measured_frequency_ghz,measured_capacitance_pf,measured_inductance_nh,measured_q,measured_t1_us,temperature_k,cooldown_id,device_type,measurement_source,synthetic,notes
-IDC-W1-01,SYNTH-W1,idc-a1,6.02,0.615,,,,0.02,SYNTH-CD-2026-07,idc,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-IDC-W1-02,SYNTH-W1,idc-a2,6.01,0.461,,,,0.02,SYNTH-CD-2026-07,idc,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-IDC-W1-03,SYNTH-W1,idc-a3,6.03,0.821,,,,0.02,SYNTH-CD-2026-07,idc,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-SPI-W1-01,SYNTH-W1,spiral-b1,5.98,,2.955,,,0.02,SYNTH-CD-2026-07,spi,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-SPI-W1-02,SYNTH-W1,spiral-b2,5.99,,5.025,,,0.02,SYNTH-CD-2026-07,spi,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-SPI-W1-03,SYNTH-W1,spiral-b3,5.97,,8.077,,,0.02,SYNTH-CD-2026-07,spi,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-RES-W1-01,SYNTH-W1,res-c1,5.955,,,402000,,0.02,SYNTH-CD-2026-07,res,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY
-QUB-W1-01,SYNTH-W1,qubit-d1,5.148,,,655000,36.5,0.02,SYNTH-CD-2026-07,qub,synthetic_fixture,true,SYNTHETIC fixture; NOT_FABRICATION_READY

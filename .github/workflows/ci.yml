@@ -103,7 +103,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
         with: { python-version: '3.12' }
-      - name: Regenerate bundled plugin copy
+      # Runs before the rebuild: a rebuild would delete a stray implementation
+      # file and hide the fact that one was committed.
+      - name: Fail if the plugin bundle carries copied implementation files
+        run: uv run python scripts/bundle_plugin.py --check
+      - name: Regenerate bundled plugin metadata
         run: uv run python scripts/bundle_plugin.py
       - name: Fail if plugins/text-to-gds is out of sync with source
         run: |
