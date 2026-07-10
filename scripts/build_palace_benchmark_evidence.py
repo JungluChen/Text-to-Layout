@@ -365,15 +365,44 @@ def _participation_record(manifest: dict) -> CanonicalEvidence:
     )
 
 
+def _content_fingerprint(record: CanonicalEvidence) -> str:
+    """Hash the evidence content, excluding stable audit metadata."""
+    payload = record.to_dict()
+    payload.pop("git_commit", None)
+    return sha256_json(payload)
+
+
+def _stabilised(fresh: CanonicalEvidence, path: Path) -> CanonicalEvidence:
+    """Carry the recorded commit over when nothing about the evidence changed.
+
+    A record embeds the commit that produced it, so committing the record
+    necessarily changes what a fresh rebuild would write. That is not drift. The
+    input, output and config hashes -- not the commit -- establish whether the
+    evidence changed, and the commit that actually ran the solver is the honest
+    one to keep.
+    """
+    if not path.is_file():
+        return fresh
+    existing = load_canonical(path)
+    if _content_fingerprint(existing) != _content_fingerprint(fresh):
+        return fresh
+    return fresh.model_copy(update={"git_commit": existing.git_commit})
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="verify without writing")
     args = parser.parse_args(argv)
 
     manifest = _manifest()
+    evidence_dir = BENCH / "evidence"
     records = {
-        "frequency_canonical.json": _frequency_record(manifest),
-        "participation_canonical.json": _participation_record(manifest),
+        "frequency_canonical.json": _stabilised(
+            _frequency_record(manifest), evidence_dir / "frequency_canonical.json"
+        ),
+        "participation_canonical.json": _stabilised(
+            _participation_record(manifest), evidence_dir / "participation_canonical.json"
+        ),
     }
 
     problems: list[str] = []

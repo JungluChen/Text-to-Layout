@@ -81,6 +81,11 @@ jobs:
           git diff --exit-code examples/benchmarks/ \
             || (echo "::error::benchmark artifacts are stale; run scripts/generate_benchmarks.py --force and commit." && exit 1)
 
+      # Re-parses the committed Palace outputs with the current parser. No solver
+      # runs: Palace is absent on the runner, and the benchmark says so honestly.
+      - name: Palace benchmark evidence still describes its committed outputs
+        run: uv run python scripts/build_palace_benchmark_evidence.py --check
+
       - name: API smoke test (/health and /openapi.json return JSON)
         run: |
           uv run python - <<'PY'
