@@ -1,75 +1,115 @@
-"""AI-Native Quantum Design Intelligence Platform.
+"""Deprecated import aliases for the former :mod:`text_to_gds` namespace.
 
-.. note:: **FROZEN LEGACY PACKAGE.** ``text_to_gds`` is maintained only as the
-   MCP-server surface and is not actively developed. New work belongs in
-   ``src/textlayout`` (see ``docs/ARCHITECTURE.md``). Do not add features here;
-   dead-code removal is tracked as a separate, explicitly-scoped follow-up.
-
-Transforms natural-language device descriptions into production-ready
-GDS layouts with full physics traceability, multi-agent review, and
-closed-loop scientific reasoning.
-
-Pipeline (Stage 2 upgrade):
-  Prompt → Engineering Intent → Design Graph → Geometry Intelligence →
-  Topology Intelligence → Dependency Graph → Physics Graph → Simulation →
-  Measurement → Knowledge Graph → Optimization → Scientific Report
-
-New in v0.3.0:
-  - Digital Twin (Stage 7): full design lifecycle record
-  - 12-agent Review Committee (Stage 8): Chief Architect through Chief Scientist
-  - Real paper knowledge base (Stage 1 study output): 11 reference devices
-  - Dependency Graph: performance–geometry–process causal chains
-  - Engineering Reasoner: Why? not What?
-  - Design Memory: experience accumulation
+All implementation now lives under :mod:`textlayout`.  A lazy import finder
+keeps historical deep imports working without duplicating implementation in
+this package.  New code must import :mod:`textlayout` directly.
 """
 
-from text_to_gds.reference_compare import golden_compare
+from __future__ import annotations
 
-# Geometry and topology intelligence
-from text_to_gds.geometry_intelligence import GeometryIntelligenceEngine
-from text_to_gds.design_graph import DesignGraphEngine
-from text_to_gds.topology_reasoning import TopologyReasoningEngine
-from text_to_gds.engineering_rules import EngineeringRuleEngine
+import importlib
+import importlib.abc
+import importlib.util
+import sys
+import warnings
+from types import ModuleType
+from typing import Any
 
-# Knowledge systems
-from text_to_gds.literature_graph import LiteratureKnowledgeGraph, DESIGN_RULES_FROM_LITERATURE
-from text_to_gds.design_memory import DesignMemory
-from text_to_gds.engineering_reasoner import EngineeringReasoner
+__version__ = "0.3.0"
+__textlayout_shim__ = True
 
-# Design workflow
-from text_to_gds.design_optimization import DesignOptimizationEngine
-from text_to_gds.device_understanding import DeviceUnderstandingEngine
-from text_to_gds.engineering_visualization import EngineeringVisualizationEngine
-
-# Digital Twin (Stage 7)
-from text_to_gds.digital_twin import DigitalTwinEngine
-
-# Layout generators
-from text_to_gds.generators import generate_jpa_layout, generate_transmon_layout
-
-__all__ = [
-    "__version__",
+_ALIAS_ROOT = "text_to_gds"
+_TARGET_ROOT = "textlayout._legacy"
+_PHYSICAL_SHIMS = frozenset({"_deprecation", "textlayout_compat"})
+_PUBLIC_NAMES = (
     "golden_compare",
-    # Geometry and topology
     "GeometryIntelligenceEngine",
     "DesignGraphEngine",
     "TopologyReasoningEngine",
     "EngineeringRuleEngine",
-    # Knowledge systems
     "LiteratureKnowledgeGraph",
     "DESIGN_RULES_FROM_LITERATURE",
     "DesignMemory",
     "EngineeringReasoner",
-    # Design workflow
     "DesignOptimizationEngine",
     "DeviceUnderstandingEngine",
     "EngineeringVisualizationEngine",
-    # Digital Twin
     "DigitalTwinEngine",
-    # Generators
     "generate_jpa_layout",
     "generate_transmon_layout",
-]
+)
+__all__ = ["__version__", *_PUBLIC_NAMES]
 
-__version__ = "0.3.0"
+
+class _AliasLoader(importlib.abc.Loader):
+    """Load one historical module name from its canonical textlayout module."""
+
+    def __init__(self, alias: str, target: str, *, is_package: bool) -> None:
+        self.alias = alias
+        self.target = target
+        self.is_package = is_package
+
+    def create_module(self, spec: importlib.machinery.ModuleSpec) -> ModuleType | None:
+        return None
+
+    def exec_module(self, module: ModuleType) -> None:
+        target_module = importlib.import_module(self.target)
+        spec = module.__spec__
+        loader = module.__loader__
+        module.__dict__.update(target_module.__dict__)
+        module.__dict__.update(
+            {
+                "__name__": self.alias,
+                "__package__": self.alias if self.is_package else self.alias.rpartition(".")[0],
+                "__loader__": loader,
+                "__spec__": spec,
+                "__textlayout_shim__": True,
+                "__textlayout_target__": self.target,
+            }
+        )
+        if self.is_package:
+            module.__path__ = target_module.__path__  # type: ignore[attr-defined]
+
+
+class _AliasFinder(importlib.abc.MetaPathFinder):
+    """Map ``text_to_gds.x`` to ``textlayout._legacy.x`` on demand."""
+
+    def find_spec(
+        self,
+        fullname: str,
+        path: object = None,
+        target: ModuleType | None = None,
+    ) -> importlib.machinery.ModuleSpec | None:
+        prefix = _ALIAS_ROOT + "."
+        if not fullname.startswith(prefix):
+            return None
+        suffix = fullname[len(prefix) :]
+        if suffix.split(".", 1)[0] in _PHYSICAL_SHIMS:
+            return None
+        target_name = f"{_TARGET_ROOT}.{suffix}"
+        target_spec = importlib.util.find_spec(target_name)
+        if target_spec is None:
+            return None
+        is_package = target_spec.submodule_search_locations is not None
+        return importlib.util.spec_from_loader(
+            fullname,
+            _AliasLoader(fullname, target_name, is_package=is_package),
+            is_package=is_package,
+        )
+
+
+if not any(isinstance(finder, _AliasFinder) for finder in sys.meta_path):
+    sys.meta_path.insert(0, _AliasFinder())
+
+warnings.warn(
+    "text_to_gds is deprecated; import from textlayout instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+
+def __getattr__(name: str) -> Any:
+    if name in _PUBLIC_NAMES:
+        return getattr(importlib.import_module(_TARGET_ROOT), name)
+    raise AttributeError(name)
 
