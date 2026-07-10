@@ -9,8 +9,8 @@
     "S21"
   ],
   "warnings": [
-    "The JSON is a solver-input manifest, not a mesh or solver result.",
-    "Port calibration, boundary placement, mesh convergence, and Touchstone output remain required."
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
   ],
   "solver_executed": false
 }

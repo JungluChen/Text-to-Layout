@@ -66,10 +66,23 @@ class IDCGenerator(Generator):
                 polygons.append(rectangle(layer, fx0, top_finger_lo, fx1, top_bus_lo))
 
         cx = x0 + width / 2.0
+        net1, net2 = ("INPUT", "OUTPUT") if params.squid_placeholder_enabled else ("P1", "P2")
         ports = (
-            Port(name="P1", center=(cx, bot_bus_lo), width=width, orientation=270.0, layer=layer),
-            Port(name="P2", center=(cx, top_bus_hi), width=width, orientation=90.0, layer=layer),
+            Port(name=net1, center=(cx, bot_bus_lo), width=width, orientation=270.0, layer=layer),
+            Port(name=net2, center=(cx, top_bus_hi), width=width, orientation=90.0, layer=layer),
         )
+        if params.squid_placeholder_enabled:
+            placeholder_x0 = x0 + width + params.squid_placeholder_clearance_um
+            placeholder_y0 = y0 + (top_bus_hi - bot_bus_lo - params.squid_placeholder_height_um) / 2
+            polygons.append(
+                rectangle(
+                    params.squid_placeholder_layer,
+                    placeholder_x0,
+                    placeholder_y0,
+                    placeholder_x0 + params.squid_placeholder_width_um,
+                    placeholder_y0 + params.squid_placeholder_height_um,
+                )
+            )
 
         # Analytical capacitance estimate (Bahl/Alley) — a design starting point,
         # NOT a fabrication value. Verification surfaces this as a warning.
@@ -96,5 +109,39 @@ class IDCGenerator(Generator):
                 "capacitance_confidence": "analytical; EM correlation required",
                 "analytical_estimate": True,
                 "analytical_quantity": "capacitance",
+                "electrical_nets": {
+                    net1: [0, *range(2, 2 + total_fingers, 2)],
+                    net2: [1, *range(3, 2 + total_fingers, 2)],
+                },
+                "polygon_roles": [
+                    f"{net1}_bus",
+                    f"{net2}_bus",
+                    *[
+                        f"{net1 if index % 2 == 0 else net2}_finger_{index}"
+                        for index in range(total_fingers)
+                    ],
+                    *(
+                        ["SQUID_EQUIVALENT_INDUCTOR_PLACEHOLDER"]
+                        if params.squid_placeholder_enabled
+                        else []
+                    ),
+                ],
+                "port_net_map": {net1: net1, net2: net2},
+                "layout_role": "lumped_element_jpa" if params.squid_placeholder_enabled else "idc",
+                "squid_placeholder": (
+                    {
+                        "enabled": True,
+                        "layer": params.squid_placeholder_layer,
+                        "width_um": params.squid_placeholder_width_um,
+                        "height_um": params.squid_placeholder_height_um,
+                        "physical_status": "region_placeholder_not_foundry_qualified",
+                    }
+                    if params.squid_placeholder_enabled
+                    else {"enabled": False}
+                ),
+                "circuit_parameter_map": {
+                    "capacitance": "estimated_capacitance_pf",
+                    "inductance": "LayoutSpec.metadata.lc_inductance_nh",
+                },
             },
         )

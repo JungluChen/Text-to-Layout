@@ -1,0 +1,50 @@
+{
+  "schema": "textlayout.capacitance-extraction-result.v1",
+  "status": "CHARACTERISTIC_IMPEDANCE_EXTRACTED",
+  "backend_status": "executed",
+  "solver": "openEMS+scikit-rf",
+  "solver_version": "openEMS via Octave frontend",
+  "command": [
+    "C:\\Windows\\system32\\wsl.EXE",
+    "bash",
+    "-lc",
+    "cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 1223.167097700003,
+  "artifacts": {
+    "model": "extraction\\capacitance_input\\openems_model.json",
+    "driver": "extraction\\capacitance_input\\openems_model.m",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
+    "metrics_csv": "extraction\\capacitance_input\\openems_metrics.csv",
+    "touchstone": "extraction\\capacitance_input\\openems_result.s2p",
+    "result": "extraction\\capacitance_input\\openems_result.s2p"
+  },
+  "extracted_quantities": {
+    "characteristic_impedance_ohm": 49.88827755069874,
+    "sample_frequency_ghz": 5.98875,
+    "s11_magnitude": 0.0011439061772806117,
+    "return_loss_db": 58.83219189478079,
+    "z0_from_sparams_ohm": 49.71253451171291,
+    "characteristic_impedance_real_ohm": 49.88827753313,
+    "characteristic_impedance_imag_ohm": 0.001323989608695
+  },
+  "target_comparison": {
+    "quantity": "characteristic_impedance_ohm",
+    "extracted": 49.88827755069874,
+    "target": 50.0,
+    "error_pct": -0.223,
+    "tolerance_pct": 5.0,
+    "within_tolerance": true
+  },
+  "analytical_quantity": "characteristic_impedance",
+  "analytical_unit": "ohm",
+  "analytical_value": 50.0,
+  "reason": "Extracted characteristic_impedance_ohm from solver-owned openems_result.s2p.",
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ]
+}

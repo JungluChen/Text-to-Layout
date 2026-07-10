@@ -19,9 +19,16 @@ class IDCSpec(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    finger_pairs: int = Field(gt=0, le=2000, description="Number of finger pairs (combs of N each).")
+    finger_pairs: int = Field(
+        gt=0, le=2000, description="Number of finger pairs (combs of N each)."
+    )
     finger_width_um: float = Field(gt=0, description="Width of each finger (µm).")
     gap_um: float = Field(gt=0, description="Lateral gap between adjacent fingers (µm).")
     overlap_um: float = Field(gt=0, description="Parallel overlap length of opposing fingers (µm).")
     bus_width_um: float = Field(gt=0, description="Width of the top/bottom bus bars (µm).")
     metal_layer: str = Field(default="M1", description="Metal layer name for all conductors.")
+    squid_placeholder_enabled: bool = Field(default=False)
+    squid_placeholder_width_um: float = Field(default=40.0, gt=0)
+    squid_placeholder_height_um: float = Field(default=30.0, gt=0)
+    squid_placeholder_clearance_um: float = Field(default=20.0, gt=0)
+    squid_placeholder_layer: str = Field(default="JJ")

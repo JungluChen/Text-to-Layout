@@ -1,0 +1,68 @@
+{
+  "schema": "textlayout.klayout-readback.v1",
+  "status": "pass",
+  "gds_path": "output.gds",
+  "top_cell": "QuarterWaveResonator_2e857cf6",
+  "dbu_um": 0.001,
+  "bbox_um": {
+    "width": 500.0,
+    "height": 4988.465
+  },
+  "layers": {
+    "1/0": 8
+  },
+  "polygon_count": 8,
+  "label_count": 0,
+  "checks": [
+    {
+      "name": "gds_file_exists",
+      "passed": true,
+      "detail": "output.gds"
+    },
+    {
+      "name": "gds_readable",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "database_unit_sane",
+      "passed": true,
+      "detail": "dbu = 0.001 um"
+    },
+    {
+      "name": "top_cell_exists",
+      "passed": true,
+      "detail": "QuarterWaveResonator_2e857cf6"
+    },
+    {
+      "name": "bbox_non_empty",
+      "passed": true,
+      "detail": "500.0000 x 4988.4650 um"
+    },
+    {
+      "name": "polygon_count_positive",
+      "passed": true,
+      "detail": "8 polygons read back"
+    },
+    {
+      "name": "expected_layers_present",
+      "passed": true,
+      "detail": "all expected layers found"
+    },
+    {
+      "name": "per_layer_polygon_counts_match",
+      "passed": true,
+      "detail": "IR and GDS polygon counts agree"
+    },
+    {
+      "name": "bbox_matches_ir",
+      "passed": true,
+      "detail": "IR 500.0000x4988.4652 um vs GDS 500.0000x4988.4650 um"
+    },
+    {
+      "name": "ports_declared",
+      "passed": true,
+      "detail": "6 port(s) declared in the IR/sidecar; GDS text labels found: 0"
+    }
+  ]
+}

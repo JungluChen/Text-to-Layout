@@ -1,0 +1,15 @@
+{
+  "schema": "textlayout.analytical-sizing.v1",
+  "component": "QuarterWaveResonator",
+  "method": "deterministic analytical sizing",
+  "target": {
+    "frequency_ghz": 6.0
+  },
+  "final_parameters": {
+    "center_width_um": 10.0,
+    "gap_um": 6.0,
+    "length_um": 4918.4652,
+    "coupling_gap_um": 4.0
+  },
+  "solver_executed": false
+}

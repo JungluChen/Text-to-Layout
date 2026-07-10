@@ -203,7 +203,7 @@
   },
   "provenance": {
     "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
-    "generator_version": "0.2.0",
+    "generator_version": "0.3.0",
     "generated_at": "normalized",
     "timestamp_normalized": true,
     "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"

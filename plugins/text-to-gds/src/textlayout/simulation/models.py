@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+
 def target_comparison(
     value: float, target: float | None, tolerance_pct: float, quantity: str
 ) -> dict[str, Any] | None:
@@ -63,6 +64,10 @@ class SimulationResult:
     target_comparison: dict[str, Any] | None = None
     warnings: tuple[str, ...] = ()
     command: tuple[str, ...] = ()
+    return_code: int | None = None
+    runtime_seconds: float | None = None
+    evidence_level: str | None = None
+    solver_version: str | None = None
 
     @property
     def readiness_label(self) -> str:
@@ -93,6 +98,20 @@ class SimulationResult:
         return self.status == "executed"
 
     @property
+    def capacitance_matrix_parsed(self) -> bool:
+        matrix = self.extracted_quantities.get("capacitance_matrix_pf")
+        return (
+            self.status == "executed"
+            and isinstance(matrix, list)
+            and len(matrix) >= 2
+            and all(isinstance(row, list) and len(row) >= 2 for row in matrix)
+        )
+
+    @property
+    def target_compared(self) -> bool:
+        return self.target_comparison is not None
+
+    @property
     def physics_verified(self) -> bool:
         """Only true with a real run, a parsed value, and an in-tolerance compare.
 
@@ -108,10 +127,13 @@ class SimulationResult:
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "schema": "textlayout.simulation-result.v1",
             "status": self.status,
             "evidence_stage": self.evidence_stage,
             "solver": self.solver,
             "solver_executed": self.solver_executed,
+            "capacitance_matrix_parsed": self.capacitance_matrix_parsed,
+            "target_compared": self.target_compared,
             "physics_verified": self.physics_verified,
             "readiness_level": self.readiness_level,
             "readiness_label": self.readiness_label,
@@ -122,6 +144,10 @@ class SimulationResult:
             "target_comparison": self.target_comparison,
             "warnings": list(self.warnings),
             "command": list(self.command),
+            "return_code": self.return_code,
+            "runtime_seconds": self.runtime_seconds,
+            "evidence_level": self.evidence_level,
+            "solver_version": self.solver_version,
         }
 
     def to_markdown(self) -> str:

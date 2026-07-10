@@ -1,0 +1,5 @@
+./src/common/platinfo.cpp(184): assert ""Assert failure"" failed in InitForCurrentPlatform(): failed to initialize wxPlatformInfo
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this

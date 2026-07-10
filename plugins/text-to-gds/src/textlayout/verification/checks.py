@@ -139,6 +139,86 @@ def check_ports(ctx: VerificationContext) -> Check | None:
     )
 
 
+def check_idc_connectivity(ctx: VerificationContext) -> Check | None:
+    """Verify the explicit two-comb topology emitted by the IDC generator."""
+    if ctx.spec.component != "IDC":
+        return None
+    pairs = ctx.param_dict.get("finger_pairs")
+    nets = ctx.geometry.metadata.get("electrical_nets")
+    port_map = ctx.geometry.metadata.get("port_net_map")
+    if not isinstance(pairs, int) or not isinstance(nets, dict) or not isinstance(port_map, dict):
+        return Check("idc_two_net_connectivity", CheckStatus.FAIL, "IDC net metadata is missing.")
+    expected_count = 2 + 2 * pairs
+    net_names = (
+        ("INPUT", "OUTPUT")
+        if ctx.geometry.metadata.get("layout_role") == "lumped_element_jpa"
+        else ("P1", "P2")
+    )
+    p1 = nets.get(net_names[0])
+    p2 = nets.get(net_names[1])
+    p1_list = p1 if isinstance(p1, list) else []
+    p2_list = p2 if isinstance(p2, list) else []
+    valid_lists = isinstance(p1, list) and isinstance(p2, list)
+    assigned = set(p1_list) | set(p2_list)
+    disjoint = not (set(p1_list) & set(p2_list))
+    alternates = valid_lists and all(
+        index in (p1_list if finger % 2 == 0 else p2_list)
+        for finger, index in enumerate(range(2, expected_count))
+    )
+    ports_ok = port_map == {name: name for name in net_names}
+    ok = (
+        valid_lists
+        and assigned == set(range(expected_count))
+        and disjoint
+        and alternates
+        and ports_ok
+        and len(ctx.geometry.polygons) >= expected_count
+    )
+    return Check(
+        "idc_two_net_connectivity",
+        CheckStatus.PASS if ok else CheckStatus.FAIL,
+        ""
+        if ok
+        else "IDC requires two disjoint comb nets, alternating fingers, and P1/P2 net mapping.",
+    )
+
+
+def check_idc_no_shorts(ctx: VerificationContext) -> Check | None:
+    if ctx.spec.component != "IDC":
+        return None
+    nets = ctx.geometry.metadata.get("electrical_nets")
+    if not isinstance(nets, dict):
+        return Check("idc_no_comb_shorts", CheckStatus.FAIL, "IDC net metadata is missing.")
+    net_names = (
+        ("INPUT", "OUTPUT")
+        if ctx.geometry.metadata.get("layout_role") == "lumped_element_jpa"
+        else ("P1", "P2")
+    )
+    p1 = nets.get(net_names[0], [])
+    p2 = nets.get(net_names[1], [])
+    if not p1 or not p2:
+        return Check(
+            "idc_no_comb_shorts",
+            CheckStatus.FAIL,
+            f"IDC net lists {net_names[0]}/{net_names[1]} are empty; cannot verify comb clearance.",
+        )
+    clearance = min(
+        _polygon_gap(ctx.geometry.polygons[i], ctx.geometry.polygons[j]) for i in p1 for j in p2
+    )
+    limit = ctx.spec.rules.get("min_gap_um", ctx.technology.min_spacing_for(ctx.metal_layer))
+    ok = clearance >= limit - _EPS
+    return Check(
+        "idc_no_comb_shorts",
+        CheckStatus.PASS if ok else CheckStatus.FAIL,
+        ""
+        if ok
+        else f"Opposing IDC combs have {clearance:.4g} um clearance, below {limit:.4g} um.",
+        value=clearance,
+        limit=limit,
+        unit="um",
+    )
+
+
 def check_geometry_spacing(ctx: VerificationContext) -> Check:
     """A real (if minimal) DRC: same-layer features must respect min spacing."""
     worst: tuple[str, float, float] | None = None
@@ -147,8 +227,16 @@ def check_geometry_spacing(ctx: VerificationContext) -> Check:
             continue
         limit = ctx.technology.min_spacing_for(layer)
         polys = ctx.geometry.on_layer(layer)
+        # Bounding-box pre-filter: if two boxes are already >= limit apart, the
+        # exact edge-to-edge gap cannot be smaller — skip the O(edges^2) math.
+        # This keeps the exact check but drops the quadratic constant for
+        # large tiles where most polygon pairs are far apart.
+        boxes = [_poly_bbox(poly) for poly in polys]
+        limit_sq = limit * limit
         for i in range(len(polys)):
             for j in range(i + 1, len(polys)):
+                if _bbox_gap_sq(boxes[i], boxes[j]) >= limit_sq:
+                    continue
                 gap = _polygon_gap(polys[i], polys[j])
                 if 0.0 < gap < limit - _EPS and (worst is None or gap < worst[1]):
                     worst = (layer, gap, limit)
@@ -227,7 +315,9 @@ def check_resonator_boundaries(ctx: VerificationContext) -> Check | None:
     return Check(
         "resonator_open_short_boundaries",
         CheckStatus.PASS if ok else CheckStatus.FAIL,
-        "" if ok else "Quarter-wave resonator requires explicit coupled-open and grounded-short ends.",
+        ""
+        if ok
+        else "Quarter-wave resonator requires explicit coupled-open and grounded-short ends.",
     )
 
 
@@ -244,7 +334,9 @@ def check_squid_structure(ctx: VerificationContext) -> Check | None:
     return Check(
         "squid_symmetry_junctions_loop_area",
         CheckStatus.PASS if ok else CheckStatus.FAIL,
-        "" if ok else "SQUID requires two JJ polygons, two bias ports, and the requested loop area.",
+        ""
+        if ok
+        else "SQUID requires two JJ polygons, two bias ports, and the requested loop area.",
         value=float(actual_area) if isinstance(actual_area, (int, float)) else None,
         limit=target_area,
         unit="um2",
@@ -271,6 +363,8 @@ DEFAULT_CHECKS = (
     check_layer_exists,
     check_bounding_box,
     check_ports,
+    check_idc_connectivity,
+    check_idc_no_shorts,
     check_rf_port_semantics,
     check_spiral_centerline,
     check_resonator_boundaries,
@@ -281,6 +375,21 @@ DEFAULT_CHECKS = (
 )
 
 
+def _poly_bbox(poly: Polygon) -> tuple[float, float, float, float]:
+    xs = [p[0] for p in poly.points]
+    ys = [p[1] for p in poly.points]
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def _bbox_gap_sq(
+    a: tuple[float, float, float, float], b: tuple[float, float, float, float]
+) -> float:
+    """Squared axis-aligned separation of two bboxes (0.0 when they touch/overlap)."""
+    dx = max(a[0] - b[2], b[0] - a[2], 0.0)
+    dy = max(a[1] - b[3], b[1] - a[3], 0.0)
+    return dx * dx + dy * dy
+
+
 def _polygon_gap(a: Polygon, b: Polygon) -> float:
     """Return exact edge-to-edge clearance between two simple polygons."""
     edges_a = tuple(_edges(a.points))
@@ -289,9 +398,7 @@ def _polygon_gap(a: Polygon, b: Polygon) -> float:
         return 0.0
     if _point_in_polygon(a.points[0], b.points) or _point_in_polygon(b.points[0], a.points):
         return 0.0
-    return min(
-        _segment_distance(*edge_a, *edge_b) for edge_a in edges_a for edge_b in edges_b
-    )
+    return min(_segment_distance(*edge_a, *edge_b) for edge_a in edges_a for edge_b in edges_b)
 
 
 def _edges(
@@ -310,9 +417,7 @@ def _segments_intersect(
     def cross(p: tuple[float, float], q: tuple[float, float], r: tuple[float, float]) -> float:
         return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
 
-    def on_segment(
-        p: tuple[float, float], q: tuple[float, float], r: tuple[float, float]
-    ) -> bool:
+    def on_segment(p: tuple[float, float], q: tuple[float, float], r: tuple[float, float]) -> bool:
         return (
             min(p[0], r[0]) - _EPS <= q[0] <= max(p[0], r[0]) + _EPS
             and min(p[1], r[1]) - _EPS <= q[1] <= max(p[1], r[1]) + _EPS
@@ -324,16 +429,18 @@ def _segments_intersect(
     ):
         return True
     return (
-        abs(o1) <= _EPS and on_segment(a, c, b)
-        or abs(o2) <= _EPS and on_segment(a, d, b)
-        or abs(o3) <= _EPS and on_segment(c, a, d)
-        or abs(o4) <= _EPS and on_segment(c, b, d)
+        abs(o1) <= _EPS
+        and on_segment(a, c, b)
+        or abs(o2) <= _EPS
+        and on_segment(a, d, b)
+        or abs(o3) <= _EPS
+        and on_segment(c, a, d)
+        or abs(o4) <= _EPS
+        and on_segment(c, b, d)
     )
 
 
-def _point_in_polygon(
-    point: tuple[float, float], polygon: tuple[tuple[float, float], ...]
-) -> bool:
+def _point_in_polygon(point: tuple[float, float], polygon: tuple[tuple[float, float], ...]) -> bool:
     x, y = point
     inside = False
     for (x1, y1), (x2, y2) in _edges(polygon):
@@ -367,9 +474,7 @@ def _point_segment_distance(
     length_squared = dx * dx + dy * dy
     if length_squared <= _EPS:
         return math.hypot(point[0] - start[0], point[1] - start[1])
-    projection = (
-        (point[0] - start[0]) * dx + (point[1] - start[1]) * dy
-    ) / length_squared
+    projection = ((point[0] - start[0]) * dx + (point[1] - start[1]) * dy) / length_squared
     projection = max(0.0, min(1.0, projection))
     closest = (start[0] + projection * dx, start[1] + projection * dy)
     return math.hypot(point[0] - closest[0], point[1] - closest[1])

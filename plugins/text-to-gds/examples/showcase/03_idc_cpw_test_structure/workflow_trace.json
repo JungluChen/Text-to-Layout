@@ -1,0 +1,429 @@
+{
+  "schema": "textlayout.workflow-trace.v1",
+  "orchestrator": "langgraph",
+  "generated_at": "2026-07-03T08:18:46.319+00:00",
+  "nodes": [
+    {
+      "node": "ParsePrompt",
+      "start_time": "2026-07-03T08:18:43.069+00:00",
+      "input_summary": {
+        "component": null,
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": []
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.073+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "intent"
+        ]
+      }
+    },
+    {
+      "node": "ValidateIntent",
+      "start_time": "2026-07-03T08:18:43.075+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.075+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "BuildLayoutDSL",
+      "start_time": "2026-07-03T08:18:43.077+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.083+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_requests",
+          "files",
+          "jpa_sizing",
+          "layout_dsl",
+          "lc_inductance_nh",
+          "optimization",
+          "sized_parameters",
+          "target_capacitance_pf",
+          "target_inductance_nh"
+        ]
+      }
+    },
+    {
+      "node": "OptimizeParameters",
+      "start_time": "2026-07-03T08:18:43.085+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.088+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T08:18:43.090+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.474+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T08:18:43.476+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.476+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T08:18:43.478+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.481+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T08:18:43.483+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.487+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T08:18:43.488+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:43.496+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T08:18:43.498+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.252+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T08:18:46.255+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.261+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T08:18:46.263+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.280+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status",
+          "iteration",
+          "solver_iterations"
+        ]
+      }
+    },
+    {
+      "node": "RunCircuitChecks",
+      "start_time": "2026-07-03T08:18:46.283+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.302+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_simulations",
+          "files",
+          "optimization",
+          "physics_verified"
+        ]
+      }
+    },
+    {
+      "node": "GenerateReport",
+      "start_time": "2026-07-03T08:18:46.305+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.316+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "UpdateShowcaseMetadata",
+      "start_time": "2026-07-03T08:18:46.318+00:00",
+      "input_summary": {
+        "component": "TestStructure",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "report",
+          "simulation",
+          "simulation_legacy",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:18:46.318+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "artifacts"
+        ]
+      }
+    }
+  ]
+}

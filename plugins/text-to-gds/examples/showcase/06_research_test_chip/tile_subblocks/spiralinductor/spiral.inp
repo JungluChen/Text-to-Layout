@@ -1,0 +1,43 @@
+* Text-to-Layout square spiral
+.units um
+.default sigma=5.8e4
+N1 x=2 y=2 z=0
+N2 x=121.6974 y=2 z=0
+N3 x=121.6974 y=121.6974 z=0
+N4 x=2 y=121.6974 z=0
+N5 x=2 y=8 z=0
+N6 x=8 y=8 z=0
+N7 x=115.6974 y=8 z=0
+N8 x=115.6974 y=115.6974 z=0
+N9 x=8 y=115.6974 z=0
+N10 x=8 y=14 z=0
+N11 x=14 y=14 z=0
+N12 x=109.6974 y=14 z=0
+N13 x=109.6974 y=109.6974 z=0
+N14 x=14 y=109.6974 z=0
+N15 x=14 y=20 z=0
+N16 x=20 y=20 z=0
+N17 x=103.6974 y=20 z=0
+N18 x=103.6974 y=103.6974 z=0
+N19 x=20 y=103.6974 z=0
+E1 N1 N2 w=4 h=0.2
+E2 N2 N3 w=4 h=0.2
+E3 N3 N4 w=4 h=0.2
+E4 N4 N5 w=4 h=0.2
+E5 N5 N6 w=4 h=0.2
+E6 N6 N7 w=4 h=0.2
+E7 N7 N8 w=4 h=0.2
+E8 N8 N9 w=4 h=0.2
+E9 N9 N10 w=4 h=0.2
+E10 N10 N11 w=4 h=0.2
+E11 N11 N12 w=4 h=0.2
+E12 N12 N13 w=4 h=0.2
+E13 N13 N14 w=4 h=0.2
+E14 N14 N15 w=4 h=0.2
+E15 N15 N16 w=4 h=0.2
+E16 N16 N17 w=4 h=0.2
+E17 N17 N18 w=4 h=0.2
+E18 N18 N19 w=4 h=0.2
+.external N1 N19
+.freq fmin=1e6 fmax=1e10 ndec=20
+.end

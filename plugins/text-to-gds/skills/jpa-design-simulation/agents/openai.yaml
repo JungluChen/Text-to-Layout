@@ -1,0 +1,4 @@
+interface:
+  display_name: "JPA Design Simulation"
+  short_description: "Evidence-gated JPA design and simulation workflow"
+  default_prompt: "Use $jpa-design-simulation to design a JPA from requirements through deterministic layout, solver preparation, and evidence reporting."

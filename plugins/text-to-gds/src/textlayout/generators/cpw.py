@@ -40,12 +40,8 @@ class CPWGenerator(Generator):
         ground_inner = half_w + g  # inner edge of each ground plane
 
         signal = rectangle(metal, x0 - half_w, y_lo, x0 + half_w, y_hi)
-        ground_left = rectangle(
-            metal, x0 - ground_inner - gw, y_lo, x0 - ground_inner, y_hi
-        )
-        ground_right = rectangle(
-            metal, x0 + ground_inner, y_lo, x0 + ground_inner + gw, y_hi
-        )
+        ground_left = rectangle(metal, x0 - ground_inner - gw, y_lo, x0 - ground_inner, y_hi)
+        ground_right = rectangle(metal, x0 + ground_inner, y_lo, x0 + ground_inner + gw, y_hi)
 
         polygons: tuple[Polygon, ...] = (signal, ground_left, ground_right)
         ports = (

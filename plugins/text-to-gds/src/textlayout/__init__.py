@@ -20,7 +20,23 @@ from textlayout.schemas.dsl import DSL_VERSION, LayoutSpec
 from textlayout.verification import VerificationReport, default_verifier
 from textlayout.workflows import FromTextResult, FromTextWorkflow, GenerateResult, GenerateWorkflow
 
-__version__ = "0.2.0"
+def _distribution_version() -> str:
+    """Single source of truth: the installed distribution's own metadata.
+
+    A hardcoded literal here silently drifts from `[project] version` in
+    pyproject.toml -- it had, by a full minor release -- and `textlayout
+    --version` then misreports the wheel it came from.
+    """
+    from importlib.metadata import PackageNotFoundError
+    from importlib.metadata import version as _version
+
+    try:
+        return _version("text-to-gds")
+    except PackageNotFoundError:  # pragma: no cover - source tree, not installed
+        return "0.0.0+unknown"
+
+
+__version__ = _distribution_version()
 
 __all__ = [
     "DSL_VERSION",
@@ -65,6 +81,4 @@ def build_from_text_workflow(
     technologies: TechnologyLibrary | None = None,
 ) -> FromTextWorkflow:
     """Compose the prompt → closed-loop workflow on top of the default core."""
-    return FromTextWorkflow(
-        build_default_workflow(registry=registry, technologies=technologies)
-    )
+    return FromTextWorkflow(build_default_workflow(registry=registry, technologies=technologies))

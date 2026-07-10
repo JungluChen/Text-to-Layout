@@ -19,6 +19,10 @@ class SQUIDSpec(BaseModel):
     pad_height_um: float = Field(default=30.0, gt=0)
     metal: str = Field(default="M1")
     junction_layer: str = Field(default="JJ")
+    critical_current_ua: float | None = Field(default=None, gt=0)
+    shunt_resistance_ohm: float | None = Field(default=None, gt=0)
+    junction_capacitance_ff: float | None = Field(default=None, gt=0)
+    loop_inductance_ph: float | None = Field(default=None, gt=0)
 
     @model_validator(mode="after")
     def junctions_fit_loop_arms(self) -> SQUIDSpec:

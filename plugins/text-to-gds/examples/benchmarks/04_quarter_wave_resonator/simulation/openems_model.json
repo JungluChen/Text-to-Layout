@@ -2,6 +2,9 @@
   "status": "input_files_prepared",
   "solver": "openEMS",
   "component": "QuarterWaveResonator",
+  "target": {
+    "frequency_ghz": 6.0
+  },
   "technology": "generic_2metal",
   "substrate_epsilon_r": 11.9,
   "bbox_um": [
@@ -77,5 +80,6 @@
     "loaded_Q",
     "S21"
   ],
-  "execution": "not_run"
+  "execution": "not_run",
+  "driver": "openems_model.m"
 }

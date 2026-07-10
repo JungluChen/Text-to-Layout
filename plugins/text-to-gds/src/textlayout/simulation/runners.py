@@ -16,27 +16,119 @@ output, a value was parsed, and the comparison is within tolerance.
 from __future__ import annotations
 
 import math
+import os
 import re
+import shlex
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from textlayout.simulation.models import SimulationResult, target_comparison as _compare
+from textlayout.solvers.base import run_subprocess
 
 
-def find_executable(names: tuple[str, ...], explicit: str | None = None) -> str | None:
-    """Resolve a solver binary from an explicit path or ``PATH``."""
+_ROOT = Path(__file__).resolve().parents[3]
+_WSL_PREFIX = "wsl:"
+
+
+def _windows_to_wsl(path: Path) -> str:
+    resolved = path.resolve()
+    drive = resolved.drive.rstrip(":").lower()
+    tail = resolved.as_posix().split(":", 1)[1].lstrip("/")
+    return f"/mnt/{drive}/{tail}"
+
+
+def _is_elf(path: Path) -> bool:
+    try:
+        return path.read_bytes()[:4] == b"\x7fELF"
+    except OSError:
+        return False
+
+
+def _wsl_exe() -> str | None:
+    """Full path to wsl.exe, resolved via Python's os.environ PATH snapshot.
+
+    Never launch bare ``"wsl"``: native libraries (gmsh.initialize() is the
+    known offender) can truncate the Win32-level PATH with a fixed-size
+    buffer, silently dropping System32 from CreateProcess's search path while
+    shutil.which — which reads Python's os.environ copy — still resolves it.
+    """
+    if os.name != "nt":
+        return None
+    return shutil.which("wsl")
+
+
+def _wsl_which(names: tuple[str, ...]) -> str | None:
+    wsl = _wsl_exe()
+    if wsl is None:
+        return None
+    expression = " || ".join(f"command -v {shlex.quote(name)}" for name in names)
+    try:
+        completed = subprocess.run(
+            [wsl, "bash", "-lc", expression],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+    except OSError:
+        # WSL discovery must degrade to "not found", never crash the caller.
+        return None
+    found = completed.stdout.strip().splitlines()
+    return f"{_WSL_PREFIX}{found[0]}" if completed.returncode == 0 and found else None
+
+
+def find_executable(
+    names: tuple[str, ...],
+    explicit: str | None = None,
+    *,
+    env_var: str | None = None,
+) -> str | None:
+    """Resolve explicit, environment, PATH, local ``.tools``, then WSL binaries."""
     if explicit:
+        if explicit.startswith(_WSL_PREFIX):
+            return explicit
         path = Path(explicit)
         if path.is_file():
-            return str(path)
+            return f"{_WSL_PREFIX}{_windows_to_wsl(path)}" if _is_elf(path) else str(path)
+        if explicit.startswith("/mnt/"):
+            return f"{_WSL_PREFIX}{explicit}"
         return shutil.which(explicit)
+    if env_var and os.environ.get(env_var):
+        return find_executable(names, os.environ[env_var])
     for name in names:
         found = shutil.which(name)
         if found:
             return found
-    return None
+    tools = _ROOT / ".tools"
+    if tools.is_dir():
+        for name in names:
+            candidates = {
+                *tools.glob(name),
+                *tools.glob(f"*/bin/{name}"),
+                *tools.glob(f"*/*/{name}"),
+            }
+            for candidate in sorted(candidates):
+                try:
+                    is_file = candidate.is_file()
+                except OSError:
+                    continue
+                if not is_file:
+                    continue
+                if _is_elf(candidate):
+                    return f"{_WSL_PREFIX}{_windows_to_wsl(candidate)}"
+                return str(candidate)
+    return _wsl_which(names)
+
+
+def _execution_command(solver: str, args: list[str], cwd: Path) -> list[str]:
+    if not solver.startswith(_WSL_PREFIX):
+        return [solver, *args]
+    executable = solver.removeprefix(_WSL_PREFIX)
+    workdir = _windows_to_wsl(cwd)
+    command = " ".join([shlex.quote(executable), *(shlex.quote(arg) for arg in args)])
+    return [_wsl_exe() or "wsl", "bash", "-lc", f"cd {shlex.quote(workdir)} && {command}"]
 
 
 def _skipped(prepared: SimulationResult, names: tuple[str, ...]) -> SimulationResult:
@@ -74,7 +166,7 @@ def run_fasthenry(
     prepared: SimulationResult,
     *,
     target_inductance_h: float | None = None,
-    tolerance_pct: float = 20.0,
+    tolerance_pct: float = 5.0,
     executable: str | None = None,
     timeout_seconds: int = 600,
 ) -> SimulationResult:
@@ -82,30 +174,30 @@ def run_fasthenry(
     input_path = Path(prepared.artifacts.get("input", ""))
     if not input_path.is_file():
         return _failed(prepared, "No FastHenry .inp input was prepared.")
-    solver = find_executable(_FASTHENRY_NAMES, executable)
+    solver = find_executable(
+        _FASTHENRY_NAMES, executable, env_var="TEXTLAYOUT_FASTHENRY"
+    )
     if solver is None:
         return _skipped(prepared, _FASTHENRY_NAMES)
 
     work = input_path.parent
     try:
-        completed = subprocess.run(
-            [solver, input_path.name],
+        completed = run_subprocess(
+            _execution_command(solver, [input_path.name], work),
             cwd=work,
-            capture_output=True,
-            text=True,
-            timeout=timeout_seconds,
-            check=False,
+            timeout_seconds=timeout_seconds,
+            log_prefix="fasthenry",
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return _failed(prepared, f"FastHenry execution failed: {exc}")
 
-    (work / "fasthenry.stdout.txt").write_text(completed.stdout, encoding="utf-8")
     zc = work / "Zc.mat"
     if completed.returncode != 0 or not zc.is_file():
         return _failed(
             prepared,
             f"FastHenry exited {completed.returncode} without a Zc.mat output.",
-            solver_stdout=work / "fasthenry.stdout.txt",
+            solver_stdout=completed.stdout_path,
+            solver_stderr=completed.stderr_path,
         )
     try:
         inductance_h = parse_fasthenry_inductance(zc.read_text(encoding="utf-8"))
@@ -120,11 +212,20 @@ def run_fasthenry(
         readiness_level=4 if comparison else 3,
         reason="FastHenry returned a parseable impedance matrix.",
         output_dir=prepared.output_dir,
-        artifacts={**prepared.artifacts, "zc_matrix": str(zc), "result": str(zc)},
+        artifacts={
+            **prepared.artifacts,
+            "solver_stdout": str(completed.stdout_path),
+            "solver_stderr": str(completed.stderr_path),
+            "zc_matrix": str(zc),
+            "result": str(zc),
+        },
         extracted_quantities=extracted,
         target_comparison=comparison,
         warnings=prepared.warnings,
-        command=(Path(solver).name, input_path.name),
+        command=completed.command,
+        return_code=completed.returncode,
+        runtime_seconds=completed.runtime_seconds,
+        solver_version="FastHenry 3.0.1",
     )
 
 
@@ -161,7 +262,63 @@ def parse_fasthenry_inductance(text: str) -> float:
 
 
 # --- openEMS (S-parameters / resonance) via scikit-rf -------------------------
-_OPENEMS_NAMES = ("openEMS", "openEMS.exe", "openems")
+_OPENEMS_NAMES = ("octave-cli", "octave-cli.exe", "octave", "octave.exe")
+
+
+def discover_openems_stack() -> dict[str, str | None]:
+    """Discover the openEMS core, CSXCAD viewer, and Octave frontend independently."""
+    openems_matlab = _find_interface_directory("openEMS")
+    csxcad_matlab = _find_interface_directory("CSXCAD")
+    return {
+        "openems": find_executable(
+            ("openEMS", "openEMS.exe", "openems"), env_var="TEXTLAYOUT_OPENEMS_CORE"
+        ),
+        "csxcad": find_executable(
+            ("AppCSXCAD", "AppCSXCAD.exe"), env_var="TEXTLAYOUT_CSXCAD"
+        ),
+        "octave": find_executable(_OPENEMS_NAMES, env_var="TEXTLAYOUT_OPENEMS"),
+        "octave_openems_path": openems_matlab,
+        "octave_csxcad_path": csxcad_matlab,
+    }
+
+
+def _find_interface_directory(project: str) -> str | None:
+    """Locate a repo-local or WSL Octave interface directory."""
+    tools = _ROOT / ".tools"
+    if tools.is_dir():
+        marker_name = "InitFDTD.m" if project == "openEMS" else "InitCSX.m"
+        preferred = tools / "openems-wsl" / "share" / project / "matlab" / marker_name
+        markers = [preferred] if preferred.is_file() else []
+        markers.extend(sorted(tools.glob(f"*/share/{project}/matlab/{marker_name}")))
+        markers.extend(sorted(tools.glob(f"*/*/matlab/{marker_name}")))
+        for marker in dict.fromkeys(markers):
+            directory = marker.parent
+            return f"{_WSL_PREFIX}{_windows_to_wsl(directory)}"
+    wsl = _wsl_exe()
+    if wsl is not None:
+        candidates = (
+            f"/usr/share/{project}/matlab",
+            f"/usr/local/share/{project}/matlab",
+            f"/opt/share/{project}/matlab",
+        )
+        expression = " || ".join(
+            f"test -d {shlex.quote(path)} && printf '%s\\n' {shlex.quote(path)}"
+            for path in candidates
+        )
+        try:
+            completed = subprocess.run(
+                [wsl, "bash", "-lc", expression],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        except OSError:
+            return None
+        found = completed.stdout.strip().splitlines()
+        if found:
+            return f"{_WSL_PREFIX}{found[0]}"
+    return None
 
 
 def run_openems(
@@ -171,56 +328,329 @@ def run_openems(
     tolerance_pct: float = 5.0,
     touchstone: str | Path | None = None,
     executable: str | None = None,
+    timeout_seconds: int = 1800,
 ) -> SimulationResult:
-    """Post-process an openEMS Touchstone result, when one exists.
-
-    The textlayout openEMS adapter currently prepares a solver-input manifest,
-    not a runnable CSXCAD model (see the TODO note in the returned ``reason``).
-    This runner therefore does the honest, useful half: if a Touchstone file is
-    available (produced by a manual openEMS run or the legacy
-    ``text_to_gds.openems_runner``), it extracts the resonance with scikit-rf and
-    compares it against the target. Otherwise it reports the missing piece
-    without faking a result.
-    """
+    """Execute the generated openEMS Octave driver and parse Touchstone output."""
     s2p = _find_touchstone(prepared, touchstone)
     if s2p is None:
-        solver = find_executable(_OPENEMS_NAMES, executable)
-        reason = (
-            "No Touchstone output found. Generating a runnable CSXCAD model from the "
-            "prepared manifest is not yet implemented in textlayout "
-            "(TODO: port text_to_gds.openems_runner). "
-            + ("openEMS is installed; " if solver else "openEMS is not installed; ")
-            + "run it externally and pass touchstone=<path> to extract and compare."
-        )
-        return SimulationResult(
-            status="skipped" if solver is None else "failed",
-            solver=prepared.solver,
-            readiness_level=prepared.readiness_level,
-            reason=reason,
-            output_dir=prepared.output_dir,
-            artifacts=dict(prepared.artifacts),
-            warnings=prepared.warnings,
-        )
+        stack = discover_openems_stack()
+        solver = find_executable(_OPENEMS_NAMES, executable, env_var="TEXTLAYOUT_OPENEMS")
+        if solver is None:
+            return _skipped(prepared, _OPENEMS_NAMES)
+        missing = [
+            name
+            for name in ("openems", "octave_openems_path", "octave_csxcad_path")
+            if not stack.get(name)
+        ]
+        if missing:
+            return SimulationResult(
+                status="skipped",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS stack incomplete: missing {', '.join(missing)}.",
+                output_dir=prepared.output_dir,
+                artifacts=dict(prepared.artifacts),
+                warnings=prepared.warnings,
+            )
+        driver = Path(prepared.artifacts.get("driver", ""))
+        if not driver.is_file():
+            return _failed(prepared, "No runnable openEMS Octave driver was prepared.")
+        try:
+            completed = run_subprocess(
+                _execution_command(solver, ["--quiet", "--no-gui", driver.name], driver.parent),
+                cwd=driver.parent,
+                timeout_seconds=timeout_seconds,
+                log_prefix="solver",
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return _failed(prepared, f"openEMS execution failed: {exc}")
+        artifacts = {
+            **prepared.artifacts,
+            "solver_stdout": str(completed.stdout_path),
+            "solver_stderr": str(completed.stderr_path),
+        }
+        if completed.returncode != 0:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS Octave driver exited with code {completed.returncode}.",
+                output_dir=prepared.output_dir,
+                artifacts=artifacts,
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
+        s2p = _find_touchstone(prepared, None)
+        if s2p is None:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason="openEMS completed without a non-empty Touchstone output.",
+                output_dir=prepared.output_dir,
+                artifacts=artifacts,
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
+        convergence_problem = _openems_convergence_problem(Path(completed.stdout_path))
+        if convergence_problem is not None:
+            return SimulationResult(
+                status="failed",
+                solver=prepared.solver,
+                readiness_level=prepared.readiness_level,
+                reason=f"openEMS run did NOT converge: {convergence_problem}",
+                output_dir=prepared.output_dir,
+                artifacts={**artifacts, "touchstone": str(s2p)},
+                warnings=prepared.warnings,
+                command=completed.command,
+            )
+    else:
+        artifacts = dict(prepared.artifacts)
+        completed = None
     try:
-        resonance_ghz = extract_resonance_from_touchstone(s2p)
+        component = _prepared_component(prepared)
+        if component == "CPW":
+            extracted = extract_cpw_from_touchstone(s2p, target_frequency_ghz)
+            # Keep the S-parameter-derived Z0 under its own key so the port
+            # V/I metric can never silently erase an independent view; two
+            # disagreeing extractions are a diagnostic, not a nuisance.
+            extracted["z0_from_sparams_ohm"] = extracted["characteristic_impedance_ohm"]
+            metrics = Path(prepared.output_dir or s2p.parent) / "openems_metrics.csv"
+            if metrics.is_file() and metrics.stat().st_size:
+                extracted.update(_extract_openems_cpw_metrics(metrics, target_frequency_ghz))
+                artifacts["metrics_csv"] = str(metrics)
+            quantity = "characteristic_impedance_ohm"
+            value = extracted[quantity]
+        else:
+            extracted = extract_resonance_metrics_from_touchstone(s2p)
+            value = extracted["resonance_frequency_ghz"]
+            quantity = "resonance_frequency_ghz"
     except (ValueError, OSError) as exc:
         return _failed(prepared, f"Could not extract resonance from {s2p.name}: {exc}")
 
-    extracted = {"resonance_frequency_ghz": resonance_ghz}
-    comparison = _compare(
-        resonance_ghz, target_frequency_ghz, tolerance_pct, "resonance_frequency_ghz"
-    )
+    target = target_frequency_ghz
+    if quantity == "characteristic_impedance_ohm":
+        target = _prepared_target(prepared, "impedance_ohm") or _prepared_target(prepared, "z0_ohm")
+    comparison = _compare(value, target, tolerance_pct, quantity)
     return SimulationResult(
         status="executed",
         solver=f"{prepared.solver}+scikit-rf",
         readiness_level=4 if comparison else 3,
-        reason=f"Extracted resonance from {s2p.name} via scikit-rf.",
+        reason=f"Extracted {quantity} from solver-owned {s2p.name}.",
         output_dir=prepared.output_dir,
-        artifacts={**prepared.artifacts, "touchstone": str(s2p), "result": str(s2p)},
+        artifacts={**artifacts, "touchstone": str(s2p), "result": str(s2p)},
         extracted_quantities=extracted,
         target_comparison=comparison,
         warnings=prepared.warnings,
+        command=completed.command if completed is not None else (),
+        return_code=completed.returncode if completed is not None else 0,
+        runtime_seconds=completed.runtime_seconds if completed is not None else None,
+        solver_version="openEMS via Octave frontend",
     )
+
+
+#: Minimum end-of-run field-energy decay for a trustworthy openEMS DFT.
+#: The official examples run to -40 dB (EndCriteria 1e-4); -25 dB is the
+#: loosest we accept before the truncation error dominates the S-parameters.
+_OPENEMS_MIN_DECAY_DB = 25.0
+
+_ENERGY_LINE_RE = re.compile(r"Energy:.*\((\s*-?\d+(?:\.\d+)?)dB\)")
+_TIMESTEP_LINE_RE = re.compile(r"Timestep:\s+(\d+)")
+_EXCITATION_LENGTH_RE = re.compile(r"Excitation signal length is:\s+(\d+)\s+timesteps")
+
+
+def _openems_convergence_problem(stdout_path: Path) -> str | None:
+    """Why this openEMS run's spectra cannot be trusted, or None if they can.
+
+    Two truncation modes, both observed on real runs of this project:
+
+    - the run ended while its own Gaussian excitation was still active (a
+      femtosecond timestep makes the source pulse itself hundreds of
+      thousands of steps long), so the recorded signals are mostly source;
+    - the run hit its timestep budget with the field energy still high, so
+      the DFT is cut off mid-ring-down.
+
+    A log without the diagnostics (e.g. a fake test executable) reports no
+    problem — absence of the diagnostic is not evidence of failure.
+    """
+    try:
+        text = stdout_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    timesteps = _TIMESTEP_LINE_RE.findall(text)
+    excitation = _EXCITATION_LENGTH_RE.search(text)
+    if timesteps and excitation:
+        final_ts = int(timesteps[-1])
+        excite_ts = int(excitation.group(1))
+        # The bookkept excitation length covers the full discrete support of
+        # the Gaussian; its last ~10% is below -70 dB amplitude. Ending
+        # inside that tail is fine — ending earlier truncates real source.
+        if final_ts < 0.9 * excite_ts:
+            return (
+                f"the run ended at timestep {final_ts} but the excitation "
+                f"signal itself lasts {excite_ts} timesteps — the recorded "
+                "port signals are mostly the source pulse; every S-parameter "
+                "and impedance from this run is unusable. Shorten the pulse "
+                "(wider bandwidth) or raise the timestep budget."
+            )
+    energies = [float(value) for value in _ENERGY_LINE_RE.findall(text)]
+    if energies and energies[-1] > -_OPENEMS_MIN_DECAY_DB:
+        # A *plateaued* tail is not a truncation: a static (DC) charge
+        # remnant sets a constant energy floor that MUR walls never absorb,
+        # while any remaining RF content would still be decaying. A constant
+        # field contributes nothing to the DFT at RF, so flat-tail runs are
+        # spectrally converged even though the energy level looks high.
+        tail = energies[-5:]
+        plateaued = (
+            len(tail) == 5
+            and max(tail) - min(tail) < 0.2
+            and energies[-1] <= -10.0
+        )
+        if not plateaued:
+            return (
+                f"field energy decayed only {energies[-1]:.1f} dB "
+                f"(need <= -{_OPENEMS_MIN_DECAY_DB:g} dB and still moving); "
+                "the DFT is truncated mid-ring-down and the extracted numbers "
+                "would be systematically wrong. Raise NrTS / fix absorption "
+                "instead."
+            )
+    return None
+
+
+def _extract_openems_cpw_metrics(
+    path: Path, frequency_ghz: float | None
+) -> dict[str, float]:
+    import csv
+
+    rows = list(csv.DictReader(path.read_text(encoding="utf-8").splitlines()))
+    if not rows:
+        raise ValueError("openEMS metrics CSV has no rows")
+    target = frequency_ghz * 1e9 if frequency_ghz is not None else float(
+        rows[len(rows) // 2]["frequency_hz"]
+    )
+    row = min(rows, key=lambda item: abs(float(item["frequency_hz"]) - target))
+    z0 = complex(float(row["z0_real"]), float(row["z0_imag"]))
+    return {
+        "characteristic_impedance_ohm": abs(z0),
+        "characteristic_impedance_real_ohm": z0.real,
+        "characteristic_impedance_imag_ohm": z0.imag,
+    }
+
+
+def _prepared_payload(prepared: SimulationResult) -> dict[str, Any]:
+    model = prepared.artifacts.get("model")
+    if model is None:
+        return {}
+    try:
+        import json
+
+        return cast(dict[str, Any], json.loads(Path(model).read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        return {}
+
+
+def _prepared_component(prepared: SimulationResult) -> str:
+    return str(_prepared_payload(prepared).get("component", "QuarterWaveResonator"))
+
+
+def _prepared_target(prepared: SimulationResult, name: str) -> float | None:
+    target = _prepared_payload(prepared).get("target", {})
+    value = target.get(name) if isinstance(target, dict) else None
+    return float(value) if isinstance(value, (int, float)) else None
+
+
+def extract_cpw_from_touchstone(
+    path: str | Path, frequency_ghz: float | None = None
+) -> dict[str, float]:
+    """Estimate a through-line CPW impedance from its complex S11/S21.
+
+    This uses the symmetric reciprocal two-port conversion
+    ``Z0 = Zref*sqrt(((1+S11)^2-S21^2)/((1-S11)^2-S21^2))`` at the requested
+    frequency (or sweep centre). The output is a solver-derived port impedance,
+    not the analytical CPW formula.
+    """
+    from textlayout.simulation.sparameters import (
+        compute_return_loss_db,
+        estimate_z0_from_network,
+        read_sparameters,
+    )
+
+    data = read_sparameters(path)
+    if not data.frequencies_hz:
+        raise ValueError("no frequency points")
+    desired = (
+        frequency_ghz * 1e9
+        if frequency_ghz is not None
+        else data.frequencies_hz[len(data.frequencies_hz) // 2]
+    )
+    index = min(
+        range(len(data.frequencies_hz)),
+        key=lambda i: abs(data.frequencies_hz[i] - desired),
+    )
+    z0 = estimate_z0_from_network(path, desired)
+    return {
+        "characteristic_impedance_ohm": z0,
+        "sample_frequency_ghz": data.frequencies_hz[index] / 1e9,
+        "s11_magnitude": float(abs(data.s11[index])),
+        "return_loss_db": compute_return_loss_db(data.s11[index]),
+    }
+
+
+def _read_touchstone_complex(path: str | Path) -> tuple[list[float], list[complex], list[complex]]:
+    """Read two-port S11/S21 using scikit-rf, with an RI fallback."""
+    try:
+        import skrf
+
+        network = skrf.Network(str(path))
+        if network.nports < 2:
+            raise ValueError("CPW extraction requires a two-port Touchstone file")
+        return (
+            [float(value) for value in network.f],
+            [complex(value) for value in network.s[:, 0, 0]],
+            [complex(value) for value in network.s[:, 1, 0]],
+        )
+    except ImportError:
+        return _read_touchstone_ri_fallback(Path(path))
+
+
+def _read_touchstone_ri_fallback(path: Path) -> tuple[list[float], list[complex], list[complex]]:
+    scale = 1.0
+    fmt = "ri"
+    freqs: list[float] = []
+    s11: list[complex] = []
+    s21: list[complex] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("!"):
+            continue
+        if line.startswith("#"):
+            tokens = line.lower().split()
+            scale = (
+                1e9
+                if "ghz" in tokens
+                else 1e6
+                if "mhz" in tokens
+                else 1e3
+                if "khz" in tokens
+                else 1.0
+            )
+            fmt = next((token for token in tokens if token in {"ri", "ma", "db"}), "ri")
+            continue
+        values = [float(token) for token in line.split()]
+        if len(values) < 9:
+            continue
+        freqs.append(values[0] * scale)
+        s11.append(_complex_pair(values[1], values[2], fmt))
+        s21.append(_complex_pair(values[3], values[4], fmt))
+    return freqs, s11, s21
+
+
+def _complex_pair(first: float, second: float, fmt: str) -> complex:
+    if fmt == "ri":
+        return complex(first, second)
+    magnitude = 10 ** (first / 20.0) if fmt == "db" else first
+    angle = math.radians(second)
+    return magnitude * complex(math.cos(angle), math.sin(angle))
 
 
 def _find_touchstone(prepared: SimulationResult, explicit: str | Path | None) -> Path | None:
@@ -244,21 +674,55 @@ def extract_resonance_from_touchstone(path: str | Path) -> float:
     covers both notch and peak topologies. Falls back to a minimal Touchstone
     parser if scikit-rf is not installed.
     """
-    freqs_hz, s21_mag = _read_touchstone_s21(path)
+    return extract_resonance_metrics_from_touchstone(path)["resonance_frequency_ghz"]
+
+
+def extract_resonance_metrics_from_touchstone(path: str | Path) -> dict[str, float]:
+    """Extract resonance and a best-effort loaded-Q estimate from Touchstone data."""
+    from textlayout.simulation.sparameters import find_resonance_frequency, read_sparameters
+
+    data = read_sparameters(path)
+    freqs_hz = list(data.frequencies_hz)
+    s21_mag = [abs(value) for value in data.s21]
     if not freqs_hz:
         raise ValueError("no frequency points")
-    mean = sum(s21_mag) / len(s21_mag)
-    # Pick the extremum with the larger deviation from the mean (notch or peak).
     i_min = min(range(len(s21_mag)), key=lambda i: s21_mag[i])
-    i_max = max(range(len(s21_mag)), key=lambda i: s21_mag[i])
-    idx = i_min if (mean - s21_mag[i_min]) >= (s21_mag[i_max] - mean) else i_max
-    return freqs_hz[idx] / 1e9
+    resonance_hz = find_resonance_frequency(path)
+    idx = min(range(len(freqs_hz)), key=lambda i: abs(freqs_hz[i] - resonance_hz))
+    result = {
+        "resonance_frequency_ghz": freqs_hz[idx] / 1e9,
+        "s21_magnitude_at_resonance": s21_mag[idx],
+    }
+    if len(freqs_hz) >= 3:
+        is_notch = idx == i_min
+        baseline = max(s21_mag[0], s21_mag[-1]) if is_notch else min(
+            s21_mag[0], s21_mag[-1]
+        )
+        threshold_power = (
+            (baseline * baseline + s21_mag[idx] * s21_mag[idx]) / 2.0
+            if is_notch
+            else s21_mag[idx] * s21_mag[idx] / 2.0
+        )
+        crossings = [
+            i
+            for i in range(len(s21_mag) - 1)
+            if (s21_mag[i] ** 2 - threshold_power)
+            * (s21_mag[i + 1] ** 2 - threshold_power)
+            <= 0
+        ]
+        left = [i for i in crossings if i < idx]
+        right = [i for i in crossings if i >= idx]
+        if left and right:
+            bandwidth_hz = freqs_hz[right[0] + 1] - freqs_hz[left[-1]]
+            if bandwidth_hz > 0:
+                result["loaded_q_estimate"] = freqs_hz[idx] / bandwidth_hz
+    return result
 
 
 def _read_touchstone_s21(path: str | Path) -> tuple[list[float], list[float]]:
     path = Path(path)
     try:
-        import skrf  # type: ignore
+        import skrf
 
         network = skrf.Network(str(path))
         freqs = [float(f) for f in network.f]
@@ -310,5 +774,3 @@ def _read_touchstone_s21_fallback(path: Path) -> tuple[list[float], list[float]]
         freqs.append(freq)
         mags.append(magnitude)
     return freqs, mags
-
-

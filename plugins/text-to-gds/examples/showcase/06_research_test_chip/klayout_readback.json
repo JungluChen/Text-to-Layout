@@ -1,0 +1,69 @@
+{
+  "schema": "textlayout.klayout-readback.v1",
+  "status": "pass",
+  "gds_path": "output.gds",
+  "top_cell": "TestChip_0d4392ba",
+  "dbu_um": 0.001,
+  "bbox_um": {
+    "width": 2000.0,
+    "height": 2000.0
+  },
+  "layers": {
+    "1/0": 71,
+    "63/0": 120
+  },
+  "polygon_count": 191,
+  "label_count": 0,
+  "checks": [
+    {
+      "name": "gds_file_exists",
+      "passed": true,
+      "detail": "output.gds"
+    },
+    {
+      "name": "gds_readable",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "database_unit_sane",
+      "passed": true,
+      "detail": "dbu = 0.001 um"
+    },
+    {
+      "name": "top_cell_exists",
+      "passed": true,
+      "detail": "TestChip_0d4392ba"
+    },
+    {
+      "name": "bbox_non_empty",
+      "passed": true,
+      "detail": "2000.0000 x 2000.0000 um"
+    },
+    {
+      "name": "polygon_count_positive",
+      "passed": true,
+      "detail": "191 polygons read back"
+    },
+    {
+      "name": "expected_layers_present",
+      "passed": true,
+      "detail": "all expected layers found"
+    },
+    {
+      "name": "per_layer_polygon_counts_match",
+      "passed": true,
+      "detail": "IR and GDS polygon counts agree"
+    },
+    {
+      "name": "bbox_matches_ir",
+      "passed": true,
+      "detail": "IR 2000.0000x2000.0000 um vs GDS 2000.0000x2000.0000 um"
+    },
+    {
+      "name": "ports_declared",
+      "passed": true,
+      "detail": "10 port(s) declared in the IR/sidecar; GDS text labels found: 0"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "status": "pass",
+  "component": "QuarterWaveResonator",
+  "checks": [
+    {
+      "name": "component_generated",
+      "status": "pass"
+    },
+    {
+      "name": "positive_dimensions",
+      "status": "pass"
+    },
+    {
+      "name": "minimum_width",
+      "status": "pass",
+      "value_um": 10.0,
+      "limit_um": 2.0
+    },
+    {
+      "name": "minimum_gap",
+      "status": "pass",
+      "value_um": 4.0,
+      "limit_um": 2.0
+    },
+    {
+      "name": "layer_exists",
+      "status": "pass"
+    },
+    {
+      "name": "bounding_box",
+      "status": "pass",
+      "value_um2": 2494232.6
+    },
+    {
+      "name": "ports_exist",
+      "status": "pass",
+      "value_count": 6.0,
+      "limit_count": 6.0
+    },
+    {
+      "name": "explicit_rf_ground_ports",
+      "status": "pass"
+    },
+    {
+      "name": "resonator_open_short_boundaries",
+      "status": "pass"
+    },
+    {
+      "name": "geometry_min_spacing",
+      "status": "pass"
+    },
+    {
+      "name": "analytical_estimate",
+      "status": "warn",
+      "message": "Resonance frequency is an analytical estimate only. EM extraction is required before fabrication."
+    },
+    {
+      "name": "research_evidence",
+      "status": "pass"
+    },
+    {
+      "name": "simulation_workflow_documented",
+      "status": "pass"
+    },
+    {
+      "name": "gdsfactory_component_sanity",
+      "status": "pass"
+    },
+    {
+      "name": "output_gds_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_svg_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_png_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_layout_dsl_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_verification_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_evidence_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_analytical_estimate_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_simulation_plan_exists",
+      "status": "pass"
+    },
+    {
+      "name": "output_report_exists",
+      "status": "pass"
+    },
+    {
+      "name": "klayout_gds_readback",
+      "status": "pass"
+    }
+  ],
+  "warnings": [
+    "Resonance frequency is an analytical estimate only. EM extraction is required before fabrication."
+  ],
+  "errors": []
+}

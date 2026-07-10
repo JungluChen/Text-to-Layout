@@ -18,12 +18,32 @@ _REFERENCES = (
         "IEEE Trans. MTT-17 (1969) 259.",
         "Closed-form K(k)/K(k') used here (error < 8e-6).",
     ),
-    Reference("D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012.", "Transmission-line and λ/4 theory."),
+    Reference(
+        "G. Ghione and C. Naldi, 'Analytical Formulas for Coplanar Lines in Hybrid and "
+        "Monolithic MICs', Electronics Letters 20(4), 1984, 179-181.",
+        "Finite-substrate quasi-static model implemented by optional scikit-rf CPW.",
+    ),
+    Reference(
+        "A. Arsenovic et al., 'scikit-rf: An Open Source Python Package for Microwave "
+        "Network Creation, Analysis, and Calibration', IEEE Microwave Magazine 23(1), "
+        "2022, 98-105, doi:10.1109/MMM.2021.3117139.",
+        "Optional BSD-3 analytical and Touchstone implementation.",
+    ),
+    Reference(
+        "D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012.",
+        "Transmission-line and λ/4 theory.",
+    ),
 )
 
 _EQUATIONS = (
-    Equation("CPW impedance", "Z0 = (30*pi / sqrt(eps_eff)) * K(k')/K(k)", "k = w/(w+2g), k'=sqrt(1-k^2)."),
-    Equation("Effective permittivity", "eps_eff = (1 + eps_r) / 2", "Thick-substrate quasi-static CPW."),
+    Equation(
+        "CPW impedance",
+        "Z0 = (30*pi / sqrt(eps_eff)) * K(k')/K(k)",
+        "k = w/(w+2g), k'=sqrt(1-k^2).",
+    ),
+    Equation(
+        "Effective permittivity", "eps_eff = (1 + eps_r) / 2", "Thick-substrate quasi-static CPW."
+    ),
     Equation("Phase velocity", "v_p = c / sqrt(eps_eff)", ""),
     Equation("Quarter-wave length", "L = v_p / (4 f)", "Physical length of a λ/4 resonator at f."),
 )
@@ -63,6 +83,15 @@ def research_cpw(
     if g is not None:
         z0, _ = F.cpw_z0(w, float(g), eps_r)
         estimates["estimated_z0_ohm"] = round(z0, 2)
+        skrf_estimate = F.cpw_skrf_z0(w, float(g), eps_r)
+        if skrf_estimate is not None:
+            estimates["scikit_rf_z0_ohm"] = round(skrf_estimate[0], 4)
+            estimates["scikit_rf_eps_eff"] = round(skrf_estimate[1], 6)
+            estimates["analytical_backend"] = "scikit-rf CPW (Ghione/Naldi)"
+        else:
+            estimates["analytical_backend"] = (
+                "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)"
+            )
 
     target_z0 = target.get("impedance_ohm") or target.get("z0_ohm")
     if target_z0:

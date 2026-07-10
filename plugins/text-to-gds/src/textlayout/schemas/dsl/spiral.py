@@ -19,10 +19,7 @@ class SpiralInductorSpec(BaseModel):
 
     @model_validator(mode="after")
     def winding_fits_outer_dimension(self) -> SpiralInductorSpec:
-        required = (
-            2.0 * self.turns * self.trace_width_um
-            + 2.0 * (self.turns - 1) * self.spacing_um
-        )
+        required = 2.0 * self.turns * self.trace_width_um + 2.0 * (self.turns - 1) * self.spacing_um
         if self.outer_dimension_um <= required:
             raise ValueError(
                 f"outer_dimension_um must exceed {required:g} um for the requested winding"

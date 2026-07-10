@@ -1,9 +1,11 @@
 # Architecture — textlayout (the supported product path)
 
-Updated: 2026-07-02 (post branch-consolidation).
-For the frozen legacy MCP package see [§ Legacy](#legacy-src-text_to_gds) below.
-The root [`ARCHITECTURE.md`](../ARCHITECTURE.md) describes that legacy pipeline
-and is historical.
+Updated: 2026-07-05 (root doc now summarizes the product path).
+For the frozen legacy MCP package see [§ Legacy](#legacy-src-text_to_gds) below;
+its full pipeline document is
+[docs/legacy/ARCHITECTURE_text_to_gds.md](legacy/ARCHITECTURE_text_to_gds.md).
+The root [`ARCHITECTURE.md`](../ARCHITECTURE.md) is a short overview of this
+document.
 
 ## The one-minute map
 
@@ -23,6 +25,7 @@ src/textlayout/
   simulation/          solver adapters: input prep (open_source.py, fastercap.py), execution+parsing
                        (runners.py, fastercap.py), SimulationResult (models.py),
                        evidence_map.py = the only SimulationResult → QuantityEvidence mapping
+  solvers/base.py      shared SolverAdapter protocol + retained subprocess log scaffolding
   workflows/           use-cases: generate.py (DSL → artifacts), from_text.py (prompt → 8-file closed loop)
   exporters/           GDS (gdsfactory + canonicalize_gds), SVG, PNG, JSON
   knowledge/           technology/PDK library (data, not logic)
@@ -90,19 +93,36 @@ To add component `Foo` at level A, create/edit exactly these files:
 5. Verification: the generic checks in `verification/checks.py` apply
    automatically; add component-specific checks there only if the generic set
    cannot express a rule.
-6. (Optional, level A closed loop) `src/textlayout/optimization/foo.py` tuner
-   and a `simulation/` input-prep function; route it in
-   `simulation/engine.py::simulate_layout`.
-7. Tests in `tests/textlayout_suite/test_foo_generator.py`: valid build,
+6. For a solver-backed path, implement the four `SolverAdapter` operations:
+   `discover`, `prepare`, `execute`, and `parse`. Reuse
+   `solvers/base.py::run_subprocess`; route it in
+   `simulation/engine.py::simulate_layout`; map the result with
+   `simulation/evidence_map.py::quantity_evidence`. Missing binaries return
+   `skipped`; only non-empty solver-owned output can become executed evidence.
+   Never vendor solver source.
+7. Add an optional `optimization/foo.py` analytical tuner when the prompt path
+   can size geometry toward a target before field solving.
+8. Tests in `tests/textlayout_suite/test_foo_generator.py`: valid build,
    invalid parameters rejected, verification pass/fail, golden DSL if the
-   geometry is deterministic.
-8. Example + benchmark folder `examples/benchmarks/NN_foo_*/` with `prompt.md`
+   geometry is deterministic. Solver-present tests use a format-accurate fake
+   executable through the real subprocess, parser, and comparison chain.
+9. Example + benchmark folder `examples/benchmarks/NN_foo_*/` with `prompt.md`
    and `layout.json`; run `scripts/generate_benchmarks.py` to produce the
    committed artifacts (deterministic; see `docs/artifact_policy.md`).
-9. Add the README support-matrix row at the honest level, then run
+10. Add the README support-matrix row at the honest level, then run
    `uv run python scripts/validate_readme_claims.py` — it fails the build if
    any cell overclaims (and `scripts/validate_readme_claims.py::COMPONENTS`
    needs the new component's file map).
+
+Current solver lifecycle implementations:
+
+| Component | Prepare | Execute | Parse | Compare |
+| - | - | - | - | - |
+| IDC | FastCap panels/list | FasterCap/FastCap | capacitance matrix | capacitance target |
+| CPW | openEMS Octave/CSXCAD | Octave invokes openEMS | two-port Touchstone | characteristic impedance |
+| QuarterWaveResonator | openEMS Octave/CSXCAD | Octave invokes openEMS | S21 resonance | frequency target |
+| SpiralInductor | FastHenry `.inp` | FastHenry/FastHenry2 | `Zc.mat` | inductance target |
+| SQUID | JoSIM `.cir` when Ic/R/C are explicit | `josim-cli` | transient CSV | optional voltage target |
 
 A reviewer should be able to predict every path above from this list alone —
 if a step surprises you, fix this document in the same PR.

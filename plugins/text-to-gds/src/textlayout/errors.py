@@ -29,9 +29,7 @@ class UnknownTechnologyError(TextLayoutError):
     def __init__(self, technology: str, available: list[str]) -> None:
         self.technology = technology
         self.available = available
-        super().__init__(
-            f"Unknown technology {technology!r}. Available: {sorted(available)}"
-        )
+        super().__init__(f"Unknown technology {technology!r}. Available: {sorted(available)}")
 
 
 class InvalidParametersError(TextLayoutError):
@@ -53,9 +51,7 @@ class UnknownExporterError(TextLayoutError):
     def __init__(self, fmt: str, available: list[str]) -> None:
         self.format = fmt
         self.available = available
-        super().__init__(
-            f"Unknown export format {fmt!r}. Available: {sorted(available)}"
-        )
+        super().__init__(f"Unknown export format {fmt!r}. Available: {sorted(available)}")
 
 
 class MissingResearchError(TextLayoutError):
@@ -85,6 +81,15 @@ class PromptParseError(TextLayoutError):
         if self.hints:
             detail += " Hints: " + "; ".join(self.hints)
         super().__init__(detail)
+
+
+class WorkflowStateError(TextLayoutError):
+    """Raised when a workflow node runs with state its stage contract forbids.
+
+    Runtime replacement for ``assert`` statements in the workflow: unlike
+    asserts these survive ``python -O`` and carry a message naming the violated
+    precondition instead of failing later on ``None`` state.
+    """
 
 
 class VerificationFailedError(TextLayoutError):

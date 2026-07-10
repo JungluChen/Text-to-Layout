@@ -1,0 +1,94 @@
+{
+  "status": "input_files_prepared",
+  "solver": "openEMS",
+  "component": "CPW",
+  "target": {
+    "frequency_ghz": 6.0,
+    "impedance_ohm": 50.0
+  },
+  "technology": "generic_2metal",
+  "substrate_epsilon_r": 11.9,
+  "bbox_um": [
+    -60.983000000000004,
+    0.0,
+    60.983000000000004,
+    1000.0
+  ],
+  "ports": [
+    {
+      "name": "RF_IN",
+      "center_um": [
+        0.0,
+        0.0
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "RF_OUT",
+      "center_um": [
+        0.0,
+        1000.0
+      ],
+      "width_um": 10.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_L_IN",
+      "center_um": [
+        -35.983000000000004,
+        0.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_L_OUT",
+      "center_um": [
+        -35.983000000000004,
+        1000.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_R_IN",
+      "center_um": [
+        35.983000000000004,
+        0.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 270.0,
+      "layer": "M1"
+    },
+    {
+      "name": "GND_R_OUT",
+      "center_um": [
+        35.983000000000004,
+        1000.0
+      ],
+      "width_um": 50.0,
+      "orientation_deg": 90.0,
+      "layer": "M1"
+    }
+  ],
+  "expected_outputs": [
+    "Z0",
+    "S11",
+    "S21",
+    "effective_permittivity"
+  ],
+  "execution": "not_run",
+  "discovery": {
+    "openems": "wsl:.tools/openems-wsl/bin/openEMS",
+    "csxcad": "wsl:.tools/openems-wsl/bin/AppCSXCAD",
+    "octave": "wsl:/usr/bin/octave-cli",
+    "octave_openems_path": "wsl:.tools/openems-wsl/share/openEMS/matlab",
+    "octave_csxcad_path": "wsl:.tools/openems-wsl/share/CSXCAD/matlab"
+  },
+  "driver": "openems_model.m"
+}

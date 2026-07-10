@@ -15,8 +15,7 @@ _REFERENCES = (
         "Modified-Wheeler and current-sheet expressions used here.",
     ),
     Reference(
-        "H. A. Wheeler, 'Simple Inductance Formulas for Radio Coils', Proc. IRE 16 "
-        "(1928) 1398.",
+        "H. A. Wheeler, 'Simple Inductance Formulas for Radio Coils', Proc. IRE 16 (1928) 1398.",
         "",
     ),
 )
@@ -55,9 +54,7 @@ def research_spiral(
                 "turns": n,
                 "outer_dimension_um": outer_um,
                 "inner_dimension_um": round(inner_um, 4),
-                "estimated_inductance_nh": round(
-                    spiral_inductance_nh(n, outer_um, inner_um), 4
-                ),
+                "estimated_inductance_nh": round(spiral_inductance_nh(n, outer_um, inner_um), 4),
             }
             proposed = dict(parameters)
         else:

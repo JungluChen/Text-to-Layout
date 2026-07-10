@@ -70,6 +70,8 @@ def default_registry(*, discover: bool = True) -> GeneratorRegistry:
     from textlayout.generators.resonator import QuarterWaveResonatorGenerator
     from textlayout.generators.spiral import SpiralInductorGenerator
     from textlayout.generators.squid import SQUIDGenerator
+    from textlayout.generators.test_chip import TestChipGenerator
+    from textlayout.generators.test_structure import TestStructureGenerator
 
     registry = GeneratorRegistry()
     registry.register(IDCGenerator())
@@ -77,6 +79,8 @@ def default_registry(*, discover: bool = True) -> GeneratorRegistry:
     registry.register(SpiralInductorGenerator())
     registry.register(QuarterWaveResonatorGenerator())
     registry.register(SQUIDGenerator())
+    registry.register(TestStructureGenerator())
+    registry.register(TestChipGenerator())
     if discover:
         registry.load_entry_points()
     return registry

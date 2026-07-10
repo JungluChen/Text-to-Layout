@@ -144,3 +144,31 @@ Files to change: `src/textlayout/{evidence.py,prompt.py,cli.py,optimization/*,
 workflows/from_text.py,backend/{app.py,api_models.py},simulation/*}`,
 `scripts/validate_readme_claims.py`, `.github/workflows/ci.yml`, `README.md`,
 `tests/textlayout_suite/*`, `docs/PROGRESS.md`.
+
+---
+
+## Phase F-H gap-closing audit (2026-07-02)
+
+Primary-source verification was repeated before integration:
+
+| Source | Verified current state | Integration decision |
+| - | - | - |
+| `thliebig/openEMS` | Active on 2026-06-26; GPL-3.0; current docs 0.0.35. `AddCPWPort` is documented in the Octave API; Python documentation is less stable for this port surface. | Generate an external Octave/CSXCAD driver and invoke it by subprocess. Do not vendor or link GPL source. |
+| `scikit-rf/scikit-rf` | Active; BSD-3-Clause; latest release observed was v2.0.0 (2026-06-29). `skrf.media.CPW` still implements Ghione/Naldi quasi-static CPW analysis. | Optional `[rf]` extra; use for analytical correlation and Touchstone parsing, with a cited core fallback. |
+| `ediloren/FastHenry2` | Repository is not archived but last source push was 2019-12-06; no GitHub SPDX license or release metadata. Included `README.mit` identifies the inherited FastHenry 3.0.1 distribution, not a modern permissive SPDX grant. | Treat as an external executable only. Do not vendor; document the stale maintenance/license metadata. |
+| `in3otd/spiki` | GPL-2.0, last source push 2020-11-29, no releases. | Reference only as prior art for the FastHenry closed-loop pattern; no code copied. |
+| `JoeyDelp/JoSIM` | MIT; v2.7 released 2025-12-19. Current docs retain `josim-cli -o output.csv input.cir`, transient-only RCSJ junctions, `.iv`, and CSV output. | Generate `.cir`, invoke `josim-cli`, parse retained CSV. Require explicit Ic/R/C; never infer them from generic JJ polygons. |
+| Mohan et al. | DOI `10.1109/4.792620`; published JSSC 34(10), 1999; paper reports typical field-solver agreement around 3%. | Implement the published square-spiral expression directly; no calculator code copied. |
+
+Implementation outcome:
+
+- `solvers/base.py` now supplies the common `SolverAdapter` shape and retained
+  subprocess logs. IDC, openEMS, FastHenry, and JoSIM use the same lifecycle.
+- CPW and quarter-wave paths now write runnable openEMS Octave models instead
+  of JSON-only manifests, execute conditionally, parse Touchstone, and compare
+  solver-derived impedance/frequency against targets.
+- Spiral executes FastHenry conditionally and parses `Zc.mat` through the same
+  evidence gate.
+- SQUID is Option B: analytical loop/Josephson quantities plus conditional
+  JoSIM circuit execution. Circuit output does not qualify placeholder JJ
+  geometry or create a fabrication claim.

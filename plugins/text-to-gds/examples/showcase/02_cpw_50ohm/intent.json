@@ -1,0 +1,21 @@
+{
+  "schema_version": "textlayout.design-intent.v1",
+  "prompt": "Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports.",
+  "component": "CPW",
+  "technology": "generic_2metal",
+  "substrate": "silicon",
+  "target": {
+    "frequency_ghz": 6.0,
+    "impedance_ohm": 50.0
+  },
+  "constraints": {},
+  "parameters": {},
+  "notes": [],
+  "topology": null,
+  "capacitor_type": null,
+  "inductance_assumption": null,
+  "simulator_requests": [],
+  "evidence_status": [
+    "INTENT_PARSED"
+  ]
+}

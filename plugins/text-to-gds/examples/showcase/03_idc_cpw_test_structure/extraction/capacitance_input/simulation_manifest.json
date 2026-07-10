@@ -1,0 +1,64 @@
+{
+  "schema": "textlayout.simulation-input.v1",
+  "status": "input_files_prepared",
+  "readiness_level": 2,
+  "solver": "FasterCap/FastCap",
+  "component": "IDC",
+  "source_layout": {
+    "dsl_version": "1.0",
+    "component": "IDC",
+    "technology": "generic_2metal",
+    "target": {
+      "capacitance_pf": 0.6,
+      "impedance_ohm": 50.0
+    },
+    "parameters": {
+      "finger_pairs": 20,
+      "finger_width_um": 4.0,
+      "gap_um": 2.0,
+      "overlap_um": 237.362,
+      "bus_width_um": 25.0,
+      "metal_layer": "M1",
+      "squid_placeholder_enabled": false,
+      "squid_placeholder_width_um": 40.0,
+      "squid_placeholder_height_um": 30.0,
+      "squid_placeholder_clearance_um": 20.0,
+      "squid_placeholder_layer": "JJ"
+    },
+    "rules": {},
+    "outputs": {
+      "gds": true,
+      "svg": true,
+      "json": true
+    },
+    "origin": [
+      0.0,
+      0.0
+    ],
+    "metadata": {
+      "derived_from": "TestStructure",
+      "extraction_note": "launch pads, feed traces, and ground planes are NOT simulated"
+    },
+    "evidence": {}
+  },
+  "panel_count": 42,
+  "nets": [
+    "P1",
+    "P2"
+  ],
+  "substrate_epsilon_r": 11.9,
+  "effective_permittivity": 6.45,
+  "model_assumptions": [
+    "zero-thickness planar conductors",
+    "uniform effective dielectric instead of explicit air/silicon interface",
+    "no package, loss, kinetic inductance, or self-resonance model"
+  ],
+  "expected_outputs": [
+    "2x2 capacitance matrix",
+    "mutual capacitance"
+  ],
+  "references": [
+    "FastCap User's Guide, generic Q-panel and list-file interfaces",
+    "FastFieldSolvers FasterCap documentation (FastCap2-compatible input)"
+  ]
+}

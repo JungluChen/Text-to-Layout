@@ -171,6 +171,14 @@ Full merge audit trail: [BRANCH_INVENTORY.md](BRANCH_INVENTORY.md).
 - CI `quality-gates` job (from the stash) wired to `validate_readme_claims.py`
   (the canonical validator) instead of the deleted `check_readme_claims.py`.
 
+### Incident note
+
+`Text-to-GDS_Academic_Industrial_Validation_Roadmap.md` and `TopTask.md`
+disappeared from the working tree between merge `e0f4ad3` and `84b7bdb`
+(cause unidentified — no repo script touches them) and were accidentally
+committed as deletions by a bulk `git add -A`. Restored in `803c494`; any
+intentional removal should be its own reviewed commit.
+
 ### Test count
 
 | Point | Result |
@@ -180,9 +188,33 @@ Full merge audit trail: [BRANCH_INVENTORY.md](BRANCH_INVENTORY.md).
 
 ## Still open (honest backlog)
 
-- CPW/Spiral/Resonator closed-loop tuning (only IDC has the full loop).
+- Committed benchmarks intentionally remain input-prepared, not executed;
+  solver execution is environment-dependent and tested through format-accurate
+  subprocess fixtures.
 - No committed solver-executed benchmark artifact (requires FasterCap in CI or
   a locally-run benchmark commit); the support matrix truthfully says
   "environment-dependent".
+
+## Generator gap-closing pass (2026-07-02)
+
+- [x] Shared `SolverAdapter` protocol and subprocess/log scaffolding; IDC
+  FasterCap execution retrofitted to it.
+- [x] CPW: scikit-rf analytical correlation, runnable openEMS Octave/CSXCAD
+  input, conditional execution, Touchstone impedance extraction, typed evidence.
+- [x] Quarter-wave resonator: runnable openEMS input, conditional execution,
+  Touchstone resonance extraction, typed evidence.
+- [x] Spiral: Mohan analytical sizing, FastHenry execution and `Zc.mat` parser,
+  target comparison through the shared evidence mapper.
+- [x] SQUID Option B: loop and Josephson analytical estimates; JoSIM RCSJ deck
+  only when Ic/R/C are explicit; CSV parser; no foundry-geometry claim.
+- [x] Prompt parser and analytical sizing support the required CPW and
+  3 nH / 4-turn spiral demos, each producing the eight-file contract.
+- [x] Solver-absent and solver-present tests cover FasterCap, openEMS,
+  FastHenry, and JoSIM through real subprocess boundaries.
+- [x] Final gates: README validator PASS, Ruff PASS, mypy strict PASS,
+  **808 passed / 8 skipped**, benchmark audit PASS, and `uv build` PASS.
+
+## Remaining architecture backlog
+
 - Legacy `src/text_to_gds` package remains frozen (documented decision, see
   AUDIT_REPORT.md §Package architecture); full retirement is future work.

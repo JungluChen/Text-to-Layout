@@ -1,0 +1,53 @@
+# NOT FOUNDRY-CALIBRATED. Order-of-magnitude loss tangents typical of the
+# published cQED surface-loss literature (Wenner et al., APL 99, 113513
+# (2011); Wang et al., APL 107, 162601 (2015); McRae et al., Rev. Sci.
+# Instrum. 91, 091101 (2020)). Exists so the EPR/coherence *machinery* can
+# run and be tested end to end; swap in measured values via
+# `textlayout measurement calibrate` before trusting any absolute T1 number.
+schema_version: textlayout.loss-materials.v1
+name: illustrative_si_surface_loss_v1
+channels:
+  substrate:
+    name: substrate
+    material: high-resistivity Si (bulk)
+    tan_delta: 1.0e-6
+    epsilon_r: 11.9
+    calibration: illustrative_literature_range
+    source: "illustrative; bulk HR-Si tanδ ~1e-6..1e-7 (McRae 2020 review)"
+  metal_substrate:
+    name: metal_substrate
+    material: metal-substrate interface oxide
+    tan_delta: 2.0e-3
+    thickness_nm: 3.0
+    epsilon_r: 10.0
+    calibration: illustrative_literature_range
+    source: "illustrative; MS interface tanδ ~1e-3..5e-3 (Wenner 2011)"
+  metal_air:
+    name: metal_air
+    material: metal-air surface oxide
+    tan_delta: 2.0e-3
+    thickness_nm: 3.0
+    epsilon_r: 10.0
+    calibration: illustrative_literature_range
+    source: "illustrative; MA interface tanδ ~1e-3..5e-3 (Wenner 2011)"
+  substrate_air:
+    name: substrate_air
+    material: substrate-air surface layer
+    tan_delta: 2.0e-3
+    thickness_nm: 3.0
+    epsilon_r: 4.0
+    calibration: illustrative_literature_range
+    source: "illustrative; SA interface tanδ ~1e-3..5e-3 (Wenner 2011)"
+  junction_dielectric:
+    name: junction_dielectric
+    material: AlOx tunnel barrier (placeholder)
+    tan_delta: 3.0e-3
+    thickness_nm: 2.0
+    epsilon_r: 10.0
+    calibration: illustrative_literature_range
+    source: >-
+      illustrative placeholder; junction-loss participation is
+      process-specific and NOT modelled by the analytical backend
+notes:
+  - "ILLUSTRATIVE VALUES ONLY — not foundry-calibrated."
+  - "Use `textlayout measurement calibrate` (measurement loop) to replace these with process-measured effective loss tangents."

@@ -45,6 +45,16 @@
         "limit_count": 2.0
       },
       {
+        "name": "idc_two_net_connectivity",
+        "status": "pass"
+      },
+      {
+        "name": "idc_no_comb_shorts",
+        "status": "pass",
+        "value_um": 2.0,
+        "limit_um": 2.0
+      },
+      {
         "name": "geometry_min_spacing",
         "status": "pass"
       },
@@ -164,7 +174,7 @@
   "errors": [],
   "provenance": {
     "layout_json_sha256": "53c96cae013b3b74baf38c39337a8ce4fe7dc2692ca1d0595f66c3458c78a107",
-    "generator_version": "0.2.0",
+    "generator_version": "0.3.0",
     "generated_at": "normalized",
     "timestamp_normalized": true,
     "source_layout_path": "benchmarks/01_idc_0p6pf/layout.json"

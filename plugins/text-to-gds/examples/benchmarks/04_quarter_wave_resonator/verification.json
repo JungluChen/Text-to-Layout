@@ -130,6 +130,9 @@
       "substrate_eps_r": 11.9,
       "eps_eff": 6.45,
       "estimated_z0_ohm": 50.04,
+      "scikit_rf_z0_ohm": 50.0083,
+      "scikit_rf_eps_eff": 6.449543,
+      "analytical_backend": "scikit-rf CPW (Ghione/Naldi)",
       "target_frequency_ghz": 6.0,
       "quarter_wave_length_um": 4918.4652
     },
@@ -142,10 +145,11 @@
     "readiness_level": 2,
     "prepared_input_files": [
       "openems_model.json",
+      "openems_model.m",
       "simulation_manifest.json"
     ],
     "solver_output_files": [],
-    "note": "Verified geometry, material assumptions, ports, and expected outputs were serialized."
+    "note": "A runnable openEMS/CSXCAD Octave model and manifest were generated."
   },
   "physics_verification": {
     "status": "pending",
@@ -163,7 +167,7 @@
   "errors": [],
   "provenance": {
     "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
-    "generator_version": "0.2.0",
+    "generator_version": "0.3.0",
     "generated_at": "normalized",
     "timestamp_normalized": true,
     "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"

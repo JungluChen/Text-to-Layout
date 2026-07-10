@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "text-to-gds"
-version = "0.2.0"
-description = "Local-first MCP tools for agentic GDS generation, DRC, and superconducting circuit layout."
+version = "0.3.0"
+description = "Local-first evidence-driven cQED layout and simulation platform. The `textlayout` package (CLI: textlayout) is the supported product path: NL prompt -> typed DSL -> verified GDS -> EPR/coherence -> JJ yield -> chip-collision analysis -> measurement calibration. `text_to_gds` (CLI: text-to-gds) is a frozen legacy MCP-tool surface, kept for compatibility only -- see ARCHITECTURE.md."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -13,6 +13,7 @@ authors = [{ name = "Text-to-GDS contributors" }]
 dependencies = [
   "gdsfactory>=8.0",
   "klayout>=0.29",
+  "langgraph>=0.2",
   "matplotlib>=3.9",
   "mcp[cli]>=1.2.0",
   "numpy>=1.26",
@@ -35,12 +36,13 @@ docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
 layout = ["kqcircuits", "qiskit-metal"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
+squid = []  # JoSIM is an optional external executable; no Python package is vendored.
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
 metal = ["qiskit-metal"]
 epr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
-mesh = ["gmsh>=4.11"]
+mesh = ["gmsh>=4.11", "meshio>=5.3"]
 research = [
   "kqcircuits",
   "optuna>=4.0",
@@ -83,6 +85,8 @@ CPW = "textlayout.generators.cpw:CPWGenerator"
 SpiralInductor = "textlayout.generators.spiral:SpiralInductorGenerator"
 QuarterWaveResonator = "textlayout.generators.resonator:QuarterWaveResonatorGenerator"
 SQUID = "textlayout.generators.squid:SQUIDGenerator"
+TestStructure = "textlayout.generators.test_structure:TestStructureGenerator"
+TestChip = "textlayout.generators.test_chip:TestChipGenerator"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/text_to_gds", "src/textlayout"]
@@ -92,6 +96,16 @@ line-length = 100
 target-version = "py311"
 extend-exclude = [
   "quantum-eda-stack",
+  # The quality gate follows the strangler boundary: new product code and its
+  # tests are under src/textlayout + tests/textlayout_suite. Legacy mirrors and
+  # compatibility scripts are intentionally not reformatted by modern work.
+  "src/text_to_gds",
+  "plugins",
+  "examples",
+  "measurements",
+  "scripts",
+  "simulation",
+  "tests/test_*.py",
 ]
 
 # Strict static typing is enforced on the new clean-architecture package only.
@@ -104,7 +118,10 @@ strict = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["gdsfactory.*", "uvicorn.*"]
+# skrf ships no py.typed marker, and is an optional extra: depending on the
+# environment the import is either untyped or missing entirely. One override
+# covers both, so no inline ignore has to guess which.
+module = ["gdsfactory.*", "uvicorn.*", "skrf.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]
@@ -121,6 +138,7 @@ norecursedirs = [
   ".ruff_cache",
   ".tools",
   ".venv",
+  "external_references",
   "external_repos",
   "plugins",
   "workspace",

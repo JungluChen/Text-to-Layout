@@ -1,0 +1,59 @@
+{
+  "schema": "textlayout.tile-evidence-dashboard.v1",
+  "generated_from": "tile_simulation_map.json",
+  "full_tile": {
+    "full_tile_solver_executed": false,
+    "full_tile_status": "NOT_MODELED",
+    "full_tile_verified": false,
+    "full_tile_solver": "Gmsh + Palace",
+    "reason": "Palace full-tile inputs prepared; solver not executed because Palace is missing."
+  },
+  "subblocks": {
+    "IDC": {
+      "solver": "FasterCap",
+      "status": "SIMULATION_EXECUTED",
+      "solver_executed": true,
+      "physics_verified": false,
+      "extracted": 0.6973109999999999,
+      "target": 0.6,
+      "error_pct": 16.218,
+      "within_tolerance": false
+    },
+    "CPW": {
+      "solver": "openEMS+scikit-rf",
+      "status": "SIMULATION_EXECUTED",
+      "solver_executed": true,
+      "physics_verified": false,
+      "extracted": 38.47287247108259,
+      "target": 50.0,
+      "error_pct": -23.054,
+      "within_tolerance": false
+    },
+    "SpiralInductor": {
+      "solver": "fasthenry",
+      "status": "SIMULATION_EXECUTED",
+      "solver_executed": true,
+      "physics_verified": false,
+      "note": "FastHenry extraction of the geometry-identical spiral sub-block; no tile prompt target"
+    },
+    "Resonator": {
+      "solver": "openEMS+scikit-rf",
+      "status": "SIMULATION_EXECUTED",
+      "solver_executed": true,
+      "physics_verified": false,
+      "extracted": 3.0,
+      "target": 6.0,
+      "error_pct": -50.0,
+      "within_tolerance": false
+    },
+    "AlignmentMarksAndLabels": {
+      "solver": "none",
+      "status": "GEOMETRY_ONLY",
+      "solver_executed": false,
+      "physics_verified": false,
+      "note": "Non-electrical geometry; no solver model applies."
+    }
+  },
+  "statement": "This is a layout integration candidate with sub-block evidence, not a full-chip EM-verified design. Inter-block coupling, package, transitions, and whole-tile modes are not modeled.",
+  "fabrication_status": "NOT_FABRICATION_READY"
+}

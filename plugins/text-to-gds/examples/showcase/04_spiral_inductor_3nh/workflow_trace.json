@@ -1,0 +1,722 @@
+{
+  "schema": "textlayout.workflow-trace.v1",
+  "orchestrator": "langgraph",
+  "generated_at": "2026-07-03T08:19:08.292+00:00",
+  "nodes": [
+    {
+      "node": "ParsePrompt",
+      "start_time": "2026-07-03T08:19:04.645+00:00",
+      "input_summary": {
+        "component": null,
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": []
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.658+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "intent"
+        ]
+      }
+    },
+    {
+      "node": "ValidateIntent",
+      "start_time": "2026-07-03T08:19:04.659+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.659+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "BuildLayoutDSL",
+      "start_time": "2026-07-03T08:19:04.660+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.672+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_requests",
+          "files",
+          "jpa_sizing",
+          "layout_dsl",
+          "lc_inductance_nh",
+          "optimization",
+          "sized_parameters",
+          "target_capacitance_pf",
+          "target_inductance_nh"
+        ]
+      }
+    },
+    {
+      "node": "OptimizeParameters",
+      "start_time": "2026-07-03T08:19:04.674+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.676+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T08:19:04.678+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": null,
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.877+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T08:19:04.879+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "intent",
+          "layout",
+          "optimization"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.879+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T08:19:04.880+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.884+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T08:19:04.885+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.891+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T08:19:04.895+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:04.899+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T08:19:04.901+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.458+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T08:19:06.460+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.467+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T08:19:06.469+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": null,
+        "iteration": 0,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.479+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status",
+          "iteration",
+          "solver_iterations"
+        ]
+      }
+    },
+    {
+      "node": "RetuneParameters",
+      "start_time": "2026-07-03T08:19:06.483+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.487+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "layout_dsl"
+        ]
+      }
+    },
+    {
+      "node": "GenerateGeometry",
+      "start_time": "2026-07-03T08:19:06.488+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.671+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "generate",
+          "geometry_status"
+        ]
+      }
+    },
+    {
+      "node": "ExportArtifacts",
+      "start_time": "2026-07-03T08:19:06.674+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.674+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "node": "KLayoutReadback",
+      "start_time": "2026-07-03T08:19:06.675+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.679+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "readback"
+        ]
+      }
+    },
+    {
+      "node": "GeometryVerification",
+      "start_time": "2026-07-03T08:19:06.681+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "pass",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.685+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "geometry_status",
+          "verification_result"
+        ]
+      }
+    },
+    {
+      "node": "PrepareFasterCap",
+      "start_time": "2026-07-03T08:19:06.687+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:06.692+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "RunFasterCapIfAvailable",
+      "start_time": "2026-07-03T08:19:06.693+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.248+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence",
+          "simulation"
+        ]
+      }
+    },
+    {
+      "node": "ParseSolverResult",
+      "start_time": "2026-07-03T08:19:08.250+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.260+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files",
+          "simulation_result"
+        ]
+      }
+    },
+    {
+      "node": "CompareTarget",
+      "start_time": "2026-07-03T08:19:08.262+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "SIMULATION_EXECUTED",
+        "iteration": 1,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.272+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "evidence_status",
+          "iteration",
+          "solver_iterations"
+        ]
+      }
+    },
+    {
+      "node": "RunCircuitChecks",
+      "start_time": "2026-07-03T08:19:08.275+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 2,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.279+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "circuit_simulations",
+          "files",
+          "physics_verified"
+        ]
+      }
+    },
+    {
+      "node": "GenerateReport",
+      "start_time": "2026-07-03T08:19:08.281+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 2,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.290+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "files"
+        ]
+      }
+    },
+    {
+      "node": "UpdateShowcaseMetadata",
+      "start_time": "2026-07-03T08:19:08.291+00:00",
+      "input_summary": {
+        "component": "SpiralInductor",
+        "geometry_status": "GEOMETRY_PASS",
+        "evidence_status": "PHYSICS_VERIFIED",
+        "iteration": 2,
+        "files": [
+          "capacitance_result",
+          "fasthenry_result",
+          "gds",
+          "intent",
+          "klayout_readback",
+          "layout",
+          "optimization",
+          "png",
+          "report",
+          "simulation",
+          "simulation_legacy",
+          "svg",
+          "verification"
+        ]
+      },
+      "warnings": [],
+      "errors": [],
+      "end_time": "2026-07-03T08:19:08.291+00:00",
+      "status": "ok",
+      "output_summary": {
+        "updated": [
+          "artifacts"
+        ]
+      }
+    }
+  ]
+}

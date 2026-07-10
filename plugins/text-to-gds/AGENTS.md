@@ -16,8 +16,53 @@ py -3 -m uv sync                              # core install
 py -3 -m uv sync --extra research             # all optional backends
 uv run pytest                                  # full suite
 uv run ruff check .                            # lint
+uv run mypy src/textlayout                     # strict typing (product package)
+uv run python scripts/validate_readme_claims.py  # README claim gate
 uv run python scripts/check_external_tools.py # backend status
 uv run python examples/zero_to_one_demos.py all
+textlayout doctor                              # environment + solver health
+textlayout prompt "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" --out out/demo
+python scripts/generate_showcase_examples.py --force   # regenerate examples/showcase
+```
+
+The `textlayout prompt` path runs a LangGraph pipeline (see
+`src/textlayout/workflow/`): ParsePrompt → ValidateIntent → BuildLayoutDSL →
+OptimizeParameters → GenerateGeometry → ExportArtifacts → KLayoutReadback →
+GeometryVerification → PrepareFasterCap → RunFasterCapIfAvailable →
+ParseSolverResult → CompareTarget (bounded retune loop) → RunCircuitChecks →
+GenerateReport → UpdateShowcaseMetadata. Every run writes
+`workflow_trace.json` and `klayout_readback.json`. LangGraph owns
+orchestration only; deterministic Python owns all geometry and evidence.
+
+## FasterCap (WSL on Windows) Guide
+
+FasterCap is built and executed as a Linux ELF binary. Since the LangGraph
+workflow upgrade, `textlayout` auto-detects the WSL ELF build from Windows and
+invokes it through `wsl` with `/mnt/c/...` path translation — no manual WSL
+session is needed for the product path. The manual WSL venv flow below remains
+valid for debugging the solver directly.
+
+Checklist:
+
+- Verify the solver is a real ELF executable (not an object file): `file .tools/FasterCap/bin/FasterCap` must not report `relocatable`.
+- Verify it runs: `./.tools/FasterCap/bin/FasterCap -bv` (FasterCap does not accept `--help`; use `-bv` or `-b?`).
+- Do not mark FasterCap as `ready` in `.tools/simulators.json` unless the executable exists and a version/help probe runs successfully.
+- Do not copy build artifacts using broad find patterns that can match `.o` files.
+
+Local build patch:
+
+- The repository applies a local-only patch to `.tools/FasterCap/CMakeLists.txt` with markers `# TEXTLAYOUT LOCAL PATCH BEGIN/END`.
+- A backup is kept at `.tools/FasterCap/CMakeLists.txt.textlayout.bak`.
+
+WSL IDC run (requires a WSL Python venv):
+
+```bash
+cd /mnt/c/Users/<you>/Desktop/Layout/text-to-gds
+python3 -m venv .wsl-venv
+source .wsl-venv/bin/activate
+python -m pip install -U pip
+pip install pydantic numpy pyyaml pillow matplotlib trimesh
+PYTHONPATH=src python simulation/idc_fastercap/run_fastercap.py examples/benchmarks/01_idc_0p6pf/layout.json --out /tmp/fastercap_work --executable /mnt/c/Users/<you>/Desktop/Layout/text-to-gds/.tools/FasterCap/bin/FasterCap
 ```
 
 ---

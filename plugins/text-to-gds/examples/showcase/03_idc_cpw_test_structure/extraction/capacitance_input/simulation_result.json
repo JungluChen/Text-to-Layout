@@ -1,0 +1,71 @@
+{
+  "schema": "textlayout.simulation-result.v1",
+  "status": "executed",
+  "evidence_stage": "compared",
+  "solver": "FasterCap",
+  "solver_executed": true,
+  "capacitance_matrix_parsed": true,
+  "target_compared": true,
+  "physics_verified": true,
+  "readiness_level": 4,
+  "readiness_label": "result compared against target",
+  "reason": "Extracted mutual capacitance is within tolerance.",
+  "output_dir": "extraction\\capacitance_input",
+  "artifacts": {
+    "panel_file": "extraction\\capacitance_input\\idc.qui",
+    "list_file": "extraction\\capacitance_input\\idc.lst",
+    "manifest": "extraction\\capacitance_input\\simulation_manifest.json",
+    "solver_stdout": "extraction\\capacitance_input\\solver.stdout.txt",
+    "solver_stderr": "extraction\\capacitance_input\\solver.stderr.txt",
+    "result": "extraction\\capacitance_input\\simulation_result.json"
+  },
+  "extracted_quantities": {
+    "capacitance_matrix_pf": [
+      [
+        0.6446200000000001,
+        -0.610019
+      ],
+      [
+        -0.609113,
+        0.643883
+      ]
+    ],
+    "mutual_capacitance_pf": 0.610019
+  },
+  "target_comparison": {
+    "quantity": "mutual_capacitance_pf",
+    "extracted": 0.610019,
+    "target": 0.6,
+    "error_pct": 1.67,
+    "tolerance_pct": 5.0,
+    "within_tolerance": true
+  },
+  "warnings": [
+    "Effective-medium capacitance is not a full air/silicon interface extraction.",
+    "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
+    "Self-resonance and Q are outside this electrostatic model."
+  ],
+  "command": [
+    "wsl",
+    ".tools/FasterCap/bin/FasterCap",
+    "-b",
+    "-a0.01",
+    "extraction/capacitance_input/idc.lst"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 2.4920579999998154,
+  "evidence_level": "PHYSICS_VERIFIED",
+  "solver_version": "Running FasterCap version 6.0.7",
+  "capacitance_matrix_pf": [
+    [
+      0.6446200000000001,
+      -0.610019
+    ],
+    [
+      -0.609113,
+      0.643883
+    ]
+  ],
+  "mutual_capacitance_pf": 0.610019,
+  "prepared_inputs": true
+}

@@ -1,0 +1,23 @@
+{
+  "status": "input_files_prepared",
+  "solver": "openEMS",
+  "component": "QuarterWaveResonator",
+  "readiness_level": 2,
+  "expected_outputs": [
+    "resonance_frequency",
+    "loaded_Q",
+    "S21"
+  ],
+  "warnings": [
+    "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
+    "Boundary placement and mesh convergence must be reviewed before signoff."
+  ],
+  "solver_executed": false,
+  "discovery": {
+    "openems": "wsl:.tools/openems-wsl/bin/openEMS",
+    "csxcad": "wsl:.tools/openems-wsl/bin/AppCSXCAD",
+    "octave": "wsl:/usr/bin/octave-cli",
+    "octave_openems_path": "wsl:.tools/openems-wsl/share/openEMS/matlab",
+    "octave_csxcad_path": "wsl:.tools/openems-wsl/share/CSXCAD/matlab"
+  }
+}
