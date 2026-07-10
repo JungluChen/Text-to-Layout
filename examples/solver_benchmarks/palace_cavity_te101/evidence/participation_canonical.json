@@ -1,0 +1,125 @@
+{
+  "schema_version": "textlayout.canonical-evidence.v3",
+  "evidence_id": "908ef3a31f388e3507a6b94ef7bba485",
+  "design_id": "palace_cavity_te101_two_domain",
+  "design_hash": "39b103398cafdf130237108b582659414658560ad6ca977d093081ce6315750f",
+  "geometry_hash": null,
+  "component": "pec_rectangular_cavity_split_at_quarter_span",
+  "analysis_scope": "TE101_electric_energy_fraction_in_x_below_a_over_4",
+  "target_quantity": "electric_energy_participation",
+  "target_value": 0.09084505690810465,
+  "target_unit": "fraction",
+  "extracted_quantity": "electric_energy_participation",
+  "extracted_value": 0.09110252819293692,
+  "extracted_unit": "fraction",
+  "analytical_value": 0.09084505690810465,
+  "analytical_model": "1/4 - 1/(2*pi), from integrating sin^2(pi x / a)",
+  "tolerance_percent": 5.0,
+  "error_percent": 0.28341804562103157,
+  "status": "SIMULATION_EXECUTED",
+  "solver_name": "Palace",
+  "solver_version": "0.16.0-34-gea2e7b23",
+  "solver_executable_sha256": null,
+  "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac",
+  "command": [
+    "palace",
+    "-serial",
+    "twodomain_N32.json"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 66.3,
+  "input_file_hashes": {
+    "cav2dom_N8.msh": "a489316114bfa332bfc2e12384d68abae7b1c355dba5d904be240da6d1d00ce3",
+    "cav2dom_N16.msh": "5695f9cb99599017a8d1211fa4b393a3b1f4c997503a6f8a14a8db080dcecf24",
+    "cav2dom_N32.msh": "befa591150548ab93ca1071e10f2c2d74cdafbb48b9729c4f198145e2eed7feb"
+  },
+  "output_file_hashes": {
+    "outputs/twodomain_eig_N8.csv": "ee90d779e6b64988d747c67658feab3a80731a3bb570b0d73cdd3d9d52ffd72e",
+    "outputs/twodomain_domainE_N8.csv": "2c3f469cd5e12cec84bfcde7a00aa862bca8f6bc569e0ebf8c7a8ffc36a26f0f",
+    "outputs/twodomain_eig_N16.csv": "b9caa706b997da32382650417bf42543c0ea4d02cf782758ff2b3fbbde5082a8",
+    "outputs/twodomain_domainE_N16.csv": "0ee4b6ef9a3ae2162ecb3fdfc6106d3547ad73f6f226217b4ce71a745d7532cb",
+    "outputs/twodomain_eig_N32.csv": "989fc15748bdaad92a4ea3be723abdcf24edc278dee6c5e93718bab7af97e34d",
+    "outputs/twodomain_domainE_N32.csv": "c52ae20fb6f8fbd0ee43dd808063bd2997f648f8baaef4ed18c7c058a9a46bf7"
+  },
+  "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+  "parser_version": "1",
+  "extraction_config": {
+    "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+    "parser_version": "1",
+    "quantity": "p_elec[1]",
+    "expected_order": 2.0,
+    "levels_mm": [
+      4.41636,
+      2.20818,
+      1.10409
+    ]
+  },
+  "extraction_config_hash": "e141d26a80f4bb62ea7716c7480ea63772ccdd2a0f782ae85b854faac749bb41",
+  "convergence": {
+    "method": "mesh_refinement_richardson_gci",
+    "refinement_levels": 3,
+    "delta_percent": 0.8534312614731658,
+    "threshold_percent": 5.0,
+    "converged": true,
+    "notes": [
+      "participation observed order p=1.856656, GCI 0.406912%",
+      "Richardson 0.090805963 vs closed form 0.090845057",
+      "the eigenfrequency on this same mesh sequence is oscillatory and did NOT converge; the participation sequence is monotone, but both rest on one discretisation"
+    ]
+  },
+  "sanity_checks": [
+    {
+      "name": "modes_unambiguously_tracked",
+      "passed": true,
+      "detail": "followed one mode through indices [1, 1, 1]; worst match margin 0.2520"
+    },
+    {
+      "name": "field_overlap_match_score_above_0p90",
+      "passed": true,
+      "detail": "min match score 0.9995, worst margin 0.2520"
+    },
+    {
+      "name": "participation_sums_to_unity",
+      "passed": true,
+      "detail": "Palace reports p_elec[1] + p_elec[2] = 1.000000000 at every level"
+    },
+    {
+      "name": "participation_converges_within_5_percent",
+      "passed": true,
+      "detail": "finest p_elec[1]=0.091102528 vs closed form 0.090845057 (+0.2834%)"
+    }
+  ],
+  "measurement": null,
+  "depends_on": [
+    {
+      "role": "mesh",
+      "artifact": "cav2dom_N8.msh",
+      "sha256": "a489316114bfa332bfc2e12384d68abae7b1c355dba5d904be240da6d1d00ce3"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cav2dom_N16.msh",
+      "sha256": "5695f9cb99599017a8d1211fa4b393a3b1f4c997503a6f8a14a8db080dcecf24"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cav2dom_N32.msh",
+      "sha256": "befa591150548ab93ca1071e10f2c2d74cdafbb48b9729c4f198145e2eed7feb"
+    }
+  ],
+  "blocking_reason": null,
+  "git_commit": "d86cad15a9af97a352c19658f612f390906484b1",
+  "environment_hash": null,
+  "timestamp": "2026-07-10T22:15:00+00:00",
+  "warnings": [
+    "NOT promoted to PHYSICS_VERIFIED: the eigenfrequency on this mesh sequence is oscillatory (observed order 0.1361 against a formal order of 2.0), so the participation's monotone convergence does not by itself establish that the discretisation is in the asymptotic range.",
+    "Modes 2 and 3 (8.604 / 8.609 GHz) are near-degenerate and are correctly rejected as untrackable; only the fundamental is claimed."
+  ],
+  "invalidation_reason": null,
+  "skip_reason": null,
+  "failure_reason": null,
+  "provenance_gaps": [],
+  "superseded": null,
+  "supersedes_evidence_id": null,
+  "confidence_class": "SIMULATED"
+}

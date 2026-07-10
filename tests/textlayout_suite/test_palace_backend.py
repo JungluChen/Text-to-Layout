@@ -98,6 +98,21 @@ class TestDetection:
         assert capability.available is True
         assert capability.identified is False
 
+    def test_the_version_regex_matches_the_real_palace_banner(self) -> None:
+        """Captured from `palace --version` of the 0.16 container used here."""
+        from textlayout.simulation.palace_backend import _VERSION_RE
+
+        match = _VERSION_RE.search("Palace version: v0.16.0-34-gea2e7b23")
+        assert match is not None
+        # The git-describe suffix is part of the identity: 34 commits past a
+        # release tag is not that release.
+        assert match.group(1) == "0.16.0-34-gea2e7b23"
+
+    def test_a_plain_release_version_also_matches(self) -> None:
+        from textlayout.simulation.palace_backend import _VERSION_RE
+
+        assert _VERSION_RE.search("Palace (v0.13.0)").group(1) == "0.13.0"  # type: ignore[union-attr]
+
     def test_the_solver_identity_carries_the_container_digest(self) -> None:
         capability = PalaceCapability(
             executable="palace", version="0.16.0", container_digest="sha256:" + "a" * 64
@@ -210,6 +225,12 @@ class TestStrictEigenmodeParsing:
             parse_eigenmodes(path)
 
     def test_a_header_with_no_rows_fails(self, tmp_path: Path) -> None:
+        """Exactly what an OOM-killed Palace leaves behind: a header, no result.
+
+        Observed for real at N=48 (795,024 DOF), which the kernel killed after
+        508s. A parser that shrugged at this would report "no modes found" and
+        let the convergence study silently drop a level.
+        """
         path = _write_eig(tmp_path / "postpro" / "eig.csv", "")
         with pytest.raises(PalaceOutputError, match="no eigenvalue rows"):
             parse_eigenmodes(path)
@@ -236,12 +257,36 @@ class TestStrictEigenmodeParsing:
 
 
 class TestDomainEnergyParsing:
+    #: One row per eigenmode, as Palace writes it.
+    THREE_MODES = (
+        "m,E_elec[1] (J),E_elec[2] (J),E_mag (J)\n"
+        "1,0.75,0.25,1.0\n"
+        "2,0.40,0.60,1.0\n"
+        "3,0.10,0.90,1.0\n"
+    )
+
     def test_per_domain_electric_energy_is_read_by_index(self, tmp_path: Path) -> None:
         path = tmp_path / "domain-E.csv"
-        path.write_text(
-            "m,E_elec[1] (J),E_elec[2] (J),E_mag (J)\n1,0.75,0.25,1.0\n", encoding="utf-8"
-        )
+        path.write_text("m,E_elec[1] (J),E_elec[2] (J),E_mag (J)\n1,0.75,0.25,1.0\n", encoding="utf-8")
         assert parse_domain_energy(path) == {1: 0.75, 2: 0.25}
+
+    def test_the_mode_is_selected_by_its_index_not_its_row_position(self, tmp_path: Path) -> None:
+        """Reading a fixed row reports a different mode whenever N changes."""
+        path = tmp_path / "domain-E.csv"
+        path.write_text(self.THREE_MODES, encoding="utf-8")
+        assert parse_domain_energy(path, mode=1) == {1: 0.75, 2: 0.25}
+        assert parse_domain_energy(path, mode=3) == {1: 0.10, 2: 0.90}
+
+    def test_the_fundamental_is_the_default_not_the_last_row(self, tmp_path: Path) -> None:
+        path = tmp_path / "domain-E.csv"
+        path.write_text(self.THREE_MODES, encoding="utf-8")
+        assert parse_domain_energy(path) == parse_domain_energy(path, mode=1)
+
+    def test_an_absent_mode_names_the_modes_that_are_present(self, tmp_path: Path) -> None:
+        path = tmp_path / "domain-E.csv"
+        path.write_text(self.THREE_MODES, encoding="utf-8")
+        with pytest.raises(PalaceOutputError, match=r"no energy row for mode 7.*\[1, 2, 3\]"):
+            parse_domain_energy(path, mode=7)
 
     def test_energies_are_returned_unnormalised(self, tmp_path: Path) -> None:
         """A caller that cannot see the total cannot check that it sums to one."""

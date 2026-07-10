@@ -1,0 +1,175 @@
+{
+  "executed_at": "2026-07-10T22:15:00+00:00",
+  "geometry": {
+    "a_mm": 35.33088,
+    "b_mm": 20.0,
+    "d_mm": 35.33088,
+    "note": "a=d chosen so the TE101 eigenfrequency is exactly 6 GHz in vacuum"
+  },
+  "levels": {
+    "single_domain": [
+      {
+        "completed": true,
+        "config": "configs/cavity_N3.json",
+        "divisions": 3,
+        "eig_csv": "outputs/eig_N3.csv",
+        "h_mm": 11.77696,
+        "mesh": "cavN3.msh",
+        "mesh_sha256": "00c8fbf0125a3a88fdc24638677878a8ce333a44b84bff3d1cd27127ebc11f52",
+        "nd_dofs": 279,
+        "runtime_seconds": 0.31,
+        "tetrahedra": 162
+      },
+      {
+        "completed": true,
+        "config": "configs/cavity_N6.json",
+        "divisions": 6,
+        "eig_csv": "outputs/eig_N6.csv",
+        "h_mm": 5.88848,
+        "mesh": "cavN6.msh",
+        "mesh_sha256": "e199ffee652896950f57cefe0c746cf1216c487a54fc15043874b6dcb477f514",
+        "nd_dofs": 1854,
+        "runtime_seconds": 0.8,
+        "tetrahedra": 1296
+      },
+      {
+        "completed": true,
+        "config": "configs/cavity_N12.json",
+        "divisions": 12,
+        "eig_csv": "outputs/eig_N12.csv",
+        "h_mm": 2.94424,
+        "mesh": "cavN12.msh",
+        "mesh_sha256": "075a47e2bd8d382b7c0fc7e4f820e57184be3af3b9e9988741b2415cf4155d3f",
+        "nd_dofs": 13428,
+        "runtime_seconds": 3.86,
+        "tetrahedra": 10368
+      },
+      {
+        "completed": true,
+        "config": "configs/cavity_N24.json",
+        "divisions": 24,
+        "eig_csv": "outputs/eig_N24.csv",
+        "h_mm": 1.47212,
+        "mesh": "cavN24.msh",
+        "mesh_sha256": "f60da442ba8c7265269e1be5d2bd5665ed1bbfaa1a4e5eb63a6349321441649b",
+        "nd_dofs": 102024,
+        "runtime_seconds": 38.43,
+        "tetrahedra": 82944
+      },
+      {
+        "completed": false,
+        "config": "configs/cavity_N48.json",
+        "divisions": 48,
+        "eig_csv": "outputs/eig_N48.csv",
+        "failure": "killed by the OOM killer (exit 137) after 508.65s; eig.csv contains a header and no eigenvalue",
+        "h_mm": 0.73606,
+        "mesh": "cavN48.msh",
+        "mesh_sha256": "5d7e9a13984305cfa7992ab73e18d68701430c97e13c697b5dcd0f36d2658137",
+        "nd_dofs": 795024,
+        "runtime_seconds": 508.65,
+        "tetrahedra": 663552
+      }
+    ],
+    "two_domain": [
+      {
+        "completed": true,
+        "config": "configs/twodomain_N8.json",
+        "divisions": 8,
+        "domain_energy_csv": "outputs/twodomain_domainE_N8.csv",
+        "eig_csv": "outputs/twodomain_eig_N8.csv",
+        "h_mm": 4.41636,
+        "mesh": "cav2dom_N8.msh",
+        "mesh_sha256": "a489316114bfa332bfc2e12384d68abae7b1c355dba5d904be240da6d1d00ce3",
+        "nd_dofs": 2693,
+        "participation_by_mode": {
+          "1": {
+            "far": 0.9053041339684,
+            "near": 0.09469586603156
+          },
+          "2": {
+            "far": 0.8236305307317,
+            "near": 0.1763694692683
+          },
+          "3": {
+            "far": 0.8269018146969,
+            "near": 0.1730981853031
+          }
+        },
+        "runtime_seconds": 0.9,
+        "tetrahedra": 1920
+      },
+      {
+        "completed": true,
+        "config": "configs/twodomain_N16.json",
+        "divisions": 16,
+        "domain_energy_csv": "outputs/twodomain_domainE_N16.csv",
+        "eig_csv": "outputs/twodomain_eig_N16.csv",
+        "h_mm": 2.20818,
+        "mesh": "cav2dom_N16.msh",
+        "mesh_sha256": "5695f9cb99599017a8d1211fa4b393a3b1f4c997503a6f8a14a8db080dcecf24",
+        "nd_dofs": 17801,
+        "participation_by_mode": {
+          "1": {
+            "far": 0.9081199743515,
+            "near": 0.09188002564853
+          },
+          "2": {
+            "far": 0.8281161208287,
+            "near": 0.1718838791713
+          },
+          "3": {
+            "far": 0.8290389739919,
+            "near": 0.1709610260081
+          }
+        },
+        "runtime_seconds": 5.4,
+        "tetrahedra": 13824
+      },
+      {
+        "completed": true,
+        "config": "configs/twodomain_N32.json",
+        "divisions": 32,
+        "domain_energy_csv": "outputs/twodomain_domainE_N32.csv",
+        "eig_csv": "outputs/twodomain_eig_N32.csv",
+        "h_mm": 1.10409,
+        "mesh": "cav2dom_N32.msh",
+        "mesh_sha256": "befa591150548ab93ca1071e10f2c2d74cdafbb48b9729c4f198145e2eed7feb",
+        "nd_dofs": 135634,
+        "participation_by_mode": {
+          "1": {
+            "far": 0.9088974718071,
+            "near": 0.09110252819293
+          },
+          "2": {
+            "far": 0.8292042466459,
+            "near": 0.1707957533541
+          },
+          "3": {
+            "far": 0.8294453631392,
+            "near": 0.1705546368608
+          }
+        },
+        "runtime_seconds": 60.0,
+        "tetrahedra": 110592
+      }
+    ]
+  },
+  "material": {
+    "permeability": 1.0,
+    "permittivity": 1.0
+  },
+  "mesher": {
+    "name": "Gmsh",
+    "type": "transfinite structured, nested, ratio 2",
+    "version": "4.15.2"
+  },
+  "schema": "textlayout.palace-benchmark-manifest.v1",
+  "solver": {
+    "container": "oras://ghcr.io/volkermuehlhaus/palace_016:latest",
+    "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac",
+    "element_order": 1,
+    "name": "Palace",
+    "processes": 1,
+    "version": "0.16.0-34-gea2e7b23"
+  }
+}

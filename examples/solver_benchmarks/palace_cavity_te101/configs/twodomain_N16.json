@@ -1,0 +1,20 @@
+{
+  "Problem": {"Type": "Eigenmode", "Verbose": 2, "Output": "pp16"},
+  "Model": {"Mesh": "cav2dom_N16.msh", "L0": 1e-3},
+  "Domains": {
+    "Materials": [
+      {"Attributes": [1], "Permeability": 1.0, "Permittivity": 1.0},
+      {"Attributes": [2], "Permeability": 1.0, "Permittivity": 1.0}
+    ],
+    "Postprocessing": {"Energy": [
+      {"Index": 1, "Attributes": [1]},
+      {"Index": 2, "Attributes": [2]}
+    ]}
+  },
+  "Boundaries": {"PEC": {"Attributes": [3]}},
+  "Solver": {
+    "Order": 1, "Device": "CPU",
+    "Eigenmode": {"N": 3, "Tol": 1e-10, "Target": 3.0, "Save": 0},
+    "Linear": {"Type": "Default", "Tol": 1e-10, "MaxIts": 1000}
+  }
+}

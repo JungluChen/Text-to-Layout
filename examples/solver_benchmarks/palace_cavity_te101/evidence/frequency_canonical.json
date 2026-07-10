@@ -1,0 +1,135 @@
+{
+  "schema_version": "textlayout.canonical-evidence.v3",
+  "evidence_id": "d339d26632cc01a745d5c7b57e4a61f5",
+  "design_id": "palace_cavity_te101",
+  "design_hash": "39b103398cafdf130237108b582659414658560ad6ca977d093081ce6315750f",
+  "geometry_hash": null,
+  "component": "pec_rectangular_cavity",
+  "analysis_scope": "fundamental_TE101_eigenfrequency",
+  "target_quantity": "eigenmode_frequency",
+  "target_value": 6.0,
+  "target_unit": "GHz",
+  "extracted_quantity": "eigenmode_frequency",
+  "extracted_value": 6.001456051043,
+  "extracted_unit": "GHz",
+  "analytical_value": 6.0,
+  "analytical_model": "TE101 of a PEC box: f = (c/2) sqrt((1/a)^2 + (1/d)^2)",
+  "tolerance_percent": 0.5,
+  "error_percent": 0.024267517383336212,
+  "status": "PHYSICS_VERIFIED",
+  "solver_name": "Palace",
+  "solver_version": "0.16.0-34-gea2e7b23",
+  "solver_executable_sha256": null,
+  "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac",
+  "command": [
+    "palace",
+    "-serial",
+    "cavity_N24.json"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 43.09,
+  "input_file_hashes": {
+    "configs/cavity_N6.json": "ec1e16bfac48237e2204fbc9ba81022c2f43a9a73397e3ee667ae3ee50a98a2f",
+    "configs/cavity_N12.json": "9c003acb51e5b72787e9b2b0f2c05b1ace18d0998ef69534b83e78f08513faa9",
+    "configs/cavity_N24.json": "26683b99e7cbb273127ce16adee707ee356a2343db5d17b3fd4377797c74cff6",
+    "cavN6.msh": "e199ffee652896950f57cefe0c746cf1216c487a54fc15043874b6dcb477f514",
+    "cavN12.msh": "075a47e2bd8d382b7c0fc7e4f820e57184be3af3b9e9988741b2415cf4155d3f",
+    "cavN24.msh": "f60da442ba8c7265269e1be5d2bd5665ed1bbfaa1a4e5eb63a6349321441649b"
+  },
+  "output_file_hashes": {
+    "outputs/eig_N6.csv": "a6393a9a218a3a5d01fd44afe0b0c246ee0b3fcc0cdbd9373b48c6fe3e10f74d",
+    "outputs/eig_N12.csv": "9f181feaaccee8d6efb00ea4bd78f5a2a1fdaeaa33548f5380f1874889621b2e",
+    "outputs/eig_N24.csv": "2e5e9cb4e66a310cb813374dad4f6fab9ba812d5ad88fcfa423d59330e52207a"
+  },
+  "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+  "parser_version": "1",
+  "extraction_config": {
+    "parser": "textlayout.simulation.palace_backend.parse_eigenmodes",
+    "parser_version": "1",
+    "mode": "fundamental_TE101",
+    "expected_order": 2.0,
+    "levels_mm": [
+      5.88848,
+      2.94424,
+      1.47212
+    ]
+  },
+  "extraction_config_hash": "a738b4844b73e5973ab731e71ac13a0e1c7bed38d70922fe68a4313d44c4766b",
+  "convergence": {
+    "method": "mesh_refinement_richardson_gci",
+    "refinement_levels": 3,
+    "delta_percent": 0.0712593531074251,
+    "threshold_percent": 0.5,
+    "converged": true,
+    "notes": [
+      "observed order p=1.848486",
+      "Richardson extrapolation 5.999811977 GHz (-0.003134% from the closed form)",
+      "GCI 0.034243%"
+    ]
+  },
+  "sanity_checks": [
+    {
+      "name": "element_count_increases_under_refinement",
+      "passed": true,
+      "detail": "N=6: 1296 tets, N=12: 10368 tets, N=24: 82944 tets"
+    },
+    {
+      "name": "degrees_of_freedom_increase_under_refinement",
+      "passed": true,
+      "detail": "N=6: 1854 ND DOF, N=12: 13428 ND DOF, N=24: 102024 ND DOF"
+    },
+    {
+      "name": "observed_order_in_asymptotic_range",
+      "passed": true,
+      "detail": "p=1.848486 against declared formal order 2.0 (Nedelec p=1, eigenvalue error ~ h^2)"
+    },
+    {
+      "name": "grid_convergence_index_below_1_percent",
+      "passed": true,
+      "detail": "GCI=0.034243% (Roache, Fs=1.25)"
+    },
+    {
+      "name": "finest_level_frequency_change_below_0p5_percent",
+      "passed": true,
+      "detail": "|f(h) - f(2h)| / f(h) = 0.071259%"
+    },
+    {
+      "name": "energy_normalisation_error_below_0p1_percent",
+      "passed": true,
+      "detail": "Palace reports E_elec == E_mag to 1 part in 1e12 for every mode (domain-E.csv); a lossless PEC cavity eigenmode must equipartition."
+    }
+  ],
+  "measurement": null,
+  "depends_on": [
+    {
+      "role": "mesh",
+      "artifact": "cavN6.msh",
+      "sha256": "e199ffee652896950f57cefe0c746cf1216c487a54fc15043874b6dcb477f514"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cavN12.msh",
+      "sha256": "075a47e2bd8d382b7c0fc7e4f820e57184be3af3b9e9988741b2415cf4155d3f"
+    },
+    {
+      "role": "mesh",
+      "artifact": "cavN24.msh",
+      "sha256": "f60da442ba8c7265269e1be5d2bd5665ed1bbfaa1a4e5eb63a6349321441649b"
+    }
+  ],
+  "blocking_reason": null,
+  "git_commit": "d86cad15a9af97a352c19658f612f390906484b1",
+  "environment_hash": null,
+  "timestamp": "2026-07-10T22:15:00+00:00",
+  "warnings": [
+    "A closed PEC cavity has no truncation boundary, so domain-size convergence is undefined for this benchmark and was not assessed.",
+    "The coarsest level (N=3) lies outside the asymptotic range: refitting the order on levels 3/6/12 gives p=0.397 against p=1.848 on 6/12/24. It is excluded from the estimate and reported here rather than silently dropped."
+  ],
+  "invalidation_reason": null,
+  "skip_reason": null,
+  "failure_reason": null,
+  "provenance_gaps": [],
+  "superseded": null,
+  "supersedes_evidence_id": null,
+  "confidence_class": "VERIFIED"
+}

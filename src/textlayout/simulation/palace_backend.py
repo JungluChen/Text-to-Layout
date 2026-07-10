@@ -40,8 +40,13 @@ from textlayout.simulation.runners import _execution_command, find_executable
 
 _WSL_PREFIX = "wsl:"
 
-#: Palace prints its version in the banner it writes on every run and on --help.
-_VERSION_RE = re.compile(r"Palace\s+\(?v?([0-9]+\.[0-9]+(?:\.[0-9]+)?)", re.IGNORECASE)
+#: `palace --version` prints e.g. "Palace version: v0.16.0-34-gea2e7b23". The git
+#: describe suffix is captured too: a release tag alone does not identify the
+#: build, and 34 commits past v0.16.0 is not v0.16.0.
+_VERSION_RE = re.compile(
+    r"Palace\s+(?:version:?\s*)?\(?v?([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[0-9]+-g[0-9a-f]+)?)",
+    re.IGNORECASE,
+)
 
 #: Columns Palace writes into postpro/eig.csv. Matched loosely on whitespace and
 #: braces because the exact spacing has changed between releases, but never
@@ -157,7 +162,7 @@ def _hash_executable(executable: str) -> str | None:
 
 def _probe_version(executable: str) -> str | None:
     """Ask Palace what it is. ``None`` when it will not say -- never a guess."""
-    for flags in (["--help"], ["-h"], []):
+    for flags in (["--version"], ["--help"], ["-h"], []):
         command = _execution_command(executable, flags, Path.cwd())
         try:
             completed = subprocess.run(
@@ -333,12 +338,18 @@ def _finite(cell: str, source: Path, what: str) -> float:
     return value
 
 
-def parse_domain_energy(domain_csv: Path) -> dict[int, float]:
-    """Electric-field energy per named domain index, from Palace's domain-E.csv.
+def parse_domain_energy(domain_csv: Path, *, mode: int = 1) -> dict[int, float]:
+    """Electric-field energy per named domain index, for **one** eigenmode.
 
-    This is the raw input to an energy participation ratio. It is returned as
-    energies, not participations: normalising is the caller's decision, and a
-    caller that cannot see the total cannot check that it sums to one.
+    ``domain-E.csv`` carries one row per eigenmode. ``mode`` selects it by the
+    ``m`` column; it is not the row position. Reading a fixed row -- the last,
+    say -- silently reports a different mode's energy whenever the number of
+    requested modes changes, which is exactly the participation of the wrong
+    resonance.
+
+    Energies are returned, not participations: normalising is the caller's
+    decision, and a caller that cannot see the total cannot check that it sums
+    to one.
     """
     if not domain_csv.is_file():
         raise PalaceOutputError(f"missing Palace domain energy output: {domain_csv}")
@@ -346,12 +357,28 @@ def parse_domain_energy(domain_csv: Path) -> dict[int, float]:
         rows = list(csv.reader(handle))
     if len(rows) < 2:
         raise PalaceOutputError(f"{domain_csv}: no domain energy rows")
+
     header = [cell.strip() for cell in rows[0]]
+    mode_column = _column(header, _EIG_INDEX, "mode index", domain_csv)
+    selected: list[str] | None = None
+    available: list[int] = []
+    for row in rows[1:]:
+        if not any(cell.strip() for cell in row):
+            continue
+        index = int(float(row[mode_column]))
+        available.append(index)
+        if index == mode:
+            selected = row
+    if selected is None:
+        raise PalaceOutputError(
+            f"{domain_csv}: no energy row for mode {mode}; the file carries modes {available}"
+        )
+
     energies: dict[int, float] = {}
     for index, name in enumerate(header):
         match = re.search(r"E_elec\s*\[\s*(\d+)\s*\]", name, re.IGNORECASE)
         if match:
-            energies[int(match.group(1))] = _finite(rows[-1][index], domain_csv, name)
+            energies[int(match.group(1))] = _finite(selected[index], domain_csv, name)
     if not energies:
         raise PalaceOutputError(
             f"{domain_csv}: no per-domain E_elec columns; enable "
