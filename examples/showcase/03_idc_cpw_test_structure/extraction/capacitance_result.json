@@ -32,13 +32,14 @@
         0.643883
       ]
     ],
-    "mutual_capacitance_pf": 0.610019
+    "mutual_capacitance_pf": 0.610019,
+    "capacitance_pf": 0.610019
   },
   "target_comparison": {
-    "quantity": "mutual_capacitance_pf",
+    "quantity": "capacitance_pf",
     "extracted": 0.610019,
     "target": 0.6,
-    "error_pct": 1.67,
+    "error_pct": 1.669833,
     "tolerance_pct": 5.0,
     "within_tolerance": true
   },
@@ -51,5 +52,6 @@
     "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
     "Self-resonance and Q are outside this electrostatic model."
   ],
-  "analytical_capacitance_pf": 0.6
+  "analytical_capacitance_pf": 0.6,
+  "canonical_evidence_id": "2f2dd2bd9082a2cacf6a5b402f2d9c60"
 }

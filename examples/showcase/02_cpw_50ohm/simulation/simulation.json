@@ -9,9 +9,9 @@
   "capacitance_matrix_pf": null,
   "target_comparison": {
     "quantity": "characteristic_impedance_ohm",
-    "extracted": 49.88827755069874,
+    "extracted": 49.71253451171291,
     "target": 50.0,
-    "error_pct": -0.223,
+    "error_pct": -0.574931,
     "tolerance_pct": 5.0,
     "within_tolerance": true
   },
@@ -26,7 +26,7 @@
     "result": "extraction\\capacitance_input\\openems_result.s2p"
   },
   "quantity": "characteristic_impedance",
-  "extracted_value": 49.88827755069874,
+  "extracted_value": 49.71253451171291,
   "extracted_unit": "ohm",
   "capacitance_source": "not_applicable",
   "capacitance_pf": null,
@@ -41,11 +41,11 @@
       "quantity": "characteristic_impedance",
       "target_value": 50.0,
       "target_unit": "ohm",
-      "extracted_value": 49.88827755069874,
+      "extracted_value": 49.71253451171291,
       "extracted_unit": "ohm",
       "analytical_value": 50.0,
       "analytical_model": "Conformal-mapping CPW (Simons/Hilberg) + \u03bb/4 transmission-line theory",
-      "error_percent": 0.2234,
+      "error_percent": -0.574931,
       "tolerance_percent": 5.0,
       "status": "PHYSICS_VERIFIED",
       "solver": "openEMS+scikit-rf",
@@ -67,7 +67,8 @@
         "Extracted characteristic_impedance_ohm from solver-owned openems_result.s2p.",
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
         "Boundary placement and mesh convergence must be reviewed before signoff."
-      ]
+      ],
+      "canonical_evidence_id": "525c5c091c57223099a616761124d031"
     }
   ],
   "backends": {
@@ -75,5 +76,6 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": true
+  "physics_verified": true,
+  "canonical_evidence_id": "525c5c091c57223099a616761124d031"
 }

@@ -663,7 +663,10 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
         for name in SHOWCASE_REQUIRED_FILES:
             if not _existing_nonempty(root, f"{folder}/{name}"):
                 _fail(errors, f"showcase row links {folder} but {name} is missing/empty")
-        upper = line.upper()
+        # Strip markdown emphasis before matching: a guard that `**bold**` slips
+        # past is not a guard. "**PHYSICS_VERIFIED** FOR THE FULL TILE" must trip
+        # the same overclaim check as the unemphasised phrase.
+        upper = line.upper().replace("**", "").replace("`", "")
         if "NOT_FABRICATION_READY" not in upper:
             _fail(errors, f"showcase row must state NOT_FABRICATION_READY: {folder}")
         simulation = _showcase_simulation(root, folder)

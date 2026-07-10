@@ -23,7 +23,7 @@
     "result": "extraction\\capacitance_input\\openems_result.s2p"
   },
   "extracted_quantities": {
-    "characteristic_impedance_ohm": 49.88827755069874,
+    "characteristic_impedance_ohm": 49.71253451171291,
     "sample_frequency_ghz": 5.98875,
     "s11_magnitude": 0.0011439061772806117,
     "return_loss_db": 58.83219189478079,
@@ -33,9 +33,9 @@
   },
   "target_comparison": {
     "quantity": "characteristic_impedance_ohm",
-    "extracted": 49.88827755069874,
+    "extracted": 49.71253451171291,
     "target": 50.0,
-    "error_pct": -0.223,
+    "error_pct": -0.574931,
     "tolerance_pct": 5.0,
     "within_tolerance": true
   },
@@ -46,5 +46,13 @@
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff."
-  ]
+  ],
+  "superseded_claim": {
+    "evidence_id": null,
+    "status": "CHARACTERISTIC_IMPEDANCE_EXTRACTED",
+    "extracted_value": 49.88827755069874,
+    "extracted_unit": "ohm",
+    "why_withdrawn": "not reproducible from the committed openems_result.s2p. Re-extracting at the design frequency gives 49.712535 ohm; sample_frequency_ghz, s11_magnitude and return_loss_db all reproduce exactly, so the file and the parser agree and only this number is stale. No output hash existed at the time, so it cannot be established whether the Touchstone file or the impedance estimator changed."
+  },
+  "canonical_evidence_id": "525c5c091c57223099a616761124d031"
 }

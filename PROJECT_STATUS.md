@@ -1,6 +1,6 @@
 # Project Status
 
-Generated: 2026-07-10T03:48:05+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
+Generated: 2026-07-10T06:20:21+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
 
@@ -21,13 +21,13 @@ Generated: 2026-07-10T03:48:05+00:00 — by `scripts/generate_project_status.py`
 ## Showcase evidence
 
 - Total examples: 6
-- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh, 05_quarter_wave_resonator_6ghz
+- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh
 - Skipped (`SKIPPED_SOLVER_ABSENT`): (none)
-- Analytical only: 06_research_test_chip
+- Analytical only: 05_quarter_wave_resonator_6ghz, 06_research_test_chip
 
 ## Tests
 
-- **512 passed, 0 failed, 0 skipped** (source: pytest tests/textlayout_suite)
+- **660 passed, 0 failed, 0 skipped** (source: pytest tests/textlayout_suite (out/evidence/test_report.xml))
 
 ## PDK / fabrication readiness
 
@@ -57,5 +57,5 @@ Generated: 2026-07-10T03:48:05+00:00 — by `scripts/generate_project_status.py`
 - The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; it requires mesh convergence and finite-thickness/full-wave cross-checks.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
-- **PHYSICS_VERIFIED currently exists for showcase examples 01 and 04, plus the embedded IDC region of example 03.** Other scopes remain analytical, prepared, or honestly skipped unless their solver evidence says otherwise.
+- **PHYSICS_VERIFIED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise.
 - **Nothing in this repository is FABRICATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.

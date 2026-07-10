@@ -43,22 +43,28 @@ Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum g
 - Solver: `FasterCap`
 - Prepared input artifacts: `["list_file", "manifest", "panel_file", "result", "solver_stderr", "solver_stdout"]`
 
-## Solver execution
-
-- Solver executed: **yes**
-- Extracted capacitance: `0.598641` pF
-
-## Target comparison
-
-- Target: `0.6` pF; extracted: `0.598641` pF
-- Error: `-0.226%` (tolerance `5.0%`)
-- Within tolerance: **True**
+<!-- BEGIN GENERATED: evidence-status -->
 
 ## Evidence status
 
-- **PHYSICS_VERIFIED**
-- Geometry: **GEOMETRY_PASS**
-- Fabrication status: **NOT_FABRICATION_READY**
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
+
+- **Status:** `PHYSICS_VERIFIED`
+- **Confidence:** `VERIFIED`
+- Evidence id: `15feda89b0a0e45314a933af087d234b`
+- Analysis scope: `idc_electrodes`
+- Solver: `FasterCap Running FasterCap version 6.0.7`
+- Runtime: `18.3` s (return code `0`)
+- Extracted capacitance: `0.598641` pF
+- Target: `0.600000` pF
+- Error: `-0.227%` (tolerance `±5.00%`)
+- Analytical capacitance: `0.5583` pF (Bahl/Alley quasi-static closed form (Bahl 2003, Alley 1970)) — an estimate, **not** a solver result
+- Convergence: `fastercap_automatic_refinement`, converged: **True**
+  - solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0
+- Provenance gap: `solver_executable_hash_unrecorded`
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## Limitation
 

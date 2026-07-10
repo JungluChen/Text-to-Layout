@@ -17,10 +17,10 @@
     ]
   ],
   "target_comparison": {
-    "quantity": "mutual_capacitance_pf",
+    "quantity": "capacitance_pf",
     "extracted": 0.598641,
     "target": 0.6,
-    "error_pct": -0.226,
+    "error_pct": -0.2265,
     "tolerance_pct": 5.0,
     "within_tolerance": true
   },
@@ -52,7 +52,7 @@
       "extracted_unit": "pF",
       "analytical_value": 0.5583,
       "analytical_model": "Bahl/Alley quasi-static closed form (Bahl 2003, Alley 1970)",
-      "error_percent": 0.2265,
+      "error_percent": -0.2265,
       "tolerance_percent": 5.0,
       "status": "PHYSICS_VERIFIED",
       "solver": "FasterCap",
@@ -74,7 +74,8 @@
         "Effective-medium capacitance is not a full air/silicon interface extraction.",
         "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
         "Self-resonance and Q are outside this electrostatic model."
-      ]
+      ],
+      "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b"
     }
   ],
   "backends": {
@@ -82,5 +83,6 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": true
+  "physics_verified": true,
+  "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b"
 }
