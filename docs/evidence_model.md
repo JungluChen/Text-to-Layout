@@ -148,3 +148,108 @@ A `PHYSICS_VERIFIED` quantity means one solver agreed with one target inside
 tolerance. It does **not** mean the design is fabrication-ready. Nothing is
 fabrication-ready without a process-qualified PDK and all required signoff
 checks. See [`pdk_abstraction.md`](pdk_abstraction.md).
+
+---
+
+# Canonical evidence (schema v2) and the derivation graph
+
+Everything above describes the per-quantity honesty contract. It was not
+enough: statuses were *strings copied into each artifact at generation time*.
+A resonator openEMS run produced an all-NaN Touchstone, its low-level result
+was corrected to `SIMULATION_INVALID`, and eight derived artifacts kept
+publishing a successfully extracted 3.0 GHz resonance. See
+[`evidence_consistency_baseline.md`](evidence_consistency_baseline.md).
+
+`CanonicalEvidence` (`textlayout.canonical-evidence.v2`) is now the only source
+of truth. Every public artifact is a projection of it.
+
+```mermaid
+flowchart TD
+    O[committed solver output<br/>.s2p / stdout / Zc.mat] --> B[build_canonical]
+    B -->|re-parse, recompute,<br/>read back convergence| C[(evidence/canonical.json)]
+    C --> S1[simulation.json<br/>+ embedded evidence#91;#93;]
+    C --> S2[simulation/simulation.json]
+    C --> S3[openems_result.json<br/>extraction/capacitance_result.json]
+    C --> T[workflow_trace.json<br/>stamped, never rewritten]
+    C --> R1[report.md<br/>GENERATED block]
+    C --> R2[showcase README.md<br/>GENERATED block]
+    C --> I[examples/showcase/index.json]
+    C --> R3[README.md<br/>5 GENERATED blocks]
+```
+
+## Status is computed, never asserted
+
+`build_canonical` trusts no status string. It re-parses the committed solver
+output with the current parser and computes:
+
+| Condition | Status |
+| --- | --- |
+| parser rejects the output | `SIMULATION_INVALID` |
+| no convergence criterion evidenced | `SIMULATION_EXECUTED` |
+| converged and inside tolerance | `PHYSICS_VERIFIED` |
+| converged and outside tolerance | `SIMULATION_EXECUTED` |
+
+No solver is re-run and no evidence is fabricated. Convergence is *read back
+from what the solver did*, never asserted:
+
+- **FasterCap** — `-a0.01` automatic panel refinement to 1%, taken from the
+  recorded command.
+- **openEMS** — the field-energy-decay and excitation-support gate. A genuine
+  time-domain convergence criterion; **not** a mesh-refinement study, and the
+  record says so.
+- **FastHenry** — the deck declares no `nhinc`/`nwinc` and there is no
+  refinement sweep, so **no convergence is claimed** and the spiral cannot be
+  `PHYSICS_VERIFIED`.
+
+## Provenance: a path is not evidence
+
+Every input and output file is a SHA-256 content hash.
+`verify_output_hashes()` re-hashes them, so a solver output edited after its
+evidence was written is detected — the failure a path-existence check cannot
+see. The extraction configuration is hashed too, because the same parser over
+the same Touchstone yields 49.712535 Ω at the design frequency and 49.714711 Ω
+at the sweep centre.
+
+`git_commit` records the commit that last changed *this record's own files*,
+not `HEAD`. Recording `HEAD` would make every record stale on any unrelated
+commit.
+
+A solver-backed record with no executable hash or container digest must declare
+`solver_executable_hash_unrecorded` in `provenance_gaps` rather than pretend
+its provenance is complete. All five historical solver runs carry that gap.
+
+## Generated blocks
+
+Markdown carries `<!-- BEGIN GENERATED: <name> --> ... <!-- END GENERATED -->`.
+Only text inside a block is authoritative; a document with no block is reported
+as unverifiable rather than assumed correct. The block replaces the *whole*
+status region, so stale prose cannot survive beside it.
+
+`workflow_trace.json` is the exception: it records what each node observed when
+the workflow ran. Rewriting it would falsify the record. It is *stamped* with
+`canonical_evidence_status`, and the status that run reported is preserved as
+`run_reported_status` with a `historical_note`.
+
+## Withdrawn claims
+
+A `SIMULATION_INVALID` record carries **no** extracted value. The withdrawn
+number lives only in `superseded`, with the reason:
+
+```json
+"superseded": {
+  "status": "RESONANCE_FREQUENCY_EXTRACTED",
+  "extracted_value": 3.0, "extracted_unit": "GHz",
+  "why_withdrawn": "3.0 GHz is the first point of the sweep, not a resonance..."
+}
+```
+
+## CI gates
+
+```bash
+uv run python scripts/build_canonical_evidence.py --check   # record re-derives
+uv run python scripts/render_showcase_artifacts.py --check  # nothing stale
+uv run python scripts/audit_evidence_consistency.py         # nothing contradicts
+```
+
+The audit traverses `examples/showcase/` — never a hard-coded list — so a new
+showcase is covered the day it is added.
