@@ -25,12 +25,12 @@
     "inductance_nh": 2.9583084202149137
   },
   "target_comparison": {
-    "quantity": "inductance_h",
-    "extracted": 2.958308420214914e-09,
-    "target": 3.0000000000000004e-09,
-    "error_pct": -1.39,
+    "quantity": "inductance_nh",
+    "extracted": 2.9583084202149137,
+    "target": 3.0,
+    "error_pct": -1.389719,
     "tolerance_pct": 5.0,
-    "within_tolerance": true
+    "within_tolerance": false
   },
   "analytical_quantity": "inductance",
   "analytical_unit": "nH",
@@ -39,5 +39,6 @@
   "warnings": [
     "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
     "Conductor conductivity and thickness are generic and require process replacement."
-  ]
+  ],
+  "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176"
 }

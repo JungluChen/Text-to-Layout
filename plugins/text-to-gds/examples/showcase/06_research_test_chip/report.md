@@ -52,21 +52,20 @@
 - `PASS` output_report_exists
 - `PASS` klayout_gds_readback
 
-## Extraction status
+<!-- BEGIN GENERATED: evidence-status -->
 
-- Status: **ANALYTICAL_ONLY**
-- Simulation status: **ANALYTICAL_ONLY**
-- Prepared the requested solver files: **yes**
-- Solver executed: **no**
-- Physics verified: **no**
-- Evidence status: **ANALYTICAL_ONLY**
-- geometry: ANALYTICAL_ONLY — estimate None (per-sub-device analytical estimates (see research report)); this is NOT a solver result
-- Analytical geometry: `None `
-- Solver-extracted geometry: `not available`
-- Circuit simulators are not geometry-extraction evidence.
+## Evidence status
 
-- Legacy simulation status: **ANALYTICAL_ONLY**
-- Only an analytical formula was used. **This is not a solver result.**
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
+
+- **Status:** `ANALYTICAL_ONLY`
+- **Confidence:** `ANALYTICAL`
+- Evidence id: `209c3057e9809607dcfe30a0dad5b742`
+- Analysis scope: `full_tile`
+- Extracted geometry: **none** — no value was extracted from this run
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## JoSIM status
 

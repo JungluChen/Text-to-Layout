@@ -54,27 +54,33 @@
 - `PASS` output_report_exists
 - `PASS` klayout_gds_readback
 
-## Extraction status
+<!-- BEGIN GENERATED: evidence-status -->
 
-- Status: **SIMULATION_EXECUTED**
-- Simulation status: **SIMULATION_EXECUTED**
-- Prepared openEMS+scikit-rf files: **yes**
-- Solver executed: **yes**
-- Physics verified: **no**
-- Evidence status: **SIMULATION_EXECUTED**
-- resonance_frequency: SIMULATION_EXECUTED — openEMS+scikit-rf extracted 3.0 GHz vs target 6.0 GHz; tolerance not met or not compared — NOT physics verified
-- Analytical resonance_frequency: `6.0 GHz`
-- Solver-extracted resonance_frequency: `3.0 GHz`
-- Circuit simulators are not resonance_frequency-extraction evidence.
+## Evidence status
 
-- Extracted resonance_frequency: `3 GHz`
-- Target resonance_frequency: `6 GHz`
-- Error: `-50.000%`
-- Tolerance: `+/-5.00%`
-- Reason: extracted value is outside tolerance.
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- Legacy simulation status: **SIMULATION_EXECUTED**
-- The solver executed and a value was extracted, but the result does not meet tolerance (or no target was stated) — **not physics verified**.
+- **Status:** `SIMULATION_INVALID`
+- **Confidence:** `NONE`
+- Evidence id: `b5e514d1281a9d0fd74c2f47cbb42128`
+- Analysis scope: `resonator_plus_coupler`
+- Solver: `openEMS+scikit-rf openEMS via Octave frontend`
+- Runtime: `1011.4` s (return code `0`)
+- Extracted resonance_frequency: **none** — no value was extracted from this run
+- Analytical resonance_frequency: `6.0` GHz (Quarter-wave CPW hanger (Simons/Pozar initial model)) — an estimate, **not** a solver result
+- Convergence: `fdtd_energy_decay_and_excitation_support`, converged: **True**
+  - no mesh-refinement study was performed; only time-domain convergence is evidenced
+- **Invalidation reason:** openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) — the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it
+
+### Superseded claim (audit history — not an active result)
+
+- Withdrawn status: `RESONANCE_FREQUENCY_EXTRACTED`
+- Withdrawn value: `3.0` GHz
+- Why withdrawn: 3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'.
+- Provenance gap: `solver_executable_hash_unrecorded`
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## JoSIM status
 

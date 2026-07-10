@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.capacitance-extraction-result.v1",
-  "status": "EXTRACTION_INPUT_PREPARED",
+  "status": "ANALYTICAL_ONLY",
   "backend_status": "planned",
   "solver": "none",
   "solver_version": null,
@@ -14,5 +14,6 @@
   "analytical_unit": "",
   "analytical_value": null,
   "reason": "No tile-level solver is registered; sub-blocks are geometry-only here.",
-  "warnings": []
+  "warnings": [],
+  "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742"
 }

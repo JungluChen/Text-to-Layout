@@ -43,22 +43,33 @@ Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input lin
 - Solver: `openEMS+scikit-rf`
 - Prepared input artifacts: `["driver", "manifest", "model", "result", "solver_stderr", "solver_stdout", "touchstone"]`
 
-## Solver execution
-
-- Solver executed: **yes**
-- Extracted resonance_frequency: `3.0` GHz
-
-## Target comparison
-
-- Target: `6.0` GHz; extracted: `3.0` GHz
-- Error: `-50.0%` (tolerance `5.0%`)
-- Within tolerance: **False**
+<!-- BEGIN GENERATED: evidence-status -->
 
 ## Evidence status
 
-- **SIMULATION_EXECUTED**
-- Geometry: **GEOMETRY_PASS**
-- Fabrication status: **NOT_FABRICATION_READY**
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
+
+- **Status:** `SIMULATION_INVALID`
+- **Confidence:** `NONE`
+- Evidence id: `b5e514d1281a9d0fd74c2f47cbb42128`
+- Analysis scope: `resonator_plus_coupler`
+- Solver: `openEMS+scikit-rf openEMS via Octave frontend`
+- Runtime: `1011.4` s (return code `0`)
+- Extracted resonance_frequency: **none** — no value was extracted from this run
+- Analytical resonance_frequency: `6.0` GHz (Quarter-wave CPW hanger (Simons/Pozar initial model)) — an estimate, **not** a solver result
+- Convergence: `fdtd_energy_decay_and_excitation_support`, converged: **True**
+  - no mesh-refinement study was performed; only time-domain convergence is evidenced
+- **Invalidation reason:** openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) — the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it
+
+### Superseded claim (audit history — not an active result)
+
+- Withdrawn status: `RESONANCE_FREQUENCY_EXTRACTED`
+- Withdrawn value: `3.0` GHz
+- Why withdrawn: 3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'.
+- Provenance gap: `solver_executable_hash_unrecorded`
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## Limitation
 

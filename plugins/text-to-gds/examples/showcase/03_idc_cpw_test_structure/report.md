@@ -53,27 +53,28 @@
 - `PASS` output_report_exists
 - `PASS` klayout_gds_readback
 
-## Extraction status
+<!-- BEGIN GENERATED: evidence-status -->
 
-- Status: **PHYSICS_VERIFIED**
-- Simulation status: **PHYSICS_VERIFIED**
-- Prepared FasterCap files: **yes**
-- Solver executed: **yes**
-- Physics verified: **yes**
-- Evidence status: **PHYSICS_VERIFIED**
-- capacitance: PHYSICS_VERIFIED — FasterCap extracted 0.610019 pF vs target 0.6 pF (error 1.67% <= 5.0%)
-- Analytical capacitance: `0.6 pF`
-- Solver-extracted capacitance: `0.610019 pF`
-- Circuit simulators are not capacitance-extraction evidence.
+## Evidence status
 
-- Extracted capacitance: `0.610019 pF`
-- Target capacitance: `0.6 pF`
-- Error: `+1.670%`
-- Tolerance: `+/-5.00%`
-- Reason: extracted value is within tolerance.
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- Legacy simulation status: **PHYSICS_VERIFIED**
-- The solver executed, its output was parsed, and the extracted value is within tolerance of the target.
+- **Status:** `PHYSICS_VERIFIED`
+- **Confidence:** `VERIFIED`
+- Evidence id: `2f2dd2bd9082a2cacf6a5b402f2d9c60`
+- Analysis scope: `embedded_idc_region_only`
+- Solver: `FasterCap Running FasterCap version 6.0.7`
+- Runtime: `2.5` s (return code `0`)
+- Extracted capacitance: `0.610019` pF
+- Target: `0.600000` pF
+- Error: `+1.670%` (tolerance `±5.00%`)
+- Analytical capacitance: `0.6` pF (Bahl/Alley quasi-static closed form (Bahl 2003, Alley 1970)) — an estimate, **not** a solver result
+- Convergence: `fastercap_automatic_refinement`, converged: **True**
+  - solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0
+- Provenance gap: `solver_executable_hash_unrecorded`
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## JoSIM status
 

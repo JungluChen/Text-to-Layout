@@ -78,17 +78,55 @@ def _read_readme_limitations() -> list[str]:
     ]
 
 
+def _read_junit_report() -> dict[str, Any] | None:
+    """Parse the JUnit XML that pytest actually produces.
+
+    Preferred over the hand-written JSON. The docstring below told contributors
+    to create `test_report.xml`, while the reader only ever looked at
+    `test_report.json` -- so the JSON sat untouched and PROJECT_STATUS reported
+    `512 passed` long after the suite had grown past 600.
+    """
+    import xml.etree.ElementTree as ET
+
+    xml_path = ROOT / "out" / "evidence" / "test_report.xml"
+    if not xml_path.is_file():
+        return None
+    try:
+        root = ET.parse(xml_path).getroot()
+    except (ET.ParseError, OSError):
+        return None
+    suite = root if root.tag == "testsuite" else root.find("testsuite")
+    if suite is None:
+        return None
+
+    def count(name: str) -> int:
+        return int(suite.get(name, 0) or 0)
+
+    total, failed, skipped = count("tests"), count("failures") + count("errors"), count("skipped")
+    return {
+        "source": "pytest tests/textlayout_suite (out/evidence/test_report.xml)",
+        "generated_at": datetime.fromtimestamp(
+            xml_path.stat().st_mtime, tz=timezone.utc
+        ).isoformat(timespec="seconds"),
+        "passed": total - failed - skipped,
+        "failed": failed,
+        "skipped": skipped,
+        "total": total,
+    }
+
+
 def _read_test_report() -> dict[str, Any] | None:
-    """Read a previously saved test report, if one exists.
+    """Read a saved test report, if one exists.
 
     This script never runs the test suite itself (a status generator that
     silently re-runs pytest as a side effect is surprising and slow). Produce
     the report first with:
         pytest -q tests/textlayout_suite --junit-xml=out/evidence/test_report.xml
-    or hand-write out/evidence/test_report.json with
-        {"passed": N, "failed": N, "skipped": N, "source": "..."}.
     Absence is reported honestly, not filled with a stale or guessed number.
     """
+    junit = _read_junit_report()
+    if junit is not None:
+        return junit
     report_path = ROOT / "out" / "evidence" / "test_report.json"
     if not report_path.is_file():
         return None

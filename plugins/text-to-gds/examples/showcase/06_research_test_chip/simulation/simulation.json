@@ -7,7 +7,14 @@
   "target_compared": false,
   "mutual_capacitance_pf": null,
   "capacitance_matrix_pf": null,
-  "target_comparison": null,
+  "target_comparison": {
+    "quantity": "geometry",
+    "extracted": null,
+    "target": null,
+    "error_pct": null,
+    "tolerance_pct": 5.0,
+    "within_tolerance": false
+  },
   "artifacts": {},
   "quantity": "geometry",
   "extracted_value": null,
@@ -41,7 +48,8 @@
       "notes": [
         "TestChip is a geometry-level comparison tile; sub-device estimates are analytical and no solver was executed on the assembled tile.",
         "The IDC sub-block geometry is identical to the standalone IDC and can be extracted separately with FasterCap."
-      ]
+      ],
+      "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742"
     }
   ],
   "backends": {
@@ -49,5 +57,6 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": false
+  "physics_verified": false,
+  "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742"
 }

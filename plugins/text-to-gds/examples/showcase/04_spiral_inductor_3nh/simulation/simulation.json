@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "PHYSICS_VERIFIED",
+  "status": "SIMULATION_EXECUTED",
   "solver": "fasthenry",
   "solver_executed": true,
   "capacitance_matrix_parsed": false,
@@ -8,12 +8,12 @@
   "mutual_capacitance_pf": null,
   "capacitance_matrix_pf": null,
   "target_comparison": {
-    "quantity": "inductance_h",
-    "extracted": 2.958308420214914e-09,
-    "target": 3.0000000000000004e-09,
-    "error_pct": -1.39,
+    "quantity": "inductance_nh",
+    "extracted": 2.9583084202149137,
+    "target": 3.0,
+    "error_pct": -1.389719,
     "tolerance_pct": 5.0,
-    "within_tolerance": true
+    "within_tolerance": false
   },
   "artifacts": {
     "input": "extraction\\capacitance_input\\spiral.inp",
@@ -43,9 +43,9 @@
       "extracted_unit": "nH",
       "analytical_value": 3.2227,
       "analytical_model": "Modified-Wheeler / Mohan planar spiral inductor",
-      "error_percent": 1.3897,
+      "error_percent": -1.389719,
       "tolerance_percent": 5.0,
-      "status": "PHYSICS_VERIFIED",
+      "status": "SIMULATION_EXECUTED",
       "solver": "fasthenry",
       "command": "wsl bash -lc cd extraction/capacitance_input && .tools/FastHenry2/bin/fasthenry spiral.inp",
       "input_files": [
@@ -64,7 +64,8 @@
         "FastHenry returned a parseable impedance matrix.",
         "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
         "Conductor conductivity and thickness are generic and require process replacement."
-      ]
+      ],
+      "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176"
     }
   ],
   "backends": {
@@ -72,5 +73,6 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": true
+  "physics_verified": true,
+  "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176"
 }

@@ -43,20 +43,20 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 - Solver: `none`
 - Prepared input artifacts: `[]`
 
-## Solver execution
-
-- Solver executed: **no**
-- No solver output exists for this example; nothing electrical is claimed.
-
-## Target comparison
-
-- No solver-backed target comparison exists (see evidence status).
+<!-- BEGIN GENERATED: evidence-status -->
 
 ## Evidence status
 
-- **ANALYTICAL_ONLY**
-- Geometry: **GEOMETRY_PASS**
-- Fabrication status: **NOT_FABRICATION_READY**
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
+
+- **Status:** `ANALYTICAL_ONLY`
+- **Confidence:** `ANALYTICAL`
+- Evidence id: `209c3057e9809607dcfe30a0dad5b742`
+- Analysis scope: `full_tile`
+- Extracted geometry: **none** — no value was extracted from this run
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## Tile sub-block evidence
 

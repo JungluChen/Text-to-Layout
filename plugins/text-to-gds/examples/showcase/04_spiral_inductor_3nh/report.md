@@ -53,27 +53,28 @@
 - `PASS` output_report_exists
 - `PASS` klayout_gds_readback
 
-## Extraction status
+<!-- BEGIN GENERATED: evidence-status -->
 
-- Status: **PHYSICS_VERIFIED**
-- Simulation status: **PHYSICS_VERIFIED**
-- Prepared fasthenry files: **yes**
-- Solver executed: **yes**
-- Physics verified: **yes**
-- Evidence status: **PHYSICS_VERIFIED**
-- inductance: PHYSICS_VERIFIED — fasthenry extracted 2.9583084202149137 nH vs target 3.0 nH (error 1.39% <= 5.0%)
-- Analytical inductance: `3.2227 nH`
-- FastHenry-extracted inductance: `2.9583084202149137 nH`
-- Circuit simulators are not inductance-extraction evidence.
+## Evidence status
 
-- Extracted inductance: `2.95831 nH`
-- Target inductance: `3 nH`
-- Error: `-1.390%`
-- Tolerance: `+/-5.00%`
-- Reason: extracted value is within tolerance.
+<!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- Legacy simulation status: **PHYSICS_VERIFIED**
-- The solver executed, its output was parsed, and the extracted value is within tolerance of the target.
+- **Status:** `SIMULATION_EXECUTED`
+- **Confidence:** `SIMULATED`
+- Evidence id: `731a7af91767c62aaf145ef32dc1d176`
+- Analysis scope: `spiral_winding`
+- Solver: `fasthenry FastHenry 3.0.1`
+- Runtime: `0.2` s (return code `0`)
+- Extracted inductance: `2.958308` nH
+- Target: `3.000000` nH
+- Error: `-1.390%` (tolerance `±5.00%`)
+- Analytical inductance: `3.2227` nH (Modified-Wheeler / Mohan planar spiral inductor) — an estimate, **not** a solver result
+- Convergence: `none_recorded`, converged: **False**
+  - FastHenry ran once at the deck's default single-filament discretisation: the deck declares no nhinc/nwinc, and no refinement sweep exists. Current crowding in a spiral is unresolved, so no convergence is evidenced.
+- Provenance gap: `solver_executable_hash_unrecorded`
+
+**NOT_FABRICATION_READY.**
+<!-- END GENERATED: evidence-status -->
 
 ## JoSIM status
 

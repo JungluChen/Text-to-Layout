@@ -115,13 +115,14 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
     spec.loader.exec_module(module)
 
     real = (ROOT / "README.md").read_text(encoding="utf-8")
-    doctored = real.replace(
-        "**SIMULATION_EXECUTED** — openEMS via WSL/Octave ran to completion (real S2P "
-        "Touchstone output); extracted resonance 3.000000 GHz versus 6.000000 GHz target; "
-        "50.000% error, outside the 5% tolerance — not physics-verified.",
-        "**PHYSICS_VERIFIED** — totally real, trust me.",
-    )
-    assert doctored != real, "expected to find the quarter-wave resonator executed-status cell to doctor"
+    # The resonator's generated cell now reports SIMULATION_INVALID. Forge a
+    # PHYSICS_VERIFIED claim for it: canonical evidence extracted nothing, so
+    # claim validation must reject the doctored README.
+    marker = "**SIMULATION_INVALID** — openEMS+scikit-rf ran to completion"
+    start = real.index(marker)
+    end = real.index("**NOT_FABRICATION_READY**", start)
+    doctored = real[:start] + "**PHYSICS_VERIFIED** — totally real, trust me. " + real[end:]
+    assert doctored != real, "expected to find the quarter-wave resonator invalid-status cell"
     fake_readme = tmp_path / "README.md"
     fake_readme.write_text(doctored, encoding="utf-8")
     errors = module.validate(fake_readme, root=ROOT)
@@ -224,9 +225,13 @@ class TestResonatorRunIsHonestlyInvalid:
     def test_artifact_never_reports_the_sweep_edge_as_a_resonance(self) -> None:
         result = self._result()
         assert "resonance_frequency_ghz" not in result["extracted_quantities"]
-        # the withdrawn claim is retained for provenance, clearly labelled
-        assert result["superseded_claim"]["extracted_resonance_frequency_ghz"] == 3.0
-        assert "not a resonance" in result["superseded_claim"]["why_withdrawn"]
+        # the withdrawn claim is retained for provenance, clearly labelled, in the
+        # canonical SupersededClaim shape
+        superseded = result["superseded_claim"]
+        assert superseded["status"] == "RESONANCE_FREQUENCY_EXTRACTED"
+        assert superseded["extracted_value"] == 3.0
+        assert superseded["extracted_unit"] == "GHz"
+        assert "not a resonance" in superseded["why_withdrawn"]
 
     def test_solver_execution_is_still_reported_truthfully(self) -> None:
         """It really did run: rc 0, ~1011 s. Invalid output is not a skipped run."""

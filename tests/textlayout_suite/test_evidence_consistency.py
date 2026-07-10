@@ -147,17 +147,144 @@ class TestRealRepositoryIsTraversedNotHardCoded:
         assert all(r.showcase_id for r in reports)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Phase 1 baseline: 0/6 showcases are consistent. Every status is "
-    "hand-maintained, no canonical evidence exists, and the resonator's "
-    "SIMULATION_INVALID result is contradicted by 8 derived artifacts. "
-    "See docs/evidence_consistency_baseline.md. strict=True so this flips to a "
-    "hard failure the moment the repository becomes consistent.",
-)
 @pytest.mark.parametrize("showcase", [p.name for p in iter_showcases(ROOT)])
 def test_every_showcase_is_consistent(showcase: str) -> None:
     """The release gate: no showcase may contradict itself or its canonical record."""
     reports = {r.showcase_id: r for r in audit(ROOT)}
     report = reports[showcase]
     assert report.ok, "\n".join(f"  - {p}" for p in report.problems)
+
+
+class TestSolverOutputSanityGates:
+    """The extraction gates that the resonator's data must trip."""
+
+    def _write_s2p(self, path: Path, rows: list[str]) -> Path:
+        path.write_text("# Hz S RI R 50\n" + "\n".join(rows) + "\n", encoding="utf-8")
+        return path
+
+    def test_all_nan_data_is_rejected_not_extremised(self, tmp_path: Path) -> None:
+        """Recreates the resonator failure mechanism from raw data."""
+        from textlayout.simulation.runners import extract_resonance_metrics_from_touchstone
+
+        nan_row = " ".join(["NaN 0.0"] * 4)
+        path = self._write_s2p(
+            tmp_path / "all_nan.s2p",
+            [f"{3e9 + i * 1e7:.6e} {nan_row}" for i in range(20)],
+        )
+        with pytest.raises(ValueError, match="non-finite"):
+            extract_resonance_metrics_from_touchstone(path)
+
+    def test_partially_finite_data_is_rejected(self, tmp_path: Path) -> None:
+        """One NaN sample poisons the extremum search; the parser must refuse."""
+        from textlayout.simulation.runners import extract_resonance_metrics_from_touchstone
+
+        rows = [f"{3e9 + i * 1e7:.6e} 0.1 0.0 0.9 0.0 0.9 0.0 0.1 0.0" for i in range(20)]
+        rows[7] = f"{3e9 + 7e7:.6e} NaN 0.0 NaN 0.0 NaN 0.0 NaN 0.0"
+        path = self._write_s2p(tmp_path / "partial.s2p", rows)
+        with pytest.raises(ValueError, match="non-finite"):
+            extract_resonance_metrics_from_touchstone(path)
+
+    def test_monotonic_data_does_not_yield_a_sweep_edge_resonance(self, tmp_path: Path) -> None:
+        """Monotonic S21 has its extremum at an edge: that is NO resonance in band."""
+        from textlayout.simulation.sparameters import find_resonance_frequency
+
+        rows = [
+            f"{3e9 + i * 1e7:.6e} 0.01 0.0 {0.9 - i * 0.01:.4f} 0.0 "
+            f"{0.9 - i * 0.01:.4f} 0.0 0.01 0.0"
+            for i in range(20)
+        ]
+        path = self._write_s2p(tmp_path / "monotonic.s2p", rows)
+        with pytest.raises(ValueError):
+            find_resonance_frequency(path)
+
+    def test_a_real_interior_dip_is_accepted(self, tmp_path: Path) -> None:
+        """The guard must not reject genuine resonances."""
+        from textlayout.simulation.sparameters import find_resonance_frequency
+
+        rows = []
+        for i in range(21):
+            s21 = 0.9 if i != 10 else 0.05
+            rows.append(f"{3e9 + i * 1e7:.6e} 0.01 0.0 {s21:.4f} 0.0 {s21:.4f} 0.0 0.01 0.0")
+        path = self._write_s2p(tmp_path / "dip.s2p", rows)
+        assert find_resonance_frequency(path) == pytest.approx(3e9 + 10 * 1e7)
+
+
+class TestCanonicalRecordsMatchCommittedOutputs:
+    """`build_canonical` must re-derive exactly what is committed."""
+
+    def test_every_canonical_record_is_reproducible(self) -> None:
+        from textlayout.evidence.build import RECIPES, build_canonical
+        from textlayout.evidence.canonical import load_canonical
+
+        for showcase_id in RECIPES:
+            showcase = ROOT / "examples" / "showcase" / showcase_id
+            committed = load_canonical(showcase / "evidence" / "canonical.json")
+            fresh = build_canonical(showcase, ROOT, timestamp=committed.timestamp)
+            assert fresh.status is committed.status, showcase_id
+            assert fresh.extracted_value == committed.extracted_value, showcase_id
+            assert fresh.output_file_hashes == committed.output_file_hashes, showcase_id
+            assert fresh.evidence_id == committed.evidence_id, showcase_id
+
+    def test_recorded_output_hashes_match_the_files_on_disk(self) -> None:
+        """Detects a solver output edited after its evidence was written."""
+        from textlayout.evidence.canonical import load_canonical
+
+        for showcase in iter_showcases(ROOT):
+            record = load_canonical(showcase / "evidence" / "canonical.json")
+            assert record.verify_output_hashes(showcase) == [], showcase.name
+
+    def test_resonator_is_invalid_and_publishes_no_value(self) -> None:
+        from textlayout.evidence.canonical import load_canonical
+
+        record = load_canonical(
+            ROOT / "examples/showcase/05_quarter_wave_resonator_6ghz/evidence/canonical.json"
+        )
+        assert record.status.value == "SIMULATION_INVALID"
+        assert record.extracted_value is None
+        assert record.confidence_class.name == "NONE"
+        # the withdrawn 3.0 GHz survives only as audit history
+        assert record.superseded is not None
+        assert record.superseded.extracted_value == 3.0
+
+    def test_spiral_is_executed_not_verified_for_want_of_convergence(self) -> None:
+        from textlayout.evidence.canonical import load_canonical
+
+        record = load_canonical(
+            ROOT / "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json"
+        )
+        assert record.status.value == "SIMULATION_EXECUTED"
+        assert record.extracted_value == pytest.approx(2.9583084202149, rel=1e-12)
+        assert record.convergence is not None
+        assert record.convergence.converged is False
+
+    def test_cpw_value_is_reproducible_from_its_touchstone(self) -> None:
+        from textlayout.evidence.canonical import load_canonical
+        from textlayout.simulation.runners import extract_cpw_from_touchstone
+
+        showcase = ROOT / "examples/showcase/02_cpw_50ohm"
+        record = load_canonical(showcase / "evidence" / "canonical.json")
+        recomputed = extract_cpw_from_touchstone(
+            showcase / "extraction/capacitance_input/openems_result.s2p",
+            frequency_ghz=record.extraction_config["frequency_ghz"],
+        )["characteristic_impedance_ohm"]
+        assert record.extracted_value == pytest.approx(recomputed, rel=1e-12)
+        assert record.status.value == "PHYSICS_VERIFIED"
+
+
+class TestNoStaleGeneratedArtifacts:
+    """A clean checkout must have no generated-file drift."""
+
+    def _run(self, script: str) -> int:
+        import subprocess
+        import sys
+
+        return subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / script), "--check"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).returncode
+
+    def test_canonical_records_are_current(self) -> None:
+        assert self._run("build_canonical_evidence.py") == 0
+
+    def test_derived_artifacts_are_current(self) -> None:
+        assert self._run("render_showcase_artifacts.py") == 0

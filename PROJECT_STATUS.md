@@ -1,6 +1,6 @@
 # Project Status
 
-Generated: 2026-07-10T06:20:21+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
+Generated: 2026-07-10T06:28:47+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
 
@@ -27,7 +27,7 @@ Generated: 2026-07-10T06:20:21+00:00 — by `scripts/generate_project_status.py`
 
 ## Tests
 
-- **660 passed, 0 failed, 0 skipped** (source: pytest tests/textlayout_suite (out/evidence/test_report.xml))
+- **671 passed, 0 failed, 0 skipped** (source: pytest tests/textlayout_suite (out/evidence/test_report.xml))
 
 ## PDK / fabrication readiness
 

@@ -91,10 +91,11 @@ def test_showcase_number_mismatch_fails_validation(tmp_path: Path) -> None:
 
 
 def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path) -> None:
+    # the test-chip row's generated cell, with its fabrication status stripped
     fake = _doctored(
         tmp_path,
-        "no full-tile EM solve. **NOT_FABRICATION_READY** |",
-        "no full-tile EM solve. |",
+        "for scope `full_tile`. **NOT_FABRICATION_READY** |",
+        "for scope `full_tile`. |",
     )
     errors = validate(fake)
     assert any("showcase row must state NOT_FABRICATION_READY" in e for e in errors), errors
@@ -109,8 +110,8 @@ def test_fast_henry_number_mismatch_fails_validation(tmp_path: Path) -> None:
 def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
     fake = _doctored(
         tmp_path,
-        "ANALYTICAL_ONLY for the full tile",
-        "PHYSICS_VERIFIED FOR THE FULL TILE",
+        "**ANALYTICAL_ONLY** for scope `full_tile`",
+        "**PHYSICS_VERIFIED** FOR THE FULL TILE",
     )
     errors = validate(fake)
     assert any("full tile-level solve" in e for e in errors), errors

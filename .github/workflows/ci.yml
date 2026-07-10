@@ -37,6 +37,18 @@ jobs:
       - name: README claim audit
         run: uv run python scripts/validate_readme_claims.py
 
+      # One solver result must not have two statuses. These three gates are the
+      # reason the resonator's SIMULATION_INVALID result can no longer coexist
+      # with eight artifacts publishing a 3.0 GHz resonance.
+      - name: Canonical evidence is re-derivable from committed solver outputs
+        run: uv run python scripts/build_canonical_evidence.py --check
+
+      - name: Derived showcase artifacts are not stale
+        run: uv run python scripts/render_showcase_artifacts.py --check
+
+      - name: Cross-artifact evidence consistency (every showcase)
+        run: uv run python scripts/audit_evidence_consistency.py
+
       - name: Natural-language IDC closed-loop smoke
         run: >-
           uv run textlayout prompt
