@@ -39,14 +39,17 @@
     "the strongest S21 deviation sits at the lower sweep edge (3.0 GHz), which is what monotonic, resonance-free data looks like"
   ],
   "superseded_claim": {
+    "evidence_id": null,
     "status": "RESONANCE_FREQUENCY_EXTRACTED",
-    "extracted_resonance_frequency_ghz": 3.0,
-    "extracted_s21_magnitude_at_resonance": "NaN",
-    "why_withdrawn": "3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'. textlayout.simulation.sparameters now rejects non-finite Touchstone data, and find_resonance_frequency rejects sweep-edge extrema; this artifact predates those gates and its numbers were never physical."
+    "extracted_value": 3.0,
+    "extracted_unit": "GHz",
+    "why_withdrawn": "3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'."
   },
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff.",
     "This run is SIMULATION_INVALID. A valid resonator result requires re-running openEMS with corrected port excitation; see docs/evidence_model.md."
-  ]
+  ],
+  "invalidation_reason": "openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it",
+  "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
 }

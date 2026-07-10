@@ -1,17 +1,17 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "SIMULATION_EXECUTED",
+  "status": "SIMULATION_INVALID",
   "solver": "openEMS+scikit-rf",
   "solver_executed": true,
   "capacitance_matrix_parsed": false,
-  "target_compared": true,
+  "target_compared": false,
   "mutual_capacitance_pf": null,
   "capacitance_matrix_pf": null,
   "target_comparison": {
     "quantity": "resonance_frequency_ghz",
-    "extracted": 3.0,
+    "extracted": null,
     "target": 6.0,
-    "error_pct": -50.0,
+    "error_pct": null,
     "tolerance_pct": 5.0,
     "within_tolerance": false
   },
@@ -25,8 +25,8 @@
     "result": "extraction/capacitance_input/openems_result.s2p"
   },
   "quantity": "resonance_frequency",
-  "extracted_value": 3.0,
-  "extracted_unit": "GHz",
+  "extracted_value": null,
+  "extracted_unit": null,
   "capacitance_source": "not_applicable",
   "capacitance_pf": null,
   "capacitance_extraction_status": "NOT_APPLICABLE",
@@ -40,13 +40,13 @@
       "quantity": "resonance_frequency",
       "target_value": 6.0,
       "target_unit": "GHz",
-      "extracted_value": 3.0,
-      "extracted_unit": "GHz",
+      "extracted_value": null,
+      "extracted_unit": null,
       "analytical_value": 6.0,
       "analytical_model": "Quarter-wave CPW hanger (Simons/Pozar initial model)",
-      "error_percent": 50.0,
+      "error_percent": null,
       "tolerance_percent": 5.0,
-      "status": "SIMULATION_EXECUTED",
+      "status": "SIMULATION_INVALID",
       "solver": "openEMS+scikit-rf",
       "command": "wsl bash -lc cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m",
       "input_files": [
@@ -60,13 +60,12 @@
         "extraction/capacitance_input/openems_result.s2p",
         "extraction/capacitance_input/openems_result.s2p"
       ],
-      "parser": "textlayout.simulation.runners.extract_resonance_from_touchstone",
+      "parser": "textlayout.simulation.runners.extract_resonance_metrics_from_touchstone",
       "timestamp": "2026-07-05T08:17:13+00:00",
       "notes": [
-        "Extracted resonance_frequency_ghz from solver-owned openems_result.s2p.",
-        "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
-        "Boundary placement and mesh convergence must be reviewed before signoff."
-      ]
+        "SIMULATION_INVALID: openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it"
+      ],
+      "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
     }
   ],
   "backends": {
@@ -74,5 +73,6 @@
     "pscan2": null,
     "wrspice": null
   },
-  "physics_verified": false
+  "physics_verified": false,
+  "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
 }

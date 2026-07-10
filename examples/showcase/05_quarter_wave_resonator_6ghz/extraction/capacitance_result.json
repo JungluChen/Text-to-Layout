@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.capacitance-extraction-result.v1",
-  "status": "RESONANCE_FREQUENCY_EXTRACTED",
+  "status": "SIMULATION_INVALID",
   "backend_status": "executed",
   "solver": "openEMS+scikit-rf",
   "solver_version": "openEMS via Octave frontend",
@@ -21,15 +21,12 @@
     "touchstone": "extraction/capacitance_input/openems_result.s2p",
     "result": "extraction/capacitance_input/openems_result.s2p"
   },
-  "extracted_quantities": {
-    "resonance_frequency_ghz": 3.0,
-    "s21_magnitude_at_resonance": NaN
-  },
+  "extracted_quantities": {},
   "target_comparison": {
     "quantity": "resonance_frequency_ghz",
-    "extracted": 3.0,
+    "extracted": null,
     "target": 6.0,
-    "error_pct": -50.0,
+    "error_pct": null,
     "tolerance_pct": 5.0,
     "within_tolerance": false
   },
@@ -40,5 +37,14 @@
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff."
-  ]
+  ],
+  "invalidation_reason": "openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it",
+  "superseded_claim": {
+    "evidence_id": null,
+    "status": "RESONANCE_FREQUENCY_EXTRACTED",
+    "extracted_value": 3.0,
+    "extracted_unit": "GHz",
+    "why_withdrawn": "3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'."
+  },
+  "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
 }
