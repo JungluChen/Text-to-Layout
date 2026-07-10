@@ -99,6 +99,12 @@ def _read_junit_report() -> dict[str, Any] | None:
     to create `test_report.xml`, while the reader only ever looked at
     `test_report.json` -- so the JSON sat untouched and PROJECT_STATUS reported
     `512 passed` long after the suite had grown past 600.
+
+    A JUnit report records counts, not the command that produced them. This
+    reader therefore cites the *artifact* and nothing more. It previously
+    labelled the count `pytest tests/textlayout_suite`, but CI writes this file
+    from the whole suite -- so the stated command reproduced 749 tests while the
+    published number was 1327, and no reader could tell which was wrong.
     """
     import xml.etree.ElementTree as ET
 
@@ -127,7 +133,7 @@ def _read_junit_report() -> dict[str, Any] | None:
             xml_path.stat().st_mtime, tz=timezone.utc
         ).isoformat(timespec="seconds")
     return {
-        "source": "pytest tests/textlayout_suite (out/evidence/test_report.xml)",
+        "source": "out/evidence/test_report.xml (pytest JUnit report)",
         "generated_at": generated_at,
         "passed": total - failed - skipped,
         "failed": failed,
@@ -141,8 +147,9 @@ def _read_test_report() -> dict[str, Any] | None:
 
     This script never runs the test suite itself (a status generator that
     silently re-runs pytest as a side effect is surprising and slow). Produce
-    the report first with:
-        pytest -q tests/textlayout_suite --junit-xml=out/evidence/test_report.xml
+    the report first with the same command CI uses, so the published count is
+    reproducible:
+        pytest --junit-xml=out/evidence/test_report.xml
     Absence is reported honestly, not filled with a stale or guessed number.
     """
     junit = _read_junit_report()

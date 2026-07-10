@@ -29,7 +29,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 
 ## Tests
 
-- **1327 passed, 0 failed, 6 skipped** (source: pytest tests/textlayout_suite (out/evidence/test_report.xml))
+- **1404 passed, 0 failed, 6 skipped** (source: out/evidence/test_report.xml (pytest JUnit report))
 
 ## PDK / fabrication readiness
 

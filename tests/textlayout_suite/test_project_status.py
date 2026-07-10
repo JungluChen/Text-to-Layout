@@ -179,6 +179,36 @@ class TestHardcodedTestCountGate:
         assert errors == []
 
 
+class TestPublishedTestCountProvenance:
+    """The published count must cite a source that can reproduce it.
+
+    PROJECT_STATUS reported `1327 passed (source: pytest tests/textlayout_suite)`
+    while that command actually collects 749 tests -- the number came from the
+    full suite, and the JUnit XML carries no record of the command that made it.
+    A count attributed to a command nobody can rerun is not provenance.
+    """
+
+    def test_the_junit_reader_cites_the_artifact_not_a_command(self, status_module) -> None:
+        report = status_module._read_junit_report()
+        if report is None:
+            pytest.skip("no out/evidence/test_report.xml in this working tree")
+        source = report["source"]
+        assert "test_report.xml" in source
+        # It must not name a pytest target it cannot substantiate from the XML.
+        assert "tests/textlayout_suite" not in source
+
+    def test_published_count_matches_the_junit_report(self, status_module) -> None:
+        report = status_module._read_junit_report()
+        if report is None:
+            pytest.skip("no out/evidence/test_report.xml in this working tree")
+        published = (REPO_ROOT / "PROJECT_STATUS.md").read_text(encoding="utf-8")
+        expected = (
+            f"**{report['passed']} passed, {report['failed']} failed, "
+            f"{report['skipped']} skipped**"
+        )
+        assert expected in published
+
+
 class TestStatusManifestFreshness:
     def _write_repo(self, tmp_path: Path, manifest: dict) -> None:
         (tmp_path / "pyproject.toml").write_text(
