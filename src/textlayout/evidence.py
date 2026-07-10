@@ -79,8 +79,96 @@ _FINITE_FIELDS = (
 )
 
 
+class ConfidenceClass(enum.IntEnum):
+    """How much physical confidence a status is entitled to claim.
+
+    Ordered, so "did this transition increase confidence?" is a comparison
+    rather than a hand-maintained list of forbidden pairs.
+    """
+
+    #: No usable claim: never ran, ran and was rejected, or was skipped.
+    NONE = 0
+    #: A closed-form estimate. Not a solver result.
+    ANALYTICAL = 1
+    #: Solver inputs exist on disk. Still not a solver result.
+    PREPARED = 2
+    #: A solver ran and produced a finite, parseable value.
+    SIMULATED = 3
+    #: A solver value agreed with its design target inside tolerance.
+    VERIFIED = 4
+
+
+_CONFIDENCE: dict[EvidenceStatus, ConfidenceClass] = {
+    EvidenceStatus.FAILED: ConfidenceClass.NONE,
+    EvidenceStatus.SKIPPED_SOLVER_ABSENT: ConfidenceClass.NONE,
+    EvidenceStatus.SIMULATION_INVALID: ConfidenceClass.NONE,
+    EvidenceStatus.CONVERGENCE_FAILED: ConfidenceClass.NONE,
+    EvidenceStatus.ANALYTICAL_ONLY: ConfidenceClass.ANALYTICAL,
+    EvidenceStatus.SIMULATION_INPUT_PREPARED: ConfidenceClass.PREPARED,
+    EvidenceStatus.SIMULATION_EXECUTED: ConfidenceClass.SIMULATED,
+    EvidenceStatus.PHYSICS_VERIFIED: ConfidenceClass.VERIFIED,
+}
+
+#: The only sanctioned confidence-*increasing* edges. Everything else that
+#: raises confidence is an illegal promotion. Confidence-preserving and
+#: confidence-*lowering* edges are always allowed and are not listed here:
+#: losing confidence is always honest, so a solver may invalidate any claim at
+#: any time, but nothing may gain confidence except by walking this graph.
+_PROMOTIONS: frozenset[tuple[EvidenceStatus, EvidenceStatus]] = frozenset(
+    {
+        # an analytical estimate can have solver inputs prepared for it
+        (EvidenceStatus.ANALYTICAL_ONLY, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        # ... and a rejected or never-run quantity can be re-prepared and retried
+        (EvidenceStatus.FAILED, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        (EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        (EvidenceStatus.CONVERGENCE_FAILED, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        (EvidenceStatus.FAILED, EvidenceStatus.ANALYTICAL_ONLY),
+        (EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.ANALYTICAL_ONLY),
+        (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.ANALYTICAL_ONLY),
+        (EvidenceStatus.CONVERGENCE_FAILED, EvidenceStatus.ANALYTICAL_ONLY),
+        # prepared inputs -> the solver actually ran and returned a finite value
+        (EvidenceStatus.SIMULATION_INPUT_PREPARED, EvidenceStatus.SIMULATION_EXECUTED),
+        # a finite solver value -> compared against target, inside tolerance
+        (EvidenceStatus.SIMULATION_EXECUTED, EvidenceStatus.PHYSICS_VERIFIED),
+    }
+)
+
+
+LEDGER_SCHEMA = "textlayout.evidence-ledger.v1"
+
+
 class EvidenceError(ValueError):
     """Raised when an evidence record would violate the honesty contract."""
+
+
+def confidence_of(status: EvidenceStatus) -> ConfidenceClass:
+    """The confidence class a status is entitled to claim."""
+    return _CONFIDENCE[status]
+
+
+def is_legal_transition(old: EvidenceStatus, new: EvidenceStatus) -> bool:
+    """Whether evidence may move from ``old`` to ``new``.
+
+    Confidence may always be *lost* (a re-run that fails invalidates an earlier
+    PHYSICS_VERIFIED claim) and may always be restated at the same level. It may
+    only be *gained* along an edge in :data:`_PROMOTIONS`.
+    """
+    if confidence_of(new) <= confidence_of(old):
+        return True
+    return (old, new) in _PROMOTIONS
+
+
+def validate_transition(old: EvidenceStatus, new: EvidenceStatus) -> None:
+    """Raise :class:`EvidenceError` if ``old -> new`` is an illegal promotion."""
+    if is_legal_transition(old, new):
+        return
+    raise EvidenceError(
+        f"illegal confidence promotion {old.value} -> {new.value}: "
+        f"confidence would rise from {confidence_of(old).name} to "
+        f"{confidence_of(new).name} without passing through the sanctioned path "
+        f"(prepare inputs -> run solver -> compare to target)"
+    )
 
 
 class QuantityEvidence(BaseModel):
@@ -171,6 +259,11 @@ class QuantityEvidence(BaseModel):
     @property
     def is_physics_verified(self) -> bool:
         return self.status is EvidenceStatus.PHYSICS_VERIFIED
+
+    @property
+    def confidence_class(self) -> ConfidenceClass:
+        """How much physical confidence this record is entitled to claim."""
+        return confidence_of(self.status)
 
     def summary_line(self) -> str:
         """One-line human-readable statement of what this record proves."""
@@ -299,3 +392,76 @@ def compare_extracted_to_target(
         parser=parser,
         notes=list(notes or []),
     )
+
+
+class EvidenceLedger:
+    """Append-only history of one quantity's evidence, refusing illegal promotion.
+
+    A design is re-run many times: inputs are prepared, a solver runs, a mesh is
+    refined, a target is compared. Each step replaces the previous claim. The
+    ledger is what stops a later step from *quietly raising* the confidence of
+    an earlier one -- for example a re-run that skipped because the solver
+    disappeared must not leave the old PHYSICS_VERIFIED claim standing, and a
+    record cannot jump from SKIPPED_SOLVER_ABSENT to PHYSICS_VERIFIED without a
+    solver having run in between.
+
+    Demotion is always permitted: losing confidence is always honest.
+
+        >>> ledger = EvidenceLedger("capacitance")
+        >>> ledger.record(prepared)      # doctest: +SKIP
+        >>> ledger.record(verified)      # doctest: +SKIP  (illegal: no solver ran)
+        Traceback (most recent call last):
+        EvidenceError: illegal confidence promotion ...
+    """
+
+    def __init__(self, quantity: str, history: list[QuantityEvidence] | None = None) -> None:
+        self.quantity = quantity
+        self._history: list[QuantityEvidence] = []
+        for record in history or []:
+            self.record(record)
+
+    @property
+    def history(self) -> tuple[QuantityEvidence, ...]:
+        return tuple(self._history)
+
+    @property
+    def current(self) -> QuantityEvidence | None:
+        """The most recent claim, or None if nothing has been recorded."""
+        return self._history[-1] if self._history else None
+
+    def record(self, evidence: QuantityEvidence) -> QuantityEvidence:
+        """Append ``evidence``, raising EvidenceError on an illegal promotion."""
+        if evidence.quantity != self.quantity:
+            raise EvidenceError(
+                f"ledger tracks {self.quantity!r}, refusing record for {evidence.quantity!r}"
+            )
+        previous = self.current
+        if previous is not None:
+            validate_transition(previous.status, evidence.status)
+        self._history.append(evidence)
+        return evidence
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "schema": LEDGER_SCHEMA,
+            "quantity": self.quantity,
+            "current_status": self.current.status.value if self.current else None,
+            "current_confidence": (
+                self.current.confidence_class.name if self.current else ConfidenceClass.NONE.name
+            ),
+            "history": [record.model_dump(mode="json") for record in self._history],
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, object]) -> EvidenceLedger:
+        """Rebuild a ledger, re-validating every transition in the stored history.
+
+        A ledger file that was hand-edited to promote a claim will not load.
+        """
+        quantity = payload.get("quantity")
+        if not isinstance(quantity, str):
+            raise EvidenceError("evidence ledger requires a string 'quantity'")
+        raw_history = payload.get("history", [])
+        if not isinstance(raw_history, list):
+            raise EvidenceError("evidence ledger 'history' must be a list")
+        return cls(quantity, [QuantityEvidence.model_validate(item) for item in raw_history])

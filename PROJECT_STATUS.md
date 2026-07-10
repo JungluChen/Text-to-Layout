@@ -1,6 +1,6 @@
 # Project Status
 
-Generated: 2026-07-06T09:26:01+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
+Generated: 2026-07-10T03:48:05+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
 
@@ -9,9 +9,10 @@ Generated: 2026-07-06T09:26:01+00:00 — by `scripts/generate_project_status.py`
 - `textlayout chip` — subcommands: `analyze`, `optimize`
 - `textlayout doctor`
 - `textlayout epr`
+- `textlayout evidence` — subcommands: `check`
 - `textlayout generate`
 - `textlayout measurement` — subcommands: `calibrate`, `compare`
-- `textlayout pdk` — subcommands: `info`, `list`
+- `textlayout pdk` — subcommands: `apply-calibration`, `info`, `list`
 - `textlayout prompt`
 - `textlayout serve`
 - `textlayout verify`

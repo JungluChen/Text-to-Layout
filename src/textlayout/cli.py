@@ -493,6 +493,41 @@ def _cmd_pdk_apply_calibration(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_evidence_check(args: argparse.Namespace) -> int:
+    """Validate an evidence ledger: schema + every recorded state transition.
+
+    Exit 0 when the chain is legal, 3 when a claim was promoted illegally (for
+    example a hand-edited ledger that raised SKIPPED_SOLVER_ABSENT straight to
+    PHYSICS_VERIFIED). Intended for CI over stored evidence.
+    """
+    from textlayout.evidence import EvidenceError, EvidenceLedger
+
+    payload = json.loads(Path(args.ledger).read_text(encoding="utf-8"))
+    try:
+        ledger = EvidenceLedger.from_dict(payload)
+    except (EvidenceError, ValueError) as exc:
+        print(json.dumps({"ok": False, "ledger": str(args.ledger), "error": str(exc)}, indent=2))
+        return 3
+    current = ledger.current
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "ledger": str(args.ledger),
+                "quantity": ledger.quantity,
+                "n_records": len(ledger.history),
+                "current_status": current.status.value if current else None,
+                "current_confidence": (
+                    current.confidence_class.name if current else "NONE"
+                ),
+                "transitions_validated": max(len(ledger.history) - 1, 0),
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
 def _cmd_doctor(args: argparse.Namespace) -> int:
     from textlayout.doctor import render_text, run_doctor
 
@@ -612,6 +647,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="Exit non-zero when the EPR backend is unavailable (skipped).",
     )
     p_epr.set_defaults(func=_cmd_epr)
+
+    p_evidence = sub.add_parser(
+        "evidence",
+        help="Inspect and validate evidence ledgers (the source of truth for "
+        "every physics claim).",
+    )
+    evidence_sub = p_evidence.add_subparsers(dest="evidence_command", required=True)
+
+    p_evidence_check = evidence_sub.add_parser(
+        "check",
+        help="Validate an evidence ledger: re-check the schema and every recorded "
+        "state transition. Exits 3 on an illegal confidence promotion.",
+    )
+    p_evidence_check.add_argument("ledger", help="Path to an evidence-ledger JSON file.")
+    p_evidence_check.set_defaults(func=_cmd_evidence_check)
 
     p_doc = sub.add_parser("doctor", help="Check the environment (imports, solvers, write perms).")
     p_doc.add_argument("--out", default="out", help="Output directory to probe for writability.")
