@@ -10,6 +10,11 @@ version: "0.1.0"
 foundry_validated: false
 calibration_status: illustrative
 source: "Illustrative example combining published order-of-magnitude Nb/Al-on-Si process figures; NOT a real foundry PDK."
+# A density fraction is meaningful only over a stated window. Without one, a
+# layout that is empty at one edge and solid at the other passes a whole-chip
+# average trivially. 100 um is a representative foundry tile; like every other
+# number in this file it is illustrative, not measured.
+density_window_um: 100.0
 grid:
   grid_nm: 1.0
   default_min_spacing_um: 2.0

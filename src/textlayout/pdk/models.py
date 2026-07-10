@@ -107,6 +107,30 @@ class PDKJunctionProcess(BaseModel):
     critical_temperature_k: float | None = Field(default=None, gt=0)
 
 
+class PDKEnclosure(BaseModel):
+    """``outer`` must surround ``inner`` by at least ``min_um`` on every side.
+
+    A two-layer rule cannot be expressed on a single :class:`PDKLayer`, which is
+    why min-width and min-spacing live there and this does not.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    inner: str
+    outer: str
+    min_um: float = Field(gt=0)
+
+
+class PDKOverlap(BaseModel):
+    """``a`` and ``b`` must overlap by at least ``min_um`` wherever they meet."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    a: str
+    b: str
+    min_um: float = Field(gt=0)
+
+
 class PDKGrid(BaseModel):
     """Manufacturing grid and default fallback rules."""
 
@@ -152,7 +176,42 @@ class PDK(BaseModel):
     junction_process: PDKJunctionProcess | None = Field(
         default=None, description="None for non-superconducting / passive-only processes."
     )
+    enclosures: list[PDKEnclosure] = Field(default_factory=list)
+    overlaps: list[PDKOverlap] = Field(default_factory=list)
+    density_window_um: float | None = Field(
+        default=None,
+        gt=0,
+        description="Side of the sliding window a density rule is evaluated over. "
+        "Without it, a fill fraction is a whole-chip average, which no foundry deck "
+        "checks and which a locally dense region passes trivially.",
+    )
     notes: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _two_layer_rules_name_known_layers(self) -> PDK:
+        known = {layer.name for layer in self.layers}
+        for enclosure in self.enclosures:
+            for side in (enclosure.inner, enclosure.outer):
+                if side not in known:
+                    raise ValueError(f"enclosure rule names unknown layer {side!r}")
+        for overlap in self.overlaps:
+            for side in (overlap.a, overlap.b):
+                if side not in known:
+                    raise ValueError(f"overlap rule names unknown layer {side!r}")
+        return self
+
+    @model_validator(mode="after")
+    def _density_rules_need_a_window(self) -> PDK:
+        declares_density = any(
+            layer.min_density_fraction is not None or layer.max_density_fraction is not None
+            for layer in self.layers
+        )
+        if declares_density and self.density_window_um is None:
+            raise ValueError(
+                f"PDK {self.name!r} declares a density rule but no density_window_um; "
+                "a whole-chip average is not a density check"
+            )
+        return self
 
     @model_validator(mode="after")
     def _layers_unique_and_gds_unique(self) -> PDK:

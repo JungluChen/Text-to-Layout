@@ -13,6 +13,16 @@ See :mod:`textlayout.pdk.models` for why this exists and how it relates to
 
 from textlayout.pdk.convert import pdk_to_technology
 from textlayout.pdk.drc import DensityCheckResult, check_density, check_layer_exists
+from textlayout.pdk.klayout_drc import (
+    DRC_REPORT_SCHEMA,
+    SUPPORTED_RULES,
+    UNSUPPORTED_RULES,
+    DRCCheck,
+    DRCReport,
+    DRCViolation,
+    run_drc,
+    to_lydrc,
+)
 from textlayout.pdk.loader import load_pdk, write_pdk
 from textlayout.pdk.lvs import (
     LVS_SCHEMA,
@@ -26,6 +36,8 @@ from textlayout.pdk.lvs import (
     NotImplementedLVSChecker,
 )
 from textlayout.pdk.models import (
+    PDKEnclosure,
+    PDKOverlap,
     CALIBRATION_FOUNDRY,
     CALIBRATION_ILLUSTRATIVE,
     CALIBRATION_INTERNAL,
@@ -51,12 +63,22 @@ __all__ = [
     "LVS_SCHEMA",
     "PDK",
     "PDK_PROVENANCE_SCHEMA",
+    "PDKEnclosure",
+    "PDKOverlap",
     "PDK_SCHEMA",
     "STATUS_MATCH",
     "STATUS_MISMATCH",
     "STATUS_SKIPPED_NOT_IMPLEMENTED",
+    "DRC_REPORT_SCHEMA",
+    "DRCCheck",
+    "DRCReport",
+    "DRCViolation",
     "DensityCheckResult",
+    "SUPPORTED_RULES",
+    "UNSUPPORTED_RULES",
     "LVSChecker",
+    "run_drc",
+    "to_lydrc",
     "LVSReport",
     "Netlist",
     "NetlistDevice",

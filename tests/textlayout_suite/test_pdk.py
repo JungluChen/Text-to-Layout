@@ -39,6 +39,9 @@ def _minimal_pdk(**overrides) -> PDK:
         source="unit test fixture",
         grid=PDKGrid(grid_nm=1.0, default_min_spacing_um=1.0, default_min_width_um=1.0),
         substrate=PDKSubstrate(material="Si", epsilon_r=11.9, loss_tangent=1e-6),
+        # A density fraction without a window is a whole-chip average, which the
+        # PDK now rejects: a locally solid layout passes it trivially.
+        density_window_um=100.0,
         layers=[
             PDKLayer(
                 name="M1",
