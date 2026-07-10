@@ -401,6 +401,10 @@ _PATH_LEAK_EXCLUDED_DIRS = frozenset(
         "references",
         "external_references",
         "out",
+        # Runtime and test artifacts are gitignored. If git is unavailable and
+        # the scanner falls back to walking the filesystem, they still must not
+        # be treated as committed release evidence.
+        "workspace",
     }
 )
 

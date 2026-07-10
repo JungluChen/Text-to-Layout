@@ -40,8 +40,23 @@ def _fingerprint(record: CanonicalEvidence) -> str:
     return sha256_json(payload)
 
 
+def _content_fingerprint(record: CanonicalEvidence) -> str:
+    """Hash evidence content while excluding stable audit metadata."""
+    payload = record.to_dict()
+    payload.pop("timestamp", None)
+    payload.pop("git_commit", None)
+    return sha256_json(payload)
+
+
 def _stabilised(fresh: CanonicalEvidence, existing_path: Path) -> CanonicalEvidence:
-    """Carry the committed timestamp over when nothing else changed."""
+    """Carry stable metadata over when content evidence is unchanged.
+
+    A release check may run after a test that intentionally hides ``git`` from
+    PATH. In that case ``build_canonical`` cannot re-query the source commit,
+    but the design/input/output hashes still establish whether the evidence
+    changed. Preserve the previously recorded commit instead of manufacturing
+    a false stale-record failure.
+    """
     if not existing_path.is_file():
         return fresh
     try:
@@ -51,8 +66,21 @@ def _stabilised(fresh: CanonicalEvidence, existing_path: Path) -> CanonicalEvide
     stamp = previous.get("timestamp")
     if not isinstance(stamp, str):
         return fresh
-    candidate = fresh.model_copy(update={"timestamp": stamp})
-    return candidate if _fingerprint(candidate) == _fingerprint(fresh) else fresh
+    try:
+        previous_record = CanonicalEvidence.model_validate(
+            {k: v for k, v in previous.items() if k != "confidence_class"}
+        )
+    except ValueError:
+        return fresh
+    if _content_fingerprint(previous_record) != _content_fingerprint(fresh):
+        return fresh
+
+    updates: dict[str, str] = {"timestamp": stamp}
+    previous_commit = previous.get("git_commit")
+    if isinstance(previous_commit, str):
+        updates["git_commit"] = previous_commit
+    candidate = fresh.model_copy(update=updates)
+    return candidate
 
 
 def main(argv: list[str] | None = None) -> int:
