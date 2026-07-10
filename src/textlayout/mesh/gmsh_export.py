@@ -13,8 +13,19 @@ def export_gmsh_geo(
     *,
     substrate_thickness_um: float = 500.0,
     metal_thickness_um: float = 0.2,
+    characteristic_length_um: float = 50.0,
 ) -> Path:
-    """Write an explicit preparation model, not a claim of full-chip accuracy."""
+    """Write an explicit preparation model, not a claim of full-chip accuracy.
+
+    ``characteristic_length_um`` is Gmsh's ``lc``. It was hard-coded at 50 um,
+    which made a mesh-refinement study impossible: every level would have
+    produced the identical mesh, so any "convergence" it reported would have
+    been a tautology rather than evidence.
+    """
+    if not characteristic_length_um > 0:
+        raise ValueError(
+            f"characteristic_length_um must be positive, got {characteristic_length_um!r}"
+        )
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     bbox = geometry.bbox()
@@ -22,7 +33,7 @@ def export_gmsh_geo(
     lines = [
         'SetFactory("OpenCASCADE");',
         "Mesh.MshFileVersion = 4.1;",
-        "lc = 50;",
+        f"lc = {characteristic_length_um:.9g};",
         (
             f"substrate = newv; Box(substrate) = "
             f"{{{bbox.xmin-margin:.9g}, {bbox.ymin-margin:.9g}, {-substrate_thickness_um:.9g}, "
