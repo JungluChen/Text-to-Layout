@@ -12,6 +12,7 @@ from textlayout.measurement import (
     MeasurementRecord,
     SimulatedPrediction,
     build_calibration,
+    build_comparison_summary,
     compare_all,
     compare_pair,
     fit_correction_factors,
@@ -248,10 +249,44 @@ class TestReportsAndCLI:
         )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
+        # legacy top-level calibration keys stay at the top level (back-compat)
         assert payload["synthetic"] is True
+        assert "corrections" in payload
+        # the overlay is additive
+        assert payload["overlay"]["calibration_status"] == "SYNTHETIC_CALIBRATION_ONLY"
         assert (tmp_path / "evidence" / "calibration.yaml").is_file()
+        assert (tmp_path / "evidence" / "calibrated_pdk_overlay.yaml").is_file()
 
     def test_cli_measurement_calibrate_production_flag(self, tmp_path, capsys) -> None:
+        """--production on genuinely non-synthetic records yields synthetic=False."""
+        pred_path = tmp_path / "predictions.json"
+        meas_path = tmp_path / "measurements.json"
+        real = _meas(synthetic=False, measurement_source="fridge-A VNA")
+        pred_path.write_text(json.dumps([_pred().model_dump(mode="json")]), encoding="utf-8")
+        meas_path.write_text(json.dumps([real.model_dump(mode="json")]), encoding="utf-8")
+        code = cli_main(
+            [
+                "measurement",
+                "calibrate",
+                "--predicted",
+                str(pred_path),
+                "--measured",
+                str(meas_path),
+                "--production",
+            ]
+        )
+        assert code == 0
+        payload = json.loads(capsys.readouterr().out)
+        assert payload["synthetic"] is False
+        assert payload["overlay"]["is_synthetic"] is False
+        assert payload["overlay"]["calibration_status"] == "MEASUREMENT_CALIBRATED"
+
+    def test_cli_measurement_calibrate_production_refuses_synthetic(self, tmp_path, capsys) -> None:
+        """--production must NOT promote fixture data: synthetic inputs are refused.
+
+        Guards the honesty invariant that the flag is an assertion about the
+        *data*, not an override of it.
+        """
         pred_path = tmp_path / "predictions.json"
         meas_path = tmp_path / "measurements.json"
         pred_path.write_text(json.dumps([_pred().model_dump(mode="json")]), encoding="utf-8")
@@ -267,9 +302,65 @@ class TestReportsAndCLI:
                 "--production",
             ]
         )
-        assert code == 0
-        payload = json.loads(capsys.readouterr().out)
-        assert payload["synthetic"] is False
+        assert code == 2
+        assert "refusing" in json.loads(capsys.readouterr().out)["error"]
+
+
+class TestComparisonCoverage:
+    """Coverage must never look complete when most devices went unmatched."""
+
+    def test_coverage_is_asymmetric_between_predictions_and_measurements(self) -> None:
+        """40 predicted / 2 measured is 5% coverage, not 100%."""
+        summary = build_comparison_summary(
+            [],
+            n_predictions=40,
+            n_measurements=2,
+            n_matched=2,
+            any_synthetic=False,
+            pdk_names=[],
+        )
+        assert summary["coverage_pct"] == pytest.approx(5.0)
+        assert summary["n_unmatched_predictions"] == 38
+        assert summary["n_unmatched_measurements"] == 0
+        assert summary["comparison_status"] == "PARTIAL_MEASUREMENT_MATCH"
+
+        # the mirror image is a *different* evidence situation
+        mirrored = build_comparison_summary(
+            [],
+            n_predictions=2,
+            n_measurements=40,
+            n_matched=2,
+            any_synthetic=False,
+            pdk_names=[],
+        )
+        assert mirrored["n_unmatched_predictions"] == 0
+        assert mirrored["n_unmatched_measurements"] == 38
+        # the legacy scalar cannot tell these two apart -- which is why it is not enough
+        assert summary["n_unmatched"] == mirrored["n_unmatched"]
+
+    def test_no_devices_is_insufficient_not_full_coverage(self) -> None:
+        summary = build_comparison_summary(
+            [], n_predictions=0, n_measurements=0, n_matched=0, any_synthetic=False, pdk_names=[]
+        )
+        assert summary["coverage_pct"] == 0.0
+        assert summary["comparison_status"] == "INSUFFICIENT_MEASUREMENT_DATA"
+        assert summary["quantities_compared"] == []
+
+    def test_full_match_is_full_coverage(self) -> None:
+        pairs = pair_by_design_hash([_pred()], [_meas()])
+        residuals = compare_all(pairs)
+        summary = build_comparison_summary(
+            residuals,
+            n_predictions=1,
+            n_measurements=1,
+            n_matched=1,
+            any_synthetic=True,
+            pdk_names=["illustrative"],
+        )
+        assert summary["coverage_pct"] == pytest.approx(100.0)
+        assert summary["comparison_status"] == "MEASUREMENT_COMPARED"
+        assert "SYNTHETIC_MEASUREMENT" in summary["labels"]
+        assert summary["quantities_compared"]  # residuals produced real quantities
 
 
 class TestSyntheticFixtures:

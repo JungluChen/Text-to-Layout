@@ -23,6 +23,7 @@ from textlayout.schemas.dsl import LayoutSpec
 
 if TYPE_CHECKING:  # pragma: no cover
     from textlayout.chip_lattice import QubitLattice
+    from textlayout.measurement import CalibrationOverlay
     from textlayout.epr import EPRResult
     from textlayout.measurement import MeasurementRecord, SimulatedPrediction
 
@@ -312,51 +313,183 @@ def _cmd_pdk_info(args: argparse.Namespace) -> int:
 
 
 def _load_predictions(path: str) -> "list[SimulatedPrediction]":
-    from textlayout.measurement import SimulatedPrediction
+    from textlayout.measurement import load_predictions
 
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
-    return [SimulatedPrediction.model_validate(item) for item in data]
+    return load_predictions(path)
 
 
 def _load_measurements(path: str) -> "list[MeasurementRecord]":
-    from textlayout.measurement import MeasurementRecord
+    from textlayout.measurement import load_measurements
 
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
-    return [MeasurementRecord.model_validate(item) for item in data]
+    return load_measurements(path)
 
 
 def _cmd_measurement_compare(args: argparse.Namespace) -> int:
-    from textlayout.measurement import compare_all, pair_by_design_hash, write_comparison_report
+    from textlayout.measurement import (
+        build_comparison_summary,
+        compare_all,
+        pair_by_design_hash,
+        write_comparison_bundle,
+        write_comparison_report,
+    )
 
     predictions = _load_predictions(args.predicted)
     measurements = _load_measurements(args.measured)
     pairs = pair_by_design_hash(predictions, measurements)
     residuals = compare_all(pairs)
-    payload: dict[str, object] = {"residuals": [r.model_dump(mode="json") for r in residuals]}
+    summary = build_comparison_summary(
+        residuals,
+        n_predictions=len(predictions),
+        n_measurements=len(measurements),
+        n_matched=len(pairs),
+        any_synthetic=(not measurements) or any(m.synthetic for m in measurements),
+        pdk_names=[p.pdk_name for p in predictions if p.pdk_name],
+    )
+    payload: dict[str, object] = {
+        "summary": summary,
+        "residuals": [r.model_dump(mode="json") for r in residuals],
+    }
     if args.out:
-        payload["files"] = write_comparison_report(residuals, args.out)
+        files = write_comparison_bundle(residuals, summary, args.out)
+        # legacy artifact names kept for compatibility, under distinct keys
+        legacy = write_comparison_report(residuals, args.out)
+        files["legacy_json"] = legacy["json"]
+        files["legacy_markdown"] = legacy["markdown"]
+        payload["files"] = files
     print(json.dumps(payload, indent=2))
     return 0
 
 
 def _cmd_measurement_calibrate(args: argparse.Namespace) -> int:
+    from textlayout.epr.pdk_bridge import resolve_pdk_path
     from textlayout.measurement import (
         build_calibration,
+        build_overlay,
         write_calibration,
         write_calibration_report,
+        write_overlay,
     )
 
     predictions = _load_predictions(args.predicted)
     measurements = _load_measurements(args.measured)
     calibration = build_calibration(predictions, measurements, synthetic=not args.production)
-    payload = calibration.to_dict()
+    base_pdk_path = resolve_pdk_path(args.base_pdk)
+    overlay = build_overlay(
+        predictions,
+        measurements,
+        base_pdk_path=base_pdk_path,
+        input_files=[args.predicted, args.measured],
+        min_samples=args.min_samples,
+    )
+    if args.production and overlay.is_synthetic:
+        print(
+            json.dumps(
+                {
+                    "error": "--production was passed but at least one measurement "
+                    "record is marked synthetic; refusing to emit a "
+                    "measurement-calibrated overlay from fixture data."
+                },
+                indent=2,
+            )
+        )
+        return 2
+    # The v0.3 payload put the calibration fields (`synthetic`, `corrections`,
+    # `n_records`, ...) at the top level. Keep them there and add `overlay`
+    # alongside, so existing consumers of `textlayout measurement calibrate`
+    # keep working. See docs/deprecation_policy.md.
+    payload: dict[str, object] = dict(calibration.to_dict())
+    payload["overlay"] = overlay.to_dict()
     if args.out:
+        out = Path(args.out)
         files = {
-            "calibration": str(write_calibration(calibration, Path(args.out) / "calibration.yaml"))
+            "calibration": str(write_calibration(calibration, out / "calibration.yaml")),
+            "overlay": str(write_overlay(overlay, out / "calibrated_pdk_overlay.yaml")),
         }
         files.update(write_calibration_report(calibration, args.out))
+        report = {
+            "schema": "textlayout.measurement-calibration-report.v1",
+            "overlay": overlay.to_dict(),
+            "legacy_calibration": calibration.to_dict(),
+        }
+        json_path = out / "measurement_calibration_report.json"
+        json_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        md_path = out / "measurement_calibration_report.md"
+        md_path.write_text(_render_overlay_markdown(overlay), encoding="utf-8")
+        files["report_json"] = str(json_path)
+        files["report_markdown"] = str(md_path)
         payload["files"] = files
     print(json.dumps(payload, indent=2))
+    return 0
+
+
+def _render_overlay_markdown(overlay: "CalibrationOverlay") -> str:
+    lines = [
+        f"# Measurement calibration — base PDK `{overlay.base_pdk_name}` "
+        f"v{overlay.base_pdk_version}",
+        "",
+        f"- **Status:** **{overlay.calibration_status}** "
+        f"(synthetic inputs: {overlay.is_synthetic})",
+        f"- **Fabrication readiness:** {overlay.fabrication_readiness}",
+        f"- **Base PDK sha256:** `{overlay.base_pdk_hash_sha256}`",
+        f"- **Fit method:** {overlay.fit_method}",
+        f"- **Fitted:** {overlay.fit_timestamp}",
+        f"- Records used: {len(overlay.records_used)} · rejected/unmatched: "
+        f"{len(overlay.records_rejected)}",
+        "",
+        "## Correction factors",
+        "",
+        "| Factor | Scale | Uncertainty (MAD %) | N | Status |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for factor in overlay.factors.values():
+        scale = f"{factor.scale:.6g}" if factor.scale is not None else "—"
+        unc = f"{factor.uncertainty_pct:.2f}%" if factor.uncertainty_pct is not None else "—"
+        lines.append(f"| {factor.name} | {scale} | {unc} | {factor.n_pairs} | {factor.status} |")
+    if overlay.jc_sigma_update_pct is not None:
+        lines += ["", f"- Updated wafer-level Jc sigma estimate: {overlay.jc_sigma_update_pct:.3f}%"]
+    if overlay.warnings:
+        lines += ["", "## Warnings", ""]
+        lines += [f"- {w}" for w in overlay.warnings]
+    lines += [
+        "",
+        "## Honesty statement",
+        "",
+        "A calibration overlay is NOT foundry qualification. Factors fitted from",
+        "synthetic fixtures (SYNTHETIC_CALIBRATION_ONLY) demonstrate the pipeline",
+        "and say nothing about any real process. Apply with",
+        "`textlayout pdk apply-calibration`; the base PDK file is never edited.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def _cmd_pdk_apply_calibration(args: argparse.Namespace) -> int:
+    from textlayout.epr.pdk_bridge import resolve_pdk_path
+    from textlayout.measurement import apply_overlay_to_pdk, load_overlay
+    from textlayout.pdk.provenance import describe_pdk_file
+
+    overlay = load_overlay(args.overlay)
+    base_path = resolve_pdk_path(args.base)
+    try:
+        out_path = apply_overlay_to_pdk(base_path, overlay, args.out)
+    except ValueError as exc:
+        print(json.dumps({"error": str(exc)}, indent=2))
+        return 2
+    calibrated = describe_pdk_file(out_path)
+    print(
+        json.dumps(
+            {
+                "calibrated_pdk": str(out_path),
+                "calibrated_pdk_provenance": calibrated.model_dump(mode="json"),
+                "base_pdk_hash_sha256": overlay.base_pdk_hash_sha256,
+                "calibration_status": overlay.calibration_status,
+                "is_synthetic": overlay.is_synthetic,
+                "note": "Use the calibrated file downstream, e.g. "
+                f"`textlayout epr <spec> --pdk {out_path}`.",
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
@@ -655,6 +788,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_pdk_info.add_argument("name", help="PDK name, e.g. 'example_superconducting_pdk'.")
     p_pdk_info.set_defaults(func=_cmd_pdk_info)
 
+    p_pdk_apply = pdk_sub.add_parser(
+        "apply-calibration",
+        help="Apply a calibration overlay to a base PDK, writing a NEW calibrated "
+        "PDK file (the base is never edited). Synthetic overlays yield an "
+        "illustrative-status PDK, never internal/foundry calibrated.",
+    )
+    p_pdk_apply.add_argument(
+        "--base", required=True, help="Base PDK name or YAML path the overlay was fitted against."
+    )
+    p_pdk_apply.add_argument(
+        "--overlay", required=True, help="Path to calibrated_pdk_overlay.yaml."
+    )
+    p_pdk_apply.add_argument(
+        "--out", required=True, help="Output path for the calibrated PDK YAML (must differ from base)."
+    )
+    p_pdk_apply.set_defaults(func=_cmd_pdk_apply_calibration)
+
     p_measurement = sub.add_parser(
         "measurement",
         help="Simulation-vs-measurement correlation: the path from illustrative to "
@@ -670,10 +820,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--predicted", required=True, help="Path to a JSON list of SimulatedPrediction."
     )
     p_meas_compare.add_argument(
-        "--measured", required=True, help="Path to a JSON list of MeasurementRecord."
+        "--measured",
+        required=True,
+        help="Path to MeasurementRecord data: JSON list or CSV (columns = field names).",
     )
     p_meas_compare.add_argument(
-        "--out", default=None, help="Directory for measurement_comparison.json/.md."
+        "--out",
+        default=None,
+        help="Directory for measurement_residuals.csv and "
+        "measurement_comparison_report.json/.md.",
     )
     p_meas_compare.set_defaults(func=_cmd_measurement_compare)
 
@@ -685,17 +840,34 @@ def build_parser() -> argparse.ArgumentParser:
         "--predicted", required=True, help="Path to a JSON list of SimulatedPrediction."
     )
     p_meas_calibrate.add_argument(
-        "--measured", required=True, help="Path to a JSON list of MeasurementRecord."
+        "--measured",
+        required=True,
+        help="Path to MeasurementRecord data: JSON list or CSV (columns = field names).",
     )
     p_meas_calibrate.add_argument(
         "--production",
         action="store_true",
-        help="Mark the resulting calibration as non-synthetic (real cooldown data only).",
+        help="Mark the resulting calibration as non-synthetic (real cooldown data "
+        "only). Refused when any input record is flagged synthetic.",
+    )
+    p_meas_calibrate.add_argument(
+        "--base-pdk",
+        default="generic_2metal",
+        help="Registered PDK name or YAML path the overlay binds to (recorded "
+        "with sha256; default: generic_2metal).",
+    )
+    p_meas_calibrate.add_argument(
+        "--min-samples",
+        type=int,
+        default=3,
+        help="Minimum matched pairs per factor; below this the factor reports "
+        "INSUFFICIENT_MEASUREMENT_DATA instead of a fit.",
     )
     p_meas_calibrate.add_argument(
         "--out",
         default=None,
-        help="Directory for calibration.yaml and calibration_report.md.",
+        help="Directory for calibrated_pdk_overlay.yaml, "
+        "measurement_calibration_report.json/.md (plus legacy calibration.yaml).",
     )
     p_meas_calibrate.set_defaults(func=_cmd_measurement_calibrate)
 

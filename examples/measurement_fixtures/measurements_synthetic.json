@@ -1,0 +1,123 @@
+[
+  {
+    "device_id": "IDC-W1-01",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "idc-a1",
+    "measured_frequency_ghz": 6.02,
+    "measured_capacitance_pf": 0.615,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "idc",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "IDC-W1-02",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "idc-a2",
+    "measured_frequency_ghz": 6.01,
+    "measured_capacitance_pf": 0.461,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "idc",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "IDC-W1-03",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "idc-a3",
+    "measured_frequency_ghz": 6.03,
+    "measured_capacitance_pf": 0.821,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "idc",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "SPI-W1-01",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "spiral-b1",
+    "measured_frequency_ghz": 5.98,
+    "measured_inductance_nh": 2.955,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "spi",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "SPI-W1-02",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "spiral-b2",
+    "measured_frequency_ghz": 5.99,
+    "measured_inductance_nh": 5.025,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "spi",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "SPI-W1-03",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "spiral-b3",
+    "measured_frequency_ghz": 5.97,
+    "measured_inductance_nh": 8.077,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "spi",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "RES-W1-01",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "res-c1",
+    "measured_frequency_ghz": 5.955,
+    "measured_q": 402000.0,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "res",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  },
+  {
+    "device_id": "QUB-W1-01",
+    "wafer_id": "SYNTH-W1",
+    "design_hash": "qubit-d1",
+    "measured_frequency_ghz": 5.148,
+    "measured_q": 655000.0,
+    "measured_t1_us": 36.5,
+    "temperature_k": 0.02,
+    "cooldown_id": "SYNTH-CD-2026-07",
+    "device_type": "qub",
+    "measurement_source": "synthetic_fixture",
+    "synthetic": true,
+    "notes": [
+      "SYNTHETIC fixture; NOT_FABRICATION_READY"
+    ]
+  }
+]

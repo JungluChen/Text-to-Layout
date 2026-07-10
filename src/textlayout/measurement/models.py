@@ -41,6 +41,19 @@ class MeasurementRecord(BaseModel):
     measured_t2_us: float | None = Field(default=None, gt=0)
     temperature_k: float = Field(gt=0)
     cooldown_id: str
+    chip_id: str | None = Field(default=None)
+    device_type: str | None = Field(
+        default=None, description="idc | cpw | spiral | resonator | qubit | ..."
+    )
+    measurement_source: str = Field(
+        default="unspecified",
+        description="Instrument/lab/provenance of the measurement, or 'synthetic_fixture'.",
+    )
+    synthetic: bool = Field(
+        default=True,
+        description="False ONLY for real cooled-down hardware data. Defaults to "
+        "True so forgetting the flag can never promote fixture data.",
+    )
     notes: list[str] = Field(default_factory=list)
 
 
@@ -66,6 +79,16 @@ class SimulatedPrediction(BaseModel):
         description="Where the prediction came from, e.g. 'FasterCap 6.0.7' or "
         "'textlayout.epr.AnalyticalEPRBackend'."
     )
+    device_type: str | None = Field(default=None)
+    pdk_name: str | None = Field(default=None)
+    pdk_version: str | None = Field(default=None)
+    pdk_hash: str | None = Field(
+        default=None, description="sha256 of the PDK file backing this prediction."
+    )
+    evidence_status: str | None = Field(
+        default=None, description="PHYSICS_VERIFIED | SIMULATION_EXECUTED | ANALYTICAL_ONLY | ..."
+    )
+    evidence_path: str | None = Field(default=None)
 
 
 class ResidualRecord(BaseModel):
