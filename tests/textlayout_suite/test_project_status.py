@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -91,6 +92,59 @@ class TestStatusManifestSchema:
         assert meas["compare_command"] is True
         assert meas["calibrate_command"] is True
         assert meas["fixtures_are_synthetic"] is True
+
+    def test_invalid_showcase_is_never_classified_as_analytical(self, status_module) -> None:
+        classification = status_module._classify_showcase(
+            [
+                {"id": "resonator", "evidence_status": "SIMULATION_INVALID"},
+                {"id": "tile", "evidence_status": "ANALYTICAL_ONLY"},
+            ]
+        )
+        assert classification["analytical_only"] == ["tile"]
+        assert classification["invalid_or_failed"] == ["resonator"]
+        assert classification["by_status"] == {
+            "ANALYTICAL_ONLY": ["tile"],
+            "SIMULATION_INVALID": ["resonator"],
+        }
+
+    def test_every_showcase_has_exactly_one_headline_class(self, status_module) -> None:
+        status = status_module.build_status()["showcase"]
+        classified = (
+            status["solver_backed"]
+            + status["skipped_solver_absent"]
+            + status["analytical_only"]
+            + status["invalid_or_failed"]
+            + status["unclassified"]
+        )
+        assert len(classified) == status["total_examples"]
+        assert len(classified) == len(set(classified))
+        assert status["unclassified"] == []
+        assert "05_quarter_wave_resonator_6ghz" in status["invalid_or_failed"]
+        assert "05_quarter_wave_resonator_6ghz" not in status["analytical_only"]
+
+    def test_generated_project_status_check_mode(
+        self, status_module, tmp_path: Path
+    ) -> None:
+        out = tmp_path / "project_status.json"
+        markdown = tmp_path / "PROJECT_STATUS.md"
+        status = status_module.build_status(generated_at="2026-01-01T00:00:00+00:00")
+        out.write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
+        markdown.write_text(status_module.render_markdown(status), encoding="utf-8")
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPTS_DIR / "generate_project_status.py"),
+                "--out",
+                str(out),
+                "--markdown-out",
+                str(markdown),
+                "--check",
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0, result.stdout + result.stderr
 
 
 class TestHardcodedTestCountGate:

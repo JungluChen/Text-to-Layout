@@ -28,6 +28,8 @@ STATUS_SCHEMA = "textlayout.project-status.v2"
 #: evidence vocabulary in textlayout.evidence / textlayout.simulation.evidence).
 _SOLVER_BACKED_STATUSES = frozenset({"PHYSICS_VERIFIED", "SIMULATION_EXECUTED"})
 _SKIPPED_STATUSES = frozenset({"SKIPPED_SOLVER_ABSENT"})
+_ANALYTICAL_STATUSES = frozenset({"ANALYTICAL_ONLY"})
+_INVALID_STATUSES = frozenset({"SIMULATION_INVALID", "CONVERGENCE_FAILED", "FAILED"})
 
 
 def _read_package_version() -> str:
@@ -48,19 +50,31 @@ def _classify_showcase(examples: list[dict[str, Any]]) -> dict[str, list[str]]:
     solver_backed: list[str] = []
     skipped: list[str] = []
     analytical_only: list[str] = []
+    invalid_or_failed: list[str] = []
+    unclassified: list[str] = []
+    by_status: dict[str, list[str]] = {}
     for example in examples:
         example_id = example.get("id", "unknown")
         status = example.get("evidence_status") or example.get("simulation_status")
+        status_name = str(status or "UNCLASSIFIED")
+        by_status.setdefault(status_name, []).append(example_id)
         if status in _SOLVER_BACKED_STATUSES:
             solver_backed.append(example_id)
         elif status in _SKIPPED_STATUSES:
             skipped.append(example_id)
-        else:
+        elif status in _ANALYTICAL_STATUSES:
             analytical_only.append(example_id)
+        elif status in _INVALID_STATUSES:
+            invalid_or_failed.append(example_id)
+        else:
+            unclassified.append(example_id)
     return {
         "solver_backed": solver_backed,
         "skipped_solver_absent": skipped,
         "analytical_only": analytical_only,
+        "invalid_or_failed": invalid_or_failed,
+        "unclassified": unclassified,
+        "by_status": dict(sorted(by_status.items())),
     }
 
 
@@ -103,11 +117,18 @@ def _read_junit_report() -> dict[str, Any] | None:
         return int(suite.get(name, 0) or 0)
 
     total, failed, skipped = count("tests"), count("failures") + count("errors"), count("skipped")
+    raw_timestamp = suite.get("timestamp")
+    if raw_timestamp:
+        generated_at = datetime.fromisoformat(raw_timestamp).astimezone(timezone.utc).isoformat(
+            timespec="seconds"
+        )
+    else:
+        generated_at = datetime.fromtimestamp(
+            xml_path.stat().st_mtime, tz=timezone.utc
+        ).isoformat(timespec="seconds")
     return {
         "source": "pytest tests/textlayout_suite (out/evidence/test_report.xml)",
-        "generated_at": datetime.fromtimestamp(
-            xml_path.stat().st_mtime, tz=timezone.utc
-        ).isoformat(timespec="seconds"),
+        "generated_at": generated_at,
         "passed": total - failed - skipped,
         "failed": failed,
         "skipped": skipped,
@@ -224,14 +245,15 @@ def _pdk_status() -> dict[str, Any]:
     }
 
 
-def build_status() -> dict[str, Any]:
+def build_status(*, generated_at: str | None = None) -> dict[str, Any]:
     showcase_examples = _read_showcase_index()
     classification = _classify_showcase(showcase_examples)
     test_report = _read_test_report()
     cli_commands = _cli_commands()
     return {
         "schema": STATUS_SCHEMA,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": generated_at
+        or datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "package_version": _read_package_version(),
         "cli_commands": cli_commands,
         "showcase": {
@@ -277,6 +299,10 @@ def render_markdown(status: dict[str, Any]) -> str:
         f"- Skipped (`SKIPPED_SOLVER_ABSENT`): "
         f"{', '.join(status['showcase']['skipped_solver_absent']) or '(none)'}",
         f"- Analytical only: {', '.join(status['showcase']['analytical_only']) or '(none)'}",
+        f"- Invalid or failed: "
+        f"{', '.join(status['showcase'].get('invalid_or_failed', [])) or '(none)'}",
+        f"- Unclassified: "
+        f"{', '.join(status['showcase'].get('unclassified', [])) or '(none)'}",
         "",
         "## Tests",
         "",
@@ -333,15 +359,46 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--markdown-out", default=str(ROOT / "PROJECT_STATUS.md")
     )
+    parser.add_argument(
+        "--check", action="store_true", help="Fail instead of writing when generated output drifts."
+    )
     args = parser.parse_args(argv)
 
-    status = build_status()
     out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
-
     md_path = Path(args.markdown_out)
-    md_path.write_text(render_markdown(status), encoding="utf-8")
+    existing_timestamp: str | None = None
+    if out_path.is_file():
+        try:
+            existing_timestamp = json.loads(out_path.read_text(encoding="utf-8")).get(
+                "generated_at"
+            )
+        except (json.JSONDecodeError, OSError):
+            pass
+    if existing_timestamp is None and md_path.is_file():
+        match = re.search(r"^Generated: ([^ ]+) ", md_path.read_text(encoding="utf-8"), re.M)
+        if match:
+            existing_timestamp = match.group(1)
+
+    status = build_status(generated_at=existing_timestamp)
+    expected_json = json.dumps(status, indent=2) + "\n"
+    expected_markdown = render_markdown(status)
+
+    if args.check:
+        stale: list[str] = []
+        if out_path.is_file() and out_path.read_text(encoding="utf-8") != expected_json:
+            stale.append(str(out_path))
+        if not md_path.is_file() or md_path.read_text(encoding="utf-8") != expected_markdown:
+            stale.append(str(md_path))
+        for path in stale:
+            print(f"::error::stale generated project status: {path}")
+        if stale:
+            return 1
+        print("project status artifacts are current.")
+        return 0
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(expected_json, encoding="utf-8")
+    md_path.write_text(expected_markdown, encoding="utf-8")
 
     print(f"Wrote {out_path}")
     print(f"Wrote {md_path}")

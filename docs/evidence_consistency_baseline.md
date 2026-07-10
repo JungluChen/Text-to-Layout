@@ -148,3 +148,18 @@ evidence, so:
    would notice (C2);
 3. a validator could pass while the artifacts contradicted each other, because
    each file was checked against itself.
+
+## Current-main follow-up inventory
+
+Re-audit of commit `6625725b959a8dfcfab849dfbdb0f74a4d99efd7` found the
+historical showcase contradictions repaired: all 6 canonical records and their
+derived showcase artifacts agree. One public projection remained inconsistent:
+
+| File | JSON path / Markdown section | Canonical status | Published category |
+| --- | --- | --- | --- |
+| `out/evidence/project_status.json` | `#/showcase/analytical_only` | `SIMULATION_INVALID` | `05_quarter_wave_resonator_6ghz` listed as analytical-only |
+| `PROJECT_STATUS.md` | `## Showcase evidence` | `SIMULATION_INVALID` | resonator listed under "Analytical only" |
+
+The cause was a catch-all `else` in `_classify_showcase`: every status that was
+neither solver-backed nor skipped was promoted into the analytical category.
+The consistency auditor did not inspect either project-status projection.
