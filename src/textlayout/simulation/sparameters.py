@@ -28,7 +28,7 @@ def read_sparameters(path: str | Path) -> SParameterData:
     if source.suffix.lower() == ".csv":
         return _validated(_read_csv(source), source)
     try:
-        import skrf  # type: ignore[import-not-found]
+        import skrf
 
         network = skrf.Network(str(source))
         s11 = tuple(complex(value) for value in network.s[:, 0, 0])

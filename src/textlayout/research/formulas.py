@@ -73,8 +73,8 @@ def cpw_skrf_z0(
     can retain the cited thick-substrate Simons model without a hard RF stack.
     """
     try:
-        from skrf import Frequency  # type: ignore
-        from skrf.media import CPW  # type: ignore
+        from skrf import Frequency
+        from skrf.media import CPW
     except ImportError:
         return None
     media = CPW(

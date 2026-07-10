@@ -14,6 +14,9 @@ jobs:
       - run: uv sync --dev
       - run: uv run python scripts/validate_readme_claims.py
       - run: uv run ruff check .
+      # pyproject declares `[tool.mypy] strict = true` over src/textlayout, but
+      # until now no workflow ran it, so 3 type errors sat unnoticed on main.
+      - run: uv run mypy
       - run: uv run pytest
       - run: uv build
 

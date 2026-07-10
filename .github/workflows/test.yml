@@ -23,3 +23,5 @@ jobs:
         run: py -3 -m uv run pytest
       - name: Lint
         run: py -3 -m uv run ruff check .
+      - name: Type check
+        run: py -3 -m uv run mypy

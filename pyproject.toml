@@ -118,7 +118,10 @@ strict = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["gdsfactory.*", "uvicorn.*"]
+# skrf ships no py.typed marker, and is an optional extra: depending on the
+# environment the import is either untyped or missing entirely. One override
+# covers both, so no inline ignore has to guess which.
+module = ["gdsfactory.*", "uvicorn.*", "skrf.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]

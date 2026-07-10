@@ -21,6 +21,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+import numpy.typing as npt
 
 from textlayout.yield_model.models import (
     FrequencyTarget,
@@ -31,6 +32,9 @@ from textlayout.yield_model.models import (
     YieldStatistics,
 )
 from textlayout.yield_model.physics import ic_ua, lc_resonance_ghz, lj_nh
+
+#: Matches the convention in textlayout.simulation.postprocess.
+FloatArray = npt.NDArray[np.float64]
 
 
 def _wilson_ci95(successes: int, n: int) -> tuple[float, float]:
@@ -72,7 +76,7 @@ def _sampled_jc(
     return max(process.jc_mean * chip_factor * local * gradient, 1e-9)
 
 
-def _statistics(frequencies_ghz: np.ndarray) -> YieldStatistics:
+def _statistics(frequencies_ghz: FloatArray) -> YieldStatistics:
     return YieldStatistics(
         n_samples=int(frequencies_ghz.size),
         mean_ghz=float(np.mean(frequencies_ghz)),

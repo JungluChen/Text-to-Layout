@@ -599,7 +599,7 @@ def extract_cpw_from_touchstone(
 def _read_touchstone_complex(path: str | Path) -> tuple[list[float], list[complex], list[complex]]:
     """Read two-port S11/S21 using scikit-rf, with an RI fallback."""
     try:
-        import skrf  # type: ignore
+        import skrf
 
         network = skrf.Network(str(path))
         if network.nports < 2:
