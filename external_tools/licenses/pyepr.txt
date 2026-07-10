@@ -1,0 +1,5 @@
+pyEPR
+SPDX-License-Identifier: NOASSERTION
+Upstream: https://github.com/zlatko-minev/pyEPR
+License source: GitHub repository metadata returned no SPDX identifier on 2026-07-11.
+Human review required before redistribution or bundled distribution.

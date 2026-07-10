@@ -1,0 +1,5 @@
+SQuADDS
+SPDX-License-Identifier: MIT
+Upstream: https://github.com/LFL-Lab/SQuADDS
+License source: GitHub repository metadata checked 2026-07-11.
+Dataset licenses must be recorded from returned dataset metadata.

@@ -1,0 +1,243 @@
+schema_version = "textlayout.external-tools.registry.v1"
+
+[policy]
+mit_core_license = "MIT"
+source_cache = ".tools/external/sources"
+notice_file = "THIRD_PARTY_NOTICES.md"
+gpl_policy = "process-isolated file exchange only unless the combined distribution receives deliberate GPL review"
+commercial_policy = "commercial binaries, license files, and proprietary libraries must never be committed"
+dataset_policy = "dataset licenses are recorded separately from software licenses"
+
+[[tools]]
+id = "palace"
+canonical_name = "Palace"
+upstream_repository = "https://github.com/awslabs/palace"
+pinned_ref = "v0.17.0"
+pinned_commit = "12d8069afb5aa9e169a17e303d735e120968e9f2"
+source_archive_url = "https://github.com/awslabs/palace/archive/12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz"
+source_archive_sha256 = "ae6baa26c191c4dc852fa3de69c64bbc4ec58376effdb74841253d485ecc0e27"
+source_archive_size_bytes = 42487808
+spdx_license = "Apache-2.0"
+copyright_holder = "Amazon.com, Inc. or its affiliates"
+install_mode = "pinned source build or pinned container"
+integration_mode = "external executable via subprocess and file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.simulation.palace_backend"
+smoke_test_command = ["palace", "--version"]
+benchmark_command = ["py", "-3", "-m", "uv", "run", "python", "scripts/build_palace_benchmark_evidence.py", "--check"]
+supported_operating_systems = ["Linux", "Windows via WSL", "macOS"]
+required_runtime = ["C++17", "MPI", "Gmsh"]
+expected_output_files = ["postpro/eig.csv", "postpro/domain-E.csv"]
+tool_scope = "reference 3D FEM eigenmode and driven simulation backend"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "josephsoncircuits"
+canonical_name = "JosephsonCircuits.jl"
+upstream_repository = "https://github.com/kpobrien/JosephsonCircuits.jl"
+pinned_ref = "v0.5.2"
+pinned_commit = "f688e70663ead21aef480bc74711bbf320d7825e"
+source_archive_url = "https://github.com/kpobrien/JosephsonCircuits.jl/archive/f688e70663ead21aef480bc74711bbf320d7825e.tar.gz"
+source_archive_sha256 = "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85"
+source_archive_size_bytes = 235386
+spdx_license = "MIT"
+copyright_holder = "JosephsonCircuits.jl contributors"
+install_mode = "isolated Julia project"
+integration_mode = "Julia subprocess and JSON/netlist file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.solvers.josephsoncircuits"
+smoke_test_command = ["julia", "--project=external_tools/julia/JosephsonCircuits", "-e", "using JosephsonCircuits; println(pkgversion(JosephsonCircuits))"]
+benchmark_command = ["julia", "--project=external_tools/julia/JosephsonCircuits", "external_tools/julia/JosephsonCircuits/benchmark.jl"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Julia"]
+expected_output_files = ["josephsoncircuits_result.json", "josephsoncircuits_sparameters.csv"]
+tool_scope = "JPA and JTWPA nonlinear harmonic-balance circuit solver"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "scqubits"
+canonical_name = "scqubits"
+upstream_repository = "https://github.com/scqubits/scqubits"
+pinned_ref = "v4.3.1"
+pinned_commit = "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa"
+source_archive_url = "https://github.com/scqubits/scqubits/archive/1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa.tar.gz"
+source_archive_sha256 = "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922"
+source_archive_size_bytes = 6494511
+spdx_license = "BSD-3-Clause"
+copyright_holder = "scqubits contributors"
+install_mode = "uv optional dependency group quantum"
+integration_mode = "Python package adapter"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.solvers.scqubits_adapter"
+smoke_test_command = ["py", "-3", "-c", "import scqubits; print(scqubits.__version__)"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_epr_coherence.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11"]
+expected_output_files = ["scqubits_result.json", "scqubits_spectrum.csv"]
+tool_scope = "qubit spectra, anharmonicity, Hilbert spaces, matrix elements, and noise channels"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "pyepr"
+canonical_name = "pyEPR"
+upstream_repository = "https://github.com/zlatko-minev/pyEPR"
+pinned_ref = "1.0.0"
+pinned_commit = "39a85e5501421d57f869ae3d7337a2c20da830f3"
+source_archive_url = "https://github.com/zlatko-minev/pyEPR/archive/39a85e5501421d57f869ae3d7337a2c20da830f3.tar.gz"
+source_archive_sha256 = "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13"
+source_archive_size_bytes = 2757625
+spdx_license = "NOASSERTION"
+copyright_holder = "pyEPR contributors"
+install_mode = "uv optional dependency group pyepr with external HFSS project files"
+integration_mode = "optional Python package plus commercial-HFSS file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.epr"
+smoke_test_command = ["py", "-3", "-c", "import pyEPR; print(getattr(pyEPR, '__version__', 'unknown'))"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_epr_coherence.py", "-q"]
+supported_operating_systems = ["Windows", "Linux", "macOS"]
+required_runtime = ["Python >=3.11", "Ansys HFSS for live pyEPR"]
+expected_output_files = ["pyepr_result.json", "participation.csv"]
+tool_scope = "EPR quantization and junction participation when HFSS/pyEPR output exists"
+license_review = "github_api_returned_noassertion"
+human_review_required = true
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "squadds"
+canonical_name = "SQuADDS"
+upstream_repository = "https://github.com/LFL-Lab/SQuADDS"
+pinned_ref = "v0.4.5"
+pinned_commit = "beace3e52ceb491b8ef85b7e3f5439cb8273f248"
+source_archive_url = "https://github.com/LFL-Lab/SQuADDS/archive/beace3e52ceb491b8ef85b7e3f5439cb8273f248.tar.gz"
+source_archive_sha256 = "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2"
+source_archive_size_bytes = 32482055
+spdx_license = "MIT"
+copyright_holder = "SQuADDS contributors"
+install_mode = "separate environment and optional MCP server"
+integration_mode = "MCP process returning priors and dataset metadata only"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.external.squadds_mcp"
+smoke_test_command = ["py", "-3", "-c", "import squadds; print(getattr(squadds, '__version__', 'unknown'))"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_external_tool_registry.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11", "MCP server process"]
+expected_output_files = ["squadds_search_result.json", "squadds_dataset_metadata.json"]
+tool_scope = "validated design search, nearby Hamiltonian parameters, and geometry priors only"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "recorded_by_dataset_metadata"
+
+[[tools]]
+id = "qiskit-metal"
+canonical_name = "Quantum Metal / Qiskit Metal"
+upstream_repository = "https://github.com/qiskit-community/qiskit-metal"
+pinned_ref = "v0.7.5"
+pinned_commit = "3ec90a580ab05c2c1b94ef934942f742daf1d8ab"
+source_archive_url = "https://github.com/qiskit-community/qiskit-metal/archive/3ec90a580ab05c2c1b94ef934942f742daf1d8ab.tar.gz"
+source_archive_sha256 = "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f"
+source_archive_size_bytes = 58193618
+spdx_license = "Apache-2.0"
+copyright_holder = "Qiskit Metal contributors"
+install_mode = "uv optional dependency group metal"
+integration_mode = "optional Python interoperability adapter"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.external.quantum_metal"
+smoke_test_command = ["py", "-3", "-c", "import qiskit_metal; print(getattr(qiskit_metal, '__version__', 'unknown'))"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_external_tool_registry.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11"]
+expected_output_files = ["qiskit_metal_geometry_compare.json"]
+tool_scope = "component and renderer interoperability; Text-to-Layout DSL remains source of truth"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "sqdmetal"
+canonical_name = "SQDMetal"
+upstream_repository = "https://github.com/sqdlab/SQDMetal"
+pinned_ref = "c0026ea6ee5b932dbdcd20843bc70e130f705d69"
+pinned_commit = "c0026ea6ee5b932dbdcd20843bc70e130f705d69"
+source_archive_url = "https://github.com/sqdlab/SQDMetal/archive/c0026ea6ee5b932dbdcd20843bc70e130f705d69.tar.gz"
+source_archive_sha256 = "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01"
+source_archive_size_bytes = 2328227
+spdx_license = "Apache-2.0"
+copyright_holder = "SQDMetal contributors"
+install_mode = "separate Python environment"
+integration_mode = "file-exchange reference workflow adapter"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.external.sqdmetal"
+smoke_test_command = ["py", "-3", "-c", "import sqdmetal; print(getattr(sqdmetal, '__version__', 'unknown'))"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_external_tool_registry.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11", "Gmsh", "Palace"]
+expected_output_files = ["sqdmetal_palace_project.json", "sqdmetal_geometry_compare.json"]
+tool_scope = "reference Palace/Gmsh workflow comparison, not a replacement for typed DSL"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "kqcircuits"
+canonical_name = "KQCircuits"
+upstream_repository = "https://github.com/iqm-finland/KQCircuits"
+pinned_ref = "v4.9.12"
+pinned_commit = "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18"
+source_archive_url = "https://github.com/iqm-finland/KQCircuits/archive/71cad094a65da90d65b7b9f8c5ed0e6c6f079d18.tar.gz"
+source_archive_sha256 = "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f"
+source_archive_size_bytes = 10322784
+spdx_license = "GPL-3.0"
+copyright_holder = "IQM Finland Oy and KQCircuits contributors"
+install_mode = "separate KLayout environment"
+integration_mode = "process-isolated GDS, JSON, runset, and result file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.external.kqcircuits_bridge"
+smoke_test_command = ["klayout", "-b", "-r", "external_tools/smoke/kqcircuits_smoke.py"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_external_tool_registry.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["KLayout", "Python environment compatible with KQCircuits"]
+expected_output_files = ["kqcircuits_layout.gds", "kqcircuits_metadata.json"]
+tool_scope = "external superconducting PCell reference through file exchange"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "klayout"
+canonical_name = "KLayout"
+upstream_repository = "https://github.com/KLayout/klayout"
+pinned_ref = "v0.30.9"
+pinned_commit = "6270877110ef808dd442fd2244164cec06a7b10e"
+source_archive_url = "https://github.com/KLayout/klayout/archive/6270877110ef808dd442fd2244164cec06a7b10e.tar.gz"
+source_archive_sha256 = "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63"
+source_archive_size_bytes = 73945863
+spdx_license = "GPL-3.0"
+copyright_holder = "KLayout contributors"
+install_mode = "external executable or PyPI wheel, not vendored source"
+integration_mode = "process-isolated DRC/LVS runsets and report file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.verification.klayout"
+smoke_test_command = ["klayout", "-v"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_klayout_drc.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["KLayout"]
+expected_output_files = ["klayout_drc.lyrdb", "klayout_lvs.json"]
+tool_scope = "DRC/LVS execution, runset execution, and geometry readback"
+license_review = "reviewed_from_github_api"
+human_review_required = false
+dataset_license = "not_applicable"

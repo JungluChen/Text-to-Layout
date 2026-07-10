@@ -4734,6 +4734,9 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+ansys = [
+    { name = "pyaedt" },
+]
 api = [
     { name = "fastapi" },
     { name = "uvicorn" },
@@ -4770,6 +4773,9 @@ metal = [
 ]
 optimization = [
     { name = "optuna" },
+]
+pyepr = [
+    { name = "pyepr-quantum" },
 ]
 quantum = [
     { name = "scqubits", version = "4.1.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
@@ -4823,10 +4829,12 @@ requires-dist = [
     { name = "optuna", marker = "extra == 'optimization'", specifier = ">=4.0" },
     { name = "optuna", marker = "extra == 'research'", specifier = ">=4.0" },
     { name = "pillow", specifier = ">=10.0" },
+    { name = "pyaedt", marker = "extra == 'ansys'", specifier = ">=1.1" },
     { name = "pyaedt", marker = "extra == 'hfss'", specifier = ">=1.1" },
     { name = "pyaedt", marker = "extra == 'research'", specifier = ">=1.1" },
     { name = "pydantic", specifier = ">=2.0" },
     { name = "pyepr-quantum", marker = "extra == 'epr'" },
+    { name = "pyepr-quantum", marker = "extra == 'pyepr'" },
     { name = "pyepr-quantum", marker = "extra == 'research'" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=5.0" },
@@ -4846,7 +4854,7 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.30" },
     { name = "uvicorn", marker = "extra == 'api'", specifier = ">=0.30" },
 ]
-provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "squid", "measurement", "quantum", "metal", "epr", "hfss", "mesh", "research"]
+provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "squid", "measurement", "quantum", "metal", "epr", "pyepr", "hfss", "ansys", "mesh", "research"]
 
 [package.metadata.requires-dev]
 dev = [

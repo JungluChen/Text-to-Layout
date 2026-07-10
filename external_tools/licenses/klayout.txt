@@ -1,0 +1,5 @@
+KLayout
+SPDX-License-Identifier: GPL-3.0
+Upstream: https://github.com/KLayout/klayout
+License source: GitHub repository metadata checked 2026-07-11.
+Integration policy: process-isolated DRC/LVS runsets and report file exchange.

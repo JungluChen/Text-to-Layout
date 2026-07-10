@@ -1,0 +1,84 @@
+schema_version = "textlayout.external-tools.lock.v1"
+generated_at = "2026-07-11T02:20:00+08:00"
+generated_from = "git ls-remote plus local SHA-256 of GitHub source archives"
+
+[[locked_tools]]
+id = "palace"
+resolved_commit = "12d8069afb5aa9e169a17e303d735e120968e9f2"
+pinned_ref = "v0.17.0"
+source_archive_url = "https://github.com/awslabs/palace/archive/12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz"
+source_archive_sha256 = "ae6baa26c191c4dc852fa3de69c64bbc4ec58376effdb74841253d485ecc0e27"
+source_archive_size_bytes = 42487808
+checksum_verified = true
+
+[[locked_tools]]
+id = "josephsoncircuits"
+resolved_commit = "f688e70663ead21aef480bc74711bbf320d7825e"
+pinned_ref = "v0.5.2"
+source_archive_url = "https://github.com/kpobrien/JosephsonCircuits.jl/archive/f688e70663ead21aef480bc74711bbf320d7825e.tar.gz"
+source_archive_sha256 = "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85"
+source_archive_size_bytes = 235386
+checksum_verified = true
+
+[[locked_tools]]
+id = "scqubits"
+resolved_commit = "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa"
+pinned_ref = "v4.3.1"
+source_archive_url = "https://github.com/scqubits/scqubits/archive/1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa.tar.gz"
+source_archive_sha256 = "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922"
+source_archive_size_bytes = 6494511
+checksum_verified = true
+
+[[locked_tools]]
+id = "pyepr"
+resolved_commit = "39a85e5501421d57f869ae3d7337a2c20da830f3"
+pinned_ref = "1.0.0"
+source_archive_url = "https://github.com/zlatko-minev/pyEPR/archive/39a85e5501421d57f869ae3d7337a2c20da830f3.tar.gz"
+source_archive_sha256 = "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13"
+source_archive_size_bytes = 2757625
+checksum_verified = true
+
+[[locked_tools]]
+id = "squadds"
+resolved_commit = "beace3e52ceb491b8ef85b7e3f5439cb8273f248"
+pinned_ref = "v0.4.5"
+source_archive_url = "https://github.com/LFL-Lab/SQuADDS/archive/beace3e52ceb491b8ef85b7e3f5439cb8273f248.tar.gz"
+source_archive_sha256 = "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2"
+source_archive_size_bytes = 32482055
+checksum_verified = true
+
+[[locked_tools]]
+id = "qiskit-metal"
+resolved_commit = "3ec90a580ab05c2c1b94ef934942f742daf1d8ab"
+pinned_ref = "v0.7.5"
+source_archive_url = "https://github.com/qiskit-community/qiskit-metal/archive/3ec90a580ab05c2c1b94ef934942f742daf1d8ab.tar.gz"
+source_archive_sha256 = "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f"
+source_archive_size_bytes = 58193618
+checksum_verified = true
+
+[[locked_tools]]
+id = "sqdmetal"
+resolved_commit = "c0026ea6ee5b932dbdcd20843bc70e130f705d69"
+pinned_ref = "c0026ea6ee5b932dbdcd20843bc70e130f705d69"
+source_archive_url = "https://github.com/sqdlab/SQDMetal/archive/c0026ea6ee5b932dbdcd20843bc70e130f705d69.tar.gz"
+source_archive_sha256 = "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01"
+source_archive_size_bytes = 2328227
+checksum_verified = true
+
+[[locked_tools]]
+id = "kqcircuits"
+resolved_commit = "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18"
+pinned_ref = "v4.9.12"
+source_archive_url = "https://github.com/iqm-finland/KQCircuits/archive/71cad094a65da90d65b7b9f8c5ed0e6c6f079d18.tar.gz"
+source_archive_sha256 = "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f"
+source_archive_size_bytes = 10322784
+checksum_verified = true
+
+[[locked_tools]]
+id = "klayout"
+resolved_commit = "6270877110ef808dd442fd2244164cec06a7b10e"
+pinned_ref = "v0.30.9"
+source_archive_url = "https://github.com/KLayout/klayout/archive/6270877110ef808dd442fd2244164cec06a7b10e.tar.gz"
+source_archive_sha256 = "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63"
+source_archive_size_bytes = 73945863
+checksum_verified = true

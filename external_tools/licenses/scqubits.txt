@@ -1,0 +1,4 @@
+scqubits
+SPDX-License-Identifier: BSD-3-Clause
+Upstream: https://github.com/scqubits/scqubits
+License source: GitHub repository metadata checked 2026-07-11.

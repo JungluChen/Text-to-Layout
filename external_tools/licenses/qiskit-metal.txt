@@ -1,0 +1,4 @@
+Quantum Metal / Qiskit Metal
+SPDX-License-Identifier: Apache-2.0
+Upstream: https://github.com/qiskit-community/qiskit-metal
+License source: GitHub repository metadata checked 2026-07-11.

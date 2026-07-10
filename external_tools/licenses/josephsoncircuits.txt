@@ -1,0 +1,4 @@
+JosephsonCircuits.jl
+SPDX-License-Identifier: MIT
+Upstream: https://github.com/kpobrien/JosephsonCircuits.jl
+License source: GitHub repository metadata checked 2026-07-11.

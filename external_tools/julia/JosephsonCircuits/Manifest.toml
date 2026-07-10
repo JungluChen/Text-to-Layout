@@ -1,0 +1,9 @@
+# This committed manifest slot is intentionally present so the Julia environment
+# is part of source control. Regenerate it on a machine with Julia installed:
+#
+#   julia --project=external_tools/julia/JosephsonCircuits -e "using Pkg; Pkg.instantiate(); Pkg.resolve()"
+#
+# Do not mark JosephsonCircuits.jl INSTALLED, SMOKE_TEST_PASSED, or
+# BENCHMARK_EXECUTED until this environment is instantiated and the subprocess
+# smoke/benchmark commands pass locally.
+manifest_format = "2.0"

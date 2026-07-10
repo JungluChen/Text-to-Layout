@@ -1,0 +1,4 @@
+Palace
+SPDX-License-Identifier: Apache-2.0
+Upstream: https://github.com/awslabs/palace
+License source: GitHub repository metadata checked 2026-07-11.

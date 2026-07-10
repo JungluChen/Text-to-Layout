@@ -41,7 +41,9 @@ measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
 metal = ["qiskit-metal"]
 epr = ["pyEPR-quantum"]
+pyepr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
+ansys = ["pyaedt>=1.1"]
 mesh = ["gmsh>=4.11", "meshio>=5.3"]
 research = [
   "kqcircuits",
