@@ -73,7 +73,7 @@
   - FastHenry ran once at the deck's default single-filament discretisation: the deck declares no nhinc/nwinc, and no refinement sweep exists. Current crowding in a spiral is unresolved, so no convergence is evidenced.
 - Provenance gap: `solver_executable_hash_unrecorded`
 
-**NOT_FABRICATION_READY.**
+- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->
 
 ## JoSIM status

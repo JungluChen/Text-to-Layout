@@ -63,7 +63,7 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
   - solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0
 - Provenance gap: `solver_executable_hash_unrecorded`
 
-**NOT_FABRICATION_READY.**
+- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->
 
 ## Region-level evidence

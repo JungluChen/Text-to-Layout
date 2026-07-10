@@ -1,5 +1,5 @@
 {
-  "schema_version": "textlayout.canonical-evidence.v2",
+  "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "15feda89b0a0e45314a933af087d234b",
   "design_id": "01_idc_0p6pf",
   "design_hash": "1f9b70891f7b2248dd63fd60d4878201d8e98590f27722691fd5addb4518c49a",
@@ -58,9 +58,13 @@
       "solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0"
     ]
   },
+  "sanity_checks": [],
+  "measurement": null,
+  "depends_on": [],
+  "blocking_reason": null,
   "git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
   "environment_hash": "ff6d14fe16a4de277c7fd12b46053e0c0dee6d0577456c0f2bb65bf973c5c704",
-  "timestamp": "2026-07-10T06:01:21+00:00",
+  "timestamp": "2026-07-10T08:07:00+00:00",
   "warnings": [
     "Effective-medium capacitance is not a full air/silicon interface extraction.",
     "Mesh convergence and a finite-thickness or full-wave cross-check are required.",

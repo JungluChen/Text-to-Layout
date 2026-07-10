@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from textlayout.evidence import EvidenceStatus, QuantityEvidence
+from textlayout.evidence import SOLVER_BACKED_STATUSES, QuantityEvidence
 from textlayout.measurement import CalibrationFile
 
 SIGNOFF_SCHEMA = "textlayout.signoff.v1"
@@ -94,10 +94,7 @@ def evaluate_signoff(
         blockers.append("No solver evidence record provided; stopped at Level 3.")
         return _result(level, blockers)
 
-    solver_backed = evidence.status in (
-        EvidenceStatus.SIMULATION_EXECUTED,
-        EvidenceStatus.PHYSICS_VERIFIED,
-    )
+    solver_backed = evidence.status in SOLVER_BACKED_STATUSES
     if not solver_backed:
         blockers.append(
             f"No solver has been executed (evidence.status={evidence.status.value!r}); "

@@ -69,7 +69,7 @@ Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geome
 - Why withdrawn: not reproducible from the committed openems_result.s2p. Re-extracting at the design frequency gives 49.712535 ohm; sample_frequency_ghz, s11_magnitude and return_loss_db all reproduce exactly, so the file and the parser agree and only this number is stale. No output hash existed at the time, so it cannot be established whether the Touchstone file or the impedance estimator changed.
 - Provenance gap: `solver_executable_hash_unrecorded`
 
-**NOT_FABRICATION_READY.**
+- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->
 
 ## Limitation

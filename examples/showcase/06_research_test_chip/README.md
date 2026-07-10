@@ -55,7 +55,7 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 - Analysis scope: `full_tile`
 - Extracted geometry: **none** — no value was extracted from this run
 
-**NOT_FABRICATION_READY.**
+- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->
 
 ## Tile sub-block evidence

@@ -9,8 +9,11 @@ from pydantic import ValidationError
 
 from textlayout.evidence import ConfidenceClass, EvidenceStatus
 from textlayout.evidence.canonical import (
+    ArtifactDependency,
     CanonicalEvidence,
     ConvergenceMetrics,
+    MeasurementCorrelation,
+    SanityCheck,
     SupersededClaim,
     compute_evidence_id,
     load_canonical,
@@ -234,3 +237,188 @@ class TestIdentityAndRoundTrip:
         assert restored.status is record.status
         assert restored.extracted_value == record.extracted_value
         assert restored.output_file_hashes == record.output_file_hashes
+
+
+class TestPhysicalSanityChecks:
+    """A recorded sanity failure must veto every solver-backed status.
+
+    This is the all-NaN Touchstone: the file existed, parsed, and yielded a
+    float, so every *structural* check passed. Only a physical assertion --
+    "the resonance is not sitting on the first sweep point" -- could catch it.
+    """
+
+    def test_a_failed_check_cannot_coexist_with_a_kept_value(self, out_file: Path) -> None:
+        checks = [
+            SanityCheck(name="s21_finite", passed=True),
+            SanityCheck(
+                name="resonance_not_at_sweep_edge",
+                passed=False,
+                detail="argmin over all-NaN magnitudes returned index 0",
+            ),
+        ]
+        with pytest.raises(ValidationError, match="contradicts failed physical-sanity checks"):
+            CanonicalEvidence(**_base(out_file, sanity_checks=checks))  # type: ignore[arg-type]
+
+    def test_the_same_failed_check_is_fine_on_an_invalid_record(self, out_file: Path) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                status=EvidenceStatus.SIMULATION_INVALID,
+                extracted_value=None,
+                error_percent=None,
+                convergence=None,
+                invalidation_reason="all 401 S-parameter samples were NaN",
+                sanity_checks=[SanityCheck(name="s21_finite", passed=False)],
+            )
+        )
+        assert record.confidence_class is ConfidenceClass.NONE
+        assert record.extracted_value is None
+
+    def test_passing_checks_do_not_block_verification(self, out_file: Path) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file, sanity_checks=[SanityCheck(name="s21_finite", passed=True)]
+            )
+        )
+        assert record.status is EvidenceStatus.PHYSICS_VERIFIED
+
+
+class TestMeasurementCorrelatedRecord:
+    def _measurement(self, **overrides: object) -> MeasurementCorrelation:
+        payload: dict[str, object] = {
+            "measured_value": 49.9,
+            "measured_unit": "ohm",
+            "uncertainty": 0.3,
+            "calibration_version": "cryo-cal-2026.02",
+            "device_id": "lot7/w3/d12/dev4",
+            "correlation_error_percent": 0.376,
+        }
+        payload.update(overrides)
+        return MeasurementCorrelation(**payload)  # type: ignore[arg-type]
+
+    def test_measurement_correlated_outranks_physics_verified(self, out_file: Path) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                status=EvidenceStatus.MEASUREMENT_CORRELATED,
+                measurement=self._measurement(),
+            )
+        )
+        assert record.confidence_class is ConfidenceClass.MEASURED
+
+    def test_measurement_correlated_requires_a_measurement_block(self, out_file: Path) -> None:
+        with pytest.raises(ValidationError, match="requires a .measurement. block"):
+            CanonicalEvidence(
+                **_base(out_file, status=EvidenceStatus.MEASUREMENT_CORRELATED)  # type: ignore[arg-type]
+            )
+
+    def test_measurement_correlated_still_requires_convergence(self, out_file: Path) -> None:
+        with pytest.raises(ValidationError, match="requires convergence metrics"):
+            CanonicalEvidence(
+                **_base(  # type: ignore[arg-type]
+                    out_file,
+                    status=EvidenceStatus.MEASUREMENT_CORRELATED,
+                    measurement=self._measurement(),
+                    convergence=None,
+                )
+            )
+
+    def test_an_uncertainty_of_zero_is_not_a_measurement(self) -> None:
+        with pytest.raises(ValidationError):
+            self._measurement(uncertainty=0.0)
+
+    def test_synthetic_measurements_are_marked_as_such(self) -> None:
+        assert self._measurement().synthetic is False
+        assert self._measurement(synthetic=True).synthetic is True
+
+
+class TestNotFabricationReadyRecord:
+    def test_requires_a_blocking_reason(self, out_file: Path) -> None:
+        with pytest.raises(ValidationError, match="requires a blocking_reason"):
+            CanonicalEvidence(
+                **_base(  # type: ignore[arg-type]
+                    out_file,
+                    status=EvidenceStatus.NOT_FABRICATION_READY,
+                    convergence=None,
+                )
+            )
+
+    def test_a_good_number_on_an_unfabricable_design_claims_no_confidence(
+        self, out_file: Path
+    ) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                status=EvidenceStatus.NOT_FABRICATION_READY,
+                convergence=None,
+                blocking_reason="junction overlap 40 nm < 60 nm process minimum",
+            )
+        )
+        assert record.confidence_class is ConfidenceClass.NONE
+        # The simulated number survives -- it is the *design* that is blocked.
+        assert record.extracted_value == 49.7125
+
+
+class TestQuantityEvidenceProjection:
+    """The legacy model is a view of the canonical record, not a rival."""
+
+    def test_projection_preserves_status_and_value(self, out_file: Path) -> None:
+        record = CanonicalEvidence(**_base(out_file))  # type: ignore[arg-type]
+        projected = record.to_quantity_evidence(root=out_file.parent)
+        assert projected.status is record.status
+        assert projected.quantity == record.target_quantity
+        assert projected.extracted_value == record.extracted_value
+        assert projected.is_physics_verified
+
+    def test_projection_resolves_output_paths_the_legacy_model_demands(
+        self, out_file: Path
+    ) -> None:
+        record = CanonicalEvidence(**_base(out_file))  # type: ignore[arg-type]
+        projected = record.to_quantity_evidence(root=out_file.parent)
+        assert projected.output_files == [str(out_file)]
+
+    def test_projection_summarises_what_the_narrow_schema_cannot_hold(
+        self, out_file: Path
+    ) -> None:
+        """Convergence, gaps and dependencies are surfaced, never silently dropped."""
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                depends_on=[ArtifactDependency(role="mesh", artifact="cpw.msh", sha256="a" * 64)],
+                sanity_checks=[SanityCheck(name="s21_finite", passed=True)],
+            )
+        )
+        notes = "\n".join(record.to_quantity_evidence(root=out_file.parent).notes)
+        assert "convergence: fdtd_energy_decay" in notes
+        assert "provenance gap: solver_executable_hash_unrecorded" in notes
+        assert "depends on mesh: cpw.msh" in notes
+        assert "sanity check s21_finite: pass" in notes
+
+    def test_projection_carries_the_measurement_across(self, out_file: Path) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                status=EvidenceStatus.MEASUREMENT_CORRELATED,
+                measurement=MeasurementCorrelation(
+                    measured_value=49.9, measured_unit="ohm", uncertainty=0.3,
+                    calibration_version="cryo-cal-2026.02", device_id="lot7/w3/d12/dev4",
+                ),
+            )
+        )
+        projected = record.to_quantity_evidence(root=out_file.parent)
+        assert projected.status is EvidenceStatus.MEASUREMENT_CORRELATED
+        assert projected.measured_value == 49.9
+        assert projected.calibration_version == "cryo-cal-2026.02"
+
+    def test_a_blocked_design_projects_its_blocking_reason(self, out_file: Path) -> None:
+        record = CanonicalEvidence(
+            **_base(  # type: ignore[arg-type]
+                out_file,
+                status=EvidenceStatus.NOT_FABRICATION_READY,
+                convergence=None,
+                blocking_reason="junction overlap 40 nm < 60 nm process minimum",
+            )
+        )
+        projected = record.to_quantity_evidence(root=out_file.parent)
+        assert projected.blocking_reason is not None
+        assert not projected.is_physics_verified

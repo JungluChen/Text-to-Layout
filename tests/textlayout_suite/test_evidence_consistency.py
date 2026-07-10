@@ -13,10 +13,13 @@ from pathlib import Path
 
 import pytest
 
+from textlayout.evidence import EvidenceStatus
 from textlayout.evidence.consistency import (
     EVIDENCE_BLOCK,
     GENERATED_BEGIN,
     GENERATED_END,
+    _first_status_token,
+    _STATUS_TOKENS,
     audit,
     check_showcase,
     classify_outcome,
@@ -288,3 +291,39 @@ class TestNoStaleGeneratedArtifacts:
 
     def test_derived_artifacts_are_current(self) -> None:
         assert self._run("render_showcase_artifacts.py") == 0
+
+
+class TestDeclaredStatusExtraction:
+    """A document's status is the one it *declares*, not one it merely mentions.
+
+    Every showcase row states its quantity status and then, separately, that the
+    design has no fabrication signoff. Reading "whichever status token appears
+    anywhere" conflates two orthogonal scopes and silently reclassifies a
+    PHYSICS_VERIFIED impedance as NOT_FABRICATION_READY.
+    """
+
+    def test_the_declared_marker_beats_tokens_mentioned_in_prose(self) -> None:
+        block = (
+            "- **Status:** `SIMULATION_INVALID`\n"
+            "- Withdrawn status: `PHYSICS_VERIFIED`\n"
+            "- **Fabrication readiness:** `NOT_FABRICATION_READY`\n"
+        )
+        assert _first_status_token(block) == "SIMULATION_INVALID"
+
+    def test_a_readme_row_declares_its_leading_status(self) -> None:
+        row = (
+            "| 2 | CPW | **PHYSICS_VERIFIED** — openEMS extracted 49.71 ohm. "
+            "**NOT_FABRICATION_READY** |"
+        )
+        assert _first_status_token(row) == "PHYSICS_VERIFIED"
+
+    def test_convergence_failed_is_not_read_as_the_failed_inside_it(self) -> None:
+        assert _first_status_token("status: CONVERGENCE_FAILED") == "CONVERGENCE_FAILED"
+
+    def test_text_with_no_status_declares_nothing(self) -> None:
+        assert _first_status_token("a CPW feedline on silicon") is None
+
+    def test_every_contract_status_is_scannable(self) -> None:
+        """A status added to the contract cannot escape the consistency scan."""
+        for status in EvidenceStatus:
+            assert status.value in _STATUS_TOKENS

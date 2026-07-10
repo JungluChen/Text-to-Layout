@@ -1,5 +1,5 @@
 {
-  "schema_version": "textlayout.canonical-evidence.v2",
+  "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "731a7af91767c62aaf145ef32dc1d176",
   "design_id": "04_spiral_inductor_3nh",
   "design_hash": "158ef0c61e293bbd0f604f7b2e472f92fdb82b77d42a5752e4223f76cda61b56",
@@ -52,9 +52,13 @@
       "FastHenry ran once at the deck's default single-filament discretisation: the deck declares no nhinc/nwinc, and no refinement sweep exists. Current crowding in a spiral is unresolved, so no convergence is evidenced."
     ]
   },
+  "sanity_checks": [],
+  "measurement": null,
+  "depends_on": [],
+  "blocking_reason": null,
   "git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
   "environment_hash": "ff6d14fe16a4de277c7fd12b46053e0c0dee6d0577456c0f2bb65bf973c5c704",
-  "timestamp": "2026-07-10T06:01:21+00:00",
+  "timestamp": "2026-07-10T08:07:00+00:00",
   "warnings": [
     "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
     "Conductor conductivity and thickness are generic and require process replacement."

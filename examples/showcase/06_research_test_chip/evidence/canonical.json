@@ -1,5 +1,5 @@
 {
-  "schema_version": "textlayout.canonical-evidence.v2",
+  "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "209c3057e9809607dcfe30a0dad5b742",
   "design_id": "06_research_test_chip",
   "design_hash": "6547db8633cc816c6375fa05c7ba776485c3c2effb17f433201063179fcfba60",
@@ -31,9 +31,13 @@
   "extraction_config": {},
   "extraction_config_hash": null,
   "convergence": null,
+  "sanity_checks": [],
+  "measurement": null,
+  "depends_on": [],
+  "blocking_reason": null,
   "git_commit": "fbc46705d109307e01da3d600e4650c848b5e41f",
   "environment_hash": "ff6d14fe16a4de277c7fd12b46053e0c0dee6d0577456c0f2bb65bf973c5c704",
-  "timestamp": "2026-07-10T06:01:21+00:00",
+  "timestamp": "2026-07-10T08:07:00+00:00",
   "warnings": [
     "No whole-tile field solve exists. Sub-block evidence (FasterCap IDC, FastHenry spiral) lives in tile_simulation_map.json and is scoped to those sub-blocks, never to the tile."
   ],

@@ -256,7 +256,17 @@ def evidence_block_markdown(record: CanonicalEvidence) -> str:
         ]
     for gap in record.provenance_gaps:
         lines.append(f"- Provenance gap: `{gap}`")
-    lines += ["", "**NOT_FABRICATION_READY.**", ""]
+    # Fabrication readiness is a *different scope* from the quantity status
+    # above: an impedance can be PHYSICS_VERIFIED while the design still has no
+    # DRC/LVS signoff. Label the scope, because a bare `NOT_FABRICATION_READY`
+    # next to `**Status:** PHYSICS_VERIFIED` reads as a contradiction to a human
+    # and, before the declared-status marker existed, to the consistency scanner.
+    lines += [
+        "",
+        "- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff "
+        "has been performed for this showcase.",
+        "",
+    ]
     return _block(EVIDENCE_BLOCK, "\n".join(lines))
 
 

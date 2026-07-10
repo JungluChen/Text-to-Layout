@@ -1,5 +1,5 @@
 {
-  "schema_version": "textlayout.canonical-evidence.v2",
+  "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
   "design_id": "05_quarter_wave_resonator_6ghz",
   "design_hash": "44560b19bdcbf7895bade0c4d69ca0f383ae1c02a8bff3d484f86df388ff6c22",
@@ -53,9 +53,13 @@
       "no mesh-refinement study was performed; only time-domain convergence is evidenced"
     ]
   },
+  "sanity_checks": [],
+  "measurement": null,
+  "depends_on": [],
+  "blocking_reason": null,
   "git_commit": "07205ca17c63f39d830ab6c19699d7ef538d1869",
   "environment_hash": "ff6d14fe16a4de277c7fd12b46053e0c0dee6d0577456c0f2bb65bf973c5c704",
-  "timestamp": "2026-07-10T06:01:21+00:00",
+  "timestamp": "2026-07-10T08:07:00+00:00",
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff.",

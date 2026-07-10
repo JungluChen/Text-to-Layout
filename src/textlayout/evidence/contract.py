@@ -17,6 +17,17 @@ rules — it *enforces* them structurally in a pydantic validator, so a false
 - ``SIMULATION_INVALID`` and ``CONVERGENCE_FAILED`` record that a solver ran
   and its output was rejected. They name the solver but carry no extracted
   value — a rejected number is not a measurement of anything.
+- ``MEASUREMENT_CORRELATED`` is the only status backed by reality rather than
+  by a model. It requires everything ``PHYSICS_VERIFIED`` requires *plus* a
+  measured value, a positive uncertainty, and a named calibration. It is
+  reachable only from ``PHYSICS_VERIFIED``: a number that never converged
+  against its target cannot be promoted by pointing at a chip that happens to
+  agree with it.
+- ``NOT_FABRICATION_READY`` is orthogonal to physical confidence — the value may
+  be perfectly well known while the *design* violates a fabrication rule. It
+  therefore claims ``ConfidenceClass.NONE`` and requires a ``blocking_reason``,
+  so no downstream reader can tape out a blocked design on the strength of a
+  good simulation.
 
 No numeric field may be NaN or infinite. ``NaN`` compares ``False`` against
 every bound, so an unguarded ``error_percent > tolerance_percent`` check would
@@ -44,6 +55,10 @@ class EvidenceStatus(str, enum.Enum):
     SIMULATION_INPUT_PREPARED = "SIMULATION_INPUT_PREPARED"
     SIMULATION_EXECUTED = "SIMULATION_EXECUTED"
     PHYSICS_VERIFIED = "PHYSICS_VERIFIED"
+    #: A physics-verified quantity that also agrees with a *measured* value from
+    #: a fabricated device, under a named calibration. The only status backed by
+    #: reality rather than by a model.
+    MEASUREMENT_CORRELATED = "MEASUREMENT_CORRELATED"
     FAILED = "FAILED"
     SKIPPED_SOLVER_ABSENT = "SKIPPED_SOLVER_ABSENT"
     #: A solver ran, but its output failed a physical-sanity check
@@ -51,12 +66,30 @@ class EvidenceStatus(str, enum.Enum):
     SIMULATION_INVALID = "SIMULATION_INVALID"
     #: A solver ran, but the result did not converge under refinement.
     CONVERGENCE_FAILED = "CONVERGENCE_FAILED"
+    #: The number may be perfectly good, but the *design* must not be taped out:
+    #: a DRC/LVS or junction rule blocks it. Orthogonal to how well the physics
+    #: is known, so it claims no confidence at all.
+    NOT_FABRICATION_READY = "NOT_FABRICATION_READY"
 
 
 #: Statuses that assert a real solver produced parseable, usable output.
-_SOLVER_OUTPUT_STATUSES = frozenset(
-    {EvidenceStatus.SIMULATION_EXECUTED, EvidenceStatus.PHYSICS_VERIFIED}
+#: Exported because ``signoff`` and the review committee must agree with the
+#: contract about what "a solver ran and we kept the number" means, rather than
+#: each hand-maintaining its own tuple.
+SOLVER_BACKED_STATUSES = frozenset(
+    {
+        EvidenceStatus.SIMULATION_EXECUTED,
+        EvidenceStatus.PHYSICS_VERIFIED,
+        EvidenceStatus.MEASUREMENT_CORRELATED,
+    }
 )
+
+#: Statuses asserting the value agreed with its target inside tolerance.
+VERIFIED_STATUSES = frozenset(
+    {EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.MEASUREMENT_CORRELATED}
+)
+
+_SOLVER_OUTPUT_STATUSES = SOLVER_BACKED_STATUSES
 
 #: Statuses that assert a solver ran but its result was rejected. They name the
 #: solver, and must never carry an extracted value.
@@ -76,6 +109,8 @@ _FINITE_FIELDS = (
     "analytical_value",
     "error_percent",
     "tolerance_percent",
+    "measured_value",
+    "measurement_uncertainty",
 )
 
 
@@ -96,6 +131,8 @@ class ConfidenceClass(enum.IntEnum):
     SIMULATED = 3
     #: A solver value agreed with its design target inside tolerance.
     VERIFIED = 4
+    #: A verified value that also agreed with a measurement of a real device.
+    MEASURED = 5
 
 
 _CONFIDENCE: dict[EvidenceStatus, ConfidenceClass] = {
@@ -103,10 +140,14 @@ _CONFIDENCE: dict[EvidenceStatus, ConfidenceClass] = {
     EvidenceStatus.SKIPPED_SOLVER_ABSENT: ConfidenceClass.NONE,
     EvidenceStatus.SIMULATION_INVALID: ConfidenceClass.NONE,
     EvidenceStatus.CONVERGENCE_FAILED: ConfidenceClass.NONE,
+    # A blocked design is not a *weaker* physics claim, but it must never let a
+    # downstream reader treat the quantity as usable, so it claims nothing.
+    EvidenceStatus.NOT_FABRICATION_READY: ConfidenceClass.NONE,
     EvidenceStatus.ANALYTICAL_ONLY: ConfidenceClass.ANALYTICAL,
     EvidenceStatus.SIMULATION_INPUT_PREPARED: ConfidenceClass.PREPARED,
     EvidenceStatus.SIMULATION_EXECUTED: ConfidenceClass.SIMULATED,
     EvidenceStatus.PHYSICS_VERIFIED: ConfidenceClass.VERIFIED,
+    EvidenceStatus.MEASUREMENT_CORRELATED: ConfidenceClass.MEASURED,
 }
 
 #: The only sanctioned confidence-*increasing* edges. Everything else that
@@ -123,14 +164,22 @@ _PROMOTIONS: frozenset[tuple[EvidenceStatus, EvidenceStatus]] = frozenset(
         (EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.SIMULATION_INPUT_PREPARED),
         (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.SIMULATION_INPUT_PREPARED),
         (EvidenceStatus.CONVERGENCE_FAILED, EvidenceStatus.SIMULATION_INPUT_PREPARED),
+        (EvidenceStatus.NOT_FABRICATION_READY, EvidenceStatus.SIMULATION_INPUT_PREPARED),
         (EvidenceStatus.FAILED, EvidenceStatus.ANALYTICAL_ONLY),
         (EvidenceStatus.SKIPPED_SOLVER_ABSENT, EvidenceStatus.ANALYTICAL_ONLY),
         (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.ANALYTICAL_ONLY),
         (EvidenceStatus.CONVERGENCE_FAILED, EvidenceStatus.ANALYTICAL_ONLY),
+        # a blocked design may be redesigned and re-estimated from scratch
+        (EvidenceStatus.NOT_FABRICATION_READY, EvidenceStatus.ANALYTICAL_ONLY),
         # prepared inputs -> the solver actually ran and returned a finite value
         (EvidenceStatus.SIMULATION_INPUT_PREPARED, EvidenceStatus.SIMULATION_EXECUTED),
         # a finite solver value -> compared against target, inside tolerance
         (EvidenceStatus.SIMULATION_EXECUTED, EvidenceStatus.PHYSICS_VERIFIED),
+        # a verified model -> confronted with a measurement of a real device.
+        # This is the only edge into MEASUREMENT_CORRELATED: a number that was
+        # never converged against its target cannot be promoted by pointing at
+        # a fabricated chip that happens to agree with it.
+        (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.MEASUREMENT_CORRELATED),
     }
 )
 
@@ -172,7 +221,20 @@ def validate_transition(old: EvidenceStatus, new: EvidenceStatus) -> None:
 
 
 class QuantityEvidence(BaseModel):
-    """Evidence for one extracted quantity versus its design target."""
+    """Evidence for one extracted quantity versus its design target.
+
+    .. deprecated::
+       This is the **compatibility projection** of
+       :class:`~textlayout.evidence.canonical.CanonicalEvidence`, not a rival
+       model. It records output *paths* where canonical records content hashes,
+       and it cannot express convergence metrics, the artifact dependency graph,
+       or solver executable identity. Produce it with
+       ``CanonicalEvidence.to_quantity_evidence()``; write new code against the
+       canonical record.
+
+       Both share :class:`EvidenceStatus`, so the two can never disagree about
+       what a status *means* -- only about how much provenance backs it.
+    """
 
     model_config = ConfigDict(extra="forbid", frozen=True, use_enum_values=False)
 
@@ -199,6 +261,19 @@ class QuantityEvidence(BaseModel):
     input_files: list[str] = Field(default_factory=list)
     output_files: list[str] = Field(default_factory=list)
     parser: str | None = Field(default=None, description="Module.function that parsed output.")
+    measured_value: float | None = Field(
+        default=None, description="Value measured on a fabricated device."
+    )
+    measured_unit: str | None = None
+    measurement_uncertainty: float | None = Field(
+        default=None, description="Absolute 1-sigma uncertainty of `measured_value`."
+    )
+    calibration_version: str | None = Field(
+        default=None, description="Calibration under which the measurement was taken."
+    )
+    blocking_reason: str | None = Field(
+        default=None, description="Why the design may not be fabricated."
+    )
     timestamp: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
     )
@@ -240,16 +315,34 @@ class QuantityEvidence(BaseModel):
                         f"{status.value} requires existing, non-empty solver output; "
                         f"missing or empty: {path}"
                     )
-        if status is EvidenceStatus.PHYSICS_VERIFIED:
+        if status in VERIFIED_STATUSES:
             if self.error_percent is None or self.target_value is None:
                 raise EvidenceError(
-                    "PHYSICS_VERIFIED requires a target and a computed error_percent"
+                    f"{status.value} requires a target and a computed error_percent"
                 )
             if self.error_percent > self.tolerance_percent:
                 raise EvidenceError(
-                    f"PHYSICS_VERIFIED requires error <= tolerance "
+                    f"{status.value} requires error <= tolerance "
                     f"({self.error_percent:.3f}% > {self.tolerance_percent:.3f}%)"
                 )
+        if status is EvidenceStatus.MEASUREMENT_CORRELATED:
+            if self.measured_value is None:
+                raise EvidenceError(
+                    "MEASUREMENT_CORRELATED requires a measured_value from a real device; "
+                    "without one, the claim is at most PHYSICS_VERIFIED"
+                )
+            if self.measurement_uncertainty is None or self.measurement_uncertainty <= 0:
+                raise EvidenceError(
+                    "MEASUREMENT_CORRELATED requires a positive measurement_uncertainty; "
+                    "a measurement without an error bar cannot corroborate anything"
+                )
+            if not self.calibration_version:
+                raise EvidenceError(
+                    "MEASUREMENT_CORRELATED requires a calibration_version: an uncalibrated "
+                    "reading is not traceable to the quantity it claims to measure"
+                )
+        if status is EvidenceStatus.NOT_FABRICATION_READY and not self.blocking_reason:
+            raise EvidenceError("NOT_FABRICATION_READY requires a blocking_reason")
         if status is EvidenceStatus.ANALYTICAL_ONLY and (self.solver or self.output_files):
             raise EvidenceError("ANALYTICAL_ONLY must not claim a solver or solver output files")
         if status in _NO_SOLVER_RAN_STATUSES and self.extracted_value is not None:
@@ -258,7 +351,8 @@ class QuantityEvidence(BaseModel):
 
     @property
     def is_physics_verified(self) -> bool:
-        return self.status is EvidenceStatus.PHYSICS_VERIFIED
+        """True for PHYSICS_VERIFIED and for the strictly stronger measured claim."""
+        return self.status in VERIFIED_STATUSES
 
     @property
     def confidence_class(self) -> ConfidenceClass:
@@ -272,6 +366,18 @@ class QuantityEvidence(BaseModel):
             if self.target_value is not None
             else "no target"
         )
+        if self.status is EvidenceStatus.MEASUREMENT_CORRELATED:
+            return (
+                f"{self.quantity}: MEASUREMENT_CORRELATED — {self.solver} extracted "
+                f"{self.extracted_value} {self.extracted_unit or ''}; measured "
+                f"{self.measured_value} ± {self.measurement_uncertainty} "
+                f"{self.measured_unit or ''} under calibration {self.calibration_version}"
+            ).replace("  ", " ")
+        if self.status is EvidenceStatus.NOT_FABRICATION_READY:
+            return (
+                f"{self.quantity}: NOT_FABRICATION_READY — the design must not be taped out "
+                f"({self.blocking_reason}); any physics claim here is advisory only"
+            )
         if self.status is EvidenceStatus.PHYSICS_VERIFIED:
             return (
                 f"{self.quantity}: PHYSICS_VERIFIED — {self.solver} extracted "

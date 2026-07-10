@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from textlayout.evidence.contract import (
     LEDGER_SCHEMA,
+    SOLVER_BACKED_STATUSES,
+    VERIFIED_STATUSES,
     ConfidenceClass,
     EvidenceError,
     EvidenceLedger,
@@ -25,6 +27,8 @@ from textlayout.evidence.contract import (
 
 __all__ = [
     "LEDGER_SCHEMA",
+    "SOLVER_BACKED_STATUSES",
+    "VERIFIED_STATUSES",
     "ConfidenceClass",
     "EvidenceError",
     "EvidenceLedger",

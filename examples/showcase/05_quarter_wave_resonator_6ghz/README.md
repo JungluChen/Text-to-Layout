@@ -68,7 +68,7 @@ Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input lin
 - Why withdrawn: 3.0 GHz is the first point of the sweep, not a resonance. An argmin over all-NaN magnitudes returns index 0 because every NaN comparison is False, so the sweep's lower bound was reported as 'the resonance'.
 - Provenance gap: `solver_executable_hash_unrecorded`
 
-**NOT_FABRICATION_READY.**
+- **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->
 
 ## Limitation

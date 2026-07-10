@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from textlayout.evidence.canonical import CanonicalEvidence, load_canonical
+from textlayout.evidence.contract import EvidenceStatus
 
 #: Solver-level vocabulary. `<QUANTITY>_EXTRACTED` means only "the parser
 #: returned a number" -- it is an *extraction outcome*, not an evidence status,
@@ -27,16 +28,9 @@ from textlayout.evidence.canonical import CanonicalEvidence, load_canonical
 _EXTRACTED_RE = re.compile(r"^[A-Z_]+_EXTRACTED$")
 _INPUT_PREPARED_RE = re.compile(r"^[A-Z_]*INPUT_PREPARED$")
 
-_STATUS_TOKENS = (
-    "PHYSICS_VERIFIED",
-    "SIMULATION_EXECUTED",
-    "SIMULATION_INVALID",
-    "CONVERGENCE_FAILED",
-    "SIMULATION_INPUT_PREPARED",
-    "SKIPPED_SOLVER_ABSENT",
-    "ANALYTICAL_ONLY",
-    "FAILED",
-)
+#: Derived from the enum, never hand-listed: a status added to the contract but
+#: forgotten here would silently escape every cross-artifact consistency check.
+_STATUS_TOKENS: tuple[str, ...] = tuple(status.value for status in EvidenceStatus)
 
 #: Files whose `status` is a solver-level extraction outcome, not an evidence
 #: status. They constrain the evidence status without equalling it.
@@ -111,11 +105,35 @@ class ShowcaseReport:
         return not self.problems
 
 
+#: The renderer's machine-readable status line. A generated block legitimately
+#: *mentions* other status tokens in prose -- a superseded claim, a
+#: fabrication-readiness note -- so the declared status must be read from its
+#: marker. Scanning for "whichever token appears first" was only ever correct by
+#: accident of how the token list happened to be ordered.
+_DECLARED_STATUS_RE = re.compile(r"\*\*Status:\*\*\s*`([A-Z_]+)`")
+
+
 def _first_status_token(text: str) -> str | None:
+    """The status a document *declares*, not merely one it mentions.
+
+    Prefer the explicit marker. Otherwise fall back to the earliest token by
+    position -- a README showcase row leads with its status and closes with a
+    fabrication-readiness note, so `PHYSICS_VERIFIED ... NOT_FABRICATION_READY`
+    declares the former. Among tokens starting at the same offset the longest
+    wins, so `CONVERGENCE_FAILED` is never mistaken for the `FAILED` inside it.
+    """
+    declared = _DECLARED_STATUS_RE.search(text)
+    if declared and declared.group(1) in _STATUS_TOKENS:
+        return declared.group(1)
+    best: tuple[int, int, str] | None = None
     for token in _STATUS_TOKENS:
-        if token in text:
-            return token
-    return None
+        index = text.find(token)
+        if index == -1:
+            continue
+        candidate = (index, -len(token), token)
+        if best is None or candidate < best:
+            best = candidate
+    return best[2] if best else None
 
 
 def _load_json(path: Path) -> dict[str, Any] | None:

@@ -40,13 +40,16 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from textlayout.evidence.contract import (
+    SOLVER_BACKED_STATUSES,
+    VERIFIED_STATUSES,
     ConfidenceClass,
     EvidenceError,
     EvidenceStatus,
+    QuantityEvidence,
     confidence_of,
 )
 
-CANONICAL_SCHEMA = "textlayout.canonical-evidence.v2"
+CANONICAL_SCHEMA = "textlayout.canonical-evidence.v3"
 
 #: Statuses whose records must carry no active extracted value.
 _NO_ACTIVE_VALUE = frozenset(
@@ -125,6 +128,70 @@ class ConvergenceMetrics(BaseModel):
         return self
 
 
+class SanityCheck(BaseModel):
+    """One named physical-sanity assertion about a solver's raw output.
+
+    The all-NaN Touchstone incident passed every *structural* check: the file
+    existed, parsed, and yielded a float. What it lacked was a check that the
+    float meant anything. Each check is recorded by name and outcome, so a
+    reader can see which physical assertions were actually made -- an empty
+    list is a visible gap, not a silent pass.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: str = Field(description="e.g. 'resonance_not_at_sweep_edge', 'energy_positive'.")
+    passed: bool
+    detail: str | None = None
+
+
+class MeasurementCorrelation(BaseModel):
+    """A measured value from a fabricated device, and how it was obtained.
+
+    A reading without an error bar cannot corroborate anything, and a reading
+    without a named calibration is not traceable to the quantity it claims to
+    measure -- so both are mandatory rather than optional.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    measured_value: float
+    measured_unit: str
+    uncertainty: float = Field(gt=0, description="Absolute 1-sigma uncertainty.")
+    calibration_version: str = Field(min_length=1)
+    device_id: str = Field(min_length=1, description="lot/wafer/die/device identifier.")
+    correlation_error_percent: float | None = Field(
+        default=None, description="|simulated - measured| / measured * 100."
+    )
+    synthetic: bool = Field(
+        default=False,
+        description="True when the 'measurement' is generated, not taken from hardware.",
+    )
+
+    @model_validator(mode="after")
+    def _finite(self) -> MeasurementCorrelation:
+        for name in ("measured_value", "uncertainty", "correlation_error_percent"):
+            value = getattr(self, name)
+            if value is not None and not math.isfinite(value):
+                raise EvidenceError(f"measurement.{name} must be finite, got {value!r}")
+        return self
+
+
+class ArtifactDependency(BaseModel):
+    """One inbound edge of the artifact dependency graph.
+
+    Records *which* upstream evidence a claim rests on, by content hash. A
+    resonance extracted from a mesh that was itself derived from a superseded
+    geometry is traceable only if that edge is written down.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    role: str = Field(description="e.g. 'mesh', 'geometry', 'pdk', 'upstream_evidence'.")
+    artifact: str = Field(description="Path or evidence_id of the dependency.")
+    sha256: str | None = None
+
+
 class CanonicalEvidence(BaseModel):
     """One solver-backed (or explicitly non-solver) claim about one quantity."""
 
@@ -173,6 +240,12 @@ class CanonicalEvidence(BaseModel):
     extraction_config_hash: str | None = None
 
     convergence: ConvergenceMetrics | None = None
+    sanity_checks: list[SanityCheck] = Field(default_factory=list)
+    measurement: MeasurementCorrelation | None = None
+    depends_on: list[ArtifactDependency] = Field(default_factory=list)
+    blocking_reason: str | None = Field(
+        default=None, description="Why the design may not be fabricated."
+    )
 
     git_commit: str | None = None
     environment_hash: str | None = Field(
@@ -216,10 +289,21 @@ class CanonicalEvidence(BaseModel):
         if self.status is EvidenceStatus.SKIPPED_SOLVER_ABSENT and not self.skip_reason:
             raise EvidenceError("SKIPPED_SOLVER_ABSENT requires a skip_reason")
 
-        solver_backed = self.status in {
-            EvidenceStatus.SIMULATION_EXECUTED,
-            EvidenceStatus.PHYSICS_VERIFIED,
-        }
+        if self.status is EvidenceStatus.NOT_FABRICATION_READY and not self.blocking_reason:
+            raise EvidenceError("NOT_FABRICATION_READY requires a blocking_reason")
+
+        solver_backed = self.status in SOLVER_BACKED_STATUSES
+
+        # A recorded sanity failure is the whole point of recording it. Nothing
+        # may claim a usable solver value over output it already rejected --
+        # this is the all-NaN Touchstone that still reported a 3.0 GHz resonance.
+        failed_checks = [check.name for check in self.sanity_checks if not check.passed]
+        if failed_checks and solver_backed:
+            raise EvidenceError(
+                f"{self.status.value} contradicts failed physical-sanity checks "
+                f"({', '.join(sorted(failed_checks))}); such output is SIMULATION_INVALID"
+            )
+
         if solver_backed:
             if not self.solver_name:
                 raise EvidenceError(f"{self.status.value} requires solver_name")
@@ -238,20 +322,26 @@ class CanonicalEvidence(BaseModel):
                     "parser over the same output can disagree under a different config"
                 )
 
-        if self.status is EvidenceStatus.PHYSICS_VERIFIED:
+        if self.status in VERIFIED_STATUSES:
             if self.convergence is None or not self.convergence.converged:
                 raise EvidenceError(
-                    "PHYSICS_VERIFIED requires convergence metrics reporting converged=True"
+                    f"{self.status.value} requires convergence metrics reporting converged=True"
                 )
             if self.target_value is None or self.error_percent is None:
                 raise EvidenceError(
-                    "PHYSICS_VERIFIED requires a target and a computed error_percent"
+                    f"{self.status.value} requires a target and a computed error_percent"
                 )
             if abs(self.error_percent) > self.tolerance_percent:
                 raise EvidenceError(
-                    f"PHYSICS_VERIFIED requires |error| <= tolerance "
+                    f"{self.status.value} requires |error| <= tolerance "
                     f"({abs(self.error_percent):.4f}% > {self.tolerance_percent:.4f}%)"
                 )
+
+        if self.status is EvidenceStatus.MEASUREMENT_CORRELATED and self.measurement is None:
+            raise EvidenceError(
+                "MEASUREMENT_CORRELATED requires a `measurement` block; without a measured "
+                "value the claim is at most PHYSICS_VERIFIED"
+            )
 
         if self.status is EvidenceStatus.ANALYTICAL_ONLY and (
             self.solver_name or self.output_file_hashes
@@ -293,6 +383,67 @@ class CanonicalEvidence(BaseModel):
         payload = self.model_dump(mode="json")
         payload["confidence_class"] = self.confidence_class.name
         return payload
+
+    def to_quantity_evidence(self, root: str | Path = ".") -> QuantityEvidence:
+        """Project onto the legacy :class:`QuantityEvidence` view.
+
+        ``QuantityEvidence`` is a *narrower* schema: it carries paths where the
+        canonical record carries content hashes, and it has no room for the
+        convergence metrics, dependency graph, or executable identity. The
+        projection is therefore deliberately lossy in one direction only --
+        canonical is the source of truth, and everything dropped here is
+        summarised into ``notes`` rather than silently discarded.
+
+        ``root`` resolves the recorded relative output paths, because the legacy
+        model insists the files exist on disk.
+        """
+        base = Path(root)
+        solver = " ".join(part for part in (self.solver_name, self.solver_version) if part)
+        notes = [
+            *self.warnings,
+            *(f"provenance gap: {gap}" for gap in self.provenance_gaps),
+        ]
+        if self.convergence is not None:
+            notes.append(
+                f"convergence: {self.convergence.method} over "
+                f"{self.convergence.refinement_levels} levels, "
+                f"converged={self.convergence.converged}"
+            )
+        for check in self.sanity_checks:
+            notes.append(f"sanity check {check.name}: {'pass' if check.passed else 'FAIL'}")
+        for edge in self.depends_on:
+            notes.append(f"depends on {edge.role}: {edge.artifact}")
+        if self.superseded is not None:
+            notes.append(f"supersedes a withdrawn claim: {self.superseded.why_withdrawn}")
+        for reason in (self.invalidation_reason, self.skip_reason, self.failure_reason):
+            if reason:
+                notes.append(reason)
+
+        measurement = self.measurement
+        return QuantityEvidence(
+            quantity=self.target_quantity,
+            target_value=self.target_value,
+            target_unit=self.target_unit,
+            extracted_value=self.extracted_value,
+            extracted_unit=self.extracted_unit,
+            analytical_value=self.analytical_value,
+            analytical_model=self.analytical_model,
+            error_percent=self.error_percent,
+            tolerance_percent=self.tolerance_percent,
+            status=self.status,
+            solver=solver or None,
+            command=" ".join(self.command) if self.command else None,
+            input_files=sorted(self.input_file_hashes),
+            output_files=[str(base / name) for name in sorted(self.output_file_hashes)],
+            parser=self.parser,
+            measured_value=measurement.measured_value if measurement else None,
+            measured_unit=measurement.measured_unit if measurement else None,
+            measurement_uncertainty=measurement.uncertainty if measurement else None,
+            calibration_version=measurement.calibration_version if measurement else None,
+            blocking_reason=self.blocking_reason,
+            timestamp=self.timestamp,
+            notes=notes,
+        )
 
 
 def compute_evidence_id(
