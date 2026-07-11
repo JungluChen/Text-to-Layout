@@ -44,6 +44,12 @@ def main(argv: list[str] | None = None) -> int:
         problems.append(f"solver_version is {evidence.solver_version!r}, not 0.17.0")
     if evidence.status.value not in SOLVER_BACKED:
         problems.append(f"status {evidence.status.value} is not solver-backed")
+    if not evidence.solver_executable_sha256:
+        problems.append("solver executable SHA-256 is absent")
+    if not evidence.command or evidence.return_code != 0:
+        problems.append("no successful Palace process is recorded on the evidence")
+    if not evidence.output_file_hashes:
+        problems.append("evidence retains no output hashes")
     problems.extend(evidence.verify_output_hashes(run))
     if problems:
         for problem in problems:
