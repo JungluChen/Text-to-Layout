@@ -148,7 +148,19 @@ def _field_file(output_dir: Path, mode: int) -> Path | None:
     token = f"Cycle{mode:06d}".lower()
     candidates = sorted(output_dir.rglob("*.pvtu"))
     matched = [path for path in candidates if token in str(path).lower()]
-    return matched[0] if matched else (candidates[0] if len(candidates) == 1 else None)
+    selected = matched[0] if matched else (candidates[0] if len(candidates) == 1 else None)
+    if selected is None:
+        return None
+    try:
+        root = ElementTree.parse(selected).getroot()
+    except (OSError, ElementTree.ParseError):
+        return None
+    names = {
+        item.attrib.get("Name")
+        for item in root.findall(".//PPointData/PDataArray")
+    }
+    required = {"E_real", "E_imag", "B_real", "B_imag"}
+    return selected if required <= names else None
 
 
 def field_artifact_files(path: Path) -> list[Path]:

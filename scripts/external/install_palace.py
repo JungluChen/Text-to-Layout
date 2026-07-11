@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
 from _common import download_archive, load_registry
@@ -133,7 +134,7 @@ def _spack_install() -> dict[str, object]:
         "strategy": "pinned_spack_wsl",
         "palace_version": PALACE_VERSION,
         "palace_commit": PALACE_COMMIT,
-        "palace_executable": f"wsl:{executable}",
+        "palace_executable": f"wsl:{executable}" if os.name == "nt" else executable,
         "palace_executable_sha256": digest,
         "spack_version": SPACK_VERSION,
         "spack_commit": SPACK_COMMIT,

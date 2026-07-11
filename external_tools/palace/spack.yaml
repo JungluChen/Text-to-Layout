@@ -11,4 +11,4 @@ spack:
       binary: true
       url: https://binaries.spack.io/develop
   specs:
-    - palace@0.17.0~slepc+arpack+superlu-dist~strumpack~mumps~sundials~libxsmm~gslib
+    - palace@0.17.0~slepc+arpack+superlu-dist~strumpack~mumps~sundials~libxsmm~gslib ^openblas~dynamic_dispatch

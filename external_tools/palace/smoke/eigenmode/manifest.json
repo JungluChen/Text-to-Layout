@@ -1,0 +1,15 @@
+{
+  "schema": "textlayout.palace-official-smoke.v1",
+  "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+  "upstream_example": "examples/cavity2d",
+  "config": {
+    "path": "cavity2d.json",
+    "upstream_url": "https://raw.githubusercontent.com/awslabs/palace/12d8069afb5aa9e169a17e303d735e120968e9f2/examples/cavity2d/cavity2d.json",
+    "sha256": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d"
+  },
+  "mesh": {
+    "path": "mesh/cavity2d.msh",
+    "upstream_url": "https://raw.githubusercontent.com/awslabs/palace/12d8069afb5aa9e169a17e303d735e120968e9f2/examples/cavity2d/mesh/cavity2d.msh",
+    "sha256": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1"
+  }
+}

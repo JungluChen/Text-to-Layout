@@ -41,6 +41,13 @@ def _mode_field(level: MeshLevelResult, index: int) -> ModeFieldData:
     return match
 
 
+def _has_retained_field(level: MeshLevelResult, index: int) -> bool:
+    return any(
+        field.mode_index == index and field.field_file is not None
+        for field in level.mode_fields
+    )
+
+
 def _pair_score(
     left_level: MeshLevelResult,
     left_index: int,
@@ -97,7 +104,15 @@ def track_modes(
     """Track one mode using frequency, actual E/H fields, and localization."""
     if len(levels) < 2:
         raise ValueError("mode tracking requires at least two mesh levels")
-    first = min(levels[0].modes, key=lambda mode: abs(mode.frequency_ghz - seed_frequency_ghz))
+    first_candidates = [
+        mode for mode in levels[0].modes if _has_retained_field(levels[0], mode.index)
+    ]
+    if not first_candidates:
+        raise PalaceOutputError(f"level {levels[0].tag}: no retained complex mode fields")
+    first = min(
+        first_candidates,
+        key=lambda mode: abs(mode.frequency_ghz - seed_frequency_ghz),
+    )
     indices = [first.index]
     matches: list[ModeMatchResult] = []
     current = first.index
@@ -105,6 +120,7 @@ def track_modes(
         candidates = [
             _pair_score(left, current, right, candidate.index, overlap=overlap)
             for candidate in right.modes
+            if _has_retained_field(right, candidate.index)
         ]
         ranked = sorted(candidates, key=lambda item: (-item.score, item.to_mode))
         if not ranked:

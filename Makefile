@@ -16,7 +16,7 @@ RUN ?= uv run --no-sync
 
 JPA_PROMPT = Design a lumped-element JPA for 2.3 GHz with 50 MHz bandwidth, 13 dB gain target, using an IDC capacitor and SQUID-equivalent inductance. Generate layout, verify it, extract capacitance if possible, and prepare JoSIM, PSCAN2, and WRspice simulations.
 
-.PHONY: setup-simulators check-simulators demo-jpa demo-jpa-strict docker-simulators test lint
+.PHONY: setup-simulators check-simulators demo-jpa demo-jpa-strict docker-simulators setup-palace check-palace smoke-palace benchmark-palace test lint
 
 setup-simulators:
 	$(PYTHON) scripts/bootstrap_simulators.py
@@ -32,6 +32,18 @@ demo-jpa-strict:
 
 docker-simulators:
 	docker build -f docker/simulators.Dockerfile -t textlayout-simulators .
+
+setup-palace:
+	$(RUN) python scripts/external/install_palace.py
+
+check-palace:
+	$(RUN) python scripts/external/check_palace.py
+
+smoke-palace:
+	$(RUN) python scripts/external/run_palace_smoke.py
+
+benchmark-palace:
+	$(RUN) textlayout simulate palace-resonator --out out/palace_resonator
 
 test:
 	$(RUN) pytest -q

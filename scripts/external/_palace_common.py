@@ -70,6 +70,8 @@ def wsl_executable() -> str | None:
 
 def windows_to_wsl(path: Path) -> str:
     resolved = path.resolve()
+    if os.name != "nt":
+        return str(resolved)
     drive = resolved.drive.rstrip(":").lower()
     tail = resolved.as_posix().split(":", 1)[1].lstrip("/")
     return f"/mnt/{drive}/{tail}"
@@ -102,9 +104,21 @@ def run(
 
 def run_wsl(script: str, *, timeout: float = 3600) -> subprocess.CompletedProcess[str]:
     wsl = wsl_executable()
-    if wsl is None:
-        raise RuntimeError("WSL is required for the supported Windows Palace installation")
-    return run([wsl, "-d", "Ubuntu", "--", "bash", "-lc", script], timeout=timeout)
+    command = (
+        [wsl, "-d", "Ubuntu", "--", "bash", "-lc", script]
+        if wsl is not None
+        else ["bash", "-lc", script]
+    )
+    return run(command, timeout=timeout)
+
+
+def shell_command(script: str) -> list[str]:
+    wsl = wsl_executable()
+    return (
+        [wsl, "-d", "Ubuntu", "--", "bash", "-lc", script]
+        if wsl is not None
+        else ["bash", "-lc", script]
+    )
 
 
 def gmsh_identity() -> dict[str, Any]:
@@ -156,17 +170,23 @@ def palace_install_identity() -> dict[str, Any] | None:
     if record is None:
         return None
     executable = str(record.get("palace_executable", ""))
-    if not executable.startswith("wsl:"):
-        return None
     target = executable.removeprefix("wsl:")
-    probe = run_wsl(
-        f"test -x {shlex_quote(target)} && {shlex_quote(target)} --version && "
-        f"sha256sum {shlex_quote(target)}",
-        timeout=120,
+    probe = (
+        run_wsl(
+            f"test -x {shlex_quote(target)} && {shlex_quote(target)} --version && "
+            f"sha256sum {shlex_quote(target)}",
+            timeout=120,
+        )
+        if executable.startswith("wsl:")
+        else run([target, "--version"], timeout=120)
     )
     if probe.returncode != 0 or PALACE_VERSION not in probe.stdout:
         return None
-    digest = probe.stdout.strip().splitlines()[-1].split()[0]
+    digest = (
+        probe.stdout.strip().splitlines()[-1].split()[0]
+        if executable.startswith("wsl:")
+        else sha256_file(Path(target))
+    )
     if digest != record.get("palace_executable_sha256"):
         return None
     return record

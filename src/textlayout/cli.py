@@ -557,6 +557,18 @@ def _cmd_serve(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
+    from textlayout.solvers.palace import PalaceBackend
+
+    result = PalaceBackend().run_quarter_wave_benchmark(
+        args.out,
+        processes=args.processes,
+        timeout_seconds=args.timeout,
+    )
+    print(result.model_dump_json(indent=2))
+    return 1 if result.status in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INVALID"} else 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="textlayout", description="Text-to-Layout CLI")
     parser.add_argument("--version", action="version", version=f"textlayout {__version__}")
@@ -687,6 +699,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_srv.add_argument("--host", default="127.0.0.1")
     p_srv.add_argument("--port", type=int, default=8000)
     p_srv.set_defaults(func=_cmd_serve)
+
+    p_simulate = sub.add_parser("simulate", help="Run supported external solver benchmarks.")
+    simulate_sub = p_simulate.add_subparsers(dest="simulate_command", required=True)
+    p_palace = simulate_sub.add_parser(
+        "palace-resonator", help="Run the real 6 GHz quarter-wave Palace eigenmode benchmark."
+    )
+    p_palace.add_argument("--out", required=True, help="Benchmark artifact directory.")
+    p_palace.add_argument("--processes", type=int, default=4, help="Palace MPI process count.")
+    p_palace.add_argument(
+        "--timeout", type=float, default=7200.0, help="Timeout per Palace solve in seconds."
+    )
+    p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 
     p_yield = sub.add_parser(
         "yield",
