@@ -82,20 +82,30 @@ def _spack_install() -> dict[str, object]:
     environment = f"{WSL_CACHE}/environment"
     user_cache = f"{WSL_CACHE}/user-cache"
     source_cache = f"{WSL_CACHE}/source-cache"
-    build_stage = f"{WSL_CACHE}/build-stage"
+    # The transient compile scratch lives on native WSL ext4 rather than the
+    # /mnt/c 9p mount: autotools configure and large C++ builds (MFEM, PETSc,
+    # SLEPc, Palace) are 10-20x slower on the Windows filesystem and can stall.
+    # Persistent artifacts -- the pinned source archives, the Spack source
+    # cache, and the installed binaries -- stay under the git-ignored .tools
+    # tree; only the ephemeral build stage, which Spack deletes per package,
+    # is relocated. NATIVE_BUILD_STAGE is exported for check/uninstall parity.
+    build_stage = "$NATIVE_BUILD_STAGE"
     script = "; ".join(
         [
             "set -euo pipefail",
+            'NATIVE_BUILD_STAGE="${TEXTLAYOUT_PALACE_BUILD_STAGE:-$HOME/.cache/'
+            'textlayout-palace-build}"',
             f"export SPACK_USER_CONFIG_PATH={config}",
             f"export SPACK_USER_CACHE_PATH={user_cache}",
-            f"rm -rf {environment}; mkdir -p {environment} {source_cache} {build_stage}",
+            f"rm -rf {environment}; mkdir -p {environment} {source_cache} "
+            f'"{build_stage}"',
             f"cp {shlex_quote(committed_environment)} {environment}/spack.yaml",
             f". {spack}/share/spack/setup-env.sh",
             f"spack repo add --scope site {packages} >/dev/null 2>&1 || true",
             "spack compiler find /usr/bin >/dev/null",
             f"spack -e {environment} config add config:install_tree:root:{install_store}",
             f"spack -e {environment} config add 'config:source_cache:{source_cache}'",
-            f"spack -e {environment} config add 'config:build_stage:[{build_stage}]'",
+            f'spack -e {environment} config add "config:build_stage:[{build_stage}]"',
             f"spack -e {environment} concretize -f",
             f"spack -e {environment} install --fail-fast --use-buildcache=auto",
             "gcc --version | head -1",

@@ -20,10 +20,17 @@ drift apart.
 
 Palace does not build natively on Windows. The installer runs the pinned
 Spack release inside WSL Ubuntu and installs Palace plus its runtime
-dependencies into the git-ignored `.tools/palace/spack-opt` tree. Spack's
-clones and build stage live in native WSL storage
-(`.tools/palace/wsl-cache`) so pinned sources, package caches, build stages,
-and installation artifacts remain inside the repository's ignored tool tree.
+dependencies into the git-ignored `.tools/palace/spack-opt` tree. The Spack
+clone, the pinned source cache, and the installed binaries all live under the
+git-ignored `.tools/palace/wsl-cache` and `.tools/palace/spack-opt` trees, so
+every persistent artifact stays inside the repository's ignored tool tree.
+
+The *transient* compile scratch (Spack's build stage) is placed on native WSL
+ext4 (`$HOME/.cache/textlayout-palace-build`, overridable with
+`TEXTLAYOUT_PALACE_BUILD_STAGE`) rather than the `/mnt/c` 9p mount: autotools
+configure and the large C++ builds (MFEM, PETSc, SLEPc, Palace) are an order of
+magnitude slower on the Windows filesystem and can stall there. Spack deletes
+this scratch per package, so nothing durable escapes `.tools/`.
 
 Prerequisites inside WSL Ubuntu: `gcc g++ gfortran git make python3` and an
 MPI implementation providing `mpirun` (`sudo apt install build-essential
