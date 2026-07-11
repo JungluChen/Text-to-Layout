@@ -13,7 +13,6 @@ from _palace_common import (
     INSTALL_RECORD,
     INSTALL_REPORT,
     PALACE_COMMIT,
-    PALACE_ROOT,
     PALACE_VERSION,
     ROOT,
     SPACK_COMMIT,
@@ -30,7 +29,6 @@ from _palace_common import (
     write_json,
 )
 
-WSL_CACHE = windows_to_wsl(PALACE_ROOT / "wsl-cache")
 INSTALL_STDOUT = ROOT / "out" / "toolchain" / "palace_install.stdout.txt"
 INSTALL_STDERR = ROOT / "out" / "toolchain" / "palace_install.stderr.txt"
 
@@ -39,25 +37,31 @@ def _tool() -> dict[str, object]:
     return next(tool for tool in load_registry().tools if tool["id"] == "palace")
 
 
-def _native_build_stage() -> str:
-    """Resolve a native WSL ext4 path for Spack's transient build scratch.
+def _native_root() -> str:
+    """Resolve the native WSL ext4 root for the whole Spack tree.
 
-    An explicit ``TEXTLAYOUT_PALACE_BUILD_STAGE`` wins. Otherwise the WSL home
-    directory is read out with ``echo`` (reliable) rather than assigned inside
-    the build script (empty on this WSL build). Falls back to ``/tmp`` -- still
-    native ext4 -- if the home cannot be resolved.
+    The Spack clone, environment, caches, transient build stage, and the
+    installed binaries all live here. Native ext4 is required for viable
+    performance: on the /mnt/c 9p mount, the many-small-file operations of
+    autotools configure and package installs (gettext installs ~1,760 tiny
+    .po files; MFEM/PETSc install thousands of headers) take an order of
+    magnitude longer and stall. The pinned *source archives* and the
+    install-identity record (install.json) remain under the git-ignored
+    .tools/ tree; the binaries here are git-ignored, outside src/, and fully
+    reproducible from those pinned sources. Override with
+    ``TEXTLAYOUT_PALACE_NATIVE_ROOT``.
     """
-    override = os.environ.get("TEXTLAYOUT_PALACE_BUILD_STAGE")
+    override = os.environ.get("TEXTLAYOUT_PALACE_NATIVE_ROOT")
     if override:
         return override.rstrip("/")
     probe = run_wsl('printf "%s" "$HOME"', timeout=60)
     home = probe.stdout.strip().splitlines()[-1].strip() if probe.returncode == 0 else ""
     base = home if home.startswith("/") else "/tmp"
-    return f"{base}/.cache/textlayout-palace-build"
+    return f"{base}/.cache/textlayout-palace"
 
 
-def _checkout_script(name: str, url: str, commit: str) -> str:
-    target = f'"{WSL_CACHE}/{name}"'
+def _checkout_script(cache: str, name: str, url: str, commit: str) -> str:
+    target = f'"{cache}/{name}"'
     return (
         f"if [ -d {target}/.git ] && "
         f"git -C {target} rev-parse HEAD | grep -qx {commit}; then :; "
@@ -71,44 +75,40 @@ def _checkout_script(name: str, url: str, commit: str) -> str:
 
 
 def _spack_install() -> dict[str, object]:
+    native_root = _native_root()
+    wsl_cache = native_root
     clone = "; ".join(
         [
             "set -euo pipefail",
-            f"mkdir -p {WSL_CACHE}",
-            _checkout_script("spack", "https://github.com/spack/spack.git", SPACK_COMMIT),
+            f"mkdir -p {shlex_quote(wsl_cache)}",
             _checkout_script(
+                wsl_cache, "spack", "https://github.com/spack/spack.git", SPACK_COMMIT
+            ),
+            _checkout_script(
+                wsl_cache,
                 "spack-packages",
                 "https://github.com/spack/spack-packages.git",
                 SPACK_PACKAGES_COMMIT,
             ),
             f"grep -q 'version(\"{PALACE_VERSION}\"' "
-            f'"{WSL_CACHE}/spack-packages/repos/spack_repo/builtin/packages/palace/package.py" || '
+            f'"{wsl_cache}/spack-packages/repos/spack_repo/builtin/packages/palace/package.py" || '
             f"sed -i '/version(\"develop\"/a\\    version(\"{PALACE_VERSION}\", "
             f"tag=\"v{PALACE_VERSION}\", commit=\"{PALACE_COMMIT}\")' "
-            f'"{WSL_CACHE}/spack-packages/repos/spack_repo/builtin/packages/palace/package.py"',
+            f'"{wsl_cache}/spack-packages/repos/spack_repo/builtin/packages/palace/package.py"',
         ]
     )
     bootstrapped = run_wsl(clone, timeout=1800)
     if bootstrapped.returncode != 0:
         raise RuntimeError(bootstrapped.stdout + bootstrapped.stderr)
     committed_environment = windows_to_wsl(SPACK_ENV / "spack.yaml")
-    install_store = windows_to_wsl(PALACE_ROOT / "spack-opt")
-    spack = f"{WSL_CACHE}/spack"
-    packages = f"{WSL_CACHE}/spack-packages/repos/spack_repo/builtin"
-    config = f"{WSL_CACHE}/config"
-    environment = f"{WSL_CACHE}/environment"
-    user_cache = f"{WSL_CACHE}/user-cache"
-    source_cache = f"{WSL_CACHE}/source-cache"
-    # The transient compile scratch lives on native WSL ext4 rather than the
-    # /mnt/c 9p mount: autotools configure and large C++ builds (MFEM, PETSc,
-    # SLEPc, Palace) are 10-20x slower on the Windows filesystem and can stall.
-    # Persistent artifacts -- the pinned source archives, the Spack source
-    # cache, and the installed binaries -- stay under the git-ignored .tools
-    # tree; only the ephemeral build stage, which Spack deletes per package,
-    # is relocated. The home directory is resolved in Python because a shell
-    # variable assignment from $HOME inside `wsl -- bash -lc` yields empty on
-    # this WSL build (a documented interop quirk); reading it out via echo works.
-    build_stage = _native_build_stage()
+    install_store = f"{native_root}/spack-opt"
+    spack = f"{wsl_cache}/spack"
+    packages = f"{wsl_cache}/spack-packages/repos/spack_repo/builtin"
+    config = f"{wsl_cache}/config"
+    environment = f"{wsl_cache}/environment"
+    user_cache = f"{wsl_cache}/user-cache"
+    source_cache = f"{wsl_cache}/source-cache"
+    build_stage = f"{native_root}/build-stage"
     script = "; ".join(
         [
             "set -euo pipefail",
@@ -175,7 +175,9 @@ def _spack_install() -> dict[str, object]:
         "spack_commit": SPACK_COMMIT,
         "spack_packages_commit": SPACK_PACKAGES_COMMIT,
         "spack_environment": str((SPACK_ENV / "spack.yaml").relative_to(ROOT)),
-        "spack_runtime_cache": WSL_CACHE,
+        "spack_runtime_cache": wsl_cache,
+        "install_tree": install_store,
+        "build_stage": build_stage,
         "compiler_and_mpi_tail": completed.stdout.splitlines()[-8:],
         "installed_at": timestamp(),
     }

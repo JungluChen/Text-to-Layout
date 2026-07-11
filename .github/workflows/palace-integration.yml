@@ -44,10 +44,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            .tools/palace/wsl-cache
+            ~/.cache/textlayout-palace
             .tools/palace
             .tools/external/sources
-          key: palace-0.17.0-${{ hashFiles('external_tools/palace/spack.yaml', 'scripts/external/_palace_common.py') }}
+          key: palace-0.17.0-${{ hashFiles('external_tools/palace/spack.yaml', 'scripts/external/_palace_common.py', 'scripts/external/install_palace.py') }}
 
       - name: Install pinned Palace 0.17.0 via Spack
         run: uv run python scripts/external/install_palace.py

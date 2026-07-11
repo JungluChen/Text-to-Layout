@@ -7,16 +7,16 @@
   `uv run python scripts/external/install_palace.py`.
 - **Spack build failure** — inspect the retained logs at
   `out/toolchain/palace_install.stdout.txt` and
-  `out/toolchain/palace_install.stderr.txt`. The Spack clone, pinned source
-  cache, and installed binaries live under `.tools/palace/wsl-cache` and
-  `.tools/palace/spack-opt`. The transient build scratch is on native WSL
-  storage at `$HOME/.cache/textlayout-palace-build`
-  (override with `TEXTLAYOUT_PALACE_BUILD_STAGE`); per-package `spack-build-*`
-  logs live there during a failed build.
-- **Build is extremely slow or stalls on `configure`** — the build stage is on
-  the `/mnt/c` 9p mount instead of native ext4. Confirm
-  `TEXTLAYOUT_PALACE_BUILD_STAGE` (if set) points at a native WSL path, or unset
-  it to use the default `$HOME/.cache/textlayout-palace-build`.
+  `out/toolchain/palace_install.stderr.txt`. The Spack clone, caches, build
+  stage, and installed binaries live on native WSL ext4 under
+  `$HOME/.cache/textlayout-palace` (override with
+  `TEXTLAYOUT_PALACE_NATIVE_ROOT`); per-package `spack-build-*` logs live in its
+  `build-stage/` subdirectory during a failed build. The pinned source archives
+  and `install.json` remain under `.tools/`.
+- **Build is extremely slow or stalls on `configure`/install** — the Spack tree
+  is on the `/mnt/c` 9p mount instead of native ext4. Confirm
+  `TEXTLAYOUT_PALACE_NATIVE_ROOT` (if set) points at a native WSL path (e.g.
+  under `$HOME`), or unset it to use the default `$HOME/.cache/textlayout-palace`.
 - **`Gmsh 4.15.2 is required`** — run `uv sync --all-extras` first; the
   installer refuses to proceed with an unpinned mesh runtime.
 - **Source archive SHA-256 mismatch** — the pinned Palace archive under

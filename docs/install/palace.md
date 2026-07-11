@@ -19,18 +19,24 @@ drift apart.
 ## Windows (WSL Ubuntu)
 
 Palace does not build natively on Windows. The installer runs the pinned
-Spack release inside WSL Ubuntu and installs Palace plus its runtime
-dependencies into the git-ignored `.tools/palace/spack-opt` tree. The Spack
-clone, the pinned source cache, and the installed binaries all live under the
-git-ignored `.tools/palace/wsl-cache` and `.tools/palace/spack-opt` trees, so
-every persistent artifact stays inside the repository's ignored tool tree.
+Spack release inside WSL Ubuntu.
 
-The *transient* compile scratch (Spack's build stage) is placed on native WSL
-ext4 (`$HOME/.cache/textlayout-palace-build`, overridable with
-`TEXTLAYOUT_PALACE_BUILD_STAGE`) rather than the `/mnt/c` 9p mount: autotools
-configure and the large C++ builds (MFEM, PETSc, SLEPc, Palace) are an order of
-magnitude slower on the Windows filesystem and can stall there. Spack deletes
-this scratch per package, so nothing durable escapes `.tools/`.
+The pinned **source archives** (verified by SHA-256) stay under the git-ignored
+`.tools/external/sources` tree, and the small **install-identity record**
+(`install.json`, which records the Palace version, executable path, and its
+SHA-256) stays under `.tools/palace`. Those are the auditable, persistent
+artifacts kept inside the repository's ignored tool tree.
+
+The Spack clone, environment, caches, transient build stage, and the installed
+binaries live on native WSL ext4 under `$HOME/.cache/textlayout-palace`
+(overridable with `TEXTLAYOUT_PALACE_NATIVE_ROOT`). Native ext4 is required for
+viable performance: on the `/mnt/c` 9p mount the many-small-file operations of
+autotools configure and package installs (gettext installs ~1,760 tiny `.po`
+files; MFEM and PETSc install thousands of headers) are an order of magnitude
+slower and stall. Those binaries are still git-ignored, never committed, never
+merged into `src/`, and are fully reproducible from the pinned sources — so the
+licensing and isolation boundary is preserved while the build completes in
+reasonable time.
 
 Prerequisites inside WSL Ubuntu: `gcc g++ gfortran git make python3` and an
 MPI implementation providing `mpirun` (`sudo apt install build-essential

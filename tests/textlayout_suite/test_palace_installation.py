@@ -26,14 +26,30 @@ def test_spack_environment_requests_exact_palace_release() -> None:
     assert "+superlu-dist" in text
 
 
-def test_installer_keeps_spack_state_under_ignored_tools_tree() -> None:
-    installer = _load("install_palace")
+def test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree() -> None:
+    """The auditable artifacts stay under .tools/; the Spack build tree is native.
+
+    The pinned source archives (verified by SHA-256) and the small install
+    identity record live under the git-ignored .tools/ tree. The Spack clone,
+    caches, build stage, and installed binaries are placed on native WSL ext4
+    for viable performance (the /mnt/c 9p mount stalls the FEM-stack install);
+    those binaries are still git-ignored, never committed, and never in src/.
+    """
     common = _load("_palace_common")
-    expected = common.windows_to_wsl(common.PALACE_ROOT / "wsl-cache")
+    # Pinned source archives and the install-identity record stay under .tools/.
+    assert common.PALACE_ROOT == common.ROOT / ".tools" / "palace"
+    assert common.INSTALL_RECORD == common.PALACE_ROOT / "install.json"
+    assert (
+        common.palace_archive().resolve().is_relative_to(
+            (common.ROOT / ".tools" / "external" / "sources").resolve()
+        )
+    )
+    # The Spack tree is resolved to a native path, overridable and documented.
+    installer = _load("install_palace")
     source = (SCRIPTS / "install_palace.py").read_text(encoding="utf-8")
-    assert installer.WSL_CACHE == expected
-    assert "$HOME/.cache/textlayout-palace" not in source
-    assert "/tmp/spack" not in source
+    assert "TEXTLAYOUT_PALACE_NATIVE_ROOT" in source
+    assert ".cache/textlayout-palace" in source
+    assert callable(installer._native_root)
 
 
 def test_installer_reuses_a_verified_installation(monkeypatch, tmp_path: Path) -> None:
@@ -51,7 +67,7 @@ def test_installer_reuses_a_verified_installation(monkeypatch, tmp_path: Path) -
         "verify_palace_archive",
         lambda: {
             "available": True,
-            "sha256": "ae6baa26c191c4dc852fa3de69c64bbc4ec58376effdb74841253d485ecc0e27",
+            "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
         },
     )
     monkeypatch.setattr(installer, "palace_install_identity", lambda: existing)
