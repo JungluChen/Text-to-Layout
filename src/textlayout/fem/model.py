@@ -51,6 +51,26 @@ SurfaceKind = Literal[
     "impedance",  # surface impedance (finite conductivity, thin metal)
 ]
 
+SurfaceRole = Literal[
+    "superconducting_metal",
+    "package_wall",
+    "lid",
+    "symmetry",
+    "port",
+    "external",
+    "custom",
+]
+
+MeshRegionKind = Literal[
+    "conductor_edge",
+    "cpw_gap",
+    "coupler_gap",
+    "open_end",
+    "grounded_end",
+    "dielectric_interface",
+    "custom",
+]
+
 
 class FEMModelError(ValueError):
     """The model is not solvable, and saying so now beats a wrong eigenvalue."""
@@ -96,6 +116,7 @@ class Surface(BaseModel):
     name: str = Field(min_length=1)
     attribute: int = Field(ge=1)
     kind: SurfaceKind
+    role: SurfaceRole = "custom"
     #: Surface resistance in ohm/square, for ``kind='impedance'`` only.
     resistance_ohm_per_square: float | None = Field(default=None, ge=0)
 
@@ -112,6 +133,16 @@ class Surface(BaseModel):
                 f"for kind={self.kind!r}"
             )
         return self
+
+
+class MeshRegion(BaseModel):
+    """A named geometric selection used only to control local mesh size."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: str = Field(min_length=1)
+    kind: MeshRegionKind
+    dimension: Literal[0, 1, 2, 3]
 
 
 class Interface(BaseModel):
@@ -239,6 +270,7 @@ class FEMModel(BaseModel):
     interfaces: list[Interface] = Field(default_factory=list)
     lumped_ports: list[LumpedPort] = Field(default_factory=list)
     wave_ports: list[WavePort] = Field(default_factory=list)
+    mesh_regions: list[MeshRegion] = Field(default_factory=list)
     mesh: MeshControl
     eigenmode: EigenmodeSolve
 
@@ -291,7 +323,10 @@ class FEMModel(BaseModel):
             volume_names
             | {s.name for s in self.surfaces}
             | {i.name for i in self.interfaces}
+            | {region.name for region in self.mesh_regions}
         )
+        if len({region.name for region in self.mesh_regions}) != len(self.mesh_regions):
+            raise FEMModelError("mesh-region names must be unique")
         for refinement in self.mesh.refinements:
             if refinement.target not in entity_names:
                 raise FEMModelError(

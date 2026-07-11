@@ -4767,6 +4767,7 @@ measurement = [
 mesh = [
     { name = "gmsh" },
     { name = "meshio" },
+    { name = "scipy" },
 ]
 metal = [
     { name = "qiskit-metal" },
@@ -4790,6 +4791,7 @@ research = [
     { name = "qcodes" },
     { name = "qiskit-metal" },
     { name = "scikit-rf" },
+    { name = "scipy" },
     { name = "scqubits", version = "4.1.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
     { name = "scqubits", version = "4.3.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
 ]
@@ -4848,6 +4850,8 @@ requires-dist = [
     { name = "scikit-rf", marker = "extra == 'research'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'rf'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'solvers'", specifier = ">=1.0" },
+    { name = "scipy", marker = "extra == 'mesh'", specifier = ">=1.12" },
+    { name = "scipy", marker = "extra == 'research'", specifier = ">=1.12" },
     { name = "scqubits", marker = "extra == 'quantum'", specifier = ">=4.0" },
     { name = "scqubits", marker = "extra == 'research'", specifier = ">=4.0" },
     { name = "trimesh", specifier = ">=4.0" },

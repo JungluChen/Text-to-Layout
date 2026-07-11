@@ -1,4 +1,4 @@
-"""Optional Gmsh-to-Palace full-chip preparation and guarded execution."""
+"""Compatibility smoke-test preparation for the former simplified exporter."""
 
 from __future__ import annotations
 
@@ -7,15 +7,17 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from textlayout.mesh import export_gmsh_geo
+from textlayout.mesh import export_smoke_test_gmsh_geo
 from textlayout.models import Geometry
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation.models import SimulationResult
 from textlayout.simulation.runners import _execution_command, find_executable
 from textlayout.solvers.base import run_subprocess
+from textlayout.solvers.palace.models import PalaceOutputError
+from textlayout.solvers.palace.parser import parse_eigenmodes
 
 
-def prepare_palace_fullchip(
+def prepare_palace_fullchip_smoke_test(
     spec: LayoutSpec,
     geometry: Geometry,
     output_dir: str | Path,
@@ -26,7 +28,7 @@ def prepare_palace_fullchip(
 ) -> SimulationResult:
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    geo = export_gmsh_geo(geometry, out / "full_tile.geo")
+    geo = export_smoke_test_gmsh_geo(geometry, out / "full_tile.geo")
     mesh = out / "full_tile.msh"
     config = out / "palace.json"
     config.write_text(
@@ -129,7 +131,7 @@ def prepare_palace_fullchip(
 
 def _palace_config(mesh_name: str) -> dict[str, Any]:
     return {
-        "Problem": {"Type": "Eigenmode"},
+        "Problem": {"Type": "Eigenmode", "Output": "postpro"},
         "Model": {"Mesh": mesh_name, "L0": 1e-6},
         "Domains": {
             "Materials": [
@@ -138,22 +140,18 @@ def _palace_config(mesh_name: str) -> dict[str, Any]:
             ]
         },
         "Boundaries": {"PEC": {"Attributes": [1]}},
-        "Solver": {"Order": 1, "Eigenmode": {"N": 6, "Target": 6.0e9, "Tol": 1e-8}},
+        "Solver": {"Order": 1, "Eigenmode": {"N": 6, "Target": 3.0, "Tol": 1e-8}},
     }
 
 
 def _parse_palace_frequencies(root: Path) -> tuple[Path | None, list[float]]:
-    for path in sorted(root.rglob("*.csv")):
-        frequencies: list[float] = []
-        for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
-            for token in line.replace(",", " ").split():
-                try:
-                    value = float(token)
-                except ValueError:
-                    continue
-                if 1e6 <= value <= 1e12:
-                    frequencies.append(value / 1e9)
-                    break
-        if frequencies:
-            return path, frequencies
-    return None, []
+    path = root / "postpro" / "eig.csv"
+    try:
+        modes = parse_eigenmodes(path)
+    except PalaceOutputError:
+        return None, []
+    return path, [mode.frequency_ghz for mode in modes]
+
+
+# Compatibility name retained for the showcase preparation path.
+prepare_palace_fullchip = prepare_palace_fullchip_smoke_test

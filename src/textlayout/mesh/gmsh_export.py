@@ -7,7 +7,7 @@ from pathlib import Path
 from textlayout.models import Geometry
 
 
-def export_gmsh_geo(
+def export_smoke_test_gmsh_geo(
     geometry: Geometry,
     path: str | Path,
     *,
@@ -79,3 +79,8 @@ def export_gmsh_geo(
     )
     target.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return target
+
+
+# Compatibility name. Production Palace work uses ``mesh_quarter_wave`` from
+# ``textlayout.fem.gmsh_physical``; this exporter remains a preparation smoke test.
+export_gmsh_geo = export_smoke_test_gmsh_geo

@@ -44,7 +44,7 @@ epr = ["pyEPR-quantum"]
 pyepr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
 ansys = ["pyaedt>=1.1"]
-mesh = ["gmsh>=4.11", "meshio>=5.3"]
+mesh = ["gmsh>=4.11", "meshio>=5.3", "scipy>=1.12"]
 research = [
   "kqcircuits",
   "optuna>=4.0",
@@ -55,6 +55,7 @@ research = [
   "pyEPR-quantum",
   "pyaedt>=1.1",
   "gmsh>=4.11",
+  "scipy>=1.12",
 ]
 
 [project.urls]
