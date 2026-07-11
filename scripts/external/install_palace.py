@@ -39,6 +39,23 @@ def _tool() -> dict[str, object]:
     return next(tool for tool in load_registry().tools if tool["id"] == "palace")
 
 
+def _native_build_stage() -> str:
+    """Resolve a native WSL ext4 path for Spack's transient build scratch.
+
+    An explicit ``TEXTLAYOUT_PALACE_BUILD_STAGE`` wins. Otherwise the WSL home
+    directory is read out with ``echo`` (reliable) rather than assigned inside
+    the build script (empty on this WSL build). Falls back to ``/tmp`` -- still
+    native ext4 -- if the home cannot be resolved.
+    """
+    override = os.environ.get("TEXTLAYOUT_PALACE_BUILD_STAGE")
+    if override:
+        return override.rstrip("/")
+    probe = run_wsl('printf "%s" "$HOME"', timeout=60)
+    home = probe.stdout.strip().splitlines()[-1].strip() if probe.returncode == 0 else ""
+    base = home if home.startswith("/") else "/tmp"
+    return f"{base}/.cache/textlayout-palace-build"
+
+
 def _checkout_script(name: str, url: str, commit: str) -> str:
     target = f'"{WSL_CACHE}/{name}"'
     return (
@@ -88,24 +105,25 @@ def _spack_install() -> dict[str, object]:
     # Persistent artifacts -- the pinned source archives, the Spack source
     # cache, and the installed binaries -- stay under the git-ignored .tools
     # tree; only the ephemeral build stage, which Spack deletes per package,
-    # is relocated. NATIVE_BUILD_STAGE is exported for check/uninstall parity.
-    build_stage = "$NATIVE_BUILD_STAGE"
+    # is relocated. The home directory is resolved in Python because a shell
+    # variable assignment from $HOME inside `wsl -- bash -lc` yields empty on
+    # this WSL build (a documented interop quirk); reading it out via echo works.
+    build_stage = _native_build_stage()
     script = "; ".join(
         [
             "set -euo pipefail",
-            'NATIVE_BUILD_STAGE="${TEXTLAYOUT_PALACE_BUILD_STAGE:-$HOME/.cache/'
-            'textlayout-palace-build}"',
             f"export SPACK_USER_CONFIG_PATH={config}",
             f"export SPACK_USER_CACHE_PATH={user_cache}",
             f"rm -rf {environment}; mkdir -p {environment} {source_cache} "
-            f'"{build_stage}"',
+            f"{shlex_quote(build_stage)}",
             f"cp {shlex_quote(committed_environment)} {environment}/spack.yaml",
             f". {spack}/share/spack/setup-env.sh",
             f"spack repo add --scope site {packages} >/dev/null 2>&1 || true",
             "spack compiler find /usr/bin >/dev/null",
             f"spack -e {environment} config add config:install_tree:root:{install_store}",
             f"spack -e {environment} config add 'config:source_cache:{source_cache}'",
-            f'spack -e {environment} config add "config:build_stage:[{build_stage}]"',
+            f"spack -e {environment} config add "
+            f"'config:build_stage:[{build_stage}]'",
             f"spack -e {environment} concretize -f",
             f"spack -e {environment} install --fail-fast --use-buildcache=auto",
             "gcc --version | head -1",
