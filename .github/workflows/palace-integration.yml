@@ -44,7 +44,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cache/textlayout-palace
+            .tools/palace/wsl-cache
             .tools/palace
             .tools/external/sources
           key: palace-0.17.0-${{ hashFiles('external_tools/palace/spack.yaml', 'scripts/external/_palace_common.py') }}

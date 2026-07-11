@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import shutil
 
-from _palace_common import INSTALL_RECORD, PALACE_ROOT, SPACK_ENV, TOOLS, run_wsl
+from _palace_common import INSTALL_RECORD, PALACE_ROOT, SPACK_ENV, TOOLS
 
 
 def main() -> int:
@@ -19,7 +19,8 @@ def main() -> int:
         for path in (TOOLS / "spack", TOOLS / "spack-packages", TOOLS / "spack-config"):
             if path.is_dir() and TOOLS.resolve() in path.resolve().parents:
                 shutil.rmtree(path)
-        run_wsl('rm -rf "$HOME/.cache/textlayout-palace"', timeout=300)
+        # The entire Palace installation and Spack runtime are beneath
+        # .tools/palace and are removed by the host-side cleanup above.
     lock = SPACK_ENV / "spack.lock"
     lock.unlink(missing_ok=True)
     print("Palace installation state removed; downloaded source archives were retained.")

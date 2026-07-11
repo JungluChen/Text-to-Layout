@@ -22,7 +22,8 @@ Palace does not build natively on Windows. The installer runs the pinned
 Spack release inside WSL Ubuntu and installs Palace plus its runtime
 dependencies into the git-ignored `.tools/palace/spack-opt` tree. Spack's
 clones and build stage live in native WSL storage
-(`~/.cache/textlayout-palace`) for filesystem performance.
+(`.tools/palace/wsl-cache`) so pinned sources, package caches, build stages,
+and installation artifacts remain inside the repository's ignored tool tree.
 
 Prerequisites inside WSL Ubuntu: `gcc g++ gfortran git make python3` and an
 MPI implementation providing `mpirun` (`sudo apt install build-essential

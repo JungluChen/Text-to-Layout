@@ -30,7 +30,7 @@ from _palace_common import (
     write_json,
 )
 
-WSL_CACHE = "$HOME/.cache/textlayout-palace"
+WSL_CACHE = windows_to_wsl(PALACE_ROOT / "wsl-cache")
 INSTALL_STDOUT = ROOT / "out" / "toolchain" / "palace_install.stdout.txt"
 INSTALL_STDERR = ROOT / "out" / "toolchain" / "palace_install.stderr.txt"
 
@@ -80,16 +80,22 @@ def _spack_install() -> dict[str, object]:
     packages = f"{WSL_CACHE}/spack-packages/repos/spack_repo/builtin"
     config = f"{WSL_CACHE}/config"
     environment = f"{WSL_CACHE}/environment"
+    user_cache = f"{WSL_CACHE}/user-cache"
+    source_cache = f"{WSL_CACHE}/source-cache"
+    build_stage = f"{WSL_CACHE}/build-stage"
     script = "; ".join(
         [
             "set -euo pipefail",
             f"export SPACK_USER_CONFIG_PATH={config}",
-            f"rm -rf {environment}; mkdir -p {environment}",
+            f"export SPACK_USER_CACHE_PATH={user_cache}",
+            f"rm -rf {environment}; mkdir -p {environment} {source_cache} {build_stage}",
             f"cp {shlex_quote(committed_environment)} {environment}/spack.yaml",
             f". {spack}/share/spack/setup-env.sh",
             f"spack repo add --scope site {packages} >/dev/null 2>&1 || true",
             "spack compiler find /usr/bin >/dev/null",
             f"spack -e {environment} config add config:install_tree:root:{install_store}",
+            f"spack -e {environment} config add 'config:source_cache:{source_cache}'",
+            f"spack -e {environment} config add 'config:build_stage:[{build_stage}]'",
             f"spack -e {environment} concretize -f",
             f"spack -e {environment} install --fail-fast --use-buildcache=auto",
             "gcc --version | head -1",
@@ -112,6 +118,7 @@ def _spack_install() -> dict[str, object]:
             [
                 "set -euo pipefail",
                 f"export SPACK_USER_CONFIG_PATH={config}",
+                f"export SPACK_USER_CACHE_PATH={user_cache}",
                 f". {spack}/share/spack/setup-env.sh",
                 f"spack -e {environment} location -i palace@{PALACE_VERSION}",
             ]

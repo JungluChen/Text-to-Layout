@@ -26,6 +26,16 @@ def test_spack_environment_requests_exact_palace_release() -> None:
     assert "+superlu-dist" in text
 
 
+def test_installer_keeps_spack_state_under_ignored_tools_tree() -> None:
+    installer = _load("install_palace")
+    common = _load("_palace_common")
+    expected = common.windows_to_wsl(common.PALACE_ROOT / "wsl-cache")
+    source = (SCRIPTS / "install_palace.py").read_text(encoding="utf-8")
+    assert installer.WSL_CACHE == expected
+    assert "$HOME/.cache/textlayout-palace" not in source
+    assert "/tmp/spack" not in source
+
+
 def test_installer_reuses_a_verified_installation(monkeypatch, tmp_path: Path) -> None:
     installer = _load("install_palace")
     existing = {

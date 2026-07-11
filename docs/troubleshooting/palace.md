@@ -8,8 +8,8 @@
 - **Spack build failure** — inspect the retained logs at
   `out/toolchain/palace_install.stdout.txt` and
   `out/toolchain/palace_install.stderr.txt`. The Spack stage lives in
-  `~/.cache/textlayout-palace` inside WSL; `spack-stage-*` folders under
-  `/tmp` hold per-package build logs.
+  `.tools/palace/wsl-cache` inside the repository. Package sources, user
+  caches, and `build-stage/` logs are retained there for diagnosis.
 - **`Gmsh 4.15.2 is required`** — run `uv sync --all-extras` first; the
   installer refuses to proceed with an unpinned mesh runtime.
 - **Source archive SHA-256 mismatch** — the pinned Palace archive under
