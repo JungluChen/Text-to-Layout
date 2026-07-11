@@ -183,6 +183,74 @@ def _spack_install() -> dict[str, object]:
     }
 
 
+def _toolchain_versions() -> dict[str, object]:
+    """Probe the live WSL MPI launcher and compiler versions."""
+    probe = run_wsl(
+        "; ".join(
+            [
+                "mpirun --version 2>/dev/null | head -1 || true",
+                "gcc --version 2>/dev/null | head -1 || true",
+                "g++ --version 2>/dev/null | head -1 || true",
+                "gfortran --version 2>/dev/null | head -1 || true",
+            ]
+        ),
+        timeout=120,
+    )
+    lines = [line.strip() for line in probe.stdout.splitlines() if line.strip()]
+    mpi = next((line for line in lines if "mpi" in line.lower() or "open mpi" in line.lower()), "")
+    return {
+        "mpi_version": mpi,
+        "compiler_versions": {
+            "gcc": next((line for line in lines if line.lower().startswith("gcc")), ""),
+            "gxx": next((line for line in lines if line.lower().startswith("g++")), ""),
+            "gfortran": next(
+                (line for line in lines if "fortran" in line.lower()), ""
+            ),
+        },
+    }
+
+
+def _git_commit() -> str | None:
+    import subprocess
+
+    try:
+        completed = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=30,
+            check=False,
+        )
+    except OSError:
+        return None
+    return completed.stdout.strip() or None
+
+
+def _enrich_identity(report: dict[str, object]) -> None:
+    """Flatten the report to the documented palace_install.json schema.
+
+    Adds the top-level identity fields (gmsh_version, mpi_version,
+    compiler_versions, native_root, source_archive_*, git_commit) so the
+    committed installation report is self-describing whether the install was
+    freshly built or reused.
+    """
+    gmsh = report.get("gmsh") or {}
+    archive = report.get("source_archive") or {}
+    report.setdefault("gmsh_version", gmsh.get("version") if isinstance(gmsh, dict) else None)
+    report.setdefault(
+        "native_root",
+        report.get("spack_runtime_cache") or _native_root(),
+    )
+    if isinstance(archive, dict):
+        report.setdefault("source_archive_path", archive.get("path"))
+        report.setdefault("source_archive_sha256", archive.get("sha256"))
+    report.update(_toolchain_versions())
+    report["git_commit"] = _git_commit()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true", help="reinstall a valid installation")
@@ -210,6 +278,8 @@ def main() -> int:
         else:
             report.update(_spack_install())
             report["reused"] = False
+        if report.get("status") == "INSTALLED":
+            _enrich_identity(report)
         write_json(INSTALL_RECORD, report)
         write_json(INSTALL_REPORT, report)
         print(json.dumps(report, indent=2))

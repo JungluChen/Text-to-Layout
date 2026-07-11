@@ -269,9 +269,6 @@ def _write_test_environment(run: Path) -> None:
     if measured.is_file():
         shutil.copy2(measured, PACKET / "test_environment.json")
         return
-    baseline = ROOT / "out" / "baseline" / "environment.json"
-    base = json.loads(baseline.read_text(encoding="utf-8")) if baseline.is_file() else {}
-    toolchain = json.loads((run / "toolchain.json").read_text(encoding="utf-8"))
     smoke = ROOT / "out" / "toolchain" / "palace_smoke" / "result.json"
     smoke_runtime = "unknown"
     if smoke.is_file():
@@ -279,18 +276,33 @@ def _write_test_environment(run: Path) -> None:
         seconds = payload.get("runtime_seconds")
         if isinstance(seconds, (int, float)):
             smoke_runtime = f"{seconds:.0f} s"
-    cpu = base.get("cpu", {})
-    environment = {
-        "os": base.get("os", "unknown"),
-        "wsl": base.get("wsl_distribution", "unknown"),
-        "cpu": (
-            f"{cpu.get('model', 'unknown')} ({cpu.get('logical_cores', '?')} logical cores)"
-            if cpu
+    # Prefer the benchmark run's own environment.json (native-storage identity
+    # + WSL CPU/RAM probe); fall back to the committed baseline environment.
+    run_env_path = run / "environment.json"
+    baseline = ROOT / "out" / "baseline" / "environment.json"
+    if run_env_path.is_file():
+        env = json.loads(run_env_path.read_text(encoding="utf-8"))
+        cpu = f"{env.get('cpu_model', 'unknown')} ({env.get('cpu_logical_cores', '?')} cores)"
+        os_name = env.get("os", "unknown")
+        wsl = env.get("wsl", "unknown")
+        ram = env.get("ram", "unknown")
+    else:
+        base = json.loads(baseline.read_text(encoding="utf-8")) if baseline.is_file() else {}
+        cpu_obj = base.get("cpu", {})
+        cpu = (
+            f"{cpu_obj.get('model', 'unknown')} ({cpu_obj.get('logical_cores', '?')} cores)"
+            if cpu_obj
             else "unknown"
-        ),
-        "ram": f"{base.get('ram_gb_wsl', '?')} GB (WSL)",
-        "gmsh": toolchain.get("gmsh", {}).get("version", "unknown"),
-        "install_duration": "recorded in out/toolchain/palace_install.json",
+        )
+        os_name = base.get("os", "unknown")
+        wsl = base.get("wsl_distribution", "unknown")
+        ram = f"{base.get('ram_gb_wsl', '?')} GB (WSL)"
+    environment = {
+        "os": os_name,
+        "wsl": wsl,
+        "cpu": cpu,
+        "ram": ram,
+        "install_duration": "recorded in out/toolchain/palace_install.json (installed_at)",
         "smoke_runtime": smoke_runtime,
     }
     (PACKET / "test_environment.json").write_text(

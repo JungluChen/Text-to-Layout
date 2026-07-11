@@ -133,6 +133,54 @@ def gmsh_identity() -> dict[str, Any]:
     return identify()
 
 
+def capture_environment() -> dict[str, Any]:
+    """Record the live execution environment (OS, WSL, CPU, RAM, versions).
+
+    Reads the installed Palace identity from install.json and probes the WSL
+    distribution, CPU, and memory once. Used by the smoke and benchmark runs so
+    every solver artifact is accompanied by the environment that produced it.
+    """
+    import platform
+
+    record = read_json(INSTALL_RECORD) or {}
+    probe = run_wsl(
+        "; ".join(
+            [
+                "(. /etc/os-release 2>/dev/null && echo \"wsl=${PRETTY_NAME:-unknown}\") || true",
+                "echo cpu=$(nproc 2>/dev/null)",
+                "echo ram_kb=$(awk '/MemTotal/{print $2}' /proc/meminfo 2>/dev/null)",
+                "echo cpu_model=$(grep -m1 'model name' /proc/cpuinfo 2>/dev/null | "
+                "cut -d: -f2- | sed 's/^ *//')",
+            ]
+        ),
+        timeout=60,
+    )
+    fields: dict[str, str] = {}
+    for line in probe.stdout.splitlines():
+        if "=" in line:
+            key, _, value = line.partition("=")
+            fields[key.strip()] = value.strip()
+    ram_kb = fields.get("ram_kb", "")
+    ram_gb = f"{int(ram_kb) / 1024 / 1024:.1f} GB" if ram_kb.isdigit() else "unknown"
+    return {
+        "schema": "textlayout.palace-environment.v1",
+        "timestamp": timestamp(),
+        "os": platform.platform(),
+        "wsl": fields.get("wsl", "unknown"),
+        "cpu_model": fields.get("cpu_model", "unknown"),
+        "cpu_logical_cores": fields.get("cpu", "unknown"),
+        "ram": ram_gb,
+        "python": platform.python_version(),
+        "palace_version": record.get("palace_version"),
+        "palace_executable_sha256": record.get("palace_executable_sha256"),
+        "palace_commit": record.get("palace_commit"),
+        "gmsh_version": gmsh_identity().get("version"),
+        "mpi_version": record.get("mpi_version"),
+        "compiler_versions": record.get("compiler_versions"),
+        "native_root": record.get("native_root"),
+    }
+
+
 def palace_archive() -> Path:
     return (
         TOOLS

@@ -265,6 +265,78 @@ def _gmsh_identity() -> dict[str, Any]:
     return gmsh_identity()
 
 
+def _environment(repo_root: Path, capability: PalaceCapability) -> dict[str, Any]:
+    """Capture the execution environment for the benchmark output tree.
+
+    Combines the installed Palace identity (which already records the probed
+    MPI and compiler versions and the native root) with a light WSL probe for
+    OS, CPU, and memory so every benchmark run is accompanied by its context.
+    """
+    import platform
+
+    record = _install_record(repo_root) or {}
+    wsl = "unknown"
+    cpu_model = "unknown"
+    cores = "unknown"
+    ram = "unknown"
+    try:
+        from textlayout.simulation.runners import _wsl_exe
+
+        wsl_exe = _wsl_exe()
+        if wsl_exe is not None:
+            probe = subprocess.run(
+                [
+                    wsl_exe,
+                    "-d",
+                    "Ubuntu",
+                    "--",
+                    "bash",
+                    "-lc",
+                    "(. /etc/os-release 2>/dev/null && echo wsl=$PRETTY_NAME); "
+                    "echo cores=$(nproc); "
+                    "echo ram_kb=$(awk '/MemTotal/{print $2}' /proc/meminfo); "
+                    "echo cpu=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | "
+                    "sed 's/^ *//')",
+                ],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=60,
+                check=False,
+            )
+            fields = dict(
+                line.split("=", 1)
+                for line in probe.stdout.splitlines()
+                if "=" in line
+            )
+            wsl = fields.get("wsl", wsl)
+            cpu_model = fields.get("cpu", cpu_model)
+            cores = fields.get("cores", cores)
+            ram_kb = fields.get("ram_kb", "")
+            if ram_kb.isdigit():
+                ram = f"{int(ram_kb) / 1024 / 1024:.1f} GB"
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass
+    return {
+        "schema": "textlayout.palace-environment.v1",
+        "timestamp": _timestamp(),
+        "os": platform.platform(),
+        "wsl": wsl,
+        "cpu_model": cpu_model,
+        "cpu_logical_cores": cores,
+        "ram": ram,
+        "python": platform.python_version(),
+        "palace_version": capability.version,
+        "palace_executable_sha256": capability.executable_sha256,
+        "gmsh_version": _gmsh_identity().get("version"),
+        "mpi_version": record.get("mpi_version"),
+        "compiler_versions": record.get("compiler_versions"),
+        "native_root": record.get("native_root"),
+        "git_commit": _git_commit(repo_root),
+    }
+
+
 def _cosine(left: dict[str, float], right: dict[str, float]) -> float:
     keys = sorted(set(left) | set(right))
     a = [left.get(key, 0.0) for key in keys]
@@ -717,6 +789,7 @@ def run_quarter_wave_benchmark_v017(
         "generated_at": _timestamp(),
     }
     write_json(toolchain, root / "toolchain.json")
+    write_json(_environment(repo_root, detected), root / "environment.json")
 
     model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=base_extents)
     fem_hash = write_json(model.model_dump(mode="json"), root / "fem_model.json")
