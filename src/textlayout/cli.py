@@ -564,6 +564,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         run_quarter_wave_benchmark_v017,
     )
 
+    sweep_iterations = args.sweep_amr_iterations or args.amr_iterations
     result = run_quarter_wave_benchmark_v017(
         args.out,
         layout_path=DEFAULT_LAYOUT,
@@ -571,6 +572,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         timeout_seconds=args.timeout,
         mesh_scale=args.mesh_scale,
         amr=AMRSettings(max_iterations=args.amr_iterations),
+        sweep_amr=AMRSettings(max_iterations=sweep_iterations),
     )
     print(result.model_dump_json(indent=2))
     return 1 if result.status in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INVALID"} else 0
@@ -727,7 +729,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--amr-iterations",
         type=int,
         default=5,
-        help="Palace AMR MaxIts; at least 4 accepted iterations are required by the gates.",
+        help="Palace AMR MaxIts for the main study; at least 4 accepted iterations "
+        "are required by the gates.",
+    )
+    p_palace.add_argument(
+        "--sweep-amr-iterations",
+        type=int,
+        default=0,
+        help="Palace AMR MaxIts for the domain/physical sweeps (0 = same as the main "
+        "study). A lower value keeps the many sweep solves tractable.",
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 

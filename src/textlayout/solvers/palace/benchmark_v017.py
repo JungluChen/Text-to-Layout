@@ -671,15 +671,24 @@ def run_quarter_wave_benchmark_v017(
     mesh_scale: float = 3.0,
     extents: DomainExtents | None = None,
     amr: AMRSettings | None = None,
+    sweep_amr: AMRSettings | None = None,
     numerical_sweep_values: dict[str, tuple[float, ...]] | None = None,
     physical_sweep_values: dict[str, tuple[float, ...]] | None = None,
 ) -> V017BenchmarkResult:
-    """Run the Palace 0.17 AMR + domain-convergence benchmark end to end."""
+    """Run the Palace 0.17 AMR + domain-convergence benchmark end to end.
+
+    The main convergence study uses ``amr``; the domain and physical sweeps use
+    ``sweep_amr`` (default: the same as ``amr``). A lighter ``sweep_amr`` keeps
+    the many sweep solves tractable while the main study stays rigorous. Every
+    sweep point uses the *same* settings, so its sensitivity is a fair
+    comparison.
+    """
     root = Path(output_dir).resolve()
     root.mkdir(parents=True, exist_ok=True)
     detected = capability or detect_palace()
     base_extents = extents or DomainExtents()
     settings = amr or AMRSettings()
+    sweep_settings = sweep_amr or settings
     numerical_requested = dict(
         numerical_sweep_values
         if numerical_sweep_values is not None
@@ -930,7 +939,7 @@ def run_quarter_wave_benchmark_v017(
                 run_dir=point_dir,
                 model=point_model,
                 mesh=point_mesh,
-                refinement=settings.refinement_config(),
+                refinement=sweep_settings.refinement_config(),
                 processes=processes,
                 timeout_seconds=timeout_seconds,
                 cancel_event=cancel_event,
