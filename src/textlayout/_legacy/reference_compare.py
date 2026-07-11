@@ -13,9 +13,10 @@ from pathlib import Path
 from typing import Any
 
 from textlayout._legacy.synthesis import synthesize_resonator
+from textlayout._paths import repository_root, resource_path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-REFERENCE_ROOT = PROJECT_ROOT / "references"
+PROJECT_ROOT = repository_root()
+REFERENCE_ROOT = resource_path("references")
 
 REFERENCE_ALIASES = {
     "transmon": [

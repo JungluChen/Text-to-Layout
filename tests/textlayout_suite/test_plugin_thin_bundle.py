@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -46,8 +47,10 @@ def _bundled_files() -> list[Path]:
     runs before it rebuilds -- a rebuild would delete the very evidence that a
     copy had been committed.
     """
+    git = shutil.which("git")
+    assert git is not None, "git is required to verify the committed plugin bundle"
     listing = subprocess.run(
-        ["git", "ls-files", "--", "plugins/text-to-gds"],
+        [git, "ls-files", "--", "plugins/text-to-gds"],
         cwd=REPO_ROOT, capture_output=True, text=True, check=True,
     ).stdout.splitlines()
     return [Path(line).relative_to("plugins/text-to-gds") for line in listing if line.strip()]

@@ -11,7 +11,9 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-_ROOT = Path(__file__).resolve().parents[2]
+from textlayout._paths import repository_root
+
+_ROOT = repository_root()
 _TOOLS = _ROOT / ".tools"
 
 

@@ -826,7 +826,7 @@ name = "descartes"
 version = "1.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "matplotlib" },
+    { name = "matplotlib", marker = "sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/1d/6f/81735a30432b74f41db6754dd13869021ccfed3088d1cf7a6cfc0af9ac49/descartes-1.1.0.tar.gz", hash = "sha256:135a502146af5ed6ff359975e2ebc5fa4b71b5432c355c2cafdc6dea1337035b", size = 3525, upload-time = "2017-01-17T15:37:03.945Z" }
 wheels = [
@@ -1021,7 +1021,7 @@ name = "gdspy"
 version = "1.6.13"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy" },
+    { name = "numpy", marker = "sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7a/c5/01a4b160bc9ac9b0f8621dd6f90e964596e60a369ff2d076ebb4ce52c402/gdspy-1.6.13.zip", hash = "sha256:38c61a7267f90767d90b8fcdda96c7a629df26e06f7153084c773f3d6363f4f0", size = 157902, upload-time = "2023-04-26T12:21:35.91Z" }
 
@@ -3525,7 +3525,7 @@ name = "pyside2"
 version = "5.15.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "shiboken2" },
+    { name = "shiboken2", marker = "sys_platform != 'win32'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1b/1f/194ed3a9c79abe4d8e8800112d5c19d0b9d7a1aca8b10029043bb3a083d0/PySide2-5.15.2.1-5.15.2-cp35.cp36.cp37.cp38.cp39.cp310-abi3-macosx_10_13_intel.whl", hash = "sha256:a9e2e6bbcb5d2ebb421e46e72244a0f4fe0943b2288115f80a863aacc1de1f06", size = 148464754, upload-time = "2022-01-14T07:01:02.788Z" },
@@ -3800,24 +3800,24 @@ name = "qiskit-metal"
 version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "addict" },
-    { name = "descartes" },
-    { name = "gdspy" },
+    { name = "addict", marker = "sys_platform != 'win32'" },
+    { name = "descartes", marker = "sys_platform != 'win32'" },
+    { name = "gdspy", marker = "sys_platform != 'win32'" },
     { name = "geopandas", marker = "sys_platform != 'win32'" },
-    { name = "ipython" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.14'" },
-    { name = "pandas", version = "3.0.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.14'" },
-    { name = "pint" },
-    { name = "pyepr-quantum" },
-    { name = "pygments" },
-    { name = "pyside2" },
-    { name = "qutip" },
-    { name = "scipy" },
+    { name = "ipython", marker = "sys_platform != 'win32'" },
+    { name = "matplotlib", marker = "sys_platform != 'win32'" },
+    { name = "numpy", marker = "sys_platform != 'win32'" },
+    { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.14' and sys_platform != 'win32'" },
+    { name = "pandas", version = "3.0.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.14' and sys_platform != 'win32'" },
+    { name = "pint", marker = "sys_platform != 'win32'" },
+    { name = "pyepr-quantum", marker = "sys_platform != 'win32'" },
+    { name = "pygments", marker = "sys_platform != 'win32'" },
+    { name = "pyside2", marker = "sys_platform != 'win32'" },
+    { name = "qutip", marker = "sys_platform != 'win32'" },
+    { name = "scipy", marker = "sys_platform != 'win32'" },
     { name = "scqubits", version = "4.1.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
-    { name = "scqubits", version = "4.3.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
-    { name = "shapely" },
+    { name = "scqubits", version = "4.3.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "shapely", marker = "sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/c1/7c/911c9cd0cf5ca5512685cafd2f58534df136f05e8afde568531d5122113a/qiskit_metal-0.1.2.tar.gz", hash = "sha256:acb1acedde7e9e87600718bad58ce399dc85e99fd8a25246d9b6cc8cbb081c03", size = 2332679, upload-time = "2022-07-23T14:33:15.233Z" }
 wheels = [
@@ -4759,7 +4759,7 @@ hfss = [
 ]
 layout = [
     { name = "kqcircuits" },
-    { name = "qiskit-metal" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32'" },
 ]
 measurement = [
     { name = "qcodes" },
@@ -4770,7 +4770,7 @@ mesh = [
     { name = "scipy" },
 ]
 metal = [
-    { name = "qiskit-metal" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32'" },
 ]
 optimization = [
     { name = "optuna" },
@@ -4789,7 +4789,7 @@ research = [
     { name = "pyaedt" },
     { name = "pyepr-quantum" },
     { name = "qcodes" },
-    { name = "qiskit-metal" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32'" },
     { name = "scikit-rf" },
     { name = "scipy" },
     { name = "scqubits", version = "4.1.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
@@ -4843,9 +4843,9 @@ requires-dist = [
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "qcodes", marker = "extra == 'measurement'", specifier = ">=0.50" },
     { name = "qcodes", marker = "extra == 'research'", specifier = ">=0.50" },
-    { name = "qiskit-metal", marker = "extra == 'layout'" },
-    { name = "qiskit-metal", marker = "extra == 'metal'" },
-    { name = "qiskit-metal", marker = "extra == 'research'" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'layout'" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'metal'" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'research'" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6" },
     { name = "scikit-rf", marker = "extra == 'research'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'rf'", specifier = ">=1.0" },

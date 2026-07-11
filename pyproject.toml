@@ -33,13 +33,13 @@ api = ["fastapi>=0.110", "uvicorn>=0.30"]  # also in core deps; named for clarit
 solvers = ["scikit-rf>=1.0"]  # open-source Touchstone / S-parameter post-processing
 docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
 
-layout = ["kqcircuits", "qiskit-metal"]
+layout = ["kqcircuits", "qiskit-metal; sys_platform != 'win32'"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
 squid = []  # JoSIM is an optional external executable; no Python package is vendored.
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
-metal = ["qiskit-metal"]
+metal = ["qiskit-metal; sys_platform != 'win32'"]
 epr = ["pyEPR-quantum"]
 pyepr = ["pyEPR-quantum"]
 hfss = ["pyaedt>=1.1"]
@@ -48,7 +48,7 @@ mesh = ["gmsh>=4.11", "meshio>=5.3", "scipy>=1.12"]
 research = [
   "kqcircuits",
   "optuna>=4.0",
-  "qiskit-metal",
+  "qiskit-metal; sys_platform != 'win32'",
   "scikit-rf>=1.0",
   "qcodes>=0.50",
   "scqubits>=4.0",
@@ -93,6 +93,11 @@ TestChip = "textlayout.generators.test_chip:TestChipGenerator"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/text_to_gds", "src/textlayout"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"references" = "textlayout/data/references"
+"process" = "textlayout/data/process"
+"drc/superconducting_min_width.drc" = "textlayout/data/drc/superconducting_min_width.drc"
 
 [tool.ruff]
 line-length = 100

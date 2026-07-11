@@ -20,7 +20,7 @@ __textlayout_shim__ = True
 
 _ALIAS_ROOT = "text_to_gds"
 _TARGET_ROOT = "textlayout._legacy"
-_PHYSICAL_SHIMS = frozenset({"_deprecation", "textlayout_compat"})
+_PHYSICAL_SHIMS = frozenset({"_deprecation", "server", "textlayout_compat"})
 _PUBLIC_NAMES = (
     "golden_compare",
     "GeometryIntelligenceEngine",
@@ -112,4 +112,3 @@ def __getattr__(name: str) -> Any:
     if name in _PUBLIC_NAMES:
         return getattr(importlib.import_module(_TARGET_ROOT), name)
     raise AttributeError(name)
-

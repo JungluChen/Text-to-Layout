@@ -1,0 +1,96 @@
+{
+  "schema_version": "textlayout.palace-verification.v1",
+  "design_id": "palace_cpw_quarter_wave",
+  "status": "SIMULATION_EXECUTED",
+  "promoted_frequency_ghz": null,
+  "candidate_frequency_ghz": 5.709556059993,
+  "gates": [
+    {
+      "name": "palace_adaptive_mesh_refinement",
+      "passed": false,
+      "value": 3.0,
+      "threshold": 3.0,
+      "detail": "at least three solver-owned adaptive iterations are required"
+    },
+    {
+      "name": "element_wise_error_indicators_recorded",
+      "passed": false,
+      "value": null,
+      "threshold": null,
+      "detail": "every level must hash Palace's element indicator field and global indicator"
+    },
+    {
+      "name": "polynomial_order_metadata_recorded",
+      "passed": true,
+      "value": null,
+      "threshold": null,
+      "detail": "finite-element order is recorded for every level"
+    },
+    {
+      "name": "electric_and_magnetic_mode_overlap",
+      "passed": true,
+      "value": 0.999996210601646,
+      "threshold": 0.98,
+      "detail": "minimum adjacent-level overlap; strict greater-than comparison"
+    },
+    {
+      "name": "last_level_frequency_change_percent",
+      "passed": false,
+      "value": 0.697510514154553,
+      "threshold": 0.2,
+      "detail": "change between the two finest accepted levels"
+    },
+    {
+      "name": "global_amr_error_indicator_percent",
+      "passed": false,
+      "value": null,
+      "threshold": 0.5,
+      "detail": "Palace global estimator on the final adaptive iteration"
+    },
+    {
+      "name": "all_domain_sweeps_complete",
+      "passed": false,
+      "value": 0.0,
+      "threshold": 4.0,
+      "detail": "vacuum, substrate, package-height, and lateral-boundary sweeps need >=3 points"
+    },
+    {
+      "name": "domain_size_frequency_sensitivity_percent",
+      "passed": false,
+      "value": null,
+      "threshold": 0.2,
+      "detail": "{\"lateral_boundary\": null, \"package_height\": null, \"substrate_thickness\": null, \"vacuum_domain\": null}"
+    },
+    {
+      "name": "participation_change_percent",
+      "passed": true,
+      "value": 0.3630925010782526,
+      "threshold": 2.0,
+      "detail": "worst regional participation change across the final two levels"
+    },
+    {
+      "name": "energy_normalization_error_percent",
+      "passed": true,
+      "value": 1.9340823333501426e-10,
+      "threshold": 0.1,
+      "detail": "maximum electric/magnetic eigenmode energy-balance error"
+    },
+    {
+      "name": "independent_reference_target",
+      "passed": false,
+      "value": null,
+      "threshold": null,
+      "detail": "no independent reference artifact supplied"
+    }
+  ],
+  "blockers": [
+    "palace_adaptive_mesh_refinement",
+    "element_wise_error_indicators_recorded",
+    "last_level_frequency_change_percent",
+    "global_amr_error_indicator_percent",
+    "all_domain_sweeps_complete",
+    "domain_size_frequency_sensitivity_percent",
+    "independent_reference_target"
+  ],
+  "study_sha256": "403463f6432618fb117f3fc36fb7c309af81b712d7778cc2e800b8aed21c70a7"
+}

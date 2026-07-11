@@ -29,7 +29,7 @@ plugins/*/workspace/artifacts/*
 # External library source trees (cloned for reference, not project code)
 external_repos/
 quantum-eda-stack/
-references/
+docs/references/
 workspace/catalog.py
 plugins/*/examples/**/.generation_meta.json
 external_references/

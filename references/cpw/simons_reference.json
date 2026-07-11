@@ -1,0 +1,54 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "cpw",
+  "reference_id": "simons_cpw_and_khalil_fit",
+  "title": "CPW closed-form equations and superconducting resonator fitting",
+  "citation": {
+    "authors": "R. N. Simons; M. S. Khalil et al.",
+    "venue": "Coplanar Waveguide Circuits, Components, and Systems; J. Appl. Phys. 111, 054510",
+    "year": 2012,
+    "url": "https://doi.org/10.1063/1.3692073"
+  },
+  "topology": {
+    "required_features": [
+      {
+        "name": "center trace with two ground gaps",
+        "citation": "Simons, Coplanar Waveguide Circuits, Components, and Systems, conventional CPW chapter"
+      },
+      {
+        "name": "lambda/4 resonator length",
+        "citation": "Simons CPW propagation parameters and guide wavelength equations"
+      },
+      {
+        "name": "capacitive coupling to feedline",
+        "citation": "Khalil et al. 2012 superconducting resonator transmission model"
+      },
+      {
+        "name": "airbridge placement across CPW grounds",
+        "citation": "Simons CPW ground continuity and discontinuity treatment"
+      }
+    ]
+  },
+  "parameters": {
+    "target_z0_ohm": {
+      "value": 50.0,
+      "unit": "Ohm",
+      "citation": "Simons CPW design examples use characteristic impedance as the transmission-line reference"
+    },
+    "ground_gap_ratio_min": {
+      "value": 1.0,
+      "unit": "dimensionless",
+      "citation": "Simons conventional CPW geometry definition"
+    },
+    "ground_gap_ratio_max": {
+      "value": 100.0,
+      "unit": "dimensionless",
+      "citation": "Simons finite-ground CPW discussion"
+    },
+    "coupling_q_required": {
+      "value": 1.0,
+      "unit": "boolean",
+      "citation": "Khalil et al. 2012 resonator fitting extracts internal and coupling quality factors"
+    }
+  }
+}

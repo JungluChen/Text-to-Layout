@@ -7,7 +7,9 @@ from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from textlayout._paths import repository_root
+
+PROJECT_ROOT = repository_root()
 LOCAL_TOOLS_ROOT = Path(os.environ.get("TEXT_TO_GDS_TOOLS", PROJECT_ROOT / ".tools")).resolve()
 
 

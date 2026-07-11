@@ -1,0 +1,63 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "transmon",
+  "reference_id": "koch_2007_transmon",
+  "title": "Charge-insensitive qubit design derived from the Cooper pair box",
+  "citation": {
+    "authors": "J. Koch et al.",
+    "venue": "Physical Review A 76, 042319",
+    "year": 2007,
+    "doi": "10.1103/PhysRevA.76.042319",
+    "url": "https://doi.org/10.1103/PhysRevA.76.042319"
+  },
+  "topology": {
+    "required_features": [
+      {
+        "name": "two superconducting islands",
+        "citation": "Koch et al. 2007, Fig. 1 and Sec. II.A"
+      },
+      {
+        "name": "split junction SQUID",
+        "citation": "Koch et al. 2007, Sec. II.A"
+      },
+      {
+        "name": "large shunt capacitance",
+        "citation": "Koch et al. 2007, Sec. II.A"
+      },
+      {
+        "name": "capacitive readout/control coupling",
+        "citation": "Koch et al. 2007, Sec. III.B"
+      }
+    ]
+  },
+  "parameters": {
+    "ej_over_ec": {
+      "min": 20.0,
+      "max": 300.0,
+      "unit": "dimensionless",
+      "citation": "Koch et al. 2007, Introduction: typical transmon ratios are several tens up to several hundreds"
+    },
+    "canonical_ej_over_ec": {
+      "value": 85.0,
+      "unit": "dimensionless",
+      "citation": "Koch et al. 2007, Table I"
+    },
+    "f01_ghz": {
+      "min": 4.0,
+      "max": 8.0,
+      "unit": "GHz",
+      "citation": "Koch et al. 2007, circuit-QED operating regime examples"
+    },
+    "alpha_mhz": {
+      "min": -500.0,
+      "max": -100.0,
+      "unit": "MHz",
+      "citation": "Koch et al. 2007, Sec. II.C anharmonicity discussion"
+    },
+    "capacitor_participation_required": {
+      "value": 1.0,
+      "unit": "boolean",
+      "citation": "Koch et al. 2007, Sec. II.A: large shunt capacitance sets reduced EC"
+    }
+  }
+}

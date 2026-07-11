@@ -17,9 +17,10 @@ from textlayout._legacy.simulation import (
     estimate_physical_performance,
     simulate_ideal_junction,
 )
+from textlayout._paths import repository_root
 
 ELECTRON_CHARGE_C = 1.602176634e-19
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = repository_root()
 LOCAL_TOOLS_ROOT = Path(os.environ.get("TEXT_TO_GDS_TOOLS", PROJECT_ROOT / ".tools")).resolve()
 
 

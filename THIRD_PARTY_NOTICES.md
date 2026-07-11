@@ -18,7 +18,7 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Integration mode: external executable via subprocess and file exchange
 - Redistributes source: false
 - Redistributes binaries: false
-- Adapter module: `textlayout.simulation.palace_backend`
+- Adapter module: `textlayout.solvers.palace.backend`
 - Dataset license: not_applicable
 - Human review required: false
 

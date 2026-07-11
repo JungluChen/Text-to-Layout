@@ -146,8 +146,9 @@ from textlayout._legacy.verification import (
     run_superconducting_lvs,
 )
 from textlayout._legacy.workbench import write_design_workbench
+from textlayout._paths import repository_root, resource_path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = repository_root()
 WORKSPACE_ROOT = Path(os.environ.get("TEXT_TO_GDS_WORKSPACE", PROJECT_ROOT / "workspace")).resolve()
 ARTIFACT_ROOT = WORKSPACE_ROOT / "artifacts"
 
@@ -201,7 +202,11 @@ def _artifact_path(name: str, suffix: str) -> Path:
 
 def _existing_path(path_value: str) -> Path:
     raw = Path(path_value)
-    candidates = [raw] if raw.is_absolute() else [PROJECT_ROOT / raw, ARTIFACT_ROOT / raw.name]
+    candidates = (
+        [raw]
+        if raw.is_absolute()
+        else [PROJECT_ROOT / raw, resource_path(*raw.parts), ARTIFACT_ROOT / raw.name]
+    )
     for candidate in candidates:
         resolved = candidate.resolve()
         if resolved.exists():
@@ -668,7 +673,7 @@ def list_fabrication_processes() -> dict[str, Any]:
 @mcp.tool()
 def list_process_design_kits() -> dict[str, Any]:
     """List validated, versioned superconducting PDKs available to local workflows."""
-    pdks = PDKDatabase(PROJECT_ROOT / "process").list()
+    pdks = PDKDatabase(resource_path("process")).list()
     return {
         "schema": "text-to-gds.process-design-kits.v1",
         "process_design_kits": [pdk.to_dict() for pdk in pdks],
@@ -683,7 +688,7 @@ def inspect_process_design_kit(
     frequency_ghz: float = 6.0,
 ) -> dict[str, Any]:
     """Resolve a PDK version and optionally calculate one material's surface impedance."""
-    pdk = PDKDatabase(PROJECT_ROOT / "process").get(process_id, version)
+    pdk = PDKDatabase(resource_path("process")).get(process_id, version)
     result = {
         "schema": "text-to-gds.process-design-kit-inspection.v1",
         "process_design_kit": pdk.to_dict(),

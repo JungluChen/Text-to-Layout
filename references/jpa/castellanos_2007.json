@@ -1,0 +1,55 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "jpa",
+  "reference_id": "castellanos_lehnert_2007",
+  "title": "A widely tunable parametric amplifier based on a SQUID array resonator",
+  "citation": {
+    "authors": "M. A. Castellanos-Beltran and K. W. Lehnert",
+    "venue": "Applied Physics Letters 91, 083509",
+    "year": 2007,
+    "doi": "10.1063/1.2773988",
+    "url": "https://doi.org/10.1063/1.2773988"
+  },
+  "topology": {
+    "required_features": [
+      {
+        "name": "50 ohm feed",
+        "citation": "Castellanos-Beltran and Lehnert 2007, SQUID-array resonator amplifier topology"
+      },
+      {
+        "name": "coupling capacitor Cc",
+        "citation": "Castellanos-Beltran and Lehnert 2007, transmission-line resonator coupled to feed"
+      },
+      {
+        "name": "LC resonator node",
+        "citation": "Castellanos-Beltran and Lehnert 2007, resonator implementation"
+      },
+      {
+        "name": "SQUID array carries resonator current",
+        "citation": "Castellanos-Beltran and Lehnert 2007, inner conductor made from a series SQUID array"
+      },
+      {
+        "name": "flux tuning",
+        "citation": "Castellanos-Beltran and Lehnert 2007, frequency tuned by magnetic flux through SQUID loops"
+      }
+    ]
+  },
+  "parameters": {
+    "frequency_range_ghz": {
+      "min": 4.0,
+      "max": 7.8,
+      "unit": "GHz",
+      "citation": "Castellanos-Beltran and Lehnert 2007 abstract"
+    },
+    "max_gain_db": {
+      "value": 28.0,
+      "unit": "dB",
+      "citation": "Castellanos-Beltran and Lehnert 2007 abstract"
+    },
+    "feed_impedance_ohm": {
+      "value": 50.0,
+      "unit": "Ohm",
+      "citation": "Castellanos-Beltran and Lehnert 2007 microwave feed context"
+    }
+  }
+}

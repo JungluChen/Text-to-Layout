@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from pathlib import Path as _Path
+
+from textlayout._paths import resource_path
 from typing import TypeAlias
 
 Layer: TypeAlias = tuple[int, int]
@@ -236,7 +238,7 @@ def layer_to_list(layer: Layer) -> list[int]:
 # Technology YAML loader
 # ---------------------------------------------------------------------------
 
-_BUILTIN_PROCESS_DIR = _Path(__file__).parent.parent.parent / "process"
+_BUILTIN_PROCESS_DIR = resource_path("process")
 _FALLBACK_PROCESS_DIRS: list[_Path] = [
     _BUILTIN_PROCESS_DIR,
     _Path(__file__).parent / "process",

@@ -1,0 +1,7 @@
+{
+  "schema": "text-to-gds.process-reference-alias.v1",
+  "default_reference": "nb_trilayer_reference.json",
+  "citation": {
+    "url": "https://www.ll.mit.edu/r-d/publications/fabrication-process-and-properties-fully-planarized-deep-submicron-nbal-aloxnb"
+  }
+}

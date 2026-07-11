@@ -1,0 +1,59 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "process",
+  "reference_id": "mit_ll_nb_alox_nb_trilayer",
+  "title": "Nb/Al-AlOx/Nb Josephson-junction trilayer process",
+  "citation": {
+    "authors": "S. K. Tolpygo et al.",
+    "venue": "IEEE Transactions on Applied Superconductivity 25, 1101312",
+    "year": 2015,
+    "doi": "10.1109/TASC.2014.2374836",
+    "url": "https://www.ll.mit.edu/r-d/publications/fabrication-process-and-properties-fully-planarized-deep-submicron-nbal-aloxnb"
+  },
+  "stack": {
+    "required_features": [
+      {
+        "name": "M1 bottom electrode",
+        "citation": "Tolpygo et al. 2015 Nb/Al-AlOx/Nb process description"
+      },
+      {
+        "name": "AlOx tunnel barrier overlap",
+        "citation": "Tolpygo et al. 2015 Nb/Al-AlOx/Nb junction stack"
+      },
+      {
+        "name": "M2 top electrode",
+        "citation": "Tolpygo et al. 2015 Nb/Al-AlOx/Nb junction stack"
+      },
+      {
+        "name": "via enclosure",
+        "citation": "MIT Lincoln Laboratory SFQ process cross-section and via stack description"
+      },
+      {
+        "name": "junction isolation",
+        "citation": "Tolpygo et al. 2015 anodization and interlayer dielectric process"
+      }
+    ]
+  },
+  "parameters": {
+    "minimum_junction_diameter_um": {
+      "value": 0.2,
+      "unit": "um",
+      "citation": "Tolpygo et al. 2015 summary: junction sizes down to 200 nm"
+    },
+    "sfq5ee_nominal_junction_diameter_um": {
+      "value": 0.7,
+      "unit": "um",
+      "citation": "MIT Lincoln Laboratory SFQ5ee process node feature list"
+    },
+    "sfq5ee_minimum_wiring_feature_um": {
+      "value": 0.35,
+      "unit": "um",
+      "citation": "MIT Lincoln Laboratory SFQ5ee process node feature list"
+    },
+    "jj_between_nb_layers_required": {
+      "value": 1.0,
+      "unit": "boolean",
+      "citation": "MIT Lincoln Laboratory SFQ5ee cross-section: JJ placed between Nb layers"
+    }
+  }
+}

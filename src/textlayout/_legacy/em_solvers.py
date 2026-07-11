@@ -15,6 +15,7 @@ from typing import Any
 
 from textlayout._legacy.em_bridges import write_hfss_project_bridge, write_sonnet_project_bridge
 from textlayout._legacy.research import write_openems_project
+from textlayout._paths import repository_root
 
 
 def _module_available(name: str) -> bool:
@@ -112,7 +113,7 @@ class OpenEMSSolver(EMSolver):
     def available(self) -> bool:
         if _module_available("openEMS"):
             return True
-        tools_root = Path(__file__).resolve().parents[2] / ".tools"
+        tools_root = repository_root() / ".tools"
         return (tools_root / "openems-venv").exists()
 
     def prepare(

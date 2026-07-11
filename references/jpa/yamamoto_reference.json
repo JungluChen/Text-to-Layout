@@ -1,0 +1,39 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "jpa",
+  "reference_id": "yamamoto_flux_driven_jpa",
+  "title": "Flux-driven Josephson parametric amplifier topology",
+  "citation": {
+    "authors": "T. Yamamoto et al.",
+    "venue": "Applied Physics Letters / Physical Review B flux-driven JPA papers",
+    "year": 2008,
+    "url": "https://doi.org/10.1063/1.2981208"
+  },
+  "topology": {
+    "required_features": [
+      {
+        "name": "pump path identified",
+        "citation": "Yamamoto flux-driven JPA papers: pump is applied through flux modulation"
+      },
+      {
+        "name": "signal path identified",
+        "citation": "Yamamoto flux-driven JPA papers: microwave signal is coupled to the resonator"
+      },
+      {
+        "name": "galvanically isolated flux line",
+        "citation": "Yamamoto flux-driven JPA papers: flux pump couples magnetically to SQUID loop"
+      },
+      {
+        "name": "SQUID provides nonlinear resonator inductance",
+        "citation": "Yamamoto flux-driven JPA papers: SQUID-resonator nonlinear inductance"
+      }
+    ]
+  },
+  "parameters": {
+    "pump_mode_flux": {
+      "value": 1.0,
+      "unit": "boolean",
+      "citation": "Yamamoto flux-driven JPA papers"
+    }
+  }
+}

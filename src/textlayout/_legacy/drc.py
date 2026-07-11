@@ -10,8 +10,9 @@ from typing import Any
 from xml.etree import ElementTree
 
 from textlayout._legacy.process import DEFAULT_PROCESS
+from textlayout._paths import repository_root
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = repository_root()
 LOCAL_TOOLS_ROOT = Path(os.environ.get("TEXT_TO_GDS_TOOLS", PROJECT_ROOT / ".tools")).resolve()
 
 

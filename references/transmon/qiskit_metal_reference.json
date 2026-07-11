@@ -1,0 +1,65 @@
+{
+  "schema": "text-to-gds.golden-reference.v1",
+  "device_family": "transmon",
+  "reference_id": "qiskit_metal_transmon_pocket",
+  "title": "Qiskit Metal TransmonPocket default geometry",
+  "citation": {
+    "authors": "Qiskit Metal contributors",
+    "venue": "Qiskit Metal API documentation",
+    "year": 2024,
+    "url": "https://qiskit-community.github.io/qiskit-metal/_modules/qiskit_metal/qlibrary/qubits/transmon_pocket.html"
+  },
+  "topology": {
+    "required_features": [
+      {
+        "name": "etched ground pocket",
+        "citation": "Qiskit Metal TransmonPocket default options and pocket geometry"
+      },
+      {
+        "name": "two charge island pads",
+        "citation": "Qiskit Metal TransmonPocket default pad options"
+      },
+      {
+        "name": "connection pad for readout coupling",
+        "citation": "Qiskit Metal TransmonPocket default connection pad options"
+      }
+    ]
+  },
+  "parameters": {
+    "pad_width_um": {
+      "value": 455.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default_options.pad_width"
+    },
+    "pad_height_um": {
+      "value": 90.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default_options.pad_height"
+    },
+    "pad_gap_um": {
+      "value": 30.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default_options.pad_gap"
+    },
+    "pocket_width_um": {
+      "value": 650.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default_options.pocket_width"
+    },
+    "pocket_height_um": {
+      "value": 650.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default_options.pocket_height"
+    },
+    "connection_pad_width_um": {
+      "value": 125.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default connection pad width"
+    },
+    "connection_pad_height_um": {
+      "value": 30.0,
+      "unit": "um",
+      "citation": "Qiskit Metal TransmonPocket default connection pad height"
+    }
+  }
+}
