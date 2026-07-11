@@ -1,7 +1,8 @@
 # Palace external tool boundary
 
-Text-to-Layout uses Palace 0.17.0 as an optional external Apache-2.0 solver.
-Palace is not copied into `src/` and is not bundled in the Python wheel.
+Text-to-Layout uses Palace 0.17.0 (pinned commit
+`12d8069afb5aa9e169a17e303d735e120968e9f2`) as an optional external Apache-2.0
+solver. Palace is not copied into `src/` and is not bundled in the Python wheel.
 
 The committed `spack.yaml` requests a CPU eigenmode-capable build with ARPACK
 and SuperLU_DIST. On Windows, `install_palace.py` runs the pinned Spack release

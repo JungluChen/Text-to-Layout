@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import sys
 import tomllib
 from pathlib import Path
@@ -152,3 +153,57 @@ def test_registry_documents_wsl_spack_strategy_and_outputs() -> None:
     assert tool["expected_output_files"] == ["postpro/eig.csv", "postpro/domain-E.csv"]
     assert tool["redistribute_source"] is False
     assert tool["redistribute_binaries"] is False
+
+
+def test_lock_file_agrees_with_registry_on_palace_and_gmsh() -> None:
+    """external_tools/lock.toml must not drift from registry.toml."""
+    registry = tomllib.loads(
+        (ROOT / "external_tools" / "registry.toml").read_text(encoding="utf-8")
+    )
+    lock = tomllib.loads((ROOT / "external_tools" / "lock.toml").read_text(encoding="utf-8"))
+    registry_by_id = {tool["id"]: tool for tool in registry["tools"]}
+    lock_by_id = {entry["id"]: entry for entry in lock["locked_tools"]}
+    for tool_id in ("palace", "gmsh"):
+        tool = registry_by_id[tool_id]
+        locked = lock_by_id[tool_id]
+        assert locked["resolved_commit"] == tool["pinned_commit"], tool_id
+        assert locked["source_archive_sha256"] == tool["source_archive_sha256"], tool_id
+        assert locked["source_archive_url"] == tool["source_archive_url"], tool_id
+    palace_toolchain = lock["palace_toolchain"]
+    common = _palace_common()
+    assert palace_toolchain["palace_version"] == common.PALACE_VERSION
+    assert palace_toolchain["palace_commit"] == common.PALACE_COMMIT
+    assert palace_toolchain["gmsh_version"] == common.GMESH_VERSION
+
+
+def test_install_doc_states_the_pinned_toolchain() -> None:
+    common = _palace_common()
+    text = (ROOT / "docs" / "install" / "palace.md").read_text(encoding="utf-8")
+    assert common.PALACE_VERSION in text
+    assert common.PALACE_COMMIT in text
+    assert common.GMESH_VERSION in text
+    assert "WSL" in text and "Spack" in text
+
+
+def test_every_pinned_source_agrees_on_one_palace_commit() -> None:
+    """A single authoritative sweep: the pinned Palace commit appears, and no
+    other 40-hex Palace-archive commit appears, across every toolchain source."""
+    common = _palace_common()
+    commit = common.PALACE_COMMIT
+    sources = [
+        ROOT / "external_tools" / "registry.toml",
+        ROOT / "external_tools" / "lock.toml",
+        ROOT / "scripts" / "external" / "_palace_common.py",
+        ROOT / "external_tools" / "palace" / "README.md",
+        ROOT / "docs" / "install" / "palace.md",
+        ROOT / "THIRD_PARTY_NOTICES.md",
+        ROOT / "external_tools" / "palace" / "smoke" / "eigenmode" / "manifest.json",
+    ]
+    for source in sources:
+        text = source.read_text(encoding="utf-8")
+        assert commit in text, f"{source.name} does not name the pinned Palace commit"
+    # No stale awslabs/palace archive commit may linger anywhere.
+    stale = re.compile(r"awslabs/palace/archive/([0-9a-f]{40})")
+    for source in sources:
+        for found in stale.findall(source.read_text(encoding="utf-8")):
+            assert found == commit, f"{source.name} references stale Palace commit {found}"
