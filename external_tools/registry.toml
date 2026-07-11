@@ -35,6 +35,32 @@ human_review_required = false
 dataset_license = "not_applicable"
 
 [[tools]]
+id = "gmsh"
+canonical_name = "Gmsh"
+upstream_repository = "https://gitlab.onelab.info/gmsh/gmsh"
+pinned_ref = "gmsh_4_15_2"
+pinned_commit = "657c8e915f60405e6cad0c8ec7faf812bfff1a60"
+source_archive_url = "https://gitlab.onelab.info/gmsh/gmsh/-/archive/657c8e915f60405e6cad0c8ec7faf812bfff1a60/gmsh-657c8e915f60405e6cad0c8ec7faf812bfff1a60.tar.gz"
+source_archive_sha256 = "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9"
+source_archive_size_bytes = 32832529
+spdx_license = "GPL-2.0-or-later"
+copyright_holder = "Christophe Geuzaine and Jean-Francois Remacle"
+install_mode = "uv optional dependency group mesh; external GPL runtime, source not vendored into the MIT package"
+integration_mode = "external GPL mesh runtime producing .msh files for process-isolated file exchange with Palace"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.mesh.runtime"
+smoke_test_command = ["py", "-3", "-c", "import gmsh; print(gmsh.__version__)"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_gmsh_runtime.py", "-q"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11"]
+expected_output_files = ["quarter_wave_base.msh"]
+tool_scope = "pinned 4.15.2 tetrahedral mesh generation for the Palace FEM path"
+license_review = "reviewed_from_upstream_repository"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
 id = "josephsoncircuits"
 canonical_name = "JosephsonCircuits.jl"
 upstream_repository = "https://github.com/kpobrien/JosephsonCircuits.jl"

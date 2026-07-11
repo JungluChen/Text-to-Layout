@@ -96,6 +96,56 @@ def test_toolchain_paths_are_the_documented_locations() -> None:
     assert common.SMOKE_ROOT == ROOT / "out" / "toolchain" / "palace_smoke"
 
 
+def test_readme_palace_section_matches_the_pinned_registry() -> None:
+    """The top-level README must keep the Palace + Gmsh install contract."""
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "### Optional 3D FEM: Palace + Gmsh" in readme
+    common = _palace_common()
+    assert f"Palace {common.PALACE_VERSION}" in readme
+    assert f"Gmsh {common.GMESH_VERSION}" in readme
+    for command in (
+        "uv sync --all-extras",
+        "uv run python scripts/external/install_palace.py",
+        "uv run python scripts/external/check_palace.py",
+        "uv run python scripts/external/run_palace_smoke.py",
+        "uv run textlayout simulate palace-resonator",
+        "--out out/palace_resonator_v017",
+        "make setup-palace",
+        "make check-palace",
+        "make smoke-palace",
+        "make benchmark-palace",
+    ):
+        assert command in readme, f"README lost required Palace command: {command}"
+    for link in (
+        "external_tools/palace/README.md",
+        "docs/install/palace.md",
+        "docs/troubleshooting/palace.md",
+        "THIRD_PARTY_NOTICES.md",
+    ):
+        assert link in readme, f"README lost required Palace link: {link}"
+        assert (ROOT / link).is_file(), f"README links to a missing file: {link}"
+    assert "Palace + Gmsh" in readme and "3D FEM" in readme
+    assert "WSL Ubuntu" in readme
+    assert "Apache-2.0" in readme
+    assert "not bundled" in readme
+    assert "Meep / Elmer" not in readme, (
+        "the outdated 'general FEM is only a planned Meep/Elmer connector' claim is back"
+    )
+
+
+def test_third_party_notices_record_palace_and_gmsh() -> None:
+    notices = (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
+    common = _palace_common()
+    assert "## Palace" in notices
+    assert f"`v{common.PALACE_VERSION}`" in notices
+    assert f"`{common.PALACE_COMMIT}`" in notices
+    assert "`Apache-2.0`" in notices
+    assert "## Gmsh" in notices
+    assert "gmsh_4_15_2" in notices
+    assert "`GPL-2.0-or-later`" in notices
+    assert "not vendored" in notices
+
+
 def test_registry_documents_wsl_spack_strategy_and_outputs() -> None:
     tool = _registry_palace()
     assert "Windows via WSL" in tool["supported_operating_systems"]

@@ -11,7 +11,7 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Upstream: https://github.com/awslabs/palace
 - Pinned ref: `v0.17.0`
 - Resolved commit: `12d8069afb5aa9e169a17e303d735e120968e9f2`
-- Source archive SHA-256: `ae6baa26c191c4dc852fa3de69c64bbc4ec58376effdb74841253d485ecc0e27`
+- Source archive SHA-256: `169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d`
 - SPDX license identifier: `Apache-2.0`
 - Copyright holder: Amazon.com, Inc. or its affiliates
 - Install mode: pinned source build or pinned container
@@ -19,6 +19,22 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Redistributes source: false
 - Redistributes binaries: false
 - Adapter module: `textlayout.solvers.palace.backend`
+- Dataset license: not_applicable
+- Human review required: false
+
+## Gmsh
+
+- Upstream: https://gitlab.onelab.info/gmsh/gmsh
+- Pinned ref: `gmsh_4_15_2`
+- Resolved commit: `657c8e915f60405e6cad0c8ec7faf812bfff1a60`
+- Source archive SHA-256: `9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9`
+- SPDX license identifier: `GPL-2.0-or-later`
+- Copyright holder: Christophe Geuzaine and Jean-Francois Remacle
+- Install mode: uv optional dependency group mesh; external GPL runtime, source not vendored into the MIT package
+- Integration mode: external GPL mesh runtime producing .msh files for process-isolated file exchange with Palace
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `textlayout.mesh.runtime`
 - Dataset license: not_applicable
 - Human review required: false
 

@@ -153,7 +153,48 @@ openEMS              CPW / resonator S-parameters (input preparation is always a
 FastHenry            spiral inductance (input preparation is always available)
 JoSIM                Josephson circuit transient simulation — never geometry capacitance evidence
 WRspice / PSCAN2     optional circuit cross-checks
+Palace + Gmsh        3D FEM eigenmode/reference simulation (see below)
 ```
+
+### Optional 3D FEM: Palace + Gmsh
+
+Palace 0.17.0 (Apache-2.0) and Gmsh 4.15.2 (GPL, with upstream exception
+wording as applicable) are **optional external tools**. They are not bundled
+in the `text-to-gds` wheel: Palace is installed into an isolated Spack
+environment under the git-ignored `.tools/` tree, and Gmsh is installed
+through the `mesh` optional dependency as an external GPL runtime whose
+source is never vendored into this MIT package. Windows users should use
+WSL Ubuntu — the installer drives the pinned Spack release inside WSL.
+
+Installing the tools does **not** make a result physics-verified. Only parsed
+Palace-owned output (`eig.csv`, `domain-E.csv`, `error-indicators.csv`, the
+`*_resolved.json` configuration sidecar) with passing AMR and
+domain-convergence gates counts as solver evidence; anything else is
+reported as `SKIPPED_SOLVER_ABSENT`, `SIMULATION_INVALID`, or
+`CONVERGENCE_FAILED` by the evidence contract.
+
+```bash
+uv sync --all-extras
+uv run python scripts/external/install_palace.py
+uv run python scripts/external/check_palace.py
+uv run python scripts/external/run_palace_smoke.py
+uv run textlayout simulate palace-resonator \
+  --out out/palace_resonator_v017
+```
+
+Make equivalents:
+
+```bash
+make setup-palace
+make check-palace
+make smoke-palace
+make benchmark-palace
+```
+
+Details: [external_tools/palace/README.md](external_tools/palace/README.md) ·
+[docs/install/palace.md](docs/install/palace.md) ·
+[docs/troubleshooting/palace.md](docs/troubleshooting/palace.md) ·
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ## Run the doctor
 
@@ -518,7 +559,7 @@ Open-source tools are the default base workflow. Commercial tools remain optiona
 | CPW and resonator S-parameters | openEMS + scikit-rf                              | Runnable Octave/CSXCAD model, guarded execution, Touchstone parsing             |
 | Spiral L/R/Q                   | FastHenry/FastHenry2                             | Input generation, guarded execution,`Zc.mat` parsing                          |
 | SQUID circuit response         | JoSIM                                            | Conditional RCSJ deck, guarded execution, CSV parsing; explicit Ic/R/C required |
-| General FDTD/FEM               | Meep / Elmer                                     | Planned connectors                                                              |
+| 3D FEM eigenmode / reference   | Palace + Gmsh                                    | Pinned Palace 0.17.0 WSL/Spack install, AMR quarter-wave benchmark, honest gates |
 
 Prepare IDC input without claiming a result:
 

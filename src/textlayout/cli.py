@@ -561,11 +561,15 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
     from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
     from textlayout.solvers.palace.benchmark_v017 import run_quarter_wave_benchmark_v017
 
+    from textlayout.solvers.palace.benchmark_v017 import AMRSettings
+
     result = run_quarter_wave_benchmark_v017(
         args.out,
         layout_path=DEFAULT_LAYOUT,
         processes=args.processes,
         timeout_seconds=args.timeout,
+        mesh_scale=args.mesh_scale,
+        amr=AMRSettings(max_iterations=args.amr_iterations),
     )
     print(result.model_dump_json(indent=2))
     return 1 if result.status in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INVALID"} else 0
@@ -711,6 +715,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_palace.add_argument("--processes", type=int, default=4, help="Palace MPI process count.")
     p_palace.add_argument(
         "--timeout", type=float, default=7200.0, help="Timeout per Palace solve in seconds."
+    )
+    p_palace.add_argument(
+        "--mesh-scale",
+        type=float,
+        default=3.0,
+        help="Base-mesh coarseness factor; AMR refines from this validated mesh.",
+    )
+    p_palace.add_argument(
+        "--amr-iterations",
+        type=int,
+        default=5,
+        help="Palace AMR MaxIts; at least 4 accepted iterations are required by the gates.",
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 

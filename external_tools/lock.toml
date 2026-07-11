@@ -16,8 +16,17 @@ id = "palace"
 resolved_commit = "12d8069afb5aa9e169a17e303d735e120968e9f2"
 pinned_ref = "v0.17.0"
 source_archive_url = "https://github.com/awslabs/palace/archive/12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz"
-source_archive_sha256 = "ae6baa26c191c4dc852fa3de69c64bbc4ec58376effdb74841253d485ecc0e27"
-source_archive_size_bytes = 42487808
+source_archive_sha256 = "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d"
+source_archive_size_bytes = 47331791
+checksum_verified = true
+
+[[locked_tools]]
+id = "gmsh"
+resolved_commit = "657c8e915f60405e6cad0c8ec7faf812bfff1a60"
+pinned_ref = "gmsh_4_15_2"
+source_archive_url = "https://gitlab.onelab.info/gmsh/gmsh/-/archive/657c8e915f60405e6cad0c8ec7faf812bfff1a60/gmsh-657c8e915f60405e6cad0c8ec7faf812bfff1a60.tar.gz"
+source_archive_sha256 = "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9"
+source_archive_size_bytes = 32832529
 checksum_verified = true
 
 [[locked_tools]]
