@@ -69,7 +69,7 @@ def main() -> int:
         return 1
     try:
         config, mesh, manifest = _prepare_inputs()
-        write_json(capture_environment(), SMOKE_ROOT / "environment.json")
+        write_json(SMOKE_ROOT / "environment.json", capture_environment())
         output = SMOKE_ROOT / "postpro" / "eigenmode"
         if output.is_dir() and SMOKE_ROOT.resolve() in output.resolve().parents:
             shutil.rmtree(output)

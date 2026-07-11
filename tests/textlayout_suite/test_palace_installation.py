@@ -52,6 +52,39 @@ def test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree() 
     assert callable(installer._native_root)
 
 
+def test_completed_install_identity_is_native_and_pinned() -> None:
+    """When a real install exists, its identity must be native, pinned, hashed.
+
+    Skips on machines without a completed install (e.g. normal CI), so this is
+    a guard on a genuine local/solver-CI installation, never a false failure.
+    """
+    import json
+
+    import pytest
+
+    common = _load("_palace_common")
+    record_path = common.INSTALL_RECORD
+    if not record_path.is_file():
+        pytest.skip("no completed Palace installation on this machine")
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    if record.get("status") != "INSTALLED":
+        pytest.skip("Palace installation is not in the INSTALLED state")
+    assert record["palace_version"] == common.PALACE_VERSION
+    assert record["palace_commit"] == common.PALACE_COMMIT
+    executable = str(record["palace_executable"])
+    assert "/mnt/c" not in executable, "executable must be on native WSL ext4, not /mnt/c"
+    assert "build-stage" not in executable, "executable must not be in a temp build dir"
+    assert common.PALACE_ROOT.as_posix() not in executable
+    digest = str(record["palace_executable_sha256"])
+    assert len(digest) == 64
+    assert record["gmsh_version"] == common.GMESH_VERSION
+    assert record["source_archive_sha256"] == common.PALACE_SOURCE_SHA256
+    assert record["spack_commit"] == common.SPACK_COMMIT
+    assert record.get("git_commit")
+    assert record.get("mpi_version")
+    assert isinstance(record.get("compiler_versions"), dict)
+
+
 def test_installer_reuses_a_verified_installation(monkeypatch, tmp_path: Path) -> None:
     installer = _load("install_palace")
     existing = {
