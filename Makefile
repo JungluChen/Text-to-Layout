@@ -43,7 +43,7 @@ smoke-palace:
 	$(RUN) python scripts/external/run_palace_smoke.py
 
 benchmark-palace:
-	$(RUN) textlayout simulate palace-resonator --out out/palace_resonator
+	$(RUN) textlayout simulate palace-resonator --out out/palace_resonator_v017
 
 test:
 	$(RUN) pytest -q
