@@ -222,7 +222,7 @@ def main(argv: list[str] | None = None) -> int:
             print("[FAIL] no committed palace_cpw_quarter_wave_v017 packet", file=sys.stderr)
             return 1
         problems: list[str] = []
-        for name in (*COPIED, "provenance.json"):
+        for name in (*COPIED, "provenance.json", "test_environment.json"):
             if not (PACKET / name).is_file():
                 problems.append(f"missing {name}")
         evidence = load_canonical(PACKET / "canonical_evidence.json")
@@ -249,12 +249,53 @@ def main(argv: list[str] | None = None) -> int:
         shutil.copy2(run / name, PACKET / name)
     for name, content in rendered.items():
         (PACKET / name).write_text(content, encoding="utf-8", newline="\n")
+    _write_test_environment(run)
     provenance_source = (
         ROOT / "examples" / "solver_benchmarks" / "palace_cpw_quarter_wave" / "provenance.json"
     )
     shutil.copy2(provenance_source, PACKET / "provenance.json")
     print(f"published compact packet to {PACKET.relative_to(ROOT)}")
     return 0
+
+
+def _write_test_environment(run: Path) -> None:
+    """Write the packet's test_environment.json (machine + timing facts).
+
+    Prefers a measured ``test_environment.json`` written next to the run;
+    otherwise synthesises one from the toolchain, install, and smoke records
+    plus the committed baseline environment.
+    """
+    measured = run / "test_environment.json"
+    if measured.is_file():
+        shutil.copy2(measured, PACKET / "test_environment.json")
+        return
+    baseline = ROOT / "out" / "baseline" / "environment.json"
+    base = json.loads(baseline.read_text(encoding="utf-8")) if baseline.is_file() else {}
+    toolchain = json.loads((run / "toolchain.json").read_text(encoding="utf-8"))
+    smoke = ROOT / "out" / "toolchain" / "palace_smoke" / "result.json"
+    smoke_runtime = "unknown"
+    if smoke.is_file():
+        payload = json.loads(smoke.read_text(encoding="utf-8"))
+        seconds = payload.get("runtime_seconds")
+        if isinstance(seconds, (int, float)):
+            smoke_runtime = f"{seconds:.0f} s"
+    cpu = base.get("cpu", {})
+    environment = {
+        "os": base.get("os", "unknown"),
+        "wsl": base.get("wsl_distribution", "unknown"),
+        "cpu": (
+            f"{cpu.get('model', 'unknown')} ({cpu.get('logical_cores', '?')} logical cores)"
+            if cpu
+            else "unknown"
+        ),
+        "ram": f"{base.get('ram_gb_wsl', '?')} GB (WSL)",
+        "gmsh": toolchain.get("gmsh", {}).get("version", "unknown"),
+        "install_duration": "recorded in out/toolchain/palace_install.json",
+        "smoke_runtime": smoke_runtime,
+    }
+    (PACKET / "test_environment.json").write_text(
+        json.dumps(environment, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 if __name__ == "__main__":

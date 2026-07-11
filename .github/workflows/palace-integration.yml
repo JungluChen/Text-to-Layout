@@ -77,19 +77,58 @@ jobs:
             --mesh-scale 4.0 \
             --amr-iterations 4
 
+      - name: Assert a real Palace process was launched and hashes verify
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        run: |
+          uv run python - <<'EOF'
+          import json, pathlib, sys
+          manifest = json.loads(
+              pathlib.Path("out/palace_resonator_v017/run_manifest.json").read_text()
+          )
+          invocations = manifest.get("invocations", [])
+          launched = [
+              inv for inv in invocations
+              if inv.get("return_code") == 0 and inv.get("command")
+          ]
+          if not launched:
+              print("no real Palace invocation recorded in run_manifest.json")
+              sys.exit(1)
+          print(f"{len(launched)} real Palace invocation(s) recorded")
+          EOF
+          # promote verifies every retained output hash and requires a
+          # solver-backed status; it never promotes a non-executed run.
+          uv run python scripts/promote_palace_v017.py --run out/palace_resonator_v017
+
+      - name: Publish and drift-check the compact benchmark packet
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        run: |
+          uv run python scripts/publish_palace_v017_benchmark.py \
+            --run out/palace_resonator_v017
+          uv run python scripts/publish_palace_v017_benchmark.py --check
+          uv run python scripts/generate_readme_palace_benchmark.py --check
+
       - name: Collect compact artifacts (no binaries, no ParaView fields)
         if: always()
         run: |
           mkdir -p out/ci_artifacts
           find out/toolchain out/palace_resonator_v017 \
             \( -name '*.json' -o -name '*.csv' -o -name '*.md' -o -name '*.txt' \) \
-            -size -2M -print0 2>/dev/null | \
+            -size -2M ! -path '*/raw/*' -print0 2>/dev/null | \
             xargs -0 -I{} cp --parents {} out/ci_artifacts/ || true
 
-      - name: Upload artifacts
+      - name: Upload compact evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: palace-integration-evidence
           path: out/ci_artifacts
           retention-days: 30
+
+      - name: Upload adapted mesh (optional, expiring — never committed)
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: palace-adapted-mesh
+          path: out/palace_resonator_v017/raw
+          retention-days: 7
+          if-no-files-found: ignore
