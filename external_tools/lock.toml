@@ -2,6 +2,15 @@ schema_version = "textlayout.external-tools.lock.v1"
 generated_at = "2026-07-11T02:20:00+08:00"
 generated_from = "git ls-remote plus local SHA-256 of GitHub source archives"
 
+[palace_toolchain]
+palace_version = "0.17.0"
+palace_commit = "12d8069afb5aa9e169a17e303d735e120968e9f2"
+spack_version = "1.1.0"
+spack_commit = "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87"
+spack_packages_commit = "a2928a3376d286ddbf07da62847d5ba5b0fa3c67"
+gmsh_version = "4.15.2"
+installation_prefix = ".tools/palace/spack-opt"
+
 [[locked_tools]]
 id = "palace"
 resolved_commit = "12d8069afb5aa9e169a17e303d735e120968e9f2"

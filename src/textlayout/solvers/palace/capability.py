@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from textlayout.evidence.canonical import sha256_file
+from textlayout._paths import repository_root
 from textlayout.simulation.runners import (
     _execution_command,
     _windows_to_wsl,
@@ -20,6 +21,7 @@ from textlayout.simulation.runners import (
 from textlayout.solvers.palace.models import PalaceCapability
 
 _WSL_PREFIX = "wsl:"
+_INSTALL_RECORD = repository_root() / ".tools" / "palace" / "install.json"
 _VERSION_RE = re.compile(
     r"Palace\s+(?:version:?\s*)?\(?v?"
     r"([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[0-9]+-g[0-9a-f]+)?)",
@@ -176,6 +178,19 @@ def detect_palace(
     to an already-present OCI image, or ``TEXTLAYOUT_PALACE_SIF`` to a local SIF.
     """
     locate = finder or find_executable
+    if (
+        explicit is None
+        and finder is None
+        and not os.environ.get("TEXTLAYOUT_PALACE")
+        and _INSTALL_RECORD.is_file()
+    ):
+        try:
+            installed = json.loads(_INSTALL_RECORD.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            installed = {}
+        candidate = installed.get("palace_executable")
+        if isinstance(candidate, str) and candidate.startswith(_WSL_PREFIX):
+            explicit = candidate
     executable = locate(("palace", "palace.exe"), explicit, env_var="TEXTLAYOUT_PALACE")
     if executable is not None:
         launcher = locate(

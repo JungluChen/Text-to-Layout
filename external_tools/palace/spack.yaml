@@ -1,0 +1,14 @@
+spack:
+  concretizer:
+    reuse: false
+    unify: true
+    targets:
+      granularity: generic
+  config:
+    build_jobs: 8
+  mirrors:
+    spack:
+      binary: true
+      url: https://binaries.spack.io/develop
+  specs:
+    - palace@0.17.0~slepc+arpack+superlu-dist~strumpack~mumps~sundials~libxsmm~gslib
