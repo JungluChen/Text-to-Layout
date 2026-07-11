@@ -1,5 +1,5 @@
 {
-  "schema_version": "textlayout.palace-verification.v1",
+  "schema_version": "textlayout.palace-verification.v2",
   "design_id": "palace_cpw_quarter_wave",
   "status": "SIMULATION_EXECUTED",
   "promoted_frequency_ghz": null,
@@ -27,11 +27,11 @@
       "detail": "finite-element order is recorded for every level"
     },
     {
-      "name": "electric_and_magnetic_mode_overlap",
+      "name": "regional_energy_mode_similarity",
       "passed": true,
       "value": 0.999996210601646,
       "threshold": 0.98,
-      "detail": "minimum adjacent-level overlap; strict greater-than comparison"
+      "detail": "minimum adjacent-level cosine similarity of regional electric and magnetic energy distributions; this is not spatial field overlap"
     },
     {
       "name": "last_level_frequency_change_percent",
@@ -48,18 +48,18 @@
       "detail": "Palace global estimator on the final adaptive iteration"
     },
     {
-      "name": "all_domain_sweeps_complete",
+      "name": "all_numerical_domain_sweeps_complete",
       "passed": false,
       "value": 0.0,
-      "threshold": 4.0,
-      "detail": "vacuum, substrate, package-height, and lateral-boundary sweeps need >=3 points"
+      "threshold": 3.0,
+      "detail": "air-margin, upper-boundary, and lateral-boundary sweeps need >=3 points; physical-parameter sweeps are reported separately and never gate this"
     },
     {
-      "name": "domain_size_frequency_sensitivity_percent",
+      "name": "numerical_domain_frequency_sensitivity_percent",
       "passed": false,
       "value": null,
       "threshold": 0.2,
-      "detail": "{\"lateral_boundary\": null, \"package_height\": null, \"substrate_thickness\": null, \"vacuum_domain\": null}"
+      "detail": "{\"lateral_boundary_margin\": null, \"upper_boundary_distance\": null, \"vacuum_or_air_margin\": null}"
     },
     {
       "name": "participation_change_percent",
@@ -88,9 +88,11 @@
     "element_wise_error_indicators_recorded",
     "last_level_frequency_change_percent",
     "global_amr_error_indicator_percent",
-    "all_domain_sweeps_complete",
-    "domain_size_frequency_sensitivity_percent",
+    "all_numerical_domain_sweeps_complete",
+    "numerical_domain_frequency_sensitivity_percent",
     "independent_reference_target"
   ],
-  "study_sha256": "403463f6432618fb117f3fc36fb7c309af81b712d7778cc2e800b8aed21c70a7"
+  "numerical_domain_results": [],
+  "physical_sensitivity": [],
+  "study_sha256": "caf20e18fd7d517e6d326eea3ac6d07fd78403ee87f59ba8d5f3ed553d1e5d00"
 }

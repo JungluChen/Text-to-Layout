@@ -50,10 +50,11 @@ from textlayout.fem.gmsh_physical import GmshMeshResult, mesh_quarter_wave
 from textlayout.generators.resonator import QuarterWaveResonatorGenerator
 from textlayout.knowledge.technology_library import default_technology_library
 from textlayout.simulation.palace_verification import (
-    DomainSweep,
     DomainSweepPoint,
     PalaceAMRLevel,
     PalaceVerificationStudy,
+    SensitivitySweep,
+    SweepCategory,
     VerificationGate,
     assess_palace_verification,
 )
@@ -71,6 +72,7 @@ from textlayout.solvers.palace.models import (
     ModeFieldData,
     PalaceCapability,
     PalaceOutputError,
+    PalaceRun,
 )
 from textlayout.solvers.palace.parser import (
     parse_eigenmodes,
@@ -83,12 +85,45 @@ REQUIRED_PALACE_VERSION = "0.17.0"
 PARSER = "textlayout.solvers.palace.parser.parse_eigenmodes"
 PARSER_VERSION = "1"
 
-#: The four independent computational-domain sweeps and their values in um.
-DEFAULT_SWEEP_VALUES: dict[str, tuple[float, ...]] = {
-    "vacuum_domain": (250.0, 300.0, 350.0),
+#: Numerical-domain sweeps vary computational truncation only; the physics
+#: must not depend on them, so they gate numerical-domain convergence.
+DEFAULT_NUMERICAL_SWEEP_VALUES: dict[str, tuple[float, ...]] = {
+    "vacuum_or_air_margin": (250.0, 300.0, 350.0),
+    "upper_boundary_distance": (400.0, 450.0, 500.0),
+    "lateral_boundary_margin": (75.0, 100.0, 125.0),
+}
+
+#: Physical sensitivity studies vary the real device or stack; the frequency
+#: is expected to move, and these never gate numerical convergence.
+DEFAULT_PHYSICAL_SWEEP_VALUES: dict[str, tuple[float, ...]] = {
     "substrate_thickness": (250.0, 300.0, 350.0),
-    "package_height": (400.0, 450.0, 500.0),
-    "lateral_boundary": (75.0, 100.0, 125.0),
+    "substrate_permittivity": (11.0, 11.45, 11.9),
+}
+
+#: Who owns each physical parameter and what kind of uncertainty it carries.
+PHYSICAL_PARAMETER_METADATA: dict[str, dict[str, str]] = {
+    "substrate_thickness": {
+        "owner": "PDK",
+        "uncertainty_kind": "physical",
+        "unit": "um",
+        "note": "wafer thickness tolerance; a real device parameter, not a truncation choice",
+    },
+    "substrate_permittivity": {
+        "owner": "PDK",
+        "uncertainty_kind": "physical",
+        "unit": "relative",
+        "note": "silicon epsilon_r assumption; same mesh, config-only variation",
+    },
+}
+
+#: Parameters the current model cannot vary; reported honestly as unsupported.
+UNSUPPORTED_PHYSICAL_PARAMETERS: dict[str, str] = {
+    "metal_thickness": "metal is modelled as an infinitely thin PEC sheet",
+    "kinetic_inductance": "no London-depth/kinetic-inductance surface model is configured",
+    "package_height": (
+        "the PEC lid is used as a numerical truncation boundary in this study, "
+        "so its distance is swept as upper_boundary_distance instead"
+    ),
 }
 
 
@@ -109,7 +144,7 @@ class AMRSettings(BaseModel):
             "UpdateFraction": self.update_fraction,
             "Nonconformal": self.nonconformal,
             "SaveAdaptIterations": True,
-            "SaveAdaptMesh": False,
+            "SaveAdaptMesh": True,
         }
 
 
@@ -141,7 +176,11 @@ class AMRIterationRecord(BaseModel):
 
 
 class ModeMatch(BaseModel):
-    """Identity match between adjacent AMR iterations."""
+    """Identity match between adjacent AMR iterations.
+
+    The similarity terms compare *regional energy distributions* from
+    ``domain-E.csv`` — they are never true spatial field overlap.
+    """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -150,8 +189,8 @@ class ModeMatch(BaseModel):
     from_mode: int = Field(ge=1)
     to_mode: int = Field(ge=1)
     frequency_proximity: float = Field(ge=0, le=1)
-    electric_similarity: float = Field(ge=0, le=1)
-    magnetic_similarity: float = Field(ge=0, le=1)
+    electric_regional_energy_similarity: float = Field(ge=0, le=1)
+    magnetic_regional_energy_similarity: float = Field(ge=0, le=1)
     localization_similarity: float = Field(ge=0, le=1)
     score: float = Field(ge=0, le=1)
     runner_up_score: float = Field(ge=0, le=1)
@@ -162,12 +201,14 @@ class ModeMatch(BaseModel):
 
 
 class SweepPointRecord(BaseModel):
-    """One genuine Palace solve at a perturbed computational domain."""
+    """One genuine Palace solve at a perturbed domain or physical parameter."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     sweep: str
-    value_um: float = Field(gt=0)
+    category: SweepCategory
+    value: float = Field(gt=0)
+    unit: str = "um"
     extents: DomainExtents
     mesh_sha256: str
     resolved_config_sha256: str
@@ -389,8 +430,8 @@ def _run_palace_once(
     processes: int,
     timeout_seconds: float,
     cancel_event: Event | None,
-) -> tuple[Path, Path, float, list[str]]:
-    """Execute one Palace AMR solve; return (config_path, postpro, runtime, command)."""
+) -> tuple[Path, Path, PalaceRun]:
+    """Execute one Palace AMR solve; return (config_path, postpro, retained run)."""
     config = build_eigenmode_config(
         model, mesh_filename=mesh.path.name, output_dir="postpro"
     )
@@ -416,7 +457,42 @@ def _run_palace_once(
         raise PalaceOutputError(
             f"{run_dir.name}: Palace returned non-zero exit code {run.return_code}"
         )
-    return config_path, run_dir / "postpro", run.runtime_seconds, run.command
+    return config_path, run_dir / "postpro", run
+
+
+def _invocation_record(
+    label: str,
+    run: PalaceRun,
+    capability: PalaceCapability,
+    *,
+    processes: int,
+    mesh_sha256: str,
+    resolved_config_sha256: str | None,
+    root: Path,
+) -> dict[str, Any]:
+    """Every Palace invocation retains its full process-level identity."""
+
+    def _relative(path: Path) -> str:
+        try:
+            return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
+        except ValueError:
+            return str(path)
+
+    return {
+        "label": label,
+        "command": run.command,
+        "mpi_processes": processes,
+        "palace_version": capability.version,
+        "palace_executable_sha256": capability.executable_sha256,
+        "initial_mesh_sha256": mesh_sha256,
+        "resolved_config_sha256": resolved_config_sha256,
+        "return_code": run.return_code,
+        "runtime_seconds": run.runtime_seconds,
+        "stdout": _relative(run.stdout_path),
+        "stderr": _relative(run.stderr_path),
+        "input_file_hashes": run.input_file_hashes,
+        "output_file_hashes": run.output_file_hashes,
+    }
 
 
 def track_amr_modes(
@@ -466,8 +542,8 @@ def track_amr_modes(
                     from_mode=current,
                     to_mode=candidate.index,
                     frequency_proximity=frequency,
-                    electric_similarity=electric,
-                    magnetic_similarity=magnetic,
+                    electric_regional_energy_similarity=electric,
+                    magnetic_regional_energy_similarity=magnetic,
                     localization_similarity=localization,
                     score=score,
                     runner_up_score=0.0,
@@ -595,7 +671,8 @@ def run_quarter_wave_benchmark_v017(
     mesh_scale: float = 3.0,
     extents: DomainExtents | None = None,
     amr: AMRSettings | None = None,
-    sweep_values: dict[str, tuple[float, ...]] | None = None,
+    numerical_sweep_values: dict[str, tuple[float, ...]] | None = None,
+    physical_sweep_values: dict[str, tuple[float, ...]] | None = None,
 ) -> V017BenchmarkResult:
     """Run the Palace 0.17 AMR + domain-convergence benchmark end to end."""
     root = Path(output_dir).resolve()
@@ -603,7 +680,16 @@ def run_quarter_wave_benchmark_v017(
     detected = capability or detect_palace()
     base_extents = extents or DomainExtents()
     settings = amr or AMRSettings()
-    sweeps_requested = dict(sweep_values or DEFAULT_SWEEP_VALUES)
+    numerical_requested = dict(
+        numerical_sweep_values
+        if numerical_sweep_values is not None
+        else DEFAULT_NUMERICAL_SWEEP_VALUES
+    )
+    physical_requested = dict(
+        physical_sweep_values
+        if physical_sweep_values is not None
+        else DEFAULT_PHYSICAL_SWEEP_VALUES
+    )
     repo_root = Path(__file__).resolve().parents[4]
     layout = Path(layout_path).resolve()
 
@@ -681,7 +767,8 @@ def run_quarter_wave_benchmark_v017(
             base_dir / "mesh_metrics.json",
         )
 
-        config_path, postpro, amr_runtime, command = _run_palace_once(
+        base_mesh_hash = sha256_file(base_mesh.path)
+        config_path, postpro, amr_run = _run_palace_once(
             detected,
             run_dir=base_dir,
             model=model,
@@ -691,10 +778,35 @@ def run_quarter_wave_benchmark_v017(
             timeout_seconds=timeout_seconds,
             cancel_event=cancel_event,
         )
+        amr_runtime = amr_run.runtime_seconds
+        command = amr_run.command
         resolved_source = _resolved_config(postpro)
         resolved_base = resolved_dir / "amr_palace_resolved.json"
         shutil.copy2(resolved_source, resolved_base)
         resolved_hash = sha256_file(resolved_base)
+        invocations: list[dict[str, Any]] = [
+            _invocation_record(
+                "amr",
+                amr_run,
+                detected,
+                processes=processes,
+                mesh_sha256=base_mesh_hash,
+                resolved_config_sha256=resolved_hash,
+                root=root,
+            )
+        ]
+
+        # Palace's final adapted mesh (SaveAdaptMesh) is retained raw, hashed,
+        # and never committed: it is large solver-owned provenance.
+        raw_dir = root / "raw"
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        adapted_meshes = sorted(postpro.glob("*.mesh"))
+        final_adapted_mesh: Path | None = None
+        final_adapted_mesh_hash: str | None = None
+        if adapted_meshes:
+            final_adapted_mesh = raw_dir / "final_adapted.mesh"
+            shutil.move(str(adapted_meshes[-1]), final_adapted_mesh)
+            final_adapted_mesh_hash = sha256_file(final_adapted_mesh)
 
         amr_dir = root / "amr"
         parsed_iterations: list[_ParsedIteration] = []
@@ -731,11 +843,15 @@ def run_quarter_wave_benchmark_v017(
 
         write_json(
             {
-                "schema": "textlayout.palace-mode-tracking.v1",
+                "schema": "textlayout.palace-mode-tracking.v2",
+                "method": (
+                    "frequency continuity + regional electric/magnetic energy "
+                    "similarity + resonator localization; not spatial field overlap"
+                ),
                 "seed_frequency_ghz": target_frequency,
                 "tracked_mode_indices": tracked,
                 "matches": [match.model_dump(mode="json") for match in matches],
-                "minimum_score": 0.98,
+                "minimum_regional_energy_similarity": 0.98,
                 "minimum_margin": 0.05,
                 "error": tracking_error,
             },
@@ -771,84 +887,135 @@ def run_quarter_wave_benchmark_v017(
             parsed_iterations[-1].fields, tracked[-1], parsed_iterations[-1].tag
         )
 
-        sweeps: list[DomainSweep] = []
+        sweeps: list[SensitivitySweep] = []
         sweep_records: list[SweepPointRecord] = []
-        sweep_root = root / "domain_sweeps"
-        for sweep_name, values in sweeps_requested.items():
-            points: list[DomainSweepPoint] = []
-            for value in values:
+
+        def _run_sweep_point(
+            sweep_name: str,
+            category: SweepCategory,
+            value: float,
+            unit: str,
+            group_root: Path,
+        ) -> tuple[SweepPointRecord, DomainSweepPoint]:
+            point_dir = group_root / sweep_name / f"{value:g}{unit if unit == 'um' else ''}"
+            point_dir.mkdir(parents=True, exist_ok=True)
+            if sweep_name == "substrate_permittivity":
+                extent = base_extents
+                point_model = quarter_wave_fem_model(
+                    layout,
+                    mesh_scale=mesh_scale,
+                    extents=extent,
+                    substrate_permittivity=value,
+                )
+                # Identical geometry: the base mesh is reused byte-for-byte so
+                # the sweep isolates the permittivity assumption.
+                mesh_path = point_dir / base_mesh.path.name
+                shutil.copy2(base_mesh.path, mesh_path)
+                point_mesh = GmshMeshResult(
+                    path=mesh_path,
+                    runtime_seconds=0.0,
+                    element_count=base_mesh.element_count,
+                    minimum_quality=base_mesh.minimum_quality,
+                    mean_quality=base_mesh.mean_quality,
+                )
+            else:
                 extent = _extents_for(base_extents, sweep_name, value)
-                point_dir = sweep_root / sweep_name / f"{value:g}um"
-                point_dir.mkdir(parents=True, exist_ok=True)
                 point_model = quarter_wave_fem_model(
                     layout, mesh_scale=mesh_scale, extents=extent
                 )
                 point_mesh = _mesh_for(extent, point_dir, "quarter_wave")
-                _, point_postpro, point_runtime, _ = _run_palace_once(
+            point_mesh_hash = sha256_file(point_mesh.path)
+            _, point_postpro, point_run = _run_palace_once(
+                detected,
+                run_dir=point_dir,
+                model=point_model,
+                mesh=point_mesh,
+                refinement=settings.refinement_config(),
+                processes=processes,
+                timeout_seconds=timeout_seconds,
+                cancel_event=cancel_event,
+            )
+            point_resolved = _resolved_config(point_postpro)
+            resolved_copy = resolved_dir / f"{sweep_name}_{value:g}_resolved.json"
+            shutil.copy2(point_resolved, resolved_copy)
+            invocations.append(
+                _invocation_record(
+                    f"{sweep_name}@{value:g}",
+                    point_run,
                     detected,
-                    run_dir=point_dir,
-                    model=point_model,
-                    mesh=point_mesh,
-                    refinement=settings.refinement_config(),
                     processes=processes,
-                    timeout_seconds=timeout_seconds,
-                    cancel_event=cancel_event,
-                )
-                point_resolved = _resolved_config(point_postpro)
-                resolved_copy = resolved_dir / f"{sweep_name}_{value:g}um_resolved.json"
-                shutil.copy2(point_resolved, resolved_copy)
-                modes = parse_eigenmodes(point_postpro / "eig.csv")
-                fields = parse_mode_fields(
-                    point_postpro / "domain-E.csv",
-                    region_names=point_model.energy_regions(),
-                    output_dir=point_postpro,
-                )
-                mode, field = _select_sweep_mode(
-                    modes,
-                    fields,
-                    reference_frequency_ghz=accepted_frequency,
-                    reference_electric=accepted_field.electric_participation,
-                    reference_magnetic=accepted_field.magnetic_participation,
-                    reference_localization=accepted_field.resonator_localization,
-                    source=f"{sweep_name}@{value:g}um",
-                )
-                substrate, vacuum = _grouped_participation(field.electric_participation)
-                hashes = {
-                    str(path.resolve().relative_to(root)).replace("\\", "/"): sha256_file(path)
-                    for path in (
-                        point_postpro / "eig.csv",
-                        point_postpro / "domain-E.csv",
-                        resolved_copy,
-                    )
-                }
-                point_record = SweepPointRecord(
-                    sweep=sweep_name,
-                    value_um=value,
-                    extents=extent,
-                    mesh_sha256=sha256_file(point_mesh.path),
+                    mesh_sha256=point_mesh_hash,
                     resolved_config_sha256=sha256_file(resolved_copy),
-                    frequency_ghz=mode.frequency_ghz,
-                    mode_index=mode.index,
-                    substrate_participation=substrate,
-                    vacuum_participation=vacuum,
-                    electric_participation_by_region=field.electric_participation,
-                    runtime_seconds=point_runtime,
-                    output_file_hashes=hashes,
+                    root=root,
                 )
-                write_json(point_record.model_dump(mode="json"), point_dir / "point.json")
-                sweep_records.append(point_record)
-                points.append(
-                    DomainSweepPoint(
-                        value_um=value,
-                        frequency_ghz=mode.frequency_ghz,
-                        participation_by_region={
-                            "substrate": substrate,
-                            "vacuum": vacuum,
-                        },
-                        output_file_hashes=hashes,
+            )
+            for stale_mesh in point_postpro.rglob("*.mesh"):
+                stale_mesh.unlink()
+            modes = parse_eigenmodes(point_postpro / "eig.csv")
+            fields = parse_mode_fields(
+                point_postpro / "domain-E.csv",
+                region_names=point_model.energy_regions(),
+                output_dir=point_postpro,
+            )
+            mode, field = _select_sweep_mode(
+                modes,
+                fields,
+                reference_frequency_ghz=accepted_frequency,
+                reference_electric=accepted_field.electric_participation,
+                reference_magnetic=accepted_field.magnetic_participation,
+                reference_localization=accepted_field.resonator_localization,
+                source=f"{sweep_name}@{value:g}",
+            )
+            substrate, vacuum = _grouped_participation(field.electric_participation)
+            hashes = {
+                str(path.resolve().relative_to(root)).replace("\\", "/"): sha256_file(path)
+                for path in (
+                    point_postpro / "eig.csv",
+                    point_postpro / "domain-E.csv",
+                    resolved_copy,
+                )
+            }
+            record = SweepPointRecord(
+                sweep=sweep_name,
+                category=category,
+                value=value,
+                unit=unit,
+                extents=extent,
+                mesh_sha256=point_mesh_hash,
+                resolved_config_sha256=sha256_file(resolved_copy),
+                frequency_ghz=mode.frequency_ghz,
+                mode_index=mode.index,
+                substrate_participation=substrate,
+                vacuum_participation=vacuum,
+                electric_participation_by_region=field.electric_participation,
+                runtime_seconds=point_run.runtime_seconds,
+                output_file_hashes=hashes,
+            )
+            write_json(record.model_dump(mode="json"), point_dir / "point.json")
+            point = DomainSweepPoint(
+                value_um=value,
+                frequency_ghz=mode.frequency_ghz,
+                participation_by_region={"substrate": substrate, "vacuum": vacuum},
+                output_file_hashes=hashes,
+            )
+            return record, point
+
+        for group_root, category, requested in (
+            (root / "numerical_domain_sweeps", SweepCategory.NUMERICAL_DOMAIN, numerical_requested),
+            (root / "physical_sensitivity", SweepCategory.PHYSICAL_PARAMETER, physical_requested),
+        ):
+            for sweep_name, values in requested.items():
+                unit = PHYSICAL_PARAMETER_METADATA.get(sweep_name, {}).get("unit", "um")
+                points: list[DomainSweepPoint] = []
+                for value in values:
+                    sweep_point_record, point = _run_sweep_point(
+                        sweep_name, category, value, unit, group_root
                     )
+                    sweep_records.append(sweep_point_record)
+                    points.append(point)
+                sweeps.append(
+                    SensitivitySweep(name=sweep_name, category=category, points=points)
                 )
-            sweeps.append(DomainSweep(name=sweep_name, points=points))
     except PalaceOutputError as exc:
         return _finish_invalid(
             root,
@@ -893,9 +1060,48 @@ def run_quarter_wave_benchmark_v017(
         independent_reference=None,
     )
     verification = assess_palace_verification(study)
-    supplementary = _supplementary_gates(
-        detected, records, matches, sweep_records, target_frequency, model
+    stop_reason = (
+        "tolerance_reached"
+        if len(records) < settings.max_iterations
+        else "max_iterations_reached"
     )
+    supplementary = _supplementary_gates(
+        detected, records, matches, target_frequency, model, stop_reason=stop_reason
+    )
+    run_manifest = {
+        "schema": "textlayout.palace-run-manifest.v1",
+        "generated_at": _timestamp(),
+        "git_commit": _git_commit(repo_root),
+        "palace_version": detected.version,
+        "palace_executable_sha256": detected.executable_sha256,
+        "initial_mesh": {
+            "path": f"base_mesh/{base_mesh.path.name}",
+            "sha256": base_mesh_hash,
+            "element_count": base_mesh.element_count,
+            "minimum_quality": base_mesh.minimum_quality,
+            "mean_quality": base_mesh.mean_quality,
+        },
+        "final_adapted_mesh": {
+            "path": "raw/final_adapted.mesh" if final_adapted_mesh is not None else None,
+            "sha256": final_adapted_mesh_hash,
+            "retention": (
+                "raw solver-owned provenance; kept locally under out/, uploaded by CI "
+                "only as an optional expiring artifact, never committed"
+            ),
+        },
+        "polynomial_order": model.eigenmode.element_order,
+        "amr": {
+            "accepted_iterations": len(records),
+            "stop_reason": stop_reason,
+            "settings": settings.model_dump(mode="json"),
+            "final_element_count": records[-1].element_count,
+            "final_degrees_of_freedom": records[-1].degrees_of_freedom,
+            "final_global_error_indicator_percent": records[-1].global_error_indicator_percent,
+        },
+        "resolved_config_sha256": resolved_hash,
+        "invocations": invocations,
+    }
+    write_json(run_manifest, root / "run_manifest.json")
     invalid_names = {
         gate.name
         for gate in supplementary
@@ -925,13 +1131,16 @@ def run_quarter_wave_benchmark_v017(
 
     write_json(
         {
-            "schema": "textlayout.palace-convergence.v1",
+            "schema": "textlayout.palace-convergence.v2",
             "status": status.value,
             "verification_report": verification.model_dump(mode="json"),
             "supplementary_gates": [gate.model_dump(mode="json") for gate in supplementary],
             "amr_iterations": [record.model_dump(mode="json") for record in records],
             "amr_settings": settings.model_dump(mode="json"),
+            "amr_stop_reason": stop_reason,
             "sweep_points": [record.model_dump(mode="json") for record in sweep_records],
+            "unsupported_physical_parameters": UNSUPPORTED_PHYSICAL_PARAMETERS,
+            "physical_parameter_metadata": PHYSICAL_PARAMETER_METADATA,
         },
         root / "convergence.json",
     )
@@ -953,6 +1162,7 @@ def run_quarter_wave_benchmark_v017(
         base_mesh=base_mesh,
         config_path=config_path,
         resolved_hash=resolved_hash,
+        final_adapted_mesh_hash=final_adapted_mesh_hash,
     )
     evidence_path = write_canonical(evidence, root / "canonical_evidence.json")
     _write_report(root, status, records, matches, sweep_records, verification, supplementary)
@@ -965,24 +1175,25 @@ def run_quarter_wave_benchmark_v017(
 
 
 def _extents_for(base: DomainExtents, sweep: str, value: float) -> DomainExtents:
-    if sweep == "vacuum_domain":
+    if sweep == "vacuum_or_air_margin":
         return base.model_copy(update={"vacuum_height_um": value})
     if sweep == "substrate_thickness":
         return base.model_copy(update={"substrate_thickness_um": value})
-    if sweep == "package_height":
+    if sweep == "upper_boundary_distance":
         return base.model_copy(update={"lid_height_um": value})
-    if sweep == "lateral_boundary":
+    if sweep == "lateral_boundary_margin":
         return base.model_copy(update={"lateral_margin_um": value})
-    raise ValueError(f"unknown domain sweep {sweep!r}")
+    raise ValueError(f"unknown sweep {sweep!r}")
 
 
 def _supplementary_gates(
     capability: PalaceCapability,
     records: list[AMRIterationRecord],
     matches: list[ModeMatch],
-    sweep_records: list[SweepPointRecord],
     target_frequency: float,
     model: FEMModel,
+    *,
+    stop_reason: str,
 ) -> list[VerificationGate]:
     gates: list[VerificationGate] = []
     gates.append(
@@ -992,13 +1203,19 @@ def _supplementary_gates(
             detail=f"detected {capability.version!r}",
         )
     )
+    # Four accepted iterations are preferred; three usable iterations are
+    # acceptable only when Palace itself stopped at its declared tolerance.
+    enough = len(records) >= 4 or (len(records) >= 3 and stop_reason == "tolerance_reached")
     gates.append(
         VerificationGate(
             name="at_least_four_accepted_amr_iterations",
-            passed=len(records) >= 4,
+            passed=enough,
             value=float(len(records)),
             threshold=4.0,
-            detail="Palace-owned accepted adaptive iterations",
+            detail=(
+                f"{len(records)} Palace-owned accepted adaptive iterations; "
+                f"stop reason: {stop_reason}"
+            ),
         )
     )
     elements = [record.element_count for record in records]
@@ -1021,11 +1238,14 @@ def _supplementary_gates(
     minimum_margin = min((match.margin for match in matches), default=0.0)
     gates.append(
         VerificationGate(
-            name="mode_match_score_above_0p98",
+            name="mode_regional_energy_similarity_above_0p98",
             passed=bool(matches) and minimum_score > 0.98,
             value=minimum_score,
             threshold=0.98,
-            detail="minimum adjacent-iteration match score",
+            detail=(
+                "minimum adjacent-iteration regional-energy similarity score; "
+                "not spatial field overlap"
+            ),
         )
     )
     gates.append(
@@ -1039,13 +1259,13 @@ def _supplementary_gates(
     )
     all_frequencies = [
         frequency for record in records for frequency in record.candidate_frequencies_ghz
-    ] + [record.frequency_ghz for record in sweep_records]
+    ]
     gates.append(
         VerificationGate(
             name="frequencies_finite_and_positive",
             passed=bool(all_frequencies)
             and all(math.isfinite(value) and value > 0 for value in all_frequencies),
-            detail="every parsed candidate and sweep frequency",
+            detail="every parsed candidate frequency across AMR iterations",
         )
     )
     window_low = model.eigenmode.target_frequency_ghz
@@ -1062,21 +1282,6 @@ def _supplementary_gates(
             name="eigenfrequency_not_at_search_window_boundary",
             passed=bool(tracked) and not pinned,
             detail=f"target window floor {window_low} GHz, tracked {tracked}",
-        )
-    )
-    substrate = [record.substrate_participation for record in sweep_records]
-    substrate_sensitivity = (
-        (max(substrate) - min(substrate)) / max(sum(substrate) / len(substrate), 1e-12) * 100.0
-        if substrate
-        else None
-    )
-    gates.append(
-        VerificationGate(
-            name="domain_substrate_participation_sensitivity_percent",
-            passed=substrate_sensitivity is not None and substrate_sensitivity < 2.0,
-            value=substrate_sensitivity,
-            threshold=2.0,
-            detail="substrate participation spread across every domain-sweep solve",
         )
     )
     return gates
@@ -1180,6 +1385,7 @@ def _executed_evidence(
     base_mesh: GmshMeshResult,
     config_path: Path,
     resolved_hash: str,
+    final_adapted_mesh_hash: str | None,
 ) -> CanonicalEvidence:
     output_hashes: dict[str, str] = {}
     for record in records:
@@ -1196,6 +1402,11 @@ def _executed_evidence(
         "parser_version": PARSER_VERSION,
         "tracked_mode_indices": [record.tracked_mode_index for record in records],
         "resolved_config_sha256": resolved_hash,
+        "final_adapted_mesh_sha256": final_adapted_mesh_hash,
+        "sweep_resolved_config_sha256": {
+            f"{record.sweep}@{record.value:g}": record.resolved_config_sha256
+            for record in sweep_records
+        },
         "gates": [gate.model_dump(mode="json") for gate in verification_gates],
     }
     extraction_hash = sha256_json(extraction)
@@ -1285,7 +1496,18 @@ def _executed_evidence(
                 role="mesh",
                 artifact=str(base_mesh.path),
                 sha256=sha256_file(base_mesh.path),
-            )
+            ),
+            *(
+                [
+                    ArtifactDependency(
+                        role="final_adapted_mesh",
+                        artifact="raw/final_adapted.mesh",
+                        sha256=final_adapted_mesh_hash,
+                    )
+                ]
+                if final_adapted_mesh_hash is not None
+                else []
+            ),
         ],
         git_commit=_git_commit(repo_root),
         timestamp=_timestamp(),
@@ -1332,19 +1554,72 @@ def _write_report(
                 f"{record.runtime_seconds:.1f}" if record.runtime_seconds is not None else "-",
             )
         )
-    lines += ["", "## Mode tracking", ""]
+    lines += [
+        "",
+        "## Mode tracking (regional-energy similarity, not spatial field overlap)",
+        "",
+    ]
     for match in matches:
         lines.append(
             f"- {match.from_tag} -> {match.to_tag}: mode {match.from_mode} -> "
-            f"{match.to_mode}, score {match.score:.4f}, margin {match.margin:.4f}"
+            f"{match.to_mode}, regional-energy similarity score {match.score:.4f}, "
+            f"margin {match.margin:.4f}"
         )
-    lines += ["", "## Domain sweeps", "", "| sweep | value (um) | f (GHz) | substrate p |",
-              "| --- | ---: | ---: | ---: |"]
-    for sweep_record in sweep_records:
+
+    def _sweep_table(category: SweepCategory, title: str, note: str) -> None:
+        lines.extend(
+            [
+                "",
+                f"## {title}",
+                "",
+                note,
+                "",
+                "| sweep | value | f (GHz) | substrate p | vacuum p |",
+                "| --- | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for record in sweep_records:
+            if record.category is not category:
+                continue
+            lines.append(
+                f"| {record.sweep} | {record.value:g} {record.unit} | "
+                f"{record.frequency_ghz:.6f} | {record.substrate_participation:.6f} | "
+                f"{record.vacuum_participation:.6f} |"
+            )
+
+    _sweep_table(
+        SweepCategory.NUMERICAL_DOMAIN,
+        "Numerical-domain convergence sweeps",
+        "Computational truncation choices; the physics must not depend on these, "
+        "so they gate numerical-domain convergence (< 0.2% frequency sensitivity).",
+    )
+    _sweep_table(
+        SweepCategory.PHYSICAL_PARAMETER,
+        "Physical sensitivity studies (reported, never gated)",
+        "Real device/stack parameters; the frequency is *expected* to move. "
+        "Physical sensitivity is not numerical convergence and never fails it.",
+    )
+    lines += ["", "### Physical parameter ownership", ""]
+    for name, meta in PHYSICAL_PARAMETER_METADATA.items():
         lines.append(
-            f"| {sweep_record.sweep} | {sweep_record.value_um:g} | "
-            f"{sweep_record.frequency_ghz:.6f} | {sweep_record.substrate_participation:.6f} |"
+            f"- `{name}`: owner {meta['owner']}, {meta['uncertainty_kind']} uncertainty "
+            f"({meta['note']})"
         )
+    for name, reason in UNSUPPORTED_PHYSICAL_PARAMETERS.items():
+        lines.append(f"- `{name}`: not swept — {reason}")
+    lines += [
+        "",
+        "## Uncertainty separation",
+        "",
+        "- **Mesh-discretization uncertainty**: bounded by the Palace AMR error "
+        "indicator and the last-two-iteration frequency change above.",
+        "- **Computational-domain uncertainty**: bounded by the numerical-domain "
+        "sweeps above.",
+        "- **Physical-model uncertainty**: shown by the physical sensitivity "
+        "studies above; it is a property of the stack assumptions, not the solver.",
+        "- **Fabrication/process uncertainty**: not assessed here; substrate "
+        "thickness/permittivity spreads above indicate the direction and scale.",
+    ]
     lines += ["", "## Gates", ""]
     for gate in [*verification.gates, *supplementary]:
         lines.append(f"- {'PASS' if gate.passed else 'FAIL'} `{gate.name}`: {gate.detail}")

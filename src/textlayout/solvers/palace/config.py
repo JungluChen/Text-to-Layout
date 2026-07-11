@@ -82,10 +82,13 @@ def quarter_wave_fem_model(
     mesh_scale: float = 1.0,
     domain_scale: float = 1.0,
     extents: DomainExtents | None = None,
+    substrate_permittivity: float = 11.45,
 ) -> FEMModel:
     """Build the physical FEM IR from the committed 6 GHz layout parameters."""
     if mesh_scale <= 0 or domain_scale <= 0:
         raise ValueError("mesh_scale and domain_scale must be positive")
+    if substrate_permittivity <= 1.0:
+        raise ValueError("substrate_permittivity must exceed 1")
     spec, params = load_quarter_wave_layout(layout_path)
     target = float(spec.target.get("frequency_ghz", 6.0))
 
@@ -179,11 +182,13 @@ def quarter_wave_fem_model(
             f"_lat{extents.lateral_margin_um:g}"
         )
     )
+    if substrate_permittivity != 11.45:
+        name += f"_eps{substrate_permittivity:g}"
     return FEMModel(
         name=name,
         length_unit_m=1e-6,
         materials=[
-            Material(name="silicon", permittivity=11.45, loss_tangent=1e-6),
+            Material(name="silicon", permittivity=substrate_permittivity, loss_tangent=1e-6),
             Material(name="vacuum", permittivity=1.0),
         ],
         volumes=volumes,

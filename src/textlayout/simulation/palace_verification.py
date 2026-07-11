@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 from collections.abc import Mapping
+from enum import Enum
 from pathlib import Path
 from typing import Any, Literal
 
@@ -21,8 +22,26 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from textlayout.evidence.contract import EvidenceStatus
 
-PALACE_VERIFICATION_SCHEMA = "textlayout.palace-verification.v1"
-REQUIRED_SWEEPS = (
+#: v2: sweeps are typed as numerical-domain vs physical-parameter, and the
+#: former "electric_and_magnetic_mode_overlap" gate is honestly renamed to
+#: "regional_energy_mode_similarity" — it compares regional energy
+#: distributions, never true spatial field overlap. v1 reports remain
+#: readable through their own committed JSON; nothing rewrites them.
+PALACE_VERIFICATION_SCHEMA = "textlayout.palace-verification.v2"
+
+#: Only these sweeps assess how the *computational* domain truncates the
+#: problem; they gate numerical-domain convergence. A PML/absorbing-layer
+#: thickness sweep joins them when such a boundary is implemented.
+REQUIRED_NUMERICAL_SWEEPS = (
+    "vacuum_or_air_margin",
+    "upper_boundary_distance",
+    "lateral_boundary_margin",
+)
+
+#: Retained for callers of the v1 vocabulary; the v1 sweep group mixed
+#: numerical truncation and physical device parameters, which is exactly the
+#: semantic error v2 corrects.
+LEGACY_V1_REQUIRED_SWEEPS = (
     "vacuum_domain",
     "substrate_thickness",
     "package_height",
@@ -30,10 +49,25 @@ REQUIRED_SWEEPS = (
 )
 
 
+class SweepCategory(str, Enum):
+    """What a sensitivity sweep measures.
+
+    A ``NUMERICAL_DOMAIN`` sweep varies a computational truncation choice
+    (air margin, boundary distance); the physics must not depend on it, so it
+    participates in the numerical-domain convergence gate. A
+    ``PHYSICAL_PARAMETER`` sweep varies the actual device or package (its
+    substrate thickness, permittivity); the frequency is *expected* to move,
+    and such a sweep must never fail numerical convergence.
+    """
+
+    NUMERICAL_DOMAIN = "numerical_domain"
+    PHYSICAL_PARAMETER = "physical_parameter"
+
+
 class VerificationThresholds(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    mode_overlap_min: float = Field(default=0.98, gt=0, le=1)
+    regional_energy_similarity_min: float = Field(default=0.98, gt=0, le=1)
     last_frequency_change_percent_max: float = Field(default=0.2, gt=0)
     global_amr_error_percent_max: float = Field(default=0.5, gt=0)
     domain_frequency_sensitivity_percent_max: float = Field(default=0.2, gt=0)
@@ -69,11 +103,19 @@ class DomainSweepPoint(BaseModel):
     output_file_hashes: dict[str, str] = Field(default_factory=dict)
 
 
-class DomainSweep(BaseModel):
+class SensitivitySweep(BaseModel):
+    """A named sweep, explicitly typed as numerical-domain or physical."""
+
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     name: str
+    category: SweepCategory = SweepCategory.NUMERICAL_DOMAIN
     points: list[DomainSweepPoint] = Field(default_factory=list)
+
+
+#: v1 name, kept importable so existing callers keep working; a bare
+#: ``DomainSweep`` defaults to the numerical-domain category.
+DomainSweep = SensitivitySweep
 
 
 class IndependentReference(BaseModel):
@@ -104,9 +146,33 @@ class PalaceVerificationStudy(BaseModel):
     solver_version: str | None = None
     solver_artifact_hash: str | None = None
     levels: list[PalaceAMRLevel] = Field(default_factory=list)
-    sweeps: list[DomainSweep] = Field(default_factory=list)
+    sweeps: list[SensitivitySweep] = Field(default_factory=list)
     independent_reference: IndependentReference | None = None
     thresholds: VerificationThresholds = Field(default_factory=VerificationThresholds)
+
+    @property
+    def numerical_sweeps(self) -> list[SensitivitySweep]:
+        return [s for s in self.sweeps if s.category is SweepCategory.NUMERICAL_DOMAIN]
+
+    @property
+    def physical_sweeps(self) -> list[SensitivitySweep]:
+        return [s for s in self.sweeps if s.category is SweepCategory.PHYSICAL_PARAMETER]
+
+
+class SweepSensitivityResult(BaseModel):
+    """Per-sweep sensitivity, reported for every sweep of either category."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: str
+    category: SweepCategory
+    points: int
+    frequency_sensitivity_percent: float | None = None
+    substrate_participation_sensitivity_percent: float | None = None
+    vacuum_participation_sensitivity_percent: float | None = None
+    #: Only numerical-domain sweeps carry a pass/fail; a physical parameter
+    #: is *expected* to move the frequency and is reported without judgement.
+    passed: bool | None = None
 
 
 class PalaceVerificationReport(BaseModel):
@@ -119,6 +185,8 @@ class PalaceVerificationReport(BaseModel):
     candidate_frequency_ghz: float | None = None
     gates: list[VerificationGate]
     blockers: list[str]
+    numerical_domain_results: list[SweepSensitivityResult] = Field(default_factory=list)
+    physical_sensitivity: list[SweepSensitivityResult] = Field(default_factory=list)
     study_sha256: str
 
     @property
@@ -241,11 +309,43 @@ def _relative_change_percent(first: float, second: float) -> float:
     return abs(second - first) / max(abs(second), 1e-300) * 100.0
 
 
-def _sweep_sensitivity(sweep: DomainSweep) -> float | None:
+def _sweep_sensitivity(sweep: SensitivitySweep) -> float | None:
     if len(sweep.points) < 3:
         return None
     values = [point.frequency_ghz for point in sweep.points]
     return (max(values) - min(values)) / (sum(values) / len(values)) * 100.0
+
+
+def _participation_sensitivity(sweep: SensitivitySweep, region: str) -> float | None:
+    values = [
+        point.participation_by_region[region]
+        for point in sweep.points
+        if region in point.participation_by_region
+    ]
+    if len(values) < 3:
+        return None
+    mean = sum(values) / len(values)
+    return (max(values) - min(values)) / max(mean, 1e-12) * 100.0
+
+
+def _sweep_result(
+    sweep: SensitivitySweep, *, threshold_percent: float | None
+) -> SweepSensitivityResult:
+    frequency = _sweep_sensitivity(sweep)
+    passed: bool | None = None
+    if sweep.category is SweepCategory.NUMERICAL_DOMAIN and threshold_percent is not None:
+        passed = frequency is not None and frequency < threshold_percent
+    return SweepSensitivityResult(
+        name=sweep.name,
+        category=sweep.category,
+        points=len(sweep.points),
+        frequency_sensitivity_percent=frequency,
+        substrate_participation_sensitivity_percent=_participation_sensitivity(
+            sweep, "substrate"
+        ),
+        vacuum_participation_sensitivity_percent=_participation_sensitivity(sweep, "vacuum"),
+        passed=passed,
+    )
 
 
 def assess_palace_verification(study: PalaceVerificationStudy) -> PalaceVerificationReport:
@@ -297,14 +397,18 @@ def assess_palace_verification(study: PalaceVerificationStudy) -> PalaceVerifica
             overlap_missing = True
         else:
             overlaps.append(min(e_overlap, h_overlap))
-    minimum_overlap = min(overlaps) if overlaps and not overlap_missing else None
+    minimum_similarity = min(overlaps) if overlaps and not overlap_missing else None
     gates.append(
         VerificationGate(
-            name="electric_and_magnetic_mode_overlap",
-            passed=minimum_overlap is not None and minimum_overlap > thresholds.mode_overlap_min,
-            value=minimum_overlap,
-            threshold=thresholds.mode_overlap_min,
-            detail="minimum adjacent-level overlap; strict greater-than comparison",
+            name="regional_energy_mode_similarity",
+            passed=minimum_similarity is not None
+            and minimum_similarity > thresholds.regional_energy_similarity_min,
+            value=minimum_similarity,
+            threshold=thresholds.regional_energy_similarity_min,
+            detail=(
+                "minimum adjacent-level cosine similarity of regional electric and "
+                "magnetic energy distributions; this is not spatial field overlap"
+            ),
         )
     )
 
@@ -336,25 +440,34 @@ def assess_palace_verification(study: PalaceVerificationStudy) -> PalaceVerifica
         )
     )
 
-    by_name = {sweep.name: sweep for sweep in study.sweeps}
+    numerical_by_name = {sweep.name: sweep for sweep in study.numerical_sweeps}
     sensitivities = {
-        name: _sweep_sensitivity(by_name[name]) if name in by_name else None
-        for name in REQUIRED_SWEEPS
+        name: (
+            _sweep_sensitivity(numerical_by_name[name]) if name in numerical_by_name else None
+        )
+        for name in REQUIRED_NUMERICAL_SWEEPS
     }
     completed_sensitivities = [value for value in sensitivities.values() if value is not None]
-    worst_sensitivity = max(completed_sensitivities) if len(completed_sensitivities) == 4 else None
+    worst_sensitivity = (
+        max(completed_sensitivities)
+        if len(completed_sensitivities) == len(REQUIRED_NUMERICAL_SWEEPS)
+        else None
+    )
     gates.append(
         VerificationGate(
-            name="all_domain_sweeps_complete",
+            name="all_numerical_domain_sweeps_complete",
             passed=all(value is not None for value in sensitivities.values()),
             value=float(len(completed_sensitivities)),
-            threshold=4.0,
-            detail="vacuum, substrate, package-height, and lateral-boundary sweeps need >=3 points",
+            threshold=float(len(REQUIRED_NUMERICAL_SWEEPS)),
+            detail=(
+                "air-margin, upper-boundary, and lateral-boundary sweeps need >=3 points; "
+                "physical-parameter sweeps are reported separately and never gate this"
+            ),
         )
     )
     gates.append(
         VerificationGate(
-            name="domain_size_frequency_sensitivity_percent",
+            name="numerical_domain_frequency_sensitivity_percent",
             passed=worst_sensitivity is not None
             and worst_sensitivity < thresholds.domain_frequency_sensitivity_percent_max,
             value=worst_sensitivity,
@@ -362,6 +475,15 @@ def assess_palace_verification(study: PalaceVerificationStudy) -> PalaceVerifica
             detail=json.dumps(sensitivities, sort_keys=True),
         )
     )
+    numerical_results = [
+        _sweep_result(
+            sweep, threshold_percent=thresholds.domain_frequency_sensitivity_percent_max
+        )
+        for sweep in study.numerical_sweeps
+    ]
+    physical_results = [
+        _sweep_result(sweep, threshold_percent=None) for sweep in study.physical_sweeps
+    ]
 
     participation_change: float | None = None
     if len(levels) >= 2:
@@ -440,6 +562,8 @@ def assess_palace_verification(study: PalaceVerificationStudy) -> PalaceVerifica
         candidate_frequency_ghz=candidate,
         gates=gates,
         blockers=blockers,
+        numerical_domain_results=numerical_results,
+        physical_sensitivity=physical_results,
         study_sha256=hashlib.sha256(study_payload.encode("utf-8")).hexdigest(),
     )
 

@@ -34,12 +34,49 @@ def test_domain_extents_reject_lid_below_vacuum() -> None:
 
 def test_extents_for_maps_each_required_sweep() -> None:
     base = DomainExtents()
-    assert _extents_for(base, "vacuum_domain", 250.0).vacuum_height_um == 250.0
+    assert _extents_for(base, "vacuum_or_air_margin", 250.0).vacuum_height_um == 250.0
     assert _extents_for(base, "substrate_thickness", 275.0).substrate_thickness_um == 275.0
-    assert _extents_for(base, "package_height", 500.0).lid_height_um == 500.0
-    assert _extents_for(base, "lateral_boundary", 80.0).lateral_margin_um == 80.0
+    assert _extents_for(base, "upper_boundary_distance", 500.0).lid_height_um == 500.0
+    assert _extents_for(base, "lateral_boundary_margin", 80.0).lateral_margin_um == 80.0
     with pytest.raises(ValueError):
         _extents_for(base, "unknown", 1.0)
+
+
+def test_sweep_defaults_are_split_by_category() -> None:
+    from textlayout.solvers.palace.benchmark_v017 import (
+        DEFAULT_NUMERICAL_SWEEP_VALUES,
+        DEFAULT_PHYSICAL_SWEEP_VALUES,
+        UNSUPPORTED_PHYSICAL_PARAMETERS,
+    )
+
+    assert set(DEFAULT_NUMERICAL_SWEEP_VALUES) == {
+        "vacuum_or_air_margin",
+        "upper_boundary_distance",
+        "lateral_boundary_margin",
+    }
+    assert "substrate_thickness" in DEFAULT_PHYSICAL_SWEEP_VALUES
+    assert "substrate_permittivity" in DEFAULT_PHYSICAL_SWEEP_VALUES
+    # substrate thickness is a physical parameter and must never gate
+    # numerical-domain convergence
+    assert "substrate_thickness" not in DEFAULT_NUMERICAL_SWEEP_VALUES
+    assert "metal_thickness" in UNSUPPORTED_PHYSICAL_PARAMETERS
+    assert "kinetic_inductance" in UNSUPPORTED_PHYSICAL_PARAMETERS
+
+
+def test_amr_settings_retain_the_adapted_mesh() -> None:
+    refinement = AMRSettings().refinement_config()
+    assert refinement["SaveAdaptIterations"] is True
+    assert refinement["SaveAdaptMesh"] is True
+
+
+def test_mode_match_uses_regional_energy_similarity_names() -> None:
+    from textlayout.solvers.palace.benchmark_v017 import ModeMatch
+
+    fields = set(ModeMatch.model_fields)
+    assert "electric_regional_energy_similarity" in fields
+    assert "magnetic_regional_energy_similarity" in fields
+    assert "electric_field_overlap" not in fields
+    assert "magnetic_field_overlap" not in fields
 
 
 def test_amr_settings_project_native_palace_refinement_keys() -> None:
