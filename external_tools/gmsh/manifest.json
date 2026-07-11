@@ -1,0 +1,10 @@
+{
+  "schema": "textlayout.gmsh-runtime.v1",
+  "version": "4.15.2",
+  "distribution": "gmsh==4.15.2",
+  "installation": "uv sync --extra mesh",
+  "integration": "external Python wheel and shared library; not bundled in the text-to-gds wheel",
+  "upstream": "https://gmsh.info/",
+  "license": "GNU GPL v2 or later with upstream exception terms",
+  "required_for": ["physical Gmsh mesh generation", "Palace eigenmode benchmark"]
+}
