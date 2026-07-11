@@ -723,7 +723,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--mesh-scale",
         type=float,
         default=3.0,
-        help="Base-mesh coarseness factor; AMR refines from this validated mesh.",
+        help="Base-mesh density factor for the validated simplex mesh AMR refines "
+        "from. The element count is U-shaped in this factor (fine local "
+        "refinement dominates at low values, extreme grading at high values), "
+        "with a practical minimum near 3.0 (~1e5 tets); values far from 3 "
+        "produce much larger meshes.",
     )
     p_palace.add_argument(
         "--amr-iterations",
