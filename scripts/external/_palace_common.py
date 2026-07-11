@@ -85,11 +85,17 @@ def run(
     stdout_path: Path | None = None,
     stderr_path: Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
+    # Force UTF-8 decoding: Spack (and WSL tools generally) emit UTF-8 tree and
+    # status characters, but a Windows host with a non-UTF-8 locale (e.g. cp950)
+    # would otherwise crash the capture thread on the first non-ASCII byte,
+    # nulling stdout and losing the entire build log.
     completed = subprocess.run(
         command,
         cwd=cwd,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         timeout=timeout,
         check=False,
     )

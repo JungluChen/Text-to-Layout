@@ -41,6 +41,8 @@ def _hash_executable(executable: str) -> str | None:
                 [_wsl_exe(), "sha256sum", target],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=120,
                 check=False,
             )
@@ -55,7 +57,13 @@ def _hash_executable(executable: str) -> str | None:
 def _probe(command: list[str]) -> str | None:
     try:
         completed = subprocess.run(
-            command, capture_output=True, text=True, timeout=120, check=False
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=120,
+            check=False,
         )
     except (OSError, subprocess.TimeoutExpired):
         return None
