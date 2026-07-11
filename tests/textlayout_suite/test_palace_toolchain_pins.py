@@ -134,6 +134,45 @@ def test_readme_palace_section_matches_the_pinned_registry() -> None:
     )
 
 
+def test_native_storage_model_is_consistent_everywhere() -> None:
+    """README, guides, installer defaults, and CI cache path agree on storage.
+
+    The Spack tree + installed binary live on the native WSL root; the pinned
+    archives and install identity stay under .tools/. Every document and the
+    installer must describe the same model, or a user follows stale guidance.
+    """
+    native_marker = ".cache/textlayout-palace"
+    override = "TEXTLAYOUT_PALACE_NATIVE_ROOT"
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert native_marker in readme
+    assert override in readme
+    assert ".tools/external/sources" in readme
+    assert ".tools/palace/install.json" in readme
+    # Native binaries are still not bundled and not in src/.
+    assert "not bundled" in readme
+    assert "src/" in readme
+
+    install_doc = (ROOT / "docs" / "install" / "palace.md").read_text(encoding="utf-8")
+    assert native_marker in install_doc
+    assert override in install_doc
+
+    trouble_doc = (ROOT / "docs" / "troubleshooting" / "palace.md").read_text(encoding="utf-8")
+    assert native_marker in trouble_doc
+    assert override in trouble_doc
+
+    installer = (ROOT / "scripts" / "external" / "install_palace.py").read_text(
+        encoding="utf-8"
+    )
+    assert native_marker in installer
+    assert override in installer
+
+    workflow = (ROOT / ".github" / "workflows" / "palace-integration.yml").read_text(
+        encoding="utf-8"
+    )
+    assert "~/.cache/textlayout-palace" in workflow
+
+
 def test_third_party_notices_record_palace_and_gmsh() -> None:
     notices = (ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
     common = _palace_common()

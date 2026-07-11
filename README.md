@@ -160,16 +160,38 @@ Palace + Gmsh        3D FEM eigenmode/reference simulation (see below)
 
 Palace 0.17.0 (Apache-2.0) and Gmsh 4.15.2 (GPL, with upstream exception
 wording as applicable) are **optional external tools**. They are not bundled
-in the `text-to-gds` wheel: Palace is installed into an isolated Spack
-environment under the git-ignored `.tools/` tree, and Gmsh is installed
-through the `mesh` optional dependency as an external GPL runtime whose
-source is never vendored into this MIT package. Windows users should use
-WSL Ubuntu — the installer drives the pinned Spack release inside WSL.
+in the `text-to-gds` wheel, and their source code is never merged into `src/`.
+Gmsh is installed through the `mesh` optional dependency as an external GPL
+runtime whose source is not vendored into this MIT package. Windows users
+should use WSL Ubuntu — the installer drives the pinned Spack release inside
+WSL.
+
+**Storage model.** The installer separates auditable artifacts from the large,
+reproducible build tree:
+
+```text
+.tools/external/sources/
+    pinned, SHA-256-verified upstream source archives (committed-adjacent, git-ignored)
+
+.tools/palace/install.json
+    the Palace installation identity: version, executable path, and executable SHA-256
+
+$HOME/.cache/textlayout-palace/
+    the WSL-native Spack clone, environment, caches, transient build stage,
+    and the installed Palace binary (git-ignored, never committed, never in src/)
+```
+
+The Spack tree and installed binary live on **native WSL ext4** rather than the
+`/mnt/c` 9p mount, because the many-small-file operations of the FEM-stack build
+and install stall on the Windows filesystem. Override the native location with
+the `TEXTLAYOUT_PALACE_NATIVE_ROOT` environment variable. The pinned archives
+and the installation identity remain under `.tools/` for audit; the binaries on
+native storage are fully reproducible from those pinned sources.
 
 Installing the tools does **not** make a result physics-verified. Only parsed
 Palace-owned output (`eig.csv`, `domain-E.csv`, `error-indicators.csv`, the
-`*_resolved.json` configuration sidecar) with passing AMR and
-domain-convergence gates counts as solver evidence; anything else is
+`*_resolved.json` configuration sidecar) may become simulation evidence, and
+only with passing AMR and numerical-domain-convergence gates; anything else is
 reported as `SKIPPED_SOLVER_ABSENT`, `SIMULATION_INVALID`, or
 `CONVERGENCE_FAILED` by the evidence contract.
 
