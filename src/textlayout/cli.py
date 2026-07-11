@@ -558,10 +558,12 @@ def _cmd_serve(args: argparse.Namespace) -> int:
 
 
 def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
-    from textlayout.solvers.palace import PalaceBackend
+    from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
+    from textlayout.solvers.palace.benchmark_v017 import run_quarter_wave_benchmark_v017
 
-    result = PalaceBackend().run_quarter_wave_benchmark(
+    result = run_quarter_wave_benchmark_v017(
         args.out,
+        layout_path=DEFAULT_LAYOUT,
         processes=args.processes,
         timeout_seconds=args.timeout,
     )

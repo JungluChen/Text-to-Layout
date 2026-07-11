@@ -31,8 +31,18 @@ def mesh_quarter_wave(
     output_path: str | Path,
     *,
     domain_scale: float = 1.0,
+    substrate_thickness_um: float | None = None,
+    vacuum_height_um: float | None = None,
+    lid_height_um: float | None = None,
+    lateral_margin_um: float | None = None,
 ) -> GmshMeshResult:
-    """Generate a real tetrahedral mesh whose attributes match ``FEMModel``."""
+    """Generate a real tetrahedral mesh whose attributes match ``FEMModel``.
+
+    The four explicit extents override the legacy uniform ``domain_scale``.
+    When ``lid_height_um`` exceeds ``vacuum_height_um``, an additional
+    far-vacuum volume spans the gap and must exist in the model as
+    attribute 5 (``vacuum_far``); the PEC lid then sits at ``lid_height_um``.
+    """
     if domain_scale <= 0:
         raise ValueError("domain_scale must be positive")
     try:
@@ -43,9 +53,22 @@ def mesh_quarter_wave(
     target = Path(output_path).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
     bbox = geometry.bbox()
-    substrate_depth = 300.0 * domain_scale
-    vacuum_height = 300.0 * domain_scale
-    y_margin = 100.0 * domain_scale
+    substrate_depth = (
+        substrate_thickness_um if substrate_thickness_um is not None else 300.0 * domain_scale
+    )
+    vacuum_height = vacuum_height_um if vacuum_height_um is not None else 300.0 * domain_scale
+    lid_height = lid_height_um if lid_height_um is not None else vacuum_height
+    y_margin = lateral_margin_um if lateral_margin_um is not None else 100.0 * domain_scale
+    for label, value in (
+        ("substrate_thickness_um", substrate_depth),
+        ("vacuum_height_um", vacuum_height),
+        ("lateral_margin_um", y_margin),
+    ):
+        if value <= 0:
+            raise ValueError(f"{label} must be positive")
+    if lid_height < vacuum_height:
+        raise ValueError("lid_height_um must not be below vacuum_height_um")
+    has_far_vacuum = lid_height > vacuum_height
     x0, x1 = bbox.xmin, bbox.xmax
     y0, y1 = bbox.ymin - y_margin, bbox.ymax + y_margin
     near_half_width = params.center_width_um / 2 + params.gap_um + params.ground_width_um
@@ -92,17 +115,29 @@ def mesh_quarter_wave(
         outer_vacuum, _ = occ.cut(
             [(3, full_vacuum)], [(3, near_vacuum)], removeObject=True, removeTool=False
         )
+        far_vacuum: list[tuple[int, int]] = []
+        if has_far_vacuum:
+            far_vacuum = [
+                (
+                    3,
+                    occ.addBox(
+                        x0, y0, vacuum_height, x1 - x0, y1 - y0, lid_height - vacuum_height
+                    ),
+                )
+            ]
         volume_inputs = [
             (3, near_substrate),
             *outer_substrate,
             (3, near_vacuum),
             *outer_vacuum,
+            *far_vacuum,
         ]
         volume_attributes = [
             1,
             *([2] * len(outer_substrate)),
             3,
             *([4] * len(outer_vacuum)),
+            *([5] * len(far_vacuum)),
         ]
 
         metal_inputs: list[tuple[int, int]] = []
@@ -133,7 +168,9 @@ def mesh_quarter_wave(
             }
         )
         volume_tags = sorted(tag for dim, tag in gmsh.model.getEntities(3) if dim == 3)
-        volume_groups: dict[int, list[int]] = {1: [], 2: [], 3: [], 4: []}
+        volume_groups: dict[int, list[int]] = {
+            attribute: [] for attribute in sorted(set(volume_attributes))
+        }
         for attribute, mapped in zip(volume_attributes, mapping[: len(volume_inputs)]):
             volume_groups[attribute].extend(tag for dim, tag in mapped if dim == 3)
         volume_groups = {
@@ -164,7 +201,7 @@ def mesh_quarter_wave(
                     near_interface.append(surface)
                 else:
                     outer_interface.append(surface)
-            elif count == 1 and abs(box[5] - vacuum_height) < tolerance:
+            elif count == 1 and abs(box[5] - lid_height) < tolerance:
                 lid.append(surface)
             elif count == 1 and abs(box[0] - x0) < tolerance and abs(box[3] - x0) < tolerance:
                 port_in.append(surface)

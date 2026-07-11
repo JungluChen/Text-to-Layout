@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
 from textlayout.fem import (
     EigenmodeSolve,
     FEMModel,
@@ -20,6 +22,33 @@ from textlayout.fem import (
     WavePort,
 )
 from textlayout.schemas.dsl import LayoutSpec, QuarterWaveResonatorSpec
+
+
+class DomainExtents(BaseModel):
+    """Independent computational-domain extents for the quarter-wave benchmark.
+
+    ``vacuum_height_um`` bounds the refined, participation-tracked vacuum
+    region above the chip; ``lid_height_um`` places the real PEC package lid.
+    When the lid sits above the vacuum region a ``vacuum_far`` volume spans
+    the gap, so the two heights are genuinely independent sweep parameters.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    substrate_thickness_um: float = Field(default=300.0, gt=0)
+    vacuum_height_um: float = Field(default=300.0, gt=0)
+    lid_height_um: float = Field(default=450.0, gt=0)
+    lateral_margin_um: float = Field(default=100.0, gt=0)
+
+    @model_validator(mode="after")
+    def _lid_above_vacuum(self) -> DomainExtents:
+        if self.lid_height_um < self.vacuum_height_um:
+            raise ValueError("lid_height_um must not be below vacuum_height_um")
+        return self
+
+    @property
+    def has_far_vacuum(self) -> bool:
+        return self.lid_height_um > self.vacuum_height_um
 
 
 def deterministic_json_bytes(payload: Any) -> bytes:
@@ -52,6 +81,7 @@ def quarter_wave_fem_model(
     *,
     mesh_scale: float = 1.0,
     domain_scale: float = 1.0,
+    extents: DomainExtents | None = None,
 ) -> FEMModel:
     """Build the physical FEM IR from the committed 6 GHz layout parameters."""
     if mesh_scale <= 0 or domain_scale <= 0:
@@ -98,43 +128,65 @@ def quarter_wave_fem_model(
         ],
     )
 
+    volumes = [
+        Volume(
+            name="substrate_resonator",
+            attribute=1,
+            material="silicon",
+            role="substrate",
+            postprocess_energy=True,
+        ),
+        Volume(
+            name="substrate_outer",
+            attribute=2,
+            material="silicon",
+            role="substrate",
+            postprocess_energy=True,
+        ),
+        Volume(
+            name="vacuum_resonator",
+            attribute=3,
+            material="vacuum",
+            role="vacuum",
+            postprocess_energy=True,
+        ),
+        Volume(
+            name="vacuum_outer",
+            attribute=4,
+            material="vacuum",
+            role="vacuum",
+            postprocess_energy=True,
+        ),
+    ]
+    if extents is not None and extents.has_far_vacuum:
+        volumes.append(
+            Volume(
+                name="vacuum_far",
+                attribute=5,
+                material="vacuum",
+                role="vacuum",
+                postprocess_energy=True,
+            )
+        )
+    name = (
+        f"quarter_wave_resonator_{target:g}ghz_domain_{domain_scale:g}"
+        if extents is None
+        else (
+            f"quarter_wave_resonator_{target:g}ghz"
+            f"_sub{extents.substrate_thickness_um:g}"
+            f"_vac{extents.vacuum_height_um:g}"
+            f"_lid{extents.lid_height_um:g}"
+            f"_lat{extents.lateral_margin_um:g}"
+        )
+    )
     return FEMModel(
-        name=f"quarter_wave_resonator_{target:g}ghz_domain_{domain_scale:g}",
+        name=name,
         length_unit_m=1e-6,
         materials=[
             Material(name="silicon", permittivity=11.45, loss_tangent=1e-6),
             Material(name="vacuum", permittivity=1.0),
         ],
-        volumes=[
-            Volume(
-                name="substrate_resonator",
-                attribute=1,
-                material="silicon",
-                role="substrate",
-                postprocess_energy=True,
-            ),
-            Volume(
-                name="substrate_outer",
-                attribute=2,
-                material="silicon",
-                role="substrate",
-                postprocess_energy=True,
-            ),
-            Volume(
-                name="vacuum_resonator",
-                attribute=3,
-                material="vacuum",
-                role="vacuum",
-                postprocess_energy=True,
-            ),
-            Volume(
-                name="vacuum_outer",
-                attribute=4,
-                material="vacuum",
-                role="vacuum",
-                postprocess_energy=True,
-            ),
-        ],
+        volumes=volumes,
         surfaces=[
             Surface(
                 name="superconducting_metal",
