@@ -1,0 +1,24 @@
+{
+  "schema": "textlayout.benchmark-provenance.v1",
+  "benchmark": "palace_cavity_te101",
+  "runs": [
+    {
+      "role": "historical",
+      "label": "Palace 0.16 container run (nested structured cavity meshes)",
+      "solver_name": "Palace",
+      "solver_version": "0.16.0-34-gea2e7b23",
+      "execution_identity": {
+        "kind": "container",
+        "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac"
+      },
+      "date": "2026-07-10T22:15:00+00:00",
+      "git_commit": "1e22f7b647a009959c600a401c7dbb220044798c",
+      "evidence_ids": {
+        "frequency": "d339d26632cc01a745d5c7b57e4a61f5",
+        "participation": "908ef3a31f388e3507a6b94ef7bba485"
+      },
+      "status": "PHYSICS_VERIFIED (frequency), SIMULATION_EXECUTED (participation)",
+      "notes": "Preserved verbatim; the TE101 closed-form benchmark is not superseded by the 0.17 CPW study."
+    }
+  ]
+}

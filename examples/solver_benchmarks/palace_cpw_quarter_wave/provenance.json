@@ -1,0 +1,39 @@
+{
+  "schema": "textlayout.benchmark-provenance.v1",
+  "benchmark": "palace_cpw_quarter_wave",
+  "runs": [
+    {
+      "role": "historical",
+      "label": "Palace 0.16 container run (three global Gmsh meshes)",
+      "solver_name": "Palace",
+      "solver_version": "0.16.0-34-gea2e7b23",
+      "execution_identity": {
+        "kind": "container",
+        "container_digest": "sha256:6d59c1aca1425bcdc71e84502f88a9018689c94fa8bb41476617dbe5ed9509ac"
+      },
+      "date": "2026-07-10T23:40:00+00:00",
+      "git_commit": "1e22f7b647a009959c600a401c7dbb220044798c",
+      "evidence_id": "519e3d69f95314a55e880d80abdc3da8",
+      "evidence_path": "evidence/frequency_canonical.json",
+      "status": "SIMULATION_EXECUTED",
+      "notes": "Preserved verbatim. This run is never overwritten or relabelled; it remains the committed Palace 0.16 record."
+    },
+    {
+      "role": "current_reference_candidate",
+      "label": "Palace 0.17 WSL/Spack run (native AMR + four domain sweeps)",
+      "solver_name": "Palace",
+      "solver_version": "0.17.0",
+      "execution_identity": {
+        "kind": "executable",
+        "install": "isolated Spack environment under .tools/palace/spack-opt (WSL Ubuntu on Windows)",
+        "executable_sha256": null
+      },
+      "date": null,
+      "git_commit": null,
+      "evidence_id": null,
+      "evidence_path": "../../../out/palace_resonator_v017/canonical_evidence.json",
+      "status": null,
+      "notes": "Populated by scripts/promote_palace_v017.py only after every output hash and parser check passes. Until then the 0.16 record above remains the reference."
+    }
+  ]
+}
