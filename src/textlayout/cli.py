@@ -564,7 +564,19 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         run_quarter_wave_benchmark_v017,
     )
 
-    sweep_iterations = args.sweep_amr_iterations or args.amr_iterations
+    # --sweep-amr-iterations 0 skips the domain/physical sweeps entirely (a
+    # reduced preflight that exercises only the base AMR study). A positive
+    # value runs the sweeps at that AMR budget; it is not merged with the main
+    # study's budget.
+    skip_sweeps = args.sweep_amr_iterations == 0
+    sweep_kwargs: dict[str, object] = {}
+    if skip_sweeps:
+        sweep_kwargs = {
+            "numerical_sweep_values": {},
+            "physical_sweep_values": {},
+        }
+    else:
+        sweep_kwargs = {"sweep_amr": AMRSettings(max_iterations=args.sweep_amr_iterations)}
     result = run_quarter_wave_benchmark_v017(
         args.out,
         layout_path=DEFAULT_LAYOUT,
@@ -572,7 +584,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         timeout_seconds=args.timeout,
         mesh_scale=args.mesh_scale,
         amr=AMRSettings(max_iterations=args.amr_iterations),
-        sweep_amr=AMRSettings(max_iterations=sweep_iterations),
+        **sweep_kwargs,  # type: ignore[arg-type]
     )
     print(result.model_dump_json(indent=2))
     return 1 if result.status in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INVALID"} else 0
@@ -739,9 +751,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_palace.add_argument(
         "--sweep-amr-iterations",
         type=int,
-        default=0,
-        help="Palace AMR MaxIts for the domain/physical sweeps (0 = same as the main "
-        "study). A lower value keeps the many sweep solves tractable.",
+        default=2,
+        help="Palace AMR MaxIts for the domain/physical sweeps. 0 skips the sweeps "
+        "entirely (a reduced preflight running only the base AMR study). A lower "
+        "positive value keeps the many sweep solves tractable.",
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 
