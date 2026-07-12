@@ -29,7 +29,9 @@ from textlayout.evidence.canonical import load_canonical  # noqa: E402
 PACKET = ROOT / "examples" / "solver_benchmarks" / "palace_cpw_quarter_wave_v017"
 COPIED = (
     "toolchain.json",
+    "environment.json",
     "run_manifest.json",
+    "resource_summary.json",
     "mode_tracking.json",
     "convergence.json",
     "canonical_evidence.json",
