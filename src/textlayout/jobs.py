@@ -26,6 +26,25 @@ from textlayout.evidence.canonical import sha256_file
 JOB_SCHEMA = "textlayout.local-solver-job.v1"
 DEFAULT_JOB_ROOT = Path("out") / "jobs"
 SECRET_TOKENS = ("KEY", "TOKEN", "SECRET", "PASSWORD", "PASS", "CREDENTIAL")
+ENV_ALLOWLIST = {
+    "OMP_NUM_THREADS",
+    "OPENBLAS_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "NUMEXPR_NUM_THREADS",
+    "PALACE_PATH",
+    "GMSH_PATH",
+    "TEXTLAYOUT_PALACE_EXECUTABLE",
+    "TEXTLAYOUT_GMSH_EXECUTABLE",
+    "TEXTLAYOUT_PALACE_OUTPUT_DIR",
+    "TEXTLAYOUT_JOB_ID",
+    "TEXTLAYOUT_JOB_DIR",
+    "TEXTLAYOUT_JOB_ROOT",
+    "OMPI_COMM_WORLD_SIZE",
+    "OMPI_COMM_WORLD_RANK",
+    "OMPI_COMM_WORLD_LOCAL_RANK",
+    "PMI_SIZE",
+    "PMI_RANK",
+}
 
 
 def _now() -> str:
@@ -96,19 +115,26 @@ def _is_secret_name(name: str) -> bool:
 
 
 def _environment_manifest(env: dict[str, str]) -> dict[str, Any]:
-    exact: dict[str, str] = {}
-    redacted: dict[str, str] = {}
+    clear: dict[str, str] = {}
+    hashed: dict[str, dict[str, str | bool]] = {}
     for key, value in sorted(env.items()):
-        if _is_secret_name(key):
-            redacted[key] = hashlib.sha256(value.encode("utf-8")).hexdigest()
-        else:
-            exact[key] = value
+        if key in ENV_ALLOWLIST and not _is_secret_name(key):
+            clear[key] = value
+            continue
+        hashed[key] = {
+            "present": True,
+            "sha256": hashlib.sha256(value.encode("utf-8")).hexdigest(),
+        }
     return {
         "schema": "textlayout.job-environment.v1",
         "captured_at": _now(),
-        "exact": exact,
-        "redacted_sha256": redacted,
-        "redaction_policy": "values for secret-like variable names are hashed, not stored",
+        "clear_allowlist": sorted(ENV_ALLOWLIST),
+        "clear": clear,
+        "hashed": hashed,
+        "redaction_policy": (
+            "only allowlisted technical variables are stored in clear text; every "
+            "other variable is stored by name, presence, and SHA-256 value hash"
+        ),
     }
 
 
@@ -350,6 +376,13 @@ def start_job(
     full_env = dict(os.environ)
     full_env.update(env_overrides or {})
     inv_root = Path(inventory_root).resolve() if inventory_root else cwd_path
+    full_env.update(
+        {
+            "TEXTLAYOUT_JOB_ID": job_id,
+            "TEXTLAYOUT_JOB_DIR": str(job_dir),
+            "TEXTLAYOUT_JOB_ROOT": str(root),
+        }
+    )
 
     manifest = {
         "schema": "textlayout.job-launch-manifest.v1",

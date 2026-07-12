@@ -57,9 +57,33 @@ class StageRecord(BaseModel):
     started_at: str
     completed_at: str
     executable_identity: dict[str, Any] = Field(default_factory=dict)
+    job_profile: PalaceJobProfile | None = None
     upstream_stage_evidence_ids: list[str] = Field(default_factory=list)
     evidence_id: str
     notes: list[str] = Field(default_factory=list)
+
+
+class PalaceJobProfile(BaseModel):
+    """Stable link between a Palace workflow stage and a persistent job record."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, populate_by_name=True)
+
+    schema_: str = Field(default="textlayout.palace-job-profile.v1", alias="schema")
+    job_id: str
+    launch_manifest_hash: str | None = None
+    command: list[str]
+    command_hash: str
+    executable_hash: str | None = None
+    working_directory: Path
+    environment_manifest_hash: str | None = None
+    pid: int | None = None
+    parent_pid: int | None = None
+    process_group_id: int | None = None
+    stdout_hash: str | None = None
+    stderr_hash: str | None = None
+    resource_evidence_hash: str | None = None
+    solver_output_inventory_hash: str | None = None
+    upstream_stage_evidence_ids: list[str] = Field(default_factory=list)
 
 
 def relative_hashes(paths: list[Path], root: Path) -> dict[str, str]:
@@ -86,6 +110,7 @@ def stage_identity_payload(
     return_code: int | None,
     executable_identity: dict[str, Any],
     upstream_stage_evidence_ids: list[str],
+    job_profile: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "stage": stage,
@@ -95,6 +120,7 @@ def stage_identity_payload(
         "command": command,
         "return_code": return_code,
         "executable_identity": executable_identity,
+        "job_profile": job_profile,
         "upstream_stage_evidence_ids": upstream_stage_evidence_ids,
     }
 
@@ -110,6 +136,132 @@ def executable_identity(capability: PalaceCapability) -> dict[str, Any]:
     }
 
 
+def _sha256_if_file(path: Path) -> str | None:
+    return sha256_file(path) if path.is_file() else None
+
+
+def palace_job_profile_from_payload(
+    payload: dict[str, Any],
+    *,
+    upstream_stage_evidence_ids: list[str] | None = None,
+) -> PalaceJobProfile:
+    """Create a Palace job profile from a generic ``textlayout.jobs`` record."""
+    job_dir = Path(str(payload["job_dir"])).resolve()
+    command = [str(item) for item in payload.get("command", [])]
+    executable_hash = _sha256_if_file(Path(command[0])) if command else None
+    return PalaceJobProfile(
+        job_id=str(payload["job_id"]),
+        launch_manifest_hash=_sha256_if_file(job_dir / "manifest.json"),
+        command=command,
+        command_hash=sha256_json({"command": command}),
+        executable_hash=executable_hash,
+        working_directory=Path(str(payload["cwd"])).resolve(),
+        environment_manifest_hash=_sha256_if_file(job_dir / "environment.json"),
+        pid=payload.get("pid"),
+        parent_pid=payload.get("parent_pid"),
+        process_group_id=payload.get("process_group_id"),
+        stdout_hash=_sha256_if_file(Path(str(payload["stdout_path"]))),
+        stderr_hash=_sha256_if_file(Path(str(payload["stderr_path"]))),
+        resource_evidence_hash=_sha256_if_file(job_dir / "heartbeat.json"),
+        solver_output_inventory_hash=_sha256_if_file(job_dir / "output_inventory.json"),
+        upstream_stage_evidence_ids=upstream_stage_evidence_ids or [],
+    )
+
+
+def palace_job_profile_from_job_dir(
+    job_dir: str | Path,
+    *,
+    upstream_stage_evidence_ids: list[str] | None = None,
+) -> PalaceJobProfile | None:
+    record_path = Path(job_dir).resolve() / "job.json"
+    if not record_path.is_file():
+        return None
+    try:
+        payload = json.loads(record_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(payload, dict):
+        return None
+    return palace_job_profile_from_payload(
+        payload,
+        upstream_stage_evidence_ids=upstream_stage_evidence_ids,
+    )
+
+
+def current_palace_job_profile(
+    *,
+    upstream_stage_evidence_ids: list[str] | None = None,
+) -> PalaceJobProfile | None:
+    job_dir = os.environ.get("TEXTLAYOUT_JOB_DIR")
+    if not job_dir:
+        return None
+    return palace_job_profile_from_job_dir(
+        job_dir,
+        upstream_stage_evidence_ids=upstream_stage_evidence_ids,
+    )
+
+
+def write_palace_job_profile(
+    root: Path,
+    profile: PalaceJobProfile,
+) -> Path:
+    target = root / "palace_job_profile.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        profile.model_dump_json(indent=2, by_alias=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return target
+
+
+def read_palace_job_profile(root: str | Path) -> PalaceJobProfile | None:
+    path = Path(root).resolve() / "palace_job_profile.json"
+    if not path.is_file():
+        return None
+    return PalaceJobProfile.model_validate_json(path.read_text(encoding="utf-8"))
+
+
+def _stage_evidence_id(record: StageRecord, profile: PalaceJobProfile | None) -> str:
+    return sha256_json(
+        stage_identity_payload(
+            stage=record.stage,
+            status=record.status,
+            input_hashes=record.input_hashes,
+            output_hashes=record.output_hashes,
+            command=record.command,
+            return_code=record.return_code,
+            executable_identity=record.executable_identity,
+            upstream_stage_evidence_ids=record.upstream_stage_evidence_ids,
+            job_profile=profile.model_dump(mode="json", by_alias=True) if profile else None,
+        )
+    )
+
+
+def refresh_stage_job_profiles(root: str | Path, profile: PalaceJobProfile) -> list[StageRecord]:
+    """Rewrite existing stage records with the latest job hashes."""
+    root_path = Path(root).resolve()
+    refreshed: list[StageRecord] = []
+    for record in read_stage_records(root_path):
+        stage_profile = profile.model_copy(
+            update={"upstream_stage_evidence_ids": record.upstream_stage_evidence_ids}
+        )
+        updated = record.model_copy(
+            update={
+                "job_profile": stage_profile,
+                "evidence_id": _stage_evidence_id(record, stage_profile),
+            }
+        )
+        target = root_path / "stages" / f"{updated.stage}.json"
+        target.write_text(
+            updated.model_dump_json(indent=2, by_alias=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        refreshed.append(updated)
+    return refreshed
+
+
 def write_stage_record(
     root: Path,
     *,
@@ -123,12 +275,16 @@ def write_stage_record(
     started_at: str | None = None,
     completed_at: str | None = None,
     capability: PalaceCapability,
+    job_profile: PalaceJobProfile | None = None,
     upstream_stage_evidence_ids: list[str] | None = None,
     notes: list[str] | None = None,
 ) -> StageRecord:
     inputs = input_hashes or {}
     outputs = output_hashes or {}
     upstream = upstream_stage_evidence_ids or []
+    profile = job_profile or current_palace_job_profile(
+        upstream_stage_evidence_ids=upstream
+    )
     exe = executable_identity(capability)
     evidence_id = sha256_json(
         stage_identity_payload(
@@ -140,6 +296,7 @@ def write_stage_record(
             return_code=return_code,
             executable_identity=exe,
             upstream_stage_evidence_ids=upstream,
+            job_profile=profile.model_dump(mode="json", by_alias=True) if profile else None,
         )
     )
     record = StageRecord(
@@ -153,6 +310,7 @@ def write_stage_record(
         started_at=started_at or completed_at or utc_now(),
         completed_at=completed_at or utc_now(),
         executable_identity=exe,
+        job_profile=profile,
         upstream_stage_evidence_ids=upstream,
         evidence_id=evidence_id,
         notes=notes or [],

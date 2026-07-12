@@ -617,15 +617,123 @@ def _cmd_serve(args: argparse.Namespace) -> int:
 
 
 def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from textlayout.jobs import cancel_job, record_summary, start_job, status_job
     from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
     from textlayout.solvers.palace.benchmark_v017 import (
         AMRSettings,
         palace_resonator_status,
         run_quarter_wave_benchmark_v017,
     )
+    from textlayout.solvers.palace.stages import (
+        palace_job_profile_from_payload,
+        refresh_stage_job_profiles,
+        read_palace_job_profile,
+        write_palace_job_profile,
+    )
+
+    out_dir = Path(args.out).resolve()
+    job_root = Path(args.job_root).resolve() if args.job_root else out_dir / "jobs"
+
+    if args.job_status:
+        profile = read_palace_job_profile(out_dir)
+        if profile is None:
+            print(json.dumps({"error": f"no Palace job profile found in {out_dir}"}))
+            return 2
+        record = status_job(profile.job_id, job_root=job_root)
+        updated = palace_job_profile_from_payload(
+            record.model_dump(mode="json"),
+            upstream_stage_evidence_ids=profile.upstream_stage_evidence_ids,
+        )
+        write_palace_job_profile(out_dir, updated)
+        refreshed = refresh_stage_job_profiles(out_dir, updated)
+        print(
+            json.dumps(
+                {
+                    "schema": "textlayout.palace-job-status.v1",
+                    "job": record_summary(record),
+                    "profile": updated.model_dump(mode="json", by_alias=True),
+                    "refreshed_stage_records": [item.stage for item in refreshed],
+                },
+                indent=2,
+            )
+        )
+        return 0
+
+    if args.cancel:
+        profile = read_palace_job_profile(out_dir)
+        if profile is None:
+            print(json.dumps({"error": f"no Palace job profile found in {out_dir}"}))
+            return 2
+        record = cancel_job(profile.job_id, job_root=job_root)
+        updated = palace_job_profile_from_payload(
+            record.model_dump(mode="json"),
+            upstream_stage_evidence_ids=profile.upstream_stage_evidence_ids,
+        )
+        write_palace_job_profile(out_dir, updated)
+        refreshed = refresh_stage_job_profiles(out_dir, updated)
+        print(
+            json.dumps(
+                {
+                    "schema": "textlayout.palace-job-cancel.v1",
+                    "job": record_summary(record),
+                    "profile": updated.model_dump(mode="json", by_alias=True),
+                    "refreshed_stage_records": [item.stage for item in refreshed],
+                },
+                indent=2,
+            )
+        )
+        return 0
+
+    if args.background:
+        command = [
+            sys.executable,
+            "-m",
+            "textlayout.cli",
+            "simulate",
+            "palace-resonator",
+            "--out",
+            str(out_dir),
+            "--resume",
+            "--processes",
+            str(args.processes),
+            "--timeout",
+            str(args.timeout),
+            "--mesh-scale",
+            str(args.mesh_scale),
+            "--amr-iterations",
+            str(args.amr_iterations),
+            "--sweep-amr-iterations",
+            str(args.sweep_amr_iterations),
+        ]
+        if args.stage:
+            command.extend(["--stage", args.stage])
+        if args.from_stage:
+            command.extend(["--from-stage", args.from_stage])
+        record = start_job(
+            command,
+            cwd=Path.cwd(),
+            job_root=job_root,
+            inventory_root=out_dir,
+            env_overrides={"TEXTLAYOUT_PALACE_OUTPUT_DIR": str(out_dir)},
+        )
+        profile = palace_job_profile_from_payload(record.model_dump(mode="json"))
+        write_palace_job_profile(out_dir, profile)
+        print(
+            json.dumps(
+                {
+                    "schema": "textlayout.palace-background-job.v1",
+                    "job": record_summary(record),
+                    "profile": profile.model_dump(mode="json", by_alias=True),
+                },
+                indent=2,
+            )
+        )
+        return 0
 
     if args.status:
-        print(json.dumps(palace_resonator_status(args.out), indent=2))
+        print(json.dumps(palace_resonator_status(out_dir), indent=2))
         return 0
 
     # --sweep-amr-iterations 0 skips the domain/physical sweeps entirely (a
@@ -642,7 +750,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
     else:
         sweep_kwargs = {"sweep_amr": AMRSettings(max_iterations=args.sweep_amr_iterations)}
     result = run_quarter_wave_benchmark_v017(
-        args.out,
+        out_dir,
         layout_path=DEFAULT_LAYOUT,
         processes=args.processes,
         timeout_seconds=args.timeout,
@@ -853,6 +961,28 @@ def build_parser() -> argparse.ArgumentParser:
         "--status",
         action="store_true",
         help="Inspect persisted Palace stage records and active Palace/MPI processes.",
+    )
+    p_palace.add_argument(
+        "--background",
+        action="store_true",
+        help="Start the Palace resonator workflow under persistent job control. "
+        "The managed command always uses --resume so matching completed stages are reused.",
+    )
+    p_palace.add_argument(
+        "--job-status",
+        action="store_true",
+        help="Inspect the persistent job record linked to this Palace output directory.",
+    )
+    p_palace.add_argument(
+        "--cancel",
+        action="store_true",
+        help="Cancel the persistent Palace job linked to this output directory.",
+    )
+    p_palace.add_argument(
+        "--job-root",
+        default=None,
+        help="Persistent job directory for --background/--job-status/--cancel. "
+        "Default: <out>/jobs.",
     )
     p_palace.add_argument(
         "--resume",

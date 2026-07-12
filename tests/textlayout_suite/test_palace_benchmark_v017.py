@@ -23,6 +23,11 @@ from textlayout.solvers.palace.models import (
     PalaceCapability,
     PalaceOutputError,
 )
+from textlayout.solvers.palace.stages import (
+    palace_job_profile_from_payload,
+    refresh_stage_job_profiles,
+    write_stage_record,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -193,6 +198,62 @@ def test_status_reports_missing_stages_before_resume(tmp_path: Path) -> None:
     assert report["stages"][0]["stage"] == "preflight"
     assert {stage["status"] for stage in report["stages"]} == {"missing"}
     assert report["orphan_processes"]["checked"] in {True, False}
+
+
+def test_stage_record_can_reference_persistent_job_profile(tmp_path: Path) -> None:
+    job_dir = tmp_path / "jobs" / "job-palace"
+    job_dir.mkdir(parents=True)
+    (job_dir / "manifest.json").write_text("{}", encoding="utf-8")
+    (job_dir / "environment.json").write_text("{}", encoding="utf-8")
+    (job_dir / "stdout.txt").write_text("stdout", encoding="utf-8")
+    (job_dir / "stderr.txt").write_text("stderr", encoding="utf-8")
+    (job_dir / "heartbeat.json").write_text("{}", encoding="utf-8")
+    (job_dir / "output_inventory.json").write_text("{}", encoding="utf-8")
+    payload = {
+        "job_id": "job-palace",
+        "command": ["palace", "-serial", "palace_amr.json"],
+        "cwd": str(tmp_path),
+        "job_dir": str(job_dir),
+        "stdout_path": str(job_dir / "stdout.txt"),
+        "stderr_path": str(job_dir / "stderr.txt"),
+        "pid": 123,
+        "parent_pid": 12,
+        "process_group_id": 123,
+    }
+    profile = palace_job_profile_from_payload(
+        payload,
+        upstream_stage_evidence_ids=["upstream"],
+    )
+    record = write_stage_record(
+        tmp_path / "palace",
+        stage="base_amr",
+        status="complete",
+        command=payload["command"],
+        return_code=0,
+        capability=PalaceCapability(
+            executable="palace",
+            version="0.17.0",
+            executable_sha256="a" * 64,
+            mpi_launcher="mpirun",
+        ),
+        job_profile=profile,
+        upstream_stage_evidence_ids=["upstream"],
+    )
+    assert record.job_profile is not None
+    assert record.job_profile.job_id == "job-palace"
+    assert record.job_profile.launch_manifest_hash is not None
+    assert record.job_profile.environment_manifest_hash is not None
+    saved = json.loads(
+        (tmp_path / "palace" / "stages" / "base_amr.json").read_text(encoding="utf-8")
+    )
+    assert saved["job_profile"]["job_id"] == "job-palace"
+    assert saved["job_profile"]["solver_output_inventory_hash"] is not None
+
+    (job_dir / "output_inventory.json").write_text('{"solver.out": "abc"}', encoding="utf-8")
+    refreshed_profile = palace_job_profile_from_payload(payload)
+    refreshed = refresh_stage_job_profiles(tmp_path / "palace", refreshed_profile)
+    assert refreshed[0].job_profile is not None
+    assert refreshed[0].job_profile.solver_output_inventory_hash is not None
 
 
 def test_fem_model_gains_far_vacuum_volume_when_lid_is_above_vacuum() -> None:

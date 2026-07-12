@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import time
 from pathlib import Path
@@ -33,6 +34,10 @@ def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> No
     assert started.job_id.startswith("job-")
     assert started.manifest_path.is_file()
     assert started.environment_path.is_file()
+    environment = json.loads(started.environment_path.read_text(encoding="utf-8"))
+    assert environment["clear"]["TEXTLAYOUT_JOB_ID"] == started.job_id
+    assert environment["clear"]["TEXTLAYOUT_JOB_DIR"] == str(started.job_dir)
+    assert environment["clear"]["TEXTLAYOUT_JOB_ROOT"] == str(jobs.resolve())
 
     terminal = _wait_for_terminal(started.job_id, jobs)
     assert terminal.status == "completed"
@@ -86,3 +91,43 @@ def test_jobs_cli_parses_start_and_lifecycle_commands() -> None:
     status = parser.parse_args(["jobs", "status", "job-abc"])
     assert status.jobs_command == "status"
     assert status.job_id == "job-abc"
+
+
+def test_palace_cli_parses_background_job_flags() -> None:
+    parser = build_parser()
+    background = parser.parse_args(
+        ["simulate", "palace-resonator", "--out", "out/palace", "--background"]
+    )
+    assert background.simulate_command == "palace-resonator"
+    assert background.background is True
+    status = parser.parse_args(
+        ["simulate", "palace-resonator", "--out", "out/palace", "--job-status"]
+    )
+    assert status.job_status is True
+    cancel = parser.parse_args(
+        ["simulate", "palace-resonator", "--out", "out/palace", "--cancel"]
+    )
+    assert cancel.cancel is True
+
+
+def test_job_environment_manifest_hashes_non_allowlisted_values(tmp_path: Path) -> None:
+    work = tmp_path / "work"
+    jobs = tmp_path / "jobs"
+    work.mkdir()
+    started = start_job(
+        [sys.executable, "-c", "print('ok')"],
+        cwd=work,
+        job_root=jobs,
+        env_overrides={
+            "OPENAI_API_KEY": "sk-test-secret",
+            "LM_LICENSE_FILE": "27000@license-server",
+            "OMP_NUM_THREADS": "2",
+        },
+    )
+    environment = json.loads(started.environment_path.read_text(encoding="utf-8"))
+    serialized = json.dumps(environment, sort_keys=True)
+    assert environment["clear"]["OMP_NUM_THREADS"] == "2"
+    assert "OPENAI_API_KEY" in environment["hashed"]
+    assert "LM_LICENSE_FILE" in environment["hashed"]
+    assert "sk-test-secret" not in serialized
+    assert "27000@license-server" not in serialized
