@@ -544,6 +544,65 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     return 0 if report.ok else 1
 
 
+def _cmd_jobs_start(args: argparse.Namespace) -> int:
+    from textlayout.jobs import record_summary, start_job
+
+    command = list(args.command)
+    if command and command[0] == "--":
+        command = command[1:]
+    if not command:
+        print(json.dumps({"error": "missing command; use: textlayout jobs start -- <cmd>"}))
+        return 2
+    env_overrides: dict[str, str] = {}
+    for item in args.env or []:
+        if "=" not in item:
+            print(json.dumps({"error": f"invalid --env value {item!r}; expected KEY=VALUE"}))
+            return 2
+        key, value = item.split("=", 1)
+        env_overrides[key] = value
+    record = start_job(
+        command,
+        cwd=args.cwd,
+        job_root=args.job_root,
+        env_overrides=env_overrides,
+        inventory_root=args.inventory_root,
+    )
+    print(json.dumps(record_summary(record), indent=2))
+    return 0
+
+
+def _cmd_jobs_status(args: argparse.Namespace) -> int:
+    from textlayout.jobs import record_summary, status_job
+
+    record = status_job(args.job_id, job_root=args.job_root)
+    print(json.dumps(record_summary(record), indent=2))
+    return 0
+
+
+def _cmd_jobs_collect(args: argparse.Namespace) -> int:
+    from textlayout.jobs import collect_job, record_summary
+
+    record = collect_job(args.job_id, job_root=args.job_root)
+    print(json.dumps(record_summary(record), indent=2))
+    return 0
+
+
+def _cmd_jobs_cancel(args: argparse.Namespace) -> int:
+    from textlayout.jobs import cancel_job, record_summary
+
+    record = cancel_job(args.job_id, job_root=args.job_root)
+    print(json.dumps(record_summary(record), indent=2))
+    return 0
+
+
+def _cmd_jobs_resume(args: argparse.Namespace) -> int:
+    from textlayout.jobs import record_summary, resume_job
+
+    record = resume_job(args.job_id, job_root=args.job_root)
+    print(json.dumps(record_summary(record), indent=2))
+    return 0
+
+
 def _cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -723,6 +782,51 @@ def build_parser() -> argparse.ArgumentParser:
         help="Require Palace, Gmsh, and meshio for the future full-chip FEM path.",
     )
     p_doc.set_defaults(func=_cmd_doctor)
+
+    p_jobs = sub.add_parser(
+        "jobs",
+        help="Start, inspect, collect, cancel, and resume persistent local solver jobs.",
+    )
+    jobs_sub = p_jobs.add_subparsers(dest="jobs_command", required=True)
+
+    def _add_job_root(p: argparse.ArgumentParser) -> None:
+        p.add_argument(
+            "--job-root",
+            default="out/jobs",
+            help="Directory containing persistent job records.",
+        )
+
+    p_jobs_start = jobs_sub.add_parser("start", help="Start a command under job control.")
+    _add_job_root(p_jobs_start)
+    p_jobs_start.add_argument("--cwd", default=".", help="Working directory for the command.")
+    p_jobs_start.add_argument(
+        "--inventory-root",
+        default=None,
+        help="Directory to hash before and after the job. Default: --cwd.",
+    )
+    p_jobs_start.add_argument(
+        "--env",
+        action="append",
+        default=[],
+        help="Environment override as KEY=VALUE. May be repeated.",
+    )
+    p_jobs_start.add_argument(
+        "command",
+        nargs=argparse.REMAINDER,
+        help="Command to execute. Use -- before the command if it starts with an option.",
+    )
+    p_jobs_start.set_defaults(func=_cmd_jobs_start)
+
+    for name, help_text, func in (
+        ("status", "Inspect a job and write a heartbeat sample.", _cmd_jobs_status),
+        ("collect", "Collect return code and solver-owned output inventory.", _cmd_jobs_collect),
+        ("cancel", "Request cancellation and terminate the process group.", _cmd_jobs_cancel),
+        ("resume", "Resume bookkeeping/post-processing without relaunching the solver.", _cmd_jobs_resume),
+    ):
+        p_job = jobs_sub.add_parser(name, help=help_text)
+        _add_job_root(p_job)
+        p_job.add_argument("job_id")
+        p_job.set_defaults(func=func)
 
     p_srv = sub.add_parser("serve", help="Run the FastAPI plugin server.")
     p_srv.add_argument("--host", default="127.0.0.1")
