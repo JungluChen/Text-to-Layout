@@ -561,8 +561,13 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
     from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
     from textlayout.solvers.palace.benchmark_v017 import (
         AMRSettings,
+        palace_resonator_status,
         run_quarter_wave_benchmark_v017,
     )
+
+    if args.status:
+        print(json.dumps(palace_resonator_status(args.out), indent=2))
+        return 0
 
     # --sweep-amr-iterations 0 skips the domain/physical sweeps entirely (a
     # reduced preflight that exercises only the base AMR study). A positive
@@ -584,6 +589,9 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         timeout_seconds=args.timeout,
         mesh_scale=args.mesh_scale,
         amr=AMRSettings(max_iterations=args.amr_iterations),
+        resume=args.resume,
+        stop_after_stage=args.stage,
+        from_stage=args.from_stage,
         **sweep_kwargs,  # type: ignore[arg-type]
     )
     print(result.model_dump_json(indent=2))
@@ -727,6 +735,38 @@ def build_parser() -> argparse.ArgumentParser:
         "palace-resonator", help="Run the real 6 GHz quarter-wave Palace eigenmode benchmark."
     )
     p_palace.add_argument("--out", required=True, help="Benchmark artifact directory.")
+    palace_stages = (
+        "preflight",
+        "base_mesh",
+        "base_amr",
+        "mode_tracking",
+        "numerical_sweeps",
+        "physical_sensitivity",
+        "evidence_promotion",
+        "packet_generation",
+    )
+    p_palace.add_argument(
+        "--status",
+        action="store_true",
+        help="Inspect persisted Palace stage records and active Palace/MPI processes.",
+    )
+    p_palace.add_argument(
+        "--resume",
+        action="store_true",
+        help="Reuse completed stages whose output hashes validate; do not rerun base AMR.",
+    )
+    p_palace.add_argument(
+        "--stage",
+        choices=palace_stages,
+        default=None,
+        help="Run only through the named resumable stage.",
+    )
+    p_palace.add_argument(
+        "--from-stage",
+        choices=palace_stages,
+        default=None,
+        help="Resume from the named stage, reusing prior stage artifacts when hashes match.",
+    )
     p_palace.add_argument("--processes", type=int, default=4, help="Palace MPI process count.")
     p_palace.add_argument(
         "--timeout", type=float, default=7200.0, help="Timeout per Palace solve in seconds."

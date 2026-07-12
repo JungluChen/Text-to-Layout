@@ -186,6 +186,15 @@ def test_absent_solver_produces_honest_skip(tmp_path: Path) -> None:
     assert (tmp_path / "v017" / "report.md").is_file()
 
 
+def test_status_reports_missing_stages_before_resume(tmp_path: Path) -> None:
+    from textlayout.solvers.palace.benchmark_v017 import palace_resonator_status
+
+    report = palace_resonator_status(tmp_path / "empty")
+    assert report["stages"][0]["stage"] == "preflight"
+    assert {stage["status"] for stage in report["stages"]} == {"missing"}
+    assert report["orphan_processes"]["checked"] in {True, False}
+
+
 def test_fem_model_gains_far_vacuum_volume_when_lid_is_above_vacuum() -> None:
     from textlayout.solvers.palace.config import quarter_wave_fem_model
 

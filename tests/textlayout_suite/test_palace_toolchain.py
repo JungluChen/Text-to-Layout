@@ -25,6 +25,27 @@ def test_public_palace_command_parses() -> None:
     assert args.processes == 4
 
 
+def test_public_palace_resume_and_status_flags_parse() -> None:
+    args = build_parser().parse_args(
+        [
+            "simulate",
+            "palace-resonator",
+            "--out",
+            "out/palace_resonator",
+            "--status",
+            "--resume",
+            "--stage",
+            "base_amr",
+            "--from-stage",
+            "mode_tracking",
+        ]
+    )
+    assert args.status is True
+    assert args.resume is True
+    assert args.stage == "base_amr"
+    assert args.from_stage == "mode_tracking"
+
+
 def test_makefile_exposes_palace_lifecycle() -> None:
     text = (ROOT / "Makefile").read_text(encoding="utf-8")
     for target in ("setup-palace:", "check-palace:", "smoke-palace:", "benchmark-palace:"):

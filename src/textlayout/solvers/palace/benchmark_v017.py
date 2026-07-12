@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import shutil
 import subprocess
 from datetime import datetime, timezone
@@ -84,7 +85,13 @@ from textlayout.solvers.palace.parser import (
     parse_global_error_indicator,
     parse_mode_fields,
 )
-from textlayout.solvers.palace.runner import run_palace
+from textlayout.solvers.palace.runner import build_command, run_palace
+from textlayout.solvers.palace.stages import (
+    StageName,
+    relative_hashes,
+    status_report,
+    write_stage_record,
+)
 
 REQUIRED_PALACE_VERSION = "0.17.0"
 PARSER = "textlayout.solvers.palace.parser.parse_eigenmodes"
@@ -236,6 +243,18 @@ class V017BenchmarkResult(BaseModel):
     tracked_frequency_ghz: float | None = None
 
 
+class CompletedBaseAMR(BaseModel):
+    """Validated pre-existing Palace base-AMR output reused during resume."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    config_path: Path
+    postpro: Path
+    run: PalaceRun
+    peak_memory: dict[str, int]
+    validation: dict[str, Any]
+
+
 def _timestamp() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -285,6 +304,163 @@ def _preflight_peak_mb(root: Path) -> int | None:
         return None
     value = payload.get("peak_used_mb")
     return int(value) if isinstance(value, (int, float)) and value > 0 else None
+
+
+def _load_existing_base_mesh(base_dir: Path) -> GmshMeshResult | None:
+    metrics_path = base_dir / "mesh_metrics.json"
+    mesh_path = base_dir / "quarter_wave_base.msh"
+    if not metrics_path.is_file() or not mesh_path.is_file():
+        return None
+    metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+    recorded_hash = metrics.get("mesh_sha256")
+    actual_hash = sha256_file(mesh_path)
+    if recorded_hash and recorded_hash != actual_hash:
+        raise PalaceOutputError(
+            f"{mesh_path}: mesh hash {actual_hash} does not match mesh_metrics.json "
+            f"{recorded_hash}"
+        )
+    return GmshMeshResult(
+        path=mesh_path,
+        runtime_seconds=float(metrics.get("runtime_seconds", 0.0)),
+        element_count=int(metrics["element_count"]),
+        minimum_quality=float(metrics["minimum_quality"]),
+        mean_quality=float(metrics["mean_quality"]),
+    )
+
+
+def _runtime_from_stdout(stdout_path: Path) -> float | None:
+    if not stdout_path.is_file():
+        return None
+    text = stdout_path.read_text(encoding="utf-8", errors="replace")
+    matches = re.findall(
+        r"(?im)^\s*Total\s+([0-9]+(?:\.[0-9]+)?)\s+([0-9]+(?:\.[0-9]+)?)\s+([0-9]+(?:\.[0-9]+)?)\s*$",
+        text,
+    )
+    return float(matches[-1][2]) if matches else None
+
+
+def _completed_stdout(stdout_path: Path) -> bool:
+    if not stdout_path.is_file():
+        return False
+    text = stdout_path.read_text(encoding="utf-8", errors="replace")
+    return "Completed" in text and "adaptive mesh refinement" in text
+
+
+def _load_peak_memory(run_dir: Path) -> dict[str, int]:
+    path = run_dir / "peak_memory.json"
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return {str(key): int(value) for key, value in data.items() if isinstance(value, int)}
+
+
+def validate_completed_base_amr(
+    root: str | Path,
+    *,
+    capability: PalaceCapability | None = None,
+    processes: int = 4,
+) -> CompletedBaseAMR:
+    """Validate and reconstruct a completed base AMR run without rerunning it."""
+    root = Path(root).resolve()
+    detected = capability or detect_palace()
+    if not detected.available:
+        raise PalaceOutputError(detected.unavailable_reason or "Palace is unavailable")
+    base_dir = root / "base_mesh"
+    config_path = base_dir / "palace_amr.json"
+    mesh_path = base_dir / "quarter_wave_base.msh"
+    postpro = base_dir / "postpro"
+    required = [
+        config_path,
+        mesh_path,
+        postpro / "eig.csv",
+        postpro / "domain-E.csv",
+        postpro / "error-indicators.csv",
+        postpro / "palace.json",
+    ]
+    missing = [path for path in required if not path.is_file()]
+    if missing:
+        raise PalaceOutputError(
+            "completed base AMR cannot be reused; missing artifact(s): "
+            + ", ".join(str(path) for path in missing)
+        )
+    resolved = _resolved_config(postpro)
+    adapted_meshes = [
+        (path.resolve() if path.is_symlink() else path)
+        for path in postpro.rglob("*.mesh")
+    ]
+    adapted_meshes = [path for path in adapted_meshes if path.is_file()]
+    raw_adapted = root / "raw" / "final_adapted.mesh"
+    if not adapted_meshes and not raw_adapted.is_file():
+        raise PalaceOutputError(
+            "completed base AMR cannot be reused; no Palace adapted mesh was retained"
+        )
+    modes = parse_eigenmodes(postpro / "eig.csv")
+    _ = parse_global_error_indicator(postpro / "error-indicators.csv")
+    if not _completed_stdout(base_dir / "palace.stdout.txt"):
+        raise PalaceOutputError(
+            "completed base AMR cannot be reused; retained stdout does not contain "
+            "Palace's AMR completion line"
+        )
+    install = _install_record(Path(__file__).resolve().parents[4]) or {}
+    install_hash = install.get("palace_executable_sha256")
+    if install_hash and detected.executable_sha256 and install_hash != detected.executable_sha256:
+        raise PalaceOutputError(
+            "completed base AMR cannot be reused; executable hash "
+            f"{detected.executable_sha256} does not match install.json {install_hash}"
+        )
+    command = build_command(detected, config_path, cwd=base_dir, processes=processes)
+    runtime = _runtime_from_stdout(base_dir / "palace.stdout.txt") or 0.0
+    output_files = [
+        postpro / "eig.csv",
+        postpro / "domain-E.csv",
+        postpro / "error-indicators.csv",
+        postpro / "palace.json",
+        resolved,
+        base_dir / "palace.stdout.txt",
+        base_dir / "palace.stderr.txt",
+        *(adapted_meshes[-1:] or [raw_adapted]),
+    ]
+    run = PalaceRun(
+        command=command,
+        return_code=0,
+        runtime_seconds=runtime,
+        stdout_path=base_dir / "palace.stdout.txt",
+        stderr_path=base_dir / "palace.stderr.txt",
+        output_dir=base_dir,
+        input_file_hashes=relative_hashes([config_path, mesh_path], base_dir),
+        output_file_hashes=relative_hashes(output_files, root),
+    )
+    validation = {
+        "schema": "textlayout.palace-base-amr-validation.v1",
+        "validated_at": _timestamp(),
+        "return_code": 0,
+        "return_code_basis": (
+            "reconstructed from completed Palace stdout and parseable required outputs; "
+            "the interrupted shell did not leave a standalone process manifest"
+        ),
+        "modes_ghz": [mode.frequency_ghz for mode in modes],
+        "resolved_config": str(resolved),
+        "adapted_mesh": str(adapted_meshes[-1] if adapted_meshes else raw_adapted),
+        "executable_sha256": detected.executable_sha256,
+        "install_executable_sha256": install_hash,
+        "command": command,
+        "mpi_processes": processes,
+    }
+    write_json(validation, root / "base_amr_validation.json")
+    return CompletedBaseAMR(
+        config_path=config_path,
+        postpro=postpro,
+        run=run,
+        peak_memory=_load_peak_memory(base_dir),
+        validation=validation,
+    )
+
+
+def palace_resonator_status(output_dir: str | Path) -> dict[str, Any]:
+    return status_report(Path(output_dir).resolve())
 
 
 def _environment(repo_root: Path, capability: PalaceCapability) -> dict[str, Any]:
@@ -656,15 +832,17 @@ def track_amr_modes(
             raise PalaceOutputError(f"{right.tag}: no candidate modes")
         runner_up = ranked[1].score if len(ranked) > 1 else 0.0
         best = ranked[0].model_copy(update={"runner_up_score": runner_up})
+        # Ambiguity is a *validity* failure: two candidates the tracker cannot
+        # tell apart (small winner-vs-runner-up margin) -> SIMULATION_INVALID.
+        # A clear winner whose absolute similarity is merely low is NOT
+        # ambiguous -- it is a *convergence* shortfall (the coarse mesh has not
+        # stabilised the mode's regional energy). That is enforced separately by
+        # the ``mode_regional_energy_similarity_above_0p98`` convergence gate,
+        # which yields CONVERGENCE_FAILED rather than SIMULATION_INVALID.
         if best.margin < minimum_margin:
             raise PalaceOutputError(
                 f"ambiguous_mode_identity: {left.tag} to {right.tag} margin "
                 f"{best.margin:.6f} is below {minimum_margin:.6f}"
-            )
-        if best.score < minimum_score:
-            raise PalaceOutputError(
-                f"ambiguous_mode_identity: {left.tag} to {right.tag} score "
-                f"{best.score:.6f} is below {minimum_score:.6f}"
             )
         indices.append(best.to_mode)
         matches.append(best)
@@ -776,6 +954,9 @@ def run_quarter_wave_benchmark_v017(
     sweep_amr: AMRSettings | None = None,
     numerical_sweep_values: dict[str, tuple[float, ...]] | None = None,
     physical_sweep_values: dict[str, tuple[float, ...]] | None = None,
+    resume: bool = False,
+    stop_after_stage: StageName | None = None,
+    from_stage: StageName | None = None,
 ) -> V017BenchmarkResult:
     """Run the Palace 0.17 AMR + domain-convergence benchmark end to end.
 
@@ -803,6 +984,8 @@ def run_quarter_wave_benchmark_v017(
     )
     repo_root = Path(__file__).resolve().parents[4]
     layout = Path(layout_path).resolve()
+    stage_ids: list[str] = []
+    resume = resume or from_stage is not None
 
     spec, params = load_quarter_wave_layout(layout)
     target_frequency = float(spec.target.get("frequency_ghz", 6.0))
@@ -836,6 +1019,28 @@ def run_quarter_wave_benchmark_v017(
 
     model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=base_extents)
     fem_hash = write_json(model.model_dump(mode="json"), root / "fem_model.json")
+    preflight_record = write_stage_record(
+        root,
+        stage="preflight",
+        status="complete",
+        input_hashes=relative_hashes([layout], root),
+        output_hashes=relative_hashes(
+            [
+                root / "toolchain.json",
+                root / "environment.json",
+                root / "resource_decision.json",
+                root / "fem_model.json",
+            ],
+            root,
+        ),
+        capability=detected,
+        notes=[
+            "toolchain identity, environment, resource decision and FEM model prepared"
+        ],
+    )
+    stage_ids.append(preflight_record.evidence_id)
+    if stop_after_stage == "preflight":
+        return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
 
     if not detected.available:
         evidence = _skipped_evidence(detected, layout, fem_hash, target_frequency, repo_root)
@@ -878,31 +1083,78 @@ def run_quarter_wave_benchmark_v017(
         return mesh
 
     try:
-        base_mesh = _mesh_for(base_extents, base_dir, "quarter_wave_base")
-        write_json(
-            {
-                "mesh_sha256": sha256_file(base_mesh.path),
-                "element_count": base_mesh.element_count,
-                "minimum_quality": base_mesh.minimum_quality,
-                "mean_quality": base_mesh.mean_quality,
-                "runtime_seconds": base_mesh.runtime_seconds,
-                "extents": base_extents.model_dump(mode="json"),
-                "mesh_scale": mesh_scale,
-            },
-            base_dir / "mesh_metrics.json",
-        )
+        base_mesh = _load_existing_base_mesh(base_dir) if resume else None
+        if base_mesh is None:
+            base_mesh = _mesh_for(base_extents, base_dir, "quarter_wave_base")
+            write_json(
+                {
+                    "mesh_sha256": sha256_file(base_mesh.path),
+                    "element_count": base_mesh.element_count,
+                    "minimum_quality": base_mesh.minimum_quality,
+                    "mean_quality": base_mesh.mean_quality,
+                    "runtime_seconds": base_mesh.runtime_seconds,
+                    "extents": base_extents.model_dump(mode="json"),
+                    "mesh_scale": mesh_scale,
+                },
+                base_dir / "mesh_metrics.json",
+            )
 
         base_mesh_hash = sha256_file(base_mesh.path)
-        config_path, postpro, amr_run, amr_peak = _run_palace_once(
-            detected,
-            run_dir=base_dir,
-            model=model,
-            mesh=base_mesh,
-            refinement=settings.refinement_config(),
-            processes=processes,
-            timeout_seconds=timeout_seconds,
-            cancel_event=cancel_event,
+        mesh_record = write_stage_record(
+            root,
+            stage="base_mesh",
+            status="reused" if resume else "complete",
+            input_hashes=relative_hashes([root / "fem_model.json"], root),
+            output_hashes=relative_hashes(
+                [base_mesh.path, base_dir / "mesh_metrics.json"], root
+            ),
+            runtime_seconds=base_mesh.runtime_seconds,
+            capability=detected,
+            upstream_stage_evidence_ids=list(stage_ids),
         )
+        stage_ids.append(mesh_record.evidence_id)
+        if stop_after_stage == "base_mesh":
+            return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
+
+        if resume:
+            completed = validate_completed_base_amr(root, capability=detected, processes=processes)
+            config_path = completed.config_path
+            postpro = completed.postpro
+            amr_run = completed.run
+            amr_peak = completed.peak_memory
+        else:
+            config_path, postpro, amr_run, amr_peak = _run_palace_once(
+                detected,
+                run_dir=base_dir,
+                model=model,
+                mesh=base_mesh,
+                refinement=settings.refinement_config(),
+                processes=processes,
+                timeout_seconds=timeout_seconds,
+                cancel_event=cancel_event,
+            )
+        base_amr_record = write_stage_record(
+            root,
+            stage="base_amr",
+            status="reused" if resume else "complete",
+            input_hashes=relative_hashes([config_path, base_mesh.path], root),
+            output_hashes=amr_run.output_file_hashes,
+            command=amr_run.command,
+            return_code=amr_run.return_code,
+            runtime_seconds=amr_run.runtime_seconds,
+            capability=detected,
+            upstream_stage_evidence_ids=list(stage_ids),
+            notes=(
+                [
+                    "return code reconstructed from completed stdout and parseable Palace outputs"
+                ]
+                if resume
+                else []
+            ),
+        )
+        stage_ids.append(base_amr_record.evidence_id)
+        if stop_after_stage == "base_amr":
+            return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
         amr_runtime = amr_run.runtime_seconds
         command = amr_run.command
         resolved_source = _resolved_config(postpro)
@@ -923,16 +1175,37 @@ def run_quarter_wave_benchmark_v017(
         ]
 
         # Palace's final adapted mesh (SaveAdaptMesh) is retained raw, hashed,
-        # and never committed: it is large solver-owned provenance.
+        # and never committed: it is large solver-owned provenance. Palace's
+        # SaveIteration leaves the top-level ``*.mesh`` as a *relative symlink*
+        # into the final iteration subdirectory, so resolve it to the real file
+        # (moving the symlink would dangle) and copy the content into raw/.
         raw_dir = root / "raw"
         raw_dir.mkdir(parents=True, exist_ok=True)
-        adapted_meshes = sorted(postpro.glob("*.mesh"))
+        adapted_meshes = sorted(postpro.rglob("*.mesh"))
         final_adapted_mesh: Path | None = None
         final_adapted_mesh_hash: str | None = None
-        if adapted_meshes:
+        real_meshes = [
+            (path.resolve() if path.is_symlink() else path)
+            for path in adapted_meshes
+        ]
+        real_meshes = [path for path in real_meshes if path.is_file()]
+        if real_meshes:
             final_adapted_mesh = raw_dir / "final_adapted.mesh"
-            shutil.move(str(adapted_meshes[-1]), final_adapted_mesh)
-            final_adapted_mesh_hash = sha256_file(final_adapted_mesh)
+            try:
+                if real_meshes[-1].resolve() != final_adapted_mesh.resolve():
+                    if final_adapted_mesh.exists() or final_adapted_mesh.is_symlink():
+                        final_adapted_mesh.unlink()
+                    shutil.copy2(real_meshes[-1], final_adapted_mesh)
+                final_adapted_mesh_hash = sha256_file(final_adapted_mesh)
+            except OSError:
+                # Some Windows/WSL runs expose Palace's relative mesh symlink in
+                # a way pathlib reports as a file but CopyFile2 cannot follow.
+                # Reuse the raw retained mesh if an earlier post-processing
+                # attempt already copied it.
+                if final_adapted_mesh.is_file():
+                    final_adapted_mesh_hash = sha256_file(final_adapted_mesh)
+                else:
+                    raise
 
         amr_dir = root / "amr"
         parsed_iterations: list[_ParsedIteration] = []
@@ -983,6 +1256,24 @@ def run_quarter_wave_benchmark_v017(
             },
             root / "mode_tracking.json",
         )
+        mode_record = write_stage_record(
+            root,
+            stage="mode_tracking",
+            status="failed" if tracking_error is not None else "complete",
+            input_hashes=relative_hashes(
+                [
+                    amr_dir / f"iteration_{i:02d}" / name
+                    for i in range(len(parsed_iterations))
+                    for name in ("eig.csv", "domain-E.csv", "error-indicators.csv")
+                ],
+                root,
+            ),
+            output_hashes=relative_hashes([root / "mode_tracking.json"], root),
+            capability=detected,
+            upstream_stage_evidence_ids=list(stage_ids),
+            notes=[tracking_error] if tracking_error is not None else [],
+        )
+        stage_ids.append(mode_record.evidence_id)
         if tracking_error is not None:
             return _finish_invalid(
                 root,
@@ -995,6 +1286,8 @@ def run_quarter_wave_benchmark_v017(
                 detail=tracking_error,
                 command=command,
             )
+        if stop_after_stage == "mode_tracking":
+            return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
 
         records = _iteration_records(
             parsed_iterations,
@@ -1143,6 +1436,50 @@ def run_quarter_wave_benchmark_v017(
                 sweeps.append(
                     SensitivitySweep(name=sweep_name, category=category, points=points)
                 )
+        numerical_files = [
+            path
+            for path in (root / "numerical_domain_sweeps").rglob("*")
+            if path.is_file()
+        ]
+        numerical_record = write_stage_record(
+            root,
+            stage="numerical_sweeps",
+            status="skipped" if not numerical_requested else "complete",
+            input_hashes=relative_hashes([root / "mode_tracking.json"], root),
+            output_hashes=relative_hashes(numerical_files, root),
+            capability=detected,
+            upstream_stage_evidence_ids=list(stage_ids),
+            notes=(
+                ["no numerical-domain sweep values were requested"]
+                if not numerical_requested
+                else []
+            ),
+        )
+        stage_ids.append(numerical_record.evidence_id)
+        if stop_after_stage == "numerical_sweeps":
+            return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
+        physical_files = [
+            path
+            for path in (root / "physical_sensitivity").rglob("*")
+            if path.is_file()
+        ]
+        physical_record = write_stage_record(
+            root,
+            stage="physical_sensitivity",
+            status="skipped" if not physical_requested else "complete",
+            input_hashes=relative_hashes([root / "mode_tracking.json"], root),
+            output_hashes=relative_hashes(physical_files, root),
+            capability=detected,
+            upstream_stage_evidence_ids=list(stage_ids),
+            notes=(
+                ["no physical-sensitivity sweep values were requested"]
+                if not physical_requested
+                else []
+            ),
+        )
+        stage_ids.append(physical_record.evidence_id)
+        if stop_after_stage == "physical_sensitivity":
+            return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
     except PalaceOutputError as exc:
         return _finish_invalid(
             root,
@@ -1305,6 +1642,47 @@ def run_quarter_wave_benchmark_v017(
     )
     evidence_path = write_canonical(evidence, root / "canonical_evidence.json")
     _write_report(root, status, records, matches, sweep_records, verification, supplementary)
+    evidence_record = write_stage_record(
+        root,
+        stage="evidence_promotion",
+        status=status.value,
+        input_hashes=relative_hashes([root / "convergence.json", root / "run_manifest.json"], root),
+        output_hashes=relative_hashes([root / "canonical_evidence.json"], root),
+        command=command,
+        return_code=0,
+        runtime_seconds=amr_runtime + sum(r.runtime_seconds for r in sweep_records),
+        capability=detected,
+        upstream_stage_evidence_ids=list(stage_ids),
+        notes=[
+            "without an independent reference, the maximum valid status is SIMULATION_EXECUTED"
+        ],
+    )
+    stage_ids.append(evidence_record.evidence_id)
+    if stop_after_stage == "evidence_promotion":
+        return V017BenchmarkResult(
+            status=status.value,
+            output_dir=root,
+            evidence_path=evidence_path,
+            tracked_frequency_ghz=records[-1].tracked_frequency_ghz,
+        )
+    write_stage_record(
+        root,
+        stage="packet_generation",
+        status="complete",
+        input_hashes=relative_hashes([root / "canonical_evidence.json"], root),
+        output_hashes=relative_hashes(
+            [
+                root / "report.md",
+                root / "run_manifest.json",
+                root / "resource_summary.json",
+                root / "convergence.json",
+                root / "base_amr_validation.json",
+            ],
+            root,
+        ),
+        capability=detected,
+        upstream_stage_evidence_ids=list(stage_ids),
+    )
     return V017BenchmarkResult(
         status=status.value,
         output_dir=root,
@@ -1586,6 +1964,7 @@ def _executed_evidence(
     error = (
         (finest - target_frequency) / target_frequency * 100.0 if finest is not None else None
     )
+    promoted_value = finest if status is EvidenceStatus.SIMULATION_EXECUTED else None
     return CanonicalEvidence(
         evidence_id=compute_evidence_id(
             design_id="quarter_wave_resonator_6ghz_palace_v017",
@@ -1600,16 +1979,16 @@ def _executed_evidence(
         target_quantity="eigenmode_frequency",
         target_value=target_frequency,
         target_unit="GHz",
-        extracted_quantity="eigenmode_frequency",
-        extracted_value=finest,
-        extracted_unit="GHz",
+        extracted_quantity="eigenmode_frequency" if promoted_value is not None else None,
+        extracted_value=promoted_value,
+        extracted_unit="GHz" if promoted_value is not None else None,
         analytical_value=target_frequency,
         analytical_model=(
             "lambda/4 CPW with eps_eff=(1+eps_r)/2; comparison only, not an "
             "independent verification artifact"
         ),
         tolerance_percent=2.0,
-        error_percent=error,
+        error_percent=error if promoted_value is not None else None,
         status=status,
         invalidation_reason=(
             "solver output failed physical-sanity checks: " + ", ".join(sorted(invalid_names))
