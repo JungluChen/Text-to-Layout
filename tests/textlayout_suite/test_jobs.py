@@ -14,7 +14,15 @@ def _wait_for_terminal(job_id: str, job_root: Path, *, timeout: float = 15.0):
     last = status_job(job_id, job_root=job_root)
     while time.time() < deadline:
         last = status_job(job_id, job_root=job_root)
-        if last.status in {"completed", "failed", "cancelled", "failed_to_start", "collected"}:
+        if last.status in {
+            "completed",
+            "failed",
+            "cancelled",
+            "failed_to_start",
+            "collected",
+            "CANCELLED",
+            "CANCEL_FAILED_ORPHAN_REMAINS",
+        }:
             return last
         time.sleep(0.2)
     return last
@@ -47,6 +55,13 @@ def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> No
     assert collected.stdout_path.is_file()
     assert collected.stderr_path.is_file()
     assert (collected.job_dir / "heartbeat.json").is_file()
+    assert collected.finalization_path is not None
+    assert collected.finalization_path.is_file()
+    finalization = json.loads(collected.finalization_path.read_text(encoding="utf-8"))
+    assert finalization["return_code"] == 0
+    assert finalization["stdout_sha256"] == collected.stdout_sha256
+    assert collected.resource_samples_path is not None
+    assert collected.resource_samples_path.is_file()
 
 
 def test_job_resume_is_post_processing_only(tmp_path: Path) -> None:
@@ -78,7 +93,7 @@ def test_job_cancel_requests_process_group_termination(tmp_path: Path) -> None:
     cancelled = cancel_job(started.job_id, job_root=jobs)
     assert cancelled.cancellation_requested is True
     terminal = _wait_for_terminal(started.job_id, jobs)
-    assert terminal.status in {"cancel_requested", "cancelled", "failed"}
+    assert terminal.status in {"CANCELLED", "CANCEL_FAILED_ORPHAN_REMAINS", "failed"}
 
 
 def test_jobs_cli_parses_start_and_lifecycle_commands() -> None:

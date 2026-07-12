@@ -83,6 +83,8 @@ class PalaceJobProfile(BaseModel):
     stderr_hash: str | None = None
     resource_evidence_hash: str | None = None
     solver_output_inventory_hash: str | None = None
+    solver_process_records: list[Path] = Field(default_factory=list)
+    solver_process_hashes: dict[str, str] = Field(default_factory=dict)
     upstream_stage_evidence_ids: list[str] = Field(default_factory=list)
 
 
@@ -162,8 +164,15 @@ def palace_job_profile_from_payload(
         process_group_id=payload.get("process_group_id"),
         stdout_hash=_sha256_if_file(Path(str(payload["stdout_path"]))),
         stderr_hash=_sha256_if_file(Path(str(payload["stderr_path"]))),
-        resource_evidence_hash=_sha256_if_file(job_dir / "heartbeat.json"),
+        resource_evidence_hash=_sha256_if_file(job_dir / "resource_samples.jsonl"),
         solver_output_inventory_hash=_sha256_if_file(job_dir / "output_inventory.json"),
+        solver_process_records=[
+            Path(str(path)).resolve() for path in payload.get("solver_process_paths", [])
+        ],
+        solver_process_hashes={
+            str(path): str(digest)
+            for path, digest in payload.get("solver_process_hashes", {}).items()
+        },
         upstream_stage_evidence_ids=upstream_stage_evidence_ids or [],
     )
 

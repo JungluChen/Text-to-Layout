@@ -15,6 +15,18 @@ from textlayout.solvers.palace.models import (
     PalaceRun,
     PalaceUnavailable,
 )
+from textlayout.solvers.palace.processes import wrap_wsl_command_with_ownership
+
+_INVENTORY_SKIP_DIRS = {
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".tools",
+    ".venv",
+    "__pycache__",
+    "jobs",
+}
 
 
 def _container_command(
@@ -113,6 +125,24 @@ def _hash_files(paths: list[Path], root: Path) -> dict[str, str]:
     return dict(sorted(hashes.items()))
 
 
+def _skip_inventory_path(path: Path, root: Path) -> bool:
+    try:
+        relative = path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return True
+    return any(part in _INVENTORY_SKIP_DIRS for part in relative.parts)
+
+
+def _file_fingerprints(root: Path) -> dict[Path, tuple[int, int]]:
+    fingerprints: dict[Path, tuple[int, int]] = {}
+    for path in root.rglob("*"):
+        if not path.is_file() or _skip_inventory_path(path, root):
+            continue
+        stat = path.stat()
+        fingerprints[path.resolve()] = (stat.st_size, stat.st_mtime_ns)
+    return fingerprints
+
+
 def run_palace(
     capability: PalaceCapability,
     config_path: Path,
@@ -130,13 +160,18 @@ def run_palace(
     cwd.mkdir(parents=True, exist_ok=True)
     config_path = config_path.resolve()
     command = build_command(capability, config_path, cwd=cwd, processes=processes)
+    job_id = os.environ.get("TEXTLAYOUT_JOB_ID")
+    if job_id:
+        command = wrap_wsl_command_with_ownership(
+            command,
+            job_id=job_id,
+            record_path=cwd / "solver_process.json",
+            working_directory=cwd,
+            executable_hash=capability.executable_sha256,
+        )
     stdout_path = cwd / "palace.stdout.txt"
     stderr_path = cwd / "palace.stderr.txt"
-    before = {
-        path.resolve(): sha256_file(path)
-        for path in cwd.rglob("*")
-        if path.is_file()
-    }
+    before = _file_fingerprints(cwd)
     started = time.perf_counter()
     timed_out = False
     cancelled = False
@@ -187,12 +222,12 @@ def run_palace(
     if stderr_path.stat().st_size == 0:
         stderr_path.write_text("[textlayout] Palace emitted no stderr.\n", encoding="utf-8")
 
-    after = [path.resolve() for path in cwd.rglob("*") if path.is_file()]
+    after = _file_fingerprints(cwd)
     outputs = []
-    for path in after:
+    for path, fingerprint in after.items():
         if path in {stdout_path.resolve(), stderr_path.resolve()}:
             continue
-        if before.get(path) != sha256_file(path):
+        if before.get(path) != fingerprint:
             outputs.append(path)
     inputs = [config_path, *(input_paths or [])]
     return PalaceRun(

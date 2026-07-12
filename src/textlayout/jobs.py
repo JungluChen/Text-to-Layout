@@ -313,6 +313,8 @@ class JobRecord(BaseModel):
     stderr_path: Path
     manifest_path: Path
     environment_path: Path
+    resource_samples_path: Path | None = None
+    finalization_path: Path | None = None
     monitor_pid: int | None = None
     pid: int | None = None
     parent_pid: int | None = None
@@ -324,6 +326,12 @@ class JobRecord(BaseModel):
     cancellation_requested: bool = False
     orphan_status: str = "unknown"
     output_inventory: dict[str, str] = Field(default_factory=dict)
+    stdout_sha256: str | None = None
+    stderr_sha256: str | None = None
+    resource_evidence_sha256: str | None = None
+    output_inventory_sha256: str | None = None
+    solver_process_paths: list[Path] = Field(default_factory=list)
+    solver_process_hashes: dict[str, str] = Field(default_factory=dict)
     peak_rss_kb: int = 0
     samples: list[dict[str, Any]] = Field(default_factory=list)
 
@@ -344,13 +352,21 @@ def _save_record(record: JobRecord) -> None:
             existing = _read_json(path)
         except (OSError, json.JSONDecodeError):
             existing = {}
-        terminal = {"completed", "failed", "cancelled", "failed_to_start", "collected"}
+        terminal = {
+            "completed",
+            "failed",
+            "cancelled",
+            "failed_to_start",
+            "collected",
+            "CANCELLED",
+            "CANCEL_FAILED_ORPHAN_REMAINS",
+        }
         if existing.get("status") in terminal and payload.get("status") not in terminal:
             return
         if existing.get("cancellation_requested") and not payload.get("cancellation_requested"):
             payload["cancellation_requested"] = True
             if payload.get("status") == "running":
-                payload["status"] = "cancel_requested"
+                payload["status"] = "CANCEL_REQUESTED"
     _write_json(path, payload)
 
 
@@ -373,6 +389,8 @@ def start_job(
     stderr_path = job_dir / "stderr.txt"
     manifest_path = job_dir / "manifest.json"
     environment_path = job_dir / "environment.json"
+    resource_samples_path = job_dir / "resource_samples.jsonl"
+    finalization_path = job_dir / "finalization.json"
     full_env = dict(os.environ)
     full_env.update(env_overrides or {})
     inv_root = Path(inventory_root).resolve() if inventory_root else cwd_path
@@ -418,6 +436,8 @@ def start_job(
         stderr_path=stderr_path,
         manifest_path=manifest_path,
         environment_path=environment_path,
+        resource_samples_path=resource_samples_path,
+        finalization_path=finalization_path,
         created_at=manifest["created_at"],
     )
     _save_record(record)
@@ -457,7 +477,14 @@ def write_heartbeat(record: JobRecord) -> JobRecord:
             latest = JobRecord.model_validate(_read_json(record_path))
         except json.JSONDecodeError:
             latest = record
-        if latest.status in {"completed", "failed", "cancelled", "failed_to_start"}:
+        if latest.status in {
+            "completed",
+            "failed",
+            "cancelled",
+            "failed_to_start",
+            "CANCELLED",
+            "CANCEL_FAILED_ORPHAN_REMAINS",
+        }:
             return latest
     sample = sample_job(record)
     heartbeat = {
@@ -467,13 +494,18 @@ def write_heartbeat(record: JobRecord) -> JobRecord:
         "sample": sample,
     }
     _write_json(record.job_dir / "heartbeat.json", heartbeat)
+    resource_samples = record.resource_samples_path or (record.job_dir / "resource_samples.jsonl")
+    with resource_samples.open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(sample, sort_keys=True) + "\n")
     samples = [*record.samples, sample]
-    peak = max(record.peak_rss_kb, int(sample.get("rss_kb", 0) or 0))
+    peak = max(record.peak_rss_kb, int(sample.get("total_rss_kb", 0) or 0))
     updated = record.model_copy(
         update={
             "samples": samples[-100:],
             "peak_rss_kb": peak,
+            "resource_samples_path": resource_samples,
             "orphan_status": sample.get("orphan_status", record.orphan_status),
+            "solver_process_paths": [Path(path) for path in sample.get("solver_process_paths", [])],
         }
     )
     _save_record(updated)
@@ -502,6 +534,96 @@ def _terminate_process_group(record: JobRecord) -> None:
         _posix_killpg(record.process_group_id or record.pid, signal.SIGTERM)
     except ProcessLookupError:
         return
+
+
+def _hash_if_file(path: Path | None) -> str | None:
+    return sha256_file(path) if path is not None and path.is_file() else None
+
+
+def finalize_job(record: JobRecord) -> JobRecord:
+    """Finalize immutable job evidence after the managed process exits."""
+    output_inventory_path = record.job_dir / "output_inventory.json"
+    output_inventory = (
+        _read_json(output_inventory_path)
+        if output_inventory_path.is_file()
+        else record.output_inventory
+    )
+    resource_path = record.resource_samples_path or (record.job_dir / "resource_samples.jsonl")
+    finalization_path = record.finalization_path or (record.job_dir / "finalization.json")
+    resource_path.parent.mkdir(parents=True, exist_ok=True)
+    resource_path.touch(exist_ok=True)
+    stdout_hash = _hash_if_file(record.stdout_path)
+    stderr_hash = _hash_if_file(record.stderr_path)
+    resource_hash = _hash_if_file(resource_path)
+    output_hash = _hash_if_file(output_inventory_path)
+    solver_paths = _palace_solver_record_paths(record)
+    solver_hashes = {
+        str(path): sha256_file(path) for path in solver_paths if path.is_file()
+    }
+    stage_refresh: dict[str, Any] = {"refreshed": False, "records": [], "error": None}
+    try:
+        palace_root = _palace_output_root(record)
+        if palace_root is not None:
+            from textlayout.solvers.palace.stages import (
+                palace_job_profile_from_payload,
+                refresh_stage_job_profiles,
+                write_palace_job_profile,
+            )
+
+            provisional = record.model_copy(
+                update={
+                    "output_inventory": output_inventory,
+                    "stdout_sha256": stdout_hash,
+                    "stderr_sha256": stderr_hash,
+                    "resource_evidence_sha256": resource_hash,
+                    "output_inventory_sha256": output_hash,
+                    "solver_process_paths": solver_paths,
+                    "solver_process_hashes": solver_hashes,
+                }
+            )
+            profile = palace_job_profile_from_payload(provisional.model_dump(mode="json"))
+            write_palace_job_profile(palace_root, profile)
+            refreshed = refresh_stage_job_profiles(palace_root, profile)
+            stage_refresh = {
+                "refreshed": True,
+                "records": [record.evidence_id for record in refreshed],
+                "error": None,
+            }
+    except (OSError, ValueError, RuntimeError) as exc:
+        stage_refresh["error"] = f"{type(exc).__name__}: {exc}"
+    finalization = {
+        "schema": "textlayout.job-finalization.v1",
+        "job_id": record.job_id,
+        "finalized_at": _now(),
+        "status": record.status,
+        "return_code": record.return_code,
+        "stdout_sha256": stdout_hash,
+        "stderr_sha256": stderr_hash,
+        "resource_evidence_sha256": resource_hash,
+        "output_inventory_sha256": output_hash,
+        "output_inventory": output_inventory,
+        "peak_rss_kb": record.peak_rss_kb,
+        "sample_count": len(record.samples),
+        "solver_process_hashes": solver_hashes,
+        "stage_refresh": stage_refresh,
+    }
+    if not finalization_path.is_file():
+        _write_json(finalization_path, finalization)
+    updated = record.model_copy(
+        update={
+            "output_inventory": output_inventory,
+            "stdout_sha256": stdout_hash,
+            "stderr_sha256": stderr_hash,
+            "resource_evidence_sha256": resource_hash,
+            "output_inventory_sha256": output_hash,
+            "resource_samples_path": resource_path,
+            "finalization_path": finalization_path,
+            "solver_process_paths": solver_paths,
+            "solver_process_hashes": solver_hashes,
+        }
+    )
+    _save_record(updated)
+    return updated
 
 
 def _monitor_job(job_dir: Path) -> int:
@@ -554,8 +676,8 @@ def _monitor_job(job_dir: Path) -> int:
             return_code = process.wait()
     after = _inventory(record.inventory_root, exclude=record.job_dir)
     outputs = {key: value for key, value in after.items() if before.get(key) != value}
-    latest = _load_record(record.job_dir.parent, record.job_id)
-    status = "completed" if return_code == 0 else "cancelled" if latest.cancellation_requested else "failed"
+    latest = write_heartbeat(_load_record(record.job_dir.parent, record.job_id))
+    status = "completed" if return_code == 0 else "CANCELLED" if latest.cancellation_requested else "failed"
     finished = latest.model_copy(
         update={
             "status": status,
@@ -567,18 +689,46 @@ def _monitor_job(job_dir: Path) -> int:
     )
     _save_record(finished)
     _write_json(record.job_dir / "output_inventory.json", outputs)
+    finalize_job(finished)
     return 0
 
 
 def sample_job(record: JobRecord) -> dict[str, Any]:
     process = inspect_process(record.pid or -1) if record.pid else {"available": False}
-    wsl = _wsl_processes(record.command[-1] if record.command else None)
     rss = int(process.get("rss_kb") or (process.get("working_set_bytes", 0) // 1024) or 0)
     alive = _pid_alive(record.pid or -1)
     parent_alive = _pid_alive(record.parent_pid or -1) if record.parent_pid else False
     orphan_status = (
         "orphaned" if alive and record.parent_pid and not parent_alive else "not_orphaned"
     )
+    solver_paths = _palace_solver_record_paths(record)
+    owned_processes: list[dict[str, Any]] = []
+    total_rss = rss
+    total_cpu = 0.0
+    total_read = 0
+    total_write = 0
+    rank_count = 0
+    available_memory_kb = 0
+    if solver_paths:
+        from textlayout.solvers.palace.processes import (
+            aggregate_process_resources,
+            inspect_owned_processes,
+            refresh_solver_process_record,
+        )
+
+        for path in solver_paths:
+            solver_record = refresh_solver_process_record(path)
+            if solver_record is None:
+                continue
+            processes = inspect_owned_processes(solver_record)
+            aggregate = aggregate_process_resources(processes)
+            owned_processes.extend(aggregate["processes"])
+            total_rss += int(aggregate["total_rss_kb"])
+            total_cpu += float(aggregate["total_cpu_percent"])
+            total_read += int(aggregate["read_bytes"])
+            total_write += int(aggregate["write_bytes"])
+            rank_count += int(aggregate["mpi_rank_count"])
+        available_memory_kb = _wsl_available_memory_kb()
     return {
         "timestamp": _now(),
         "pid": record.pid,
@@ -587,9 +737,48 @@ def sample_job(record: JobRecord) -> dict[str, Any]:
         "parent_alive": parent_alive,
         "orphan_status": orphan_status,
         "rss_kb": rss,
+        "total_rss_kb": total_rss,
+        "total_cpu_percent": total_cpu,
+        "system_available_memory_kb": available_memory_kb,
+        "read_bytes": total_read,
+        "write_bytes": total_write,
+        "process_count": len(owned_processes),
+        "mpi_rank_count": rank_count,
         "process": process,
-        "wsl_processes": wsl,
+        "owned_wsl_processes": owned_processes,
+        "solver_process_paths": [str(path) for path in solver_paths],
     }
+
+
+def _palace_output_root(record: JobRecord) -> Path | None:
+    try:
+        environment = _read_json(record.environment_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return None
+    clear = environment.get("clear", {})
+    value = clear.get("TEXTLAYOUT_PALACE_OUTPUT_DIR") if isinstance(clear, dict) else None
+    return Path(str(value)).resolve() if value else None
+
+
+def _palace_solver_record_paths(record: JobRecord) -> list[Path]:
+    root = _palace_output_root(record)
+    if root is None or not root.is_dir():
+        return [path for path in record.solver_process_paths if path.is_file()]
+    return sorted(path.resolve() for path in root.glob("**/solver_process.json") if path.is_file())
+
+
+def _wsl_available_memory_kb() -> int:
+    try:
+        completed = subprocess.run(
+            ["wsl.exe", "bash", "-lc", "awk '/MemAvailable:/{print $2}' /proc/meminfo"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+        return int(completed.stdout.strip()) if completed.returncode == 0 else 0
+    except (OSError, subprocess.TimeoutExpired, ValueError):
+        return 0
 
 
 def status_job(job_id: str, *, job_root: str | Path = DEFAULT_JOB_ROOT) -> JobRecord:
@@ -633,25 +822,52 @@ def collect_job(job_id: str, *, job_root: str | Path = DEFAULT_JOB_ROOT) -> JobR
     )
     _save_record(updated)
     _write_json(record.job_dir / "output_inventory.json", outputs)
-    return updated
+    return finalize_job(updated)
 
 
-def cancel_job(job_id: str, *, job_root: str | Path = DEFAULT_JOB_ROOT) -> JobRecord:
+def cancel_job(
+    job_id: str,
+    *,
+    job_root: str | Path = DEFAULT_JOB_ROOT,
+    grace_seconds: float = 5.0,
+) -> JobRecord:
     record = _load_record(Path(job_root).resolve(), job_id)
     requested = record.model_copy(
         update={
-            "status": "cancel_requested",
+            "status": "CANCEL_REQUESTED",
             "cancellation_requested": True,
         }
     )
     _save_record(requested)
-    if record.pid is not None and _pid_alive(record.pid):
+    cancelling = requested.model_copy(update={"status": "CANCELLING"})
+    _save_record(cancelling)
+    orphan_remains = False
+    solver_paths = _palace_solver_record_paths(record)
+    if solver_paths:
+        from textlayout.solvers.palace.processes import (
+            SolverProcessRecord,
+            cancel_owned_wsl_process_group,
+        )
+
+        for path in solver_paths:
+            solver_record = SolverProcessRecord.model_validate_json(path.read_text(encoding="utf-8"))
+            cancelled = cancel_owned_wsl_process_group(
+                solver_record, grace_seconds=grace_seconds
+            )
+            orphan_remains |= cancelled.cancellation_status == "CANCEL_FAILED_ORPHAN_REMAINS"
+    if record.pid is not None and _pid_alive(record.pid) and not orphan_remains:
         _terminate_process_group(record)
+        deadline = time.time() + grace_seconds
+        while _pid_alive(record.pid) and time.time() < deadline:
+            time.sleep(0.1)
+    alive = _pid_alive(record.pid or -1)
+    status = "CANCEL_FAILED_ORPHAN_REMAINS" if alive or orphan_remains else "CANCELLED"
     updated = requested.model_copy(
         update={
-            "status": "cancel_requested",
+            "status": status,
             "cancellation_requested": True,
-            "completed_at": _now() if not _pid_alive(record.pid or -1) else None,
+            "completed_at": None if alive else _now(),
+            "solver_process_paths": solver_paths,
         }
     )
     _save_record(updated)
@@ -694,6 +910,10 @@ def record_summary(record: JobRecord) -> dict[str, Any]:
         "cancellation_requested": record.cancellation_requested,
         "orphan_status": record.orphan_status,
         "peak_rss_kb": record.peak_rss_kb,
+        "stdout_sha256": record.stdout_sha256,
+        "stderr_sha256": record.stderr_sha256,
+        "resource_evidence_sha256": record.resource_evidence_sha256,
+        "output_inventory_sha256": record.output_inventory_sha256,
         "output_count": len(record.output_inventory),
     }
 
