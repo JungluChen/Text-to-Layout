@@ -61,6 +61,35 @@ human_review_required = false
 dataset_license = "not_applicable"
 
 [[tools]]
+id = "paraview"
+canonical_name = "ParaView"
+upstream_repository = "https://github.com/Kitware/ParaView"
+pinned_ref = "v5.13.3"
+pinned_commit = "33274c1e71474b91721a41e3c449277d1e67d1ae"
+source_archive_url = "https://github.com/Kitware/ParaView/archive/33274c1e71474b91721a41e3c449277d1e67d1ae.tar.gz"
+source_archive_sha256 = "9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719"
+source_archive_size_bytes = 53938129
+binary_archive_url = "https://www.paraview.org/files/v5.13/ParaView-5.13.3-Windows-Python3.10-msvc2017-AMD64.msi"
+binary_archive_sha256 = "1366a4b1be5047ef03b7bad312dd7fb9a8728dd246a7ca085b9b6e8d86868b3b"
+binary_archive_size_bytes = 416665600
+spdx_license = "BSD-3-Clause"
+copyright_holder = "ParaView contributors and Kitware, Inc."
+install_mode = "isolated official binary extraction under .tools/paraview"
+integration_mode = "external pvpython executable via subprocess and file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout.solvers.palace.paraview"
+smoke_test_command = ["py", "-3", "scripts/external/run_paraview_smoke.py"]
+benchmark_command = ["py", "-3", "scripts/external/run_paraview_palace_visualizations.py", "--run", "out/palace_resonator_v017"]
+supported_operating_systems = ["Windows", "Linux", "macOS"]
+required_runtime = ["pvpython 5.13.3"]
+expected_output_files = ["out/toolchain/paraview_smoke/sphere.vtp", "out/toolchain/paraview_smoke/result.json"]
+tool_scope = "batch visualization of Palace mesh and retained field/error arrays"
+license_review = "reviewed_from_upstream_repository"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
 id = "josephsoncircuits"
 canonical_name = "JosephsonCircuits.jl"
 upstream_repository = "https://github.com/kpobrien/JosephsonCircuits.jl"

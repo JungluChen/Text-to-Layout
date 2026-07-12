@@ -38,6 +38,22 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Dataset license: not_applicable
 - Human review required: false
 
+## ParaView
+
+- Upstream: https://github.com/Kitware/ParaView
+- Pinned ref: `v5.13.3`
+- Resolved commit: `33274c1e71474b91721a41e3c449277d1e67d1ae`
+- Source archive SHA-256: `9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719`
+- SPDX license identifier: `BSD-3-Clause`
+- Copyright holder: ParaView contributors and Kitware, Inc.
+- Install mode: isolated official binary extraction under .tools/paraview
+- Integration mode: external pvpython executable via subprocess and file exchange
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `textlayout.solvers.palace.paraview`
+- Dataset license: not_applicable
+- Human review required: false
+
 ## JosephsonCircuits.jl
 
 - Upstream: https://github.com/kpobrien/JosephsonCircuits.jl

@@ -50,14 +50,15 @@ REQUIRED_FIELDS = (
 )
 
 STATUS_ORDER = (
-    "DISCOVERED",
+    "REGISTERED",
     "DOWNLOADED",
     "LICENSE_REVIEWED",
     "INSTALLED",
+    "IDENTITY_VERIFIED",
     "SMOKE_TEST_PASSED",
     "BENCHMARK_EXECUTED",
     "INTEGRATED",
-    "VALIDATED",
+    "SCIENTIFICALLY_VALIDATED",
 )
 
 
@@ -192,6 +193,9 @@ def validate_registry(registry: Registry) -> list[str]:
                 tool.get("pinned_commit" if key == "resolved_commit" else key)
             ):
                 problems.append(f"{tool_id}: registry/lock mismatch for {key}")
+        for key in ("binary_archive_url", "binary_archive_sha256", "binary_archive_size_bytes"):
+            if key in tool and str(locked.get(key)) != str(tool.get(key)):
+                problems.append(f"{tool_id}: registry/lock mismatch for {key}")
         sha = str(tool.get("source_archive_sha256", ""))
         if len(sha) != 64 or any(ch not in "0123456789abcdef" for ch in sha):
             problems.append(f"{tool_id}: invalid source_archive_sha256")
@@ -213,7 +217,7 @@ def validate_registry(registry: Registry) -> list[str]:
 
 
 def tool_status(tool: dict[str, Any], *, smoke: bool, benchmark: bool) -> dict[str, Any]:
-    statuses = ["DISCOVERED"]
+    statuses = ["REGISTERED"]
     archive = source_archive_path(tool)
     archive_problem = None
     if archive.is_file():
@@ -224,30 +228,50 @@ def tool_status(tool: dict[str, Any], *, smoke: bool, benchmark: bool) -> dict[s
             archive_problem = f"cache checksum mismatch: {actual}"
     if tool["spdx_license"] != "NOASSERTION":
         statuses.append("LICENSE_REVIEWED")
-    installed = installed_for_smoke(list(tool["smoke_test_command"]))
+    retained_state: str | None = None
+    retained_identity: dict[str, Any] | None = None
+    if tool["id"] == "palace":
+        from check_palace import check as check_palace
+
+        retained = check_palace()
+        retained_state = str(retained["state"])
+        installation = retained.get("installation")
+        retained_identity = installation if isinstance(installation, dict) else None
+    elif tool["id"] == "paraview":
+        from check_paraview import check as check_paraview
+
+        retained = check_paraview()
+        retained_state = str(retained["state"])
+        identity = retained.get("identity")
+        retained_identity = identity if isinstance(identity, dict) else None
+    installed = (
+        retained_identity is not None
+        if tool["id"] in {"palace", "paraview"}
+        else installed_for_smoke(list(tool["smoke_test_command"]))
+    )
     if installed:
         statuses.append("INSTALLED")
+    if retained_identity is not None:
+        statuses.append("IDENTITY_VERIFIED")
     integrated = adapter_importable(str(tool["adapter_module"]))
     if integrated:
         statuses.append("INTEGRATED")
     smoke_result: dict[str, Any] | None = None
+    if retained_state in {"SMOKE_TEST_PASSED", "BENCHMARK_EXECUTED"}:
+        statuses.append("SMOKE_TEST_PASSED")
+        smoke_result = {"status": "retained_hash_verified", "passed": True}
     if smoke and installed:
         smoke_result = run_command(list(tool["smoke_test_command"]), timeout_seconds=120)
         if smoke_result["passed"]:
             statuses.append("SMOKE_TEST_PASSED")
     benchmark_result: dict[str, Any] | None = None
+    if retained_state == "BENCHMARK_EXECUTED":
+        statuses.append("BENCHMARK_EXECUTED")
+        benchmark_result = {"status": "retained_hash_verified", "passed": True}
     if benchmark:
         benchmark_result = run_command(list(tool["benchmark_command"]), timeout_seconds=600)
         if benchmark_result["passed"]:
             statuses.append("BENCHMARK_EXECUTED")
-    validated = (
-        "LICENSE_REVIEWED" in statuses
-        and "INTEGRATED" in statuses
-        and (not smoke or "SMOKE_TEST_PASSED" in statuses)
-        and (not benchmark or "BENCHMARK_EXECUTED" in statuses)
-    )
-    if validated:
-        statuses.append("VALIDATED")
     return {
         "id": tool["id"],
         "canonical_name": tool["canonical_name"],
@@ -257,12 +281,14 @@ def tool_status(tool: dict[str, Any], *, smoke: bool, benchmark: bool) -> dict[s
         "install_mode": tool["install_mode"],
         "adapter_module": tool["adapter_module"],
         "adapter_importable": integrated,
+        "identity": retained_identity,
         "archive_cache": str(archive.relative_to(ROOT)),
         "archive_problem": archive_problem,
         "smoke_test": smoke_result or {"status": "not_run"},
         "benchmark": benchmark_result or {"status": "not_run"},
         "expected_output_files": list(tool["expected_output_files"]),
         "human_review_required": bool(tool.get("human_review_required", False)),
+        "scientifically_validated": "SCIENTIFICALLY_VALIDATED" in statuses,
     }
 
 
