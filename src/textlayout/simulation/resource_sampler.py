@@ -14,7 +14,6 @@ from __future__ import annotations
 import shutil
 import subprocess
 import threading
-import time
 from dataclasses import dataclass, field
 
 
@@ -48,14 +47,26 @@ def _run(script: str, *, timeout: float = 20.0) -> str:
     return completed.stdout
 
 
+def _parse_free_mb(free_output: str) -> dict[str, int]:
+    """Parse ``free -m`` output in Python.
+
+    awk/sed one-liners with ``$`` and single quotes are mangled by wsl.exe's
+    Windows argument parsing, so the parsing is done here on the plain output.
+    The ``Mem:`` row is: total used free shared buff/cache available.
+    """
+    for line in free_output.splitlines():
+        parts = line.split()
+        if parts and parts[0].rstrip(":").lower() == "mem" and len(parts) >= 7:
+            nums = parts[1:7]
+            if all(p.isdigit() for p in nums):
+                total, used, _free, _shared, _cache, available = (int(p) for p in nums)
+                return {"total_mb": total, "available_mb": available, "used_mb": used}
+    return {"total_mb": 0, "available_mb": 0, "used_mb": 0}
+
+
 def read_memory_budget() -> dict[str, int]:
     """Return total/available/used WSL memory in MB (best effort)."""
-    out = _run("free -m | awk 'NR==2{print $2, $7, $3}'")
-    parts = out.split()
-    if len(parts) >= 3 and all(p.isdigit() for p in parts[:3]):
-        total, available, used = (int(parts[0]), int(parts[1]), int(parts[2]))
-        return {"total_mb": total, "available_mb": available, "used_mb": used}
-    return {"total_mb": 0, "available_mb": 0, "used_mb": 0}
+    return _parse_free_mb(_run("free -m"))
 
 
 @dataclass
@@ -94,18 +105,15 @@ class MemorySampler:
         self._thread: threading.Thread | None = None
 
     def _sample_once(self) -> None:
-        out = _run(
-            "free -m | awk 'NR==2{print $3}'; "
-            f"ps -o rss= -C {self.process_name}-x86_64.bin 2>/dev/null "
-            "| awk '{s+=$1}END{print int(s/1024)}'"
-        )
-        lines = [line.strip() for line in out.splitlines() if line.strip()]
-        if not lines:
+        used = _parse_free_mb(_run("free -m")).get("used_mb", 0)
+        # ``ps -o rss= -C <name>`` needs no awk/quotes: sum the RSS kB in Python.
+        rss_out = _run(f"ps -o rss= -C {self.process_name}-x86_64.bin")
+        rss_kb = sum(int(tok) for tok in rss_out.split() if tok.isdigit())
+        rss_mb = rss_kb // 1024
+        if used == 0 and rss_mb == 0:
             return
-        used = int(lines[0]) if lines[0].isdigit() else 0
-        rss = int(lines[1]) if len(lines) > 1 and lines[1].isdigit() else 0
         self.result.peak_used_mb = max(self.result.peak_used_mb, used)
-        self.result.peak_solver_rss_mb = max(self.result.peak_solver_rss_mb, rss)
+        self.result.peak_solver_rss_mb = max(self.result.peak_solver_rss_mb, rss_mb)
         self.result.samples += 1
 
     def _loop(self) -> None:

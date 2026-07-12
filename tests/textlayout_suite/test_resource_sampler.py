@@ -4,8 +4,27 @@ from __future__ import annotations
 
 from textlayout.simulation.resource_sampler import (
     ResourceSample,
+    _parse_free_mb,
     decide_process_count,
 )
+
+FREE_OUTPUT = """               total        used        free      shared  buff/cache   available
+Mem:           11830        2401        9765          13         339        9428
+Swap:           3072           0         3072"""
+
+
+def test_parse_free_handles_plain_output_without_awk() -> None:
+    budget = _parse_free_mb(FREE_OUTPUT)
+    assert budget == {"total_mb": 11830, "available_mb": 9428, "used_mb": 2401}
+
+
+def test_parse_free_is_safe_on_garbage() -> None:
+    assert _parse_free_mb("") == {"total_mb": 0, "available_mb": 0, "used_mb": 0}
+    assert _parse_free_mb("no mem line here") == {
+        "total_mb": 0,
+        "available_mb": 0,
+        "used_mb": 0,
+    }
 
 
 def test_resource_sample_reports_growth() -> None:
