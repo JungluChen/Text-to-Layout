@@ -49,6 +49,11 @@ from textlayout.fem import FEMModel
 from textlayout.fem.gmsh_physical import GmshMeshResult, mesh_quarter_wave
 from textlayout.generators.resonator import QuarterWaveResonatorGenerator
 from textlayout.knowledge.technology_library import default_technology_library
+from textlayout.simulation.resource_sampler import (
+    MemorySampler,
+    decide_process_count,
+    read_memory_budget,
+)
 from textlayout.simulation.palace_verification import (
     DomainSweepPoint,
     PalaceAMRLevel,
@@ -263,6 +268,23 @@ def _gmsh_identity() -> dict[str, Any]:
     from textlayout.mesh.runtime import gmsh_identity
 
     return gmsh_identity()
+
+
+def _preflight_peak_mb(root: Path) -> int | None:
+    """Peak used-memory (MB) from a sibling ``*_preflight`` base-AMR run, if any.
+
+    The reduced preflight writes ``base_mesh/peak_memory.json``; its peak is
+    the best available estimate for the resource gate before the full run.
+    """
+    candidate = root.parent / f"{root.name}_preflight" / "base_mesh" / "peak_memory.json"
+    if not candidate.is_file():
+        return None
+    try:
+        payload = json.loads(candidate.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    value = payload.get("peak_used_mb")
+    return int(value) if isinstance(value, (int, float)) and value > 0 else None
 
 
 def _environment(repo_root: Path, capability: PalaceCapability) -> dict[str, Any]:
@@ -502,8 +524,11 @@ def _run_palace_once(
     processes: int,
     timeout_seconds: float,
     cancel_event: Event | None,
-) -> tuple[Path, Path, PalaceRun]:
-    """Execute one Palace AMR solve; return (config_path, postpro, retained run)."""
+) -> tuple[Path, Path, PalaceRun, dict[str, int]]:
+    """Execute one Palace AMR solve while sampling memory.
+
+    Returns ``(config_path, postpro, retained run, peak-memory dict)``.
+    """
     config = build_eigenmode_config(
         model, mesh_filename=mesh.path.name, output_dir="postpro"
     )
@@ -512,15 +537,17 @@ def _run_palace_once(
     config["Solver"]["Eigenmode"]["Save"] = 0
     config_path = run_dir / "palace_amr.json"
     write_config(config, config_path)
-    run = run_palace(
-        capability,
-        config_path,
-        cwd=run_dir,
-        processes=processes,
-        timeout_seconds=timeout_seconds,
-        cancel_event=cancel_event,
-        input_paths=[mesh.path],
-    )
+    with MemorySampler() as sampler:
+        run = run_palace(
+            capability,
+            config_path,
+            cwd=run_dir,
+            processes=processes,
+            timeout_seconds=timeout_seconds,
+            cancel_event=cancel_event,
+            input_paths=[mesh.path],
+        )
+    peak = sampler.result.to_dict()
     if run.timed_out:
         raise PalaceOutputError(f"{run_dir.name}: Palace timed out")
     if run.cancelled:
@@ -529,7 +556,8 @@ def _run_palace_once(
         raise PalaceOutputError(
             f"{run_dir.name}: Palace returned non-zero exit code {run.return_code}"
         )
-    return config_path, run_dir / "postpro", run
+    write_json(peak, run_dir / "peak_memory.json")
+    return config_path, run_dir / "postpro", run, peak
 
 
 def _invocation_record(
@@ -541,6 +569,7 @@ def _invocation_record(
     mesh_sha256: str,
     resolved_config_sha256: str | None,
     root: Path,
+    peak_memory: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     """Every Palace invocation retains its full process-level identity."""
 
@@ -560,6 +589,7 @@ def _invocation_record(
         "resolved_config_sha256": resolved_config_sha256,
         "return_code": run.return_code,
         "runtime_seconds": run.runtime_seconds,
+        "peak_memory": peak_memory or {},
         "stdout": _relative(run.stdout_path),
         "stderr": _relative(run.stderr_path),
         "input_file_hashes": run.input_file_hashes,
@@ -791,6 +821,19 @@ def run_quarter_wave_benchmark_v017(
     write_json(toolchain, root / "toolchain.json")
     write_json(_environment(repo_root, detected), root / "environment.json")
 
+    # Documented resource gate: record the memory budget and the process-count
+    # decision before any solve. The count is never silently changed; when a
+    # prior preflight peak is available the tier is applied and recorded.
+    budget = read_memory_budget()
+    preflight_peak = _preflight_peak_mb(root)
+    resource_decision = decide_process_count(
+        processes, budget, preflight_peak_mb=preflight_peak
+    )
+    resource_decision["timestamp"] = _timestamp()
+    write_json(resource_decision, root / "resource_decision.json")
+    accepted = resource_decision["accepted_processes"]
+    processes = accepted if isinstance(accepted, int) else processes
+
     model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=base_extents)
     fem_hash = write_json(model.model_dump(mode="json"), root / "fem_model.json")
 
@@ -850,7 +893,7 @@ def run_quarter_wave_benchmark_v017(
         )
 
         base_mesh_hash = sha256_file(base_mesh.path)
-        config_path, postpro, amr_run = _run_palace_once(
+        config_path, postpro, amr_run, amr_peak = _run_palace_once(
             detected,
             run_dir=base_dir,
             model=model,
@@ -875,6 +918,7 @@ def run_quarter_wave_benchmark_v017(
                 mesh_sha256=base_mesh_hash,
                 resolved_config_sha256=resolved_hash,
                 root=root,
+                peak_memory=amr_peak,
             )
         ]
 
@@ -1007,7 +1051,7 @@ def run_quarter_wave_benchmark_v017(
                 )
                 point_mesh = _mesh_for(extent, point_dir, "quarter_wave")
             point_mesh_hash = sha256_file(point_mesh.path)
-            _, point_postpro, point_run = _run_palace_once(
+            _, point_postpro, point_run, point_peak = _run_palace_once(
                 detected,
                 run_dir=point_dir,
                 model=point_model,
@@ -1029,6 +1073,7 @@ def run_quarter_wave_benchmark_v017(
                     mesh_sha256=point_mesh_hash,
                     resolved_config_sha256=sha256_file(resolved_copy),
                     root=root,
+                    peak_memory=point_peak,
                 )
             )
             for stale_mesh in point_postpro.rglob("*.mesh"):
@@ -1181,9 +1226,21 @@ def run_quarter_wave_benchmark_v017(
             "final_global_error_indicator_percent": records[-1].global_error_indicator_percent,
         },
         "resolved_config_sha256": resolved_hash,
+        "resource": {
+            "decision": resource_decision,
+            "peak_used_mb": max(
+                (inv.get("peak_memory", {}).get("peak_used_mb", 0) for inv in invocations),
+                default=0,
+            ),
+            "peak_solver_rss_mb": max(
+                (inv.get("peak_memory", {}).get("peak_solver_rss_mb", 0) for inv in invocations),
+                default=0,
+            ),
+        },
         "invocations": invocations,
     }
     write_json(run_manifest, root / "run_manifest.json")
+    write_json(run_manifest["resource"], root / "resource_summary.json")
     invalid_names = {
         gate.name
         for gate in supplementary
