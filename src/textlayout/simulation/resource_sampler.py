@@ -11,6 +11,7 @@ error) the sample is skipped rather than raising into the solver path.
 
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import threading
@@ -97,18 +98,40 @@ class MemorySampler:
         peak = sampler.result.to_dict()
     """
 
-    def __init__(self, *, interval_seconds: float = 2.0, process_name: str = "palace") -> None:
+    def __init__(
+        self,
+        *,
+        interval_seconds: float = 2.0,
+        process_name: str = "palace",
+        solver_process_record: str | None = None,
+    ) -> None:
         self.interval = interval_seconds
         self.process_name = process_name
+        self.solver_process_record = solver_process_record
         self.result = ResourceSample()
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
 
     def _sample_once(self) -> None:
         used = _parse_free_mb(_run("free -m")).get("used_mb", 0)
-        # ``ps -o rss= -C <name>`` needs no awk/quotes: sum the RSS kB in Python.
-        rss_out = _run(f"ps -o rss= -C {self.process_name}-x86_64.bin")
-        rss_kb = sum(int(tok) for tok in rss_out.split() if tok.isdigit())
+        rss_kb = 0
+        if self.solver_process_record:
+            from pathlib import Path
+
+            from textlayout.solvers.palace.processes import (
+                inspect_owned_processes,
+                refresh_solver_process_record,
+            )
+
+            record = refresh_solver_process_record(Path(self.solver_process_record))
+            if record is not None:
+                rss_kb = sum(
+                    process.rss_kb for process in inspect_owned_processes(record)
+                )
+        else:
+            # Compatibility fallback for direct, unmanaged invocations only.
+            rss_out = _run(f"ps -o rss= -C {self.process_name}-x86_64.bin")
+            rss_kb = sum(int(tok) for tok in rss_out.split() if tok.isdigit())
         rss_mb = rss_kb // 1024
         if used == 0 and rss_mb == 0:
             return
@@ -133,6 +156,22 @@ class MemorySampler:
             self._thread.join(timeout=self.interval + 5.0)
         # one final sample to catch a late peak
         self._sample_once()
+
+
+def palace_reported_peak_memory_mb(text: str) -> float | None:
+    """Parse Palace's own peak-memory line when present in retained stdout."""
+    patterns = (
+        r"(?im)^.*peak(?:\s+resident)?\s+memory\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)\s*(gb|mb|kb)",
+        r"(?im)^.*maximum\s+resident\s+set\s+size\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)\s*(gb|mb|kb)",
+    )
+    for pattern in patterns:
+        matches = re.findall(pattern, text)
+        if not matches:
+            continue
+        value, unit = matches[-1]
+        scale = {"gb": 1024.0, "mb": 1.0, "kb": 1.0 / 1024.0}[unit.lower()]
+        return float(value) * scale
+    return None
 
 
 def decide_process_count(

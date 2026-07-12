@@ -6,6 +6,7 @@ from textlayout.simulation.resource_sampler import (
     ResourceSample,
     _parse_free_mb,
     decide_process_count,
+    palace_reported_peak_memory_mb,
 )
 
 FREE_OUTPUT = """               total        used        free      shared  buff/cache   available
@@ -66,3 +67,9 @@ def test_gate_is_transparent_without_a_peak_estimate() -> None:
     assert decision["accepted_processes"] == 4
     assert decision["memory_tier"] == "unknown"
     assert "honouring the requested count" in decision["rationale"]
+
+
+def test_palace_reported_peak_memory_parser_normalizes_units() -> None:
+    assert palace_reported_peak_memory_mb("Peak memory: 1.5 GB") == 1536.0
+    assert palace_reported_peak_memory_mb("Maximum resident set size = 2048 KB") == 2.0
+    assert palace_reported_peak_memory_mb("no memory line") is None

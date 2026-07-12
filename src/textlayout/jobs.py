@@ -333,6 +333,8 @@ class JobRecord(BaseModel):
     solver_process_paths: list[Path] = Field(default_factory=list)
     solver_process_hashes: dict[str, str] = Field(default_factory=dict)
     peak_rss_kb: int = 0
+    # Compatibility reader for v1 job files. New samples live only in the
+    # append-only resource_samples.jsonl evidence file.
     samples: list[dict[str, Any]] = Field(default_factory=list)
 
 
@@ -497,11 +499,10 @@ def write_heartbeat(record: JobRecord) -> JobRecord:
     resource_samples = record.resource_samples_path or (record.job_dir / "resource_samples.jsonl")
     with resource_samples.open("a", encoding="utf-8", newline="\n") as handle:
         handle.write(json.dumps(sample, sort_keys=True) + "\n")
-    samples = [*record.samples, sample]
     peak = max(record.peak_rss_kb, int(sample.get("total_rss_kb", 0) or 0))
     updated = record.model_copy(
         update={
-            "samples": samples[-100:],
+            "samples": [],
             "peak_rss_kb": peak,
             "resource_samples_path": resource_samples,
             "orphan_status": sample.get("orphan_status", record.orphan_status),
@@ -538,6 +539,13 @@ def _terminate_process_group(record: JobRecord) -> None:
 
 def _hash_if_file(path: Path | None) -> str | None:
     return sha256_file(path) if path is not None and path.is_file() else None
+
+
+def _jsonl_line_count(path: Path) -> int:
+    if not path.is_file():
+        return 0
+    with path.open("rb") as handle:
+        return sum(1 for line in handle if line.strip())
 
 
 def finalize_job(record: JobRecord) -> JobRecord:
@@ -603,7 +611,7 @@ def finalize_job(record: JobRecord) -> JobRecord:
         "output_inventory_sha256": output_hash,
         "output_inventory": output_inventory,
         "peak_rss_kb": record.peak_rss_kb,
-        "sample_count": len(record.samples),
+        "sample_count": _jsonl_line_count(resource_path),
         "solver_process_hashes": solver_hashes,
         "stage_refresh": stage_refresh,
     }

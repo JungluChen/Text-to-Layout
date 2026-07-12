@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -53,6 +54,7 @@ from textlayout.knowledge.technology_library import default_technology_library
 from textlayout.simulation.resource_sampler import (
     MemorySampler,
     decide_process_count,
+    palace_reported_peak_memory_mb,
     read_memory_budget,
 )
 from textlayout.simulation.palace_verification import (
@@ -96,6 +98,7 @@ from textlayout.solvers.palace.stages import (
 REQUIRED_PALACE_VERSION = "0.17.0"
 PARSER = "textlayout.solvers.palace.parser.parse_eigenmodes"
 PARSER_VERSION = "1"
+PeakMemory = dict[str, int | float | None]
 
 #: Numerical-domain sweeps vary computational truncation only; the physics
 #: must not depend on them, so they gate numerical-domain convergence.
@@ -251,7 +254,7 @@ class CompletedBaseAMR(BaseModel):
     config_path: Path
     postpro: Path
     run: PalaceRun
-    peak_memory: dict[str, int]
+    peak_memory: PeakMemory
     validation: dict[str, Any]
 
 
@@ -700,7 +703,7 @@ def _run_palace_once(
     processes: int,
     timeout_seconds: float,
     cancel_event: Event | None,
-) -> tuple[Path, Path, PalaceRun, dict[str, int]]:
+) -> tuple[Path, Path, PalaceRun, PeakMemory]:
     """Execute one Palace AMR solve while sampling memory.
 
     Returns ``(config_path, postpro, retained run, peak-memory dict)``.
@@ -713,7 +716,12 @@ def _run_palace_once(
     config["Solver"]["Eigenmode"]["Save"] = 0
     config_path = run_dir / "palace_amr.json"
     write_config(config, config_path)
-    with MemorySampler() as sampler:
+    process_record = run_dir / "solver_process.json"
+    with MemorySampler(
+        solver_process_record=str(process_record)
+        if os.environ.get("TEXTLAYOUT_JOB_ID")
+        else None
+    ) as sampler:
         run = run_palace(
             capability,
             config_path,
@@ -723,7 +731,17 @@ def _run_palace_once(
             cancel_event=cancel_event,
             input_paths=[mesh.path],
         )
-    peak = sampler.result.to_dict()
+    peak: PeakMemory = {**sampler.result.to_dict()}
+    palace_peak = palace_reported_peak_memory_mb(
+        run.stdout_path.read_text(encoding="utf-8", errors="replace")
+    )
+    measured_peak = float(peak.get("peak_solver_rss_mb") or 0)
+    peak["palace_reported_peak_memory_mb"] = palace_peak
+    peak["measured_vs_palace_percent"] = (
+        abs(measured_peak - palace_peak) / palace_peak * 100.0
+        if palace_peak and palace_peak > 0
+        else None
+    )
     if run.timed_out:
         raise PalaceOutputError(f"{run_dir.name}: Palace timed out")
     if run.cancelled:
@@ -745,7 +763,7 @@ def _invocation_record(
     mesh_sha256: str,
     resolved_config_sha256: str | None,
     root: Path,
-    peak_memory: dict[str, int] | None = None,
+    peak_memory: PeakMemory | None = None,
 ) -> dict[str, Any]:
     """Every Palace invocation retains its full process-level identity."""
 

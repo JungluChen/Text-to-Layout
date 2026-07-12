@@ -62,6 +62,8 @@ def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> No
     assert finalization["stdout_sha256"] == collected.stdout_sha256
     assert collected.resource_samples_path is not None
     assert collected.resource_samples_path.is_file()
+    assert collected.samples == []
+    assert finalization["sample_count"] >= 1
 
 
 def test_job_resume_is_post_processing_only(tmp_path: Path) -> None:
