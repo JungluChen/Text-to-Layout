@@ -61,6 +61,9 @@ class StageRecord(BaseModel):
     upstream_stage_evidence_ids: list[str] = Field(default_factory=list)
     evidence_id: str
     notes: list[str] = Field(default_factory=list)
+    artifact_contract_report: Path | None = None
+    artifact_contract_sha256: str | None = None
+    undeclared_outputs: list[str] = Field(default_factory=list)
 
 
 class PalaceJobProfile(BaseModel):
@@ -113,6 +116,8 @@ def stage_identity_payload(
     executable_identity: dict[str, Any],
     upstream_stage_evidence_ids: list[str],
     job_profile: dict[str, Any] | None = None,
+    artifact_contract_sha256: str | None = None,
+    undeclared_outputs: list[str] | None = None,
 ) -> dict[str, Any]:
     return {
         "stage": stage,
@@ -124,6 +129,8 @@ def stage_identity_payload(
         "executable_identity": executable_identity,
         "job_profile": job_profile,
         "upstream_stage_evidence_ids": upstream_stage_evidence_ids,
+        "artifact_contract_sha256": artifact_contract_sha256,
+        "undeclared_outputs": undeclared_outputs or [],
     }
 
 
@@ -243,6 +250,8 @@ def _stage_evidence_id(record: StageRecord, profile: PalaceJobProfile | None) ->
             executable_identity=record.executable_identity,
             upstream_stage_evidence_ids=record.upstream_stage_evidence_ids,
             job_profile=profile.model_dump(mode="json", by_alias=True) if profile else None,
+            artifact_contract_sha256=record.artifact_contract_sha256,
+            undeclared_outputs=record.undeclared_outputs,
         )
     )
 
@@ -288,6 +297,12 @@ def write_stage_record(
     upstream_stage_evidence_ids: list[str] | None = None,
     notes: list[str] | None = None,
 ) -> StageRecord:
+    from textlayout.solvers.palace.artifacts import (
+        ArtifactFingerprint,
+        PalaceArtifactReport,
+        scan_palace_artifacts,
+    )
+
     inputs = input_hashes or {}
     outputs = output_hashes or {}
     upstream = upstream_stage_evidence_ids or []
@@ -295,6 +310,33 @@ def write_stage_record(
         upstream_stage_evidence_ids=upstream
     )
     exe = executable_identity(capability)
+    stages = root / "stages"
+    stages.mkdir(parents=True, exist_ok=True)
+    artifact_target = stages / f"{stage}.artifacts.json"
+    previous: dict[str, ArtifactFingerprint] = {}
+    if artifact_target.is_file():
+        prior_report = PalaceArtifactReport.model_validate_json(
+            artifact_target.read_text(encoding="utf-8")
+        )
+        previous = {
+            entry.path: ArtifactFingerprint(
+                path=entry.path,
+                size_bytes=entry.size_bytes or 0,
+                mtime_ns=entry.mtime_ns or 0,
+                sha256=entry.sha256,
+            )
+            for entry in prior_report.entries
+            if entry.sha256 is not None
+        }
+    artifact_report = scan_palace_artifacts(
+        root, stage, previous_manifest=previous
+    )
+    artifact_target.write_text(
+        artifact_report.model_dump_json(indent=2, by_alias=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    artifact_hash = sha256_file(artifact_target)
     evidence_id = sha256_json(
         stage_identity_payload(
             stage=stage,
@@ -306,6 +348,8 @@ def write_stage_record(
             executable_identity=exe,
             upstream_stage_evidence_ids=upstream,
             job_profile=profile.model_dump(mode="json", by_alias=True) if profile else None,
+            artifact_contract_sha256=artifact_hash,
+            undeclared_outputs=artifact_report.undeclared_outputs,
         )
     )
     record = StageRecord(
@@ -323,9 +367,10 @@ def write_stage_record(
         upstream_stage_evidence_ids=upstream,
         evidence_id=evidence_id,
         notes=notes or [],
+        artifact_contract_report=artifact_target,
+        artifact_contract_sha256=artifact_hash,
+        undeclared_outputs=artifact_report.undeclared_outputs,
     )
-    stages = root / "stages"
-    stages.mkdir(parents=True, exist_ok=True)
     target = stages / f"{stage}.json"
     if target.is_file():
         existing = json.loads(target.read_text(encoding="utf-8"))

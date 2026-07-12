@@ -248,6 +248,8 @@ def test_stage_record_can_reference_persistent_job_profile(tmp_path: Path) -> No
     )
     assert saved["job_profile"]["job_id"] == "job-palace"
     assert saved["job_profile"]["solver_output_inventory_hash"] is not None
+    assert saved["artifact_contract_sha256"] is not None
+    assert Path(saved["artifact_contract_report"]).is_file()
 
     (job_dir / "output_inventory.json").write_text('{"solver.out": "abc"}', encoding="utf-8")
     refreshed_profile = palace_job_profile_from_payload(payload)
