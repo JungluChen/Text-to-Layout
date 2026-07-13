@@ -23,6 +23,22 @@ class FieldRetentionPolicy(BaseModel):
     retain_all_for_ambiguous_modes: bool = True
 
 
+class RetentionPlanConflict(RuntimeError):
+    """An existing retention plan was created for a different request."""
+
+
+class RetentionRequestFingerprint(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    policy: FieldRetentionPolicy
+    field_inventory: list[dict[str, int | str]]
+    source_hashes: dict[str, str]
+    target_modes: list[int]
+    competitor_modes: list[int | None]
+    ambiguous_iterations: list[int]
+    fingerprint_sha256: str = Field(min_length=64, max_length=64)
+
+
 class RetentionEntry(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -38,6 +54,7 @@ class RetentionPlan(BaseModel):
 
     schema_version: str = "textlayout.palace-field-retention-plan.v1"
     created_at: str
+    request_fingerprint: RetentionRequestFingerprint
     policy: FieldRetentionPolicy
     entries: list[RetentionEntry]
     plan_sha256: str = Field(min_length=64, max_length=64)
@@ -56,6 +73,50 @@ def _remove_empty_quarantine_root(root: Path) -> None:
         quarantine_root.rmdir()
 
 
+def _build_request_fingerprint(
+    run_root: Path,
+    fields_by_iteration: list[dict[int, Path]],
+    *,
+    target_modes: list[int],
+    competitor_modes: list[int | None],
+    ambiguous_iterations: set[int],
+    policy: FieldRetentionPolicy,
+) -> RetentionRequestFingerprint:
+    inventory: list[dict[str, int | str]] = []
+    source_hashes: dict[str, str] = {}
+    for iteration, fields in enumerate(fields_by_iteration):
+        for mode, manifest in sorted(fields.items()):
+            resolved_manifest = manifest.resolve()
+            if not resolved_manifest.is_relative_to(run_root):
+                raise ValueError(f"field artifact is outside run namespace: {resolved_manifest}")
+            for artifact in field_artifact_files(resolved_manifest):
+                resolved = artifact.resolve()
+                if not resolved.is_relative_to(run_root):
+                    raise ValueError(f"field artifact is outside run namespace: {resolved}")
+                relative = resolved.relative_to(run_root).as_posix()
+                inventory.append(
+                    {
+                        "iteration": iteration,
+                        "mode": int(mode),
+                        "path": relative,
+                        "size_bytes": resolved.stat().st_size,
+                    }
+                )
+                source_hashes[relative] = sha256_file(resolved)
+    payload = {
+        "policy": policy.model_dump(mode="json"),
+        "field_inventory": inventory,
+        "source_hashes": source_hashes,
+        "target_modes": list(target_modes),
+        "competitor_modes": list(competitor_modes),
+        "ambiguous_iterations": sorted(ambiguous_iterations),
+    }
+    return RetentionRequestFingerprint(
+        **payload,
+        fingerprint_sha256=sha256_json(payload),
+    )
+
+
 def create_retention_plan(
     run_root: Path,
     fields_by_iteration: list[dict[int, Path]],
@@ -68,11 +129,25 @@ def create_retention_plan(
     """Hash every source and atomically persist an immutable retention plan."""
     root = run_root.resolve()
     plan_path = root / "field_retention_plan.json"
-    if plan_path.exists():
-        RetentionPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
-        return plan_path
     selected_policy = policy or FieldRetentionPolicy()
     ambiguous = ambiguous_iterations or set()
+    fingerprint = _build_request_fingerprint(
+        root,
+        fields_by_iteration,
+        target_modes=target_modes,
+        competitor_modes=competitor_modes,
+        ambiguous_iterations=ambiguous,
+        policy=selected_policy,
+    )
+    if plan_path.exists():
+        existing = RetentionPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
+        if existing.request_fingerprint.fingerprint_sha256 != fingerprint.fingerprint_sha256:
+            raise RetentionPlanConflict(
+                "RETENTION_PLAN_CONFLICT: existing field_retention_plan.json was "
+                "created for a different policy, field inventory, source hash, "
+                "target mode, competitor mode, or ambiguous iteration set"
+            )
+        return plan_path
     first_retained = max(0, len(fields_by_iteration) - selected_policy.final_accepted_iterations)
     entries: list[RetentionEntry] = []
     for iteration, fields in enumerate(fields_by_iteration):
@@ -104,6 +179,7 @@ def create_retention_plan(
     payload = {
         "schema_version": "textlayout.palace-field-retention-plan.v1",
         "created_at": datetime.now(timezone.utc).isoformat(),
+        "request_fingerprint": fingerprint.model_dump(mode="json"),
         "policy": selected_policy.model_dump(mode="json"),
         "entries": [entry.model_dump(mode="json") for entry in entries],
     }
@@ -112,7 +188,23 @@ def create_retention_plan(
     return plan_path
 
 
-def execute_retention_plan(run_root: Path) -> Path:
+FaultInjectionPoint = Literal[
+    "after_first_move",
+    "after_all_moves",
+    "before_completion_write",
+    "after_completion_write",
+    "before_quarantine_deletion",
+]
+
+
+def _maybe_fault(point: FaultInjectionPoint, requested: FaultInjectionPoint | None) -> None:
+    if requested == point:
+        raise RuntimeError(f"retention fault injection: {point}")
+
+
+def execute_retention_plan(
+    run_root: Path, *, fault_injection: FaultInjectionPoint | None = None
+) -> Path:
     """Validate, quarantine, complete atomically, then remove quarantine."""
     root = run_root.resolve()
     plan_path = root / "field_retention_plan.json"
@@ -130,6 +222,7 @@ def execute_retention_plan(run_root: Path) -> Path:
         current = source if source.is_file() else target
         if not current.is_file() or sha256_file(current) != entry.sha256:
             raise ValueError(f"retention source hash mismatch or missing: {entry.path}")
+    moved = 0
     for entry in plan.entries:
         if entry.action != "quarantine":
             continue
@@ -137,6 +230,10 @@ def execute_retention_plan(run_root: Path) -> Path:
         if source.is_file():
             target.parent.mkdir(parents=True, exist_ok=True)
             os.replace(source, target)
+            moved += 1
+            if moved == 1:
+                _maybe_fault("after_first_move", fault_injection)
+    _maybe_fault("after_all_moves", fault_injection)
     completion_payload = {
         "schema": "textlayout.palace-field-retention-completion.v1",
         "completed_at": datetime.now(timezone.utc).isoformat(),
@@ -145,8 +242,11 @@ def execute_retention_plan(run_root: Path) -> Path:
         "quarantined_bytes": sum(e.size_bytes for e in plan.entries if e.action == "quarantine"),
         "entries": [entry.model_dump(mode="json") for entry in plan.entries],
     }
+    _maybe_fault("before_completion_write", fault_injection)
     _atomic_json(completion, completion_payload)
+    _maybe_fault("after_completion_write", fault_injection)
     if quarantine.exists():
+        _maybe_fault("before_quarantine_deletion", fault_injection)
         shutil.rmtree(quarantine)
     _remove_empty_quarantine_root(root)
     return completion

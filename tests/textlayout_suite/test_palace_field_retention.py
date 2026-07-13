@@ -1,7 +1,10 @@
 from pathlib import Path
 
+import pytest
+
 from textlayout.solvers.palace.retention import (
     RetentionPlan,
+    RetentionPlanConflict,
     apply_field_retention,
     create_retention_plan,
     execute_retention_plan,
@@ -85,3 +88,72 @@ def test_retention_rollback_restores_interrupted_move(tmp_path: Path) -> None:
     assert moved_source.is_file()
     assert fields[1].is_file() and fields[2].is_file()
     assert not (tmp_path / ".field-retention-quarantine").exists()
+
+
+def test_retention_rejects_stale_plan_for_different_request(tmp_path: Path) -> None:
+    fields = _fields(tmp_path)
+    create_retention_plan(
+        tmp_path,
+        [fields],
+        target_modes=[2],
+        competitor_modes=[None],
+    )
+    with pytest.raises(RetentionPlanConflict, match="RETENTION_PLAN_CONFLICT"):
+        create_retention_plan(
+            tmp_path,
+            [fields],
+            target_modes=[1],
+            competitor_modes=[None],
+        )
+
+
+def test_retention_reuses_identical_request_plan(tmp_path: Path) -> None:
+    fields = _fields(tmp_path)
+    first = create_retention_plan(
+        tmp_path,
+        [fields],
+        target_modes=[2],
+        competitor_modes=[None],
+    )
+    second = create_retention_plan(
+        tmp_path,
+        [fields],
+        target_modes=[2],
+        competitor_modes=[None],
+    )
+    assert second == first
+
+
+def test_retention_resumes_after_completion_written_before_delete(tmp_path: Path) -> None:
+    fields = _fields(tmp_path)
+    create_retention_plan(
+        tmp_path,
+        [fields],
+        target_modes=[2],
+        competitor_modes=[None],
+    )
+    with pytest.raises(RuntimeError, match="after_completion_write"):
+        execute_retention_plan(tmp_path, fault_injection="after_completion_write")
+    completion = execute_retention_plan(tmp_path)
+    assert completion.is_file()
+    assert not (tmp_path / ".field-retention-quarantine").exists()
+
+
+@pytest.mark.parametrize(
+    "fault",
+    ["after_first_move", "after_all_moves", "before_completion_write"],
+)
+def test_retention_rollback_after_precompletion_faults(tmp_path: Path, fault: str) -> None:
+    fields = _fields(tmp_path)
+    create_retention_plan(
+        tmp_path,
+        [fields],
+        target_modes=[2],
+        competitor_modes=[None],
+    )
+    with pytest.raises(RuntimeError, match=fault):
+        execute_retention_plan(tmp_path, fault_injection=fault)  # type: ignore[arg-type]
+    rollback_retention_plan(tmp_path)
+    assert fields[1].is_file() and fields[2].is_file()
+    completion = execute_retention_plan(tmp_path)
+    assert completion.is_file()
