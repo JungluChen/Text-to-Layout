@@ -1,0 +1,1946 @@
+{
+  "all_rule_id_parity": true,
+  "all_violation_count_parity": false,
+  "fixture_expectations_passed": true,
+  "fixtures": [
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\valid_idc:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/valid_idc.gds -r /tmp/compiled.drc -rd report=/out/valid_idc.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [],
+      "fixture": "valid_idc",
+      "gds_sha256": "166d5b600b3581678b7f31fe1c1f98521fd063319b7da6b1fe3e800fe21de740",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/valid_idc/valid_idc.lyrdb",
+      "lyrdb_sha256": "6df11e95b95801158add85ca1619a818b83d94968e47d93e4115a63c6cd5aa40",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [],
+        "rule_ids": [],
+        "violation_counts_by_rule": {}
+      },
+      "parsed_summary_sha256": "5cbad53d39a713e1251d69977969c85829a0cbb981023f9b6602ddfe75e53896",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 2.071773,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\valid_cpw:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/valid_cpw.gds -r /tmp/compiled.drc -rd report=/out/valid_cpw.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [],
+      "fixture": "valid_cpw",
+      "gds_sha256": "5a4c15cb90debae78bcaeecd8143eafb9d83d19b60eb6b8659cee9106064a620",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/valid_cpw/valid_cpw.lyrdb",
+      "lyrdb_sha256": "75ef9eb020b45f0ce6db7f047a70ac2eb53c3c386e233eb7496ce20ee242737b",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [],
+        "rule_ids": [],
+        "violation_counts_by_rule": {}
+      },
+      "parsed_summary_sha256": "5cbad53d39a713e1251d69977969c85829a0cbb981023f9b6602ddfe75e53896",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 2.243037,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\valid_spiral:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/valid_spiral.gds -r /tmp/compiled.drc -rd report=/out/valid_spiral.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [],
+      "fixture": "valid_spiral",
+      "gds_sha256": "4f15cca579cc96c4c11b44203914efdc977b332be126d7b9e623f13f885bcb7e",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/valid_spiral/valid_spiral.lyrdb",
+      "lyrdb_sha256": "119d6808d19b6d00ea95bcc6c865b127650691725268b11e8c80dbb58d69f6f8",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [],
+        "rule_ids": [],
+        "violation_counts_by_rule": {}
+      },
+      "parsed_summary_sha256": "5cbad53d39a713e1251d69977969c85829a0cbb981023f9b6602ddfe75e53896",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 2.074814,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\valid_resonator:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/valid_resonator.gds -r /tmp/compiled.drc -rd report=/out/valid_resonator.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [],
+      "fixture": "valid_resonator",
+      "gds_sha256": "6c9ff9b4c560aabb81f87636326b19b5ab3a10c8707f85e9155be71d78976fe0",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/valid_resonator/valid_resonator.lyrdb",
+      "lyrdb_sha256": "f80694487526147a2b19de080c72a50681cd655e8031dd94cbd63db467f212e4",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [],
+        "rule_ids": [],
+        "violation_counts_by_rule": {}
+      },
+      "parsed_summary_sha256": "5cbad53d39a713e1251d69977969c85829a0cbb981023f9b6602ddfe75e53896",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 2.240688,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_idc_finger_width:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_idc_finger_width.gds -r /tmp/compiled.drc -rd report=/out/invalid_idc_finger_width.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "IDC.MIN_FINGER_WIDTH"
+      ],
+      "fixture": "invalid_idc_finger_width",
+      "gds_sha256": "b06a8643d0cc52a052d9b093c4fb8afcdcbe08ac15b1ec5906df5d229c652f33",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_idc_finger_width/invalid_idc_finger_width.lyrdb",
+      "lyrdb_sha256": "2c699c9cbcde7f337650e5b3461b334b4d264329a4e4b51780f8bebb90140f62",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "IDC.MIN_FINGER_WIDTH",
+            "values": [
+              "edge-pair: (22,2;4,2)|(4,3;22,3)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "IDC.MIN_FINGER_WIDTH"
+        ],
+        "violation_counts_by_rule": {
+          "IDC.MIN_FINGER_WIDTH": 1
+        }
+      },
+      "parsed_summary_sha256": "7d12fbd73528038bc5809b64dbc411828453e2ebf32526f23045e652b60dee75",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "IDC.MIN_FINGER_WIDTH"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 2.164373,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "IDC.MIN_FINGER_WIDTH"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_idc_finger_gap:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_idc_finger_gap.gds -r /tmp/compiled.drc -rd report=/out/invalid_idc_finger_gap.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "IDC.MIN_FINGER_SPACING"
+      ],
+      "fixture": "invalid_idc_finger_gap",
+      "gds_sha256": "2d3ba4970c799efed7971a3f433e18b7c0b2d85c4b5b2f1f2d7d2ab24f817661",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_idc_finger_gap/invalid_idc_finger_gap.lyrdb",
+      "lyrdb_sha256": "8ed4af2900f75c6fb0467478f15226169b95e17842564daa368fc23b1c0201e6",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "IDC.MIN_FINGER_SPACING",
+            "values": [
+              "edge-pair: (4,4;22,4)|(22,5;4,5)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "IDC.MIN_FINGER_SPACING"
+        ],
+        "violation_counts_by_rule": {
+          "IDC.MIN_FINGER_SPACING": 1
+        }
+      },
+      "parsed_summary_sha256": "58e22d68ca7565fdc3e204806a0f013d55780b3506c7fedfbe3d934babba8001",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "IDC.MIN_FINGER_SPACING"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.938948,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "IDC.MIN_FINGER_SPACING"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_idc_bridge:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_idc_bridge.gds -r /tmp/compiled.drc -rd report=/out/invalid_idc_bridge.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "IDC.NO_UNINTENDED_BRIDGE"
+      ],
+      "fixture": "invalid_idc_bridge",
+      "gds_sha256": "5095f5a1af0f1aa39d3e53f8bcb27888cd521098f58ec57ad5b9c2b4fd5d4d02",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_idc_bridge/invalid_idc_bridge.lyrdb",
+      "lyrdb_sha256": "162e158479f312350dccd6de26755abf2b43ab2a7f99d96932bd86f06947f0c8",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "IDC.NO_UNINTENDED_BRIDGE",
+            "values": [
+              "polygon: (19,0;19,5;22,5;22,0)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "IDC.NO_UNINTENDED_BRIDGE"
+        ],
+        "violation_counts_by_rule": {
+          "IDC.NO_UNINTENDED_BRIDGE": 1
+        }
+      },
+      "parsed_summary_sha256": "e9ebb0389349fa024e42981e9a5b3b49deba3318a7e8a50ac2bc1f54c7362c5e",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "IDC.NO_UNINTENDED_BRIDGE"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.871085,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "IDC.NO_UNINTENDED_BRIDGE"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_idc_bus_width:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_idc_bus_width.gds -r /tmp/compiled.drc -rd report=/out/invalid_idc_bus_width.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "IDC.MIN_BUS_WIDTH"
+      ],
+      "fixture": "invalid_idc_bus_width",
+      "gds_sha256": "7edbde96716efb8260354b3890c87e7984cac8b9506616a16c9d2f719bf78611",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_idc_bus_width/invalid_idc_bus_width.lyrdb",
+      "lyrdb_sha256": "b6c9d508f560abfb52c31f5bb7fee9d0c7af605c49f06b2d5e772d2754f02296",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "IDC.MIN_BUS_WIDTH",
+            "values": [
+              "edge-pair: (0,0;0,40)|(2,40;2,0)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "IDC.MIN_BUS_WIDTH"
+        ],
+        "violation_counts_by_rule": {
+          "IDC.MIN_BUS_WIDTH": 1
+        }
+      },
+      "parsed_summary_sha256": "c5a305f322c39b206f55777fef62a874ca0d7c41d576b679e08a252f3c82cf2d",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "IDC.MIN_BUS_WIDTH"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.978936,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "IDC.MIN_BUS_WIDTH"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_cpw_signal_width:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_cpw_signal_width.gds -r /tmp/compiled.drc -rd report=/out/invalid_cpw_signal_width.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+      ],
+      "fixture": "invalid_cpw_signal_width",
+      "gds_sha256": "6445938123288090687aaa19677c824959a5b261fdcd6256933e13363ba4cde2",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_cpw_signal_width/invalid_cpw_signal_width.lyrdb",
+      "lyrdb_sha256": "ccc7353fb2406aa9f34175fa5589efc254a6447e6f1ce9b9477863b62df1cbba",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+            "values": [
+              "edge-pair: (80,20;0,20)|(0,25;80,25)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+        ],
+        "violation_counts_by_rule": {
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH": 1
+        }
+      },
+      "parsed_summary_sha256": "535cc2aef794608e7653399c2f5b3022c6e3e2a377ad93e6b0ba327d5b693212",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.883078,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_cpw_gap:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_cpw_gap.gds -r /tmp/compiled.drc -rd report=/out/invalid_cpw_gap.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "fixture": "invalid_cpw_gap",
+      "gds_sha256": "49f14cbc4bcb8a8f64e55520bb76b1785fd247ff0162e149d8e35508a1771167",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_cpw_gap/invalid_cpw_gap.lyrdb",
+      "lyrdb_sha256": "0f7de8c1022b975492715e456b22efb30c1e51e980351276caed6467ca16144d",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "CPW.MIN_SIGNAL_GROUND_GAP",
+            "values": [
+              "polygon: (0,14;0,17;80,17;80,14)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "CPW.MIN_SIGNAL_GROUND_GAP"
+        ],
+        "violation_counts_by_rule": {
+          "CPW.MIN_SIGNAL_GROUND_GAP": 1
+        }
+      },
+      "parsed_summary_sha256": "567044909bc013258152f95d0a91819459caa68ab9a11961675efeac521351cb",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.837629,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_cpw_signal_ground_short:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_cpw_signal_ground_short.gds -r /tmp/compiled.drc -rd report=/out/invalid_cpw_signal_ground_short.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "fixture": "invalid_cpw_signal_ground_short",
+      "gds_sha256": "4b9ee65dff4d1d331013e91c677663964347115714333040a29b8789f107e5a6",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_cpw_signal_ground_short/invalid_cpw_signal_ground_short.lyrdb",
+      "lyrdb_sha256": "c30a65018553c0d739f58f50f50feef77f007abf8ffc4cde50894c29122d7e8a",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "CPW.MIN_SIGNAL_GROUND_GAP",
+            "values": [
+              "polygon: (0,14;0,22;80,22;80,14)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "CPW.MIN_SIGNAL_GROUND_GAP"
+        ],
+        "violation_counts_by_rule": {
+          "CPW.MIN_SIGNAL_GROUND_GAP": 1
+        }
+      },
+      "parsed_summary_sha256": "d3923f0d9a89b070cf493196b6c1a66cf495e836436f36e2dc32fb761af809cd",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.76685,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_cpw_ground_discontinuity:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_cpw_ground_discontinuity.gds -r /tmp/compiled.drc -rd report=/out/invalid_cpw_ground_discontinuity.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+      ],
+      "fixture": "invalid_cpw_ground_discontinuity",
+      "gds_sha256": "39a0cb9b535a6d1a853ca541e182ff877079241e0397510ad31de8a4715b4f11",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_cpw_ground_discontinuity/invalid_cpw_ground_discontinuity.lyrdb",
+      "lyrdb_sha256": "ed3dc88c5cb573d5b7c80c900ba03b5184ae34adf15e8fd72cb8092f50c15fa2",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+            "values": [
+              "edge-pair: (80,0;0,0)|(0,5;80,5)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+        ],
+        "violation_counts_by_rule": {
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND": 1
+        }
+      },
+      "parsed_summary_sha256": "75907d90bc5c671cefdce572b0d8cf40f393764e153cdc268b33cffb8a883657",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.838803,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_spiral_trace_width:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_spiral_trace_width.gds -r /tmp/compiled.drc -rd report=/out/invalid_spiral_trace_width.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "SPIRAL.MIN_TRACE_WIDTH"
+      ],
+      "fixture": "invalid_spiral_trace_width",
+      "gds_sha256": "0a55c716f37210b2a66f10b164f4e55f6e5f638924fa9d09153838570c65ad96",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_spiral_trace_width/invalid_spiral_trace_width.lyrdb",
+      "lyrdb_sha256": "0fd95fbec17ed067bf3798e6f61030a2c53e61a901d7a1ec758186040e5216e3",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "SPIRAL.MIN_TRACE_WIDTH",
+            "values": [
+              "edge-pair: (40,0;0,0)|(0,2;40,2)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "SPIRAL.MIN_TRACE_WIDTH"
+        ],
+        "violation_counts_by_rule": {
+          "SPIRAL.MIN_TRACE_WIDTH": 1
+        }
+      },
+      "parsed_summary_sha256": "76f0907c318e46e774cb1bf1f26f3a5275b1ffb4cba5ed3fcdf5a1ed641bf007",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "SPIRAL.MIN_TRACE_WIDTH"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.822109,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "SPIRAL.MIN_TRACE_WIDTH"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_spiral_turn_spacing:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_spiral_turn_spacing.gds -r /tmp/compiled.drc -rd report=/out/invalid_spiral_turn_spacing.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "SPIRAL.MIN_TURN_SPACING"
+      ],
+      "fixture": "invalid_spiral_turn_spacing",
+      "gds_sha256": "df8e22bd751066360f9b143dbefbfd551d48b2d1370cf6461b30a561eefcd395",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_spiral_turn_spacing/invalid_spiral_turn_spacing.lyrdb",
+      "lyrdb_sha256": "138e53db8ffba9c62d09cd3bb5974060efdc724992e227c2aa72430cff39df88",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "SPIRAL.MIN_TURN_SPACING",
+            "values": [
+              "edge-pair: (0,3;40,3)|(40,5;0,5)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "SPIRAL.MIN_TURN_SPACING"
+        ],
+        "violation_counts_by_rule": {
+          "SPIRAL.MIN_TURN_SPACING": 1
+        }
+      },
+      "parsed_summary_sha256": "6eabe1d7c91c6a788ceee989c1959303c56f2334ef8dd41de8cfe0f528657937",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "SPIRAL.MIN_TURN_SPACING"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.856421,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "SPIRAL.MIN_TURN_SPACING"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_junction_area:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_junction_area.gds -r /tmp/compiled.drc -rd report=/out/invalid_junction_area.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "JJ.MIN_AREA"
+      ],
+      "fixture": "invalid_junction_area",
+      "gds_sha256": "30d1f0c65f965b046966b1407b1bc8390aa04568c5c4063f0421658aaa7afad3",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_junction_area/invalid_junction_area.lyrdb",
+      "lyrdb_sha256": "d393430e9f077bdee1680dae7ee1762684d74345faff9e4db0de85d64349737c",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "JJ.MIN_AREA",
+            "values": [
+              "polygon: (0,0;0,0.1;0.1,0.1;0.1,0)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "JJ.MIN_AREA"
+        ],
+        "violation_counts_by_rule": {
+          "JJ.MIN_AREA": 1
+        }
+      },
+      "parsed_summary_sha256": "2e0966dc114022a10d051f3b09c7791cb0e7d8e0441ede58813f26b0004c12e0",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "JJ.MIN_AREA"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.873239,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "JJ.MIN_AREA"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_junction_overlap:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_junction_overlap.gds -r /tmp/compiled.drc -rd report=/out/invalid_junction_overlap.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "JJ.MIN_LEAD_OVERLAP"
+      ],
+      "fixture": "invalid_junction_overlap",
+      "gds_sha256": "6605b227e576e3d9d3e032e3d62e4d8579f1953f1e4a794af7e4cdc9fd39a1ab",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_junction_overlap/invalid_junction_overlap.lyrdb",
+      "lyrdb_sha256": "29084bc75e8b44e3f966ccb5233ddac9a4d9558035e80016e9d301b70cca7ed8",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "JJ.MIN_LEAD_OVERLAP",
+            "values": [
+              "edge-pair: (1.9,1;1.9,2)/(2,2.173;2,0.827)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "JJ.MIN_LEAD_OVERLAP"
+        ],
+        "violation_counts_by_rule": {
+          "JJ.MIN_LEAD_OVERLAP": 1
+        }
+      },
+      "parsed_summary_sha256": "a7202ca9497f655a63b64bb1d1840ea202beb783225d830d142669958622919a",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "JJ.MIN_LEAD_OVERLAP"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.89635,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "JJ.MIN_LEAD_OVERLAP"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_floating_conductor:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_floating_conductor.gds -r /tmp/compiled.drc -rd report=/out/invalid_floating_conductor.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "fixture": "invalid_floating_conductor",
+      "gds_sha256": "a63dded4258c3f2e0f7be9e9a53c3464301b2d29ceb7a855ca7b76145c195ea1",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_floating_conductor/invalid_floating_conductor.lyrdb",
+      "lyrdb_sha256": "113d20a288e95f0fe83fb7aa719b632bfae3fb7a09dc39fa72d6ab72b831a048",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "klayout_signoff_fixture_pdk.min_width.M1",
+            "values": [
+              "edge-pair: (0,0;0,10)|(1,10;1,0)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "klayout_signoff_fixture_pdk.min_width.M1"
+        ],
+        "violation_counts_by_rule": {
+          "klayout_signoff_fixture_pdk.min_width.M1": 1
+        }
+      },
+      "parsed_summary_sha256": "0e12d98a674760fe3a958396f53e8dc611ebc1cb0183ec1b28aed29af0848567",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.876971,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_minimum_area:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_minimum_area.gds -r /tmp/compiled.drc -rd report=/out/invalid_minimum_area.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_area.M1",
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "fixture": "invalid_minimum_area",
+      "gds_sha256": "ab0d03e8dcb357ee9a280563c268d80371087d58840459c3532c861dd0614a2e",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_minimum_area/invalid_minimum_area.lyrdb",
+      "lyrdb_sha256": "66259041531ea0411504f22dcdee33b4a626c612280b785442f85bb1fd55ce45",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "klayout_signoff_fixture_pdk.min_width.M1",
+            "values": [
+              "edge-pair: (0,0;0,0.5)|(0.5,0.5;0.5,0)"
+            ]
+          },
+          {
+            "category": "klayout_signoff_fixture_pdk.min_width.M1",
+            "values": [
+              "edge-pair: (0.5,0;0,0)|(0,0.5;0.5,0.5)"
+            ]
+          },
+          {
+            "category": "klayout_signoff_fixture_pdk.min_area.M1",
+            "values": [
+              "polygon: (0,0;0,0.5;0.5,0.5;0.5,0)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_width.M1"
+        ],
+        "violation_counts_by_rule": {
+          "klayout_signoff_fixture_pdk.min_area.M1": 1,
+          "klayout_signoff_fixture_pdk.min_width.M1": 2
+        }
+      },
+      "parsed_summary_sha256": "f05b0636ca1ff58d04c6254699a00d947ccb1739770d6fd250a96d5f128d9d82",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_area.M1",
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.901382,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_area.M1",
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": false
+    },
+    {
+      "bbox_parity_within_tolerance": null,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds:/work:ro",
+        "-v",
+        "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit\\klayout_lyrdb\\invalid_notch:/out",
+        "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+        "sh",
+        "-lc",
+        "cp /work/tests/fixtures/klayout_drc/compiled_rules.lydrc /tmp/compiled.drc && klayout -b /work/tests/fixtures/klayout_drc/invalid_notch.gds -r /tmp/compiled.drc -rd report=/out/invalid_notch.lyrdb"
+      ],
+      "compiled_rule_hash": "2d48f4d95496944408be563c2d9bc1cb365748d2d9aecb38d937c3de4040d26d",
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_spacing.M1",
+        "klayout_signoff_fixture_pdk.notch.M1"
+      ],
+      "fixture": "invalid_notch",
+      "gds_sha256": "787ea6959cd6ec3d9eb381a61be3a35b2a28859727f3256908cda096879bf0c3",
+      "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+      "klayout_executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+      "lydrc_sha256": "00cc3e4bff41320fc1cad8a02222d30e90559e5a7ca776c9e2cfcf385d80b35a",
+      "lyrdb_path": "out/audit/klayout_lyrdb/invalid_notch/invalid_notch.lyrdb",
+      "lyrdb_sha256": "e4239bcb8fa230a440f078df9cf9c43cff0240879d403da8b9457b16f1ce78f5",
+      "parsed_summary": {
+        "categories": [
+          "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+          "CPW.MIN_SIGNAL_GROUND_GAP",
+          "IDC.MIN_BUS_WIDTH",
+          "IDC.MIN_FINGER_SPACING",
+          "IDC.MIN_FINGER_WIDTH",
+          "IDC.NO_UNINTENDED_BRIDGE",
+          "JJ.MIN_AREA",
+          "JJ.MIN_LARGE_METAL_ENCLOSURE",
+          "JJ.MIN_LEAD_OVERLAP",
+          "SPIRAL.MIN_TRACE_WIDTH",
+          "SPIRAL.MIN_TURN_SPACING",
+          "klayout_signoff_fixture_pdk.min_area.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_area.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_area.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_area.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.min_area.IDC_N",
+          "klayout_signoff_fixture_pdk.min_area.IDC_P",
+          "klayout_signoff_fixture_pdk.min_area.JJ",
+          "klayout_signoff_fixture_pdk.min_area.M1",
+          "klayout_signoff_fixture_pdk.min_area.SPIRAL_TRACE",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_spacing.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_BUS",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_N",
+          "klayout_signoff_fixture_pdk.min_spacing.IDC_P",
+          "klayout_signoff_fixture_pdk.min_spacing.JJ",
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.min_width.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.min_width.IDC_N",
+          "klayout_signoff_fixture_pdk.min_width.IDC_P",
+          "klayout_signoff_fixture_pdk.min_width.JJ",
+          "klayout_signoff_fixture_pdk.min_width.M1",
+          "klayout_signoff_fixture_pdk.notch.CPW_GROUND",
+          "klayout_signoff_fixture_pdk.notch.CPW_SIGNAL",
+          "klayout_signoff_fixture_pdk.notch.IDC_BUS",
+          "klayout_signoff_fixture_pdk.notch.IDC_FINGER",
+          "klayout_signoff_fixture_pdk.notch.IDC_N",
+          "klayout_signoff_fixture_pdk.notch.IDC_P",
+          "klayout_signoff_fixture_pdk.notch.JJ",
+          "klayout_signoff_fixture_pdk.notch.M1",
+          "klayout_signoff_fixture_pdk.notch.SPIRAL_TRACE"
+        ],
+        "items": [
+          {
+            "category": "klayout_signoff_fixture_pdk.min_spacing.M1",
+            "values": [
+              "edge-pair: (6,5;6,10)|(4.8,10;4.8,5)"
+            ]
+          },
+          {
+            "category": "klayout_signoff_fixture_pdk.notch.M1",
+            "values": [
+              "edge-pair: (6,5;6,10)|(4.8,10;4.8,5)"
+            ]
+          }
+        ],
+        "rule_ids": [
+          "klayout_signoff_fixture_pdk.min_spacing.M1",
+          "klayout_signoff_fixture_pdk.notch.M1"
+        ],
+        "violation_counts_by_rule": {
+          "klayout_signoff_fixture_pdk.min_spacing.M1": 1,
+          "klayout_signoff_fixture_pdk.notch.M1": 1
+        }
+      },
+      "parsed_summary_sha256": "50c509f5fe784dafefc4815c1980ac43162c12a728de216e6b11223697dbc7ce",
+      "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
+      "python_backend_passed": true,
+      "python_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_spacing.M1",
+        "klayout_signoff_fixture_pdk.notch.M1"
+      ],
+      "return_code": 0,
+      "rule_id_parity": true,
+      "runtime_seconds": 1.840093,
+      "standalone_backend_passed": true,
+      "standalone_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_spacing.M1",
+        "klayout_signoff_fixture_pdk.notch.M1"
+      ],
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "violation_count_parity": true
+    }
+  ],
+  "image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+  "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+  "schema": "textlayout.klayout-containerized-drc.v1"
+}

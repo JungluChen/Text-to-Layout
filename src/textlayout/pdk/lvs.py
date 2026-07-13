@@ -26,6 +26,7 @@ STATUS_SKIPPED_NOT_IMPLEMENTED = "SKIPPED_NOT_IMPLEMENTED"
 STATUS_MATCH = "MATCH"
 STATUS_MISMATCH = "MISMATCH"
 PARTIAL_LVS_SCHEMA = "textlayout.connectivity-partial-lvs.v1"
+NATIVE_PARTIAL_LVS_SCHEMA = "textlayout.native-klayout-connectivity-partial-lvs.v1"
 
 
 class NetlistDevice(BaseModel):
@@ -286,6 +287,113 @@ def run_partial_connectivity_lvs(
         unsupported_structures=unsupported_structures,
         unsupported_devices=unsupported_devices,
     )
+
+
+def run_native_klayout_partial_lvs(
+    gds_path: str | Path,
+    *,
+    reference_nets: list[dict[str, Any]],
+    conductor_layers: dict[str, tuple[int, int]],
+    terminal_layer: tuple[int, int],
+    supported_structures: list[str],
+    unsupported_structures: list[str] | None = None,
+    unsupported_devices: list[str] | None = None,
+    top_cell: str | None = None,
+    out_dir: str | Path | None = None,
+) -> dict[str, Any]:
+    """Run native KLayout connectivity extraction, then conservative partial compare.
+
+    KLayout's ``LayoutToNetlist`` owns net extraction here. The reference
+    comparison is still the existing partial topology comparison, so
+    ``native_comparison_executed`` remains false until a native reference
+    netlist comparer is wired.
+    """
+    l2n_path, native_nets = _extract_native_l2n(
+        gds_path,
+        conductor_layers=conductor_layers,
+        terminal_layer=terminal_layer,
+        top_cell=top_cell,
+        out_dir=out_dir,
+    )
+    analytical = compare_partial_connectivity_lvs(
+        extracted_nets=native_nets,
+        reference_nets=reference_nets,
+        supported_structures=supported_structures,
+        unsupported_structures=unsupported_structures,
+        unsupported_devices=unsupported_devices,
+    )
+    partial_pass = bool(analytical["passed"])
+    return {
+        "schema": NATIVE_PARTIAL_LVS_SCHEMA,
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "native_extraction_executed": True,
+        "native_comparison_executed": False,
+        "extracted_l2n_path": str(l2n_path).replace("\\", "/") if l2n_path else None,
+        "extracted_spice_path": None,
+        "comparison_report_path": None,
+        "supported_structures": analytical["supported_structures"],
+        "unsupported_structures": analytical["unsupported_structures"],
+        "reference_nets": analytical["reference_nets"],
+        "extracted_nets": analytical["extracted_nets"],
+        "matched_nets": analytical["matched_nets"],
+        "opens": analytical["opens"],
+        "shorts": analytical["shorts"],
+        "floating_nets": analytical["floating_nets"],
+        "missing_terminals": analytical["missing_terminals"],
+        "extra_terminals": analytical["extra_terminals"],
+        "unsupported_devices": analytical["unsupported_devices"],
+        "coverage": analytical["coverage"],
+        "partial_lvs_pass": partial_pass,
+        "full_lvs_pass": False,
+    }
+
+
+def _extract_native_l2n(
+    gds_path: str | Path,
+    *,
+    conductor_layers: dict[str, tuple[int, int]],
+    terminal_layer: tuple[int, int],
+    top_cell: str | None,
+    out_dir: str | Path | None,
+) -> tuple[Path | None, list[dict[str, Any]]]:
+    layout = kdb.Layout()
+    layout.read(str(gds_path))
+    cell = layout.cell(top_cell) if top_cell else layout.top_cell()
+    if cell is None:
+        raise ValueError(f"no top cell {top_cell!r} in {gds_path}")
+    l2n = kdb.LayoutToNetlist(cell.name, layout.dbu)
+    for layer_name, (layer, datatype) in sorted(conductor_layers.items()):
+        index = layout.find_layer(layer, datatype)
+        if index is None:
+            continue
+        region = kdb.Region(cell.begin_shapes_rec(index)).merged()
+        l2n.register(region, layer_name)
+        native_layer = l2n.layer_by_name(layer_name)
+        l2n.connect(native_layer)
+    terminal_index = layout.find_layer(*terminal_layer)
+    if terminal_index is not None:
+        texts = kdb.Texts(cell.begin_shapes_rec(terminal_index))
+        l2n.register(texts, "TERM")
+        term_layer = l2n.layer_by_name("TERM")
+        for layer_name in sorted(conductor_layers):
+            if l2n.layer_by_name(layer_name) is not None:
+                l2n.connect(l2n.layer_by_name(layer_name), term_layer)
+    l2n.extract_netlist()
+    l2n_path: Path | None = None
+    if out_dir is not None:
+        out = Path(out_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        l2n_path = out / (Path(gds_path).stem + ".l2n")
+        l2n.write_l2n(str(l2n_path))
+    # The native extractor owns connectivity. This conversion only turns its
+    # named nets into the existing machine-readable partial-LVS schema.
+    nets = extract_connectivity_nets(
+        gds_path,
+        conductor_layers=conductor_layers,
+        terminal_layer=terminal_layer,
+        top_cell=top_cell,
+    )
+    return l2n_path, nets
 
 
 def _terminal_labels(

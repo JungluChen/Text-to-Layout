@@ -169,7 +169,7 @@ class TestACleanDrcChangesNothing:
         self, verified: CanonicalEvidence, tmp_path: Path
     ) -> None:
         gds = _gds(tmp_path, [kdb.Box(0, 0, _um(5), _um(5))])
-        report = run_drc(_pdk(), gds)
+        report = run_drc(_pdk(), gds, deck_fixture_validated=True)
         assert report.signoff_ready
         assert apply_fabrication_gate(verified, report) is verified
 
@@ -181,7 +181,10 @@ class TestACleanDrcChangesNothing:
             update={"status": EvidenceStatus.SIMULATION_EXECUTED, "error_percent": 40.0}
         )
         gds = _gds(tmp_path, [kdb.Box(0, 0, _um(5), _um(5))])
-        gated = apply_fabrication_gate(executed, run_drc(_pdk(), gds))
+        gated = apply_fabrication_gate(
+            executed,
+            run_drc(_pdk(), gds, deck_fixture_validated=True),
+        )
         assert gated.status is EvidenceStatus.SIMULATION_EXECUTED
 
     def test_gating_is_idempotent(self, verified: CanonicalEvidence, tmp_path: Path) -> None:

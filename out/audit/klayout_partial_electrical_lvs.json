@@ -4,6 +4,77 @@
   "fixture_expectations_passed": true,
   "fixtures": [
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": true,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [],
       "extracted_nets": [
         {
@@ -39,6 +110,81 @@
       "floating_nets": [],
       "input_gds_sha256": "11d6beff69b5971fb7cc7e2d195d1b0432b9bd30318de7237f490da8297bb25d",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/idc_connectivity_pass/idc_connectivity_pass.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": true,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [],
       "opens": [],
       "reference_nets": [
@@ -55,13 +201,83 @@
           ]
         }
       ],
-      "runtime_seconds": 0.001341,
+      "runtime_seconds": 0.004669,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 1600.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N_P",
+            "terminals": [
+              "N",
+              "P"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "N_P",
+            "reference_nets": [
+              "N",
+              "P"
+            ],
+            "terminals": [
+              "N",
+              "P"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "IDC"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "SHORT"
       ],
@@ -86,6 +302,80 @@
       "floating_nets": [],
       "input_gds_sha256": "5082926f9fbf78c836dc960033fd15d7fab3bbdbec0551e9cdbee1f1fa7bb3af",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/idc_p_n_short/idc_p_n_short.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 1600.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N_P",
+            "terminals": [
+              "N",
+              "P"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "N_P",
+            "reference_nets": [
+              "N",
+              "P"
+            ],
+            "terminals": [
+              "N",
+              "P"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "IDC"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "SHORT"
       ],
@@ -104,7 +394,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000884,
+      "runtime_seconds": 0.003981,
       "shorts": [
         {
           "extracted_net": "N_P",
@@ -123,6 +413,91 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 20.0,
+            "bbox_um": [
+              15.0,
+              20.0,
+              25.0,
+              22.0
+            ],
+            "layer": "M1",
+            "name": "FLOATING_1",
+            "terminals": []
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "floating_nets": [
+          "FLOATING_1"
+        ],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "FLOATING_NET"
       ],
@@ -174,6 +549,95 @@
       ],
       "input_gds_sha256": "853e15b1daa3b6815594981259355a5d1b93a0814fc8603174f97f804305ff94",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/idc_disconnected_finger/idc_disconnected_finger.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 20.0,
+            "bbox_um": [
+              15.0,
+              20.0,
+              25.0,
+              22.0
+            ],
+            "layer": "M1",
+            "name": "FLOATING_1",
+            "terminals": []
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [
+          "FLOATING_1"
+        ],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "N",
+          "P"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "FLOATING_NET"
       ],
@@ -192,13 +656,93 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000878,
+      "runtime_seconds": 0.00322,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "FLOATING_2",
+            "terminals": []
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "floating_nets": [
+          "FLOATING_2"
+        ],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "P"
+        ],
+        "missing_terminals": [
+          "N"
+        ],
+        "opens": [
+          {
+            "observed_parts": [],
+            "reference_net": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "MISSING_TERMINAL"
       ],
@@ -238,6 +782,90 @@
       "missing_terminals": [
         "N"
       ],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/idc_missing_terminal/idc_missing_terminal.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              30.0,
+              0.0,
+              40.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "FLOATING_2",
+            "terminals": []
+          },
+          {
+            "area_um2": 400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              10.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [
+          "FLOATING_2"
+        ],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "P"
+        ],
+        "missing_terminals": [
+          "N"
+        ],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [],
+            "reference_net": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "P",
+            "terminals": [
+              "P"
+            ]
+          },
+          {
+            "name": "N",
+            "terminals": [
+              "N"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "IDC"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "FLOATING_NET",
         "MISSING_TERMINAL",
@@ -266,13 +894,88 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000799,
+      "runtime_seconds": 0.003259,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN_GND_OUT",
+            "terminals": [
+              "GND_IN",
+              "GND_OUT"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN_OUT",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND",
+          "SIGNAL"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": true,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN",
+              "GND_OUT"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [],
       "extracted_nets": [
         {
@@ -310,6 +1013,85 @@
       "floating_nets": [],
       "input_gds_sha256": "7800c95aa8e9d129f7136b94eb5cc71dca6232c588613b42d2bcb975beffa1a6",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/cpw_connectivity_pass/cpw_connectivity_pass.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN_GND_OUT",
+            "terminals": [
+              "GND_IN",
+              "GND_OUT"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN_OUT",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND",
+          "SIGNAL"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": true,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN",
+              "GND_OUT"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [],
       "opens": [],
       "reference_nets": [
@@ -328,13 +1110,86 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000846,
+      "runtime_seconds": 0.003209,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 2400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN_IN_OUT",
+            "terminals": [
+              "GND_IN",
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND",
+          "SIGNAL"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "GND_IN_IN_OUT",
+            "reference_nets": [
+              "GROUND",
+              "SIGNAL"
+            ],
+            "terminals": [
+              "GND_IN",
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "CPW"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "SHORT"
       ],
@@ -360,6 +1215,83 @@
       "floating_nets": [],
       "input_gds_sha256": "fb9efbfa17f895f9e26be4cf2621cdd6b47ebe2960ae586887cd54bf2ee9455f",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/cpw_signal_ground_short/cpw_signal_ground_short.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 2400.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN_IN_OUT",
+            "terminals": [
+              "GND_IN",
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND",
+          "SIGNAL"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "GND_IN_IN_OUT",
+            "reference_nets": [
+              "GROUND",
+              "SIGNAL"
+            ],
+            "terminals": [
+              "GND_IN",
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "CPW"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "SHORT"
       ],
@@ -379,7 +1311,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000747,
+      "runtime_seconds": 0.007866,
       "shorts": [
         {
           "extracted_net": "GND_IN_IN_OUT",
@@ -399,6 +1331,114 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              30.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN",
+            "terminals": [
+              "IN"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              50.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "OUT",
+            "terminals": [
+              "OUT"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [],
+        "opens": [
+          {
+            "observed_parts": [
+              "IN",
+              "OUT"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "terminal_mismatches": [
+          {
+            "expected_net": "SIGNAL",
+            "extracted_net": "IN",
+            "terminal": "IN"
+          },
+          {
+            "expected_net": "SIGNAL",
+            "extracted_net": "OUT",
+            "terminal": "OUT"
+          }
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "OPEN"
       ],
@@ -450,6 +1490,107 @@
       "floating_nets": [],
       "input_gds_sha256": "205fa4765756f02de3d287b9539f82085d03ea83f493005c8294d59d47879f12",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/cpw_broken_signal/cpw_broken_signal.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              30.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN",
+            "terminals": [
+              "IN"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              50.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "OUT",
+            "terminals": [
+              "OUT"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [
+              "IN",
+              "OUT"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "OPEN",
         "TERMINAL_MISMATCH"
@@ -482,7 +1623,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000864,
+      "runtime_seconds": 0.003409,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -500,6 +1641,96 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "OUT",
+            "terminals": [
+              "OUT"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [
+          "IN"
+        ],
+        "opens": [
+          {
+            "observed_parts": [
+              "OUT"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "terminal_mismatches": [
+          {
+            "expected_net": "SIGNAL",
+            "extracted_net": "OUT",
+            "terminal": "OUT"
+          }
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "MISSING_TERMINAL"
       ],
@@ -539,6 +1770,94 @@
       "missing_terminals": [
         "IN"
       ],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/cpw_missing_input_port/cpw_missing_input_port.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "OUT",
+            "terminals": [
+              "OUT"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [
+          "IN"
+        ],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [
+              "OUT"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "MISSING_TERMINAL",
         "OPEN",
@@ -571,7 +1890,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000819,
+      "runtime_seconds": 0.00305,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -584,6 +1903,96 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN",
+            "terminals": [
+              "IN"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [
+          "OUT"
+        ],
+        "opens": [
+          {
+            "observed_parts": [
+              "IN"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "terminal_mismatches": [
+          {
+            "expected_net": "SIGNAL",
+            "extracted_net": "IN",
+            "terminal": "IN"
+          }
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "MISSING_TERMINAL"
       ],
@@ -623,6 +2032,94 @@
       "missing_terminals": [
         "OUT"
       ],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/cpw_missing_output_port/cpw_missing_output_port.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_IN",
+            "terminals": [
+              "GND_IN"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              20.0,
+              80.0,
+              30.0
+            ],
+            "layer": "M1",
+            "name": "IN",
+            "terminals": [
+              "IN"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND"
+        ],
+        "missing_terminals": [
+          "OUT"
+        ],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [
+              "IN"
+            ],
+            "reference_net": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SIGNAL",
+            "terminals": [
+              "IN",
+              "OUT"
+            ]
+          },
+          {
+            "name": "GROUND",
+            "terminals": [
+              "GND_IN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "CPW"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "MISSING_TERMINAL",
         "OPEN",
@@ -655,7 +2152,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000798,
+      "runtime_seconds": 0.003202,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -668,6 +2165,58 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A_B",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "SPIRAL"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": true,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [],
       "extracted_nets": [
         {
@@ -690,6 +2239,62 @@
       "floating_nets": [],
       "input_gds_sha256": "0425b54b99fae0b270a120381792871bbd077473aca28510baefc10df354c680",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/spiral_connectivity_pass/spiral_connectivity_pass.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A_B",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "SPIRAL"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": true,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [],
       "opens": [],
       "reference_nets": [
@@ -701,13 +2306,99 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000827,
+      "runtime_seconds": 0.003142,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              30.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A",
+            "terminals": [
+              "A"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              50.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "B",
+            "terminals": [
+              "B"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [],
+        "missing_terminals": [],
+        "opens": [
+          {
+            "observed_parts": [
+              "A",
+              "B"
+            ],
+            "reference_net": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "terminal_mismatches": [
+          {
+            "expected_net": "SPIRAL",
+            "extracted_net": "A",
+            "terminal": "A"
+          },
+          {
+            "expected_net": "SPIRAL",
+            "extracted_net": "B",
+            "terminal": "B"
+          }
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "OPEN"
       ],
@@ -745,6 +2436,85 @@
       "floating_nets": [],
       "input_gds_sha256": "9796eca29157dc10062fe47c11797fce6b6362cd2e8d0c53a9e68a720ae12865",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/spiral_open_path/spiral_open_path.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              30.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A",
+            "terminals": [
+              "A"
+            ]
+          },
+          {
+            "area_um2": 300.0,
+            "bbox_um": [
+              50.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "B",
+            "terminals": [
+              "B"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [
+              "A",
+              "B"
+            ],
+            "reference_net": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "OPEN",
         "TERMINAL_MISMATCH"
@@ -771,7 +2541,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000839,
+      "runtime_seconds": 0.003217,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -789,6 +2559,79 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A_B_TURN",
+            "terminals": [
+              "A",
+              "B",
+              "TURN"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "ADJACENT_TURN",
+          "SPIRAL"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          },
+          {
+            "name": "ADJACENT_TURN",
+            "terminals": [
+              "TURN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "A_B_TURN",
+            "reference_nets": [
+              "ADJACENT_TURN",
+              "SPIRAL"
+            ],
+            "terminals": [
+              "A",
+              "B",
+              "TURN"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "SHORT"
       ],
@@ -814,6 +2657,83 @@
       "floating_nets": [],
       "input_gds_sha256": "ea05fe96aa66f503b1431f44aa97ed57225e7bbbd6b9e759826738bb65357810",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/spiral_adjacent_turn_short/spiral_adjacent_turn_short.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "A_B_TURN",
+            "terminals": [
+              "A",
+              "B",
+              "TURN"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "ADJACENT_TURN",
+          "SPIRAL"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "SPIRAL",
+            "terminals": [
+              "A",
+              "B"
+            ]
+          },
+          {
+            "name": "ADJACENT_TURN",
+            "terminals": [
+              "TURN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "A_B_TURN",
+            "reference_nets": [
+              "ADJACENT_TURN",
+              "SPIRAL"
+            ],
+            "terminals": [
+              "A",
+              "B",
+              "TURN"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "SPIRAL"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "SHORT"
       ],
@@ -833,7 +2753,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000744,
+      "runtime_seconds": 0.003259,
       "shorts": [
         {
           "extracted_net": "A_B_TURN",
@@ -853,6 +2773,79 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 200.0,
+            "bbox_um": [
+              0.0,
+              30.0,
+              20.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "COUPLER",
+            "terminals": [
+              "COUPLER"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_OPEN",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "COUPLER",
+          "RESONATOR"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": true,
+        "reference_nets": [
+          {
+            "name": "RESONATOR",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          },
+          {
+            "name": "COUPLER",
+            "terminals": [
+              "COUPLER"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [],
       "extracted_nets": [
         {
@@ -889,6 +2882,83 @@
       "floating_nets": [],
       "input_gds_sha256": "5423e9dd34a69d1df9a7ee295188b56cd66b65c4407a0038d089904dde564c1d",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/resonator_connectivity_pass/resonator_connectivity_pass.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 200.0,
+            "bbox_um": [
+              0.0,
+              30.0,
+              20.0,
+              40.0
+            ],
+            "layer": "M1",
+            "name": "COUPLER",
+            "terminals": [
+              "COUPLER"
+            ]
+          },
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_OPEN",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "COUPLER",
+          "RESONATOR"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": true,
+        "reference_nets": [
+          {
+            "name": "RESONATOR",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          },
+          {
+            "name": "COUPLER",
+            "terminals": [
+              "COUPLER"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [],
       "opens": [],
       "reference_nets": [
@@ -906,13 +2976,83 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000873,
+      "runtime_seconds": 0.003475,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_OPEN",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND_END",
+          "OPEN_END"
+        ],
+        "missing_terminals": [],
+        "opens": [],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          },
+          {
+            "name": "OPEN_END",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "GND_OPEN",
+            "reference_nets": [
+              "GROUND_END",
+              "OPEN_END"
+            ],
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "SHORT"
       ],
@@ -937,6 +3077,80 @@
       "floating_nets": [],
       "input_gds_sha256": "579022ac7ccca50cca14d71172462d04fd60c92c0c1727dfbd215884b75df5c0",
       "missing_terminals": [],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 1.0,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/resonator_open_end_short/resonator_open_end_short.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "GND_OPEN",
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "GROUND_END",
+          "OPEN_END"
+        ],
+        "missing_terminals": [],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          },
+          {
+            "name": "OPEN_END",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [
+          {
+            "extracted_net": "GND_OPEN",
+            "reference_nets": [
+              "GROUND_END",
+              "OPEN_END"
+            ],
+            "terminals": [
+              "GND",
+              "OPEN"
+            ]
+          }
+        ],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "SHORT"
       ],
@@ -955,7 +3169,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000744,
+      "runtime_seconds": 0.003156,
       "shorts": [
         {
           "extracted_net": "GND_OPEN",
@@ -974,6 +3188,72 @@
       "top_cell": "TOP"
     },
     {
+      "analytical_connectivity_precheck": {
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "OPEN",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "OPEN_END"
+        ],
+        "missing_terminals": [
+          "GND"
+        ],
+        "opens": [
+          {
+            "observed_parts": [],
+            "reference_net": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          }
+        ],
+        "passed": false,
+        "reference_nets": [
+          {
+            "name": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          },
+          {
+            "name": "OPEN_END",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "schema": "textlayout.connectivity-partial-lvs.v1",
+        "scope": "connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "terminal_mismatches": [],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "expected_errors": [
         "MISSING_TERMINAL"
       ],
@@ -999,6 +3279,76 @@
       "missing_terminals": [
         "GND"
       ],
+      "native_klayout_extraction": {
+        "comparison_report_path": null,
+        "coverage": 0.5,
+        "extra_terminals": [],
+        "extracted_l2n_path": "C:/Users/justi/Desktop/Layout/text-to-gds/out/audit/klayout_native_lvs/resonator_ground_end_open/resonator_ground_end_open.l2n",
+        "extracted_nets": [
+          {
+            "area_um2": 800.0,
+            "bbox_um": [
+              0.0,
+              0.0,
+              80.0,
+              10.0
+            ],
+            "layer": "M1",
+            "name": "OPEN",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "extracted_spice_path": null,
+        "floating_nets": [],
+        "full_lvs_pass": false,
+        "matched_nets": [
+          "OPEN_END"
+        ],
+        "missing_terminals": [
+          "GND"
+        ],
+        "native_comparison_executed": false,
+        "native_extraction_executed": true,
+        "opens": [
+          {
+            "observed_parts": [],
+            "reference_net": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          }
+        ],
+        "partial_lvs_pass": false,
+        "reference_nets": [
+          {
+            "name": "GROUND_END",
+            "terminals": [
+              "GND"
+            ]
+          },
+          {
+            "name": "OPEN_END",
+            "terminals": [
+              "OPEN"
+            ]
+          }
+        ],
+        "schema": "textlayout.native-klayout-connectivity-partial-lvs.v1",
+        "scope": "native_klayout_connectivity_partial_lvs",
+        "shorts": [],
+        "supported_structures": [
+          "RESONATOR"
+        ],
+        "unsupported_devices": [
+          "capacitance",
+          "inductance",
+          "josephson_junction",
+          "vias"
+        ],
+        "unsupported_structures": []
+      },
       "observed_errors": [
         "MISSING_TERMINAL",
         "OPEN"
@@ -1026,7 +3376,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000802,
+      "runtime_seconds": 0.003064,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -1034,9 +3384,12 @@
     }
   ],
   "full_lvs_pass": false,
+  "native_comparison_executed": false,
+  "native_extraction_executed": true,
+  "native_scope": "native_klayout_connectivity_partial_lvs",
   "schema": "textlayout.klayout-partial-lvs-fixture-validation.v1",
-  "scope": "connectivity_partial_lvs",
-  "source_git_commit": "242dc317c3463352478919468cf0c78728106be2",
+  "scope": "analytical_connectivity_precheck",
+  "source_git_commit": "dce745603513c7de62822da713d104c80e6eef14",
   "status": "KLAYOUT_PARTIAL_LVS_FIXTURES_VALIDATED",
   "supported_structures": [
     "CPW",

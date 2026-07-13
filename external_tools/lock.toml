@@ -139,3 +139,12 @@ source_archive_url = "https://files.pythonhosted.org/packages/source/s/spdx-tool
 source_archive_sha256 = "68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93"
 source_archive_size_bytes = 681626
 checksum_verified = true
+
+[[locked_tools]]
+id = "syft"
+resolved_commit = "b15c5dbfe2bb21c9d73002c1056a829c8c411c75"
+pinned_ref = "v1.46.0"
+source_archive_url = "https://github.com/anchore/syft/archive/b15c5dbfe2bb21c9d73002c1056a829c8c411c75.tar.gz"
+source_archive_sha256 = "8bbbb3a27cca304c70192923834faa4c025b75a5ddbc9303ec5eed6e486e224a"
+source_archive_size_bytes = 7045063
+checksum_verified = true

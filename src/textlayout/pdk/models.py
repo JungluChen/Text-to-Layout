@@ -41,6 +41,14 @@ class PDKLayer(BaseModel):
     gds_datatype: int = Field(default=0, ge=0)
     min_width_um: float = Field(gt=0)
     min_spacing_um: float = Field(gt=0)
+    required: bool = Field(
+        default=False,
+        description="True when absence of geometry on this layer is a blocking DRC error.",
+    )
+    required_when: str | None = Field(
+        default=None,
+        description="Human-readable applicability condition, e.g. 'junction_count > 0'.",
+    )
     thickness_nm: float | None = Field(default=None, gt=0)
     sheet_resistance_ohm_per_sq: float | None = Field(
         default=None, gt=0, description="DC sheet resistance, ohm/square."
@@ -146,6 +154,16 @@ class PDKSeparation(BaseModel):
     description: str | None = None
 
 
+class RuleRequirement(BaseModel):
+    """Declares whether a rule family is required for signoff coverage."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    rule_family: str
+    mandatory: bool
+    applies_when: str | None = Field(default=None)
+
+
 class PDKGrid(BaseModel):
     """Manufacturing grid and default fallback rules."""
 
@@ -164,6 +182,17 @@ CALIBRATION_INTERNAL = "internal_calibrated"
 CALIBRATION_FOUNDRY = "foundry_calibrated"
 _VALID_CALIBRATION_STATUSES = frozenset(
     {CALIBRATION_ILLUSTRATIVE, CALIBRATION_INTERNAL, CALIBRATION_FOUNDRY}
+)
+
+DENSITY_FULL_WINDOWS_ONLY = "FULL_WINDOWS_ONLY"
+DENSITY_CLIP_TO_ANALYSIS_BOUNDARY = "CLIP_TO_ANALYSIS_BOUNDARY"
+DENSITY_EXPLICIT_DENSITY_BOUNDARY = "EXPLICIT_DENSITY_BOUNDARY"
+_VALID_DENSITY_POLICIES = frozenset(
+    {
+        DENSITY_FULL_WINDOWS_ONLY,
+        DENSITY_CLIP_TO_ANALYSIS_BOUNDARY,
+        DENSITY_EXPLICIT_DENSITY_BOUNDARY,
+    }
 )
 
 
@@ -194,6 +223,7 @@ class PDK(BaseModel):
     enclosures: list[PDKEnclosure] = Field(default_factory=list)
     overlaps: list[PDKOverlap] = Field(default_factory=list)
     separations: list[PDKSeparation] = Field(default_factory=list)
+    rule_requirements: list[RuleRequirement] = Field(default_factory=list)
     density_window_um: float | None = Field(
         default=None,
         gt=0,
@@ -201,6 +231,12 @@ class PDK(BaseModel):
         "Without it, a fill fraction is a whole-chip average, which no foundry deck "
         "checks and which a locally dense region passes trivially.",
     )
+    density_stride_um: float | None = Field(
+        default=None,
+        gt=0,
+        description="Density-window stride. Defaults to half the density window.",
+    )
+    density_boundary_policy: str = Field(default=DENSITY_FULL_WINDOWS_ONLY)
     notes: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
@@ -230,6 +266,25 @@ class PDK(BaseModel):
             raise ValueError(
                 f"PDK {self.name!r} declares a density rule but no density_window_um; "
                 "a whole-chip average is not a density check"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _density_policy_is_known(self) -> PDK:
+        if self.density_boundary_policy not in _VALID_DENSITY_POLICIES:
+            raise ValueError(
+                f"density_boundary_policy {self.density_boundary_policy!r} not in "
+                f"{sorted(_VALID_DENSITY_POLICIES)}"
+            )
+        if (
+            self.density_boundary_policy == DENSITY_EXPLICIT_DENSITY_BOUNDARY
+            and self.density_window_um is not None
+        ):
+            # The schema has no dedicated boundary layer yet; make that
+            # limitation explicit instead of silently using the layout bbox.
+            raise ValueError(
+                "EXPLICIT_DENSITY_BOUNDARY requires a future explicit boundary "
+                "layer field; use FULL_WINDOWS_ONLY or CLIP_TO_ANALYSIS_BOUNDARY"
             )
         return self
 

@@ -209,10 +209,25 @@
       "resolved_commit": "beace3e52ceb491b8ef85b7e3f5439cb8273f248",
       "source_archive_sha256": "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2",
       "spdx_license": "MIT"
+    },
+    {
+      "adapter_module": "scripts.generate_syft_sbom",
+      "canonical_name": "Syft",
+      "checksum_verified": true,
+      "id": "syft",
+      "license_review": "reviewed_from_release_metadata",
+      "lock_archive_sha256": "8bbbb3a27cca304c70192923834faa4c025b75a5ddbc9303ec5eed6e486e224a",
+      "pinned_commit": "b15c5dbfe2bb21c9d73002c1056a829c8c411c75",
+      "pinned_ref": "v1.46.0",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "b15c5dbfe2bb21c9d73002c1056a829c8c411c75",
+      "source_archive_sha256": "8bbbb3a27cca304c70192923834faa4c025b75a5ddbc9303ec5eed6e486e224a",
+      "spdx_license": "Apache-2.0"
     }
   ],
   "parent_commits": [
-    "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc"
+    "242dc317c3463352478919468cf0c78728106be2"
   ],
   "repository_files": [
     {
@@ -230,8 +245,8 @@
     {
       "exists": true,
       "path": ".github/workflows/klayout-signoff.yml",
-      "sha256": "e81bc60296e247b2debaf167109d67a6b8addb1c45cbc3edb6d5a99af3cbfa8d",
-      "size_bytes": 2504
+      "sha256": "e79a017504b9780d467378303d153e7b87c0021c1def183e289dcb479842bb96",
+      "size_bytes": 3369
     },
     {
       "exists": true,
@@ -278,8 +293,8 @@
     {
       "exists": true,
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "96ca2ad2b785ff180677ca67139fc59894d07b8b9248676b218706c7d69323e4",
-      "size_bytes": 9820
+      "sha256": "29757f16f38c8789132c0ecab25f520787fe2c48d5a94a47cadb94b9e0429504",
+      "size_bytes": 10445
     },
     {
       "exists": true,
@@ -386,14 +401,14 @@
     {
       "exists": true,
       "path": "external_tools/lock.toml",
-      "sha256": "f922cd11df4054af3a11a30cd360caa86eeeb96b4caaf67ba8a9145a7ca5746d",
-      "size_bytes": 6211
+      "sha256": "2736e756b7af6ccdbfb4271911d8b5bb4344b78ba595940cb1354fc130cd7218",
+      "size_bytes": 6738
     },
     {
       "exists": true,
       "path": "external_tools/registry.toml",
-      "sha256": "a62e8723bcf3c442b4cc7c7fc44ef782be88d94b668b313d34ec0cf45b66dcb3",
-      "size_bytes": 19746
+      "sha256": "129d390084d26716e854cf35aa61022df1b25ae0f49cebcf3b77e289b5b25c7f",
+      "size_bytes": 21452
     },
     {
       "exists": true,
@@ -409,5 +424,5 @@
     }
   ],
   "schema": "textlayout.audit.manifest.v1",
-  "source_revision": "242dc317c3463352478919468cf0c78728106be2"
+  "source_revision": "dce745603513c7de62822da713d104c80e6eef14"
 }

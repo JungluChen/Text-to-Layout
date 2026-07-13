@@ -15,6 +15,8 @@ layers:
   gds_datatype: 0
   min_width_um: 2.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -28,6 +30,8 @@ layers:
   gds_datatype: 0
   min_width_um: 2.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -41,6 +45,8 @@ layers:
   gds_datatype: 0
   min_width_um: 4.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -54,6 +60,8 @@ layers:
   gds_datatype: 0
   min_width_um: 2.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -67,6 +75,8 @@ layers:
   gds_datatype: 0
   min_width_um: 2.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -80,6 +90,8 @@ layers:
   gds_datatype: 0
   min_width_um: 10.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -93,6 +105,8 @@ layers:
   gds_datatype: 0
   min_width_um: 10.0
   min_spacing_um: 2.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -106,6 +120,8 @@ layers:
   gds_datatype: 0
   min_width_um: 3.0
   min_spacing_um: 3.0
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -119,6 +135,8 @@ layers:
   gds_datatype: 0
   min_width_um: 0.05
   min_spacing_um: 0.05
+  required: false
+  required_when: null
   thickness_nm: null
   sheet_resistance_ohm_per_sq: null
   kinetic_inductance_ph_per_sq: null
@@ -155,5 +173,8 @@ separations:
   min_um: 6.0
   rule_id: CPW.MIN_SIGNAL_GROUND_GAP
   description: CPW signal-ground gap must be at least 6 um.
+rule_requirements: []
 density_window_um: null
+density_stride_um: null
+density_boundary_policy: FULL_WINDOWS_ONLY
 notes: []

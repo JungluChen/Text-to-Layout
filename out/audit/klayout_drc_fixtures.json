@@ -6,9 +6,9 @@
     {
       "expected_rule_ids": [],
       "fixture": "valid_idc",
-      "input_gds_sha256": "6686c085a24577f1d96674e2e0fc021c6c760c2a78827dade3bdb6458d2a8381",
+      "input_gds_sha256": "166d5b600b3581678b7f31fe1c1f98521fd063319b7da6b1fe3e800fe21de740",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.004574,
+      "runtime_seconds": 0.003227,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -17,9 +17,9 @@
     {
       "expected_rule_ids": [],
       "fixture": "valid_cpw",
-      "input_gds_sha256": "487291883f49d4dd33e457d1415ae2d513322a504682c752f9725fbd7c72d5b6",
+      "input_gds_sha256": "5a4c15cb90debae78bcaeecd8143eafb9d83d19b60eb6b8659cee9106064a620",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.002643,
+      "runtime_seconds": 0.001749,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -28,9 +28,9 @@
     {
       "expected_rule_ids": [],
       "fixture": "valid_spiral",
-      "input_gds_sha256": "784d0847dbccee093e322dc5e7b0ca8a6b55a39be22fb593e4cdfb0966642e5c",
+      "input_gds_sha256": "4f15cca579cc96c4c11b44203914efdc977b332be126d7b9e623f13f885bcb7e",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.002744,
+      "runtime_seconds": 0.001526,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -39,9 +39,9 @@
     {
       "expected_rule_ids": [],
       "fixture": "valid_resonator",
-      "input_gds_sha256": "b876c767d7029094697a9b1e378afaef5ebcd63c00dc63db1fabc82edb78482c",
+      "input_gds_sha256": "6c9ff9b4c560aabb81f87636326b19b5ab3a10c8707f85e9155be71d78976fe0",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.002851,
+      "runtime_seconds": 0.001663,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -52,11 +52,11 @@
         "IDC.MIN_FINGER_WIDTH"
       ],
       "fixture": "invalid_idc_finger_width",
-      "input_gds_sha256": "bafd6072494c6bd058a6f3f3de94bd6cf40f49288ba14e8a366cd9995ec0872e",
+      "input_gds_sha256": "b06a8643d0cc52a052d9b093c4fb8afcdcbe08ac15b1ec5906df5d229c652f33",
       "observed_rule_ids": [
         "IDC.MIN_FINGER_WIDTH"
       ],
-      "runtime_seconds": 0.00371,
+      "runtime_seconds": 0.002134,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -67,11 +67,11 @@
         "IDC.MIN_FINGER_SPACING"
       ],
       "fixture": "invalid_idc_finger_gap",
-      "input_gds_sha256": "d12988372cdf6537e1f352e29e16df01d65f430e5872bac3b34426ff627fd017",
+      "input_gds_sha256": "2d3ba4970c799efed7971a3f433e18b7c0b2d85c4b5b2f1f2d7d2ab24f817661",
       "observed_rule_ids": [
         "IDC.MIN_FINGER_SPACING"
       ],
-      "runtime_seconds": 0.002673,
+      "runtime_seconds": 0.002585,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -82,11 +82,11 @@
         "IDC.NO_UNINTENDED_BRIDGE"
       ],
       "fixture": "invalid_idc_bridge",
-      "input_gds_sha256": "7cc47cbc6fa52af1ff555c87008f9d28d2d76d2244ff643eeedd1879b05a3ec4",
+      "input_gds_sha256": "5095f5a1af0f1aa39d3e53f8bcb27888cd521098f58ec57ad5b9c2b4fd5d4d02",
       "observed_rule_ids": [
         "IDC.NO_UNINTENDED_BRIDGE"
       ],
-      "runtime_seconds": 0.002081,
+      "runtime_seconds": 0.001929,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -97,11 +97,11 @@
         "IDC.MIN_BUS_WIDTH"
       ],
       "fixture": "invalid_idc_bus_width",
-      "input_gds_sha256": "c61b329eb0c7fd2074578d3cebc8e3c17e321c6b5e3a589307c3a120ce6018b1",
+      "input_gds_sha256": "7edbde96716efb8260354b3890c87e7984cac8b9506616a16c9d2f719bf78611",
       "observed_rule_ids": [
         "IDC.MIN_BUS_WIDTH"
       ],
-      "runtime_seconds": 0.002392,
+      "runtime_seconds": 0.002063,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -112,11 +112,11 @@
         "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
       ],
       "fixture": "invalid_cpw_signal_width",
-      "input_gds_sha256": "42d1a9c59b788403199b2c749228a8336ee392ea0956e1428a83059a2f6b8069",
+      "input_gds_sha256": "6445938123288090687aaa19677c824959a5b261fdcd6256933e13363ba4cde2",
       "observed_rule_ids": [
         "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
       ],
-      "runtime_seconds": 0.001801,
+      "runtime_seconds": 0.001623,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -127,11 +127,11 @@
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
       "fixture": "invalid_cpw_gap",
-      "input_gds_sha256": "07c883d5e00487fadebe58600420f597980ed9a17e486d86c775b3bf5e128bd8",
+      "input_gds_sha256": "49f14cbc4bcb8a8f64e55520bb76b1785fd247ff0162e149d8e35508a1771167",
       "observed_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
-      "runtime_seconds": 0.002667,
+      "runtime_seconds": 0.001532,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -142,11 +142,11 @@
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
       "fixture": "invalid_cpw_signal_ground_short",
-      "input_gds_sha256": "2723a1d8b9d682af43c93fab5ad782d2df4980e50e40be19d756ef1b0cf03e02",
+      "input_gds_sha256": "4b9ee65dff4d1d331013e91c677663964347115714333040a29b8789f107e5a6",
       "observed_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
-      "runtime_seconds": 0.00239,
+      "runtime_seconds": 0.001559,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -157,11 +157,11 @@
         "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
       ],
       "fixture": "invalid_cpw_ground_discontinuity",
-      "input_gds_sha256": "d2fafaf00243f0039361ea19a2b85a13e3dd10911db63edfb1650a16987c49dc",
+      "input_gds_sha256": "39a0cb9b535a6d1a853ca541e182ff877079241e0397510ad31de8a4715b4f11",
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
       ],
-      "runtime_seconds": 0.002515,
+      "runtime_seconds": 0.001518,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -172,11 +172,11 @@
         "SPIRAL.MIN_TRACE_WIDTH"
       ],
       "fixture": "invalid_spiral_trace_width",
-      "input_gds_sha256": "657d88200b61f9e312d9deb96c95a9066fc864118c1f80424e0ccb6ac31b8fab",
+      "input_gds_sha256": "0a55c716f37210b2a66f10b164f4e55f6e5f638924fa9d09153838570c65ad96",
       "observed_rule_ids": [
         "SPIRAL.MIN_TRACE_WIDTH"
       ],
-      "runtime_seconds": 0.002208,
+      "runtime_seconds": 0.001406,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -187,11 +187,11 @@
         "SPIRAL.MIN_TURN_SPACING"
       ],
       "fixture": "invalid_spiral_turn_spacing",
-      "input_gds_sha256": "f919c3ca0debd46d62139cef46e9fcc519818ed1793e2f627f07331f04e04c1d",
+      "input_gds_sha256": "df8e22bd751066360f9b143dbefbfd551d48b2d1370cf6461b30a561eefcd395",
       "observed_rule_ids": [
         "SPIRAL.MIN_TURN_SPACING"
       ],
-      "runtime_seconds": 0.001816,
+      "runtime_seconds": 0.001496,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -202,11 +202,11 @@
         "JJ.MIN_AREA"
       ],
       "fixture": "invalid_junction_area",
-      "input_gds_sha256": "26bcc37b8333d76dba7c8b52649e77d60d75bb7ec3607d18cd4d13d9672194f2",
+      "input_gds_sha256": "30d1f0c65f965b046966b1407b1bc8390aa04568c5c4063f0421658aaa7afad3",
       "observed_rule_ids": [
         "JJ.MIN_AREA"
       ],
-      "runtime_seconds": 0.001468,
+      "runtime_seconds": 0.00145,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -217,11 +217,11 @@
         "JJ.MIN_LEAD_OVERLAP"
       ],
       "fixture": "invalid_junction_overlap",
-      "input_gds_sha256": "a6466a99ee4ebe3d326183432e756caad6bf2109666c8634842e57396b05dd84",
+      "input_gds_sha256": "6605b227e576e3d9d3e032e3d62e4d8579f1953f1e4a794af7e4cdc9fd39a1ab",
       "observed_rule_ids": [
         "JJ.MIN_LEAD_OVERLAP"
       ],
-      "runtime_seconds": 0.001719,
+      "runtime_seconds": 0.001567,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -232,11 +232,11 @@
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
       "fixture": "invalid_floating_conductor",
-      "input_gds_sha256": "a597436653928b75ca145c02dc9986d2c39758231042c299edc7fe71237786cb",
+      "input_gds_sha256": "a63dded4258c3f2e0f7be9e9a53c3464301b2d29ceb7a855ca7b76145c195ea1",
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
-      "runtime_seconds": 0.001426,
+      "runtime_seconds": 0.001386,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -248,12 +248,12 @@
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
       "fixture": "invalid_minimum_area",
-      "input_gds_sha256": "577be828722b6d9fcf09bd0d2113cbfa8239a11dece166ee556b7169b938d669",
+      "input_gds_sha256": "ab0d03e8dcb357ee9a280563c268d80371087d58840459c3532c861dd0614a2e",
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_area.M1",
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
-      "runtime_seconds": 0.00146,
+      "runtime_seconds": 0.001411,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -265,23 +265,23 @@
         "klayout_signoff_fixture_pdk.notch.M1"
       ],
       "fixture": "invalid_notch",
-      "input_gds_sha256": "93973f3898e9b1e8e1c45b9a74ad983b2a9a9aa864edc1c91af8cf53aca914fb",
+      "input_gds_sha256": "787ea6959cd6ec3d9eb381a61be3a35b2a28859727f3256908cda096879bf0c3",
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_spacing.M1",
         "klayout_signoff_fixture_pdk.notch.M1"
       ],
-      "runtime_seconds": 0.001472,
+      "runtime_seconds": 0.001522,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
       "violation_count": 2
     }
   ],
-  "generated_runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
-  "manifest_runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
-  "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+  "generated_runset_hash": "1e99a6ecde110960324a3a14eba4771b2f0dd4caec3b02ddb565bb318f86f211",
+  "manifest_runset_hash": "1e99a6ecde110960324a3a14eba4771b2f0dd4caec3b02ddb565bb318f86f211",
+  "pdk_hash": "8ff1ef7f2334855a9e2d5af65266a9115b54e0d1b34df65c9020a9d40916f791",
   "schema": "textlayout.klayout-drc-fixture-validation.v1",
-  "source_git_commit": "242dc317c3463352478919468cf0c78728106be2",
+  "source_git_commit": "dce745603513c7de62822da713d104c80e6eef14",
   "status": "PDK_DRC_FIXTURES_VALIDATED",
   "supported_rules": [],
   "total_rules": 15,

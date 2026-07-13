@@ -229,3 +229,19 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Adapter module: `scripts.validate_spdx_sbom`
 - Dataset license: not_applicable
 - Human review required: false
+
+## Syft
+
+- Upstream: https://github.com/anchore/syft
+- Pinned ref: `v1.46.0`
+- Resolved commit: `b15c5dbfe2bb21c9d73002c1056a829c8c411c75`
+- Source archive SHA-256: `8bbbb3a27cca304c70192923834faa4c025b75a5ddbc9303ec5eed6e486e224a`
+- SPDX license identifier: `Apache-2.0`
+- Copyright holder: Anchore, Inc. and Syft contributors
+- Install mode: pinned OCI image
+- Integration mode: external container generates release SPDX JSON SBOMs
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `scripts.generate_syft_sbom`
+- Dataset license: not_applicable
+- Human review required: false

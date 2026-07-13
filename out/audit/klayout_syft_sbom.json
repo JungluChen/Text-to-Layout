@@ -1,0 +1,38 @@
+{
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "-v",
+    "/var/run/docker.sock:/var/run/docker.sock",
+    "-v",
+    "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit:/out",
+    "anchore/syft@sha256:473a60e3a58e29aca3aedb3e99e787bb4ef273917e44d10fcbea4330a07320bb",
+    "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+    "-o",
+    "spdx-json=/out/klayout.syft.spdx.json"
+  ],
+  "generator": {
+    "git_commit": "b15c5dbfe2bb21c9d73002c1056a829c8c411c75",
+    "image": "anchore/syft@sha256:473a60e3a58e29aca3aedb3e99e787bb4ef273917e44d10fcbea4330a07320bb",
+    "integration_role": "release SPDX 2.3 SBOM generation for KLayout OCI image",
+    "license": "Apache-2.0",
+    "name": "syft",
+    "source_archive_sha256": "8bbbb3a27cca304c70192923834faa4c025b75a5ddbc9303ec5eed6e486e224a",
+    "source_archive_size_bytes": 7045063,
+    "source_archive_url": "https://github.com/anchore/syft/archive/b15c5dbfe2bb21c9d73002c1056a829c8c411c75.tar.gz",
+    "version": "1.46.0",
+    "version_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "version_stdout_sha256": "34880972b42e312e6753a4852c66550198f45c8149ad372bc3c0b71e3ed0c43b"
+  },
+  "return_code": 0,
+  "runtime_seconds": 15.361,
+  "sbom_path": "out/audit/klayout.syft.spdx.json",
+  "sbom_sha256": "78f13e444ab5071806284ad7ccd7e0685b6638bbbfb993406ff322d6ca664d6e",
+  "schema": "textlayout.syft-sbom-generation.v1",
+  "status": "SYFT_SBOM_GENERATED",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "target_image": "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+  "target_image_digest": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0"
+}

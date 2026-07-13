@@ -1,5 +1,5 @@
 {
-  "evaluated_at_commit": "242dc317c3463352478919468cf0c78728106be2",
+  "evaluated_at_commit": "dce745603513c7de62822da713d104c80e6eef14",
   "schema": "textlayout.audit.tool-inventory.v2",
   "tool_state_ladder": [
     "UNREGISTERED",
@@ -480,6 +480,40 @@
         "locked checksum marked verified",
         "license review recorded",
         "package spec absent in active interpreter"
+      ]
+    },
+    {
+      "canonical_name": "Syft",
+      "current_state": "IDENTITY_VERIFIED",
+      "executable_path": "$ABS_PATH:6ba61f205cb5bd7c",
+      "executable_probe": "docker",
+      "id": "syft",
+      "license_review": "reviewed_from_release_metadata",
+      "lock_checksum_verified": true,
+      "pinned_commit": "b15c5dbfe2bb21c9d73002c1056a829c8c411c75",
+      "pinned_ref": "v1.46.0",
+      "python_package_probe": null,
+      "smoke_result": {
+        "command": [
+          "docker",
+          "run",
+          "--rm",
+          "anchore/syft@sha256:473a60e3a58e29aca3aedb3e99e787bb4ef273917e44d10fcbea4330a07320bb",
+          "version"
+        ],
+        "return_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e30dc079464786e967318f779884fd6584d457f8255d140a8769f2018ff2cd68",
+        "timed_out": false
+      },
+      "spdx_license": "Apache-2.0",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH",
+        "identity/version probe succeeded"
       ]
     }
   ]

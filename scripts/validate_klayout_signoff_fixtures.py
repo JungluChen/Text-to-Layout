@@ -10,7 +10,8 @@ from typing import Any
 
 from textlayout.pdk.klayout_drc import run_drc, to_lydrc
 from textlayout.pdk.loader import load_pdk
-from textlayout.pdk.lvs import run_partial_connectivity_lvs
+from textlayout.pdk.lvs import run_native_klayout_partial_lvs, run_partial_connectivity_lvs
+from run_containerized_klayout_drc import main as run_containerized_drc_main
 
 REPO = Path(__file__).resolve().parents[1]
 OUT = REPO / "out" / "audit"
@@ -106,6 +107,19 @@ def validate_lvs() -> dict[str, Any]:
             unsupported_devices=manifest["unsupported_devices"],
             top_cell=fixture["top_cell"],
         )
+        native = run_native_klayout_partial_lvs(
+            gds,
+            reference_nets=fixture["reference_nets"],
+            conductor_layers={
+                name: tuple(values) for name, values in fixture["conductor_layers"].items()
+            },
+            terminal_layer=tuple(fixture["terminal_layer"]),
+            supported_structures=fixture["supported_structures"],
+            unsupported_structures=manifest["unsupported_structures"],
+            unsupported_devices=manifest["unsupported_devices"],
+            top_cell=fixture["top_cell"],
+            out_dir=OUT / "klayout_native_lvs" / fixture["name"],
+        )
         supported.update(fixture["supported_structures"])
         observed_errors = _lvs_errors(report)
         expected_errors = sorted(fixture["expected_errors"])
@@ -130,6 +144,8 @@ def validate_lvs() -> dict[str, Any]:
                 "floating_nets": report["floating_nets"],
                 "missing_terminals": report["missing_terminals"],
                 "terminal_mismatches": report["terminal_mismatches"],
+                "analytical_connectivity_precheck": report,
+                "native_klayout_extraction": native,
                 "runtime_seconds": round(time.perf_counter() - start, 6),
             }
         )
@@ -139,7 +155,10 @@ def validate_lvs() -> dict[str, Any]:
         "source_git_commit": git_head(),
         "execution_mode": "local_klayout_python_geometry_extraction",
         "containerized": False,
-        "scope": "connectivity_partial_lvs",
+        "scope": "analytical_connectivity_precheck",
+        "native_scope": "native_klayout_connectivity_partial_lvs",
+        "native_extraction_executed": True,
+        "native_comparison_executed": False,
         "supported_structures": sorted(supported),
         "unsupported_structures": manifest["unsupported_structures"],
         "unsupported_devices": manifest["unsupported_devices"],
@@ -170,6 +189,10 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     drc = validate_drc()
     lvs = validate_lvs()
+    container_rc = run_containerized_drc_main([])
+    containerized = json.loads(
+        (OUT / "klayout_containerized_drc.json").read_text(encoding="utf-8")
+    )
     (OUT / "klayout_drc_fixtures.json").write_text(
         json.dumps(drc, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -178,7 +201,13 @@ def main() -> int:
         json.dumps(lvs, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    return 0 if drc["fixture_expectations_passed"] and lvs["fixture_expectations_passed"] else 1
+    return 0 if (
+        drc["fixture_expectations_passed"]
+        and lvs["fixture_expectations_passed"]
+        and container_rc == 0
+        and containerized["fixture_expectations_passed"]
+        and containerized["all_rule_id_parity"]
+    ) else 1
 
 
 if __name__ == "__main__":

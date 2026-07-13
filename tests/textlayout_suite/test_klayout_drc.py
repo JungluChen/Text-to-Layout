@@ -26,6 +26,7 @@ from textlayout.pdk.models import (
     PDKOverlap,
     PDKSeparation,
     PDKSubstrate,
+    RuleRequirement,
 )
 
 GRID = PDKGrid(grid_nm=1.0, default_min_spacing_um=1.0, default_min_width_um=1.0)
@@ -130,6 +131,82 @@ class TestCoverageIsNotSilence:
         assert "notch" not in report.unsupported_rules
 
 
+class TestRequiredLayerAndMandatoryRules:
+    def test_missing_required_layer_is_blocking(self, tmp_path: Path) -> None:
+        pdk = _pdk(
+            layers=[
+                PDKLayer(
+                    name="metal",
+                    purpose="metal",
+                    gds_layer=1,
+                    min_width_um=1.0,
+                    min_spacing_um=1.0,
+                    required=True,
+                ),
+            ]
+        )
+        gds = _gds(tmp_path, {(90, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        report = run_drc(pdk, gds)
+        assert not report.coverage_complete
+        violation = next(v for v in report.violations if v.rule_id == "PDK.REQUIRED_LAYER_MISSING")
+        assert violation.blocking is True
+        assert violation.mandatory is True
+
+    def test_missing_optional_layer_is_nonblocking_skip(self, tmp_path: Path) -> None:
+        pdk = _pdk(
+            layers=[
+                PDKLayer(
+                    name="bridge",
+                    purpose="metal",
+                    gds_layer=7,
+                    min_width_um=1.0,
+                    min_spacing_um=1.0,
+                    required=False,
+                    required_when="crossover exists",
+                ),
+            ]
+        )
+        gds = _gds(tmp_path, {(90, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        report = run_drc(pdk, gds)
+        skip = next(check for check in report.checks if check.rule == "min_width")
+        assert skip.skip_kind == "skipped_optional_rule"
+        assert skip.mandatory is False
+
+    def test_skipped_mandatory_rule_blocks_signoff(self, tmp_path: Path) -> None:
+        pdk = _pdk(
+            foundry_validated=True,
+            calibration_status="foundry_calibrated",
+            layers=[
+                PDKLayer(
+                    name="metal",
+                    purpose="metal",
+                    gds_layer=1,
+                    min_width_um=0.1,
+                    min_spacing_um=0.1,
+                    min_density_fraction=0.2,
+                )
+            ],
+            density_window_um=50.0,
+        )
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        report = run_drc(pdk, gds, deck_fixture_validated=True)
+        assert not report.mandatory_checks_complete
+        assert report.signoff_ready is False
+
+    def test_unsupported_mandatory_rule_blocks_signoff(self, tmp_path: Path) -> None:
+        pdk = _pdk(
+            foundry_validated=True,
+            calibration_status="foundry_calibrated",
+            rule_requirements=[
+                RuleRequirement(rule_family="floating_conductor", mandatory=True),
+            ],
+        )
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        report = run_drc(pdk, gds, deck_fixture_validated=True)
+        assert "floating_conductor" in report.unsupported_mandatory_rules
+        assert report.signoff_ready is False
+
+
 class TestSignoffIsStricterThanPassing:
     def test_an_illustrative_pdk_can_never_sign_off(self, tmp_path: Path) -> None:
         gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
@@ -138,10 +215,18 @@ class TestSignoffIsStricterThanPassing:
         assert report.signoff_ready is False
         assert "illustrative" in (report.blocking_reason() or "")
 
-    def test_a_foundry_calibrated_clean_run_signs_off(self, tmp_path: Path) -> None:
+    def test_a_foundry_calibrated_clean_python_run_is_not_standalone_signoff(self, tmp_path: Path) -> None:
         pdk = _pdk(foundry_validated=True, calibration_status="foundry_calibrated")
         gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
         report = run_drc(pdk, gds)
+        assert report.passed and report.coverage_complete
+        assert report.signoff_ready is False
+        assert "standalone DRC deck" in (report.blocking_reason() or "")
+
+    def test_a_foundry_calibrated_clean_run_with_deck_evidence_signs_off(self, tmp_path: Path) -> None:
+        pdk = _pdk(foundry_validated=True, calibration_status="foundry_calibrated")
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        report = run_drc(pdk, gds, deck_fixture_validated=True)
         assert report.signoff_ready is True
         assert report.blocking_reason() is None
 

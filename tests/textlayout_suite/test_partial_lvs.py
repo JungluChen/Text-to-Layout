@@ -8,7 +8,7 @@ from pathlib import Path
 
 import klayout.db as kdb
 
-from textlayout.pdk.lvs import run_partial_connectivity_lvs
+from textlayout.pdk.lvs import run_native_klayout_partial_lvs, run_partial_connectivity_lvs
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURE_ROOT = REPO_ROOT / "tests" / "fixtures" / "klayout_lvs"
@@ -82,6 +82,28 @@ def test_positive_cpw_has_expected_extracted_nets_and_terminals() -> None:
     assert ("GND_IN", "GND_OUT") in extracted
     assert ("IN", "OUT") in extracted
     assert len(report["extracted_nets"]) == 2
+
+
+def test_native_klayout_partial_lvs_extracts_l2n_without_full_lvs_claim(tmp_path: Path) -> None:
+    fixture = next(item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass")
+    report = run_native_klayout_partial_lvs(
+        REPO_ROOT / fixture["path"],
+        reference_nets=fixture["reference_nets"],
+        conductor_layers={
+            name: tuple(values) for name, values in fixture["conductor_layers"].items()
+        },
+        terminal_layer=tuple(fixture["terminal_layer"]),
+        supported_structures=fixture["supported_structures"],
+        unsupported_structures=_manifest()["unsupported_structures"],
+        unsupported_devices=_manifest()["unsupported_devices"],
+        top_cell=fixture["top_cell"],
+        out_dir=tmp_path,
+    )
+    assert report["scope"] == "native_klayout_connectivity_partial_lvs"
+    assert report["native_extraction_executed"] is True
+    assert report["native_comparison_executed"] is False
+    assert Path(report["extracted_l2n_path"]).is_file()
+    assert report["full_lvs_pass"] is False
 
 
 def test_connectivity_invariant_under_flattening_polygon_order_and_dbu(tmp_path: Path) -> None:
