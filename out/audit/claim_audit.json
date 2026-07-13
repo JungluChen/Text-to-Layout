@@ -603,8 +603,8 @@
       "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
-      "claim_id": "93ffdbefc1ec241e",
-      "claim_text": "| 4 | Compact planar spiral inductor targeting 3 nH | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![SpiralInductor](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) \u00b7 [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) \u00b7 [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) \u00b7 [evidence](examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json) | **SIMULATION_EXECUTED** \u2014 fasthenry extracted 2.958308 nH versus 3.000000 nH target (-1.390%), but no convergence criterion is evidenced, so it is **not** physics-verified. **NOT_FABRICATION_READY** |",
+      "claim_id": "f5e83cd8d3991c58",
+      "claim_text": "| 4 | Compact planar spiral inductor targeting 3 nH | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![SpiralInductor](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) \u00b7 [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) \u00b7 [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) \u00b7 [evidence](examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json) | **OUTPUT_PARSED** -- fasthenry extracted 2.958308 nH versus 3.000000 nH target (-1.390%), but no convergence criterion is evidenced, so it is **not** physics-verified. **NOT_FABRICATION_READY** |",
       "claim_type": "fabrication",
       "claimed_level": "IMPLEMENTED",
       "computed_level": "IMPLEMENTED",
