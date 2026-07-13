@@ -3,10 +3,10 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019f5c0c-4caa-7c76-9e0c-9518c9d35ba8",
-  "CreatedAt": "2026-07-13T15:15:37.770819958Z",
-  "ArtifactID": "sha256:28bc54b218c4f2c126b68bec89133c2e2f3961b0dbc6eaa70438dfa6c95d37f7",
-  "ArtifactName": "textlayout/klayout:local",
+  "ReportID": "019f5c5c-ab78-7376-8e4b-626c1d6ff774",
+  "CreatedAt": "2026-07-13T16:43:24.920230055Z",
+  "ArtifactID": "sha256:b11313613dac8a0b3ac6b36dae7639d4e861f97848fd4a2efc68affac9516b93",
+  "ArtifactName": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
   "ArtifactType": "container_image",
   "Metadata": {
     "Size": 703733248,
@@ -14,21 +14,21 @@
       "Family": "ubuntu",
       "Name": "24.04"
     },
-    "ImageID": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
+    "ImageID": "sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
     "DiffIDs": [
       "sha256:f103cd120fdd6cbc7f3d0e1d5bfb3e16290c32ead7b822d15c34460ecdf64b29",
-      "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+      "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
     ],
     "RepoTags": [
       "textlayout/klayout:local"
     ],
     "RepoDigests": [
-      "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0"
+      "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c"
     ],
-    "Reference": "textlayout/klayout:local",
+    "Reference": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
     "ImageConfig": {
       "architecture": "amd64",
-      "created": "2026-07-13T15:12:30.600421232Z",
+      "created": "2026-07-13T16:39:59.43875995Z",
       "history": [
         {
           "created": "2026-06-22T21:24:17Z",
@@ -55,72 +55,72 @@
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG SOURCE_REVISION=e09e901fc392079b6dc6c7e5160654ef4da50397",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG KLAYOUT_VERSION=0.30.9",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG KLAYOUT_COMMIT=6270877110ef808dd442fd2244164cec06a7b10e",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG KLAYOUT_SHA256=2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG KLAYOUT_DEB_URL=https://www.klayout.org/downloads/Ubuntu-24/klayout_0.30.9-1_amd64.deb",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ARG KLAYOUT_DEB_SHA256=a5e50f194edc6893caa26b0b76764a9c2b3ab4a9f8fa5a9ca0fe471381d702eb",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
-          "created_by": "LABEL org.opencontainers.image.title=Textlayout KLayout boundary org.opencontainers.image.description=Pinned KLayout runtime for headless DRC/LVS smoke org.opencontainers.image.source=https://github.com/JungluChen/Text-to-Layout org.opencontainers.image.revision=242dc317c3463352478919468cf0c78728106be2 org.opencontainers.image.version=0.30.9 org.opencontainers.image.licenses=GPL-3.0-or-later",
+          "created": "2026-07-13T16:39:59Z",
+          "created_by": "LABEL org.opencontainers.image.title=Textlayout KLayout boundary org.opencontainers.image.description=Pinned KLayout runtime for headless DRC/LVS smoke org.opencontainers.image.source=https://github.com/JungluChen/Text-to-Layout org.opencontainers.image.revision=14811db234d4eb6ea663180d142532bc9d87f965 org.opencontainers.image.version=0.30.9 org.opencontainers.image.licenses=GPL-3.0-or-later",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
-          "created_by": "RUN |6 SOURCE_REVISION=242dc317c3463352478919468cf0c78728106be2 KLAYOUT_VERSION=0.30.9 KLAYOUT_COMMIT=6270877110ef808dd442fd2244164cec06a7b10e KLAYOUT_SHA256=2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63 KLAYOUT_DEB_URL=https://www.klayout.org/downloads/Ubuntu-24/klayout_0.30.9-1_amd64.deb KLAYOUT_DEB_SHA256=a5e50f194edc6893caa26b0b76764a9c2b3ab4a9f8fa5a9ca0fe471381d702eb /bin/sh -c set -eux;     apt-get update;     apt-get install -y --no-install-recommends ca-certificates curl python3 tini;     curl -fsSL \"${KLAYOUT_DEB_URL}\" -o /tmp/klayout.deb;     echo \"${KLAYOUT_DEB_SHA256}  /tmp/klayout.deb\" | sha256sum -c -;     apt-get install -y --no-install-recommends /tmp/klayout.deb;     rm -f /tmp/klayout.deb;     rm -rf /var/lib/apt/lists/*;     useradd --create-home --uid 10001 appuser;     mkdir -p /opt/textlayout /solver-output;     command -v klayout;     klayout -b -v;     KLAYOUT_BIN=\"$(command -v klayout)\";     KLAYOUT_BIN_SHA256=\"$(sha256sum \"$KLAYOUT_BIN\" | awk '{print $1}')\";     export KLAYOUT_BIN KLAYOUT_BIN_SHA256 KLAYOUT_VERSION KLAYOUT_COMMIT KLAYOUT_SHA256 KLAYOUT_DEB_URL KLAYOUT_DEB_SHA256 SOURCE_REVISION;     python3 -c 'import json, os, pathlib, subprocess; payload={\"tool\":\"KLayout\",\"version\":os.environ[\"KLAYOUT_VERSION\"],\"upstream_commit\":os.environ[\"KLAYOUT_COMMIT\"],\"source_archive_sha256\":os.environ[\"KLAYOUT_SHA256\"],\"deb_url\":os.environ[\"KLAYOUT_DEB_URL\"],\"deb_sha256\":os.environ[\"KLAYOUT_DEB_SHA256\"],\"source_revision\":os.environ[\"SOURCE_REVISION\"],\"executable\":os.environ[\"KLAYOUT_BIN\"],\"executable_sha256\":os.environ[\"KLAYOUT_BIN_SHA256\"],\"identity_command\":[\"klayout\",\"-b\",\"-v\"],\"identity_stdout\":subprocess.check_output([\"klayout\",\"-b\",\"-v\"], text=True).strip(),\"status\":\"IDENTITY_VERIFIED\"}; pathlib.Path(\"/opt/textlayout/tool-identity.json\").write_text(json.dumps(payload, indent=2)+\"\\n\", encoding=\"utf-8\")';     printf '{\"SPDXID\":\"SPDXRef-DOCUMENT\",\"spdxVersion\":\"SPDX-2.3\",\"name\":\"textlayout-klayout-placeholder\",\"comment\":\"Real image SBOM is generated after image build with docker sbom/Syft and stored as an audit artifact; this file is not a complete SBOM.\"}\\n' \u003e /opt/textlayout/sbom.spdx.json;     chown -R appuser:appuser /solver-output /opt/textlayout # buildkit",
+          "created": "2026-07-13T16:39:59Z",
+          "created_by": "RUN |6 SOURCE_REVISION=14811db234d4eb6ea663180d142532bc9d87f965 KLAYOUT_VERSION=0.30.9 KLAYOUT_COMMIT=6270877110ef808dd442fd2244164cec06a7b10e KLAYOUT_SHA256=2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63 KLAYOUT_DEB_URL=https://www.klayout.org/downloads/Ubuntu-24/klayout_0.30.9-1_amd64.deb KLAYOUT_DEB_SHA256=a5e50f194edc6893caa26b0b76764a9c2b3ab4a9f8fa5a9ca0fe471381d702eb /bin/sh -c set -eux;     apt-get update;     apt-get install -y --no-install-recommends ca-certificates curl python3 tini;     curl -fsSL \"${KLAYOUT_DEB_URL}\" -o /tmp/klayout.deb;     echo \"${KLAYOUT_DEB_SHA256}  /tmp/klayout.deb\" | sha256sum -c -;     apt-get install -y --no-install-recommends /tmp/klayout.deb;     rm -f /tmp/klayout.deb;     rm -rf /var/lib/apt/lists/*;     useradd --create-home --uid 10001 appuser;     mkdir -p /opt/textlayout /solver-output;     command -v klayout;     klayout -b -v;     KLAYOUT_BIN=\"$(command -v klayout)\";     KLAYOUT_BIN_SHA256=\"$(sha256sum \"$KLAYOUT_BIN\" | awk '{print $1}')\";     export KLAYOUT_BIN KLAYOUT_BIN_SHA256 KLAYOUT_VERSION KLAYOUT_COMMIT KLAYOUT_SHA256 KLAYOUT_DEB_URL KLAYOUT_DEB_SHA256 SOURCE_REVISION;     python3 -c 'import json, os, pathlib, subprocess; payload={\"tool\":\"KLayout\",\"version\":os.environ[\"KLAYOUT_VERSION\"],\"upstream_commit\":os.environ[\"KLAYOUT_COMMIT\"],\"source_archive_sha256\":os.environ[\"KLAYOUT_SHA256\"],\"deb_url\":os.environ[\"KLAYOUT_DEB_URL\"],\"deb_sha256\":os.environ[\"KLAYOUT_DEB_SHA256\"],\"source_revision\":os.environ[\"SOURCE_REVISION\"],\"executable\":os.environ[\"KLAYOUT_BIN\"],\"executable_sha256\":os.environ[\"KLAYOUT_BIN_SHA256\"],\"identity_command\":[\"klayout\",\"-b\",\"-v\"],\"identity_stdout\":subprocess.check_output([\"klayout\",\"-b\",\"-v\"], text=True).strip(),\"status\":\"IDENTITY_VERIFIED\"}; pathlib.Path(\"/opt/textlayout/tool-identity.json\").write_text(json.dumps(payload, indent=2)+\"\\n\", encoding=\"utf-8\")';     printf '{\"SPDXID\":\"SPDXRef-DOCUMENT\",\"spdxVersion\":\"SPDX-2.3\",\"name\":\"textlayout-klayout-placeholder\",\"comment\":\"Real image SBOM is generated after image build with docker sbom/Syft and stored as an audit artifact; this file is not a complete SBOM.\"}\\n' \u003e /opt/textlayout/sbom.spdx.json;     chown -R appuser:appuser /solver-output /opt/textlayout # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "USER appuser",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "VOLUME [/solver-output]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "ENTRYPOINT [\"/usr/bin/tini\" \"--\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2026-07-13T15:12:30Z",
+          "created": "2026-07-13T16:39:59Z",
           "created_by": "CMD [\"sh\" \"-lc\" \"klayout -b -v \u0026\u0026 cat /opt/textlayout/tool-identity.json\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
@@ -131,7 +131,7 @@
         "type": "layers",
         "diff_ids": [
           "sha256:f103cd120fdd6cbc7f3d0e1d5bfb3e16290c32ead7b822d15c34460ecdf64b29",
-          "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+          "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
         ]
       },
       "config": {
@@ -150,7 +150,7 @@
         "Labels": {
           "org.opencontainers.image.description": "Pinned KLayout runtime for headless DRC/LVS smoke",
           "org.opencontainers.image.licenses": "GPL-3.0-or-later",
-          "org.opencontainers.image.revision": "242dc317c3463352478919468cf0c78728106be2",
+          "org.opencontainers.image.revision": "14811db234d4eb6ea663180d142532bc9d87f965",
           "org.opencontainers.image.source": "https://github.com/JungluChen/Text-to-Layout",
           "org.opencontainers.image.title": "Textlayout KLayout boundary",
           "org.opencontainers.image.version": "0.30.9"
@@ -170,14 +170,14 @@
       },
       {
         "Size": 623077376,
-        "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-        "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+        "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+        "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
       }
     ]
   },
   "Results": [
     {
-      "Target": "textlayout/klayout:local (ubuntu 24.04)",
+      "Target": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c (ubuntu 24.04)",
       "Class": "os-pkgs",
       "Type": "ubuntu",
       "Packages": [
@@ -682,8 +682,8 @@
             "openssl@3.0.13-0ubuntu3.11"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/sbin/update-ca-certificates",
@@ -1116,8 +1116,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/curl",
@@ -1848,8 +1848,8 @@
             "libfreetype6@2.13.2+dfsg-1ubuntu0.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/fc-cache",
@@ -1901,8 +1901,8 @@
             "fonts-dejavu-core@2.37-8"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/fontconfig-config/changelog.Debian.gz",
@@ -1983,8 +1983,8 @@
             "fonts-dejavu-mono@2.37-8"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/fonts-dejavu-core/copyright",
@@ -2018,8 +2018,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/fonts-dejavu-mono/AUTHORS",
@@ -2349,8 +2349,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/./usr/bin/klayout",
@@ -2532,8 +2532,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libapparmor.so.1.17.2",
@@ -2703,8 +2703,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1",
@@ -2856,8 +2856,8 @@
             "libdbus-1-3@1.14.10-4ubuntu4.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9",
@@ -2888,8 +2888,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/avahi/service-types.db",
@@ -2927,8 +2927,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libavahi-common.so.3.5.4",
@@ -3009,8 +3009,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libbrotlicommon.so.1.1.0",
@@ -3060,8 +3060,8 @@
             "libmd0@1.1.0-2build1.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libbsd.so.0.12.1",
@@ -3672,8 +3672,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libcups.so.2",
@@ -3730,8 +3730,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libcurl.so.4.8.0",
@@ -3823,8 +3823,8 @@
             "libsystemd0@255.4-1ubuntu8.16"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libdbus-1.so.3.32.4",
@@ -3896,8 +3896,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libdouble-conversion.so.3.1",
@@ -3929,8 +3929,8 @@
             "libdrm2@2.4.125-1ubuntu0.1~24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libdrm_amdgpu.so.1.125.0",
@@ -3956,8 +3956,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/libdrm-common/changelog.Debian.gz",
@@ -3989,8 +3989,8 @@
             "libpciaccess0@0.17-3ubuntu0.24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.125.0",
@@ -4020,8 +4020,8 @@
             "libdrm-common@2.4.125-1ubuntu0.1~24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libdrm.so.2.125.0",
@@ -4056,8 +4056,8 @@
             "libtinfo6@6.4+20240113-1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libedit.so.2.0.72",
@@ -4121,8 +4121,8 @@
             "mesa-libgallium@25.2.8-0ubuntu0.24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0.0.0",
@@ -4165,8 +4165,8 @@
             "libglvnd0@1.7.0-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libEGL.so.1.1.0",
@@ -4212,8 +4212,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libelf-0.190.so",
@@ -4250,8 +4250,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libevdev.so.2.3.0",
@@ -4284,8 +4284,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libexpat.so.1.9.1",
@@ -4416,8 +4416,8 @@
             "libogg0@1.3.5-3build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libFLAC.so.12.1.0",
@@ -4451,8 +4451,8 @@
             "libfreetype6@2.13.2+dfsg-1ubuntu0.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libfontconfig.so.1.12.1",
@@ -4501,8 +4501,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libfreetype.so.6.20.1",
@@ -4553,8 +4553,8 @@
             "mesa-libgallium@25.2.8-0ubuntu0.24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/gbm/dri_gbm.so",
@@ -4678,8 +4678,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libgit2.so.1.7.2",
@@ -4720,8 +4720,8 @@
             "libglx0@1.7.0-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libGL.so.1.7.0",
@@ -4770,8 +4770,8 @@
             "libvulkan1@1.3.275.0-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/dri/libdril_dri.so",
@@ -4835,8 +4835,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/glib-2.0/gio-launch-desktop",
@@ -4886,8 +4886,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0.0.0",
@@ -4950,8 +4950,8 @@
             "mesa-libgallium@25.2.8-0ubuntu0.24.04.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0",
@@ -4994,8 +4994,8 @@
             "libx11-6@2:1.8.7-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0",
@@ -5178,8 +5178,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libgraphite2.so.3.2.1",
@@ -5216,8 +5216,8 @@
             "libkrb5support0@1.20.1-6ubuntu2.6"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2",
@@ -5254,8 +5254,8 @@
             "libudev1@255.4-1ubuntu8.16"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libgudev-1.0.so.0.3.0",
@@ -5309,8 +5309,8 @@
             "libgraphite2-3@1.3.14-2ubuntu0.24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.60830.0",
@@ -5388,8 +5388,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libhttp_parser.so.2.9.4",
@@ -5425,8 +5425,8 @@
             "x11-common@1:7.7+23ubuntu3"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libICE.so.6.3.0",
@@ -5462,8 +5462,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libicudata.so.74.2",
@@ -5551,8 +5551,8 @@
             "libwacom9@2.10.0-2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/lib/udev/libinput-device-group",
@@ -5639,8 +5639,8 @@
             "libwacom9@2.10.0-2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libinput.so.10.13.0",
@@ -5676,8 +5676,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libjpeg.so.8.2.2",
@@ -5711,8 +5711,8 @@
             "libjpeg-turbo8@2.1.5-2ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/libjpeg8/changelog.Debian.gz",
@@ -5745,8 +5745,8 @@
             "libkrb5support0@1.20.1-6ubuntu2.6"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libk5crypto.so.3.1",
@@ -5781,8 +5781,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libkeyutils.so.1.10",
@@ -5820,8 +5820,8 @@
             "libssl3t64@3.0.13-0ubuntu3.11"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/krb5/plugins/preauth/spake.so",
@@ -5857,8 +5857,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libkrb5support.so.0.1",
@@ -5917,8 +5917,8 @@
             "libsasl2-2@2.1.28+dfsg1-5ubuntu3.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/liblber.so.2.0.200",
@@ -5967,8 +5967,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libLLVM.so.20.1",
@@ -6134,8 +6134,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libmd4c.so.0.4.8",
@@ -6225,8 +6225,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libmp3lame.so.0.0.0",
@@ -6259,8 +6259,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libmpg123.so.0.48.2",
@@ -6294,8 +6294,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libmtdev.so.1.0.0",
@@ -6329,8 +6329,8 @@
             "libtinfo6@6.4+20240113-1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libform.so.6.4",
@@ -6362,8 +6362,8 @@
             "libtinfo6@6.4+20240113-1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libformw.so.6.4",
@@ -6446,8 +6446,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libnghttp2.so.14.26.0",
@@ -6520,8 +6520,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libogg.so.0.8.5",
@@ -6555,8 +6555,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libopus.so.0.9.0",
@@ -6953,8 +6953,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1",
@@ -6991,8 +6991,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpcre2-16.so.0.11.2",
@@ -7072,8 +7072,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpng16.so.16.43.0",
@@ -7159,8 +7159,8 @@
             "libunistring5@1.1-2build1.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpsl.so.5.3.4",
@@ -7210,8 +7210,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpulse-simple.so.0.1.1",
@@ -7245,8 +7245,8 @@
             "libpython3.12-stdlib@3.12.3-1ubuntu0.15"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/libpython3-stdlib/README.Debian",
@@ -7290,8 +7290,8 @@
             "libssl3t64@3.0.13-0ubuntu3.11"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/python3.12/__future__.py",
@@ -7613,8 +7613,8 @@
             "tzdata@2026b-0ubuntu0.24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/python3.12/EXTERNALLY-MANAGED",
@@ -7990,8 +7990,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libpython3.12.so.1.0",
@@ -8058,8 +8058,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.13",
@@ -8122,8 +8122,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5DBus.so.5.15.13",
@@ -8169,8 +8169,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Designer.so.5.15.13",
@@ -8272,8 +8272,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5EglFSDeviceIntegration.so.5.15.13",
@@ -8346,8 +8346,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Multimedia.so.5.15.13",
@@ -8394,8 +8394,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5MultimediaWidgets.so.5.15.13",
@@ -8458,8 +8458,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Network.so.5.15.13",
@@ -8525,8 +8525,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5OpenGL.so.5.15.13",
@@ -8590,8 +8590,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5PrintSupport.so.5.15.13",
@@ -8653,8 +8653,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Sql.so.5.15.13",
@@ -8700,8 +8700,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Svg.so.5.15.13",
@@ -8766,8 +8766,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13",
@@ -8828,8 +8828,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5Xml.so.5.15.13",
@@ -8874,8 +8874,8 @@
             "libstdc++6@14.2.0-4ubuntu2~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libQt5XmlPatterns.so.5.15.13",
@@ -8916,8 +8916,8 @@
             "readline-common@8.2-4build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libhistory.so.8.2",
@@ -8958,8 +8958,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/librtmp.so.1",
@@ -8993,8 +8993,8 @@
             "libruby3.2@3.2.3-1ubuntu0.24.04.8"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/libruby/changelog.gz",
@@ -9058,8 +9058,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/ruby/3.2.0/English.rb",
@@ -11173,8 +11173,8 @@
             "libssl3t64@3.0.13-0ubuntu3.11"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25",
@@ -11225,8 +11225,8 @@
             "libdb5.3t64@5.3.28+dfsg2-7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25",
@@ -11405,8 +11405,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/libsensors-config/changelog.Debian.gz",
@@ -11442,8 +11442,8 @@
             "libsensors-config@1:3.6.0-9build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libsensors.so.5.0.0",
@@ -11516,8 +11516,8 @@
             "libuuid1@2.39.3-9ubuntu6.5"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libSM.so.6.0.1",
@@ -11620,8 +11620,8 @@
             "libvorbisenc2@1.3.7-1build3"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37",
@@ -11656,8 +11656,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6",
@@ -11741,8 +11741,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libssh.so.4.9.6",
@@ -11779,8 +11779,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libssh2.so.1.0.1",
@@ -11984,8 +11984,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libtic.so.6.4",
@@ -12157,8 +12157,8 @@
             "libogg0@1.3.5-3build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.9",
@@ -12194,8 +12194,8 @@
             "libvorbis0a@1.3.7-1build3"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.12",
@@ -12228,8 +12228,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libvulkan.so.1.3.275",
@@ -12260,8 +12260,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/udev/hwdb.d/65-libwacom.hwdb",
@@ -12781,8 +12781,8 @@
             "libwacom-common@2.10.0-2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libwacom.so.9.0.0",
@@ -12816,8 +12816,8 @@
             "libffi8@3.4.6-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libwayland-client.so.0.22.0",
@@ -12851,8 +12851,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0",
@@ -12882,8 +12882,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/X11/XErrorDB",
@@ -13105,8 +13105,8 @@
             "libx11-6@2:1.8.7-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0",
@@ -13137,8 +13137,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libXau.so.6.0.0",
@@ -13169,8 +13169,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.1.0",
@@ -13200,8 +13200,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0",
@@ -13236,8 +13236,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-icccm.so.4.0.0",
@@ -13277,8 +13277,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-image.so.0.0.0",
@@ -13314,8 +13314,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-keysyms.so.1.0.0",
@@ -13348,8 +13348,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0",
@@ -13379,8 +13379,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-randr.so.0.1.0",
@@ -13416,8 +13416,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-render-util.so.0.0.0",
@@ -13450,8 +13450,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0",
@@ -13481,8 +13481,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-shape.so.0.0.0",
@@ -13512,8 +13512,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0",
@@ -13543,8 +13543,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0",
@@ -13579,8 +13579,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-util.so.1.0.0",
@@ -13611,8 +13611,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-xfixes.so.0.0.0",
@@ -13642,8 +13642,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-xinerama.so.0.0.0",
@@ -13673,8 +13673,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-xinput.so.0.1.0",
@@ -13704,8 +13704,8 @@
             "libxcb1@1.15-1ubuntu2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb-xkb.so.1.0.0",
@@ -13736,8 +13736,8 @@
             "libxdmcp6@1:1.1.3-0ubuntu6"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0",
@@ -13770,8 +13770,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0",
@@ -13804,8 +13804,8 @@
             "libx11-6@2:1.8.7-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0",
@@ -13838,8 +13838,8 @@
             "libxkbcommon0@1.6.0-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxkbcommon-x11.so.0.0.0",
@@ -13869,8 +13869,8 @@
             "xkb-data@2.41-2ubuntu1.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxkbcommon.so.0.0.0",
@@ -13907,8 +13907,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxml2.so.2.9.14",
@@ -13944,8 +13944,8 @@
             "libx11-6@2:1.8.7-1build1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0",
@@ -13975,8 +13975,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0",
@@ -14010,8 +14010,8 @@
             "libxext6@2:1.3.4-1build2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0",
@@ -14081,8 +14081,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libyaml-0.so.2.0.9",
@@ -14373,8 +14373,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/bug/media-types/presubj",
@@ -14440,8 +14440,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/libgallium-25.2.8-0ubuntu0.24.04.2.so",
@@ -14539,8 +14539,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/ncurses-base/FAQ",
@@ -14619,8 +14619,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/clear",
@@ -14667,8 +14667,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/netbase/changelog.gz",
@@ -14698,8 +14698,8 @@
             "libssl3t64@3.0.13-0ubuntu3.11"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/c_rehash",
@@ -16140,8 +16140,8 @@
             "python3.12@3.12.3-1ubuntu0.15"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/valgrind/python3.supp",
@@ -16176,8 +16176,8 @@
             "dpkg@1.22.6ubuntu6.6"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/py3clean",
@@ -16235,8 +16235,8 @@
             "tzdata@2026b-0ubuntu0.24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/pydoc3.12",
@@ -16293,8 +16293,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/python3.12",
@@ -16328,8 +16328,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/rake",
@@ -16425,8 +16425,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/readline-common/changelog.Debian.gz",
@@ -16467,8 +16467,8 @@
             "ruby3.2@3.2.3-1ubuntu0.24.04.8"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/ruby/README.Debian",
@@ -16497,8 +16497,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/ruby-net-telnet/README.md",
@@ -16533,8 +16533,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/gem",
@@ -16781,8 +16781,8 @@
             "libruby@1:3.2~ubuntu1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/x86_64-linux-gnu/rubygems-integration/3.2.0/extensions/x86_64-linux-gnu/3.2.0/sdbm-1.0.0/gem.build_complete",
@@ -16816,8 +16816,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/ruby-webrick/README.md",
@@ -16886,8 +16886,8 @@
             "ruby-webrick@1.8.1-1ubuntu0.2"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/ruby/vendor_ruby/xmlrpc.rb",
@@ -16954,8 +16954,8 @@
             "zlib1g@1:1.3.dfsg-3.1ubuntu2.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/bundle3.2",
@@ -17010,8 +17010,8 @@
             "ca-certificates@20260601~24.04.1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/lib/ruby/vendor_ruby/rubygems/defaults/operating_system.rb",
@@ -17154,8 +17154,8 @@
             "libxml2@2.9.14+dfsg-1.3ubuntu3.8"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/update-mime-database",
@@ -17299,8 +17299,8 @@
             "libc6@2.39-0ubuntu8.7"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/bin/tini",
@@ -17335,8 +17335,8 @@
             "debconf@1.5.86ubuntu1"
           ],
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/tzdata/NEWS.Debian.gz",
@@ -18211,8 +18211,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/doc/x11-common/changelog.gz",
@@ -18242,8 +18242,8 @@
             "Class": "official"
           },
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "InstalledFiles": [
             "/usr/share/X11/xkb/compat/README",
@@ -18604,7 +18604,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:1dffff2fd968915cacbe863d810cbb86b38f0bfd1d2d3e7247abc64c06082a53",
+          "Fingerprint": "sha256:ada20920f13e089d66dd463ddc9b0991b316f2b92be6099f0bd6b9cc0d5b97d5",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -18665,7 +18665,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:2d062fc265b29e82b3358419d6b73c385459075270911c1b3f4474f8fc637d36",
+          "Fingerprint": "sha256:9f30ddfe027b3ccb041aa4ae97d39353b7ac5d447344eb61e83dcdb93ea08b21",
           "Title": "gzip: gzip: Arbitrary file overwrite via insecure temporary file handling in gzexe utility",
           "Description": "GNU gzip contains a vulnerability in the gzexe utility related to insecure temporary file handling. When the mktemp utility is not available in the user’s PATH, gzexe falls back to constructing a temporary file path based solely on the process ID (PID). This predictable filename is created without exclusive access or existence checks.\nA local attacker can pre‑create the predicted temporary file path as a symbolic link pointing to an arbitrary file writable by the victim. When gzexe runs, it follows the symlink and overwrites the target file, resulting in a time‑of‑check to time‑of‑use (TOCTOU) condition that allows arbitrary file overwrite.\n\nThis issue has been fixed in the commit 4e6f8b24ab823146ab8776f0b7fe486ab34d4269",
           "Severity": "MEDIUM",
@@ -18721,7 +18721,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:68573c343f4e00ffdaf5ec1b7dd95e892a47c02cc15060fd62d1c95c343b5ff4",
+          "Fingerprint": "sha256:c27c3edc1ba8154f3c5e9477e08ea3b4214d45962cbe4640f0a2f72bc6bf00d4",
           "Title": "GNU gzip contains a global buffer overflow vulnerability in the LZH de ...",
           "Description": "GNU gzip contains a global buffer overflow vulnerability in the LZH decompression logic caused by improper reuse of shared global state between different decompression formats within a single execution. GNU gzip maintains a global array that is shared across the LZ77, LZW, and LZH decompression routines and is not reinitialized between files processed in the same invocation.\nBy decompressing a specially crafted LZW file followed by a specially crafted LZH file in a single gzip -d command, an attacker can poison the shared global state and subsequently trigger an out‑of‑bounds read in the LZH decoder. The LZH decompression logic follows stale values left in the shared array, causing reads past the end of the allocated global buffer.\n\nThis issue has been fixed in the commit 63dbf6b3b9e6e781df1a6a64e609b10e23969681",
           "Severity": "MEDIUM",
@@ -18761,8 +18761,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-59529",
@@ -18771,7 +18771,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:4d69e2eb591f6ef50f0f227eb353b46bca05b26a510f86195aa50cae66dae0af",
+          "Fingerprint": "sha256:047be44138b1fb7038d0db0e81333d2c553de4f8d68cf1a93aa16059ab5a51c2",
           "Title": "avahi: simple clients denial-of-service",
           "Description": "Avahi is a system which facilitates service discovery on a local network via the mDNS/DNS-SD protocol suite. In versions up to and including 0.9-rc2, the simple protocol server ignores the documented client limit and accepts unlimited connections, allowing for easy local DoS. Although `CLIENTS_MAX` is defined, `server_work()` unconditionally `accept()`s and `client_new()` always appends the new client and increments `n_clients`. There is no check against the limit. When client cannot be accepted as a result of maximal socket number of avahi-daemon, it logs unconditionally error per each connection. Unprivileged local users can exhaust daemon memory and file descriptors, causing a denial of service system-wide for mDNS/DNS-SD. Exhausting local file descriptors causes increased system load caused by logging errors of each of request. Overloading prevents glibc calls using nss-mdns plugins to resolve `*.local.` names and link-local addresses. As of time of publication, no known patched versions are available, but a candidate fix is available in pull request 808, and some workarounds are available. Simple clients are offered for nss-mdns package functionality. It is not possible to disable the unix socket `/run/avahi-daemon/socket`, but resolution requests received via DBus are not affected directly. Tools avahi-resolve, avahi-resolve-address and avahi-resolve-host-name are not affected, they use DBus interface. It is possible to change permissions of unix socket after avahi-daemon is started. But avahi-daemon does not provide any configuration for it. Additional access restrictions like SELinux can also prevent unwanted tools to access the socket and keep resolution working for trusted users.",
           "Severity": "MEDIUM",
@@ -18811,8 +18811,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52615",
@@ -18821,7 +18821,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:11bca6077ef3cc84b1937bd6f2bdbef56c91d4ce640162776c204a1c30ce109d",
+          "Fingerprint": "sha256:e18e230ec10979abfb57ef8470978bf58a2ac43de3d82a8393b679cb70132897",
           "Title": "avahi: Avahi Wide-Area DNS Uses Constant Source Port",
           "Description": "A flaw was found in Avahi-daemon, which relies on fixed source ports for wide-area DNS queries. This issue simplifies attacks where malicious DNS responses are injected.",
           "Severity": "LOW",
@@ -18870,8 +18870,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52616",
@@ -18880,7 +18880,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:51817fd1802580a64bcfa7f164204e7a7dd18f337086e3ee91b6d59e1487eb27",
+          "Fingerprint": "sha256:63acbe8bb51faad150aac9673cf21ab168e17233464dae0112cb7d3cac3fe988",
           "Title": "avahi: Avahi Wide-Area DNS Predictable Transaction IDs",
           "Description": "A flaw was found in the Avahi-daemon, where it initializes DNS transaction IDs randomly only once at startup, incrementing them sequentially after that. This predictable behavior facilitates DNS spoofing attacks, allowing attackers to guess transaction IDs.",
           "Severity": "LOW",
@@ -18933,8 +18933,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-59529",
@@ -18943,7 +18943,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:743bb3ca3e190162b3ce22d95486ddccb3d0e01105ead8bf0cdd329479fbfabf",
+          "Fingerprint": "sha256:c788885fa3e6558b73d77deb8cd178e4171931f35b4cbbbf9d212fda2fd7b923",
           "Title": "avahi: simple clients denial-of-service",
           "Description": "Avahi is a system which facilitates service discovery on a local network via the mDNS/DNS-SD protocol suite. In versions up to and including 0.9-rc2, the simple protocol server ignores the documented client limit and accepts unlimited connections, allowing for easy local DoS. Although `CLIENTS_MAX` is defined, `server_work()` unconditionally `accept()`s and `client_new()` always appends the new client and increments `n_clients`. There is no check against the limit. When client cannot be accepted as a result of maximal socket number of avahi-daemon, it logs unconditionally error per each connection. Unprivileged local users can exhaust daemon memory and file descriptors, causing a denial of service system-wide for mDNS/DNS-SD. Exhausting local file descriptors causes increased system load caused by logging errors of each of request. Overloading prevents glibc calls using nss-mdns plugins to resolve `*.local.` names and link-local addresses. As of time of publication, no known patched versions are available, but a candidate fix is available in pull request 808, and some workarounds are available. Simple clients are offered for nss-mdns package functionality. It is not possible to disable the unix socket `/run/avahi-daemon/socket`, but resolution requests received via DBus are not affected directly. Tools avahi-resolve, avahi-resolve-address and avahi-resolve-host-name are not affected, they use DBus interface. It is possible to change permissions of unix socket after avahi-daemon is started. But avahi-daemon does not provide any configuration for it. Additional access restrictions like SELinux can also prevent unwanted tools to access the socket and keep resolution working for trusted users.",
           "Severity": "MEDIUM",
@@ -18983,8 +18983,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52615",
@@ -18993,7 +18993,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:9817d002c897044beebae25ea4979123c9bdd33a3893a4735c15cb89b12d9819",
+          "Fingerprint": "sha256:efdec0a2529b78b0b935bc9b206fc3c5a269530e9fe2903fec1768cdb358f0e6",
           "Title": "avahi: Avahi Wide-Area DNS Uses Constant Source Port",
           "Description": "A flaw was found in Avahi-daemon, which relies on fixed source ports for wide-area DNS queries. This issue simplifies attacks where malicious DNS responses are injected.",
           "Severity": "LOW",
@@ -19042,8 +19042,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52616",
@@ -19052,7 +19052,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:6d92a6c990b1bfb4d60facc739ab7cdac5a54c5f0f208c607e26c5c3df69e78a",
+          "Fingerprint": "sha256:76ffafd228ab826dcb0acc401739b3a8c023582f5437b092c52345dd86682103",
           "Title": "avahi: Avahi Wide-Area DNS Predictable Transaction IDs",
           "Description": "A flaw was found in the Avahi-daemon, where it initializes DNS transaction IDs randomly only once at startup, incrementing them sequentially after that. This predictable behavior facilitates DNS spoofing attacks, allowing attackers to guess transaction IDs.",
           "Severity": "LOW",
@@ -19105,8 +19105,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-59529",
@@ -19115,7 +19115,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:614053d0ec60f9887df09a701aa571b25620015c56ccfcf7fffe4d8cbf062d82",
+          "Fingerprint": "sha256:961cecac524e5e6424fa218fecd2605639138ccb20f86575484f3ec83af252d4",
           "Title": "avahi: simple clients denial-of-service",
           "Description": "Avahi is a system which facilitates service discovery on a local network via the mDNS/DNS-SD protocol suite. In versions up to and including 0.9-rc2, the simple protocol server ignores the documented client limit and accepts unlimited connections, allowing for easy local DoS. Although `CLIENTS_MAX` is defined, `server_work()` unconditionally `accept()`s and `client_new()` always appends the new client and increments `n_clients`. There is no check against the limit. When client cannot be accepted as a result of maximal socket number of avahi-daemon, it logs unconditionally error per each connection. Unprivileged local users can exhaust daemon memory and file descriptors, causing a denial of service system-wide for mDNS/DNS-SD. Exhausting local file descriptors causes increased system load caused by logging errors of each of request. Overloading prevents glibc calls using nss-mdns plugins to resolve `*.local.` names and link-local addresses. As of time of publication, no known patched versions are available, but a candidate fix is available in pull request 808, and some workarounds are available. Simple clients are offered for nss-mdns package functionality. It is not possible to disable the unix socket `/run/avahi-daemon/socket`, but resolution requests received via DBus are not affected directly. Tools avahi-resolve, avahi-resolve-address and avahi-resolve-host-name are not affected, they use DBus interface. It is possible to change permissions of unix socket after avahi-daemon is started. But avahi-daemon does not provide any configuration for it. Additional access restrictions like SELinux can also prevent unwanted tools to access the socket and keep resolution working for trusted users.",
           "Severity": "MEDIUM",
@@ -19155,8 +19155,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52615",
@@ -19165,7 +19165,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:cc94bd5e6b8923b3474085ee98e75f25a16b3fec7b8c25220d25a2b3478ac218",
+          "Fingerprint": "sha256:b3ba84be523eca269aa1e4b6d1bb624659a234ffcc4416f6719277455dd571a7",
           "Title": "avahi: Avahi Wide-Area DNS Uses Constant Source Port",
           "Description": "A flaw was found in Avahi-daemon, which relies on fixed source ports for wide-area DNS queries. This issue simplifies attacks where malicious DNS responses are injected.",
           "Severity": "LOW",
@@ -19214,8 +19214,8 @@
           "InstalledVersion": "0.8-13ubuntu6.2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-52616",
@@ -19224,7 +19224,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:de788a5aefbd7ca95083546f0f0325dacee333105b53966f2294fdeebabdd67c",
+          "Fingerprint": "sha256:fb92544d83ca9380125a4ec1095c7f65d170a1c4310a1e9260a57aabba1e10fd",
           "Title": "avahi: Avahi Wide-Area DNS Predictable Transaction IDs",
           "Description": "A flaw was found in the Avahi-daemon, where it initializes DNS transaction IDs randomly only once at startup, incrementing them sequentially after that. This predictable behavior facilitates DNS spoofing attacks, allowing attackers to guess transaction IDs.",
           "Severity": "LOW",
@@ -19287,7 +19287,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:1b6c0992c7c67941f79cf9dbe9187f30c4a5f6153083c5e652d41e79f0654192",
+          "Fingerprint": "sha256:d6eabe1c7c1671e375e16e9ee3fc5cf0405188866e4826fa71563c0baef763fa",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -19347,7 +19347,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:bae1f40a61c862ea0ec890e632876628d3c96d9e1593cb9581150c4fc8962eab",
+          "Fingerprint": "sha256:5fbf817c92e0d69432df9ddde9b353349cdd15d5491dfdb7378abb75f52d6072",
           "Title": "glibc: glibc: Denial of Service via iconv() function with specific character sets",
           "Description": "The iconv() function in the GNU C Library versions 2.43 and earlier may crash due to an assertion failure when converting inputs from the IBM1390 or IBM1399 character sets, which may be used to remotely crash an application.\n\n\n\nThis vulnerability can be trivially mitigated by removing the IBM1390 and IBM1399 character sets from systems that do not need them.",
           "Severity": "MEDIUM",
@@ -19418,7 +19418,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:1601b654b9d32702f52fd0208cff4fa2db20f8e02a82fec8e7def9b1b22e3e60",
+          "Fingerprint": "sha256:c8f42597a5cc32732972e72f01228b232dd58f3a8d43930203345732f13444f0",
           "Title": "glibc: glibc: Incorrect DNS response parsing via crafted DNS server response",
           "Description": "Calling gethostbyaddr or gethostbyaddr_r with a configured nsswitch.conf that specifies the library's DNS backend in the GNU C Library version 2.34 to version 2.43 could, with a crafted response from the configured DNS server, result in a violation of the DNS specification that causes the application to treat a non-answer section of the DNS response as a valid answer.",
           "Severity": "MEDIUM",
@@ -19485,7 +19485,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:8666c42bf01ae71ca96ef5dee5ff3af66f5644a05425765122d95f2b29311055",
+          "Fingerprint": "sha256:7aee5fd5fc9ca99427173cb2975e75d39e0eb1bd2bc26166b5567072692e9226",
           "Title": "glibc: glibc: Invalid DNS hostname returned via gethostbyaddr functions",
           "Description": "Calling gethostbyaddr or gethostbyaddr_r with a configured nsswitch.conf that specifies the library's DNS backend in the GNU C library version 2.34 to version 2.43 could result in an invalid DNS hostname being returned to the caller in violation of the DNS specification.",
           "Severity": "MEDIUM",
@@ -19553,7 +19553,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:2e7a7d854f27899024eb501485369da96db05399ac4bd849a20d825a03dd7271",
+          "Fingerprint": "sha256:07736e94bca1676ad9adf7e3580f13692e0c313c92dec0585c9532050adf118c",
           "Title": "glibc: glibc: Out-of-bounds write via TSIG record processing",
           "Description": "The deprecated functions ns_printrrf, ns_printrr and fp_nquery in the GNU C Library version 2.2 and newer fail to enforce the caller-supplied buffer length, and can result in an out-of-bounds write when printing TSIG records.",
           "Severity": "MEDIUM",
@@ -19603,7 +19603,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:e7d3ba247f041e91239e4387329d6919b040c2fa0abf28e76cfa73b581aed860",
+          "Fingerprint": "sha256:9c0f552d14daa85fcf5eeed5ff7ecfe9837c24e2d5a19a587e8aa4f362254275",
           "Title": "glibc: glibc: Application crash or uninitialized memory read via crafted DNS response",
           "Description": "The deprecated functions ns_printrrf, ns_printrr and fp_nquery in the GNU C Library version 2.0.1 to version 2.43 fail to validate the RDATA content against the RDATA length in a DNS response when processing A6, CERT, LOC, TKEY or TSIG records, which may allow an attacker to craft a DNS response, causing a target application to crash or read uninitialized memory.\n\nThese functions are for application debugging only and hence not in the path of code executed by the DNS resolver.  Further, they have been deprecated since version 2.34 and should not be used by any new applications.  Applications should consider porting away from these interfaces since they may be removed in future versions.",
           "Severity": "MEDIUM",
@@ -19653,7 +19653,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:83ba5485d1984acbe2b757c8e9229bd09544a81a7244c025b8b6fb798f09c29f",
+          "Fingerprint": "sha256:1b9fc5dd590e769da09dc282c7b97285f0ec63a8b1634ac86ff0755acbbd2af9",
           "Title": "glibc: glibc: Denial of Service via iconv() function with specific character sets",
           "Description": "The iconv() function in the GNU C Library versions 2.43 and earlier may crash due to an assertion failure when converting inputs from the IBM1390 or IBM1399 character sets, which may be used to remotely crash an application.\n\n\n\nThis vulnerability can be trivially mitigated by removing the IBM1390 and IBM1399 character sets from systems that do not need them.",
           "Severity": "MEDIUM",
@@ -19724,7 +19724,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:21f6fe0534fb1d55f8b8e8e0e77380c312bb4b564275db657c8666f6c753ece9",
+          "Fingerprint": "sha256:6f01dd04394ead10eeab2aa3fca6c6a5accd11d2138fd8e0376697608ecd0f98",
           "Title": "glibc: glibc: Incorrect DNS response parsing via crafted DNS server response",
           "Description": "Calling gethostbyaddr or gethostbyaddr_r with a configured nsswitch.conf that specifies the library's DNS backend in the GNU C Library version 2.34 to version 2.43 could, with a crafted response from the configured DNS server, result in a violation of the DNS specification that causes the application to treat a non-answer section of the DNS response as a valid answer.",
           "Severity": "MEDIUM",
@@ -19791,7 +19791,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:38ee02e2ef82a8eaf67ce2aff153eba5477845eea305208bff0708851d9ac3de",
+          "Fingerprint": "sha256:04b276dbaed17dd2f4558a848801928ffa4564f5ddea1afdb7c7ae5a565d6423",
           "Title": "glibc: glibc: Invalid DNS hostname returned via gethostbyaddr functions",
           "Description": "Calling gethostbyaddr or gethostbyaddr_r with a configured nsswitch.conf that specifies the library's DNS backend in the GNU C library version 2.34 to version 2.43 could result in an invalid DNS hostname being returned to the caller in violation of the DNS specification.",
           "Severity": "MEDIUM",
@@ -19859,7 +19859,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:033d9099e011801a9c588424033095cb692dffa9540f20d3b4f024c33523c407",
+          "Fingerprint": "sha256:b33a0a23178e90a7bcd4a867140c5cf28c2572f7b92205784f78eb4f78ae3b88",
           "Title": "glibc: glibc: Out-of-bounds write via TSIG record processing",
           "Description": "The deprecated functions ns_printrrf, ns_printrr and fp_nquery in the GNU C Library version 2.2 and newer fail to enforce the caller-supplied buffer length, and can result in an out-of-bounds write when printing TSIG records.",
           "Severity": "MEDIUM",
@@ -19909,7 +19909,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:5892a958b493baa6ce5aae9d34f1c7ff0b0f29367b2fa4fc24873f6145b65a78",
+          "Fingerprint": "sha256:acfec44b075b700c259a3fc8f9ac3dd61dbf57369e03a8a34d2624c758f324bb",
           "Title": "glibc: glibc: Application crash or uninitialized memory read via crafted DNS response",
           "Description": "The deprecated functions ns_printrrf, ns_printrr and fp_nquery in the GNU C Library version 2.0.1 to version 2.43 fail to validate the RDATA content against the RDATA length in a DNS response when processing A6, CERT, LOC, TKEY or TSIG records, which may allow an attacker to craft a DNS response, causing a target application to crash or read uninitialized memory.\n\nThese functions are for application debugging only and hence not in the path of code executed by the DNS resolver.  Further, they have been deprecated since version 2.34 and should not be used by any new applications.  Applications should consider porting away from these interfaces since they may be removed in future versions.",
           "Severity": "MEDIUM",
@@ -19949,8 +19949,8 @@
           "InstalledVersion": "0.190-1.1ubuntu0.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-1352",
@@ -19959,7 +19959,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:a42304b419e34cbc9ace207b32fc0718b113bc67939d62cc983cd03bc719877c",
+          "Fingerprint": "sha256:ba6747d8868fe67bc0e6082e9f2fa4bd61f72f559fc64bcbe9cb8e190c84c5e0",
           "Title": "elfutils: GNU elfutils eu-readelf libdw_alloc.c __libdw_thread_tail memory corruption",
           "Description": "A vulnerability has been found in GNU elfutils 0.192 and classified as critical. This vulnerability affects the function __libdw_thread_tail in the library libdw_alloc.c of the component eu-readelf. The manipulation of the argument w leads to memory corruption. The attack can be initiated remotely. The complexity of an attack is rather high. The exploitation appears to be difficult. The exploit has been disclosed to the public and may be used. The name of the patch is 2636426a091bd6c6f7f02e49ab20d4cdc6bfc753. It is recommended to apply a patch to fix this issue.",
           "Severity": "LOW",
@@ -20011,8 +20011,8 @@
           "InstalledVersion": "0.190-1.1ubuntu0.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-1376",
@@ -20021,7 +20021,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:37bb06d02ef33c0a7305d52beff1d87015faa42dca417b5b9421dd067f503383",
+          "Fingerprint": "sha256:9f0881f500bb0d086abb312e24eeac6ba08778342c644ff43db1753a1b778bcd",
           "Title": "elfutils: GNU elfutils eu-strip elf_strptr.c elf_strptr denial of service",
           "Description": "A vulnerability classified as problematic was found in GNU elfutils 0.192. This vulnerability affects the function elf_strptr in the library /libelf/elf_strptr.c of the component eu-strip. The manipulation leads to denial of service. It is possible to launch the attack on the local host. The complexity of an attack is rather high. The exploitation appears to be difficult. The exploit has been disclosed to the public and may be used. The name of the patch is b16f441cca0a4841050e3215a9f120a6d8aea918. It is recommended to apply a patch to fix this issue.",
           "Severity": "LOW",
@@ -20072,8 +20072,8 @@
           "InstalledVersion": "2.6.1-2ubuntu0.4",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-66382",
@@ -20082,7 +20082,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:6a081d9dcfc883c9db3dd70ed45595a972d1527963bca83a1c64d74c68e0587c",
+          "Fingerprint": "sha256:555bc9cf082123db72672851496fddb627a81a687a7bc71e187e8d5fba15d829",
           "Title": "libexpat: libexpat: Denial of service via crafted file processing",
           "Description": "In libexpat through 2.7.3, a crafted file with an approximate size of 2 MiB can lead to dozens of seconds of processing time.",
           "Severity": "MEDIUM",
@@ -20138,7 +20138,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:ff25353fe8ebc2fefc5d51bba6ed387d05a7147ce19129bf26021727cfea67fd",
+          "Fingerprint": "sha256:215b7313a6e9710ab1e398bd2814759c456defde183c8f2a979f7fb0b3157c0e",
           "Title": "libgcrypt: vulnerable to Marvin Attack",
           "Description": "A timing-based side-channel flaw was found in libgcrypt's RSA implementation. This issue may allow a remote attacker to initiate a Bleichenbacher-style attack, which can lead to the decryption of RSA ciphertexts.",
           "Severity": "LOW",
@@ -20193,8 +20193,8 @@
           "InstalledVersion": "8.3.0-2build2",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-22693",
@@ -20203,7 +20203,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:3673f0c57b2a4cab20a1823ce427895c8fd000e10dd5d1afd999e85c8639f0a6",
+          "Fingerprint": "sha256:61b36d71c511ca1bb1cd192e25f05f9681f2118e4ffba7e84308cf2947f25823",
           "Title": "harfbuzz: Null Pointer Dereference in harfbuzz",
           "Description": "HarfBuzz is a text shaping engine. Prior to version 12.3.0, a null pointer dereference vulnerability exists in the SubtableUnicodesCache::create function located in src/hb-ot-cmap-table.hh. The function fails to check if hb_malloc returns NULL before using placement new to construct an object at the returned pointer address. When hb_malloc fails to allocate memory (which can occur in low-memory conditions or when using custom allocators that simulate allocation failures), it returns NULL. The code then attempts to call the constructor on this null pointer using placement new syntax, resulting in undefined behavior and a Segmentation Fault. This issue has been patched in version 12.3.0.",
           "Severity": "LOW",
@@ -20245,8 +20245,8 @@
           "InstalledVersion": "74.2-1ubuntu3.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-5222",
@@ -20255,7 +20255,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:4ff9a05cbedb3dea2eaba03d2cfa827e5570b3fd99814c59d4b8ec470bf037ac",
+          "Fingerprint": "sha256:ae304fece5c9ca88231679028e9f7b4616ecdbd01ca7ccbf2fc6e06dd6082482",
           "Title": "icu: Stack buffer overflow in the SRBRoot::addTag function",
           "Description": "A stack buffer overflow was found in Internationl components for unicode (ICU ). While running the genrb binary, the 'subtag' struct overflowed at the SRBRoot::addTag function. This issue may lead to memory corruption and local arbitrary code execution.",
           "Severity": "LOW",
@@ -20322,7 +20322,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:51c367ef821f4b2a269bebf8a394a0b642d06d79ed9b5dd0953fe648ff7de667",
+          "Fingerprint": "sha256:c621777e18abca92eb3c4ceb6460c25fbc34256573b6454635d8e7d42dcbc45c",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -20382,7 +20382,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:d99ee33d0f6e485a60bfc1cb2317005ccce7d11216589631193579101d029c80",
+          "Fingerprint": "sha256:785705247e674537a34f9e6a02b9ab1fa36bd07414fcd13987e4188f77550ca1",
           "Title": "p11-kit: Stack exhaustion via unbounded recursion in RPC attribute parsing",
           "Description": "A flaw was found in p11-kit. The RPC message attribute parsing functions p11_rpc_message_get_attribute() and p11_rpc_message_get_attribute_array_value() form a mutually-recursive call chain with no recursion depth limit when processing nested CKA_WRAP_TEMPLATE, CKA_UNWRAP_TEMPLATE, and CKA_DERIVE_TEMPLATE attributes. An unauthenticated attacker with local access to the p11-kit RPC Unix domain socket can send a specially crafted request with deeply nested template attributes, causing stack exhaustion and crashing the p11-kit server process and its dependent services.",
           "Severity": "MEDIUM",
@@ -20422,8 +20422,8 @@
           "InstalledVersion": "3.2.3-1ubuntu0.24.04.8",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-10990",
@@ -20432,7 +20432,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:69a817cc3561d8d0a8f5016bcc16f9b7f7869519deee282be98e361a6bfe58c4",
+          "Fingerprint": "sha256:a767e6ca7214da28ef6cdcd325f7b274846046f85c0ee8f4f55cfeef531d1292",
           "Title": "rexml: REXML: Denial of Service via inefficient regex parsing",
           "Description": "A flaw was found in REXML. A remote attacker could exploit inefficient regular expression (regex) parsing when processing hex numeric character references (\u0026#x...;) in XML documents. This could lead to a Regular Expression Denial of Service (ReDoS), impacting the availability of the affected component. This issue is the result of an incomplete fix for CVE-2024-49761.",
           "Severity": "MEDIUM",
@@ -20475,8 +20475,8 @@
           "InstalledVersion": "3.2.3-1ubuntu0.24.04.8",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58767",
@@ -20485,7 +20485,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:26798ec7a7704b78c9144f2371e3a2f71b4490d612a03d3305108cf99a202ba0",
+          "Fingerprint": "sha256:5b2deb897398aade1a2c8039beaa019a24c7a90d2f449d54567cdcb8a86d305e",
           "Title": "rexml: REXML denial of service",
           "Description": "REXML is an XML toolkit for Ruby. The REXML gems from 3.3.3 to 3.4.1 has a DoS vulnerability when parsing XML containing multiple XML declarations. If you need to parse untrusted XMLs, you may be impacted to these vulnerabilities. The REXML gem 3.4.2 or later include the patches to fix these vulnerabilities.",
           "Severity": "LOW",
@@ -20567,7 +20567,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:fda7f4d8ae30f9eec932245623017f8babc27735115446d7d498a7fe4e135fb1",
+          "Fingerprint": "sha256:d31cfeb5898136a8c1bcebc65b18b6f85ebabc0702e1959f74665ad6ee6bd920",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -20617,8 +20617,8 @@
           "InstalledVersion": "1.2.2-1ubuntu5.24.04.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-52194",
@@ -20627,7 +20627,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:6503987bb25103c91ad0d5fab58ed275b04e2472d249c9dad350f2b92ddce3d9",
+          "Fingerprint": "sha256:355c8f9c93f534a88ed574fc88bdbccc64bae6b52ec840800dba1086a72cb591",
           "Title": "libsndfile: buffer overflow when processing crafted IRCAM audio files",
           "Description": "A buffer overflow vulnerability exists in libsndfile version 1.2.2 and potentially earlier versions when processing malformed IRCAM audio files. The vulnerability occurs in the ircam_read_header function at src/ircam.c:164 during sample rate processing, leading to memory corruption and potential code execution.",
           "Severity": "MEDIUM",
@@ -20666,8 +20666,8 @@
           "InstalledVersion": "1.2.2-1ubuntu5.24.04.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-37555",
@@ -20676,7 +20676,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:0299d0b1308953bc1b372ad90e93932e967e1cc78089a74f9a5c8cf0e8cfe62c",
+          "Fingerprint": "sha256:8879f83fe12e0483a63d343595880fcce42df1df5e601b79f4ea88e3274feb0a",
           "Title": "libsndfile: integer overflow in ima_reader_init()",
           "Description": "An issue was discovered in libsndfile 1.2.2 IMA ADPCM codec. The AIFF code path (line 241) was fixed with (sf_count_t) cast, but the WAV code path (line 235) and close path (line 167) were not. When samplesperblock (int) * blocks (int) exceeds INT_MAX, the 32-bit multiplication overflows before being assigned to sf.frames (sf_count_t/int64). With samplesperblock=50000 and blocks=50000, the product 2500000000 overflows to -1794967296. This causes incorrect frame count leading to heap buffer overflow or denial of service. Both values come from the WAV file header and are attacker-controlled. This issue was discovered after an incomplete fix for CVE-2022-33065.",
           "Severity": "MEDIUM",
@@ -20742,8 +20742,8 @@
           "InstalledVersion": "1.2.2-1ubuntu5.24.04.1",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-50613",
@@ -20752,7 +20752,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:baeb198f9e98d3e6dd272009a99b191dd4ba6f6d219d2c7ec9f1294b070a9bd7",
+          "Fingerprint": "sha256:0230c10e5a0d6570e034e1680fbdf38c04ff8b77d7ecc7b07cc3eb040d2b50b0",
           "Title": "libsndfile: Reachable assertion in mpeg_l3_encoder_close",
           "Description": "libsndfile through 1.2.2 has a reachable assertion, that may lead to application exit, in mpeg_l3_encode.c mpeg_l3_encoder_close.",
           "Severity": "LOW",
@@ -20804,7 +20804,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:972b2c765f179397b9596502bd510af1a6349d7de4b1e004a35693b834e14347",
+          "Fingerprint": "sha256:53661d12e7ea54088f4045a1021f85b11ca047c69584ff15454f4937217f7edd",
           "Title": "systemd: systemd-journald: Unintended output to user terminals via logger command",
           "Description": "In systemd 259, systemd-journald can send ANSI escape sequences to the terminals of arbitrary users when a \"logger -p emerg\" command is executed, if ForwardToWall=yes is set.",
           "Severity": "LOW",
@@ -20857,7 +20857,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:e236bd29ef5f2b375690fb758c3cd712ddc9be7229eb2b206b320ddcf966c9d4",
+          "Fingerprint": "sha256:da9fcd5704664d4a925a56053014f371a9562d379655e5683cc0e48bede3bdc7",
           "Title": "systemd: systemd-journald: Unintended output to user terminals via logger command",
           "Description": "In systemd 259, systemd-journald can send ANSI escape sequences to the terminals of arbitrary users when a \"logger -p emerg\" command is executed, if ForwardToWall=yes is set.",
           "Severity": "LOW",
@@ -20910,7 +20910,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:8a25f9e964599b37d8c9796d688932c2038075dd9546048ae0d6e8d2af11cc91",
+          "Fingerprint": "sha256:c0763a551311264968ddf7d66b5f086fcfa9cd4fabb5b70ea06cd626f6a8c6da",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -20970,7 +20970,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:f0e591f314efc8f15299ec1065d1e00fa55c2679b2dec12424b93ebeac03886c",
+          "Fingerprint": "sha256:4f366dc82eb9eeea09fdc3e21573cd5947509e9d289fd068c75ed458a221b076",
           "Title": "shadow-utils: Default subordinate ID configuration in /etc/login.defs could lead to compromise",
           "Description": "shadow-utils (aka shadow) 4.4 through 4.17.0 establishes a default /etc/subuid behavior (e.g., uid 100000 through 165535 for the first user account) that can realistically conflict with the uids of users defined on locally administered networks, potentially leading to account takeover, e.g., by leveraging newuidmap for access to an NFS home directory (or same-host resources in the case of remote logins by these local network users). NOTE: it may also be argued that system administrators should not have assigned uids, within local networks, that are within the range that can occur in /etc/subuid.",
           "Severity": "LOW",
@@ -21031,7 +21031,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:0faad90aeca934cf53734ebe8ca451cd4c5375272ba948e1413f9bc78f19c1e4",
+          "Fingerprint": "sha256:82b9a4d3cf6e42caf610803f98c4d0823857f4de77387b2fdff2f2d8144ccec8",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -21091,7 +21091,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:3fc0c1cfa60eb383006423b326495d3bc26fc6b00aef13a3dea80c8aa17e89fa",
+          "Fingerprint": "sha256:af2afe136bfd362900182411e732c6c35a500305ebcfd90490dc6e990e7c93a3",
           "Title": "shadow-utils: Default subordinate ID configuration in /etc/login.defs could lead to compromise",
           "Description": "shadow-utils (aka shadow) 4.4 through 4.17.0 establishes a default /etc/subuid behavior (e.g., uid 100000 through 165535 for the first user account) that can realistically conflict with the uids of users defined on locally administered networks, potentially leading to account takeover, e.g., by leveraging newuidmap for access to an NFS home directory (or same-host resources in the case of remote logins by these local network users). NOTE: it may also be argued that system administrators should not have assigned uids, within local networks, that are within the range that can occur in /etc/subuid.",
           "Severity": "LOW",
@@ -21153,7 +21153,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:7893eab99395f288f159d528da55761045fa5921dad18629bd0a9621bcaf86d7",
+          "Fingerprint": "sha256:f84be03c9c10942a968ec2555f112d7b7f3503e287f510e6321cebd3182102d4",
           "Title": "perl-archive-tar: perl-archive-tar: Path traversal via crafted symlinks allows arbitrary file access",
           "Description": "Archive::Tar versions before 3.08 for Perl extract symlinks with attacker controlled targets outside the extraction directory.\n\n_make_special_file() passes the tar header's linkname to symlink() without validating it against absolute paths or .. segments. The secure-extract mode check that guards regular file extraction does not cover the symlink target.\n\nA subsequent open through the extracted name reads or writes the attacker chosen path.",
           "Severity": "MEDIUM",
@@ -21228,7 +21228,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:c4cf4e531099f73368070b21c0450d4fa3cec2c0857d60566ce38111327de06a",
+          "Fingerprint": "sha256:6bf1ed01da0868f28cdd1f7c75ff72601e190bf8ecea705d2d8066e0533c10b2",
           "Title": "perl: Perl: Heap buffer overflow when compiling regular expressions on 32-bit builds",
           "Description": "Perl versions through 5.43.10 have a heap buffer overflow when compiling regular expressions with a repeated fixed string on 32-bit builds.\n\nPerl_study_chunk in regcomp_study.c checked the size of the joined substring buffer in characters rather than bytes. For a quantified fixed substring with a large minimum count, the byte length mincount * l could overflow SSize_t, producing an undersized SvGROW allocation; the subsequent copy writes past the end of the buffer.\n\nA caller that compiles an attacker-controlled regular expression on a 32-bit perl build triggers a heap buffer overflow at compile time.",
           "Severity": "MEDIUM",
@@ -21276,8 +21276,8 @@
           "InstalledVersion": "3.2.3-1ubuntu0.24.04.8",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-10990",
@@ -21286,7 +21286,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:7a87211b84ed141050b78b8d1bcf8ad8dc75aef309297c9764509b5e8eb54d3c",
+          "Fingerprint": "sha256:e598106ba5d65c97cfcabd01c8fb6b6ee3cc5031dff15c7a105128a22e159879",
           "Title": "rexml: REXML: Denial of Service via inefficient regex parsing",
           "Description": "A flaw was found in REXML. A remote attacker could exploit inefficient regular expression (regex) parsing when processing hex numeric character references (\u0026#x...;) in XML documents. This could lead to a Regular Expression Denial of Service (ReDoS), impacting the availability of the affected component. This issue is the result of an incomplete fix for CVE-2024-49761.",
           "Severity": "MEDIUM",
@@ -21329,8 +21329,8 @@
           "InstalledVersion": "3.2.3-1ubuntu0.24.04.8",
           "Status": "affected",
           "Layer": {
-            "Digest": "sha256:008f5c2e2f29220d4328778f79eb6460dabd6ed1ce0b5201fdb3693bf9a3a639",
-            "DiffID": "sha256:7abef93e29ae5c4cd08ea634f689fbedd4e41b52d51556a0a7aaba2ad69cb8d2"
+            "Digest": "sha256:6bd90ddf5d656298385024d7e25262544fadd6f45bff01c4f708bf9ecae294fc",
+            "DiffID": "sha256:ea01ae243344a3833eb600c313510a1819f22a725bc9fa1a2196dd6aa106db13"
           },
           "SeveritySource": "ubuntu",
           "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58767",
@@ -21339,7 +21339,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:a3dbb787b805db17cfd82c9425be055ffb19c57e3939ab556350ebedfda87a83",
+          "Fingerprint": "sha256:c32240cec242a327d8c6f6bb8659c7b91b49bfba7a0bf5827da47f78f77082c5",
           "Title": "rexml: REXML denial of service",
           "Description": "REXML is an XML toolkit for Ruby. The REXML gems from 3.3.3 to 3.4.1 has a DoS vulnerability when parsing XML containing multiple XML declarations. If you need to parse untrusted XMLs, you may be impacted to these vulnerabilities. The REXML gem 3.4.2 or later include the patches to fix these vulnerabilities.",
           "Severity": "LOW",
@@ -21422,7 +21422,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:65a9be56bdc37170fcc7d2f137dbc33f5ec4b4e31b7d1c070935e58fc6eef969",
+          "Fingerprint": "sha256:6d8f466a4e751652e64d099fbcc921abae515437095d6e90e2cc668ba0d97390",
           "Title": "tar: Tar path traversal",
           "Description": "GNU Tar through 1.35 allows file overwrite via directory traversal in crafted TAR archives, with a certain two-step process. First, the victim must extract an archive that contains a ../ symlink to a critical directory. Second, the victim must extract an archive that contains a critical file, specified via a relative pathname that begins with the symlink name and ends with that critical file's name. Here, the extraction follows the symlink and overwrites the critical file. This bypasses the protection mechanism of \"Member name contains '..'\" that would occur for a single TAR archive that attempted to specify the critical file via a ../ approach. For example, the first archive can contain \"x -\u003e ../../../../../home/victim/.ssh\" and the second archive can contain x/authorized_keys. This can affect server applications that automatically extract any number of user-supplied TAR archives, and were relying on the blocking of traversal. This can also affect software installation processes in which \"tar xf\" is run more than once (e.g., when installing a package can automatically install two dependencies that are set up as untrusted tarballs instead of official packages). NOTE: the official GNU Tar manual has an otherwise-empty directory for each \"tar xf\" in its Security Rules of Thumb; however, third-party advice leads users to run \"tar xf\" more than once into the same directory.",
           "Severity": "MEDIUM",
@@ -21488,7 +21488,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:a17843cb68a1ff20bbaa7d637cfa2102e24f9e55ce08ecef2335618d6b615fd1",
+          "Fingerprint": "sha256:df55997b1db2f7f672b7e228931e1a625b18c8704fcaf79197dd218e3b526b4f",
           "Title": "tar: tar: Hidden file injection via crafted archives",
           "Description": "A flaw was found in tar. A remote attacker could exploit this vulnerability by crafting a malicious archive, leading to hidden file injection with fully attacker-controlled content. This bypasses pre-extraction inspection mechanisms, potentially allowing an attacker to introduce malicious files onto a system without detection.",
           "Severity": "MEDIUM",
@@ -21544,7 +21544,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:c673cab5d1470397c3134f29e9a677923de22be856bcf2386bfcbe37ef422c91",
+          "Fingerprint": "sha256:505e0edf3883aa63b1f920497f5e10719973ced7982945821ec593988e14d2f9",
           "Title": "util-linux: TOCTOU in the mount program when setting up loop devices",
           "Description": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
           "Severity": "MEDIUM",
@@ -21604,7 +21604,7 @@
             "Name": "Ubuntu CVE Tracker",
             "URL": "https://git.launchpad.net/ubuntu-cve-tracker"
           },
-          "Fingerprint": "sha256:c46eb9ddbe0b6e68daf03aa4a7d1f9b14b97982591fc3c719413c02e3d818601",
+          "Fingerprint": "sha256:9b6e042c2fbe60db8cba7c852d03d536f6b90d6410104c3f54a330d69d7266c3",
           "Title": "zlib: zlib: Denial of Service via infinite loop in CRC32 combine functions",
           "Description": "zlib before 1.3.2 allows CPU consumption via crc32_combine64 and crc32_combine_gen64 because x2nmodp can do right shifts within a loop that has no termination condition.",
           "Severity": "LOW",

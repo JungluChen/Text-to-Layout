@@ -6,17 +6,17 @@
   },
   "policy_hash": "aeaa48cf1b81b6a77dbea727c643bfd6ad0904e2f0421f8fbdeb5773d306cbf2",
   "report_path": "out/audit/klayout.trivy.json",
-  "report_sha256": "a637016711c5694cac4ea6f69b9f82bc17f29974ce9a5e324657bfa8b0ed231d",
+  "report_sha256": "327779c314da8e2cd991984ab40f14b7043e3f549920de968336ca6606bbfe95",
   "scanned_image": {
-    "digest": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
-    "image": "textlayout/klayout:local",
-    "revision_label": "242dc317c3463352478919468cf0c78728106be2"
+    "digest": "sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
+    "image": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
+    "revision_label": "14811db234d4eb6ea663180d142532bc9d87f965"
   },
   "schema": "textlayout.trivy-policy.v1",
   "status": "PASSED",
   "trivy": {
     "digest": "sha256:cffe3f5161a47a6823fbd23d985795b3ed72a4c806da4c4df16266c02accdd6f",
-    "image": "aquasec/trivy:0.72.0"
+    "image": "aquasec/trivy@sha256:cffe3f5161a47a6823fbd23d985795b3ed72a4c806da4c4df16266c02accdd6f"
   },
   "unfixed_counts": {
     "LOW": 19,
