@@ -292,6 +292,24 @@ class TestReportSerialisation:
         assert len(payload["gds_sha256"]) == 64
         assert payload["violations"][0]["rule"] == "min_width"
 
+    def test_every_check_records_rule_and_pdk_identity(self, tmp_path: Path) -> None:
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        payload = run_drc(_pdk(), gds).to_dict()
+        check = next(item for item in payload["checks"] if item["rule"] == "min_width")
+        assert check["rule_id"] == "test_pdk.min_width.metal"
+        assert check["description"] == "metal width must be at least 1.0 um."
+        assert check["severity"] == "error"
+        assert check["value"] == 1.0
+        assert check["unit"] == "um"
+        assert check["pdk_source"] == "synthetic, for tests"
+        assert len(check["pdk_hash"]) == 64
+        assert len(check["runset_hash"]) == 64
+
+    def test_unimplemented_requested_rule_families_are_visible(self, tmp_path: Path) -> None:
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
+        unsupported = set(run_drc(_pdk(), gds).to_dict()["unsupported_rules"])
+        assert {"notch", "acute_angle", "floating_conductor", "port_marker_placement"} <= unsupported
+
     def test_a_missing_gds_raises(self, tmp_path: Path) -> None:
         with pytest.raises(FileNotFoundError):
             run_drc(_pdk(), tmp_path / "absent.gds")

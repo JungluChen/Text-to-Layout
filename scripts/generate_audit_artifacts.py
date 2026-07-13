@@ -777,7 +777,7 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
             commit,
         ),
         capability_result(
-            "KLayout DRC",
+            "KLayout installation smoke",
             [
                 Gate("KLayout adapter implemented", "IMPLEMENTED", path_exists("src/textlayout/verification/klayout.py"), ("src/textlayout/verification/klayout.py",)),
                 Gate(
@@ -785,15 +785,40 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
                     "IMPLEMENTED",
                     tool_states.get("klayout") in {"IDENTITY_VERIFIED", "UPSTREAM_SMOKE_PASSED"},
                 ),
-                Gate("headless DRC integration evidence", "INTEGRATION_TEST_PASSED", path_exists("out/audit/klayout_drc.json")),
+                Gate(
+                    "minimum-size smoke evidence exists",
+                    "INTEGRATION_TEST_PASSED",
+                    path_exists("out/audit/klayout_installation_drc_smoke.json"),
+                    ("out/audit/klayout_installation_drc_smoke.json",),
+                ),
             ],
             commit,
         ),
         capability_result(
-            "KLayout partial LVS",
+            "Typed PDK DRC",
             [
-                Gate("LVS report schema implemented", "IMPLEMENTED", path_exists("src/textlayout/verification/report.py"), ("src/textlayout/verification/report.py",)),
-                Gate("partial LVS evidence exists", "INTEGRATION_TEST_PASSED", path_exists("out/audit/klayout_lvs.json")),
+                Gate("typed PDK DRC implemented", "IMPLEMENTED", path_exists("src/textlayout/pdk/klayout_drc.py"), ("src/textlayout/pdk/klayout_drc.py",)),
+                Gate("typed PDK DRC tests exist", "UNIT_TESTED", path_exists("tests/textlayout_suite/test_klayout_drc.py"), ("tests/textlayout_suite/test_klayout_drc.py",)),
+            ],
+            commit,
+        ),
+        capability_result(
+            "KLayout layer-population smoke",
+            [
+                Gate(
+                    "layer-population readback evidence exists",
+                    "INTEGRATION_TEST_PASSED",
+                    path_exists("out/audit/klayout_layer_population_smoke.json"),
+                    ("out/audit/klayout_layer_population_smoke.json",),
+                ),
+            ],
+            commit,
+        ),
+        capability_result(
+            "KLayout partial electrical LVS",
+            [
+                Gate("LVS report schema implemented", "IMPLEMENTED", path_exists("src/textlayout/pdk/lvs.py"), ("src/textlayout/pdk/lvs.py",)),
+                Gate("partial electrical LVS evidence exists", "INTEGRATION_TEST_PASSED", path_exists("out/audit/klayout_partial_electrical_lvs.json")),
             ],
             commit,
         ),

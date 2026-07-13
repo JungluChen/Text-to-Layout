@@ -1,6 +1,7 @@
 {
-  "schema": "textlayout.klayout-container-drc-smoke.v1",
+  "schema": "textlayout.klayout-installation-drc-smoke.v1",
   "status": "passed",
+  "scope": "container KLayout headless execution and minimum-size smoke only; not process-specific PDK DRC validation",
   "tool": "KLayout",
   "tool_version_stdout": "KLayout 0.30.9",
   "input": "/input/output.gds",

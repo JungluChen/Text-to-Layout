@@ -321,6 +321,19 @@ def test_capability_level_from_real_gate_files(audit_module) -> None:
     assert core["evidence_hashes"]
 
 
+def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module) -> None:
+    tools = {"tools": [{"id": "klayout", "current_state": "IDENTITY_VERIFIED"}]}
+    matrix = audit_module.capability_matrix(tools, {"container_runtime": {"docker_ps": {"return_code": 0}}})
+    layer_smoke = next(
+        row for row in matrix["capabilities"] if row["capability"] == "KLayout layer-population smoke"
+    )
+    partial_lvs = next(
+        row for row in matrix["capabilities"] if row["capability"] == "KLayout partial electrical LVS"
+    )
+    assert layer_smoke["computed_level"] == "INTEGRATION_TEST_PASSED"
+    assert partial_lvs["computed_level"] == "IMPLEMENTED"
+
+
 def test_missing_evidence_hash_is_visible(audit_module) -> None:
     rows = audit_module.evidence_hashes(["missing-evidence-file.json"])
     assert rows == [{"path": "missing-evidence-file.json", "sha256": None, "exists": False}]

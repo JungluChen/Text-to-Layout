@@ -1,7 +1,8 @@
 {
-  "schema": "textlayout.klayout-container-partial-lvs-smoke.v1",
-  "status": "partial_executed",
-  "scope": "container GDS readback plus layer population only; not electrical LVS",
+  "schema": "textlayout.klayout-layer-population-smoke.v1",
+  "status": "readback_executed",
+  "scope": "container GDS readback plus layer population only; not electrical connectivity extraction or LVS",
+  "full_lvs_pass": false,
   "tool": "KLayout",
   "tool_version_stdout": "KLayout 0.30.9",
   "input": "/input/output.gds",

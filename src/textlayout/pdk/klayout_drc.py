@@ -21,6 +21,7 @@ is *skipped with a reason*, not quietly passed.
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -46,12 +47,17 @@ SUPPORTED_RULES = (
 #: Rule families real foundry decks carry that this engine does not implement.
 #: Named so a reader knows what a passing report does *not* establish.
 UNSUPPORTED_RULES = (
+    "acute_angle",
     "antenna_ratio",
+    "floating_conductor",
     "min_area",
     "min_enclosed_area",
     "notch",
     "corner_rounding",
     "off_grid",
+    "port_marker_placement",
+    "junction_max_area",
+    "junction_lead_overlap",
 )
 
 
@@ -62,12 +68,28 @@ class DRCViolation:
     required_um: float | None
     count: int
     sample_bbox_um: tuple[float, float, float, float] | None
+    rule_id: str = ""
+    description: str = ""
+    severity: str = "error"
+    value: float = 0.0
+    unit: str = "um"
+    pdk_source: str = ""
+    pdk_hash: str = ""
+    runset_hash: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "rule_id": self.rule_id,
             "rule": self.rule,
+            "description": self.description,
+            "severity": self.severity,
             "layer": self.layer,
             "required_um": self.required_um,
+            "value": self.value,
+            "unit": self.unit,
+            "pdk_source": self.pdk_source,
+            "pdk_hash": self.pdk_hash,
+            "runset_hash": self.runset_hash,
             "count": self.count,
             "sample_bbox_um": list(self.sample_bbox_um) if self.sample_bbox_um else None,
         }
@@ -82,14 +104,30 @@ class DRCCheck:
     ran: bool
     violations: int = 0
     skip_reason: str | None = None
+    rule_id: str = ""
+    description: str = ""
+    severity: str = "error"
+    value: float = 0.0
+    unit: str = "um"
+    pdk_source: str = ""
+    pdk_hash: str = ""
+    runset_hash: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "rule_id": self.rule_id,
             "rule": self.rule,
+            "description": self.description,
+            "severity": self.severity,
             "layer": self.layer,
             "ran": self.ran,
             "violations": self.violations,
             "skip_reason": self.skip_reason,
+            "value": self.value,
+            "unit": self.unit,
+            "pdk_source": self.pdk_source,
+            "pdk_hash": self.pdk_hash,
+            "runset_hash": self.runset_hash,
         }
 
 
@@ -178,6 +216,35 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _pdk_hash(pdk: PDK) -> str:
+    payload = json.dumps(pdk.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _rule_metadata(
+    *,
+    rule: str,
+    layer: str,
+    description: str,
+    value: float = 0.0,
+    unit: str = "um",
+    pdk: PDK,
+    pdk_hash: str,
+    runset_hash: str,
+    severity: str = "error",
+) -> dict[str, Any]:
+    return {
+        "rule_id": f"{pdk.name}.{rule}.{layer}".replace(">", "_contains_").replace("&", "_and_"),
+        "description": description,
+        "severity": severity,
+        "value": value,
+        "unit": unit,
+        "pdk_source": pdk.source,
+        "pdk_hash": pdk_hash,
+        "runset_hash": runset_hash,
+    }
+
+
 def _um(value: int, dbu: float) -> float:
     return value * dbu
 
@@ -229,6 +296,8 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
 
     checks: list[DRCCheck] = []
     violations: list[DRCViolation] = []
+    pdk_hash = _pdk_hash(pdk)
+    runset_hash = hashlib.sha256(to_lydrc(pdk).encode("utf-8")).hexdigest()
 
     declared = {(layer.gds_layer, layer.gds_datatype) for layer in pdk.layers}
     undeclared = [
@@ -238,14 +307,33 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
         and not kdb.Region(cell.begin_shapes_rec(index)).is_empty()
     ]
 
-    def add(rule: str, layer: str, required: float | None, edge_pairs: Any) -> None:
+    def add(
+        rule: str,
+        layer: str,
+        required: float | None,
+        edge_pairs: Any,
+        description: str,
+        *,
+        unit: str = "um",
+    ) -> None:
         count = edge_pairs.count()
-        checks.append(DRCCheck(rule=rule, layer=layer, ran=True, violations=count))
+        metadata = _rule_metadata(
+            rule=rule,
+            layer=layer,
+            description=description,
+            value=float(required or 0.0),
+            unit=unit,
+            pdk=pdk,
+            pdk_hash=pdk_hash,
+            runset_hash=runset_hash,
+        )
+        checks.append(DRCCheck(rule=rule, layer=layer, ran=True, violations=count, **metadata))
         if count:
             violations.append(
                 DRCViolation(
                     rule=rule, layer=layer, required_um=required,
                     count=count, sample_bbox_um=_bbox_um(edge_pairs, dbu),
+                    **metadata,
                 )
             )
 
@@ -253,27 +341,62 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
     for layer in pdk.layers:
         region = _region(cell, layout, layer.gds_layer, layer.gds_datatype)
         present = region is not None and not region.is_empty()
-        checks.append(DRCCheck(rule="layer_existence", layer=layer.name, ran=True, violations=0))
+        checks.append(
+            DRCCheck(
+                rule="layer_existence",
+                layer=layer.name,
+                ran=True,
+                violations=0,
+                **_rule_metadata(
+                    rule="layer_existence",
+                    layer=layer.name,
+                    description=f"Declared PDK layer {layer.name} is considered during DRC.",
+                    pdk=pdk,
+                    pdk_hash=pdk_hash,
+                    runset_hash=runset_hash,
+                ),
+            )
+        )
         if not present:
             checks.append(
                 DRCCheck(
                     rule="min_width", layer=layer.name, ran=False,
                     skip_reason="layer carries no geometry in this layout",
+                    **_rule_metadata(
+                        rule="min_width",
+                        layer=layer.name,
+                        description=f"{layer.name} width must be at least {layer.min_width_um} um.",
+                        value=layer.min_width_um,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
                 )
             )
             checks.append(
                 DRCCheck(
                     rule="min_spacing", layer=layer.name, ran=False,
                     skip_reason="layer carries no geometry in this layout",
+                    **_rule_metadata(
+                        rule="min_spacing",
+                        layer=layer.name,
+                        description=f"{layer.name} spacing must be at least {layer.min_spacing_um} um.",
+                        value=layer.min_spacing_um,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
                 )
             )
             continue
         assert region is not None
         regions[layer.name] = region
         add("min_width", layer.name, layer.min_width_um,
-            region.width_check(int(round(layer.min_width_um / dbu))))
+            region.width_check(int(round(layer.min_width_um / dbu))),
+            f"{layer.name} width must be at least {layer.min_width_um} um.")
         add("min_spacing", layer.name, layer.min_spacing_um,
-            region.space_check(int(round(layer.min_spacing_um / dbu))))
+            region.space_check(int(round(layer.min_spacing_um / dbu))),
+            f"{layer.name} spacing must be at least {layer.min_spacing_um} um.")
 
     for enclosure in pdk.enclosures:
         name = f"{enclosure.outer}>{enclosure.inner}"
@@ -283,11 +406,24 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                 DRCCheck(
                     rule="enclosure", layer=name, ran=False,
                     skip_reason="one of the two layers carries no geometry",
+                    **_rule_metadata(
+                        rule="enclosure",
+                        layer=name,
+                        description=(
+                            f"{enclosure.outer} must enclose {enclosure.inner} by "
+                            f"{enclosure.min_um} um."
+                        ),
+                        value=enclosure.min_um,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
                 )
             )
             continue
         add("enclosure", name, enclosure.min_um,
-            outer.enclosing_check(inner, int(round(enclosure.min_um / dbu))))
+            outer.enclosing_check(inner, int(round(enclosure.min_um / dbu))),
+            f"{enclosure.outer} must enclose {enclosure.inner} by {enclosure.min_um} um.")
 
     for overlap in pdk.overlaps:
         name = f"{overlap.a}&{overlap.b}"
@@ -297,11 +433,21 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                 DRCCheck(
                     rule="overlap", layer=name, ran=False,
                     skip_reason="one of the two layers carries no geometry",
+                    **_rule_metadata(
+                        rule="overlap",
+                        layer=name,
+                        description=f"{overlap.a} and {overlap.b} must overlap by {overlap.min_um} um.",
+                        value=overlap.min_um,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
                 )
             )
             continue
         add("overlap", name, overlap.min_um,
-            first.overlap_check(second, int(round(overlap.min_um / dbu))))
+            first.overlap_check(second, int(round(overlap.min_um / dbu))),
+            f"{overlap.a} and {overlap.b} must overlap by {overlap.min_um} um.")
 
     bbox = cell.bbox()
     for layer in pdk.layers:
@@ -313,7 +459,16 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
         if region is None:
             checks.append(
                 DRCCheck(rule="density_tiled", layer=layer.name, ran=False,
-                         skip_reason="layer carries no geometry in this layout")
+                         skip_reason="layer carries no geometry in this layout",
+                         **_rule_metadata(
+                             rule="density_tiled",
+                             layer=layer.name,
+                             description="Layer density must stay inside the declared local window bounds.",
+                             value=pdk.density_window_um or 0.0,
+                             pdk=pdk,
+                             pdk_hash=pdk_hash,
+                             runset_hash=runset_hash,
+                         ))
             )
             continue
         if bbox.width() < window_dbu or bbox.height() < window_dbu:
@@ -325,6 +480,15 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                         f"is smaller than the {pdk.density_window_um} um density window; "
                         "a whole-chip average is not a density check"
                     ),
+                    **_rule_metadata(
+                        rule="density_tiled",
+                        layer=layer.name,
+                        description="Layer density must stay inside the declared local window bounds.",
+                        value=pdk.density_window_um or 0.0,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
                 )
             )
             continue
@@ -335,10 +499,33 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
             or (layer.max_density_fraction is not None and fraction > layer.max_density_fraction)
         ]
         checks.append(
-            DRCCheck(rule="density_tiled", layer=layer.name, ran=True, violations=len(offenders))
+            DRCCheck(
+                rule="density_tiled",
+                layer=layer.name,
+                ran=True,
+                violations=len(offenders),
+                **_rule_metadata(
+                    rule="density_tiled",
+                    layer=layer.name,
+                    description="Layer density must stay inside the declared local window bounds.",
+                    value=pdk.density_window_um or 0.0,
+                    pdk=pdk,
+                    pdk_hash=pdk_hash,
+                    runset_hash=runset_hash,
+                ),
+            )
         )
         if offenders:
             _, window = offenders[0]
+            density_metadata = _rule_metadata(
+                rule="density_tiled",
+                layer=layer.name,
+                description="Layer density must stay inside the declared local window bounds.",
+                value=pdk.density_window_um or 0.0,
+                pdk=pdk,
+                pdk_hash=pdk_hash,
+                runset_hash=runset_hash,
+            )
             violations.append(
                 DRCViolation(
                     rule="density_tiled", layer=layer.name,
@@ -347,6 +534,7 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                         _um(window.left, dbu), _um(window.bottom, dbu),
                         _um(window.right, dbu), _um(window.top, dbu),
                     ),
+                    **density_metadata,
                 )
             )
 
@@ -359,7 +547,20 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
             if region is None:
                 checks.append(
                     DRCCheck(rule="junction_min_area", layer=layer.name, ran=False,
-                             skip_reason="no junction geometry in this layout")
+                             skip_reason="no junction geometry in this layout",
+                             **_rule_metadata(
+                                 rule="junction_min_area",
+                                 layer=layer.name,
+                                 description=(
+                                     f"Junction area on {layer.name} must be at least "
+                                     f"{minimum} um^2."
+                                 ),
+                                 value=minimum,
+                                 unit="um^2",
+                                 pdk=pdk,
+                                 pdk_hash=pdk_hash,
+                                 runset_hash=runset_hash,
+                             ))
                 )
                 continue
             undersized = [
@@ -368,10 +569,33 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
             ]
             checks.append(
                 DRCCheck(rule="junction_min_area", layer=layer.name, ran=True,
-                         violations=len(undersized))
+                         violations=len(undersized),
+                         **_rule_metadata(
+                             rule="junction_min_area",
+                             layer=layer.name,
+                             description=(
+                                 f"Junction area on {layer.name} must be at least "
+                                 f"{minimum} um^2."
+                             ),
+                             value=minimum,
+                             unit="um^2",
+                             pdk=pdk,
+                             pdk_hash=pdk_hash,
+                             runset_hash=runset_hash,
+                         ))
             )
             if undersized:
                 box = undersized[0].bbox()
+                junction_metadata = _rule_metadata(
+                    rule="junction_min_area",
+                    layer=layer.name,
+                    description=f"Junction area on {layer.name} must be at least {minimum} um^2.",
+                    value=minimum,
+                    unit="um^2",
+                    pdk=pdk,
+                    pdk_hash=pdk_hash,
+                    runset_hash=runset_hash,
+                )
                 violations.append(
                     DRCViolation(
                         rule="junction_min_area", layer=layer.name, required_um=minimum,
@@ -380,6 +604,7 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                             _um(box.left, dbu), _um(box.bottom, dbu),
                             _um(box.right, dbu), _um(box.top, dbu),
                         ),
+                        **junction_metadata,
                     )
                 )
 
