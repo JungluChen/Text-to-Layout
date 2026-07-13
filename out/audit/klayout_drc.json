@@ -1,0 +1,14 @@
+{
+  "schema": "textlayout.klayout-container-drc-smoke.v1",
+  "status": "passed",
+  "tool": "KLayout",
+  "tool_version_stdout": "KLayout 0.30.9",
+  "input": "/input/output.gds",
+  "top_cell": "IDC_6e4df721",
+  "database_unit_um": 0.001,
+  "min_size_um": 0.1,
+  "checked_shapes": 42,
+  "violations": [
+
+  ]
+}

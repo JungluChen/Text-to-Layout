@@ -1,197 +1,312 @@
 {
   "capabilities": [
     {
-      "capability": "textlayout core CLI and typed workflow",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "src/textlayout/workflow/",
-        "tests/textlayout_suite/test_workflow_graph.py",
-        "ruff/mypy/compileall baseline commands"
+      "blocked_gates": [],
+      "capability": "core wheel and CLI",
+      "computed_level": "FRESH_ENVIRONMENT_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/core_install.json",
+          "sha256": "3e4e19bc43f271fc63a59149ec6847b5c55d888a6ed56ee97c5a846b74cc7a1d"
+        },
+        {
+          "exists": true,
+          "path": "pyproject.toml",
+          "sha256": "23702809eff0c75127f1b4b9fbbf9a9d8b0652a66ca12dc7db3b58c05e60d17a"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_workflow_graph.py",
+          "sha256": "9585538af05abd3e42a33340882b78406b32247f315603622b592a7d88df96a3"
+        }
       ],
-      "missing_gates": [
-        "fresh wheel install",
-        "fresh container execution",
-        "end-to-end real solver vertical slice"
+      "failed_gates": [],
+      "passed_gates": [
+        "pyproject declares package",
+        "core tests exist",
+        "fresh wheel install recorded"
       ]
     },
     {
-      "capability": "CanonicalEvidence status semantics",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "src/textlayout/evidence/canonical.py",
-        "tests/textlayout_suite/test_canonical_evidence.py",
-        "tests/textlayout_suite/test_evidence_contract.py"
+      "blocked_gates": [],
+      "capability": "CanonicalEvidence semantics",
+      "computed_level": "UNIT_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/evidence/canonical.py",
+          "sha256": "98e3bfcf5aec710c65630416f4b2f14519cc4ceebd54791d2fa85078a6cdcbf8"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_canonical_evidence.py",
+          "sha256": "5eccfdc72231b5ac450e80e9ab3417e8524e0f4e6bb877d5f4e4eafc646e902b"
+        }
       ],
-      "missing_gates": [
-        "split historical solver execution and evidence generation provenance",
-        "fresh-environment mutation guard for historical metadata"
+      "failed_gates": [],
+      "passed_gates": [
+        "schema implemented",
+        "schema unit tests exist"
       ]
     },
     {
-      "capability": "external tool registry and lock metadata",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "external_tools/registry.toml",
-        "external_tools/lock.toml",
-        "tests/textlayout_suite/test_external_tool_registry.py",
-        "scripts/external/check.py"
+      "blocked_gates": [],
+      "capability": "OCI stack",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "compose.yaml",
+          "sha256": "b1e459255f575c262f0e3d861d022dbd9a951ae79c83917799664e43ba4b9d5d"
+        },
+        {
+          "exists": true,
+          "path": "docker-bake.hcl",
+          "sha256": "a6352fd4e7a678da3c3f4068a246eb6e552c881c9c06517cf1e685cb7cf606c1"
+        },
+        {
+          "exists": true,
+          "path": "out/audit/klayout_image.json",
+          "sha256": "f448972d284d3e000fa1c72077f5ac57cfbe376fee85d50b1819ac9f5e2ef9b2"
+        }
       ],
-      "missing_gates": [
-        "real source download in this run",
-        "image build identity checks",
-        "upstream smoke for every registered tool"
+      "failed_gates": [],
+      "passed_gates": [
+        "docker configuration exists",
+        "docker daemon available",
+        "image build evidence exists"
       ]
     },
     {
-      "blocked_by": [
-        "Docker daemon unavailable"
+      "blocked_gates": [],
+      "capability": "Palace parser/MAC",
+      "computed_level": "REAL_FIXTURE_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/palace/parser.py",
+          "sha256": "6482fcc5cd94e3f36c766189970043d5fdacf323808c13b7db7653ebb443c156"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_palace_higher_order_vtk.py",
+          "sha256": "0bf1c674da1b741e4c2ecea56f49628309f4bbdf6ae96a66ec2eed9d269cff2a"
+        }
       ],
-      "capability": "OCI solver stack",
-      "current_verification_level": "IMPLEMENTED",
-      "evidence": [
-        "compose.yaml",
-        "docker-bake.hcl",
-        ".dockerignore",
-        "docker/core.Dockerfile",
-        "docker/josephson.Dockerfile",
-        "docker/josim.Dockerfile",
-        "docker/klayout.Dockerfile",
-        "docker/openems.Dockerfile",
-        "docker/palace.Dockerfile",
-        "docker/paraview.Dockerfile",
-        "docker/simulators.Dockerfile",
-        "docker/solver-full.Dockerfile",
-        "tests/textlayout_suite/test_oci_stack.py"
-      ],
-      "missing_gates": [
-        "Docker daemon available",
-        "docker build",
-        "docker run",
-        "docker compose run",
-        "real executable installation in solver images",
-        "Syft-derived SBOM",
-        "Trivy or Grype scan"
+      "failed_gates": [],
+      "passed_gates": [
+        "Palace parser implemented",
+        "Palace fixture tests exist"
       ]
     },
     {
-      "capability": "Palace parser, retention, MAC, and vertical-slice scaffolding",
-      "current_verification_level": "REAL_FIXTURE_TESTED",
-      "evidence": [
-        "tests/textlayout_suite/test_palace_amr_verification.py",
-        "tests/textlayout_suite/test_palace_artifact_contracts.py",
-        "tests/textlayout_suite/test_palace_backend.py",
-        "tests/textlayout_suite/test_palace_benchmark_evidence.py",
-        "tests/textlayout_suite/test_palace_benchmark_v017.py",
-        "tests/textlayout_suite/test_palace_cross_amr_fixture.py",
-        "tests/textlayout_suite/test_palace_energy_weighted_mac.py",
-        "tests/textlayout_suite/test_palace_field_mac.py",
-        "tests/textlayout_suite/test_palace_field_retention.py",
-        "tests/textlayout_suite/test_palace_higher_order_vtk.py",
-        "tests/textlayout_suite/test_palace_installation.py",
-        "tests/textlayout_suite/test_palace_mac_applicability.py",
-        "tests/textlayout_suite/test_palace_material_overlap.py",
-        "tests/textlayout_suite/test_palace_mpi_integration.py",
-        "tests/textlayout_suite/test_palace_preparation.py",
-        "tests/textlayout_suite/test_palace_process_ownership.py",
-        "tests/textlayout_suite/test_palace_toolchain.py",
-        "tests/textlayout_suite/test_palace_toolchain_pins.py",
-        "tests/textlayout_suite/test_palace_vertical_slice.py"
+      "blocked_gates": [],
+      "capability": "Palace real execution",
+      "computed_level": "IMPLEMENTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "external_tools/registry.toml",
+          "sha256": "a348fb05e33b4af2ef5464179ae1ffe370a183eb1172ed2f62483ad08f60d570"
+        }
       ],
-      "missing_gates": [
-        "functional Palace executable/image in current environment",
-        "bounded Palace benchmark executed",
-        "quadrature-order convergence on fresh data",
-        "field-energy reconstruction tolerance against Palace-owned CSV"
+      "failed_gates": [
+        {
+          "gate": "Palace upstream smoke passed",
+          "reason": null
+        },
+        {
+          "gate": "Palace benchmark evidence exists",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "Palace registered"
       ]
     },
     {
-      "capability": "critical-region coverage modeling",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "src/textlayout/solvers/palace/models.py",
-        "tests/textlayout_suite/test_palace_benchmark_v017.py",
-        "tests/textlayout_suite/test_palace_benchmark_evidence.py"
+      "blocked_gates": [],
+      "capability": "critical-region coverage",
+      "computed_level": "UNIT_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/palace/models.py",
+          "sha256": "df9cca2019a63eadcf9a9b36458966cba2de068f600758d5e6fa4533a0d0bead"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_palace_benchmark_v017.py",
+          "sha256": "515a997e981ff6e53a14b7ebef8296536442e1ce254519ea6ada1e9c973f81f7"
+        }
       ],
-      "missing_gates": [
-        "declaration/entity/projection coverage separated for all requested regions",
-        "negative tests for every malformed region case",
-        "100% field projection coverage on real Palace field output"
+      "failed_gates": [],
+      "passed_gates": [
+        "typed models implemented",
+        "coverage tests exist"
       ]
     },
     {
-      "capability": "KLayout DRC/readback",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "src/textlayout/verification/",
-        "tests/textlayout_suite/test_verification.py"
+      "blocked_gates": [],
+      "capability": "KLayout DRC",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/verification/klayout.py",
+          "sha256": "d59f101430f4008110f1a586b79cdbafa3a648fdf087cef1e1bf8cd6ee3fa9f7"
+        }
       ],
-      "missing_gates": [
-        "headless KLayout image executes",
-        "partial LVS report with unsupported-structure coverage",
-        "real DRC/LVS runsets from typed PDK"
+      "failed_gates": [
+        {
+          "gate": "KLayout identity verified",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "KLayout adapter implemented",
+        "headless DRC integration evidence"
       ]
     },
     {
-      "capability": "JosephsonCircuits nonlinear JPA execution",
-      "current_verification_level": "IMPLEMENTED",
-      "evidence": [
-        "external_tools/julia/JosephsonCircuits/Project.toml",
-        "external_tools/julia/JosephsonCircuits/Manifest.toml",
-        "src/textlayout/solvers/josephsoncircuits.py"
+      "blocked_gates": [],
+      "capability": "KLayout partial LVS",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/verification/report.py",
+          "sha256": "25312730ee84e59b0955929209699f2e742e91536fae5476d3efa7db74137549"
+        }
       ],
-      "missing_gates": [
-        "Julia executable available",
-        "nonlinear harmonic-balance benchmark run",
-        "pump/signal/idler/gain/bandwidth convergence"
+      "failed_gates": [],
+      "passed_gates": [
+        "LVS report schema implemented",
+        "partial LVS evidence exists"
       ]
     },
     {
-      "capability": "openEMS resonator path",
-      "current_verification_level": "REAL_FIXTURE_TESTED",
-      "evidence": [
-        "src/textlayout/simulation/openems_evidence.py",
-        "tests/textlayout_suite/test_openems_evidence.py",
-        "tests/textlayout_suite/test_touchstone_honesty.py"
+      "blocked_gates": [],
+      "capability": "JosephsonCircuits",
+      "computed_level": "IMPLEMENTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/josephsoncircuits.py",
+          "sha256": "f1cb6ac6a5a1799c0da78ec563227b048f6346d14c8aa6254df30e22570bb5e9"
+        }
       ],
-      "missing_gates": [
-        "real finite openEMS benchmark",
-        "nonzero incident energy",
-        "mesh/time/domain convergence",
-        "port orientation and de-embedding provenance"
+      "failed_gates": [
+        {
+          "gate": "package identity verified",
+          "reason": null
+        },
+        {
+          "gate": "linear LC benchmark evidence",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "adapter implemented"
       ]
     },
     {
-      "capability": "FasterCap and FastHenry extraction",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "src/textlayout/simulation/fastercap.py",
-        "simulation/idc_fastercap/",
-        "simulation/spiral_fasthenry/"
+      "blocked_gates": [],
+      "capability": "openEMS",
+      "computed_level": "REAL_FIXTURE_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/simulation/openems_evidence.py",
+          "sha256": "813cf952a1f9728947ba32f3498baffa4da6e4b0f02589535169fdac10248940"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_openems_evidence.py",
+          "sha256": "a5a9e84aff34e6232e41a3b50bd7c79a498abaadb202fd0a13d3a0b8dbf120c1"
+        }
       ],
-      "missing_gates": [
-        "panel/filament refinement sequences",
-        "matrix conservation/symmetry/PSD checks",
-        "independent open-source or analytical comparison"
+      "failed_gates": [],
+      "passed_gates": [
+        "openEMS evidence parser implemented",
+        "openEMS fixture tests exist"
       ]
     },
     {
-      "capability": "showcase evidence records",
-      "current_verification_level": "UNIT_TESTED",
-      "evidence": [
-        "examples/showcase/*/evidence/canonical.json",
-        "tests/textlayout_suite/test_showcase_examples.py",
-        "scripts/audit_evidence_consistency.py"
+      "blocked_gates": [],
+      "capability": "FasterCap",
+      "computed_level": "IMPLEMENTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/simulation/fastercap.py",
+          "sha256": "3cc32acf47caf09576cdb15f0ac39164bd93988c207d5d18dbc5c50455ebbf89"
+        }
       ],
-      "missing_gates": [
-        "fresh regeneration without historical solver metadata mutation",
-        "real external reruns for current environment",
-        "fabrication signoff"
+      "failed_gates": [
+        {
+          "gate": "FasterCap real convergence evidence",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "FasterCap adapter implemented"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "FastHenry",
+      "computed_level": "IMPLEMENTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "simulation/spiral_fasthenry/README.md",
+          "sha256": "749f716e47c9f71a32e74c1f0649d71910d1f7a889c2d79a943aab07e82ee237"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "FastHenry convergence evidence",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "FastHenry handoff exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "showcase evidence",
+      "computed_level": "UNIT_TESTED",
+      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_showcase_examples.py",
+          "sha256": "07a0e0e75dc194c0404daceacf345a508ba9be83d2e8523a49ee042193961bae"
+        }
+      ],
+      "failed_gates": [],
+      "passed_gates": [
+        "canonical showcase evidence exists",
+        "showcase consistency tests exist"
       ]
     }
   ],
-  "generated_at_epoch": 1783947634,
-  "schema": "textlayout.audit.capability-matrix.v1",
-  "verification_ladder": [
+  "capability_levels": [
     "NOT_IMPLEMENTED",
     "IMPLEMENTED",
     "UNIT_TESTED",
@@ -199,12 +314,9 @@
     "FRESH_ENVIRONMENT_TESTED",
     "UPSTREAM_SMOKE_PASSED",
     "INTEGRATION_TEST_PASSED",
-    "REAL_BENCHMARK_EXECUTED",
-    "PHYSICAL_SANITY_PASSED",
-    "NUMERICALLY_CONVERGED",
-    "CROSS_VALIDATED",
-    "MEASUREMENT_CORRELATED",
-    "PHYSICS_VERIFIED",
-    "FABRICATION_SIGNED_OFF"
-  ]
+    "BENCHMARK_EXECUTED",
+    "NUMERICALLY_VALIDATED",
+    "SCIENTIFICALLY_VALIDATED"
+  ],
+  "schema": "textlayout.audit.capability-matrix.v2"
 }

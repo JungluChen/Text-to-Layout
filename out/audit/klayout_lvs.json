@@ -1,0 +1,17 @@
+{
+  "schema": "textlayout.klayout-container-partial-lvs-smoke.v1",
+  "status": "partial_executed",
+  "scope": "container GDS readback plus layer population only; not electrical LVS",
+  "tool": "KLayout",
+  "tool_version_stdout": "KLayout 0.30.9",
+  "input": "/input/output.gds",
+  "top_cell": "IDC_6e4df721",
+  "layers": [
+    {
+      "layer": 1,
+      "datatype": 0,
+      "shape_count": 42
+    }
+  ],
+  "shape_count": 42
+}

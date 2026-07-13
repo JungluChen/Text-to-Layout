@@ -1,0 +1,392 @@
+{
+  "external_tools": [
+    {
+      "adapter_module": "textlayout.mesh.runtime",
+      "canonical_name": "Gmsh",
+      "checksum_verified": true,
+      "id": "gmsh",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_archive_sha256": "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9",
+      "pinned_commit": "657c8e915f60405e6cad0c8ec7faf812bfff1a60",
+      "pinned_ref": "gmsh_4_15_2",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "657c8e915f60405e6cad0c8ec7faf812bfff1a60",
+      "source_archive_sha256": "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9",
+      "spdx_license": "GPL-2.0-or-later"
+    },
+    {
+      "adapter_module": "textlayout.solvers.josephsoncircuits",
+      "canonical_name": "JosephsonCircuits.jl",
+      "checksum_verified": true,
+      "id": "josephsoncircuits",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85",
+      "pinned_commit": "f688e70663ead21aef480bc74711bbf320d7825e",
+      "pinned_ref": "v0.5.2",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "f688e70663ead21aef480bc74711bbf320d7825e",
+      "source_archive_sha256": "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85",
+      "spdx_license": "MIT"
+    },
+    {
+      "adapter_module": "textlayout._legacy.simulation.backends.josim",
+      "canonical_name": "JoSIM",
+      "checksum_verified": true,
+      "id": "josim",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_archive_sha256": "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb",
+      "pinned_commit": "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224",
+      "pinned_ref": "v2.7",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224",
+      "source_archive_sha256": "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb",
+      "spdx_license": "GPL-3.0-or-later"
+    },
+    {
+      "adapter_module": "textlayout.verification.klayout",
+      "canonical_name": "KLayout",
+      "checksum_verified": true,
+      "id": "klayout",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63",
+      "pinned_commit": "6270877110ef808dd442fd2244164cec06a7b10e",
+      "pinned_ref": "v0.30.9",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "6270877110ef808dd442fd2244164cec06a7b10e",
+      "source_archive_sha256": "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63",
+      "spdx_license": "GPL-3.0"
+    },
+    {
+      "adapter_module": "textlayout.external.kqcircuits_bridge",
+      "canonical_name": "KQCircuits",
+      "checksum_verified": true,
+      "id": "kqcircuits",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f",
+      "pinned_commit": "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18",
+      "pinned_ref": "v4.9.12",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18",
+      "source_archive_sha256": "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f",
+      "spdx_license": "GPL-3.0"
+    },
+    {
+      "adapter_module": "textlayout._legacy.solvers.openems",
+      "canonical_name": "openEMS",
+      "checksum_verified": true,
+      "id": "openems",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_archive_sha256": "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473",
+      "pinned_commit": "5f36e7f3a2367123f00999491a069aed50c6f244",
+      "pinned_ref": "v0.0.36",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "5f36e7f3a2367123f00999491a069aed50c6f244",
+      "source_archive_sha256": "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473",
+      "spdx_license": "GPL-3.0-or-later"
+    },
+    {
+      "adapter_module": "textlayout.solvers.palace.backend",
+      "canonical_name": "Palace",
+      "checksum_verified": true,
+      "id": "palace",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+      "pinned_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+      "pinned_ref": "v0.17.0",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+      "source_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+      "spdx_license": "Apache-2.0"
+    },
+    {
+      "adapter_module": "textlayout.solvers.palace.paraview",
+      "canonical_name": "ParaView",
+      "checksum_verified": true,
+      "id": "paraview",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_archive_sha256": "9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719",
+      "pinned_commit": "33274c1e71474b91721a41e3c449277d1e67d1ae",
+      "pinned_ref": "v5.13.3",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "33274c1e71474b91721a41e3c449277d1e67d1ae",
+      "source_archive_sha256": "9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719",
+      "spdx_license": "BSD-3-Clause"
+    },
+    {
+      "adapter_module": "textlayout.epr",
+      "canonical_name": "pyEPR",
+      "checksum_verified": true,
+      "id": "pyepr",
+      "license_review": "github_api_returned_noassertion",
+      "lock_archive_sha256": "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13",
+      "pinned_commit": "39a85e5501421d57f869ae3d7337a2c20da830f3",
+      "pinned_ref": "1.0.0",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "39a85e5501421d57f869ae3d7337a2c20da830f3",
+      "source_archive_sha256": "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13",
+      "spdx_license": "NOASSERTION"
+    },
+    {
+      "adapter_module": "textlayout.external.quantum_metal",
+      "canonical_name": "Quantum Metal / Qiskit Metal",
+      "checksum_verified": true,
+      "id": "qiskit-metal",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f",
+      "pinned_commit": "3ec90a580ab05c2c1b94ef934942f742daf1d8ab",
+      "pinned_ref": "v0.7.5",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "3ec90a580ab05c2c1b94ef934942f742daf1d8ab",
+      "source_archive_sha256": "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f",
+      "spdx_license": "Apache-2.0"
+    },
+    {
+      "adapter_module": "textlayout.solvers.scqubits_adapter",
+      "canonical_name": "scqubits",
+      "checksum_verified": true,
+      "id": "scqubits",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922",
+      "pinned_commit": "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa",
+      "pinned_ref": "v4.3.1",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa",
+      "source_archive_sha256": "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922",
+      "spdx_license": "BSD-3-Clause"
+    },
+    {
+      "adapter_module": "textlayout.external.sqdmetal",
+      "canonical_name": "SQDMetal",
+      "checksum_verified": true,
+      "id": "sqdmetal",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01",
+      "pinned_commit": "c0026ea6ee5b932dbdcd20843bc70e130f705d69",
+      "pinned_ref": "c0026ea6ee5b932dbdcd20843bc70e130f705d69",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "c0026ea6ee5b932dbdcd20843bc70e130f705d69",
+      "source_archive_sha256": "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01",
+      "spdx_license": "Apache-2.0"
+    },
+    {
+      "adapter_module": "textlayout.external.squadds_mcp",
+      "canonical_name": "SQuADDS",
+      "checksum_verified": true,
+      "id": "squadds",
+      "license_review": "reviewed_from_github_api",
+      "lock_archive_sha256": "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2",
+      "pinned_commit": "beace3e52ceb491b8ef85b7e3f5439cb8273f248",
+      "pinned_ref": "v0.4.5",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "beace3e52ceb491b8ef85b7e3f5439cb8273f248",
+      "source_archive_sha256": "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2",
+      "spdx_license": "MIT"
+    }
+  ],
+  "parent_commits": [
+    "802583f927d953bbfb1b48fbff9e23c43fe22ee0"
+  ],
+  "repository_files": [
+    {
+      "exists": true,
+      "path": ".dockerignore",
+      "sha256": "674295004906095905cee79afe9c4bb1ca5af9b92e9f27514934818e2e19be81",
+      "size_bytes": 201
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/ci.yml",
+      "sha256": "743b1cef6de37494b7c16ec50ea3af190a045d08a676eebff946414b5592c47c",
+      "size_bytes": 5796
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/nightly.yml",
+      "sha256": "284f49b823df75042ad33e13bdc8baa035040c374314a6a8982c5d91dcabcecb",
+      "size_bytes": 432
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/palace-integration.yml",
+      "sha256": "99c73804d56ae30f5823a06c11a8379f6a8754642c7b356ba07353949776f7ca",
+      "size_bytes": 5157
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/release.yml",
+      "sha256": "0c9ebcf176b6fc734120957779a752c81437cdcfbcbc69f6bd17c50f86d1c3d0",
+      "size_bytes": 374
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/test.yml",
+      "sha256": "c63208a875949516bca8872139b3e18ee9e0b5bf8041838ab396dd97ae9634c9",
+      "size_bytes": 615
+    },
+    {
+      "exists": true,
+      "path": "ARCHITECTURE.md",
+      "sha256": "abc915ac4c5100abf235f1a83f22dbe0db48771ebc4225c4f999aeb8f7b2d0cf",
+      "size_bytes": 2413
+    },
+    {
+      "exists": true,
+      "path": "PROJECT_STATUS.md",
+      "sha256": "0f9d396c37faba925d20673c2426e0139ca051bd8f2d1f38909704fe226c73d3",
+      "size_bytes": 3830
+    },
+    {
+      "exists": true,
+      "path": "README.md",
+      "sha256": "02ec44c70e1ad0b8ebb4bac00bd4027b725497bcca753e65fb1c87b4735124d6",
+      "size_bytes": 55082
+    },
+    {
+      "exists": true,
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "19d1215f9162a8f4c3c6208bbb403cace0b75687fc62b87137c07e4623942a73",
+      "size_bytes": 8980
+    },
+    {
+      "exists": true,
+      "path": "compose.yaml",
+      "sha256": "b1e459255f575c262f0e3d861d022dbd9a951ae79c83917799664e43ba4b9d5d",
+      "size_bytes": 2267
+    },
+    {
+      "exists": true,
+      "path": "docker-bake.hcl",
+      "sha256": "a6352fd4e7a678da3c3f4068a246eb6e552c881c9c06517cf1e685cb7cf606c1",
+      "size_bytes": 1216
+    },
+    {
+      "exists": true,
+      "path": "docker/core.Dockerfile",
+      "sha256": "d720c07f888121f72a721728ba672256a5858c7fe1dbd441361829d90500a395",
+      "size_bytes": 1866
+    },
+    {
+      "exists": true,
+      "path": "docker/josephson.Dockerfile",
+      "sha256": "b5c26f2026eba0bcb3ec9acb90dcef7d4551bb69b8870bdcdbf8749a2d95cf08",
+      "size_bytes": 1778
+    },
+    {
+      "exists": true,
+      "path": "docker/josim.Dockerfile",
+      "sha256": "940ff89b01699d1d1629a16d7fed6b5bc61bb18e8f8bfed727a42c46c7d3d3c3",
+      "size_bytes": 1555
+    },
+    {
+      "exists": true,
+      "path": "docker/klayout.Dockerfile",
+      "sha256": "b7913355b831303c3ab8f8eccdd612acc7dbe542b27408a72cde69c4e7f2c78b",
+      "size_bytes": 2987
+    },
+    {
+      "exists": true,
+      "path": "docker/openems.Dockerfile",
+      "sha256": "6fd11c14d345d0ad079b4c4ba4002b6ca4050a342c7f77987544c3337cb1b0bf",
+      "size_bytes": 1532
+    },
+    {
+      "exists": true,
+      "path": "docker/palace.Dockerfile",
+      "sha256": "b162258f7eec8d84e05b96bd797fbe7ed56fcdf819e6304fdad7dbdef708c29c",
+      "size_bytes": 1572
+    },
+    {
+      "exists": true,
+      "path": "docker/paraview.Dockerfile",
+      "sha256": "3709174178182eba49adf1dbe4027fa5e3454f818db416227863fb86dd383462",
+      "size_bytes": 1596
+    },
+    {
+      "exists": true,
+      "path": "docker/simulators.Dockerfile",
+      "sha256": "3b4314ae02ef4260aecc8363f0f39401be2904334cbc474f0292f4ef7966557a",
+      "size_bytes": 2330
+    },
+    {
+      "exists": true,
+      "path": "docker/solver-full.Dockerfile",
+      "sha256": "a43f40a80a6993bd7db01d10a3070e45fe227788a8cc610a8b157e9dafd82cc5",
+      "size_bytes": 1058
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
+      "sha256": "8ad1cee87e564f8daf51072a2d97bef93d7fd65948cedc7614ac95f844b92a47",
+      "size_bytes": 2913
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/02_cpw_50ohm/evidence/canonical.json",
+      "sha256": "210d6c59b6f9ed9cc8ca12a7d8cb6e0cc164cd3ed25e0a08c944036b62fbe0d2",
+      "size_bytes": 3509
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json",
+      "sha256": "8e35940d4c7abbcdb5ed3f7183a8138c56838ce326e0dfa04904bbfab490b4d6",
+      "size_bytes": 3085
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json",
+      "sha256": "2259e94a7af43c3a519b49782f7e039b1acc0c00980e77c1be4441b7dd0f50bf",
+      "size_bytes": 2796
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/05_quarter_wave_resonator_6ghz/evidence/canonical.json",
+      "sha256": "f93b92bf7996606ad73d12f60947ff64dafd0b910f023d10ffce408167443ca4",
+      "size_bytes": 3574
+    },
+    {
+      "exists": true,
+      "path": "examples/showcase/06_research_test_chip/evidence/canonical.json",
+      "sha256": "5a492e80e74d64089f030d7a725219a40997dfb38fdb280522c421e6b46decaf",
+      "size_bytes": 1766
+    },
+    {
+      "exists": true,
+      "path": "external_tools/lock.toml",
+      "sha256": "f11f332353a4e20bb0906d591d2b3ef9cdf8e75044a12800f998345b01f85116",
+      "size_bytes": 5858
+    },
+    {
+      "exists": true,
+      "path": "external_tools/registry.toml",
+      "sha256": "a348fb05e33b4af2ef5464179ae1ffe370a183eb1172ed2f62483ad08f60d570",
+      "size_bytes": 18434
+    },
+    {
+      "exists": true,
+      "path": "pyproject.toml",
+      "sha256": "23702809eff0c75127f1b4b9fbbf9a9d8b0652a66ca12dc7db3b58c05e60d17a",
+      "size_bytes": 5307
+    },
+    {
+      "exists": true,
+      "path": "uv.lock",
+      "sha256": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
+      "size_bytes": 964447
+    }
+  ],
+  "schema": "textlayout.audit.manifest.v1",
+  "source_revision": "36d6c9cf8f10285e7400274b0e03f92670e144df"
+}

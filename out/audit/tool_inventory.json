@@ -1,358 +1,420 @@
 {
-  "active_solver_processes": [
-    {
-      "payload": {
-        "command": "powershell -NoProfile -Command \"Get-Process | Where-Object { $_.ProcessName -match 'palace|openems|fastercap|fasthenry|josim|julia|klayout|docker|mpiexec|mpirun|pvpython' } | Select-Object Id,ProcessName,Path,CPU,WorkingSet64 | ConvertTo-Json -Compress\"",
-        "duration_seconds": 0.36,
-        "return_code": 0,
-        "stderr": "",
-        "stdout": "",
-        "timed_out": false
-      }
-    }
+  "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+  "schema": "textlayout.audit.tool-inventory.v2",
+  "tool_state_ladder": [
+    "UNREGISTERED",
+    "REGISTERED",
+    "LOCKED",
+    "SOURCE_DOWNLOADED",
+    "CHECKSUM_VERIFIED",
+    "LICENSE_REVIEWED",
+    "INSTALLED",
+    "IDENTITY_VERIFIED",
+    "UPSTREAM_SMOKE_PASSED",
+    "INTEGRATION_TEST_PASSED",
+    "BENCHMARK_EXECUTED",
+    "NUMERICALLY_VALIDATED",
+    "SCIENTIFICALLY_VALIDATED",
+    "DISABLED_REFERENCE_ONLY"
   ],
-  "container_runtime": {
-    "docker_info": {
-      "command": "docker info --format \"{{json .}}\"",
-      "duration_seconds": 0.484,
-      "return_code": 1,
-      "stderr": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.",
-      "stdout": "{\"ID\":\"\",\"Containers\":0,\"ContainersRunning\":0,\"ContainersPaused\":0,\"ContainersStopped\":0,\"Images\":0,\"Driver\":\"\",\"DriverStatus\":null,\"Plugins\":{\"Volume\":null,\"Network\":null,\"Authorization\":null,\"Log\":null},\"MemoryLimit\":false,\"SwapLimit\":false,\"CpuCfsPeriod\":false,\"CpuCfsQuota\":false,\"CPUShares\":false,\"CPUSet\":false,\"PidsLimit\":false,\"IPv4Forwarding\":false,\"Debug\":false,\"NFd\":0,\"OomKillDisable\":false,\"NGoroutines\":0,\"SystemTime\":\"\",\"LoggingDriver\":\"\",\"CgroupDriver\":\"\",\"NEventsListener\":0,\"KernelVersion\":\"\",\"OperatingSystem\":\"\",\"OSVersion\":\"\",\"OSType\":\"\",\"Architecture\":\"\",\"IndexServerAddress\":\"\",\"RegistryConfig\":null,\"NCPU\":0,\"MemTotal\":0,\"GenericResources\":null,\"DockerRootDir\":\"\",\"HttpProxy\":\"\",\"HttpsProxy\":\"\",\"NoProxy\":\"\",\"Name\":\"\",\"Labels\":null,\"ExperimentalBuild\":false,\"ServerVersion\":\"\",\"Runtimes\":null,\"DefaultRuntime\":\"\",\"Swarm\":{\"NodeID\":\"\",\"NodeAddr\":\"\",\"LocalNodeState\":\"\",\"ControlAvailable\":false,\"Error\":\"\",\"RemoteManagers\":null},\"LiveRestoreEnabled\":false,\"Isolation\":\"\",\"InitBinary\":\"\",\"ContainerdCommit\":{\"ID\":\"\"},\"RuncCommit\":{\"ID\":\"\"},\"InitCommit\":{\"ID\":\"\"},\"SecurityOptions\":null,\"CDISpecDirs\":null,\"Warnings\":null,\"ClientInfo\":{\"Debug\":false,\"Version\":\"29.3.1\",\"DefaultAPIVersion\":\"1.54\",\"GitCommit\":\"c2be9cc\",\"GoVersion\":\"go1.25.8\",\"Os\":\"windows\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Mar 25 16:16:33 2026\",\"Context\":\"desktop-linux\",\"Plugins\":[{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v1.39.0\",\"ShortDescription\":\"Docker AI Agent Runner\",\"Name\":\"agent\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-agent.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v1.20.2\",\"ShortDescription\":\"Docker AI Agent - Ask Gordon\",\"Name\":\"ai\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-ai.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.32.1-desktop.1\",\"ShortDescription\":\"Docker Buildx\",\"Name\":\"buildx\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-buildx.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v5.1.1\",\"ShortDescription\":\"Docker Compose\",\"Name\":\"compose\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-compose.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"0.0.47\",\"ShortDescription\":\"Get a shell into any image or container\",\"Name\":\"debug\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-debug.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.3.0\",\"ShortDescription\":\"Docker Desktop commands\",\"Name\":\"desktop\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-desktop.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.0.2\",\"ShortDescription\":\"CLI for managing Docker Hardened Images\",\"Name\":\"dhi\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-dhi.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.2.31\",\"ShortDescription\":\"Manages Docker extensions\",\"Name\":\"extension\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-extension.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v1.4.0\",\"ShortDescription\":\"Creates Docker-related starter files for your project\",\"Name\":\"init\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-init.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.40.3\",\"ShortDescription\":\"Docker MCP Plugin\",\"Name\":\"mcp\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-mcp.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v1.1.28\",\"ShortDescription\":\"Docker Model Runner\",\"Name\":\"model\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-model.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.5.81\",\"ShortDescription\":\"Docker Offload\",\"Name\":\"offload\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-offload.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.0.24\",\"ShortDescription\":\"Docker Pass Secrets Manager Plugin (beta)\",\"Hidden\":true,\"Name\":\"pass\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-pass.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.12.0\",\"ShortDescription\":\"Docker Sandbox\",\"Name\":\"sandbox\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-sandbox.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Anchore Inc.\",\"Version\":\"0.6.0\",\"ShortDescription\":\"View the packaged-based Software Bill Of Materials (SBOM) for an image\",\"URL\":\"https://github.com/docker/sbom-cli-plugin\",\"Name\":\"sbom\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-sbom.exe\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v1.20.3\",\"ShortDescription\":\"Docker Scout\",\"Name\":\"scout\",\"Path\":\"C:\\\\Program Files\\\\Docker\\\\cli-plugins\\\\docker-scout.exe\"}],\"Warnings\":null}}",
-      "timed_out": false
-    },
-    "docker_ps": {
-      "command": "docker ps",
-      "duration_seconds": 0.172,
-      "return_code": 1,
-      "stderr": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.",
-      "stdout": "",
-      "timed_out": false
-    },
-    "docker_version": {
-      "command": "docker --version",
-      "duration_seconds": 0.141,
-      "return_code": 0,
-      "stderr": "",
-      "stdout": "Docker version 29.3.1, build c2be9cc",
-      "timed_out": false
-    },
-    "podman_version": {
-      "command": "podman --version",
-      "duration_seconds": 0.031,
-      "return_code": 1,
-      "stderr": "'podman' is not recognized as an internal or external command,\noperable program or batch file.",
-      "stdout": "",
-      "timed_out": false
-    }
-  },
-  "generated_at_epoch": 1783947631,
-  "lock": {
-    "path": "external_tools/lock.toml",
-    "sha256": "f11f332353a4e20bb0906d591d2b3ef9cdf8e75044a12800f998345b01f85116",
-    "tool_count": 13
-  },
-  "registry": {
-    "path": "external_tools/registry.toml",
-    "sha256": "a348fb05e33b4af2ef5464179ae1ffe370a183eb1172ed2f62483ad08f60d570",
-    "tool_count": 13
-  },
-  "schema": "textlayout.audit.tool-inventory.v1",
   "tools": [
     {
-      "canonical_name": "Palace",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "palace",
-      "id": "palace",
-      "install_mode": "pinned source build or pinned container",
-      "integration_mode": "external executable via subprocess and file exchange",
-      "lock_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
-      "lock_checksum_verified": true,
-      "pinned_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
-      "pinned_ref": "v0.17.0",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
-      "smoke_result": null,
-      "spdx_license": "Apache-2.0",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
       "canonical_name": "Gmsh",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
+      "current_state": "INSTALLED",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "gmsh",
-      "install_mode": "uv optional dependency group mesh; external GPL runtime, source not vendored into the MIT package",
-      "integration_mode": "external GPL mesh runtime producing .msh files for process-isolated file exchange with Palace",
-      "lock_archive_sha256": "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9",
+      "license_review": "reviewed_from_upstream_repository",
       "lock_checksum_verified": true,
       "pinned_commit": "657c8e915f60405e6cad0c8ec7faf812bfff1a60",
       "pinned_ref": "gmsh_4_15_2",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "9c743bcddc5199bbcb9ee5aaf333a47d2c450e6157b042716c549650a990dcd9",
-      "smoke_result": {
-        "command": "py -3 -c \"import gmsh; print(gmsh.__version__)\"",
-        "duration_seconds": 0.188,
-        "return_code": 1,
-        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'gmsh'",
-        "stdout": "",
-        "timed_out": false
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "gmsh",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "57f945cde83d4c732ae432fed0d99b11ae38d16ce5d56c0cdee1cd6b5e3a99cb",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "gmsh",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
       },
+      "smoke_result": null,
       "spdx_license": "GPL-2.0-or-later",
-      "state_note": "registered and locked, but executable not proven locally"
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH"
+      ]
+    },
+    {
+      "canonical_name": "JosephsonCircuits.jl",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "julia",
+      "id": "josephsoncircuits",
+      "license_review": "reviewed_from_github_api",
+      "lock_checksum_verified": true,
+      "pinned_commit": "f688e70663ead21aef480bc74711bbf320d7825e",
+      "pinned_ref": "v0.5.2",
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "JosephsonCircuits",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "7f474b529cfccc585c4a5a31ebd45b7387428af0ad2a21ad1f162fbd3739a272",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "JosephsonCircuits",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
+      },
+      "smoke_result": null,
+      "spdx_license": "MIT",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
+    },
+    {
+      "canonical_name": "JoSIM",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "josim",
+      "id": "josim",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_checksum_verified": true,
+      "pinned_commit": "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224",
+      "pinned_ref": "v2.7",
+      "python_package_probe": null,
+      "smoke_result": null,
+      "spdx_license": "GPL-3.0-or-later",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
+    },
+    {
+      "canonical_name": "KLayout",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "klayout",
+      "id": "klayout",
+      "license_review": "reviewed_from_github_api",
+      "lock_checksum_verified": true,
+      "pinned_commit": "6270877110ef808dd442fd2244164cec06a7b10e",
+      "pinned_ref": "v0.30.9",
+      "python_package_probe": null,
+      "smoke_result": null,
+      "spdx_license": "GPL-3.0",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
+    },
+    {
+      "canonical_name": "KQCircuits",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "klayout",
+      "id": "kqcircuits",
+      "license_review": "reviewed_from_github_api",
+      "lock_checksum_verified": true,
+      "pinned_commit": "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18",
+      "pinned_ref": "v4.9.12",
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "kqcircuits",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "7f2bd5863cd1da0eac35aef2742abd99bab535768021ebf017fc6689233886dc",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "kqcircuits",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
+      },
+      "smoke_result": null,
+      "spdx_license": "GPL-3.0",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
+    },
+    {
+      "canonical_name": "openEMS",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "openEMS",
+      "id": "openems",
+      "license_review": "reviewed_from_upstream_repository",
+      "lock_checksum_verified": true,
+      "pinned_commit": "5f36e7f3a2367123f00999491a069aed50c6f244",
+      "pinned_ref": "v0.0.36",
+      "python_package_probe": null,
+      "smoke_result": null,
+      "spdx_license": "GPL-3.0-or-later",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
+    },
+    {
+      "canonical_name": "Palace",
+      "current_state": "LICENSE_REVIEWED",
+      "executable_path": null,
+      "executable_probe": "palace",
+      "id": "palace",
+      "license_review": "reviewed_from_github_api",
+      "lock_checksum_verified": true,
+      "pinned_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+      "pinned_ref": "v0.17.0",
+      "python_package_probe": null,
+      "smoke_result": null,
+      "spdx_license": "Apache-2.0",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded"
+      ]
     },
     {
       "canonical_name": "ParaView",
       "current_state": "UPSTREAM_SMOKE_PASSED",
-      "executable_path": "C:\\Windows\\py.EXE",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "paraview",
-      "install_mode": "isolated official binary extraction under .tools/paraview",
-      "integration_mode": "external pvpython executable via subprocess and file exchange",
-      "lock_archive_sha256": "9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719",
+      "license_review": "reviewed_from_upstream_repository",
       "lock_checksum_verified": true,
       "pinned_commit": "33274c1e71474b91721a41e3c449277d1e67d1ae",
       "pinned_ref": "v5.13.3",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "9089d61f5928cd20ff90218b6e77a02f08690ca75518cab96f455dc86fc7a719",
+      "python_package_probe": null,
       "smoke_result": {
-        "command": "py -3 scripts/external/run_paraview_smoke.py",
-        "duration_seconds": 1.765,
+        "command": [
+          "py",
+          "-3",
+          "scripts/external/run_paraview_smoke.py"
+        ],
         "return_code": 0,
-        "stderr": "",
-        "stdout": "{\n  \"schema\": \"textlayout.paraview-smoke.v1\",\n  \"version\": \"5.13.3\",\n  \"return_code\": 0,\n  \"pvpython_sha256\": \"3ed0fd624130f22b686962c868415bae2613865333a0d18a5826e4d536f70f75\",\n  \"script_sha256\": \"d6012861d5ab5dcf70df82ec32da1c537f6aa3487708f22ce83395b41a850189\",\n  \"output_sha256\": \"c46c759a01d8aea6c0eec834fa5ff5d8cd4c3f1d89e8441010149d191e54aaaa\",\n  \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\n  \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n}",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "f49d0fdc34c9191471e24c4272efab878b1a123b1f3b2faf76e9e95b03b455a6",
         "timed_out": false
       },
       "spdx_license": "BSD-3-Clause",
-      "state_note": "smoke ran locally"
-    },
-    {
-      "canonical_name": "JosephsonCircuits.jl",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "julia",
-      "id": "josephsoncircuits",
-      "install_mode": "isolated Julia project",
-      "integration_mode": "Julia subprocess and JSON/netlist file exchange",
-      "lock_archive_sha256": "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85",
-      "lock_checksum_verified": true,
-      "pinned_commit": "f688e70663ead21aef480bc74711bbf320d7825e",
-      "pinned_ref": "v0.5.2",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "a47576ea42c9ff38b6783c09706b7a9327760db3f9b43b5d5d9253aba4c28d85",
-      "smoke_result": null,
-      "spdx_license": "MIT",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
-      "canonical_name": "scqubits",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
-      "executable_probe": "py",
-      "id": "scqubits",
-      "install_mode": "uv optional dependency group quantum",
-      "integration_mode": "Python package adapter",
-      "lock_archive_sha256": "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922",
-      "lock_checksum_verified": true,
-      "pinned_commit": "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa",
-      "pinned_ref": "v4.3.1",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "cdba2edc0f58b663bdbc1bf3c9b4d69f12951ba3d4acfd8478f5c90c095ad922",
-      "smoke_result": {
-        "command": "py -3 -c \"import scqubits; print(scqubits.__version__)\"",
-        "duration_seconds": 0.172,
-        "return_code": 1,
-        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'scqubits'",
-        "stdout": "",
-        "timed_out": false
-      },
-      "spdx_license": "BSD-3-Clause",
-      "state_note": "registered and locked, but executable not proven locally"
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH",
+        "upstream smoke command succeeded"
+      ]
     },
     {
       "canonical_name": "pyEPR",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
+      "current_state": "DISABLED_REFERENCE_ONLY",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "pyepr",
-      "install_mode": "unsupported historical reference; no install path in supported dependency groups or OCI images",
-      "integration_mode": "disabled commercial-HFSS path; retained only for attribution and imported field-energy compatibility notes",
-      "lock_archive_sha256": "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13",
+      "license_review": "github_api_returned_noassertion",
       "lock_checksum_verified": true,
       "pinned_commit": "39a85e5501421d57f869ae3d7337a2c20da830f3",
       "pinned_ref": "1.0.0",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13",
+      "python_package_probe": null,
       "smoke_result": {
-        "command": "py -3 -c \"raise SystemExit('pyEPR live integration is unsupported')\"",
-        "duration_seconds": 0.125,
+        "command": [
+          "py",
+          "-3",
+          "-c",
+          "raise SystemExit('pyEPR live integration is unsupported')"
+        ],
         "return_code": 1,
-        "stderr": "pyEPR live integration is unsupported",
-        "stdout": "",
+        "stderr_sha256": "99ebaf72e7fc1c033210474a4ef0dbdbb81424c11754efbe615f23a4284a3588",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "timed_out": false
       },
       "spdx_license": "NOASSERTION",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
-      "canonical_name": "openEMS",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "openEMS",
-      "id": "openems",
-      "install_mode": "isolated OCI image or external executable",
-      "integration_mode": "external GPL FDTD runtime via subprocess and process-isolated file exchange",
-      "lock_archive_sha256": "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473",
-      "lock_checksum_verified": true,
-      "pinned_commit": "5f36e7f3a2367123f00999491a069aed50c6f244",
-      "pinned_ref": "v0.0.36",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473",
-      "smoke_result": null,
-      "spdx_license": "GPL-3.0-or-later",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
-      "canonical_name": "JoSIM",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "josim",
-      "id": "josim",
-      "install_mode": "isolated OCI image or external executable",
-      "integration_mode": "external GPL transient runtime via subprocess and process-isolated file exchange",
-      "lock_archive_sha256": "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb",
-      "lock_checksum_verified": true,
-      "pinned_commit": "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224",
-      "pinned_ref": "v2.7",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb",
-      "smoke_result": null,
-      "spdx_license": "GPL-3.0-or-later",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
-      "canonical_name": "SQuADDS",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
-      "executable_probe": "py",
-      "id": "squadds",
-      "install_mode": "separate environment and optional MCP server",
-      "integration_mode": "MCP process returning priors and dataset metadata only",
-      "lock_archive_sha256": "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2",
-      "lock_checksum_verified": true,
-      "pinned_commit": "beace3e52ceb491b8ef85b7e3f5439cb8273f248",
-      "pinned_ref": "v0.4.5",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "f4e1d195b3edbfcd34826694ffa5bd99233f381cf87a5899304b54590ce88df2",
-      "smoke_result": {
-        "command": "py -3 -c \"import squadds; print(getattr(squadds, '__version__', 'unknown'))\"",
-        "duration_seconds": 0.125,
-        "return_code": 1,
-        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'squadds'",
-        "stdout": "",
-        "timed_out": false
-      },
-      "spdx_license": "MIT",
-      "state_note": "registered and locked, but executable not proven locally"
+      "state_notes": [
+        "disabled commercial-HFSS reference path only"
+      ]
     },
     {
       "canonical_name": "Quantum Metal / Qiskit Metal",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
+      "current_state": "INSTALLED",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "qiskit-metal",
-      "install_mode": "uv optional dependency group metal",
-      "integration_mode": "optional Python interoperability adapter",
-      "lock_archive_sha256": "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f",
+      "license_review": "reviewed_from_github_api",
       "lock_checksum_verified": true,
       "pinned_commit": "3ec90a580ab05c2c1b94ef934942f742daf1d8ab",
       "pinned_ref": "v0.7.5",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "3b6b1399b6bcdaee32ec5bd7b2f687aa82534dec1eaef04fcba3226526c9da1f",
-      "smoke_result": {
-        "command": "py -3 -c \"import qiskit_metal; print(getattr(qiskit_metal, '__version__', 'unknown'))\"",
-        "duration_seconds": 0.125,
-        "return_code": 1,
-        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'qiskit_metal'",
-        "stdout": "",
-        "timed_out": false
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "qiskit-metal",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "44ee81f7b4c706504032a47c0b9b9fa75a09592d06e0f08026e818e642c122da",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "qiskit_metal",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
       },
+      "smoke_result": null,
       "spdx_license": "Apache-2.0",
-      "state_note": "registered and locked, but executable not proven locally"
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH"
+      ]
+    },
+    {
+      "canonical_name": "scqubits",
+      "current_state": "INSTALLED",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
+      "executable_probe": "py",
+      "id": "scqubits",
+      "license_review": "reviewed_from_github_api",
+      "lock_checksum_verified": true,
+      "pinned_commit": "1dfb8b6ef3337d9fea5eb4bba21af8e36551adaa",
+      "pinned_ref": "v4.3.1",
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "scqubits",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "35af875e4875ce96e89f4c21e679d4c48aa2b3d6e2793e1a331017039b35ee50",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "scqubits",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
+      },
+      "smoke_result": null,
+      "spdx_license": "BSD-3-Clause",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH"
+      ]
     },
     {
       "canonical_name": "SQDMetal",
-      "current_state": "IMPLEMENTED",
-      "executable_path": "C:\\Windows\\py.EXE",
+      "current_state": "INSTALLED",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "sqdmetal",
-      "install_mode": "separate Python environment",
-      "integration_mode": "file-exchange reference workflow adapter",
-      "lock_archive_sha256": "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01",
+      "license_review": "reviewed_from_github_api",
       "lock_checksum_verified": true,
       "pinned_commit": "c0026ea6ee5b932dbdcd20843bc70e130f705d69",
       "pinned_ref": "c0026ea6ee5b932dbdcd20843bc70e130f705d69",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "8cbd054f73ddfcd2422ca55f1b90efcb504a6ad84a15d4895e3e2de160a31e01",
+      "python_package_probe": null,
       "smoke_result": {
-        "command": "py -3 -c \"import sqdmetal; print(getattr(sqdmetal, '__version__', 'unknown'))\"",
-        "duration_seconds": 0.141,
+        "command": [
+          "py",
+          "-3",
+          "-c",
+          "import sqdmetal; print(getattr(sqdmetal, '__version__', 'unknown'))"
+        ],
         "return_code": 1,
-        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'sqdmetal'",
-        "stdout": "",
+        "stderr_sha256": "ab94d4b7a4533c602e2ef6eed0785c31e9ed07ae082f203b25143a3e09f2c6f4",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "timed_out": false
       },
       "spdx_license": "Apache-2.0",
-      "state_note": "registered and locked, but executable not proven locally"
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH"
+      ]
     },
     {
-      "canonical_name": "KQCircuits",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "klayout",
-      "id": "kqcircuits",
-      "install_mode": "separate KLayout environment",
-      "integration_mode": "process-isolated GDS, JSON, runset, and result file exchange",
-      "lock_archive_sha256": "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f",
+      "canonical_name": "SQuADDS",
+      "current_state": "INSTALLED",
+      "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
+      "executable_probe": "py",
+      "id": "squadds",
+      "license_review": "reviewed_from_github_api",
       "lock_checksum_verified": true,
-      "pinned_commit": "71cad094a65da90d65b7b9f8c5ed0e6c6f079d18",
-      "pinned_ref": "v4.9.12",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "af6cf100b61cc1149d62ac3742ae57f1c0b6213af3a9cf616f24fef33b76716f",
+      "pinned_commit": "beace3e52ceb491b8ef85b7e3f5439cb8273f248",
+      "pinned_ref": "v0.4.5",
+      "python_package_probe": {
+        "active_python_executable": ".venv/Scripts/python.exe",
+        "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+        "distribution_name": "squadds",
+        "distribution_version": null,
+        "import_return_code": 1,
+        "import_stderr_sha256": "68c930e1ae6b8b02989554fceabdb8e60617f76e17af37084cee9d9654ab570a",
+        "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "package_name": "squadds",
+        "package_root": null,
+        "present": false,
+        "virtual_environment": {
+          "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
+          "is_venv": true,
+          "prefix": ".venv",
+          "pyvenv_cfg_sha256": "b467ef47594f6805aa92c39ce1281255b04be1d7fe94ccefe00962c6d6389854"
+        }
+      },
       "smoke_result": null,
-      "spdx_license": "GPL-3.0",
-      "state_note": "registered and locked, but executable not proven locally"
-    },
-    {
-      "canonical_name": "KLayout",
-      "current_state": "IMPLEMENTED",
-      "executable_path": null,
-      "executable_probe": "klayout",
-      "id": "klayout",
-      "install_mode": "external executable or PyPI wheel, not vendored source",
-      "integration_mode": "process-isolated DRC/LVS runsets and report file exchange",
-      "lock_archive_sha256": "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63",
-      "lock_checksum_verified": true,
-      "pinned_commit": "6270877110ef808dd442fd2244164cec06a7b10e",
-      "pinned_ref": "v0.30.9",
-      "redistribute_binaries": false,
-      "redistribute_source": false,
-      "registry_archive_sha256": "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63",
-      "smoke_result": null,
-      "spdx_license": "GPL-3.0",
-      "state_note": "registered and locked, but executable not proven locally"
+      "spdx_license": "MIT",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH"
+      ]
     }
   ]
 }

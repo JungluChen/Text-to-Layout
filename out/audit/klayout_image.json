@@ -1,0 +1,57 @@
+{
+  "architecture": "amd64",
+  "container_checks": {
+    "identity_returncode": 0,
+    "identity_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "identity_stdout_sha256": "fc762ff5cc4f380f9e8894cd04f35f3a4da839f1686aa1b2742df2c7279ea5f2",
+    "read_only_output_volume_returncode": 0,
+    "read_only_output_volume_status": "passed"
+  },
+  "image": "textlayout/klayout:local",
+  "image_id": "sha256:f055f0f233ab8acf880259bd13176ad12f166f2108c69041545650bd3880979a",
+  "integration_evidence": {
+    "drc_json": "out/audit/klayout_drc.json",
+    "partial_lvs_json": "out/audit/klayout_lvs.json"
+  },
+  "klayout": {
+    "executable": "/usr/bin/klayout",
+    "executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
+    "identity_status": "IDENTITY_VERIFIED",
+    "version": "0.30.9"
+  },
+  "labels": {
+    "org.opencontainers.image.description": "Pinned KLayout runtime for headless DRC/LVS smoke",
+    "org.opencontainers.image.licenses": "GPL-3.0-or-later",
+    "org.opencontainers.image.revision": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+    "org.opencontainers.image.source": "https://github.com/JungluChen/Text-to-Layout",
+    "org.opencontainers.image.title": "Textlayout KLayout boundary",
+    "org.opencontainers.image.version": "0.30.9"
+  },
+  "limits": [
+    "This image evidence proves containerized KLayout identity and headless GDS readback only.",
+    "The partial LVS artifact is not electrical LVS and is not physics signoff.",
+    "No vulnerability scan passed in this environment."
+  ],
+  "oci_descriptor_digest": "sha256:f055f0f233ab8acf880259bd13176ad12f166f2108c69041545650bd3880979a",
+  "os": "linux",
+  "repo_digests": [
+    "textlayout/klayout@sha256:f055f0f233ab8acf880259bd13176ad12f166f2108c69041545650bd3880979a"
+  ],
+  "sbom": {
+    "format": "spdx-json",
+    "package_count": 344,
+    "path": "out/audit/klayout.sbom.spdx.json",
+    "sha256": "a857ff30df34e4d8b24c738549acfa06f17f7bc0ec4b97a7084eee4ed99b51a0",
+    "status": "generated",
+    "tool": "docker sbom"
+  },
+  "schema": "textlayout.klayout-image-evidence.v1",
+  "user": "appuser",
+  "vulnerability_scan": {
+    "docker_scout_returncode": 1,
+    "grype_returncode": 1,
+    "reason": "Trivy and Grype are not installed; Docker Scout requires login in this environment.",
+    "status": "blocked",
+    "trivy_returncode": 1
+  }
+}
