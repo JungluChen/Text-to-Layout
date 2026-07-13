@@ -7,7 +7,7 @@ group "solver-stack" {
 }
 
 variable "SOURCE_REVISION" {
-  default = "e09e901fc392079b6dc6c7e5160654ef4da50397"
+  default = "DEVELOPMENT_UNSET"
 }
 
 target "common" {

@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: docker/core.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["core"]
     volumes:
       - textlayout-artifacts:/workspace/out
@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: docker/palace.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["palace", "signoff"]
     volumes:
       - palace-output:/solver-output
@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: docker/openems.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["fdtd", "signoff"]
     volumes:
       - openems-output:/solver-output
@@ -40,7 +40,7 @@ services:
       context: .
       dockerfile: docker/klayout.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["signoff", "visualization"]
     volumes:
       - klayout-output:/solver-output
@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: docker/josephson.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["jpa"]
     volumes:
       - josephson-output:/solver-output
@@ -62,7 +62,7 @@ services:
       context: .
       dockerfile: docker/josim.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["transient"]
     volumes:
       - josim-output:/solver-output
@@ -73,7 +73,7 @@ services:
       context: .
       dockerfile: docker/paraview.Dockerfile
       args:
-        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
     profiles: ["visualization"]
     volumes:
       - paraview-output:/solver-output
