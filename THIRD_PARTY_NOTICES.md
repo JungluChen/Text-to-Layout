@@ -94,13 +94,45 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Source archive SHA-256: `8ea231e715dd560993396769c2227eb86359619272590f950af3d2e54fad7a13`
 - SPDX license identifier: `NOASSERTION`
 - Copyright holder: pyEPR contributors
-- Install mode: uv optional dependency group pyepr with external HFSS project files
-- Integration mode: optional Python package plus commercial-HFSS file exchange
+- Install mode: unsupported historical reference; no install path in supported dependency groups or OCI images
+- Integration mode: disabled commercial-HFSS path; retained only for attribution and imported field-energy compatibility notes
 - Redistributes source: false
 - Redistributes binaries: false
 - Adapter module: `textlayout.epr`
 - Dataset license: not_applicable
 - Human review required: true
+
+## openEMS
+
+- Upstream: https://github.com/thliebig/openEMS
+- Pinned ref: `v0.0.36`
+- Resolved commit: `5f36e7f3a2367123f00999491a069aed50c6f244`
+- Source archive SHA-256: `57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473`
+- SPDX license identifier: `GPL-3.0-or-later`
+- Copyright holder: openEMS contributors
+- Install mode: isolated OCI image or external executable
+- Integration mode: external GPL FDTD runtime via subprocess and process-isolated file exchange
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `textlayout._legacy.solvers.openems`
+- Dataset license: not_applicable
+- Human review required: false
+
+## JoSIM
+
+- Upstream: https://github.com/JoeyDelp/JoSIM
+- Pinned ref: `v2.7`
+- Resolved commit: `02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224`
+- Source archive SHA-256: `900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb`
+- SPDX license identifier: `GPL-3.0-or-later`
+- Copyright holder: JoSIM contributors
+- Install mode: isolated OCI image or external executable
+- Integration mode: external GPL transient runtime via subprocess and process-isolated file exchange
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `textlayout._legacy.simulation.backends.josim`
+- Dataset license: not_applicable
+- Human review required: false
 
 ## SQuADDS
 

@@ -152,19 +152,71 @@ source_archive_sha256 = "8ea231e715dd560993396769c2227eb86359619272590f950af3d2e
 source_archive_size_bytes = 2757625
 spdx_license = "NOASSERTION"
 copyright_holder = "pyEPR contributors"
-install_mode = "uv optional dependency group pyepr with external HFSS project files"
-integration_mode = "optional Python package plus commercial-HFSS file exchange"
+install_mode = "unsupported historical reference; no install path in supported dependency groups or OCI images"
+integration_mode = "disabled commercial-HFSS path; retained only for attribution and imported field-energy compatibility notes"
 redistribute_source = false
 redistribute_binaries = false
 adapter_module = "textlayout.epr"
-smoke_test_command = ["py", "-3", "-c", "import pyEPR; print(getattr(pyEPR, '__version__', 'unknown'))"]
+smoke_test_command = ["py", "-3", "-c", "raise SystemExit('pyEPR live integration is unsupported')"]
 benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_epr_coherence.py", "-q"]
 supported_operating_systems = ["Windows", "Linux", "macOS"]
-required_runtime = ["Python >=3.11", "Ansys HFSS for live pyEPR"]
-expected_output_files = ["pyepr_result.json", "participation.csv"]
-tool_scope = "EPR quantization and junction participation when HFSS/pyEPR output exists"
+required_runtime = ["none; live pyEPR/HFSS execution is unsupported"]
+expected_output_files = ["field_energy_export.json"]
+tool_scope = "historical attribution and optional parsing of user-supplied field-energy exports; no live HFSS path"
 license_review = "github_api_returned_noassertion"
 human_review_required = true
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "openems"
+canonical_name = "openEMS"
+upstream_repository = "https://github.com/thliebig/openEMS"
+pinned_ref = "v0.0.36"
+pinned_commit = "5f36e7f3a2367123f00999491a069aed50c6f244"
+source_archive_url = "https://github.com/thliebig/openEMS/archive/5f36e7f3a2367123f00999491a069aed50c6f244.tar.gz"
+source_archive_sha256 = "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473"
+source_archive_size_bytes = 1729195
+spdx_license = "GPL-3.0-or-later"
+copyright_holder = "openEMS contributors"
+install_mode = "isolated OCI image or external executable"
+integration_mode = "external GPL FDTD runtime via subprocess and process-isolated file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout._legacy.solvers.openems"
+smoke_test_command = ["openEMS", "--version"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/textlayout_suite/test_openems_evidence.py", "-q"]
+supported_operating_systems = ["Linux", "Windows via WSL", "macOS"]
+required_runtime = ["Octave or openEMS executable"]
+expected_output_files = ["openems_result.json", "openems.s2p"]
+tool_scope = "open-source FDTD S-parameter and resonator excitation backend"
+license_review = "reviewed_from_upstream_repository"
+human_review_required = false
+dataset_license = "not_applicable"
+
+[[tools]]
+id = "josim"
+canonical_name = "JoSIM"
+upstream_repository = "https://github.com/JoeyDelp/JoSIM"
+pinned_ref = "v2.7"
+pinned_commit = "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224"
+source_archive_url = "https://github.com/JoeyDelp/JoSIM/archive/02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224.tar.gz"
+source_archive_sha256 = "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb"
+source_archive_size_bytes = 371209
+spdx_license = "GPL-3.0-or-later"
+copyright_holder = "JoSIM contributors"
+install_mode = "isolated OCI image or external executable"
+integration_mode = "external GPL transient runtime via subprocess and process-isolated file exchange"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "textlayout._legacy.simulation.backends.josim"
+smoke_test_command = ["josim", "--version"]
+benchmark_command = ["py", "-3", "-m", "pytest", "tests/test_solver_execution.py", "-q"]
+supported_operating_systems = ["Linux", "Windows via WSL", "macOS"]
+required_runtime = ["JoSIM executable"]
+expected_output_files = ["josim_stdout.txt", "josim_result.csv"]
+tool_scope = "open-source Josephson transient circuit simulator"
+license_review = "reviewed_from_upstream_repository"
+human_review_required = false
 dataset_license = "not_applicable"
 
 [[tools]]

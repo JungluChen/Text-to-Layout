@@ -1,0 +1,88 @@
+name: textlayout
+
+services:
+  core:
+    image: textlayout/core:local
+    build:
+      context: .
+      dockerfile: docker/core.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["core"]
+    volumes:
+      - textlayout-artifacts:/workspace/out
+
+  palace:
+    image: textlayout/palace:local
+    build:
+      context: .
+      dockerfile: docker/palace.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["palace", "signoff"]
+    volumes:
+      - palace-output:/solver-output
+
+  openems:
+    image: textlayout/openems:local
+    build:
+      context: .
+      dockerfile: docker/openems.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["fdtd", "signoff"]
+    volumes:
+      - openems-output:/solver-output
+
+  klayout:
+    image: textlayout/klayout:local
+    build:
+      context: .
+      dockerfile: docker/klayout.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["signoff", "visualization"]
+    volumes:
+      - klayout-output:/solver-output
+
+  josephson:
+    image: textlayout/josephson:local
+    build:
+      context: .
+      dockerfile: docker/josephson.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["jpa"]
+    volumes:
+      - josephson-output:/solver-output
+
+  josim:
+    image: textlayout/josim:local
+    build:
+      context: .
+      dockerfile: docker/josim.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["transient"]
+    volumes:
+      - josim-output:/solver-output
+
+  paraview:
+    image: textlayout/paraview:local
+    build:
+      context: .
+      dockerfile: docker/paraview.Dockerfile
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-e09e901fc392079b6dc6c7e5160654ef4da50397}
+    profiles: ["visualization"]
+    volumes:
+      - paraview-output:/solver-output
+
+volumes:
+  textlayout-artifacts:
+  palace-output:
+  openems-output:
+  klayout-output:
+  josephson-output:
+  josim-output:
+  paraview-output:

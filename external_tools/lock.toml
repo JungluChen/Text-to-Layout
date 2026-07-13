@@ -69,6 +69,24 @@ source_archive_size_bytes = 2757625
 checksum_verified = true
 
 [[locked_tools]]
+id = "openems"
+resolved_commit = "5f36e7f3a2367123f00999491a069aed50c6f244"
+pinned_ref = "v0.0.36"
+source_archive_url = "https://github.com/thliebig/openEMS/archive/5f36e7f3a2367123f00999491a069aed50c6f244.tar.gz"
+source_archive_sha256 = "57389b04fc0613d266b2d8d73d87ecb8a5405ad124081f6e5b73987c6253f473"
+source_archive_size_bytes = 1729195
+checksum_verified = true
+
+[[locked_tools]]
+id = "josim"
+resolved_commit = "02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224"
+pinned_ref = "v2.7"
+source_archive_url = "https://github.com/JoeyDelp/JoSIM/archive/02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224.tar.gz"
+source_archive_sha256 = "900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb"
+source_archive_size_bytes = 371209
+checksum_verified = true
+
+[[locked_tools]]
 id = "squadds"
 resolved_commit = "beace3e52ceb491b8ef85b7e3f5439cb8273f248"
 pinned_ref = "v0.4.5"
