@@ -191,7 +191,7 @@ def test_readme_documents_setup_flow() -> None:
     assert "## Simulator Setup" in readme
     for command in ("make setup-simulators", "make check-simulators", "make demo-jpa"):
         assert command in readme, command
-    assert "PHYSICS_VERIFIED" in readme
+    assert "NUMERICALLY_CONVERGED" in readme
 
 
 def test_tools_dir_is_gitignored() -> None:

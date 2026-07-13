@@ -720,7 +720,8 @@
     }
   ],
   "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
-  "canonical_evidence_status": "SIMULATION_EXECUTED",
+  "canonical_evidence_status": "OUTPUT_PARSED",
   "scientific_validation_level": "OUTPUT_PARSED",
-  "target_tolerance_passed": true
+  "target_tolerance_passed": true,
+  "solver_execution_status": "SIMULATION_EXECUTED"
 }

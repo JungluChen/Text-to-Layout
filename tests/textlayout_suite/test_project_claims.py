@@ -70,8 +70,8 @@ class TestPhysicsVerifiedCrossCheck:
                     "examples": [
                         {
                             "id": "01_idc",
-                            "evidence_status": "PHYSICS_VERIFIED",
-                            "simulation_status": "PHYSICS_VERIFIED",
+                            "evidence_status": "NUMERICALLY_CONVERGED",
+                            "simulation_status": "NUMERICALLY_CONVERGED",
                             "solver_executed": True,
                         }
                     ]
@@ -81,7 +81,7 @@ class TestPhysicsVerifiedCrossCheck:
         )
         (tmp_path / "README.md").write_text(
             "| 1 | IDC | prompt | examples/showcase/01_idc/output.png | "
-            "**PHYSICS_VERIFIED** executed |\n",
+            "**NUMERICALLY_CONVERGED** executed |\n",
             encoding="utf-8",
         )
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
@@ -136,8 +136,8 @@ class TestPhysicsVerifiedCrossCheck:
                     "examples": [
                         {
                             "id": "03_spiral",
-                            "evidence_status": "PHYSICS_VERIFIED",
-                            "simulation_status": "PHYSICS_VERIFIED",
+                            "evidence_status": "NUMERICALLY_CONVERGED",
+                            "simulation_status": "NUMERICALLY_CONVERGED",
                             "solver_executed": True,
                         }
                     ]

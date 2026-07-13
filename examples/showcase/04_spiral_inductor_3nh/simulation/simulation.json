@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "SIMULATION_EXECUTED",
+  "status": "OUTPUT_PARSED",
   "solver": "fasthenry",
   "solver_executed": true,
   "capacitance_matrix_parsed": false,
@@ -46,7 +46,7 @@
       "analytical_model": "Modified-Wheeler / Mohan planar spiral inductor",
       "error_percent": -1.389719,
       "tolerance_percent": 5.0,
-      "status": "SIMULATION_EXECUTED",
+      "status": "OUTPUT_PARSED",
       "solver": "fasthenry",
       "command": "wsl bash -lc cd extraction/capacitance_input && .tools/FastHenry2/bin/fasthenry spiral.inp",
       "input_files": [
@@ -68,7 +68,8 @@
       ],
       "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
       "scientific_validation_level": "OUTPUT_PARSED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "SIMULATION_EXECUTED"
     }
   ],
   "backends": {
@@ -79,5 +80,6 @@
   "physics_verified": true,
   "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
   "scientific_validation_level": "OUTPUT_PARSED",
-  "target_tolerance_passed": true
+  "target_tolerance_passed": true,
+  "solver_execution_status": "SIMULATION_EXECUTED"
 }

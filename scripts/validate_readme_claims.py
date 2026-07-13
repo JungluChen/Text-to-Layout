@@ -677,7 +677,12 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
         if re.search(r"FABRICATION[_ ]READY", upper) and "NOT_FABRICATION_READY" not in upper:
             _fail(errors, f"showcase row claims FABRICATION_READY without signoff: {folder}")
         claims_verified = "PHYSICS_VERIFIED" in upper
-        claims_executed = claims_verified or "SIMULATION_EXECUTED" in upper
+        claims_executed = (
+            claims_verified
+            or "SIMULATION_EXECUTED" in upper
+            or "OUTPUT_PARSED" in upper
+            or "NUMERICALLY_CONVERGED" in upper
+        )
         if claims_executed:
             if simulation is None:
                 _fail(errors, f"{folder}: solver claim but simulation.json is unreadable")

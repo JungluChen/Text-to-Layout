@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "PHYSICS_VERIFIED",
+  "status": "NUMERICALLY_CONVERGED",
   "solver": "openEMS+scikit-rf",
   "solver_executed": true,
   "capacitance_matrix_parsed": false,
@@ -48,7 +48,7 @@
       "analytical_model": "Conformal-mapping CPW (Simons/Hilberg) + \u03bb/4 transmission-line theory",
       "error_percent": -0.574931,
       "tolerance_percent": 5.0,
-      "status": "PHYSICS_VERIFIED",
+      "status": "NUMERICALLY_CONVERGED",
       "solver": "openEMS+scikit-rf",
       "command": "C:\\Windows\\system32\\wsl.EXE bash -lc cd extraction/capacitance_input && /usr/bin/octave-cli --quiet --no-gui openems_model.m",
       "input_files": [
@@ -71,7 +71,8 @@
       ],
       "canonical_evidence_id": "525c5c091c57223099a616761124d031",
       "scientific_validation_level": "NUMERICALLY_CONVERGED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "PHYSICS_VERIFIED"
     }
   ],
   "backends": {
@@ -82,5 +83,6 @@
   "physics_verified": true,
   "canonical_evidence_id": "525c5c091c57223099a616761124d031",
   "scientific_validation_level": "NUMERICALLY_CONVERGED",
-  "target_tolerance_passed": true
+  "target_tolerance_passed": true,
+  "solver_execution_status": "PHYSICS_VERIFIED"
 }

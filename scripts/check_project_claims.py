@@ -73,6 +73,7 @@ def _load_showcase_index() -> list[dict]:
 def check_physics_verified_and_execution_claims(errors: list[str]) -> None:
     """README per-example claims must agree with examples/showcase/index.json."""
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    public_levels = {"PHYSICS_VERIFIED", "NUMERICALLY_CONVERGED", "OUTPUT_PARSED"}
     for example in _load_showcase_index():
         example_id = example.get("id")
         if not example_id:
@@ -87,25 +88,29 @@ def check_physics_verified_and_execution_claims(errors: list[str]) -> None:
         if not row_match:
             continue  # not every example needs a README row (index is the source of truth)
         row = row_match.group(0)
-        index_says_verified = example.get("evidence_status") == "PHYSICS_VERIFIED"
-        readme_says_verified = "PHYSICS_VERIFIED" in row
-        if readme_says_verified and not index_says_verified:
+        index_level = str(example.get("evidence_status", ""))
+        row_levels = {level for level in public_levels if level in row}
+        if row_levels and index_level not in row_levels:
             _fail(
                 errors,
-                f"{example_id}: README claims PHYSICS_VERIFIED but "
-                f"examples/showcase/index.json evidence_status is "
-                f"{example.get('evidence_status')!r}",
+                f"{example_id}: README claims {sorted(row_levels)} but "
+                f"examples/showcase/index.json evidence_status is {index_level!r}",
             )
-        if index_says_verified and not readme_says_verified:
+        if index_level in public_levels and index_level not in row_levels:
             _fail(
                 errors,
-                f"{example_id}: index.json says PHYSICS_VERIFIED but the README "
+                f"{example_id}: index.json says {index_level} but the README "
                 "row does not mention it",
             )
 
         solver_executed = bool(example.get("solver_executed"))
         row_lower = row.lower()
-        claims_executed = "executed" in row_lower or "physics_verified" in row_lower
+        claims_executed = (
+            "executed" in row_lower
+            or "physics_verified" in row_lower
+            or "output_parsed" in row_lower
+            or "numerically_converged" in row_lower
+        )
         if claims_executed and not solver_executed:
             _fail(
                 errors,

@@ -422,5 +422,6 @@
   "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742",
   "canonical_evidence_status": "ANALYTICAL_ONLY",
   "scientific_validation_level": null,
-  "target_tolerance_passed": null
+  "target_tolerance_passed": null,
+  "solver_execution_status": "ANALYTICAL_ONLY"
 }

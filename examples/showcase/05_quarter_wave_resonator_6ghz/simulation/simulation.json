@@ -68,7 +68,8 @@
       ],
       "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
       "scientific_validation_level": null,
-      "target_tolerance_passed": null
+      "target_tolerance_passed": null,
+      "solver_execution_status": "SIMULATION_INVALID"
     }
   ],
   "backends": {
@@ -79,5 +80,6 @@
   "physics_verified": false,
   "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
   "scientific_validation_level": null,
-  "target_tolerance_passed": null
+  "target_tolerance_passed": null,
+  "solver_execution_status": "SIMULATION_INVALID"
 }

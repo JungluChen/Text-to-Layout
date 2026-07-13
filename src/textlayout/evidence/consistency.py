@@ -30,7 +30,11 @@ _INPUT_PREPARED_RE = re.compile(r"^[A-Z_]*INPUT_PREPARED$")
 
 #: Derived from the enum, never hand-listed: a status added to the contract but
 #: forgotten here would silently escape every cross-artifact consistency check.
-_STATUS_TOKENS: tuple[str, ...] = tuple(status.value for status in EvidenceStatus)
+SCIENTIFIC_LEVEL_TOKENS = (
+    "OUTPUT_PARSED",
+    "NUMERICALLY_CONVERGED",
+)
+_STATUS_TOKENS: tuple[str, ...] = tuple(status.value for status in EvidenceStatus) + SCIENTIFIC_LEVEL_TOKENS
 
 #: Files whose `status` is a solver-level extraction outcome, not an evidence
 #: status. They constrain the evidence status without equalling it.
@@ -38,7 +42,9 @@ SOLVER_LEVEL_SOURCES = frozenset({"openems_result.json", "extraction/capacitance
 
 #: Which evidence statuses each extraction outcome permits downstream.
 _OUTCOME_COMPATIBILITY: dict[str, frozenset[str]] = {
-    "EXTRACTED": frozenset({"SIMULATION_EXECUTED", "PHYSICS_VERIFIED"}),
+    "EXTRACTED": frozenset(
+        {"SIMULATION_EXECUTED", "OUTPUT_PARSED", "NUMERICALLY_CONVERGED", "PHYSICS_VERIFIED"}
+    ),
     "INPUT_PREPARED": frozenset(
         {"SIMULATION_INPUT_PREPARED", "ANALYTICAL_ONLY", "SKIPPED_SOLVER_ABSENT"}
     ),
@@ -358,7 +364,7 @@ def check_showcase(
     if canonical is None:
         return report
 
-    expected = canonical.status.value
+    expected = canonical.scientific_validation_level or canonical.status.value
     for claim in report.claims:
         if claim.status is None:
             continue

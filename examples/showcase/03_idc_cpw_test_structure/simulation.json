@@ -1,6 +1,6 @@
 {
   "schema": "textlayout.simulation-evidence.v1",
-  "status": "PHYSICS_VERIFIED",
+  "status": "NUMERICALLY_CONVERGED",
   "solver": "FasterCap",
   "solver_executed": true,
   "capacitance_matrix_parsed": true,
@@ -55,7 +55,7 @@
       "analytical_model": "Bahl/Alley quasi-static closed form (Bahl 2003, Alley 1970)",
       "error_percent": 1.669833,
       "tolerance_percent": 5.0,
-      "status": "PHYSICS_VERIFIED",
+      "status": "NUMERICALLY_CONVERGED",
       "solver": "FasterCap",
       "command": "wsl .tools/FasterCap/bin/FasterCap -b -a0.01 extraction/capacitance_input/idc.lst",
       "input_files": [
@@ -78,7 +78,8 @@
       ],
       "canonical_evidence_id": "2f2dd2bd9082a2cacf6a5b402f2d9c60",
       "scientific_validation_level": "NUMERICALLY_CONVERGED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "PHYSICS_VERIFIED"
     }
   ],
   "backends": {
@@ -89,5 +90,6 @@
   "physics_verified": true,
   "canonical_evidence_id": "2f2dd2bd9082a2cacf6a5b402f2d9c60",
   "scientific_validation_level": "NUMERICALLY_CONVERGED",
-  "target_tolerance_passed": true
+  "target_tolerance_passed": true,
+  "solver_execution_status": "PHYSICS_VERIFIED"
 }

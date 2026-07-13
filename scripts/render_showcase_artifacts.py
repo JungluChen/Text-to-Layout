@@ -204,6 +204,13 @@ def _evidence_cell(record: CanonicalEvidence) -> str:
             f"`{record.convergence.method}`. Missing gates: "
             f"{', '.join(record.missing_scientific_validation_gates) or 'none'}."
         )
+    elif record.scientific_validation_level == "OUTPUT_PARSED":
+        body = (
+            f"**OUTPUT_PARSED** -- {solver} extracted {record.extracted_value:.6f} "
+            f"{record.extracted_unit} versus {record.target_value:.6f} "
+            f"{record.extracted_unit} target ({record.error_percent:+.3f}%), but no "
+            f"convergence criterion is evidenced, so it is **not** physics-verified."
+        )
     elif record.status is EvidenceStatus.SIMULATION_EXECUTED:
         body = (
             f"**SIMULATION_EXECUTED** — {solver} extracted {record.extracted_value:.6f} "
@@ -249,8 +256,10 @@ def _showcase_table(records: list[CanonicalEvidence], index: dict[str, object]) 
 
 
 def _index_entry(entry: dict[str, object], record: CanonicalEvidence) -> dict[str, object]:
-    entry["evidence_status"] = record.status.value
-    entry["simulation_status"] = record.status.value
+    display_status = record.scientific_validation_level or record.status.value
+    entry["evidence_status"] = display_status
+    entry["simulation_status"] = display_status
+    entry["solver_execution_status"] = record.status.value
     entry["scientific_validation_level"] = record.scientific_validation_level or record.status.value
     entry["target_tolerance_passed"] = record.target_tolerance_passed
     entry["solver"] = record.solver_name or "none"

@@ -77,11 +77,12 @@ def test_readme_no_ambiguous_pass() -> None:
             assert not ambiguous.search(line), f"ambiguous PASS on: {line}"
 
 
-# 4. README must not over-claim physics or fabrication readiness. The only
-# PHYSICS_VERIFIED claims allowed are the solver-backed showcase examples,
-# which test_showcase_examples.py verifies against committed solver output.
+# 4. README must not over-claim physics or fabrication readiness. Solver-backed
+# showcase examples may claim audit-facing levels such as NUMERICALLY_CONVERGED,
+# but full physics signoff must remain absent until all gates exist.
 def test_readme_no_overclaim() -> None:
-    assert "No `examples/benchmarks/` default artifact is PHYSICS VERIFIED" in README
+    assert "No showcase carries full physics signoff" in README
+    assert "NUMERICALLY_CONVERGED" in README
     assert "nothing in this repository is FABRICATION READY" in README
     # Public-plugin readiness must be explicitly disclaimed, not asserted.
     assert '**not** claimed to be "public ChatGPT plugin ready"' in _flat(README)

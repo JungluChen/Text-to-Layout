@@ -10,13 +10,14 @@
       "klayout_readback_status": "pass",
       "solver": "FasterCap",
       "solver_executed": true,
-      "simulation_status": "PHYSICS_VERIFIED",
-      "evidence_status": "PHYSICS_VERIFIED",
+      "simulation_status": "NUMERICALLY_CONVERGED",
+      "evidence_status": "NUMERICALLY_CONVERGED",
       "fabrication_status": "NOT_FABRICATION_READY",
       "limitation": "Effective-medium electrostatic model; no self-resonance, loss, or finite-thickness model. Not fabrication-ready.",
       "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b",
       "scientific_validation_level": "NUMERICALLY_CONVERGED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "PHYSICS_VERIFIED"
     },
     {
       "id": "02_cpw_50ohm",
@@ -27,13 +28,14 @@
       "klayout_readback_status": "pass",
       "solver": "openEMS+scikit-rf",
       "solver_executed": true,
-      "simulation_status": "PHYSICS_VERIFIED",
-      "evidence_status": "PHYSICS_VERIFIED",
+      "simulation_status": "NUMERICALLY_CONVERGED",
+      "evidence_status": "NUMERICALLY_CONVERGED",
       "fabrication_status": "NOT_FABRICATION_READY",
       "limitation": "openEMS FDTD executed via WSL/Octave with convergence gates (excitation fully recorded, energy plateau); extracted 49.888 ohm versus 50 ohm target (-0.223% error, within the 5% tolerance). Earlier committed runs simulated a vacuum substrate (CSXCAD AddMaterial varargin silently ignores Epsilon) -- fixed via SetMaterialProperty. Generic process assumptions; not fabrication-ready.",
       "canonical_evidence_id": "525c5c091c57223099a616761124d031",
       "scientific_validation_level": "NUMERICALLY_CONVERGED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "PHYSICS_VERIFIED"
     },
     {
       "id": "03_idc_cpw_test_structure",
@@ -44,13 +46,14 @@
       "klayout_readback_status": "pass",
       "solver": "FasterCap",
       "solver_executed": true,
-      "simulation_status": "PHYSICS_VERIFIED",
-      "evidence_status": "PHYSICS_VERIFIED",
+      "simulation_status": "NUMERICALLY_CONVERGED",
+      "evidence_status": "NUMERICALLY_CONVERGED",
       "fabrication_status": "NOT_FABRICATION_READY",
       "limitation": "Only the embedded IDC region is extracted; launches, feeds, and transitions are not simulated. Not fabrication-ready.",
       "canonical_evidence_id": "2f2dd2bd9082a2cacf6a5b402f2d9c60",
       "scientific_validation_level": "NUMERICALLY_CONVERGED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "PHYSICS_VERIFIED"
     },
     {
       "id": "04_spiral_inductor_3nh",
@@ -61,13 +64,14 @@
       "klayout_readback_status": "pass",
       "solver": "fasthenry",
       "solver_executed": true,
-      "simulation_status": "SIMULATION_EXECUTED",
-      "evidence_status": "SIMULATION_EXECUTED",
+      "simulation_status": "OUTPUT_PARSED",
+      "evidence_status": "OUTPUT_PARSED",
       "fabrication_status": "NOT_FABRICATION_READY",
       "limitation": "fasthenry extracted 2.958308 nH versus a 3.000000 nH target, but no convergence criterion is evidenced (none_recorded), so the result is not physics-verified. Not fabrication-ready.",
       "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
       "scientific_validation_level": "OUTPUT_PARSED",
-      "target_tolerance_passed": true
+      "target_tolerance_passed": true,
+      "solver_execution_status": "SIMULATION_EXECUTED"
     },
     {
       "id": "05_quarter_wave_resonator_6ghz",
@@ -84,7 +88,8 @@
       "limitation": "openEMS+scikit-rf ran to completion, but its output failed a physical-sanity check: openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it No quantity was extracted. Not fabrication-ready.",
       "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
       "scientific_validation_level": "SIMULATION_INVALID",
-      "target_tolerance_passed": null
+      "target_tolerance_passed": null,
+      "solver_execution_status": "SIMULATION_INVALID"
     },
     {
       "id": "06_research_test_chip",
@@ -101,7 +106,8 @@
       "limitation": "No full-tile solver ran. The tile map records exact-parameter sub-block execution or preparation without promoting it to tile verification. Not fabrication-ready.",
       "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742",
       "scientific_validation_level": "ANALYTICAL_ONLY",
-      "target_tolerance_passed": null
+      "target_tolerance_passed": null,
+      "solver_execution_status": "ANALYTICAL_ONLY"
     }
   ]
 }

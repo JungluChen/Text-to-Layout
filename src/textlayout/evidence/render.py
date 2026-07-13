@@ -69,7 +69,9 @@ def render_simulation_json(record: CanonicalEvidence, path: Path) -> bool:
     payload = _load(path)
     if payload is None:
         return False
-    payload["status"] = record.status.value
+    display_status = record.scientific_validation_level or record.status.value
+    payload["status"] = display_status
+    payload["solver_execution_status"] = record.status.value
     payload["scientific_validation_level"] = record.scientific_validation_level
     payload["target_tolerance_passed"] = record.target_tolerance_passed
     payload["extracted_value"] = record.extracted_value
@@ -91,7 +93,8 @@ def render_simulation_json(record: CanonicalEvidence, path: Path) -> bool:
         for item in evidence:
             if not isinstance(item, dict) or item.get("quantity") != record.target_quantity:
                 continue
-            item["status"] = record.status.value
+            item["status"] = display_status
+            item["solver_execution_status"] = record.status.value
             item["scientific_validation_level"] = record.scientific_validation_level
             item["target_tolerance_passed"] = record.target_tolerance_passed
             item["extracted_value"] = record.extracted_value
@@ -165,14 +168,16 @@ def render_workflow_trace(record: CanonicalEvidence, path: Path) -> bool:
         return False
     reported = _run_reported_status(payload)
     payload["canonical_evidence_id"] = record.evidence_id
-    payload["canonical_evidence_status"] = record.status.value
+    display_status = record.scientific_validation_level or record.status.value
+    payload["canonical_evidence_status"] = display_status
+    payload["solver_execution_status"] = record.status.value
     payload["scientific_validation_level"] = record.scientific_validation_level
     payload["target_tolerance_passed"] = record.target_tolerance_passed
-    if reported and reported != record.status.value:
+    if reported and reported != display_status:
         payload["run_reported_status"] = reported
         payload["historical_note"] = (
             f"This trace records a run that reported {reported}. Canonical evidence "
-            f"for this design is {record.status.value}. The per-node summaries below "
+            f"for this design is {display_status}. The per-node summaries below "
             "are preserved as the historical record of that run and are NOT a claim "
             "about current evidence."
         )
