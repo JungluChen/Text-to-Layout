@@ -119,6 +119,7 @@ def run_fixture(image: str, fixture: dict[str, Any], manifest: dict[str, Any], o
     }
     python_report = run_drc(pdk, gds, top_cell=fixture["top_cell"])
     python_ids = sorted({violation.rule_id for violation in python_report.violations})
+    python_violation_count = sum(violation.count for violation in python_report.violations)
     standalone_ids = parsed["rule_ids"]
     expected = sorted(fixture["expected_rule_ids"])
     unexpected = sorted(set(standalone_ids) - set(expected))
@@ -155,7 +156,7 @@ def run_fixture(image: str, fixture: dict[str, Any], manifest: dict[str, Any], o
         "python_backend_passed": set(expected) <= set(python_ids) and (bool(expected) or not python_ids),
         "standalone_backend_passed": standalone_passed,
         "rule_id_parity": set(python_ids) == set(standalone_ids),
-        "violation_count_parity": len(python_report.violations) == len(parsed["items"]),
+        "violation_count_parity": python_violation_count == len(parsed["items"]),
         "bbox_parity_within_tolerance": None,
         "parsed_summary": parsed,
     }

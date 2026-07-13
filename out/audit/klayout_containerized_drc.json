@@ -1,6 +1,6 @@
 {
   "all_rule_id_parity": true,
-  "all_violation_count_parity": false,
+  "all_violation_count_parity": true,
   "fixture_expectations_passed": true,
   "fixtures": [
     {
@@ -82,7 +82,7 @@
       "python_rule_ids": [],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.904799,
+      "runtime_seconds": 1.952401,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [],
       "status": "passed",
@@ -169,7 +169,7 @@
       "python_rule_ids": [],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.839198,
+      "runtime_seconds": 1.948605,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [],
       "status": "passed",
@@ -256,7 +256,7 @@
       "python_rule_ids": [],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.89182,
+      "runtime_seconds": 1.873156,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [],
       "status": "passed",
@@ -343,7 +343,7 @@
       "python_rule_ids": [],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.774655,
+      "runtime_seconds": 1.914282,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [],
       "status": "passed",
@@ -445,7 +445,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.799012,
+      "runtime_seconds": 1.886832,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "IDC.MIN_FINGER_WIDTH"
@@ -549,7 +549,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.803616,
+      "runtime_seconds": 1.914948,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "IDC.MIN_FINGER_SPACING"
@@ -653,7 +653,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.773967,
+      "runtime_seconds": 1.914318,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "IDC.NO_UNINTENDED_BRIDGE"
@@ -757,7 +757,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.825636,
+      "runtime_seconds": 1.888883,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "IDC.MIN_BUS_WIDTH"
@@ -861,7 +861,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.80987,
+      "runtime_seconds": 1.938156,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
@@ -965,7 +965,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.794091,
+      "runtime_seconds": 2.220735,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
@@ -1069,7 +1069,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.787434,
+      "runtime_seconds": 2.205276,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
@@ -1173,7 +1173,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.748756,
+      "runtime_seconds": 2.087444,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
@@ -1277,7 +1277,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.749751,
+      "runtime_seconds": 2.025786,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "SPIRAL.MIN_TRACE_WIDTH"
@@ -1381,7 +1381,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.798483,
+      "runtime_seconds": 2.056982,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "SPIRAL.MIN_TURN_SPACING"
@@ -1485,7 +1485,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.792197,
+      "runtime_seconds": 2.013278,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "JJ.MIN_AREA"
@@ -1589,7 +1589,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.779512,
+      "runtime_seconds": 2.02018,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "JJ.MIN_LEAD_OVERLAP"
@@ -1693,7 +1693,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.87945,
+      "runtime_seconds": 2.014382,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.M1"
@@ -1813,7 +1813,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.825452,
+      "runtime_seconds": 2.033682,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "klayout_signoff_fixture_pdk.min_area.M1",
@@ -1822,7 +1822,7 @@
       "status": "passed",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "violation_count_parity": false
+      "violation_count_parity": true
     },
     {
       "bbox_parity_within_tolerance": null,
@@ -1928,7 +1928,7 @@
       ],
       "return_code": 0,
       "rule_id_parity": true,
-      "runtime_seconds": 1.861148,
+      "runtime_seconds": 2.181006,
       "standalone_backend_passed": true,
       "standalone_rule_ids": [
         "klayout_signoff_fixture_pdk.min_spacing.M1",
