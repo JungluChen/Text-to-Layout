@@ -151,8 +151,17 @@ def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) ->
         _iteration("iteration_02", 3, {1: 6.002, 2: 9.2}, {1: 0.9, 2: 0.2}),
     ]
     monkeypatch.setattr(
-        "textlayout.solvers.palace.benchmark_v017.field_mac",
-        lambda left, right, kind: 0.99,
+        "textlayout.solvers.palace.benchmark_v017.energy_weighted_field_mac",
+        lambda left, right, kind: type(
+            "Result",
+            (),
+            {
+                "total_mac": 0.99,
+                "mapped_volume_coverage": 1.0,
+                "maximum_normalized_mapping_distance": 0.0,
+                "unmapped_point_count": 0,
+            },
+        )(),
     )
     tracked, matches = track_amr_modes(iterations, seed_frequency_ghz=6.0)
     assert tracked == [2, 1, 1]
@@ -167,8 +176,17 @@ def test_track_amr_modes_raises_on_ambiguous_identity(monkeypatch) -> None:
         _iteration("iteration_01", 2, {1: 6.0005, 2: 6.0006}, {1: 0.9, 2: 0.9}),
     ]
     monkeypatch.setattr(
-        "textlayout.solvers.palace.benchmark_v017.field_mac",
-        lambda left, right, kind: 0.99,
+        "textlayout.solvers.palace.benchmark_v017.energy_weighted_field_mac",
+        lambda left, right, kind: type(
+            "Result",
+            (),
+            {
+                "total_mac": 0.99,
+                "mapped_volume_coverage": 1.0,
+                "maximum_normalized_mapping_distance": 0.0,
+                "unmapped_point_count": 0,
+            },
+        )(),
     )
     with pytest.raises(PalaceOutputError, match="ambiguous_mode_identity"):
         track_amr_modes(iterations, seed_frequency_ghz=6.0)

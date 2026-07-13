@@ -1,0 +1,43 @@
+<?xml version="2.2"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+<!--This file was created by meshio v5.3.5-->
+<UnstructuredGrid>
+<Piece NumberOfPoints="4" NumberOfCells="1">
+<Points>
+<DataArray type="Float64" Name="Points" NumberOfComponents="3" format="binary">
+AQAAAACAAABgAAAAFAAAAA==eJxjYACBD/YMeAGx8pg0APBaBxs=
+</DataArray>
+</Points>
+<Cells>
+<DataArray type="Int32" Name="connectivity" format="binary">
+AQAAAACAAAAQAAAAEwAAAA==eJxjYGBgYARiJiBmBmIAADgABw==
+</DataArray>
+<DataArray type="Int32" Name="offsets" format="binary">
+AQAAAACAAAAEAAAADAAAAA==eJxjYWBgAAAAFAAF
+</DataArray>
+<DataArray type="Int32" Name="types" format="binary">
+AQAAAACAAAAEAAAADAAAAA==eJzjYmBgAAAALAAL
+</DataArray>
+</Cells>
+<PointData>
+<DataArray type="Float64" Name="E_real" NumberOfComponents="3" format="binary">
+AQAAAACAAABgAAAAIgAAAA==eJxjYACBD/azZoLATnsGFPABzkeVR6jHLn4STgMA6/QgNw==
+</DataArray>
+<DataArray type="Float64" Name="E_imag" NumberOfComponents="3" format="binary">
+AQAAAACAAABgAAAADAAAAA==eJxjYKAtAAAAYAAB
+</DataArray>
+<DataArray type="Float64" Name="B_real" NumberOfComponents="3" format="binary">
+AQAAAACAAABgAAAAIQAAAA==eJxjYEAGH+xnzQSBnXAaJg5TgS6Oqv4kmvhJewA0CyA3
+</DataArray>
+<DataArray type="Float64" Name="B_imag" NumberOfComponents="3" format="binary">
+AQAAAACAAABgAAAADAAAAA==eJxjYKAtAAAAYAAB
+</DataArray>
+</PointData>
+<CellData>
+<DataArray type="Int32" Name="attribute" format="binary">
+AQAAAACAAAAEAAAADAAAAA==eJxjZGBgAAAACAAC
+</DataArray>
+</CellData>
+</Piece>
+</UnstructuredGrid>
+</VTKFile>

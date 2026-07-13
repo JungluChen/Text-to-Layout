@@ -98,6 +98,27 @@ class ModeFieldData(BaseModel):
     field_file: Path | None = None
 
 
+class FieldOverlapResult(BaseModel):
+    """Auditable energy-weighted overlap on a common integration mesh."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    field_kind: Literal["electric", "magnetic"]
+    projection_method: str
+    integration_method: str
+    material_weighting: str
+    total_mac: float = Field(ge=0.0, le=1.0)
+    per_region_mac: dict[str, float]
+    mapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    critical_region_unmapped_coverage: float = Field(ge=0.0, le=1.0)
+    maximum_mapping_distance: float = Field(ge=0.0)
+    average_mapping_distance: float = Field(ge=0.0)
+    maximum_normalized_mapping_distance: float = Field(ge=0.0)
+    unmapped_point_count: int = Field(ge=0)
+    integration_cell_count: int = Field(gt=0)
+    passed_projection_quality: bool
+
+
 class PalaceRun(BaseModel):
     """One retained Palace subprocess result."""
 

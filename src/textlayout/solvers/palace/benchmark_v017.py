@@ -87,7 +87,7 @@ from textlayout.solvers.palace.parser import (
     parse_global_error_indicator,
     parse_mode_fields,
     field_artifact_files,
-    field_mac,
+    energy_weighted_field_mac,
 )
 from textlayout.solvers.palace.runner import build_command, run_palace
 from textlayout.solvers.palace.stages import (
@@ -150,7 +150,7 @@ class AMRSettings(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     tolerance: float = Field(default=1e-4, gt=0, lt=1)
-    max_iterations: int = Field(default=5, ge=2)
+    max_iterations: int = Field(default=5, ge=1)
     update_fraction: float = Field(default=0.7, gt=0, lt=1)
     nonconformal: bool = False
 
@@ -210,6 +210,10 @@ class ModeMatch(BaseModel):
     magnetic_regional_energy_similarity: float = Field(ge=0, le=1)
     electric_field_mac: float = Field(ge=0, le=1)
     magnetic_field_mac: float = Field(ge=0, le=1)
+    electric_mapped_volume_coverage: float = Field(default=0.0, ge=0, le=1)
+    magnetic_mapped_volume_coverage: float = Field(default=0.0, ge=0, le=1)
+    maximum_normalized_mapping_distance: float = Field(default=float("inf"), ge=0)
+    unmapped_critical_region_count: int = Field(default=0, ge=0)
     localization_similarity: float = Field(ge=0, le=1)
     score: float = Field(ge=0, le=1)
     runner_up_score: float = Field(ge=0, le=1)
@@ -260,6 +264,60 @@ class SweepExecutionPlan(BaseModel):
     reason: str
 
 
+class SweepMetadata(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: str
+    low: float
+    baseline: float
+    high: float
+    priority: int = Field(ge=0)
+    expected_cost: str
+    expected_physical_direction: str
+    category: SweepCategory
+
+
+def _sweep_metadata(
+    numerical: dict[str, tuple[float, ...]], physical: dict[str, tuple[float, ...]]
+) -> list[SweepMetadata]:
+    priorities = {
+        "upper_boundary_distance": 10,
+        "lateral_boundary_margin": 20,
+        "vacuum_or_air_margin": 30,
+        "substrate_thickness": 40,
+        "substrate_permittivity": 50,
+    }
+    directions = {
+        "upper_boundary_distance": "larger distance should reduce lid perturbation",
+        "lateral_boundary_margin": "larger margin should reduce side-boundary perturbation",
+        "vacuum_or_air_margin": "larger margin should reduce open-domain truncation sensitivity",
+        "substrate_thickness": "larger substrate generally increases electric loading",
+        "substrate_permittivity": "larger permittivity should lower eigenfrequency",
+    }
+    records: list[SweepMetadata] = []
+    for category, values_by_name in (
+        (SweepCategory.NUMERICAL_DOMAIN, numerical),
+        (SweepCategory.PHYSICAL_PARAMETER, physical),
+    ):
+        for name, values in values_by_name.items():
+            if not values:
+                continue
+            ordered = sorted(values)
+            records.append(
+                SweepMetadata(
+                    name=name,
+                    low=ordered[0],
+                    baseline=ordered[len(ordered) // 2],
+                    high=ordered[-1],
+                    priority=priorities.get(name, 1000),
+                    expected_cost="one Palace AMR endpoint solve",
+                    expected_physical_direction=directions.get(name, "unknown; inspect result"),
+                    category=category,
+                )
+            )
+    return sorted(records, key=lambda item: (item.priority, item.name))
+
+
 def staged_sweep_plan(
     global_error_percent: float,
     numerical: dict[str, tuple[float, ...]],
@@ -274,14 +332,24 @@ def staged_sweep_plan(
             reason="global AMR indicator exceeds 5%",
         )
     if global_error_percent > 1.0:
-        first = next(iter(numerical.items()), None)
-        pilot = {first[0]: (first[1][-1],)} if first and first[1] else {}
+        candidates = [
+            item
+            for item in _sweep_metadata(numerical, physical)
+            if item.category == SweepCategory.NUMERICAL_DOMAIN
+        ]
+        selected = candidates[0] if candidates else None
+        pilot = {selected.name: (selected.high,)} if selected else {}
         return SweepExecutionPlan(
             tier="one_numerical_endpoint_pilot",
             global_error_indicator_percent=global_error_percent,
             numerical=pilot,
             physical={},
-            reason="global AMR indicator is between 1% and 5%",
+            reason=(
+                "global AMR indicator is between 1% and 5%; selected "
+                f"{selected.name}@{selected.high:g} by priority {selected.priority}"
+                if selected
+                else "global AMR indicator is between 1% and 5%; no numerical pilot exists"
+            ),
         )
     if global_error_percent > 0.5:
         return SweepExecutionPlan(
@@ -895,12 +963,14 @@ def track_amr_modes(
                 raise PalaceOutputError(
                     f"{left.tag} to {right.tag}: retained Palace fields are required for MAC"
                 )
-            electric_mac = field_mac(
+            electric_result = energy_weighted_field_mac(
                 left_field.field_file, candidate_field.field_file, kind="electric"
             )
-            magnetic_mac = field_mac(
+            magnetic_result = energy_weighted_field_mac(
                 left_field.field_file, candidate_field.field_file, kind="magnetic"
             )
+            electric_mac = electric_result.total_mac
+            magnetic_mac = magnetic_result.total_mac
             score = (
                 frequency
                 + 2.0 * electric
@@ -920,6 +990,16 @@ def track_amr_modes(
                     magnetic_regional_energy_similarity=magnetic,
                     electric_field_mac=electric_mac,
                     magnetic_field_mac=magnetic_mac,
+                    electric_mapped_volume_coverage=electric_result.mapped_volume_coverage,
+                    magnetic_mapped_volume_coverage=magnetic_result.mapped_volume_coverage,
+                    maximum_normalized_mapping_distance=max(
+                        electric_result.maximum_normalized_mapping_distance,
+                        magnetic_result.maximum_normalized_mapping_distance,
+                    ),
+                    unmapped_critical_region_count=(
+                        electric_result.unmapped_point_count
+                        + magnetic_result.unmapped_point_count
+                    ),
                     localization_similarity=localization,
                     score=score,
                     runner_up_score=0.0,
@@ -1873,6 +1953,42 @@ def _supplementary_gates(
     )
     minimum_magnetic_mac = min(
         (match.magnetic_field_mac for match in matches), default=0.0
+    )
+    minimum_coverage = min(
+        (
+            min(match.electric_mapped_volume_coverage, match.magnetic_mapped_volume_coverage)
+            for match in matches
+        ),
+        default=0.0,
+    )
+    maximum_mapping_distance = max(
+        (match.maximum_normalized_mapping_distance for match in matches), default=float("inf")
+    )
+    unmapped_critical = sum(match.unmapped_critical_region_count for match in matches)
+    gates.extend(
+        [
+            VerificationGate(
+                name="mapped_volume_coverage_at_least_0p99",
+                passed=bool(matches) and minimum_coverage >= 0.99,
+                value=minimum_coverage,
+                threshold=0.99,
+                detail="minimum electric/magnetic mapped integration volume coverage",
+            ),
+            VerificationGate(
+                name="unmapped_critical_region_coverage_zero",
+                passed=bool(matches) and unmapped_critical == 0,
+                value=unmapped_critical,
+                threshold=0,
+                detail="unmapped integration cells across tracked comparisons",
+            ),
+            VerificationGate(
+                name="maximum_normalized_mapping_distance_below_0p25",
+                passed=bool(matches) and maximum_mapping_distance <= 0.25,
+                value=maximum_mapping_distance,
+                threshold=0.25,
+                detail="maximum centroid mapping distance normalized by local cell length",
+            ),
+        ]
     )
     gates.append(
         VerificationGate(

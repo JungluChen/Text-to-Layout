@@ -65,7 +65,13 @@ def sha256_file(path: Path) -> str:
 def wsl_executable() -> str | None:
     if os.name != "nt":
         return None
-    return shutil.which("wsl.exe") or shutil.which("wsl")
+    discovered = shutil.which("wsl.exe") or shutil.which("wsl")
+    if discovered:
+        return discovered
+    system = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "wsl.exe"
+    if system.is_file():
+        return str(system)
+    return None
 
 
 def windows_to_wsl(path: Path) -> str:

@@ -56,7 +56,13 @@ def _wsl_exe() -> str | None:
     """
     if os.name != "nt":
         return None
-    return shutil.which("wsl")
+    discovered = shutil.which("wsl.exe") or shutil.which("wsl")
+    if discovered:
+        return discovered
+    system = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "wsl.exe"
+    if system.is_file():
+        return str(system)
+    return None
 
 
 def _wsl_which(names: tuple[str, ...]) -> str | None:

@@ -83,6 +83,9 @@ def wrap_wsl_command_with_ownership(
     """Wrap a ``wsl bash -lc ...`` command in ``setsid`` and record Linux identity."""
     if not is_wsl_command(command) or "bash" not in command or "-lc" not in command:
         return command
+    resolved_wsl = _wsl_exe()
+    if resolved_wsl is not None:
+        command = [resolved_wsl, *command[1:]]
     bash_index = command.index("bash")
     original = command[-1]
     record_wsl = _wsl_record_path(record_path)

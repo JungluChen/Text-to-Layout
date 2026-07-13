@@ -10,13 +10,18 @@ import re
 import struct
 import zlib
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 from xml.etree import ElementTree
 
 import numpy as np
 import numpy.typing as npt
 
-from textlayout.solvers.palace.models import Eigenmode, ModeFieldData, PalaceOutputError
+from textlayout.solvers.palace.models import (
+    Eigenmode,
+    FieldOverlapResult,
+    ModeFieldData,
+    PalaceOutputError,
+)
 
 _EIG_INDEX = re.compile(r"^\s*m\s*$", re.IGNORECASE)
 _EIG_REAL = re.compile(r"re\s*\{?\s*f\s*\}?.*ghz", re.IGNORECASE)
@@ -146,7 +151,8 @@ def parse_domain_energy(domain_csv: Path, *, mode: int = 1) -> dict[int, float]:
 
 def _field_file(output_dir: Path, mode: int) -> Path | None:
     token = f"Cycle{mode:06d}".lower()
-    candidates = sorted(output_dir.rglob("*.pvtu"))
+    direct = sorted((output_dir / "paraview" / "eigenmode").glob("Cycle*/data.pvtu"))
+    candidates = direct or sorted(output_dir.rglob("*.pvtu"))
     matched = [path for path in candidates if token in str(path).lower()]
     selected = matched[0] if matched else (candidates[0] if len(candidates) == 1 else None)
     if selected is None:
@@ -372,8 +378,8 @@ def _vector_data(
     return points[unique], values[unique]
 
 
-def field_overlap(left: Path, right: Path, *, kind: str) -> float:
-    """Normalized complex-field overlap after nearest-node mesh projection."""
+def nearest_node_sampled_overlap(left: Path, right: Path, *, kind: str) -> float:
+    """Diagnostic unweighted overlap after nearest-node sampling."""
     if kind not in {"electric", "magnetic"}:
         raise ValueError("kind must be 'electric' or 'magnetic'")
     left_points, left_values = _vector_data(left, kind)
@@ -399,7 +405,156 @@ def field_overlap(left: Path, right: Path, *, kind: str) -> float:
     return max(0.0, min(1.0, numerator / denominator))
 
 
-def field_mac(left: Path, right: Path, *, kind: str) -> float:
-    """Modal assurance criterion for retained complex Palace field vectors."""
-    overlap = field_overlap(left, right, kind=kind)
+def nearest_node_sampled_mac(left: Path, right: Path, *, kind: str) -> float:
+    """Diagnostic MAC; this is not a FEM energy inner product."""
+    overlap = nearest_node_sampled_overlap(left, right, kind=kind)
     return max(0.0, min(1.0, overlap * overlap))
+
+
+# Compatibility aliases. Callers must not treat these diagnostics as final
+# FEM verification criteria.
+field_overlap = nearest_node_sampled_overlap
+field_mac = nearest_node_sampled_mac
+
+
+def _tetra_integration_data(
+    path: Path, kind: str
+) -> tuple[
+    npt.NDArray[np.float64],
+    npt.NDArray[np.complex128],
+    npt.NDArray[np.float64],
+    npt.NDArray[np.int32],
+]:
+    """Return tetra centroids, cell-average fields, and cell volumes."""
+    piece_paths = [item for item in field_artifact_files(path) if item.suffix == ".vtu"]
+    centroids: list[npt.NDArray[np.float64]] = []
+    fields: list[npt.NDArray[np.complex128]] = []
+    volumes: list[npt.NDArray[np.float64]] = []
+    regions: list[npt.NDArray[np.int32]] = []
+    prefix = "E" if kind == "electric" else "B"
+    for piece in piece_paths:
+        root = ElementTree.parse(piece).getroot()
+        points_element = root.find(".//Points/DataArray")
+        point_data = {item.attrib.get("Name"): item for item in root.findall(".//PointData/DataArray")}
+        cell_data = {item.attrib.get("Name"): item for item in root.findall(".//Cells/DataArray")}
+        attributes = root.find(".//CellData/DataArray[@Name='attribute']")
+        if points_element is None or attributes is None:
+            raise PalaceOutputError(f"{piece}: missing points or material attributes")
+        points = np.asarray(_decode_vtk_array(points_element, piece), dtype=np.float64)
+        real = np.asarray(_decode_vtk_array(point_data[f"{prefix}_real"], piece), dtype=np.float64)
+        imag = np.asarray(_decode_vtk_array(point_data[f"{prefix}_imag"], piece), dtype=np.float64)
+        values = real.astype(np.complex128) + 1j * imag
+        connectivity = np.asarray(_decode_vtk_array(cell_data["connectivity"], piece), dtype=np.int64)
+        offsets = np.asarray(_decode_vtk_array(cell_data["offsets"], piece), dtype=np.int64)
+        types = np.asarray(_decode_vtk_array(cell_data["types"], piece), dtype=np.uint8)
+        region_values = np.asarray(_decode_vtk_array(attributes, piece), dtype=np.int32)
+        starts = np.concatenate((np.asarray([0]), offsets[:-1]))
+        # VTK 10 is linear tetra; Palace 0.17 identifies its four-node H(curl)
+        # visualization cells as VTK 71 (Lagrange tetrahedron).
+        tetra_mask = np.isin(types, (10, 71)) & ((offsets - starts) == 4)
+        tetra_indices = np.flatnonzero(tetra_mask)
+        cells = np.asarray(
+            [connectivity[starts[index] : offsets[index]] for index in tetra_indices],
+            dtype=np.int64,
+        )
+        xyz = points[cells]
+        centroids.append(xyz.mean(axis=1))
+        fields.append(values[cells].mean(axis=1))
+        volumes.append(
+            np.abs(
+                np.einsum(
+                    "ij,ij->i",
+                    xyz[:, 1] - xyz[:, 0],
+                    np.cross(xyz[:, 2] - xyz[:, 0], xyz[:, 3] - xyz[:, 0]),
+                )
+            )
+            / 6.0
+        )
+        regions.append(region_values[tetra_indices])
+    if not centroids:
+        raise PalaceOutputError(f"{path}: no tetrahedra available for volume integration")
+    return (
+        np.concatenate(centroids),
+        np.concatenate(fields),
+        np.concatenate(volumes),
+        np.concatenate(regions),
+    )
+
+
+def energy_weighted_field_mac(
+    left: Path,
+    right: Path,
+    *,
+    kind: Literal["electric", "magnetic"],
+    relative_mapping_distance_limit: float = 0.25,
+    minimum_coverage: float = 0.99,
+    material_weights: dict[int, float] | None = None,
+) -> FieldOverlapResult:
+    """Compute an energy-weighted MAC on the coarser tetrahedral integration mesh."""
+    if relative_mapping_distance_limit <= 0.0:
+        raise ValueError("relative_mapping_distance_limit must be positive")
+    left_xyz, left_field, left_volume, left_regions = _tetra_integration_data(left, kind)
+    right_xyz, right_field, right_volume, right_regions = _tetra_integration_data(right, kind)
+    if len(left_xyz) > len(right_xyz):
+        left_xyz, right_xyz = right_xyz, left_xyz
+        left_field, right_field = right_field, left_field
+        left_volume, right_volume = right_volume, left_volume
+        left_regions, right_regions = right_regions, left_regions
+    try:
+        from scipy.spatial import cKDTree
+    except ImportError as exc:
+        raise PalaceOutputError("scipy is required to project Palace field meshes") from exc
+    distances, indices = cKDTree(right_xyz).query(left_xyz, workers=-1)
+    characteristic = np.cbrt(np.maximum(left_volume, np.finfo(float).tiny))
+    normalized = distances / characteristic
+    mapped = normalized <= relative_mapping_distance_limit
+    total_volume = float(left_volume.sum())
+    mapped_volume = float(left_volume[mapped].sum())
+    coverage = mapped_volume / total_volume if total_volume else 0.0
+    if not np.any(mapped):
+        raise PalaceOutputError("field projection mapped no integration cells")
+    a = left_field[mapped]
+    b = right_field[indices[mapped]]
+    defaults = (
+        {1: 11.45, 2: 11.45, 3: 1.0, 4: 1.0, 5: 1.0}
+        if kind == "electric"
+        else {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0}
+    )
+    selected_weights = material_weights or defaults
+    weights = left_volume[mapped] * np.asarray(
+        [selected_weights.get(int(region), 1.0) for region in left_regions[mapped]]
+    )
+    inner = np.sum(weights[:, None] * np.conjugate(a) * b)
+    norm_a = float(np.sum(weights[:, None] * np.abs(a) ** 2))
+    norm_b = float(np.sum(weights[:, None] * np.abs(b) ** 2))
+    if norm_a <= 0.0 or norm_b <= 0.0:
+        raise PalaceOutputError("zero energy norm in projected field comparison")
+    mac = float(abs(inner) ** 2 / (norm_a * norm_b))
+    passed = coverage >= minimum_coverage and bool(np.all(mapped))
+    per_region: dict[str, float] = {}
+    for region in np.unique(left_regions[mapped]):
+        mask = mapped & (left_regions == region)
+        aa = left_field[mask]
+        bb = right_field[indices[mask]]
+        ww = left_volume[mask] * selected_weights.get(int(region), 1.0)
+        region_inner = np.sum(ww[:, None] * np.conjugate(aa) * bb)
+        region_a = float(np.sum(ww[:, None] * np.abs(aa) ** 2))
+        region_b = float(np.sum(ww[:, None] * np.abs(bb) ** 2))
+        if region_a > 0 and region_b > 0:
+            per_region[str(int(region))] = float(abs(region_inner) ** 2 / (region_a * region_b))
+    return FieldOverlapResult(
+        field_kind=kind,
+        projection_method="nearest-cell-centroid onto coarser common tetrahedral mesh",
+        integration_method="piecewise-constant tetrahedral volume quadrature",
+        material_weighting=("epsilon" if kind == "electric" else "mu^-1"),
+        total_mac=max(0.0, min(1.0, mac)),
+        per_region_mac=per_region,
+        mapped_volume_coverage=coverage,
+        critical_region_unmapped_coverage=1.0 - coverage,
+        maximum_mapping_distance=float(distances.max(initial=0.0)),
+        average_mapping_distance=float(np.average(distances, weights=left_volume)),
+        maximum_normalized_mapping_distance=float(normalized.max(initial=0.0)),
+        unmapped_point_count=int((~mapped).sum()),
+        integration_cell_count=len(left_xyz),
+        passed_projection_quality=passed,
+    )

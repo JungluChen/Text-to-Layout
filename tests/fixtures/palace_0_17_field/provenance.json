@@ -1,0 +1,12 @@
+{
+  "schema": "textlayout.palace-real-field-fixture.v1",
+  "palace_version": "0.17.0",
+  "source_path": "out\\palace_resonator_v018_field_mac\\base_mesh\\postpro\\iteration1\\paraview\\eigenmode\\Cycle000002\\proc000000.vtu",
+  "source_sha256": "e2ab8209560edbcfbcb0ef243d118f93b19b1a3a6abf76ae3f2891aa9a390723",
+  "compaction": "two tetrahedra preserving Palace field names, material attribute, parallel manifest, compressed inline encoding, and VTK 2.2 declaration",
+  "fixture_hashes": {
+    "data.pvtu": "ad49b215425bd3e523d14d3fdd072482ddb6e7963236acc850e3debd94d1f877",
+    "proc000000.vtu": "537bf0618826a214d7f398bdd3fa22a572781f3ceefa14ab030c86ef215fe6c8",
+    "proc000001.vtu": "701c0dc1de56526401027104a8061b1197cbe3107e7d0160189292c3dd66747b"
+  }
+}

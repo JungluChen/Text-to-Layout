@@ -49,7 +49,8 @@ def test_wsl_wrapper_preserves_distribution_and_uses_setsid(tmp_path: Path) -> N
         working_directory=tmp_path,
         executable_hash="b" * 64,
     )
-    assert wrapped[:4] == original[:4]
+    assert Path(wrapped[0]).name.lower() == "wsl.exe"
+    assert wrapped[1:4] == original[1:4]
     assert wrapped[4:6] == ["bash", "-lc"]
     assert "exec setsid --wait" in wrapped[-1]
     assert "mpirun_pid" in wrapped[-1]
