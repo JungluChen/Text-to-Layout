@@ -213,3 +213,19 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Adapter module: `textlayout.verification.klayout`
 - Dataset license: not_applicable
 - Human review required: false
+
+## spdx-tools
+
+- Upstream: https://github.com/spdx/tools-python
+- Pinned ref: `v0.8.3`
+- Resolved commit: `spdx-tools-0.8.3`
+- Source archive SHA-256: `68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93`
+- SPDX license identifier: `Apache-2.0`
+- Copyright holder: SPDX tools-python contributors
+- Install mode: uvx ephemeral pinned Python package
+- Integration mode: external CLI validates generated SPDX JSON documents
+- Redistributes source: false
+- Redistributes binaries: false
+- Adapter module: `scripts.validate_spdx_sbom`
+- Dataset license: not_applicable
+- Human review required: false

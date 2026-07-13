@@ -6,7 +6,7 @@
     "reference": "ubuntu:24.04"
   },
   "build_args": {
-    "SOURCE_REVISION": "2be8c2213690cf72ba469ca4a0a6e8b0235b61a9"
+    "SOURCE_REVISION": "242dc317c3463352478919468cf0c78728106be2"
   },
   "compose_sha256": "26de69f62b950e78078716d0a2ae66387cdee8058e75c783674a587743d3b8a5",
   "container_checks": {
@@ -16,16 +16,16 @@
   "dockerfile_sha256": "b7913355b831303c3ab8f8eccdd612acc7dbe542b27408a72cde69c4e7f2c78b",
   "dockerignore_sha256": "674295004906095905cee79afe9c4bb1ca5af9b92e9f27514934818e2e19be81",
   "effective_runtime_user": "appuser",
-  "git_commit": "2be8c2213690cf72ba469ca4a0a6e8b0235b61a9",
-  "git_tree_hash": "85a77720f96dc286f87a91c9c3a01fdcd851b192",
+  "git_commit": "242dc317c3463352478919468cf0c78728106be2",
+  "git_tree_hash": "e9c7321b7b7b908d4189adfa66ed1906923d6e60",
   "image": "textlayout/klayout:local",
-  "image_id": "sha256:4483089e78af90c07cc6204b7870c1ad1229fc76e008dd2214afc845d1dbf4d3",
+  "image_id": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
   "klayout": {
     "executable": "/usr/bin/klayout",
     "executable_sha256": "dffbf9cca379deb5e599401c9ba29107adde98874b29bb09b4dea794751aaa42",
     "identity_return_code": 0,
     "identity_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "identity_stdout_sha256": "8ab32f300bd314c9bdb40c3c67c297e6dba6276be88db1067c533ec462f4c67b"
+    "identity_stdout_sha256": "cff52374548c7c2afdfbfcb882f6bd8fb5b32591db9ede5053a50fecd970cb41"
   },
   "klayout_package": {
     "sha256": "a5e50f194edc6893caa26b0b76764a9c2b3ab4a9f8fa5a9ca0fe471381d702eb",
@@ -35,7 +35,7 @@
   "labels": {
     "org.opencontainers.image.description": "Pinned KLayout runtime for headless DRC/LVS smoke",
     "org.opencontainers.image.licenses": "GPL-3.0-or-later",
-    "org.opencontainers.image.revision": "2be8c2213690cf72ba469ca4a0a6e8b0235b61a9",
+    "org.opencontainers.image.revision": "242dc317c3463352478919468cf0c78728106be2",
     "org.opencontainers.image.source": "https://github.com/JungluChen/Text-to-Layout",
     "org.opencontainers.image.title": "Textlayout KLayout boundary",
     "org.opencontainers.image.version": "0.30.9"
@@ -44,12 +44,12 @@
     "This evidence proves containerized KLayout identity only.",
     "DRC/LVS execution evidence is recorded in separate artifacts."
   ],
-  "oci_descriptor_digest": "sha256:4483089e78af90c07cc6204b7870c1ad1229fc76e008dd2214afc845d1dbf4d3",
+  "oci_descriptor_digest": "sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0",
   "os": "linux",
   "repo_digests": [
-    "textlayout/klayout@sha256:4483089e78af90c07cc6204b7870c1ad1229fc76e008dd2214afc845d1dbf4d3"
+    "textlayout/klayout@sha256:605d23699fb31ce852aadea98631474c117d59895810da3b359d9461607b12c0"
   ],
   "schema": "textlayout.klayout-image-evidence.v2",
-  "source_revision": "2be8c2213690cf72ba469ca4a0a6e8b0235b61a9",
+  "source_revision": "242dc317c3463352478919468cf0c78728106be2",
   "worktree_clean": true
 }

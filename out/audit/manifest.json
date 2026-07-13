@@ -166,6 +166,21 @@
       "spdx_license": "BSD-3-Clause"
     },
     {
+      "adapter_module": "scripts.validate_spdx_sbom",
+      "canonical_name": "spdx-tools",
+      "checksum_verified": true,
+      "id": "spdx-tools",
+      "license_review": "reviewed_from_pypi_metadata",
+      "lock_archive_sha256": "68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93",
+      "pinned_commit": "spdx-tools-0.8.3",
+      "pinned_ref": "v0.8.3",
+      "redistribute_binaries": false,
+      "redistribute_source": false,
+      "resolved_commit": "spdx-tools-0.8.3",
+      "source_archive_sha256": "68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93",
+      "spdx_license": "Apache-2.0"
+    },
+    {
       "adapter_module": "textlayout.external.sqdmetal",
       "canonical_name": "SQDMetal",
       "checksum_verified": true,
@@ -197,7 +212,7 @@
     }
   ],
   "parent_commits": [
-    "d972069f5ae6a42333138fef758fd7766ba2086b"
+    "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc"
   ],
   "repository_files": [
     {
@@ -215,8 +230,8 @@
     {
       "exists": true,
       "path": ".github/workflows/klayout-signoff.yml",
-      "sha256": "00e985164ca9a57312c130efeb9b8c9a5f3a212ae93c4ce9a65001602a08beda",
-      "size_bytes": 2413
+      "sha256": "e81bc60296e247b2debaf167109d67a6b8addb1c45cbc3edb6d5a99af3cbfa8d",
+      "size_bytes": 2504
     },
     {
       "exists": true,
@@ -263,8 +278,8 @@
     {
       "exists": true,
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "19d1215f9162a8f4c3c6208bbb403cace0b75687fc62b87137c07e4623942a73",
-      "size_bytes": 8980
+      "sha256": "96ca2ad2b785ff180677ca67139fc59894d07b8b9248676b218706c7d69323e4",
+      "size_bytes": 9820
     },
     {
       "exists": true,
@@ -371,14 +386,14 @@
     {
       "exists": true,
       "path": "external_tools/lock.toml",
-      "sha256": "f11f332353a4e20bb0906d591d2b3ef9cdf8e75044a12800f998345b01f85116",
-      "size_bytes": 5858
+      "sha256": "f922cd11df4054af3a11a30cd360caa86eeeb96b4caaf67ba8a9145a7ca5746d",
+      "size_bytes": 6211
     },
     {
       "exists": true,
       "path": "external_tools/registry.toml",
-      "sha256": "a348fb05e33b4af2ef5464179ae1ffe370a183eb1172ed2f62483ad08f60d570",
-      "size_bytes": 18434
+      "sha256": "a62e8723bcf3c442b4cc7c7fc44ef782be88d94b668b313d34ec0cf45b66dcb3",
+      "size_bytes": 19746
     },
     {
       "exists": true,
@@ -394,5 +409,5 @@
     }
   ],
   "schema": "textlayout.audit.manifest.v1",
-  "source_revision": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc"
+  "source_revision": "242dc317c3463352478919468cf0c78728106be2"
 }

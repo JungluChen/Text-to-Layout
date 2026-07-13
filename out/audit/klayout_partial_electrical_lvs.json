@@ -55,7 +55,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000877,
+      "runtime_seconds": 0.001341,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -104,7 +104,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000609,
+      "runtime_seconds": 0.000884,
       "shorts": [
         {
           "extracted_net": "N_P",
@@ -192,7 +192,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000655,
+      "runtime_seconds": 0.000878,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -266,7 +266,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000531,
+      "runtime_seconds": 0.000799,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -328,7 +328,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000562,
+      "runtime_seconds": 0.000846,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -379,7 +379,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000477,
+      "runtime_seconds": 0.000747,
       "shorts": [
         {
           "extracted_net": "GND_IN_IN_OUT",
@@ -482,7 +482,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.00053,
+      "runtime_seconds": 0.000864,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -571,7 +571,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000505,
+      "runtime_seconds": 0.000819,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -655,7 +655,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.00052,
+      "runtime_seconds": 0.000798,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -701,7 +701,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000459,
+      "runtime_seconds": 0.000827,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -771,7 +771,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000509,
+      "runtime_seconds": 0.000839,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [
@@ -833,7 +833,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000542,
+      "runtime_seconds": 0.000744,
       "shorts": [
         {
           "extracted_net": "A_B_TURN",
@@ -906,7 +906,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000616,
+      "runtime_seconds": 0.000873,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -955,7 +955,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000516,
+      "runtime_seconds": 0.000744,
       "shorts": [
         {
           "extracted_net": "GND_OPEN",
@@ -1026,7 +1026,7 @@
           ]
         }
       ],
-      "runtime_seconds": 0.000485,
+      "runtime_seconds": 0.000802,
       "shorts": [],
       "status": "passed",
       "terminal_mismatches": [],
@@ -1036,7 +1036,7 @@
   "full_lvs_pass": false,
   "schema": "textlayout.klayout-partial-lvs-fixture-validation.v1",
   "scope": "connectivity_partial_lvs",
-  "source_git_commit": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc",
+  "source_git_commit": "242dc317c3463352478919468cf0c78728106be2",
   "status": "KLAYOUT_PARTIAL_LVS_FIXTURES_VALIDATED",
   "supported_structures": [
     "CPW",

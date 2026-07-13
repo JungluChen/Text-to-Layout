@@ -8,7 +8,7 @@
       "fixture": "valid_idc",
       "input_gds_sha256": "6686c085a24577f1d96674e2e0fc021c6c760c2a78827dade3bdb6458d2a8381",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.002762,
+      "runtime_seconds": 0.004574,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -19,7 +19,7 @@
       "fixture": "valid_cpw",
       "input_gds_sha256": "487291883f49d4dd33e457d1415ae2d513322a504682c752f9725fbd7c72d5b6",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.001198,
+      "runtime_seconds": 0.002643,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -30,7 +30,7 @@
       "fixture": "valid_spiral",
       "input_gds_sha256": "784d0847dbccee093e322dc5e7b0ca8a6b55a39be22fb593e4cdfb0966642e5c",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.001053,
+      "runtime_seconds": 0.002744,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -41,7 +41,7 @@
       "fixture": "valid_resonator",
       "input_gds_sha256": "b876c767d7029094697a9b1e378afaef5ebcd63c00dc63db1fabc82edb78482c",
       "observed_rule_ids": [],
-      "runtime_seconds": 0.001018,
+      "runtime_seconds": 0.002851,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -56,7 +56,7 @@
       "observed_rule_ids": [
         "IDC.MIN_FINGER_WIDTH"
       ],
-      "runtime_seconds": 0.001346,
+      "runtime_seconds": 0.00371,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -71,7 +71,7 @@
       "observed_rule_ids": [
         "IDC.MIN_FINGER_SPACING"
       ],
-      "runtime_seconds": 0.00129,
+      "runtime_seconds": 0.002673,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -86,7 +86,7 @@
       "observed_rule_ids": [
         "IDC.NO_UNINTENDED_BRIDGE"
       ],
-      "runtime_seconds": 0.001124,
+      "runtime_seconds": 0.002081,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -101,7 +101,7 @@
       "observed_rule_ids": [
         "IDC.MIN_BUS_WIDTH"
       ],
-      "runtime_seconds": 0.001348,
+      "runtime_seconds": 0.002392,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -116,7 +116,7 @@
       "observed_rule_ids": [
         "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
       ],
-      "runtime_seconds": 0.000985,
+      "runtime_seconds": 0.001801,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -131,7 +131,7 @@
       "observed_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
-      "runtime_seconds": 0.000992,
+      "runtime_seconds": 0.002667,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -146,7 +146,7 @@
       "observed_rule_ids": [
         "CPW.MIN_SIGNAL_GROUND_GAP"
       ],
-      "runtime_seconds": 0.000949,
+      "runtime_seconds": 0.00239,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -161,7 +161,7 @@
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
       ],
-      "runtime_seconds": 0.000948,
+      "runtime_seconds": 0.002515,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -176,7 +176,7 @@
       "observed_rule_ids": [
         "SPIRAL.MIN_TRACE_WIDTH"
       ],
-      "runtime_seconds": 0.000868,
+      "runtime_seconds": 0.002208,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -191,7 +191,7 @@
       "observed_rule_ids": [
         "SPIRAL.MIN_TURN_SPACING"
       ],
-      "runtime_seconds": 0.00115,
+      "runtime_seconds": 0.001816,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -206,7 +206,7 @@
       "observed_rule_ids": [
         "JJ.MIN_AREA"
       ],
-      "runtime_seconds": 0.000883,
+      "runtime_seconds": 0.001468,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -221,7 +221,7 @@
       "observed_rule_ids": [
         "JJ.MIN_LEAD_OVERLAP"
       ],
-      "runtime_seconds": 0.001088,
+      "runtime_seconds": 0.001719,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -236,7 +236,7 @@
       "observed_rule_ids": [
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
-      "runtime_seconds": 0.000856,
+      "runtime_seconds": 0.001426,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -253,7 +253,7 @@
         "klayout_signoff_fixture_pdk.min_area.M1",
         "klayout_signoff_fixture_pdk.min_width.M1"
       ],
-      "runtime_seconds": 0.000947,
+      "runtime_seconds": 0.00146,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -270,7 +270,7 @@
         "klayout_signoff_fixture_pdk.min_spacing.M1",
         "klayout_signoff_fixture_pdk.notch.M1"
       ],
-      "runtime_seconds": 0.000905,
+      "runtime_seconds": 0.001472,
       "status": "passed",
       "top_cell": "TOP",
       "unexpected_violations": [],
@@ -281,7 +281,7 @@
   "manifest_runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
   "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
   "schema": "textlayout.klayout-drc-fixture-validation.v1",
-  "source_git_commit": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc",
+  "source_git_commit": "242dc317c3463352478919468cf0c78728106be2",
   "status": "PDK_DRC_FIXTURES_VALIDATED",
   "supported_rules": [],
   "total_rules": 15,

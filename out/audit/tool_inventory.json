@@ -1,5 +1,5 @@
 {
-  "evaluated_at_commit": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc",
+  "evaluated_at_commit": "242dc317c3463352478919468cf0c78728106be2",
   "schema": "textlayout.audit.tool-inventory.v2",
   "tool_state_ladder": [
     "UNREGISTERED",
@@ -371,6 +371,40 @@
         "locked checksum marked verified",
         "license review recorded",
         "package spec absent in active interpreter"
+      ]
+    },
+    {
+      "canonical_name": "spdx-tools",
+      "current_state": "UPSTREAM_SMOKE_PASSED",
+      "executable_path": "$HOME/AppData/Local/hermes/bin/uvx.exe",
+      "executable_probe": "uvx",
+      "id": "spdx-tools",
+      "license_review": "reviewed_from_pypi_metadata",
+      "lock_checksum_verified": true,
+      "pinned_commit": "spdx-tools-0.8.3",
+      "pinned_ref": "v0.8.3",
+      "python_package_probe": null,
+      "smoke_result": {
+        "command": [
+          "uvx",
+          "--from",
+          "spdx-tools==0.8.3",
+          "pyspdxtools",
+          "--help"
+        ],
+        "return_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "accd4253c3d0688b6aed5aed101c49ce130c8af205418044134a2ef58cbc0257",
+        "timed_out": false
+      },
+      "spdx_license": "Apache-2.0",
+      "state_notes": [
+        "registry entry exists",
+        "lock entry exists",
+        "locked checksum marked verified",
+        "license review recorded",
+        "executable found on PATH",
+        "upstream smoke command succeeded"
       ]
     },
     {

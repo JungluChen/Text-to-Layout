@@ -630,7 +630,7 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                 )
             )
             continue
-        offenders = [
+        density_offenders = [
             (fraction, window)
             for fraction, window in _tiled_density(region, bbox, window_dbu)
             if (layer.min_density_fraction is not None and fraction < layer.min_density_fraction)
@@ -641,7 +641,7 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                 rule="density_tiled",
                 layer=layer.name,
                 ran=True,
-                violations=len(offenders),
+                violations=len(density_offenders),
                 **_rule_metadata(
                     rule="density_tiled",
                     layer=layer.name,
@@ -653,8 +653,8 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
                 ),
             )
         )
-        if offenders:
-            _, window = offenders[0]
+        if density_offenders:
+            _, window = density_offenders[0]
             density_metadata = _rule_metadata(
                 rule="density_tiled",
                 layer=layer.name,
@@ -667,7 +667,7 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
             violations.append(
                 DRCViolation(
                     rule="density_tiled", layer=layer.name,
-                    required_um=pdk.density_window_um, count=len(offenders),
+                    required_um=pdk.density_window_um, count=len(density_offenders),
                     sample_bbox_um=(
                         _um(window.left, dbu), _um(window.bottom, dbu),
                         _um(window.right, dbu), _um(window.top, dbu),

@@ -348,3 +348,29 @@ tool_scope = "DRC/LVS execution, runset execution, and geometry readback"
 license_review = "reviewed_from_github_api"
 human_review_required = false
 dataset_license = "not_applicable"
+
+[[tools]]
+id = "spdx-tools"
+canonical_name = "spdx-tools"
+upstream_repository = "https://github.com/spdx/tools-python"
+pinned_ref = "v0.8.3"
+pinned_commit = "spdx-tools-0.8.3"
+source_archive_url = "https://files.pythonhosted.org/packages/source/s/spdx-tools/spdx-tools-0.8.3.tar.gz"
+source_archive_sha256 = "68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93"
+source_archive_size_bytes = 681626
+spdx_license = "Apache-2.0"
+copyright_holder = "SPDX tools-python contributors"
+install_mode = "uvx ephemeral pinned Python package"
+integration_mode = "external CLI validates generated SPDX JSON documents"
+redistribute_source = false
+redistribute_binaries = false
+adapter_module = "scripts.validate_spdx_sbom"
+smoke_test_command = ["uvx", "--from", "spdx-tools==0.8.3", "pyspdxtools", "--help"]
+benchmark_command = ["uvx", "--from", "spdx-tools==0.8.3", "pyspdxtools", "--infile", "out/audit/klayout.sbom.spdx.json", "--version", "SPDX-2.3"]
+supported_operating_systems = ["Linux", "Windows", "macOS"]
+required_runtime = ["Python >=3.11"]
+expected_output_files = ["out/audit/klayout_sbom_validation.json"]
+tool_scope = "SPDX 2.3 document parsing and schema validation for generated SBOMs"
+license_review = "reviewed_from_pypi_metadata"
+human_review_required = false
+dataset_license = "not_applicable"

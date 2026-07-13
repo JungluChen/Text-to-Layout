@@ -1,0 +1,37 @@
+{
+  "failure_reason": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Scripts\\pyspdxtools.exe\\__main__.py\", line 10, in <module>\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\click\\core.py\", line 1569, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\click\\core.py\", line 1490, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\click\\core.py\", line 1353, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\click\\core.py\", line 907, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\clitools\\pyspdxtools.py\", line 65, in main\n    document: Document = parse_file(infile)\n                         ^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\parse_anything.py\", line 34, in parse_file\n    return json_parser.parse_from_file(file_name, encoding)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\json\\json_parser.py\", line 16, in parse_from_file\n    return JsonLikeDictParser().parse(input_doc_as_dict)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\jsonlikedict\\json_like_dict_parser.py\", line 84, in parse\n    parsed_fields[argument_name] = parsing_method(field)\n                                   ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\jsonlikedict\\json_like_dict_parser.py\", line 55, in <lambda>\n    lambda x: parse_list_of_elements(x, self.file_parser.parse_file, self.file_parser.logger),\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\jsonlikedict\\dict_parsing_functions.py\", line 73, in parse_list_of_elements\n    parsed_elements = append_parsed_field_or_log_error(\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\jsonlikedict\\dict_parsing_functions.py\", line 43, in append_parsed_field_or_log_error\n    parsed_element = method_to_parse(field)\n                     ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\jsonlikedict\\file_parser.py\", line 65, in parse_file\n    file = construct_or_raise_parsing_error(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\parser\\parsing_functions.py\", line 13, in construct_or_raise_parsing_error\n    constructed_object = object_to_construct(**args_for_construction)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\spdx\\model\\file.py\", line 68, in __init__\n    check_types_and_set_values(self, locals())\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\common\\typing\\type_checks.py\", line 26, in check_types_and_set_values\n    setattr(instance_under_construction, key, value)\n  File \"C:\\Users\\justi\\AppData\\Local\\uv\\cache\\archive-v0\\ZRMmjJIylfp4ztKl\\Lib\\site-packages\\spdx_tools\\common\\typing\\dataclass_with_properties.py\", line 32, in set_field_with_error_conversion\n    set_field(self, value)\n  File \"<@beartype(spdx_tools.common.typing.dataclass_with_properties.make_setter.set_field) at 0x22aff7a3600>\", line 40, in set_field\nbeartype.roar.BeartypeCallHintParamViolation: Method spdx_tools.common.typing.dataclass_with_properties.make_setter.set_field() parameter value=\"None\" violates type hint list[spdx_tools.spdx.model.checksum.Checksum], as <class \"builtins.NoneType\"> \"None\" not instance of list.",
+  "sbom_path": "out/audit/klayout.sbom.spdx.json",
+  "sbom_sha256": "27af4d0ec224c5b05e7a9406327b784f79de0bacac395f90c5f5f266151cca0e",
+  "schema": "textlayout.sbom-validation.v1",
+  "status": "SBOM_SCHEMA_VALIDATION_FAILED",
+  "validated_gates": {
+    "base_os_identity": false,
+    "checksums": false,
+    "creator_information": false,
+    "document_namespace": false,
+    "image_digest_linkage": false,
+    "klayout_package_presence": false,
+    "klayout_version_0_30_9": false,
+    "package_identifiers": false,
+    "relationships": false,
+    "valid_spdx_version": false
+  },
+  "validator": {
+    "command": [
+      "uvx",
+      "--from",
+      "spdx-tools==0.8.3",
+      "pyspdxtools",
+      "--infile",
+      "out\\audit\\klayout.sbom.spdx.json",
+      "--version",
+      "SPDX-2.3"
+    ],
+    "name": "spdx-tools",
+    "return_code": 1,
+    "runtime_seconds": 1.124,
+    "stderr_sha256": "d3ec75a457aa1165d93a1063820bd0481703ae07770efaa93f53e20a4099544f",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "version": "0.8.3"
+  }
+}

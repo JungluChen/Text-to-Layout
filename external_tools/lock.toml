@@ -130,3 +130,12 @@ source_archive_url = "https://github.com/KLayout/klayout/archive/6270877110ef808
 source_archive_sha256 = "2d0582a893a1dbae50ed238b57b0ee76f3e4143f07b83b438d14cd612000bd63"
 source_archive_size_bytes = 73945863
 checksum_verified = true
+
+[[locked_tools]]
+id = "spdx-tools"
+resolved_commit = "spdx-tools-0.8.3"
+pinned_ref = "v0.8.3"
+source_archive_url = "https://files.pythonhosted.org/packages/source/s/spdx-tools/spdx-tools-0.8.3.tar.gz"
+source_archive_sha256 = "68b8f9ce2893b5216bd90b2e63f1c821c2884e4ebc4fd295ebbf1fa8b8a94b93"
+source_archive_size_bytes = 681626
+checksum_verified = true
