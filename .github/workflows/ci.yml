@@ -39,6 +39,9 @@ jobs:
       - name: README claim audit
         run: uv run python scripts/validate_readme_claims.py
 
+      - name: Public claim audit cannot exceed computed evidence
+        run: uv run python scripts/generate_audit_artifacts.py --fail-on-claim-downgrade
+
       # One solver result must not have two statuses. These three gates are the
       # reason the resonator's SIMULATION_INVALID result can no longer coexist
       # with eight artifacts publishing a 3.0 GHz resonance.
