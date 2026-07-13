@@ -197,7 +197,7 @@
     }
   ],
   "parent_commits": [
-    "2be8c2213690cf72ba469ca4a0a6e8b0235b61a9"
+    "d972069f5ae6a42333138fef758fd7766ba2086b"
   ],
   "repository_files": [
     {
@@ -211,6 +211,12 @@
       "path": ".github/workflows/ci.yml",
       "sha256": "743b1cef6de37494b7c16ec50ea3af190a045d08a676eebff946414b5592c47c",
       "size_bytes": 5796
+    },
+    {
+      "exists": true,
+      "path": ".github/workflows/klayout-signoff.yml",
+      "sha256": "00e985164ca9a57312c130efeb9b8c9a5f3a212ae93c4ce9a65001602a08beda",
+      "size_bytes": 2413
     },
     {
       "exists": true,
@@ -245,14 +251,14 @@
     {
       "exists": true,
       "path": "PROJECT_STATUS.md",
-      "sha256": "12c5fd215865a1cfd69c391efc3ab9cdd37e01041c50562407f77ccc8dab8542",
-      "size_bytes": 3898
+      "sha256": "e894f5cc858253ef5744be8bca7d16d78779c4008bb790d4e475acbc255c8c4a",
+      "size_bytes": 3833
     },
     {
       "exists": true,
       "path": "README.md",
-      "sha256": "27846fcbc8f82bf06e847f890ed49ace5cb9b7fdda4c3aabb35291b34d1af86d",
-      "size_bytes": 55907
+      "sha256": "7fab0d93c211ec6b0a36d462376fc3050db4afda632a11c4907ea287af910e8d",
+      "size_bytes": 55091
     },
     {
       "exists": true,
@@ -329,38 +335,38 @@
     {
       "exists": true,
       "path": "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
-      "sha256": "4b2ec939fa8e75153fddf83c3ea6fd508e2a3336f29e4b1639e325838411bb00",
-      "size_bytes": 3743
+      "sha256": "70181fa7780d43570984bc044707dc8f4b4ff86a8a552e7d2eb7f78c12bdc555",
+      "size_bytes": 3647
     },
     {
       "exists": true,
       "path": "examples/showcase/02_cpw_50ohm/evidence/canonical.json",
-      "sha256": "3240b3d21ae5f6c88964a52dac863afede2ced9377b70f65f8755aceb12f0dee",
-      "size_bytes": 4339
+      "sha256": "924265b6a350f89eac24aca16216f2c31db85867aaf0d0121fc7dd1f1e8c6efd",
+      "size_bytes": 4243
     },
     {
       "exists": true,
       "path": "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json",
-      "sha256": "f4566f42510aadec94dc2709b9c2b04f41a01af97d06622e458a24b0dbcf560f",
-      "size_bytes": 3916
+      "sha256": "ad92dfc5f08d31b39fd069cfc59b69fd0786e20b9e5006856e87b3d07a32d641",
+      "size_bytes": 3819
     },
     {
       "exists": true,
       "path": "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json",
-      "sha256": "4fc66c31e797b5dda55b7d6a152aa6054d2a56c5ad777dd87fa34f938085f960",
-      "size_bytes": 3662
+      "sha256": "ab7480bd82fd5f6e9d902e9bd9217cf4a6650ea5401a115ef5b4aa46eb92c1b8",
+      "size_bytes": 3572
     },
     {
       "exists": true,
       "path": "examples/showcase/05_quarter_wave_resonator_6ghz/evidence/canonical.json",
-      "sha256": "fff1ae0e7066925c7e63137546f7aa3d225a34780613f5c8525352e8764782b6",
-      "size_bytes": 4219
+      "sha256": "67eb2770bf1aa224109efda7131b853f4b0c07d4fbaf58d4f5944b81b17f8de0",
+      "size_bytes": 4126
     },
     {
       "exists": true,
       "path": "examples/showcase/06_research_test_chip/evidence/canonical.json",
-      "sha256": "1a0d10b4685337c9a28975d5343c26ed04671ff3d7188045aa1acc373d66ae7e",
-      "size_bytes": 2341
+      "sha256": "8b7b8e21ebbeacd3f0c93a11d97c75181796df98aa5b0954c4462895d0f45c4b",
+      "size_bytes": 2280
     },
     {
       "exists": true,
@@ -388,5 +394,5 @@
     }
   ],
   "schema": "textlayout.audit.manifest.v1",
-  "source_revision": "3aa83f6ee7e8bdca9f873bb1848a2f357d5527e7"
+  "source_revision": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc"
 }

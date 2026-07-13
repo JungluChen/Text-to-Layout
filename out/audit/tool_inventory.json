@@ -1,5 +1,5 @@
 {
-  "evaluated_at_commit": "3aa83f6ee7e8bdca9f873bb1848a2f357d5527e7",
+  "evaluated_at_commit": "52d5e24f2cb12617a8762bd0db7efe6cc40c3efc",
   "schema": "textlayout.audit.tool-inventory.v2",
   "tool_state_ladder": [
     "UNREGISTERED",

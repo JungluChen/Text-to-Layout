@@ -1,0 +1,75 @@
+name: KLayout signoff evidence
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  klayout-signoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sync Python environment
+        run: uv sync --dev
+
+      - name: Build exact KLayout image
+        run: |
+          docker build \
+            --build-arg SOURCE_REVISION="${GITHUB_SHA}" \
+            -f docker/klayout.Dockerfile \
+            -t textlayout/klayout:local .
+
+      - name: Verify clean KLayout image revision and executable identity
+        run: uv run python scripts/generate_klayout_image_evidence.py --source-revision "${GITHUB_SHA}"
+
+      - name: Generate image SBOM
+        run: |
+          docker sbom textlayout/klayout:local --format spdx-json \
+            > out/audit/klayout.sbom.spdx.json
+
+      - name: Run pinned Trivy policy
+        run: |
+          mkdir -p out/audit
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "${PWD}/out/audit:/out" \
+            aquasec/trivy:0.72.0 image \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            --format json \
+            --output /out/klayout.trivy.json \
+            textlayout/klayout:local
+
+      - name: Validate DRC and partial-LVS fixtures
+        run: |
+          uv run python scripts/validate_klayout_signoff_fixtures.py
+          uv run pytest \
+            tests/textlayout_suite/test_klayout_drc.py \
+            tests/textlayout_suite/test_partial_lvs.py \
+            -q
+
+      - name: Regenerate capability matrix and claim audit
+        run: uv run python scripts/generate_audit_artifacts.py --fail-on-claim-downgrade
+
+      - name: Upload KLayout signoff evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: klayout-signoff-evidence
+          path: |
+            out/audit/klayout_image.json
+            out/audit/klayout.sbom.spdx.json
+            out/audit/klayout.trivy.json
+            out/audit/klayout_drc_fixtures.json
+            out/audit/klayout_partial_electrical_lvs.json
+            out/audit/capability_matrix.json
+            tests/fixtures/klayout_drc/*.lydrc
+            tests/fixtures/klayout_drc/*.json
+            tests/fixtures/klayout_lvs/*.json
+          retention-days: 30

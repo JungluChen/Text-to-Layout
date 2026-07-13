@@ -428,7 +428,15 @@ def test_manually_supplied_contradictory_level_is_rejected(audit_module) -> None
     assert result["consistency_errors"][0]["type"] == "manual_level_exceeds_contiguous_evidence"
 
 
-def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module) -> None:
+def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module, monkeypatch) -> None:
+    original_path_exists = audit_module.path_exists
+
+    def path_exists_without_lvs_evidence(relative: str) -> bool:
+        if relative == "out/audit/klayout_partial_electrical_lvs.json":
+            return False
+        return original_path_exists(relative)
+
+    monkeypatch.setattr(audit_module, "path_exists", path_exists_without_lvs_evidence)
     tools = {"tools": [{"id": "klayout", "current_state": "IDENTITY_VERIFIED"}]}
     matrix = audit_module.capability_matrix(tools, {"container_runtime": {"docker_ps": {"return_code": 0}}})
     layer_smoke = next(
@@ -438,7 +446,8 @@ def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module) -> None:
         row for row in matrix["capabilities"] if row["capability"] == "KLayout partial electrical LVS"
     )
     assert layer_smoke["computed_level"] == "INTEGRATION_TEST_PASSED"
-    assert partial_lvs["computed_level"] == "IMPLEMENTED"
+    assert partial_lvs["computed_level"] == "REAL_FIXTURE_TESTED"
+    assert partial_lvs["computed_level"] != "INTEGRATION_TEST_PASSED"
 
 
 def test_missing_evidence_hash_is_visible(audit_module) -> None:
