@@ -10,6 +10,15 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from textlayout.simulation.mesh_convergence import SolverIdentity
 
 ExecutionKind = Literal["executable", "container"]
+ModeProblemClass = Literal[
+    "closed_lossless_hermitian",
+    "lossy",
+    "radiative",
+    "pml",
+    "dispersive",
+    "non_hermitian",
+]
+MacUse = Literal["mandatory_gate", "diagnostic_only"]
 
 
 class PalaceUnavailable(RuntimeError):
@@ -98,6 +107,38 @@ class ModeFieldData(BaseModel):
     field_file: Path | None = None
 
 
+class MacApplicability(BaseModel):
+    """Whether ordinary energy MAC is valid as a promotion gate."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    problem_class: ModeProblemClass
+    ordinary_energy_mac_use: MacUse
+    promotion_allowed_from_ordinary_mac: bool
+    required_method: str | None = None
+    reason: str
+
+
+def classify_mac_applicability(problem_class: ModeProblemClass) -> MacApplicability:
+    if problem_class == "closed_lossless_hermitian":
+        return MacApplicability(
+            problem_class=problem_class,
+            ordinary_energy_mac_use="mandatory_gate",
+            promotion_allowed_from_ordinary_mac=True,
+            reason="closed lossless Hermitian eigenproblem has an energy inner product",
+        )
+    return MacApplicability(
+        problem_class=problem_class,
+        ordinary_energy_mac_use="diagnostic_only",
+        promotion_allowed_from_ordinary_mac=False,
+        required_method="documented biorthogonal left/right eigenmode overlap",
+        reason=(
+            "ordinary right-eigenvector energy MAC is not a promotion gate for "
+            f"{problem_class} problems"
+        ),
+    )
+
+
 class FieldOverlapResult(BaseModel):
     """Auditable energy-weighted overlap on a common integration mesh."""
 
@@ -118,6 +159,8 @@ class FieldOverlapResult(BaseModel):
     global_unmapped_volume_coverage: float = Field(ge=0.0, le=1.0)
     critical_region_mapped_volume_coverage: float = Field(ge=0.0, le=1.0)
     critical_region_unmapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    critical_region_mapped_surface_coverage: float = Field(default=1.0, ge=0.0, le=1.0)
+    critical_region_unmapped_surface_coverage: float = Field(default=0.0, ge=0.0, le=1.0)
     mapped_volume: float = Field(ge=0.0)
     expected_domain_volume: float = Field(gt=0.0)
     maximum_mapping_distance: float = Field(ge=0.0)
@@ -133,6 +176,9 @@ class FieldOverlapResult(BaseModel):
     raw_total_volume: float = Field(ge=0.0)
     deduplicated_total_volume: float = Field(gt=0.0)
     passed_projection_quality: bool
+    problem_class: ModeProblemClass = "closed_lossless_hermitian"
+    ordinary_energy_mac_use: MacUse = "mandatory_gate"
+    promotion_allowed_from_ordinary_mac: bool = True
 
     @property
     def mapped_volume_coverage(self) -> float:
@@ -171,6 +217,9 @@ class MaterialOverlapMap(BaseModel):
     model_sha256: str = Field(min_length=64, max_length=64)
     palace_config_sha256: str = Field(min_length=64, max_length=64)
     entries: list[MaterialOverlapEntry]
+    critical_surface_attribute_ids: list[int] = Field(default_factory=list)
+    critical_near_field_region_names: list[str] = Field(default_factory=list)
+    critical_region_coverage: dict[str, float | int] = Field(default_factory=dict)
     map_sha256: str = Field(min_length=64, max_length=64)
 
 

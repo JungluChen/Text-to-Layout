@@ -10,6 +10,7 @@ from textlayout.solvers.palace.models import MaterialOverlapEntry, MaterialOverl
 from textlayout.solvers.palace.overlap import (
     centroid_projected_energy_mac,
     reference_interpolated_energy_mac,
+    reference_quadrature_energy_mac,
 )
 
 
@@ -88,6 +89,42 @@ def test_weighted_mac_rejects_orthogonal_fields(tmp_path: Path) -> None:
     assert centroid_projected_energy_mac(
         left, right, kind="electric", material_map=_material_map()
     ).total_mac == pytest.approx(0)
+
+
+def test_quadrature_mac_is_invariant_for_identical_linear_fields(tmp_path: Path) -> None:
+    points, tetra = _single_tetra()
+    field = np.asarray(
+        [
+            [1 + 0j, 0, 0],
+            [2 + 0j, 0, 0],
+            [1 + 0j, 1, 0],
+            [1 + 0j, 0, 1],
+        ],
+        dtype=np.complex128,
+    )
+    left, right = tmp_path / "left.vtu", tmp_path / "right.vtu"
+    _write_tetra_field(left, points, tetra, field)
+    _write_tetra_field(right, points, tetra, field * np.exp(1j * 0.2))
+    low = reference_quadrature_energy_mac(
+        left,
+        right,
+        kind="electric",
+        material_map=_material_map(),
+        quadrature_order=1,
+        relative_mapping_distance_limit=1.0,
+    )
+    high = reference_quadrature_energy_mac(
+        left,
+        right,
+        kind="electric",
+        material_map=_material_map(),
+        quadrature_order=2,
+        relative_mapping_distance_limit=1.0,
+    )
+    assert low.total_mac == pytest.approx(1.0)
+    assert high.total_mac == pytest.approx(1.0)
+    assert high.quadrature_order == 2
+    assert "nodal FEM interpolation" in high.projection_implementation
 
 
 def test_weighted_mac_detects_local_perturbation(tmp_path: Path) -> None:

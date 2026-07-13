@@ -12,6 +12,9 @@ def test_material_map_is_resolved_from_model_and_palace_config() -> None:
     material_map = build_material_overlap_map(model, config)
     assert {entry.attribute for entry in material_map.entries} == {1, 2, 3, 4}
     assert {entry.attribute for entry in material_map.entries if entry.critical_region} == {1, 3}
+    assert material_map.critical_region_coverage["mapped_volume_coverage"] == pytest.approx(1.0)
+    assert material_map.critical_region_coverage["mapped_surface_coverage"] == pytest.approx(1.0)
+    assert material_map.critical_region_coverage["mapped_near_field_coverage"] == pytest.approx(1.0)
     assert material_map.entries[0].permittivity[0][0] == pytest.approx(11.45)
     assert len(material_map.map_sha256) == 64
 

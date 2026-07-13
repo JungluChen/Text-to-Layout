@@ -71,13 +71,24 @@ MeshRegionKind = Literal[
     "custom",
 ]
 
+CriticalRegionType = Literal["volume", "surface", "near_field"]
+
 CriticalRegionKind = Literal[
+    "left_cpw_gap",
+    "right_cpw_gap",
     "cpw_gap",
     "coupling_gap",
+    "resonator_open_end",
+    "resonator_grounded_end",
+    "substrate_vacuum_interface",
+    "metal_substrate_interface",
+    "metal_air_interface",
+    "junction_near_field",
+    "user_defined_high_field",
+    # Compatibility values retained for existing serialized models.
     "resonator_end",
     "substrate_interface",
     "junction",
-    "user_defined_high_field",
 ]
 
 
@@ -155,13 +166,65 @@ class MeshRegion(BaseModel):
 
 
 class CriticalRegion(BaseModel):
-    """High-field geometry mapped to volume attributes used by field integration."""
+    """Declared high-field geometry that must be independently coverable.
+
+    Volume regions participate in material-weighted volume integration. Surface
+    regions name 2-D physical entities such as metal-substrate interfaces; they
+    are not represented as fake lossy volumes. Near-field regions name bounded
+    geometric selections used for mesh/refinement and postprocessing.
+    """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     name: str = Field(min_length=1)
     kind: CriticalRegionKind
-    attribute_ids: list[int] = Field(min_length=1)
+    region_type: CriticalRegionType = "volume"
+    attribute_ids: list[int] = Field(
+        default_factory=list,
+        description="Compatibility alias for volume_attribute_ids.",
+    )
+    volume_attribute_ids: list[int] = Field(default_factory=list)
+    surface_attribute_ids: list[int] = Field(default_factory=list)
+    mesh_region_names: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _target_matches_region_type(self) -> CriticalRegion:
+        volume_ids = list(self.volume_attribute_ids or self.attribute_ids)
+        if self.region_type == "volume":
+            if not volume_ids:
+                raise FEMModelError(
+                    f"critical volume region {self.name!r} needs volume_attribute_ids"
+                )
+            if self.surface_attribute_ids or self.mesh_region_names:
+                raise FEMModelError(
+                    f"critical volume region {self.name!r} may not target surfaces "
+                    "or near-field mesh regions"
+                )
+        elif self.region_type == "surface":
+            if not self.surface_attribute_ids:
+                raise FEMModelError(
+                    f"critical surface region {self.name!r} needs surface_attribute_ids"
+                )
+            if volume_ids or self.mesh_region_names:
+                raise FEMModelError(
+                    f"critical surface region {self.name!r} may not be represented "
+                    "as a volume or near-field region"
+                )
+        elif self.region_type == "near_field":
+            if not self.mesh_region_names:
+                raise FEMModelError(
+                    f"critical near-field region {self.name!r} needs mesh_region_names"
+                )
+            if volume_ids or self.surface_attribute_ids:
+                raise FEMModelError(
+                    f"critical near-field region {self.name!r} may not target "
+                    "volume or surface attributes"
+                )
+        return self
+
+    @property
+    def volume_ids(self) -> tuple[int, ...]:
+        return tuple(self.volume_attribute_ids or self.attribute_ids)
 
 
 class Interface(BaseModel):
@@ -314,7 +377,7 @@ class FEMModel(BaseModel):
         critical_attributes = {
             attribute
             for region in self.critical_regions
-            for attribute in region.attribute_ids
+            for attribute in region.volume_ids
         }
         unknown_critical = sorted(critical_attributes - volume_attributes)
         if unknown_critical:
@@ -341,6 +404,24 @@ class FEMModel(BaseModel):
                         f"interface {interface.name!r} separates unknown volume {side!r}"
                     )
 
+        surface_attributes = (
+            {s.attribute for s in self.surfaces}
+            | {i.attribute for i in self.interfaces}
+            | {p.attribute for p in self.lumped_ports}
+            | {p.attribute for p in self.wave_ports}
+        )
+        critical_surface_attributes = {
+            attribute
+            for region in self.critical_regions
+            for attribute in region.surface_attribute_ids
+        }
+        unknown_critical_surfaces = sorted(critical_surface_attributes - surface_attributes)
+        if unknown_critical_surfaces:
+            raise FEMModelError(
+                "critical surface-region attributes must name model surfaces, "
+                f"interfaces or ports; unknown: {unknown_critical_surfaces}"
+            )
+
         indices = [p.index for p in self.lumped_ports] + [p.index for p in self.wave_ports]
         if len(set(indices)) != len(indices):
             raise FEMModelError("port indices must be unique across lumped and wave ports")
@@ -364,6 +445,16 @@ class FEMModel(BaseModel):
                 raise FEMModelError(
                     f"mesh refinement targets unknown entity {refinement.target!r}"
                 )
+        mesh_region_names = {region.name for region in self.mesh_regions}
+        critical_near_field_regions = {
+            name for region in self.critical_regions for name in region.mesh_region_names
+        }
+        unknown_near_field = sorted(critical_near_field_regions - mesh_region_names)
+        if unknown_near_field:
+            raise FEMModelError(
+                "critical near-field regions must name mesh regions; unknown: "
+                f"{unknown_near_field}"
+            )
         return self
 
     @property
@@ -371,7 +462,56 @@ class FEMModel(BaseModel):
         return {
             attribute
             for region in self.critical_regions
-            for attribute in region.attribute_ids
+            for attribute in region.volume_ids
+        }
+
+    @property
+    def critical_surface_attributes(self) -> set[int]:
+        return {
+            attribute
+            for region in self.critical_regions
+            for attribute in region.surface_attribute_ids
+        }
+
+    @property
+    def critical_near_field_region_names(self) -> set[str]:
+        return {
+            name for region in self.critical_regions for name in region.mesh_region_names
+        }
+
+    def critical_region_coverage(self) -> dict[str, Any]:
+        volume_attributes = {volume.attribute for volume in self.volumes}
+        surface_attributes = (
+            {surface.attribute for surface in self.surfaces}
+            | {interface.attribute for interface in self.interfaces}
+            | {port.attribute for port in self.lumped_ports}
+            | {port.attribute for port in self.wave_ports}
+        )
+        near_field_names = {region.name for region in self.mesh_regions}
+        declared_volume = self.critical_region_attributes
+        declared_surface = self.critical_surface_attributes
+        declared_near_field = self.critical_near_field_region_names
+        mapped_volume = declared_volume & volume_attributes
+        mapped_surface = declared_surface & surface_attributes
+        mapped_near_field = declared_near_field & near_field_names
+        return {
+            "declared_volume_regions": len(declared_volume),
+            "mapped_volume_regions": len(mapped_volume),
+            "mapped_volume_coverage": (
+                len(mapped_volume) / len(declared_volume) if declared_volume else 1.0
+            ),
+            "declared_surface_regions": len(declared_surface),
+            "mapped_surface_regions": len(mapped_surface),
+            "mapped_surface_coverage": (
+                len(mapped_surface) / len(declared_surface) if declared_surface else 1.0
+            ),
+            "declared_near_field_regions": len(declared_near_field),
+            "mapped_near_field_regions": len(mapped_near_field),
+            "mapped_near_field_coverage": (
+                len(mapped_near_field) / len(declared_near_field)
+                if declared_near_field
+                else 1.0
+            ),
         }
 
     @staticmethod

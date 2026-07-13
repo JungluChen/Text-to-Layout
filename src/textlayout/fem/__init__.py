@@ -5,6 +5,7 @@ from __future__ import annotations
 from textlayout.fem.model import (
     CriticalRegion,
     CriticalRegionKind,
+    CriticalRegionType,
     FEM_MODEL_SCHEMA,
     EigenmodeSolve,
     FEMModel,
@@ -27,6 +28,7 @@ from textlayout.fem.model import (
 __all__ = [
     "CriticalRegion",
     "CriticalRegionKind",
+    "CriticalRegionType",
     "FEM_MODEL_SCHEMA",
     "EigenmodeSolve",
     "FEMModel",

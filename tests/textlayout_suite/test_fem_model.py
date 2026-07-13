@@ -15,6 +15,7 @@ import pytest
 from pydantic import ValidationError
 
 from textlayout.fem import (
+    CriticalRegion,
     EigenmodeSolve,
     FEMModel,
     Interface,
@@ -22,6 +23,7 @@ from textlayout.fem import (
     LumpedPort,
     Material,
     MeshControl,
+    MeshRegion,
     Surface,
     Volume,
     WavePort,
@@ -187,6 +189,44 @@ class TestPhysicalCoherence:
                 )
             )
 
+    def test_critical_surface_region_may_not_be_represented_as_volume(self) -> None:
+        with pytest.raises(ValidationError, match="may not be represented as a volume"):
+            _cavity(
+                critical_regions=[
+                    CriticalRegion(
+                        name="metal_substrate_interface",
+                        kind="metal_substrate_interface",
+                        region_type="surface",
+                        attribute_ids=[1],
+                        surface_attribute_ids=[2],
+                    )
+                ]
+            )
+
+    def test_critical_regions_must_name_declared_surfaces_and_near_fields(self) -> None:
+        with pytest.raises(ValidationError, match="surface-region attributes"):
+            _cavity(
+                critical_regions=[
+                    CriticalRegion(
+                        name="missing_interface",
+                        kind="metal_air_interface",
+                        region_type="surface",
+                        surface_attribute_ids=[99],
+                    )
+                ]
+            )
+        with pytest.raises(ValidationError, match="near-field regions"):
+            _cavity(
+                critical_regions=[
+                    CriticalRegion(
+                        name="missing_junction_box",
+                        kind="junction_near_field",
+                        region_type="near_field",
+                        mesh_region_names=["jj_box"],
+                    )
+                ]
+            )
+
 
 class TestProjections:
     def test_physical_groups_cover_every_declared_entity(self) -> None:
@@ -207,6 +247,42 @@ class TestProjections:
         groups = model.physical_groups()
         assert groups[3] == [(1, "sub"), (2, "air")]
         assert groups[2] == [(4, "walls"), (3, "sa")]
+
+    def test_critical_region_coverage_reports_volume_surface_and_near_field(self) -> None:
+        model = _cavity(
+            volumes=[
+                Volume(name="left_gap", attribute=1, material="vacuum"),
+                Volume(name="right_gap", attribute=2, material="vacuum"),
+            ],
+            surfaces=[Surface(name="grounded_end", attribute=3, kind="pec")],
+            mesh_regions=[
+                MeshRegion(name="junction_box", kind="custom", dimension=3),
+            ],
+            critical_regions=[
+                CriticalRegion(
+                    name="left_gap",
+                    kind="left_cpw_gap",
+                    region_type="volume",
+                    volume_attribute_ids=[1],
+                ),
+                CriticalRegion(
+                    name="grounded_end",
+                    kind="resonator_grounded_end",
+                    region_type="surface",
+                    surface_attribute_ids=[3],
+                ),
+                CriticalRegion(
+                    name="junction_box",
+                    kind="junction_near_field",
+                    region_type="near_field",
+                    mesh_region_names=["junction_box"],
+                ),
+            ],
+        )
+        coverage = model.critical_region_coverage()
+        assert coverage["mapped_volume_coverage"] == pytest.approx(1.0)
+        assert coverage["mapped_surface_coverage"] == pytest.approx(1.0)
+        assert coverage["mapped_near_field_coverage"] == pytest.approx(1.0)
 
     def test_energy_regions_are_indexed_in_declaration_order(self) -> None:
         assert _two_domain().energy_regions() == {1: "near", 2: "far"}
