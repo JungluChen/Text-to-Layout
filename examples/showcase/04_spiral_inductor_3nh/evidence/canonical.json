@@ -57,8 +57,8 @@
   "depends_on": [],
   "blocking_reason": null,
   "git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
-  "environment_hash": "82fe5cd4d83f2053e41a6489ca8a7994ee5ec7f115bab9f14857ae062542856e",
-  "timestamp": "2026-07-11T04:02:26+00:00",
+  "environment_hash": "07fc95c91e3cc68705578af6874fbe771a876dacbb51a9e1a2b8e4795ebba1d5",
+  "timestamp": "2026-07-13T12:11:11+00:00",
   "warnings": [
     "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
     "Conductor conductivity and thickness are generic and require process replacement."
