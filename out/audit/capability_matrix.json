@@ -4,7 +4,7 @@
       "blocked_gates": [],
       "capability": "core wheel and CLI",
       "computed_level": "FRESH_ENVIRONMENT_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -33,7 +33,7 @@
       "blocked_gates": [],
       "capability": "CanonicalEvidence semantics",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -56,7 +56,7 @@
       "blocked_gates": [],
       "capability": "OCI stack",
       "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -71,7 +71,7 @@
         {
           "exists": true,
           "path": "out/audit/klayout_image.json",
-          "sha256": "33beb5665bf82372247d4417af7577ab2a9b16e81125d53dbcdf1315d1b9db75"
+          "sha256": "34b1c9e07aea649aae672e1779fd1c5f966cbb96a634f5dd2a666a51d66962df"
         }
       ],
       "failed_gates": [],
@@ -85,7 +85,7 @@
       "blocked_gates": [],
       "capability": "Palace parser/MAC",
       "computed_level": "REAL_FIXTURE_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -108,7 +108,7 @@
       "blocked_gates": [],
       "capability": "Palace real execution",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -134,7 +134,7 @@
       "blocked_gates": [],
       "capability": "critical-region coverage",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -155,10 +155,15 @@
     },
     {
       "blocked_gates": [],
-      "capability": "KLayout DRC",
+      "capability": "KLayout installation smoke",
       "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_installation_drc_smoke.json",
+          "sha256": "bf0051bf970d1185fa242017ce45bf5ac2964b60eed82f1acd38c02412f68b32"
+        },
         {
           "exists": true,
           "path": "src/textlayout/verification/klayout.py",
@@ -173,32 +178,76 @@
       ],
       "passed_gates": [
         "KLayout adapter implemented",
-        "headless DRC integration evidence"
+        "minimum-size smoke evidence exists"
       ]
     },
     {
       "blocked_gates": [],
-      "capability": "KLayout partial LVS",
-      "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "capability": "Typed PDK DRC",
+      "computed_level": "UNIT_TESTED",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
-          "path": "src/textlayout/verification/report.py",
-          "sha256": "25312730ee84e59b0955929209699f2e742e91536fae5476d3efa7db74137549"
+          "path": "src/textlayout/pdk/klayout_drc.py",
+          "sha256": "923379d2ffaa041dbe7ab0aa29ab37374ef3b420bc080dc72e28f1a3f10e0b1c"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_klayout_drc.py",
+          "sha256": "79bcfec859a1ec767f546dcd54ce4581f1ed8f6bda0a46753d3b88cedbfc4ce2"
         }
       ],
       "failed_gates": [],
       "passed_gates": [
-        "LVS report schema implemented",
-        "partial LVS evidence exists"
+        "typed PDK DRC implemented",
+        "typed PDK DRC tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "KLayout layer-population smoke",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_layer_population_smoke.json",
+          "sha256": "67952616460eb9209181780c1036663b852dd77d73b01db07b6d8766acec6a65"
+        }
+      ],
+      "failed_gates": [],
+      "passed_gates": [
+        "layer-population readback evidence exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "KLayout partial electrical LVS",
+      "computed_level": "IMPLEMENTED",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/pdk/lvs.py",
+          "sha256": "87e16d69109782dc761b86462376612d45dc34347abc28f8e44c67340c9241aa"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "partial electrical LVS evidence exists",
+          "reason": null
+        }
+      ],
+      "passed_gates": [
+        "LVS report schema implemented"
       ]
     },
     {
       "blocked_gates": [],
       "capability": "JosephsonCircuits",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -224,7 +273,7 @@
       "blocked_gates": [],
       "capability": "openEMS",
       "computed_level": "REAL_FIXTURE_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -247,7 +296,7 @@
       "blocked_gates": [],
       "capability": "FasterCap",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -269,7 +318,7 @@
       "blocked_gates": [],
       "capability": "FastHenry",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
@@ -291,7 +340,7 @@
       "blocked_gates": [],
       "capability": "showcase evidence",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
+      "evaluated_at_commit": "857a6fbcb8ca0cecebd763f39177d93869ecc1e2",
       "evidence_hashes": [
         {
           "exists": true,
