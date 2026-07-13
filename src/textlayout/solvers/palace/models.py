@@ -105,18 +105,73 @@ class FieldOverlapResult(BaseModel):
 
     field_kind: Literal["electric", "magnetic"]
     projection_method: str
+    projection_implementation: str
     integration_method: str
+    interpolation_order: int = Field(ge=0)
+    quadrature_order: int = Field(ge=1)
     material_weighting: str
+    material_map_sha256: str = Field(min_length=64, max_length=64)
+    common_mesh_sha256: str = Field(min_length=64, max_length=64)
     total_mac: float = Field(ge=0.0, le=1.0)
     per_region_mac: dict[str, float]
-    mapped_volume_coverage: float = Field(ge=0.0, le=1.0)
-    critical_region_unmapped_coverage: float = Field(ge=0.0, le=1.0)
+    global_mapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    global_unmapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    critical_region_mapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    critical_region_unmapped_volume_coverage: float = Field(ge=0.0, le=1.0)
+    mapped_volume: float = Field(ge=0.0)
+    expected_domain_volume: float = Field(gt=0.0)
     maximum_mapping_distance: float = Field(ge=0.0)
     average_mapping_distance: float = Field(ge=0.0)
     maximum_normalized_mapping_distance: float = Field(ge=0.0)
-    unmapped_point_count: int = Field(ge=0)
+    interpolation_failures: int = Field(ge=0)
+    unmapped_critical_region_cell_count: int = Field(ge=0)
+    raw_cell_count: int = Field(ge=0)
+    ghost_cells_removed: int = Field(ge=0)
+    duplicate_cells_removed: int = Field(ge=0)
+    unsupported_cells: int = Field(ge=0)
     integration_cell_count: int = Field(gt=0)
+    raw_total_volume: float = Field(ge=0.0)
+    deduplicated_total_volume: float = Field(gt=0.0)
     passed_projection_quality: bool
+
+    @property
+    def mapped_volume_coverage(self) -> float:
+        """Compatibility name for pre-v2 callers."""
+        return self.global_mapped_volume_coverage
+
+    @property
+    def unmapped_point_count(self) -> int:
+        """Compatibility name for pre-v2 callers."""
+        return self.interpolation_failures
+
+
+Tensor3 = tuple[
+    tuple[float, float, float],
+    tuple[float, float, float],
+    tuple[float, float, float],
+]
+
+
+class MaterialOverlapEntry(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    attribute: int = Field(ge=1)
+    material_name: str
+    permittivity: Tensor3
+    permeability: Tensor3
+    source: str
+    model_sha256: str = Field(min_length=64, max_length=64)
+    critical_region: bool = False
+
+
+class MaterialOverlapMap(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    schema_version: str = "textlayout.palace-material-overlap.v1"
+    model_sha256: str = Field(min_length=64, max_length=64)
+    palace_config_sha256: str = Field(min_length=64, max_length=64)
+    entries: list[MaterialOverlapEntry]
+    map_sha256: str = Field(min_length=64, max_length=64)
 
 
 class PalaceRun(BaseModel):

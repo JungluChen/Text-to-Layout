@@ -19,6 +19,7 @@ import numpy.typing as npt
 from textlayout.solvers.palace.models import (
     Eigenmode,
     FieldOverlapResult,
+    MaterialOverlapMap,
     ModeFieldData,
     PalaceOutputError,
 )
@@ -292,7 +293,9 @@ _VTK_DTYPES: dict[str, np.dtype[Any]] = {
     "Float32": np.dtype("<f4"),
     "Float64": np.dtype("<f8"),
     "Int32": np.dtype("<i4"),
+    "Int64": np.dtype("<i8"),
     "UInt32": np.dtype("<u4"),
+    "UInt64": np.dtype("<u8"),
     "UInt8": np.dtype("u1"),
 }
 
@@ -486,75 +489,18 @@ def energy_weighted_field_mac(
     right: Path,
     *,
     kind: Literal["electric", "magnetic"],
+    material_map: MaterialOverlapMap,
     relative_mapping_distance_limit: float = 0.25,
     minimum_coverage: float = 0.99,
-    material_weights: dict[int, float] | None = None,
 ) -> FieldOverlapResult:
-    """Compute an energy-weighted MAC on the coarser tetrahedral integration mesh."""
-    if relative_mapping_distance_limit <= 0.0:
-        raise ValueError("relative_mapping_distance_limit must be positive")
-    left_xyz, left_field, left_volume, left_regions = _tetra_integration_data(left, kind)
-    right_xyz, right_field, right_volume, right_regions = _tetra_integration_data(right, kind)
-    if len(left_xyz) > len(right_xyz):
-        left_xyz, right_xyz = right_xyz, left_xyz
-        left_field, right_field = right_field, left_field
-        left_volume, right_volume = right_volume, left_volume
-        left_regions, right_regions = right_regions, left_regions
-    try:
-        from scipy.spatial import cKDTree
-    except ImportError as exc:
-        raise PalaceOutputError("scipy is required to project Palace field meshes") from exc
-    distances, indices = cKDTree(right_xyz).query(left_xyz, workers=-1)
-    characteristic = np.cbrt(np.maximum(left_volume, np.finfo(float).tiny))
-    normalized = distances / characteristic
-    mapped = normalized <= relative_mapping_distance_limit
-    total_volume = float(left_volume.sum())
-    mapped_volume = float(left_volume[mapped].sum())
-    coverage = mapped_volume / total_volume if total_volume else 0.0
-    if not np.any(mapped):
-        raise PalaceOutputError("field projection mapped no integration cells")
-    a = left_field[mapped]
-    b = right_field[indices[mapped]]
-    defaults = (
-        {1: 11.45, 2: 11.45, 3: 1.0, 4: 1.0, 5: 1.0}
-        if kind == "electric"
-        else {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0}
-    )
-    selected_weights = material_weights or defaults
-    weights = left_volume[mapped] * np.asarray(
-        [selected_weights.get(int(region), 1.0) for region in left_regions[mapped]]
-    )
-    inner = np.sum(weights[:, None] * np.conjugate(a) * b)
-    norm_a = float(np.sum(weights[:, None] * np.abs(a) ** 2))
-    norm_b = float(np.sum(weights[:, None] * np.abs(b) ** 2))
-    if norm_a <= 0.0 or norm_b <= 0.0:
-        raise PalaceOutputError("zero energy norm in projected field comparison")
-    mac = float(abs(inner) ** 2 / (norm_a * norm_b))
-    passed = coverage >= minimum_coverage and bool(np.all(mapped))
-    per_region: dict[str, float] = {}
-    for region in np.unique(left_regions[mapped]):
-        mask = mapped & (left_regions == region)
-        aa = left_field[mask]
-        bb = right_field[indices[mask]]
-        ww = left_volume[mask] * selected_weights.get(int(region), 1.0)
-        region_inner = np.sum(ww[:, None] * np.conjugate(aa) * bb)
-        region_a = float(np.sum(ww[:, None] * np.abs(aa) ** 2))
-        region_b = float(np.sum(ww[:, None] * np.abs(bb) ** 2))
-        if region_a > 0 and region_b > 0:
-            per_region[str(int(region))] = float(abs(region_inner) ** 2 / (region_a * region_b))
-    return FieldOverlapResult(
-        field_kind=kind,
-        projection_method="nearest-cell-centroid onto coarser common tetrahedral mesh",
-        integration_method="piecewise-constant tetrahedral volume quadrature",
-        material_weighting=("epsilon" if kind == "electric" else "mu^-1"),
-        total_mac=max(0.0, min(1.0, mac)),
-        per_region_mac=per_region,
-        mapped_volume_coverage=coverage,
-        critical_region_unmapped_coverage=1.0 - coverage,
-        maximum_mapping_distance=float(distances.max(initial=0.0)),
-        average_mapping_distance=float(np.average(distances, weights=left_volume)),
-        maximum_normalized_mapping_distance=float(normalized.max(initial=0.0)),
-        unmapped_point_count=int((~mapped).sum()),
-        integration_cell_count=len(left_xyz),
-        passed_projection_quality=passed,
+    """Compatibility entry point for the explicitly diagnostic centroid projection."""
+    from textlayout.solvers.palace.overlap import centroid_projected_energy_mac
+
+    return centroid_projected_energy_mac(
+        left,
+        right,
+        kind=kind,
+        material_map=material_map,
+        relative_mapping_distance_limit=relative_mapping_distance_limit,
+        minimum_coverage=minimum_coverage,
     )

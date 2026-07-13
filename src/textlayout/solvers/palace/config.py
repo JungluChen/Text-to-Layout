@@ -10,6 +10,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from textlayout.fem import (
+    CriticalRegion,
     EigenmodeSolve,
     FEMModel,
     Interface,
@@ -197,6 +198,22 @@ def quarter_wave_fem_model(
             Material(name="vacuum", permittivity=1.0),
         ],
         volumes=volumes,
+        critical_regions=[
+            CriticalRegion(name="cpw_gaps", kind="cpw_gap", attribute_ids=[1, 3]),
+            CriticalRegion(
+                name="coupling_gap", kind="coupling_gap", attribute_ids=[1, 3]
+            ),
+            CriticalRegion(
+                name="open_and_grounded_ends",
+                kind="resonator_end",
+                attribute_ids=[1, 3],
+            ),
+            CriticalRegion(
+                name="substrate_vacuum_interface",
+                kind="substrate_interface",
+                attribute_ids=[1, 3],
+            ),
+        ],
         surfaces=[
             Surface(
                 name="superconducting_metal",

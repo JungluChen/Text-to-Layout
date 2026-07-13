@@ -6,7 +6,30 @@ import meshio
 import numpy as np
 import pytest
 
-from textlayout.solvers.palace.parser import energy_weighted_field_mac
+from textlayout.solvers.palace.models import MaterialOverlapEntry, MaterialOverlapMap
+from textlayout.solvers.palace.overlap import (
+    centroid_projected_energy_mac,
+    reference_interpolated_energy_mac,
+)
+
+
+def _material_map() -> MaterialOverlapMap:
+    tensor = ((2.0, 0.0, 0.0), (0.0, 3.0, 0.0), (0.0, 0.0, 4.0))
+    entry = MaterialOverlapEntry(
+        attribute=1,
+        material_name="test",
+        permittivity=tensor,
+        permeability=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)),
+        source="test fixture",
+        model_sha256="a" * 64,
+        critical_region=True,
+    )
+    return MaterialOverlapMap(
+        model_sha256="a" * 64,
+        palace_config_sha256="b" * 64,
+        entries=[entry],
+        map_sha256="c" * 64,
+    )
 
 
 def _write_tetra_field(
@@ -49,7 +72,9 @@ def test_weighted_mac_is_invariant_to_amplitude_and_global_phase(
     left, right = tmp_path / "left.vtu", tmp_path / "right.vtu"
     _write_tetra_field(left, points, tetra, field)
     _write_tetra_field(right, points[::-1], np.asarray([[3, 2, 1, 0]]), field[::-1] * scale)
-    result = energy_weighted_field_mac(left, right, kind="electric", relative_mapping_distance_limit=1)
+    result = reference_interpolated_energy_mac(
+        left, right, kind="electric", material_map=_material_map(), relative_mapping_distance_limit=1
+    )
     assert result.total_mac == pytest.approx(1.0)
     assert result.mapped_volume_coverage == pytest.approx(1.0)
 
@@ -60,7 +85,9 @@ def test_weighted_mac_rejects_orthogonal_fields(tmp_path: Path) -> None:
     left, right = tmp_path / "left.vtu", tmp_path / "right.vtu"
     _write_tetra_field(left, points, tetra, ex)
     _write_tetra_field(right, points, tetra, ey)
-    assert energy_weighted_field_mac(left, right, kind="electric").total_mac == pytest.approx(0)
+    assert centroid_projected_energy_mac(
+        left, right, kind="electric", material_map=_material_map()
+    ).total_mac == pytest.approx(0)
 
 
 def test_weighted_mac_detects_local_perturbation(tmp_path: Path) -> None:
@@ -71,7 +98,9 @@ def test_weighted_mac_detects_local_perturbation(tmp_path: Path) -> None:
     left, right = tmp_path / "left.vtu", tmp_path / "right.vtu"
     _write_tetra_field(left, points, tetra, base)
     _write_tetra_field(right, points, tetra, changed)
-    assert energy_weighted_field_mac(left, right, kind="electric").total_mac < 1
+    assert centroid_projected_energy_mac(
+        left, right, kind="electric", material_map=_material_map()
+    ).total_mac < 1
 
 
 def test_weighted_mac_reports_mapping_distance_and_partial_domain(tmp_path: Path) -> None:
@@ -81,12 +110,20 @@ def test_weighted_mac_reports_mapping_distance_and_partial_domain(tmp_path: Path
     _write_tetra_field(left, points, tetra, field)
     _write_tetra_field(right, points + [10, 0, 0], tetra, field)
     with pytest.raises(Exception, match="mapped no integration cells"):
-        energy_weighted_field_mac(left, right, kind="electric", relative_mapping_distance_limit=0.1)
+        reference_interpolated_energy_mac(
+            left,
+            right,
+            kind="electric",
+            material_map=_material_map(),
+            relative_mapping_distance_limit=0.1,
+        )
 
 
 def test_real_palace_0_17_compacted_parallel_fixture() -> None:
     fixture = Path("tests/fixtures/palace_0_17_field/data.pvtu")
-    result = energy_weighted_field_mac(fixture, fixture, kind="electric")
+    result = reference_interpolated_energy_mac(
+        fixture, fixture, kind="electric", material_map=_material_map()
+    )
     assert result.total_mac == pytest.approx(1.0)
     assert result.integration_cell_count == 2
     assert result.mapped_volume_coverage == pytest.approx(1.0)

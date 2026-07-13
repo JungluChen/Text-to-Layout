@@ -706,6 +706,8 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
             str(args.amr_iterations),
             "--sweep-amr-iterations",
             str(args.sweep_amr_iterations),
+            "--mode-count",
+            str(args.mode_count),
         ]
         if args.stage:
             command.extend(["--stage", args.stage])
@@ -755,6 +757,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         processes=args.processes,
         timeout_seconds=args.timeout,
         mesh_scale=args.mesh_scale,
+        mode_count=args.mode_count,
         amr=AMRSettings(max_iterations=args.amr_iterations),
         resume=args.resume,
         stop_after_stage=args.stage,
@@ -1029,6 +1032,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Palace AMR MaxIts for the domain/physical sweeps. 0 skips the sweeps "
         "entirely (a reduced preflight running only the base AMR study). A lower "
         "positive value keeps the many sweep solves tractable.",
+    )
+    p_palace.add_argument(
+        "--mode-count",
+        type=int,
+        default=4,
+        help="Number of Palace eigenmodes to solve and retain per iteration.",
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 

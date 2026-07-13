@@ -1,0 +1,30 @@
+{
+  "schema": "textlayout.palace-real-field-fixture.v1",
+  "fixture": "Palace 0.17.0 quadratic tetrahedral eigenmode field",
+  "generated_at": "2026-07-13",
+  "palace_version": "0.17.0",
+  "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "execution": {
+    "processes": 1,
+    "return_code": 0,
+    "runtime_seconds": 6.113699700001234,
+    "solver_order": 2,
+    "vtk_cell_type": 71,
+    "nodes_per_cell": 10,
+    "cell_count": 288
+  },
+  "inputs": {
+    "config_sha256": "40707d861eae5cbb3653f2d66e57fbbca738c085bf6a9d9800013d6cabbe9ab0",
+    "mesh_sha256": "e688a76fe3d4abc224d2a47c5c8123529f3a690aa890660d16094d57e7878489",
+    "mesh_source": "Palace examples/cylinder/mesh/cylinder_tet.msh"
+  },
+  "artifacts": {
+    "cavity_pec_resolved.json": "5f9e28390459f2bed07af84f2ce9fa17028ce9ae3c6d1f0b3917dc8480471127",
+    "data.pvtu": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b",
+    "eig.csv": "8aa47df41c27da97b3371103cc7df52ab4f9e1db91580b5bb19301a8c314ad53",
+    "error-indicators.csv": "6a501385876962f987123664fcea7c46e9b31d59bc620e80944b13fb1fb2189d",
+    "palace.stdout.txt": "af43b85cd302d4f90d494b1684eea051f327e916eb181b2af94f485dc1648eca",
+    "proc000000.vtu": "134a03ea43aee568fc64cdbc038ac60b2960ea6a3ec922da2c8a180f72cdd372"
+  }
+}

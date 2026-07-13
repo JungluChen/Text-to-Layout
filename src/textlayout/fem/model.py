@@ -71,6 +71,15 @@ MeshRegionKind = Literal[
     "custom",
 ]
 
+CriticalRegionKind = Literal[
+    "cpw_gap",
+    "coupling_gap",
+    "resonator_end",
+    "substrate_interface",
+    "junction",
+    "user_defined_high_field",
+]
+
 
 class FEMModelError(ValueError):
     """The model is not solvable, and saying so now beats a wrong eigenvalue."""
@@ -143,6 +152,16 @@ class MeshRegion(BaseModel):
     name: str = Field(min_length=1)
     kind: MeshRegionKind
     dimension: Literal[0, 1, 2, 3]
+
+
+class CriticalRegion(BaseModel):
+    """High-field geometry mapped to volume attributes used by field integration."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: str = Field(min_length=1)
+    kind: CriticalRegionKind
+    attribute_ids: list[int] = Field(min_length=1)
 
 
 class Interface(BaseModel):
@@ -271,6 +290,7 @@ class FEMModel(BaseModel):
     lumped_ports: list[LumpedPort] = Field(default_factory=list)
     wave_ports: list[WavePort] = Field(default_factory=list)
     mesh_regions: list[MeshRegion] = Field(default_factory=list)
+    critical_regions: list[CriticalRegion] = Field(default_factory=list)
     mesh: MeshControl
     eigenmode: EigenmodeSolve
 
@@ -290,6 +310,18 @@ class FEMModel(BaseModel):
                 )
 
         self._unique("volume", [v.attribute for v in self.volumes])
+        volume_attributes = {v.attribute for v in self.volumes}
+        critical_attributes = {
+            attribute
+            for region in self.critical_regions
+            for attribute in region.attribute_ids
+        }
+        unknown_critical = sorted(critical_attributes - volume_attributes)
+        if unknown_critical:
+            raise FEMModelError(
+                "critical-region attributes must name model volumes; unknown: "
+                f"{unknown_critical}"
+            )
         # Surfaces, interfaces and ports all live on 2-D entities and therefore
         # share one attribute space. A port that reused an interface's tag would
         # silently overwrite it in the mesh.
@@ -333,6 +365,14 @@ class FEMModel(BaseModel):
                     f"mesh refinement targets unknown entity {refinement.target!r}"
                 )
         return self
+
+    @property
+    def critical_region_attributes(self) -> set[int]:
+        return {
+            attribute
+            for region in self.critical_regions
+            for attribute in region.attribute_ids
+        }
 
     @staticmethod
     def _unique(what: str, attributes: list[int]) -> None:

@@ -81,13 +81,18 @@ from textlayout.solvers.palace.models import (
     PalaceCapability,
     PalaceOutputError,
     PalaceRun,
+    MaterialOverlapMap,
+)
+from textlayout.solvers.palace.overlap import (
+    build_material_overlap_map,
+    centroid_projected_energy_mac,
+    reference_interpolated_energy_mac,
 )
 from textlayout.solvers.palace.parser import (
     parse_eigenmodes,
     parse_global_error_indicator,
     parse_mode_fields,
     field_artifact_files,
-    energy_weighted_field_mac,
 )
 from textlayout.solvers.palace.runner import build_command, run_palace
 from textlayout.solvers.palace.stages import (
@@ -210,6 +215,8 @@ class ModeMatch(BaseModel):
     magnetic_regional_energy_similarity: float = Field(ge=0, le=1)
     electric_field_mac: float = Field(ge=0, le=1)
     magnetic_field_mac: float = Field(ge=0, le=1)
+    diagnostic_electric_centroid_mac: float = Field(default=0.0, ge=0, le=1)
+    diagnostic_magnetic_centroid_mac: float = Field(default=0.0, ge=0, le=1)
     electric_mapped_volume_coverage: float = Field(default=0.0, ge=0, le=1)
     magnetic_mapped_volume_coverage: float = Field(default=0.0, ge=0, le=1)
     maximum_normalized_mapping_distance: float = Field(default=float("inf"), ge=0)
@@ -924,6 +931,7 @@ def track_amr_modes(
     iterations: list[_ParsedIteration],
     *,
     seed_frequency_ghz: float,
+    material_map: MaterialOverlapMap,
     minimum_score: float = 0.98,
     minimum_margin: float = 0.05,
 ) -> tuple[list[int], list[ModeMatch]]:
@@ -963,11 +971,17 @@ def track_amr_modes(
                 raise PalaceOutputError(
                     f"{left.tag} to {right.tag}: retained Palace fields are required for MAC"
                 )
-            electric_result = energy_weighted_field_mac(
-                left_field.field_file, candidate_field.field_file, kind="electric"
+            electric_result = centroid_projected_energy_mac(
+                left_field.field_file,
+                candidate_field.field_file,
+                kind="electric",
+                material_map=material_map,
             )
-            magnetic_result = energy_weighted_field_mac(
-                left_field.field_file, candidate_field.field_file, kind="magnetic"
+            magnetic_result = centroid_projected_energy_mac(
+                left_field.field_file,
+                candidate_field.field_file,
+                kind="magnetic",
+                material_map=material_map,
             )
             electric_mac = electric_result.total_mac
             magnetic_mac = magnetic_result.total_mac
@@ -990,6 +1004,8 @@ def track_amr_modes(
                     magnetic_regional_energy_similarity=magnetic,
                     electric_field_mac=electric_mac,
                     magnetic_field_mac=magnetic_mac,
+                    diagnostic_electric_centroid_mac=electric_mac,
+                    diagnostic_magnetic_centroid_mac=magnetic_mac,
                     electric_mapped_volume_coverage=electric_result.mapped_volume_coverage,
                     magnetic_mapped_volume_coverage=magnetic_result.mapped_volume_coverage,
                     maximum_normalized_mapping_distance=max(
@@ -1022,6 +1038,32 @@ def track_amr_modes(
                 f"ambiguous_mode_identity: {left.tag} to {right.tag} margin "
                 f"{best.margin:.6f} is below {minimum_margin:.6f}"
             )
+        left_file = _mode_field(left.fields, current, left.tag).field_file
+        right_file = _mode_field(right.fields, best.to_mode, right.tag).field_file
+        if left_file is None or right_file is None:
+            raise PalaceOutputError("reference overlap requires retained field files")
+        reference_e = reference_interpolated_energy_mac(
+            left_file, right_file, kind="electric", material_map=material_map
+        )
+        reference_m = reference_interpolated_energy_mac(
+            left_file, right_file, kind="magnetic", material_map=material_map
+        )
+        best = best.model_copy(
+            update={
+                "electric_field_mac": reference_e.total_mac,
+                "magnetic_field_mac": reference_m.total_mac,
+                "electric_mapped_volume_coverage": reference_e.global_mapped_volume_coverage,
+                "magnetic_mapped_volume_coverage": reference_m.global_mapped_volume_coverage,
+                "maximum_normalized_mapping_distance": max(
+                    reference_e.maximum_normalized_mapping_distance,
+                    reference_m.maximum_normalized_mapping_distance,
+                ),
+                "unmapped_critical_region_count": (
+                    reference_e.unmapped_critical_region_cell_count
+                    + reference_m.unmapped_critical_region_cell_count
+                ),
+            }
+        )
         indices.append(best.to_mode)
         matches.append(best)
         current = best.to_mode
@@ -1127,6 +1169,7 @@ def run_quarter_wave_benchmark_v017(
     timeout_seconds: float = 7200.0,
     cancel_event: Event | None = None,
     mesh_scale: float = 3.0,
+    mode_count: int = 4,
     extents: DomainExtents | None = None,
     amr: AMRSettings | None = None,
     sweep_amr: AMRSettings | None = None,
@@ -1196,6 +1239,11 @@ def run_quarter_wave_benchmark_v017(
     processes = accepted if isinstance(accepted, int) else processes
 
     model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=base_extents)
+    if mode_count < 2:
+        raise ValueError("mode_count must be at least 2 for target/competitor tracking")
+    model = model.model_copy(
+        update={"eigenmode": model.eigenmode.model_copy(update={"mode_count": mode_count})}
+    )
     fem_hash = write_json(model.model_dump(mode="json"), root / "fem_model.json")
     preflight_record = write_stage_record(
         root,
@@ -1412,8 +1460,14 @@ def run_quarter_wave_benchmark_v017(
         tracked: list[int] = []
         matches: list[ModeMatch] = []
         try:
+            material_map = build_material_overlap_map(
+                model, json.loads(resolved_base.read_text(encoding="utf-8"))
+            )
+            write_json(material_map.model_dump(mode="json"), root / "material_overlap_map.json")
             tracked, matches = track_amr_modes(
-                parsed_iterations, seed_frequency_ghz=target_frequency
+                parsed_iterations,
+                seed_frequency_ghz=target_frequency,
+                material_map=material_map,
             )
         except PalaceOutputError as exc:
             tracking_error = str(exc)

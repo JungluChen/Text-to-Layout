@@ -142,6 +142,21 @@ def _iteration(
     )
 
 
+def _overlap_result(total_mac: float = 0.99):
+    return type(
+        "Result",
+        (),
+        {
+            "total_mac": total_mac,
+            "mapped_volume_coverage": 1.0,
+            "global_mapped_volume_coverage": 1.0,
+            "maximum_normalized_mapping_distance": 0.0,
+            "unmapped_point_count": 0,
+            "unmapped_critical_region_cell_count": 0,
+        },
+    )()
+
+
 def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) -> None:
     # The resonator mode is index 2 on the first iteration and index 1 later:
     # tracking must follow the frequency/participation signature, not "mode 1".
@@ -150,20 +165,14 @@ def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) ->
         _iteration("iteration_01", 2, {1: 6.005, 2: 9.1}, {1: 0.9, 2: 0.2}),
         _iteration("iteration_02", 3, {1: 6.002, 2: 9.2}, {1: 0.9, 2: 0.2}),
     ]
-    monkeypatch.setattr(
-        "textlayout.solvers.palace.benchmark_v017.energy_weighted_field_mac",
-        lambda left, right, kind: type(
-            "Result",
-            (),
-            {
-                "total_mac": 0.99,
-                "mapped_volume_coverage": 1.0,
-                "maximum_normalized_mapping_distance": 0.0,
-                "unmapped_point_count": 0,
-            },
-        )(),
+    for function in ("centroid_projected_energy_mac", "reference_interpolated_energy_mac"):
+        monkeypatch.setattr(
+            f"textlayout.solvers.palace.benchmark_v017.{function}",
+            lambda left, right, kind, material_map: _overlap_result(),
+        )
+    tracked, matches = track_amr_modes(
+        iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
     )
-    tracked, matches = track_amr_modes(iterations, seed_frequency_ghz=6.0)
     assert tracked == [2, 1, 1]
     assert all(match.score > 0.98 for match in matches)
     assert all(match.margin > 0.05 for match in matches)
@@ -176,20 +185,13 @@ def test_track_amr_modes_raises_on_ambiguous_identity(monkeypatch) -> None:
         _iteration("iteration_01", 2, {1: 6.0005, 2: 6.0006}, {1: 0.9, 2: 0.9}),
     ]
     monkeypatch.setattr(
-        "textlayout.solvers.palace.benchmark_v017.energy_weighted_field_mac",
-        lambda left, right, kind: type(
-            "Result",
-            (),
-            {
-                "total_mac": 0.99,
-                "mapped_volume_coverage": 1.0,
-                "maximum_normalized_mapping_distance": 0.0,
-                "unmapped_point_count": 0,
-            },
-        )(),
+        "textlayout.solvers.palace.benchmark_v017.centroid_projected_energy_mac",
+        lambda left, right, kind, material_map: _overlap_result(),
     )
     with pytest.raises(PalaceOutputError, match="ambiguous_mode_identity"):
-        track_amr_modes(iterations, seed_frequency_ghz=6.0)
+        track_amr_modes(
+            iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
+        )
 
 
 @pytest.mark.parametrize(

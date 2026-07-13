@@ -1,0 +1,40 @@
+{
+  "schema": "textlayout.palace-real-cross-amr-fixture.v1",
+  "generated_at": "2026-07-13",
+  "palace_version": "0.17.0",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "source_run": "out/palace_resonator_v018_field_mac",
+  "source_mode": 2,
+  "configuration": {
+    "resolved_file_sha256": "68aa400ddc549c0de69381e3975b699cbf76c01978e1daccb0f90de05330e989",
+    "canonical_payload_sha256": "8b53966afc2ad8ee74ac75a24a28a965695dfacfef9b063c4b9715b34b556eea"
+  },
+  "mesh_sha256": {
+    "iteration_00_base_msh": "29a9a69267e48fa5ee0968d5684000afeee553e08e28aff60e452297576944fe",
+    "iteration_01_adapted_mesh": "9f2a7ead6fc43e8482153c8e653cfc12e0616b3af62d194ba47270ad7df29b4d"
+  },
+  "source_artifacts": {
+    "iteration_00_vtu_sha256": "e1a60dcf50a542ef120baebd39dae3140ffd7851acfcc45b39a28562a4ecae20",
+    "iteration_01_vtu_sha256": "e2ab8209560edbcfbcb0ef243d118f93b19b1a3a6abf76ae3f2891aa9a390723"
+  },
+  "compaction": {
+    "method": "48 coarse tetrahedra with each iteration field evaluated at identical coarse vertices",
+    "cell_attributes": [1, 2, 4],
+    "synthetic_fields": false,
+    "common_mesh_is_solver_derived": true
+  },
+  "fixture_artifacts": {
+    "iteration_00.vtu": "603ea9e86a0669211894038ea130b2048a3f244a1f4af87b71b746bacc3cf861",
+    "iteration_01.vtu": "40f9686f2dbb446137587f27da5d3ba5b92418749ff9f6731da008c953aa023f"
+  },
+  "reference_results": {
+    "diagnostic_nearest_node_electric_mac": 0.42471624276579323,
+    "diagnostic_nearest_node_magnetic_mac": 0.7928440443664696,
+    "electric_mac": 0.8915366893689118,
+    "magnetic_mac": 0.9407440953483914,
+    "global_coverage": 1.0,
+    "critical_coverage": 1.0,
+    "centroid_reference_absolute_tolerance": 1e-12,
+    "agreement_tolerance_justification": "Centroid and reference evaluate the same linear compacted common mesh and must agree to numerical precision. Nearest-node MAC is unweighted and diagnostic only, so it is reported but excluded from this tolerance."
+  }
+}
