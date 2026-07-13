@@ -35,7 +35,6 @@ FasterCap does **not** imply coherence accuracy from this model.
 
 from __future__ import annotations
 
-import importlib.util
 import json
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -175,26 +174,12 @@ class AnalyticalEPRBackend(EPRBackend):
 
 
 class PyEPRBackend(EPRBackend):
-    """Adapter slot for a real pyEPR / HFSS eigenmode participation extraction.
-
-    Reports ``EPR_SKIPPED_SOLVER_ABSENT`` honestly when the pyEPR stack is not
-    installed. When pyEPR is present, running a real extraction requires an
-    HFSS project — which cannot exist in CI — so this adapter's executable path
-    is exercised only in environments that provide one. It never fabricates
-    field-solved participations.
-
-    Not implemented beyond the honest skip path: driving a live HFSS session
-    needs an interactive Ansys connection this project cannot test against.
-    See ``docs/pyepr_hfss_integration.md`` for the contract a real
-    implementation must meet, and for the faster path (most users should
-    reach for ``FieldEnergyImportBackend`` instead — export participation
-    data from your own pyEPR/HFSS session once, no live driving required).
-    """
+    """Historical compatibility shim for the disabled live pyEPR/HFSS path."""
 
     name = "pyepr"
 
     def available(self) -> bool:
-        return importlib.util.find_spec("pyEPR") is not None
+        return False
 
     def analyze(
         self,
@@ -203,23 +188,20 @@ class PyEPRBackend(EPRBackend):
         frequency_ghz: float,
         materials: MaterialsDB | None = None,
     ) -> EPRResult:
-        if not self.available():
-            return EPRResult(
-                component=spec.component,
-                backend=self.name,
-                status=EPR_STATUS_SKIPPED,
-                frequency_ghz=frequency_ghz,
-                assumptions=[],
-                provenance={"backend": self.name, "reason": "pyEPR not importable"},
-                notes=[
-                    "pyEPR (and an HFSS eigenmode project) is required for "
-                    "field-solved participations; nothing is claimed.",
-                ],
-            )
-        raise NotImplementedError(
-            "pyEPR is importable but driving a live HFSS eigenmode project is "
-            "not wired yet; use AnalyticalEPRBackend or contribute the "
-            "project-file adapter (see docs/epr_coherence.md)."
+        return EPRResult(
+            component=spec.component,
+            backend=self.name,
+            status=EPR_STATUS_SKIPPED,
+            frequency_ghz=frequency_ghz,
+            assumptions=[],
+            provenance={
+                "backend": self.name,
+                "reason": "live pyEPR/HFSS execution is not a supported runtime path",
+            },
+            notes=[
+                "Live pyEPR/HFSS integration is disabled by the open-source-only policy. "
+                "Use FieldEnergyImportBackend for user-supplied field-energy exports.",
+            ],
         )
 
 

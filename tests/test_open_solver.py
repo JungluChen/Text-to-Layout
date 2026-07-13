@@ -78,7 +78,7 @@ def test_route_qubit_uses_palace_and_scqubits():
 
 def test_route_validation_only_when_requested():
     assert route("CPW")["validation_backends"] == []
-    assert route("CPW", validation=True)["validation_backends"] == ["HFSS", "Sonnet"]
+    assert route("CPW", validation=True)["validation_backends"] == []
 
 
 def test_select_backends_default():
@@ -104,12 +104,20 @@ def test_manager_solve_routes_skips_and_excludes_commercial(tmp_path):
     assert result["validation_runs"] == []
 
 
-def test_manager_solve_lists_commercial_only_under_validation(tmp_path):
+def test_manager_solve_reports_commercial_validation_disabled(tmp_path):
     gds = tmp_path / "cpw.gds"
     gds.write_bytes(b"fixture")
     result = SolverManager().solve(
         gds, device="cpw", output_stem=tmp_path / "cpw", validation=True
     )
-    validation_backends = {run["backend"] for run in result["validation_runs"]}
-    assert validation_backends == {"HFSS", "Sonnet"}
-    assert all(run["role"] == "validation_only" for run in result["validation_runs"])
+    assert result["validation_runs"] == [
+        {
+            "backend": "commercial_solver_validation",
+            "role": "unsupported",
+            "available": False,
+            "status": "disabled",
+            "reason": (
+                "open-source-only policy disables HFSS, Q3D, COMSOL, and Sonnet paths"
+            ),
+        }
+    ]

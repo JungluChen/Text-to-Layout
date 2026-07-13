@@ -22,7 +22,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from textlayout._legacy.em_solvers import SOLVERS, get_em_solver
+from textlayout._legacy.em_solvers import SOLVERS
 
 # EM backends run directly through the EMSolver registry; companion backends are
 # circuit/parasitic tools driven by their own adapters (OpenQ3D, adapters.py).
@@ -51,7 +51,7 @@ OPEN_BACKEND_POLICY: tuple[tuple[str, dict[str, list[str]]], ...] = (
 )
 
 _DEFAULT_POLICY = {"em": ["openEMS"], "companion": []}
-_COMMERCIAL = ("HFSS", "Sonnet")
+_COMMERCIAL: tuple[str, ...] = ()
 
 
 def _normalize_device(device: str) -> str:
@@ -82,10 +82,10 @@ def route(device: str, *, target_accuracy: str = "iteration", validation: bool =
         "companion_backends": policy["companion"],
         "companion_modules": {name: _COMPANION_MODULES.get(name) for name in policy["companion"]},
         "required_agreement": required_agreement,
-        "validation_backends": list(_COMMERCIAL) if validation else [],
+        "validation_backends": [],
         "policy": (
-            "Open backends are primary. Commercial solvers run only when "
-            "validation=True and never substitute for the open result."
+            "Open backends are primary. Commercial solvers are disabled by "
+            "the open-source-only runtime policy."
         ),
     }
     return plan
@@ -202,16 +202,18 @@ class SolverManager:
 
         validation_runs: list[dict[str, Any]] = []
         if validation:
-            for name in _COMMERCIAL:
-                solver = get_em_solver(name)
-                validation_runs.append(
-                    {
-                        "backend": name,
-                        "role": "validation_only",
-                        "available": solver.available(),
-                        "status": "available" if solver.available() else "skipped",
-                    }
-                )
+            validation_runs.append(
+                {
+                    "backend": "commercial_solver_validation",
+                    "role": "unsupported",
+                    "available": False,
+                    "status": "disabled",
+                    "reason": (
+                        "open-source-only policy disables HFSS, Q3D, COMSOL, "
+                        "and Sonnet paths"
+                    ),
+                }
+            )
 
         accepted = available_open >= plan["required_agreement"]
         return {
