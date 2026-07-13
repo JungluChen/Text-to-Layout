@@ -397,3 +397,9 @@ def field_overlap(left: Path, right: Path, *, kind: str) -> float:
         raise PalaceOutputError(f"{left} and {right}: zero-norm {kind} field")
     numerator = float(abs(np.vdot(left_flat, right_flat)))
     return max(0.0, min(1.0, numerator / denominator))
+
+
+def field_mac(left: Path, right: Path, *, kind: str) -> float:
+    """Modal assurance criterion for retained complex Palace field vectors."""
+    overlap = field_overlap(left, right, kind=kind)
+    return max(0.0, min(1.0, overlap * overlap))

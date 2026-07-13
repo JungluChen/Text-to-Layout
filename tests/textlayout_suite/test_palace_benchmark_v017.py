@@ -14,6 +14,7 @@ from textlayout.solvers.palace.benchmark_v017 import (
     _extents_for,
     _ParsedIteration,
     run_quarter_wave_benchmark_v017,
+    staged_sweep_plan,
     track_amr_modes,
 )
 from textlayout.solvers.palace.config import DomainExtents
@@ -80,6 +81,8 @@ def test_mode_match_uses_regional_energy_similarity_names() -> None:
     fields = set(ModeMatch.model_fields)
     assert "electric_regional_energy_similarity" in fields
     assert "magnetic_regional_energy_similarity" in fields
+    assert "electric_field_mac" in fields
+    assert "magnetic_field_mac" in fields
     assert "electric_field_overlap" not in fields
     assert "magnetic_field_overlap" not in fields
 
@@ -121,6 +124,7 @@ def _iteration(
             },
             resonator_localization=substrate[mode],
             energy_normalization_error_percent=0.01,
+            field_file=Path(f"{tag}_mode_{mode}.pvtu"),
         )
         for mode in sorted(frequencies)
     ]
@@ -138,7 +142,7 @@ def _iteration(
     )
 
 
-def test_track_amr_modes_follows_the_physical_mode_not_the_index() -> None:
+def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) -> None:
     # The resonator mode is index 2 on the first iteration and index 1 later:
     # tracking must follow the frequency/participation signature, not "mode 1".
     iterations = [
@@ -146,20 +150,50 @@ def test_track_amr_modes_follows_the_physical_mode_not_the_index() -> None:
         _iteration("iteration_01", 2, {1: 6.005, 2: 9.1}, {1: 0.9, 2: 0.2}),
         _iteration("iteration_02", 3, {1: 6.002, 2: 9.2}, {1: 0.9, 2: 0.2}),
     ]
+    monkeypatch.setattr(
+        "textlayout.solvers.palace.benchmark_v017.field_mac",
+        lambda left, right, kind: 0.99,
+    )
     tracked, matches = track_amr_modes(iterations, seed_frequency_ghz=6.0)
     assert tracked == [2, 1, 1]
     assert all(match.score > 0.98 for match in matches)
     assert all(match.margin > 0.05 for match in matches)
 
 
-def test_track_amr_modes_raises_on_ambiguous_identity() -> None:
+def test_track_amr_modes_raises_on_ambiguous_identity(monkeypatch) -> None:
     # Two near-identical candidates: winner-vs-runner-up margin is ~0.
     iterations = [
         _iteration("iteration_00", 1, {1: 6.0}, {1: 0.9}),
         _iteration("iteration_01", 2, {1: 6.0005, 2: 6.0006}, {1: 0.9, 2: 0.9}),
     ]
+    monkeypatch.setattr(
+        "textlayout.solvers.palace.benchmark_v017.field_mac",
+        lambda left, right, kind: 0.99,
+    )
     with pytest.raises(PalaceOutputError, match="ambiguous_mode_identity"):
         track_amr_modes(iterations, seed_frequency_ghz=6.0)
+
+
+@pytest.mark.parametrize(
+    ("indicator", "tier", "numerical_count", "physical_count"),
+    [
+        (51.129493, "no_sweeps", 0, 0),
+        (3.0, "one_numerical_endpoint_pilot", 1, 0),
+        (0.8, "numerical_convergence_only", 2, 0),
+        (0.5, "full_promotion_assessment", 2, 1),
+    ],
+)
+def test_staged_scientific_sweep_gates(
+    indicator: float, tier: str, numerical_count: int, physical_count: int
+) -> None:
+    plan = staged_sweep_plan(
+        indicator,
+        {"air": (1.0, 2.0, 3.0), "upper": (4.0, 5.0, 6.0)},
+        {"substrate": (250.0, 300.0, 350.0)},
+    )
+    assert plan.tier == tier
+    assert len(plan.numerical) == numerical_count
+    assert len(plan.physical) == physical_count
 
 
 def test_collect_amr_iterations_orders_saved_then_final(tmp_path: Path) -> None:

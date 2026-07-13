@@ -98,35 +98,40 @@ def quarter_wave_fem_model(
         refinements=[
             LocalRefinement(
                 target="cpw_conductor_edges",
-                characteristic_length=6.0 * mesh_scale,
-                growth_distance=60.0,
+                characteristic_length=3.0 * mesh_scale,
+                growth_distance=80.0,
             ),
             LocalRefinement(
                 target="cpw_gaps",
-                characteristic_length=max(params.gap_um / 2.0, 1.0) * mesh_scale,
-                growth_distance=50.0,
+                characteristic_length=max(params.gap_um / 3.0, 1.0) * mesh_scale,
+                growth_distance=70.0,
             ),
             LocalRefinement(
                 target="coupler_gap",
-                characteristic_length=max(params.coupling_gap_um / 2.0, 1.0)
+                characteristic_length=max(params.coupling_gap_um / 3.0, 1.0)
                 * mesh_scale,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="open_end",
-                characteristic_length=max(params.coupling_gap_um / 2.0, 1.0)
+                characteristic_length=max(params.coupling_gap_um / 3.0, 1.0)
                 * mesh_scale,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="grounded_end",
-                characteristic_length=max(params.gap_um / 2.0, 1.0) * mesh_scale,
+                characteristic_length=max(params.gap_um / 3.0, 1.0) * mesh_scale,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="substrate_vacuum_interface",
-                characteristic_length=20.0 * mesh_scale,
-                growth_distance=120.0,
+                characteristic_length=10.0 * mesh_scale,
+                growth_distance=160.0,
+            ),
+            LocalRefinement(
+                target="mesh_transition_buffer",
+                characteristic_length=40.0 * mesh_scale,
+                growth_distance=300.0,
             ),
         ],
     )
@@ -234,6 +239,7 @@ def quarter_wave_fem_model(
             MeshRegion(name="cpw_gaps", kind="cpw_gap", dimension=2),
             MeshRegion(name="coupler_gap", kind="coupler_gap", dimension=2),
             MeshRegion(name="open_end", kind="open_end", dimension=1),
+            MeshRegion(name="mesh_transition_buffer", kind="custom", dimension=3),
             MeshRegion(name="grounded_end", kind="grounded_end", dimension=1),
             MeshRegion(
                 name="substrate_vacuum_interface",

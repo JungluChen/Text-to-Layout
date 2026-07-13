@@ -285,7 +285,13 @@ def mesh_quarter_wave(
         threshold(
             surfaces=[*near_interface, *outer_interface],
             size=sizes["substrate_vacuum_interface"],
-            distance=120.0,
+            distance=160.0,
+        )
+        threshold(
+            curves=metal_curves,
+            surfaces=[*near_interface, *outer_interface],
+            size=sizes["mesh_transition_buffer"],
+            distance=300.0,
         )
         if fields:
             minimum = gmsh.model.mesh.field.add("Min")

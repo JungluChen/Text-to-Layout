@@ -86,6 +86,8 @@ from textlayout.solvers.palace.parser import (
     parse_eigenmodes,
     parse_global_error_indicator,
     parse_mode_fields,
+    field_artifact_files,
+    field_mac,
 )
 from textlayout.solvers.palace.runner import build_command, run_palace
 from textlayout.solvers.palace.stages import (
@@ -206,6 +208,8 @@ class ModeMatch(BaseModel):
     frequency_proximity: float = Field(ge=0, le=1)
     electric_regional_energy_similarity: float = Field(ge=0, le=1)
     magnetic_regional_energy_similarity: float = Field(ge=0, le=1)
+    electric_field_mac: float = Field(ge=0, le=1)
+    magnetic_field_mac: float = Field(ge=0, le=1)
     localization_similarity: float = Field(ge=0, le=1)
     score: float = Field(ge=0, le=1)
     runner_up_score: float = Field(ge=0, le=1)
@@ -244,6 +248,56 @@ class V017BenchmarkResult(BaseModel):
     reason: str | None = None
     evidence_path: Path | None = None
     tracked_frequency_ghz: float | None = None
+
+
+class SweepExecutionPlan(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    tier: str
+    global_error_indicator_percent: float = Field(ge=0)
+    numerical: dict[str, tuple[float, ...]]
+    physical: dict[str, tuple[float, ...]]
+    reason: str
+
+
+def staged_sweep_plan(
+    global_error_percent: float,
+    numerical: dict[str, tuple[float, ...]],
+    physical: dict[str, tuple[float, ...]],
+) -> SweepExecutionPlan:
+    if global_error_percent > 5.0:
+        return SweepExecutionPlan(
+            tier="no_sweeps",
+            global_error_indicator_percent=global_error_percent,
+            numerical={},
+            physical={},
+            reason="global AMR indicator exceeds 5%",
+        )
+    if global_error_percent > 1.0:
+        first = next(iter(numerical.items()), None)
+        pilot = {first[0]: (first[1][-1],)} if first and first[1] else {}
+        return SweepExecutionPlan(
+            tier="one_numerical_endpoint_pilot",
+            global_error_indicator_percent=global_error_percent,
+            numerical=pilot,
+            physical={},
+            reason="global AMR indicator is between 1% and 5%",
+        )
+    if global_error_percent > 0.5:
+        return SweepExecutionPlan(
+            tier="numerical_convergence_only",
+            global_error_indicator_percent=global_error_percent,
+            numerical=numerical,
+            physical={},
+            reason="global AMR indicator is between 0.5% and 1%",
+        )
+    return SweepExecutionPlan(
+        tier="full_promotion_assessment",
+        global_error_indicator_percent=global_error_percent,
+        numerical=numerical,
+        physical=physical,
+        reason="global AMR indicator is at or below 0.5%",
+    )
 
 
 class CompletedBaseAMR(BaseModel):
@@ -644,11 +698,15 @@ def _parse_iteration_dir(
         raise PalaceOutputError(f"{metadata}: Problem.MeshElements is missing or invalid")
     if not isinstance(dof, int) or dof <= 0:
         raise PalaceOutputError(f"{metadata}: Problem.DegreesOfFreedom is missing or invalid")
+    retained = [eig, domain, indicators, metadata]
+    for field in fields:
+        if field.field_file is not None:
+            retained.extend(field_artifact_files(field.field_file))
     hashes = {
         str(path.resolve().relative_to(output_root.resolve())).replace("\\", "/"): sha256_file(
             path
         )
-        for path in (eig, domain, indicators, metadata)
+        for path in dict.fromkeys(retained)
     }
     return _ParsedIteration(
         tag=tag,
@@ -712,8 +770,11 @@ def _run_palace_once(
         model, mesh_filename=mesh.path.name, output_dir="postpro"
     )
     config["Model"]["Refinement"] = refinement
-    config["Problem"]["OutputFormats"] = {"GridFunction": False, "Paraview": False}
-    config["Solver"]["Eigenmode"]["Save"] = 0
+    # Retain selected-mode fields for every saved adaptive iteration. These
+    # Palace-owned vectors are required for electric/magnetic field MAC and
+    # ParaView error/localization diagnostics.
+    config["Problem"]["OutputFormats"] = {"GridFunction": True, "Paraview": True}
+    config["Solver"]["Eigenmode"]["Save"] = model.eigenmode.mode_count
     config_path = run_dir / "palace_amr.json"
     write_config(config, config_path)
     process_record = run_dir / "solver_process.json"
@@ -830,7 +891,24 @@ def track_amr_modes(
                 candidate_field.magnetic_participation,
                 candidate_field.resonator_localization,
             )
-            score = (frequency + 2.0 * electric + 2.0 * magnetic + localization) / 6.0
+            if left_field.field_file is None or candidate_field.field_file is None:
+                raise PalaceOutputError(
+                    f"{left.tag} to {right.tag}: retained Palace fields are required for MAC"
+                )
+            electric_mac = field_mac(
+                left_field.field_file, candidate_field.field_file, kind="electric"
+            )
+            magnetic_mac = field_mac(
+                left_field.field_file, candidate_field.field_file, kind="magnetic"
+            )
+            score = (
+                frequency
+                + 2.0 * electric
+                + 2.0 * magnetic
+                + localization
+                + 2.0 * electric_mac
+                + 2.0 * magnetic_mac
+            ) / 10.0
             scored.append(
                 ModeMatch(
                     from_tag=left.tag,
@@ -840,6 +918,8 @@ def track_amr_modes(
                     frequency_proximity=frequency,
                     electric_regional_energy_similarity=electric,
                     magnetic_regional_energy_similarity=magnetic,
+                    electric_field_mac=electric_mac,
+                    magnetic_field_mac=magnetic_mac,
                     localization_similarity=localization,
                     score=score,
                     runner_up_score=0.0,
@@ -1240,7 +1320,7 @@ def run_quarter_wave_benchmark_v017(
                 shutil.copy2(candidate, destination / name)
             parsed_iterations.append(
                 _parse_iteration_dir(
-                    destination,
+                    source,
                     tag=tag,
                     palace_iteration=palace_iteration,
                     model=model,
@@ -1260,15 +1340,17 @@ def run_quarter_wave_benchmark_v017(
 
         write_json(
             {
-                "schema": "textlayout.palace-mode-tracking.v2",
+                "schema": "textlayout.palace-mode-tracking.v3",
                 "method": (
                     "frequency continuity + regional electric/magnetic energy "
-                    "similarity + resonator localization; not spatial field overlap"
+                    "similarity + electric/magnetic field MAC + resonator localization"
                 ),
                 "seed_frequency_ghz": target_frequency,
                 "tracked_mode_indices": tracked,
                 "matches": [match.model_dump(mode="json") for match in matches],
                 "minimum_regional_energy_similarity": 0.98,
+                "minimum_electric_field_mac": 0.95,
+                "minimum_magnetic_field_mac": 0.90,
                 "minimum_margin": 0.05,
                 "error": tracking_error,
             },
@@ -1278,14 +1360,11 @@ def run_quarter_wave_benchmark_v017(
             root,
             stage="mode_tracking",
             status="failed" if tracking_error is not None else "complete",
-            input_hashes=relative_hashes(
-                [
-                    amr_dir / f"iteration_{i:02d}" / name
-                    for i in range(len(parsed_iterations))
-                    for name in ("eig.csv", "domain-E.csv", "error-indicators.csv")
-                ],
-                root,
-            ),
+            input_hashes={
+                path: digest
+                for parsed in parsed_iterations
+                for path, digest in parsed.output_file_hashes.items()
+            },
             output_hashes=relative_hashes([root / "mode_tracking.json"], root),
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
@@ -1323,6 +1402,14 @@ def run_quarter_wave_benchmark_v017(
         accepted_field = _mode_field(
             parsed_iterations[-1].fields, tracked[-1], parsed_iterations[-1].tag
         )
+        sweep_plan = staged_sweep_plan(
+            accepted.global_error_indicator_percent,
+            numerical_requested,
+            physical_requested,
+        )
+        numerical_requested = sweep_plan.numerical
+        physical_requested = sweep_plan.physical
+        write_json(sweep_plan.model_dump(mode="json"), root / "scientific_gate.json")
 
         sweeps: list[SensitivitySweep] = []
         sweep_records: list[SweepPointRecord] = []
@@ -1468,7 +1555,7 @@ def run_quarter_wave_benchmark_v017(
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
             notes=(
-                ["no numerical-domain sweep values were requested"]
+                [f"{sweep_plan.tier}: {sweep_plan.reason}"]
                 if not numerical_requested
                 else []
             ),
@@ -1490,7 +1577,7 @@ def run_quarter_wave_benchmark_v017(
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
             notes=(
-                ["no physical-sensitivity sweep values were requested"]
+                [f"{sweep_plan.tier}: {sweep_plan.reason}"]
                 if not physical_requested
                 else []
             ),
@@ -1580,6 +1667,7 @@ def run_quarter_wave_benchmark_v017(
             "final_degrees_of_freedom": records[-1].degrees_of_freedom,
             "final_global_error_indicator_percent": records[-1].global_error_indicator_percent,
         },
+        "scientific_gate": sweep_plan.model_dump(mode="json"),
         "resolved_config_sha256": resolved_hash,
         "resource": {
             "decision": resource_decision,
@@ -1769,8 +1857,41 @@ def _supplementary_gates(
             detail=str(dofs),
         )
     )
-    minimum_score = min((match.score for match in matches), default=0.0)
+    minimum_score = min(
+        (
+            min(
+                match.electric_regional_energy_similarity,
+                match.magnetic_regional_energy_similarity,
+            )
+            for match in matches
+        ),
+        default=0.0,
+    )
     minimum_margin = min((match.margin for match in matches), default=0.0)
+    minimum_electric_mac = min(
+        (match.electric_field_mac for match in matches), default=0.0
+    )
+    minimum_magnetic_mac = min(
+        (match.magnetic_field_mac for match in matches), default=0.0
+    )
+    gates.append(
+        VerificationGate(
+            name="electric_field_mac_above_0p95",
+            passed=bool(matches) and minimum_electric_mac > 0.95,
+            value=minimum_electric_mac,
+            threshold=0.95,
+            detail="minimum adjacent-iteration electric-field modal assurance criterion",
+        )
+    )
+    gates.append(
+        VerificationGate(
+            name="magnetic_field_mac_above_0p90",
+            passed=bool(matches) and minimum_magnetic_mac > 0.90,
+            value=minimum_magnetic_mac,
+            threshold=0.90,
+            detail="minimum adjacent-iteration magnetic-field modal assurance criterion",
+        )
+    )
     gates.append(
         VerificationGate(
             name="mode_regional_energy_similarity_above_0p98",
