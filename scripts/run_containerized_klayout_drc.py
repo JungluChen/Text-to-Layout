@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
-from textlayout.pdk.klayout_drc import compile_drc_rules, run_drc, to_lydrc
+from textlayout.pdk.klayout_drc import compile_drc_rules, run_drc
 from textlayout.pdk.loader import load_pdk
 
 REPO = Path(__file__).resolve().parents[1]
