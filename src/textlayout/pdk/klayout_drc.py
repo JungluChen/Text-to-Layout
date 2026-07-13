@@ -38,6 +38,9 @@ SUPPORTED_RULES = (
     "layer_existence",
     "min_width",
     "min_spacing",
+    "min_area",
+    "notch",
+    "separation",
     "enclosure",
     "overlap",
     "density_tiled",
@@ -50,9 +53,7 @@ UNSUPPORTED_RULES = (
     "acute_angle",
     "antenna_ratio",
     "floating_conductor",
-    "min_area",
     "min_enclosed_area",
-    "notch",
     "corner_rounding",
     "off_grid",
     "port_marker_placement",
@@ -88,6 +89,7 @@ class DRCViolation:
             "value": self.value,
             "unit": self.unit,
             "pdk_source": self.pdk_source,
+            "source_pdk_path": self.pdk_source,
             "pdk_hash": self.pdk_hash,
             "runset_hash": self.runset_hash,
             "count": self.count,
@@ -126,6 +128,7 @@ class DRCCheck:
             "value": self.value,
             "unit": self.unit,
             "pdk_source": self.pdk_source,
+            "source_pdk_path": self.pdk_source,
             "pdk_hash": self.pdk_hash,
             "runset_hash": self.runset_hash,
         }
@@ -232,9 +235,11 @@ def _rule_metadata(
     pdk_hash: str,
     runset_hash: str,
     severity: str = "error",
+    rule_id: str | None = None,
 ) -> dict[str, Any]:
     return {
-        "rule_id": f"{pdk.name}.{rule}.{layer}".replace(">", "_contains_").replace("&", "_and_"),
+        "rule_id": rule_id
+        or _canonical_rule_id(pdk.name, rule, layer),
         "description": description,
         "severity": severity,
         "value": value,
@@ -245,6 +250,26 @@ def _rule_metadata(
     }
 
 
+def _canonical_rule_id(pdk_name: str, rule: str, layer: str) -> str:
+    canonical = {
+        ("min_width", "IDC_FINGER"): "IDC.MIN_FINGER_WIDTH",
+        ("min_spacing", "IDC_FINGER"): "IDC.MIN_FINGER_SPACING",
+        ("min_width", "IDC_BUS"): "IDC.MIN_BUS_WIDTH",
+        ("separation", "IDC_P&IDC_N"): "IDC.NO_UNINTENDED_BRIDGE",
+        ("min_width", "CPW_SIGNAL"): "CPW.MIN_CENTER_CONDUCTOR_WIDTH",
+        ("separation", "CPW_SIGNAL&CPW_GROUND"): "CPW.MIN_SIGNAL_GROUND_GAP",
+        ("min_width", "SPIRAL_TRACE"): "SPIRAL.MIN_TRACE_WIDTH",
+        ("min_spacing", "SPIRAL_TRACE"): "SPIRAL.MIN_TURN_SPACING",
+        ("junction_min_area", "JJ"): "JJ.MIN_AREA",
+        ("overlap", "JJ&M1"): "JJ.MIN_LEAD_OVERLAP",
+        ("enclosure", "M1>JJ"): "JJ.MIN_LARGE_METAL_ENCLOSURE",
+    }
+    return canonical.get(
+        (rule, layer),
+        f"{pdk_name}.{rule}.{layer}".replace(">", "_contains_").replace("&", "_and_"),
+    )
+
+
 def _um(value: int, dbu: float) -> float:
     return value * dbu
 
@@ -252,6 +277,13 @@ def _um(value: int, dbu: float) -> float:
 def _bbox_um(edge_pairs: Any, dbu: float) -> tuple[float, float, float, float] | None:
     for pair in edge_pairs.each():
         box = pair.bbox()
+        return (_um(box.left, dbu), _um(box.bottom, dbu), _um(box.right, dbu), _um(box.top, dbu))
+    return None
+
+
+def _region_bbox_um(region: kdb.Region, dbu: float) -> tuple[float, float, float, float] | None:
+    for polygon in region.each():
+        box = polygon.bbox()
         return (_um(box.left, dbu), _um(box.bottom, dbu), _um(box.right, dbu), _um(box.top, dbu))
     return None
 
@@ -397,6 +429,112 @@ def run_drc(pdk: PDK, gds_path: str | Path, *, top_cell: str | None = None) -> D
         add("min_spacing", layer.name, layer.min_spacing_um,
             region.space_check(int(round(layer.min_spacing_um / dbu))),
             f"{layer.name} spacing must be at least {layer.min_spacing_um} um.")
+        min_area_um2 = layer.min_width_um * layer.min_width_um
+        undersized_polygons = [
+            polygon
+            for polygon in region.each()
+            if polygon.area() * dbu * dbu < min_area_um2
+        ]
+        undersized_region = kdb.Region()
+        for polygon in undersized_polygons:
+            undersized_region.insert(polygon)
+        min_area_metadata = _rule_metadata(
+            rule="min_area",
+            layer=layer.name,
+            description=(
+                f"{layer.name} feature area must be at least "
+                f"{min_area_um2:.6g} um^2."
+            ),
+            value=min_area_um2,
+            unit="um^2",
+            pdk=pdk,
+            pdk_hash=pdk_hash,
+            runset_hash=runset_hash,
+        )
+        checks.append(
+            DRCCheck(
+                rule="min_area",
+                layer=layer.name,
+                ran=True,
+                violations=len(undersized_polygons),
+                **min_area_metadata,
+            )
+        )
+        if undersized_polygons:
+            violations.append(
+                DRCViolation(
+                    rule="min_area",
+                    layer=layer.name,
+                    required_um=min_area_um2,
+                    count=len(undersized_polygons),
+                    sample_bbox_um=_region_bbox_um(undersized_region, dbu),
+                    **min_area_metadata,
+                )
+            )
+        notch_pairs = region.notch_check(int(round(layer.min_spacing_um / dbu)))
+        add(
+            "notch",
+            layer.name,
+            layer.min_spacing_um,
+            notch_pairs,
+            f"{layer.name} internal notch width must be at least {layer.min_spacing_um} um.",
+        )
+
+    for separation in pdk.separations:
+        name = f"{separation.a}&{separation.b}"
+        first, second = regions.get(separation.a), regions.get(separation.b)
+        if first is None or second is None:
+            checks.append(
+                DRCCheck(
+                    rule="separation", layer=name, ran=False,
+                    skip_reason="one of the two layers carries no geometry",
+                    **_rule_metadata(
+                        rule="separation",
+                        layer=name,
+                        description=separation.description
+                        or f"{separation.a} and {separation.b} must be separated by {separation.min_um} um.",
+                        value=separation.min_um,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                        rule_id=separation.rule_id,
+                    ),
+                )
+            )
+            continue
+        distance = int(round(separation.min_um / dbu))
+        offenders = first.sized(distance) & second
+        metadata = _rule_metadata(
+            rule="separation",
+            layer=name,
+            description=separation.description
+            or f"{separation.a} and {separation.b} must be separated by {separation.min_um} um.",
+            value=separation.min_um,
+            pdk=pdk,
+            pdk_hash=pdk_hash,
+            runset_hash=runset_hash,
+            rule_id=separation.rule_id,
+        )
+        checks.append(
+            DRCCheck(
+                rule="separation",
+                layer=name,
+                ran=True,
+                violations=offenders.count(),
+                **metadata,
+            )
+        )
+        if offenders.count():
+            violations.append(
+                DRCViolation(
+                    rule="separation",
+                    layer=name,
+                    required_um=separation.min_um,
+                    count=offenders.count(),
+                    sample_bbox_um=_region_bbox_um(offenders, dbu),
+                    **metadata,
+                )
+            )
 
     for enclosure in pdk.enclosures:
         name = f"{enclosure.outer}>{enclosure.inner}"
@@ -648,6 +786,27 @@ def to_lydrc(pdk: PDK) -> str:
             f"{layer.name}.space({layer.min_spacing_um}.um)"
             f".output(\"{layer.name}_min_spacing\", "
             f"\"{layer.name} spacing < {layer.min_spacing_um} um\")"
+        )
+        min_area_um2 = layer.min_width_um * layer.min_width_um
+        lines.append(
+            f"{layer.name}.with_area(nil, {min_area_um2}.um2)"
+            f".output(\"{layer.name}_min_area\", "
+            f"\"{layer.name} area < {min_area_um2:.6g} um^2\")"
+        )
+        lines.append(
+            f"{layer.name}.notch({layer.min_spacing_um}.um)"
+            f".output(\"{layer.name}_notch\", "
+            f"\"{layer.name} notch < {layer.min_spacing_um} um\")"
+        )
+    for separation in pdk.separations:
+        rule_name = separation.rule_id or f"{separation.a}_separated_from_{separation.b}"
+        description = (
+            separation.description
+            or f"{separation.a} and {separation.b} spacing < {separation.min_um} um"
+        )
+        lines.append(
+            f"{separation.a}.separation({separation.b}, {separation.min_um}.um)"
+            f".output(\"{rule_name}\", \"{description}\")"
         )
     for enclosure in pdk.enclosures:
         lines.append(

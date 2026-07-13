@@ -1,0 +1,159 @@
+schema_version: textlayout.pdk.v1
+name: klayout_signoff_fixture_pdk
+version: 0.1.0
+foundry_validated: false
+calibration_status: illustrative
+source: tests/fixtures/klayout_drc/pdk.yaml
+grid:
+  grid_nm: 1.0
+  default_min_spacing_um: 2.0
+  default_min_width_um: 2.0
+layers:
+- name: M1
+  purpose: metal
+  gds_layer: 1
+  gds_datatype: 0
+  min_width_um: 2.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: IDC_FINGER
+  purpose: metal
+  gds_layer: 11
+  gds_datatype: 0
+  min_width_um: 2.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: IDC_BUS
+  purpose: metal
+  gds_layer: 12
+  gds_datatype: 0
+  min_width_um: 4.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: IDC_P
+  purpose: metal
+  gds_layer: 13
+  gds_datatype: 0
+  min_width_um: 2.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: IDC_N
+  purpose: metal
+  gds_layer: 14
+  gds_datatype: 0
+  min_width_um: 2.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: CPW_SIGNAL
+  purpose: metal
+  gds_layer: 21
+  gds_datatype: 0
+  min_width_um: 10.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: CPW_GROUND
+  purpose: ground
+  gds_layer: 22
+  gds_datatype: 0
+  min_width_um: 10.0
+  min_spacing_um: 2.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: SPIRAL_TRACE
+  purpose: metal
+  gds_layer: 31
+  gds_datatype: 0
+  min_width_um: 3.0
+  min_spacing_um: 3.0
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+- name: JJ
+  purpose: junction
+  gds_layer: 41
+  gds_datatype: 0
+  min_width_um: 0.05
+  min_spacing_um: 0.05
+  thickness_nm: null
+  sheet_resistance_ohm_per_sq: null
+  kinetic_inductance_ph_per_sq: null
+  loss_tangent: null
+  max_density_fraction: null
+  min_density_fraction: null
+  color: '#888888'
+substrate:
+  material: silicon
+  epsilon_r: 11.9
+  loss_tangent: 1.0e-06
+  thickness_um: null
+junction_process:
+  target_jc_ua_per_um2: 1.0
+  jc_sigma_pct: 5.0
+  min_junction_area_um2: 0.04
+  critical_temperature_k: null
+enclosures:
+- inner: JJ
+  outer: M1
+  min_um: 0.2
+overlaps:
+- a: JJ
+  b: M1
+  min_um: 0.2
+separations:
+- a: IDC_P
+  b: IDC_N
+  min_um: 2.0
+  rule_id: IDC.NO_UNINTENDED_BRIDGE
+  description: IDC P and N electrodes must remain isolated.
+- a: CPW_SIGNAL
+  b: CPW_GROUND
+  min_um: 6.0
+  rule_id: CPW.MIN_SIGNAL_GROUND_GAP
+  description: CPW signal-ground gap must be at least 6 um.
+density_window_um: null
+notes: []

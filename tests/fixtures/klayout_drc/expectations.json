@@ -1,0 +1,301 @@
+{
+  "fixtures": [
+    {
+      "expected_rule_ids": [],
+      "gds_hash": "6686c085a24577f1d96674e2e0fc021c6c760c2a78827dade3bdb6458d2a8381",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 0,
+      "name": "valid_idc",
+      "observed_rule_ids": [],
+      "path": "tests/fixtures/klayout_drc/valid_idc.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [],
+      "gds_hash": "487291883f49d4dd33e457d1415ae2d513322a504682c752f9725fbd7c72d5b6",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 0,
+      "name": "valid_cpw",
+      "observed_rule_ids": [],
+      "path": "tests/fixtures/klayout_drc/valid_cpw.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [],
+      "gds_hash": "784d0847dbccee093e322dc5e7b0ca8a6b55a39be22fb593e4cdfb0966642e5c",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 0,
+      "name": "valid_spiral",
+      "observed_rule_ids": [],
+      "path": "tests/fixtures/klayout_drc/valid_spiral.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [],
+      "gds_hash": "b876c767d7029094697a9b1e378afaef5ebcd63c00dc63db1fabc82edb78482c",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 0,
+      "name": "valid_resonator",
+      "observed_rule_ids": [],
+      "path": "tests/fixtures/klayout_drc/valid_resonator.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "IDC.MIN_FINGER_WIDTH"
+      ],
+      "gds_hash": "bafd6072494c6bd058a6f3f3de94bd6cf40f49288ba14e8a366cd9995ec0872e",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_idc_finger_width",
+      "observed_rule_ids": [
+        "IDC.MIN_FINGER_WIDTH"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_idc_finger_width.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "IDC.MIN_FINGER_SPACING"
+      ],
+      "gds_hash": "d12988372cdf6537e1f352e29e16df01d65f430e5872bac3b34426ff627fd017",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_idc_finger_gap",
+      "observed_rule_ids": [
+        "IDC.MIN_FINGER_SPACING"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_idc_finger_gap.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "IDC.NO_UNINTENDED_BRIDGE"
+      ],
+      "gds_hash": "7cc47cbc6fa52af1ff555c87008f9d28d2d76d2244ff643eeedd1879b05a3ec4",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_idc_bridge",
+      "observed_rule_ids": [
+        "IDC.NO_UNINTENDED_BRIDGE"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_idc_bridge.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "IDC.MIN_BUS_WIDTH"
+      ],
+      "gds_hash": "c61b329eb0c7fd2074578d3cebc8e3c17e321c6b5e3a589307c3a120ce6018b1",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_idc_bus_width",
+      "observed_rule_ids": [
+        "IDC.MIN_BUS_WIDTH"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_idc_bus_width.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+      ],
+      "gds_hash": "42d1a9c59b788403199b2c749228a8336ee392ea0956e1428a83059a2f6b8069",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_cpw_signal_width",
+      "observed_rule_ids": [
+        "CPW.MIN_CENTER_CONDUCTOR_WIDTH"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_cpw_signal_width.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "gds_hash": "07c883d5e00487fadebe58600420f597980ed9a17e486d86c775b3bf5e128bd8",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_cpw_gap",
+      "observed_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_cpw_gap.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "gds_hash": "2723a1d8b9d682af43c93fab5ad782d2df4980e50e40be19d756ef1b0cf03e02",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_cpw_signal_ground_short",
+      "observed_rule_ids": [
+        "CPW.MIN_SIGNAL_GROUND_GAP"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_cpw_signal_ground_short.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+      ],
+      "gds_hash": "d2fafaf00243f0039361ea19a2b85a13e3dd10911db63edfb1650a16987c49dc",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_cpw_ground_discontinuity",
+      "observed_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.CPW_GROUND"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_cpw_ground_discontinuity.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "SPIRAL.MIN_TRACE_WIDTH"
+      ],
+      "gds_hash": "657d88200b61f9e312d9deb96c95a9066fc864118c1f80424e0ccb6ac31b8fab",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_spiral_trace_width",
+      "observed_rule_ids": [
+        "SPIRAL.MIN_TRACE_WIDTH"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_spiral_trace_width.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "SPIRAL.MIN_TURN_SPACING"
+      ],
+      "gds_hash": "f919c3ca0debd46d62139cef46e9fcc519818ed1793e2f627f07331f04e04c1d",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_spiral_turn_spacing",
+      "observed_rule_ids": [
+        "SPIRAL.MIN_TURN_SPACING"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_spiral_turn_spacing.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "JJ.MIN_AREA"
+      ],
+      "gds_hash": "26bcc37b8333d76dba7c8b52649e77d60d75bb7ec3607d18cd4d13d9672194f2",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_junction_area",
+      "observed_rule_ids": [
+        "JJ.MIN_AREA"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_junction_area.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "JJ.MIN_LEAD_OVERLAP"
+      ],
+      "gds_hash": "a6466a99ee4ebe3d326183432e756caad6bf2109666c8634842e57396b05dd84",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_junction_overlap",
+      "observed_rule_ids": [
+        "JJ.MIN_LEAD_OVERLAP"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_junction_overlap.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "gds_hash": "a597436653928b75ca145c02dc9986d2c39758231042c299edc7fe71237786cb",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_floating_conductor",
+      "observed_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_floating_conductor.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_area.M1",
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "gds_hash": "577be828722b6d9fcf09bd0d2113cbfa8239a11dece166ee556b7169b938d669",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_minimum_area",
+      "observed_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_area.M1",
+        "klayout_signoff_fixture_pdk.min_width.M1"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_minimum_area.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    },
+    {
+      "expected_rule_ids": [
+        "klayout_signoff_fixture_pdk.notch.M1",
+        "klayout_signoff_fixture_pdk.min_spacing.M1"
+      ],
+      "gds_hash": "93973f3898e9b1e8e1c45b9a74ad983b2a9a9aa864edc1c91af8cf53aca914fb",
+      "max_unexpected_violations": 0,
+      "min_expected_violation_count": 1,
+      "name": "invalid_notch",
+      "observed_rule_ids": [
+        "klayout_signoff_fixture_pdk.min_spacing.M1",
+        "klayout_signoff_fixture_pdk.notch.M1"
+      ],
+      "path": "tests/fixtures/klayout_drc/invalid_notch.gds",
+      "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+      "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+      "top_cell": "TOP"
+    }
+  ],
+  "pdk": "tests/fixtures/klayout_drc/pdk.yaml",
+  "pdk_hash": "8a04ba82139817b7ba73273656d869078a9565f72c3e70910e31af729be6d305",
+  "runset": "tests/fixtures/klayout_drc/compiled_rules.lydrc",
+  "runset_hash": "83688bf20e8f7faaac368c6ecb1e9abdd6255d9a9eccd87118e6fedca10292b1",
+  "schema": "textlayout.klayout-drc-fixtures.v1"
+}

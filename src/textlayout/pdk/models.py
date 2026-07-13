@@ -131,6 +131,21 @@ class PDKOverlap(BaseModel):
     min_um: float = Field(gt=0)
 
 
+class PDKSeparation(BaseModel):
+    """``a`` and ``b`` must remain separated by at least ``min_um``."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    a: str
+    b: str
+    min_um: float = Field(gt=0)
+    rule_id: str | None = Field(
+        default=None,
+        description="Stable signoff-facing rule ID, e.g. IDC.MIN_FINGER_GAP.",
+    )
+    description: str | None = None
+
+
 class PDKGrid(BaseModel):
     """Manufacturing grid and default fallback rules."""
 
@@ -178,6 +193,7 @@ class PDK(BaseModel):
     )
     enclosures: list[PDKEnclosure] = Field(default_factory=list)
     overlaps: list[PDKOverlap] = Field(default_factory=list)
+    separations: list[PDKSeparation] = Field(default_factory=list)
     density_window_um: float | None = Field(
         default=None,
         gt=0,
@@ -198,6 +214,10 @@ class PDK(BaseModel):
             for side in (overlap.a, overlap.b):
                 if side not in known:
                     raise ValueError(f"overlap rule names unknown layer {side!r}")
+        for separation in self.separations:
+            for side in (separation.a, separation.b):
+                if side not in known:
+                    raise ValueError(f"separation rule names unknown layer {side!r}")
         return self
 
     @model_validator(mode="after")

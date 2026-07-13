@@ -7,6 +7,8 @@ it. The violations are deliberate and hand-computable.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 
 import klayout.db as kdb
@@ -14,6 +16,7 @@ import pytest
 from pydantic import ValidationError
 
 from textlayout.pdk.klayout_drc import UNSUPPORTED_RULES, run_drc, to_lydrc
+from textlayout.pdk.loader import load_pdk
 from textlayout.pdk.models import (
     PDK,
     PDKEnclosure,
@@ -21,11 +24,13 @@ from textlayout.pdk.models import (
     PDKJunctionProcess,
     PDKLayer,
     PDKOverlap,
+    PDKSeparation,
     PDKSubstrate,
 )
 
 GRID = PDKGrid(grid_nm=1.0, default_min_spacing_um=1.0, default_min_width_um=1.0)
 SUBSTRATE = PDKSubstrate(material="silicon", epsilon_r=11.45, loss_tangent=1e-6)
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _pdk(**overrides) -> PDK:
@@ -121,6 +126,8 @@ class TestCoverageIsNotSilence:
         report = run_drc(_pdk(), gds)
         assert set(report.unsupported_rules) == set(UNSUPPORTED_RULES)
         assert "antenna_ratio" in report.unsupported_rules
+        assert "min_area" not in report.unsupported_rules
+        assert "notch" not in report.unsupported_rules
 
 
 class TestSignoffIsStricterThanPassing:
@@ -187,6 +194,65 @@ class TestTwoLayerRules:
     def test_a_rule_naming_an_unknown_layer_is_rejected_at_the_pdk(self) -> None:
         with pytest.raises(ValidationError, match="unknown layer"):
             _pdk(enclosures=[PDKEnclosure(inner="ghost", outer="metal", min_um=0.5)])
+
+
+class TestAreaNotchAndSeparationRules:
+    def test_minimum_area_is_caught_from_layer_width(self, tmp_path: Path) -> None:
+        gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(0.5), _um(0.5))]})
+        report = run_drc(_pdk(), gds)
+        violation = next(v for v in report.violations if v.rule == "min_area")
+        assert violation.required_um == 1.0
+        assert violation.unit == "um^2"
+
+    def test_internal_notch_is_caught(self, tmp_path: Path) -> None:
+        polygon = kdb.Polygon(
+            [
+                kdb.Point(0, 0),
+                kdb.Point(_um(8), 0),
+                kdb.Point(_um(8), _um(8)),
+                kdb.Point(_um(5), _um(8)),
+                kdb.Point(_um(5), _um(4.5)),
+                kdb.Point(_um(3.5), _um(4.5)),
+                kdb.Point(_um(3.5), _um(8)),
+                kdb.Point(0, _um(8)),
+            ]
+        )
+        layout = kdb.Layout()
+        layout.dbu = 0.001
+        top = layout.create_cell("TOP")
+        top.shapes(layout.layer(1, 0)).insert(polygon)
+        path = tmp_path / "notch.gds"
+        layout.write(str(path))
+        report = run_drc(_pdk(), path)
+        assert any(v.rule == "notch" for v in report.violations)
+
+    def test_inter_layer_separation_is_caught(self, tmp_path: Path) -> None:
+        pdk = _pdk(
+            layers=[
+                PDKLayer(name="CPW_SIGNAL", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0),
+                PDKLayer(name="CPW_GROUND", purpose="ground", gds_layer=2, min_width_um=1.0, min_spacing_um=1.0),
+            ],
+            separations=[
+                PDKSeparation(
+                    a="CPW_SIGNAL",
+                    b="CPW_GROUND",
+                    min_um=2.0,
+                    rule_id="CPW.MIN_SIGNAL_GROUND_GAP",
+                    description="CPW signal-ground gap must be at least 2 um.",
+                )
+            ],
+        )
+        gds = _gds(
+            tmp_path,
+            {
+                (1, 0): [kdb.Box(0, 0, _um(5), _um(5))],
+                (2, 0): [kdb.Box(_um(6), 0, _um(10), _um(5))],
+            },
+        )
+        report = run_drc(pdk, gds)
+        violation = next(v for v in report.violations if v.rule == "separation")
+        assert violation.rule_id == "CPW.MIN_SIGNAL_GROUND_GAP"
+        assert violation.required_um == 2.0
 
 
 class TestTiledDensity:
@@ -270,6 +336,8 @@ class TestRunsetEmission:
         assert "metal = input(1, 0)" in runset
         assert "metal.width(1.0.um)" in runset
         assert "metal.space(2.0.um)" in runset
+        assert "metal.with_area(nil, 1.0.um2)" in runset
+        assert "metal.notch(2.0.um)" in runset
         assert "metal.enclosing(via, 0.5.um)" in runset
 
     def test_the_runset_names_what_it_does_not_check(self) -> None:
@@ -308,8 +376,40 @@ class TestReportSerialisation:
     def test_unimplemented_requested_rule_families_are_visible(self, tmp_path: Path) -> None:
         gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
         unsupported = set(run_drc(_pdk(), gds).to_dict()["unsupported_rules"])
-        assert {"notch", "acute_angle", "floating_conductor", "port_marker_placement"} <= unsupported
+        assert {"acute_angle", "floating_conductor", "port_marker_placement"} <= unsupported
 
     def test_a_missing_gds_raises(self, tmp_path: Path) -> None:
         with pytest.raises(FileNotFoundError):
             run_drc(_pdk(), tmp_path / "absent.gds")
+
+
+class TestCommittedGoldenFixtures:
+    def test_fixture_manifest_matches_gds_and_drc_results(self) -> None:
+        manifest_path = REPO_ROOT / "tests" / "fixtures" / "klayout_drc" / "expectations.json"
+        manifest = json.loads(manifest_path.read_text(encoding="ascii"))
+        pdk = load_pdk(REPO_ROOT / manifest["pdk"])
+        runset = to_lydrc(pdk)
+        assert hashlib.sha256(runset.encode("utf-8")).hexdigest() == manifest["runset_hash"]
+
+        for fixture in manifest["fixtures"]:
+            gds = REPO_ROOT / fixture["path"]
+            assert gds.is_file(), fixture["path"]
+            assert _sha256(gds) == fixture["gds_hash"]
+            report = run_drc(pdk, gds, top_cell=fixture["top_cell"])
+            observed = {violation.rule_id for violation in report.violations}
+            expected = set(fixture["expected_rule_ids"])
+            assert expected <= observed, fixture["name"]
+            unexpected = observed - expected
+            assert len(unexpected) <= fixture["max_unexpected_violations"], fixture["name"]
+            if not expected:
+                assert report.passed, fixture["name"]
+            else:
+                assert len(report.violations) >= fixture["min_expected_violation_count"], fixture["name"]
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()

@@ -46,6 +46,7 @@ from textlayout.pdk.models import (
     PDKGrid,
     PDKJunctionProcess,
     PDKLayer,
+    PDKSeparation,
     PDKSubstrate,
 )
 from textlayout.pdk.provenance import (
@@ -66,6 +67,7 @@ __all__ = [
     "PDKEnclosure",
     "PDKOverlap",
     "PDK_SCHEMA",
+    "PDKSeparation",
     "STATUS_MATCH",
     "STATUS_MISMATCH",
     "STATUS_SKIPPED_NOT_IMPLEMENTED",
