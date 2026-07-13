@@ -1,0 +1,157 @@
+{
+  "commands": {
+    "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m compileall src scripts examples": {
+      "command": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m compileall src scripts examples",
+      "duration_seconds": 0.344,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "Listing 'src'...\nListing 'src\\\\text_to_gds'...\nListing 'src\\\\textlayout'...\nListing 'src\\\\textlayout\\\\_legacy'...\nListing 'src\\\\textlayout\\\\_legacy\\\\ai'...\nListing 'src\\\\textlayout\\\\_legacy\\\\backends'...\nListing 'src\\\\textlayout\\\\_legacy\\\\components'...\nListing 'src\\\\textlayout\\\\_legacy\\\\core'...\nListing 'src\\\\textlayout\\\\_legacy\\\\dependency_graph'...\nListing 'src\\\\textlayout\\\\_legacy\\\\design_graph'...\nListing 'src\\\\textlayout\\\\_legacy\\\\design_memory'...\nListing 'src\\\\textlayout\\\\_legacy\\\\design_optimization'...\nListing 'src\\\\textlayout\\\\_legacy\\\\device_classifier'...\nListing 'src\\\\textlayout\\\\_legacy\\\\device_library'...\nListing 'src\\\\textlayout\\\\_legacy\\\\device_templates'...\nListing 'src\\\\textlayout\\\\_legacy\\\\device_understanding'...\nListing 'src\\\\textlayout\\\\_legacy\\\\digital_twin'...\nListing 'src\\\\textlayout\\\\_legacy\\\\engineering_reasoner'...\nListing 'src\\\\textlayout\\\\_legacy\\\\engineering_rules'...\nListing 'src\\\\textlayout\\\\_legacy\\\\engineering_visualization'...\nListing 'src\\\\textlayout\\\\_legacy\\\\extraction'...\nListing 'src\\\\textlayout\\\\_legacy\\\\generators'...\nListing 'src\\\\textlayout\\\\_legacy\\\\geometry'...\nListing 'src\\\\textlayout\\\\_legacy\\\\geometry_intelligence'...\nListing 'src\\\\textlayout\\\\_legacy\\\\layout'...\nListing 'src\\\\textlayout\\\\_legacy\\\\layout_critic'...\nListing 'src\\\\textlayout\\\\_legacy\\\\literature_graph'...\nListing 'src\\\\textlayout\\\\_legacy\\\\measurement_kb'...\nListing 'src\\\\textlayout\\\\_legacy\\\\optimization'...\nListing 'src\\\\textlayout\\\\_legacy\\\\pcells'...\nListing 'src\\\\textlayout\\\\_legacy\\\\pdk'...\nListing 'src\\\\textlayout\\\\_legacy\\\\physics'...\nListing 'src\\\\textlayout\\\\_legacy\\\\reports'...\nListing 'src\\\\textlayout\\\\_legacy\\\\review'...\nListing 'src\\\\textlayout\\\\_legacy\\\\routing'...\nListing 'src\\\\textlayout\\\\_legacy\\\\simulation'...\nListing 'src\\\\textlayout\\\\_legacy\\\\simulation\\\\backends'...\nListing 'src\\\\textlayout\\\\_legacy\\\\solvers'...\nListing 'src\\\\textlayout\\\\_legacy\\\\synthesis'...\nListing 'src\\\\textlayout\\\\_legacy\\\\theory'...\nListing 'src\\\\textlayout\\\\_legacy\\\\topology_reasoning'...\nListing 'src\\\\textlayout\\\\_legacy\\\\validation'...\nListing 'src\\\\textlayout\\\\_legacy\\\\verification'...\nListing 'src\\\\textlayout\\\\backend'...\nListing 'src\\\\textlayout\\\\chip_lattice'...\nListing 'src\\\\textlayout\\\\epr'...\nListing 'src\\\\textlayout\\\\evidence'...\nListing 'src\\\\textlayout\\\\exporters'...\nListing 'src\\\\textlayout\\\\external'...\nListing 'src\\\\textlayout\\\\fem'...\nListing 'src\\\\textlayout\\\\generators'...\nListing 'src\\\\textlayout\\\\geometry'...\nListing 'src\\\\textlayout\\\\knowledge'...\nListing 'src\\\\textlayout\\\\knowledge\\\\materials'...\nListing 'src\\\\textlayout\\\\knowledge\\\\pdks'...\nListing 'src\\\\textlayout\\\\measurement'...\nListing 'src\\\\textlayout\\\\mesh'...\nListing 'src\\\\textlayout\\\\models'...\nListing 'src\\\\textlayout\\\\optimization'...\nListing 'src\\\\textlayout\\\\pdk'...\nListing 'src\\\\textlayout\\\\ports'...\nListing 'src\\\\textlayout\\\\research'...\nListing 'src\\\\textlayout\\\\schemas'...\nListing 'src\\\\textlayout\\\\schemas\\\\dsl'...\nListing 'src\\\\textlayout\\\\simulation'...\nListing 'src\\\\textlayout\\\\solvers'...\nListing 'src\\\\textlayout\\\\solvers\\\\palace'...\nListing 'src\\\\textlayout\\\\verification'...\nListing 'src\\\\textlayout\\\\workflow'...\nListing 'src\\\\textlayout\\\\workflows'...\nListing 'src\\\\textlayout\\\\yield_model'...\nListing 'scripts'...\nListing 'scripts\\\\external'...\nListing 'examples'...\nListing 'examples\\\\acceptance'...\nListing 'examples\\\\acceptance\\\\A_infeasible_5mhz_lc'...\nListing 'examples\\\\acceptance\\\\B_feasible_6ghz_resonator'...\nListing 'examples\\\\acceptance\\\\C_idc_autosize_0p6pf'...\nListing 'examples\\\\benchmarks'...\nListing 'examples\\\\benchmarks\\\\01_idc_0p6pf'...\nListing 'examples\\\\benchmarks\\\\01_idc_0p6pf\\\\simulation'...\nListing 'examples\\\\benchmarks\\\\02_cpw_50ohm'...\nListing 'examples\\\\benchmarks\\\\02_cpw_50ohm\\\\simulation'...\nListing 'examples\\\\benchmarks\\\\03_spiral_inductor'...\nListing 'examples\\\\benchmarks\\\\03_spiral_inductor\\\\simulation'...\nListing 'examples\\\\benchmarks\\\\04_quarter_wave_resonator'...\nListing 'examples\\\\benchmarks\\\\04_quarter_wave_resonator\\\\simulation'...\nListing 'examples\\\\benchmarks\\\\05_squid_loop'...\nListing 'examples\\\\benchmarks\\\\05_squid_loop\\\\simulation'...\nListing 'examples\\\\benchmarks\\\\06_lc_5mhz_resonator'...\nListing 'examples\\\\chip_lattices'...\nListing 'examples\\\\epr_fixtures'...\nListing 'examples\\\\measurement_fixtures'...\nListing 'examples\\\\output'...\nListing 'examples\\\\showcase'...\nListing 'examples\\\\showcase\\\\01_idc_0p6pf'...\nListing 'examples\\\\showcase\\\\01_idc_0p6pf\\\\evidence'...\nListing 'examples\\\\showcase\\\\01_idc_0p6pf\\\\extraction'...\nListing 'examples\\\\showcase\\\\01_idc_0p6pf\\\\extraction\\\\capacitance_input'...\nListing 'examples\\\\showcase\\\\01_idc_0p6pf\\\\simulation'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm\\\\evidence'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm\\\\extraction'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm\\\\extraction\\\\capacitance_input'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm\\\\extraction\\\\capacitance_input\\\\openems_run'...\nListing 'examples\\\\showcase\\\\02_cpw_50ohm\\\\simulation'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\evidence'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\extraction'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\extraction\\\\capacitance_input'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\region_simulations'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\region_simulations\\\\cpw_launch_and_feed'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\region_simulations\\\\cpw_launch_and_feed\\\\openems_run'...\nListing 'examples\\\\showcase\\\\03_idc_cpw_test_structure\\\\simulation'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\evidence'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\extraction'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\extraction\\\\capacitance_input'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\optimization_candidates'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\optimization_candidates\\\\iteration_1'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\optimization_candidates\\\\iteration_2'...\nListing 'examples\\\\showcase\\\\04_spiral_inductor_3nh\\\\simulation'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz\\\\evidence'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz\\\\extraction'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz\\\\extraction\\\\capacitance_input'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz\\\\extraction\\\\capacitance_input\\\\openems_run'...\nListing 'examples\\\\showcase\\\\05_quarter_wave_resonator_6ghz\\\\simulation'...\nListing 'examples\\\\showcase\\\\06_research_test_chip'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\evidence'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\extraction'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\full_tile_palace'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\simulation'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\cpw'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\cpw\\\\openems_run'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\idc'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\resonator'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\resonator\\\\openems_run'...\nListing 'examples\\\\showcase\\\\06_research_test_chip\\\\tile_subblocks\\\\spiralinductor'...\nListing 'examples\\\\solver_benchmarks'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cavity_te101'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cavity_te101\\\\configs'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cavity_te101\\\\evidence'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cavity_te101\\\\outputs'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cpw_quarter_wave'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cpw_quarter_wave\\\\configs'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cpw_quarter_wave\\\\evidence'...\nListing 'examples\\\\solver_benchmarks\\\\palace_cpw_quarter_wave\\\\outputs'...",
+      "timed_out": false
+    },
+    "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m mypy src/textlayout": {
+      "command": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m mypy src/textlayout",
+      "duration_seconds": 1.5,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "Success: no issues found in 171 source files",
+      "timed_out": false
+    },
+    "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m ruff check .": {
+      "command": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe -m ruff check .",
+      "duration_seconds": 0.187,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "All checks passed!",
+      "timed_out": false
+    },
+    "git branch --show-current": {
+      "command": "git branch --show-current",
+      "duration_seconds": 0.078,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "codex/mature-open-cqed-platform",
+      "timed_out": false
+    },
+    "git diff --stat origin/main...HEAD": {
+      "command": "git diff --stat origin/main...HEAD",
+      "duration_seconds": 0.078,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "",
+      "timed_out": false
+    },
+    "git log --oneline --decorate -20": {
+      "command": "git log --oneline --decorate -20",
+      "duration_seconds": 0.078,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "ff3bbb4b (HEAD -> codex/mature-open-cqed-platform, origin/main, origin/HEAD, main, codex/reproducible-cqed-workflow) chore(evidence): refresh canonical showcase records\n5e636ea2 build(oci): add pinned multi-service solver stack\n7f16bbfd policy(epr): remove commercial solver runtime paths\nb7c08a81 fix(palace): bind retention plans to request fingerprints\n6ac5f3ee fix(palace): model critical regions and quadrature mac\ne09e901f feat(palace): material-aware field overlap, critical regions, and atomic retention\ncce0ba98 feat(palace): validate energy-weighted field overlap\nf52582f1 feat(palace): field MAC tracking, mesh refinement tuning, and staged scientific sweep gating\nb2245833 feat(paraview): register isolated batch visualization toolchain\n2929f6c9 feat(palace): append owned MPI resource evidence\n5090ba73 feat(palace): enforce typed stage artifact contracts\n6d6eb3ec feat(palace): own and cancel inner WSL process groups\n62e8cd57 feat(palace): link stages to managed jobs\n7ff13715 feat(jobs): add persistent solver job runner\n607fd915 feat(palace): resume completed base AMR stages\n0172338a feat(palace): include environment.json and resource_summary.json in benchmark packet\n292386be fix(palace): parse free/ps output in Python (wsl.exe mangles awk quoting)\n375a1a0c feat(palace): Python memory sampler + documented process-count resource gate per invocation\ncdb8b92a feat(palace): --sweep-amr-iterations 0 skips sweeps for a reduced preflight\n8f5d297d test(palace): verify completed native toolchain identity; fix smoke environment.json arg order",
+      "timed_out": false
+    },
+    "git log --oneline origin/main..HEAD": {
+      "command": "git log --oneline origin/main..HEAD",
+      "duration_seconds": 0.078,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "",
+      "timed_out": false
+    },
+    "git rev-parse HEAD": {
+      "command": "git rev-parse HEAD",
+      "duration_seconds": 0.062,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+      "timed_out": false
+    },
+    "git rev-parse origin/main": {
+      "command": "git rev-parse origin/main",
+      "duration_seconds": 0.063,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+      "timed_out": false
+    },
+    "git show --no-patch --format=%P HEAD": {
+      "command": "git show --no-patch --format=%P HEAD",
+      "duration_seconds": 0.079,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "5e636ea29aaa756c163a873d2f15be1fa23a7836",
+      "timed_out": false
+    },
+    "git status --short": {
+      "command": "git status --short",
+      "duration_seconds": 0.093,
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "M pyproject.toml\n M scripts/build_canonical_evidence.py\n M uv.lock\n?? scripts/generate_audit_artifacts.py",
+      "timed_out": false
+    }
+  },
+  "declared_start_commit": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+  "environment": {
+    "disk": {
+      "C:\\": {
+        "free_bytes": 119156027392,
+        "total_bytes": 486805934080,
+        "used_bytes": 367649906688
+      }
+    },
+    "machine": "AMD64",
+    "memory": {
+      "payload": {
+        "NumberOfLogicalProcessors": 16,
+        "NumberOfProcessors": 1,
+        "TotalPhysicalMemory": 25495740416
+      },
+      "source": "Win32_ComputerSystem"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\.venv\\Scripts\\python.exe",
+    "release": "11",
+    "system": "Windows",
+    "version": "10.0.26200"
+  },
+  "generated_at_epoch": 1783947634,
+  "pre_edit_observation": {
+    "branch": "main",
+    "local_head": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+    "note": "Captured before creating the codex/mature-open-cqed-platform branch and before modifying files.",
+    "recorded_before_file_edits": true,
+    "remote_head": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+    "worktree_state": "clean"
+  },
+  "repository": {
+    "branch": "codex/mature-open-cqed-platform",
+    "local_head": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+    "parent_commits": [
+      "5e636ea29aaa756c163a873d2f15be1fa23a7836"
+    ],
+    "remote_head": "ff3bbb4b30f2523fb32fffa4d2170c34768e0d4d",
+    "root": "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds",
+    "worktree_state": "M pyproject.toml\n M scripts/build_canonical_evidence.py\n M uv.lock\n?? scripts/generate_audit_artifacts.py"
+  },
+  "schema": "textlayout.audit.baseline.v1",
+  "tool_inventory_summary": {
+    "active_solver_processes": [
+      {
+        "payload": {
+          "command": "powershell -NoProfile -Command \"Get-Process | Where-Object { $_.ProcessName -match 'palace|openems|fastercap|fasthenry|josim|julia|klayout|docker|mpiexec|mpirun|pvpython' } | Select-Object Id,ProcessName,Path,CPU,WorkingSet64 | ConvertTo-Json -Compress\"",
+          "duration_seconds": 0.36,
+          "return_code": 0,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false
+        }
+      }
+    ],
+    "local_smokes_passed": [
+      "paraview"
+    ],
+    "locked_tools": 13,
+    "registered_tools": 13
+  }
+}

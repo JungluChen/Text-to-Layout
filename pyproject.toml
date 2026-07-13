@@ -28,7 +28,15 @@ dependencies = [
 [project.optional-dependencies]
 # Clarity groups for the textlayout product (installable as `pip install -e ".[name]"`).
 # These do not change the clean-room core install.
-dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11", "pytest-cov>=5.0"]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "pytest-cov>=5.0",
+  "build>=1.2",
+  "hatchling>=1.25",
+  "meshio>=5.3",
+]
 api = ["fastapi>=0.110", "uvicorn>=0.30"]  # also in core deps; named for clarity
 solvers = ["scikit-rf>=1.0"]  # open-source Touchstone / S-parameter post-processing
 docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
@@ -71,6 +79,9 @@ dev = [
   "ruff>=0.6",
   "mypy>=1.11",
   "pytest-cov>=5.0",
+  "build>=1.2",
+  "hatchling>=1.25",
+  "meshio>=5.3",
 ]
 
 # textlayout generator plugins are discovered via this entry-point group.

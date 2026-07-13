@@ -1,0 +1,210 @@
+{
+  "capabilities": [
+    {
+      "capability": "textlayout core CLI and typed workflow",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "src/textlayout/workflow/",
+        "tests/textlayout_suite/test_workflow_graph.py",
+        "ruff/mypy/compileall baseline commands"
+      ],
+      "missing_gates": [
+        "fresh wheel install",
+        "fresh container execution",
+        "end-to-end real solver vertical slice"
+      ]
+    },
+    {
+      "capability": "CanonicalEvidence status semantics",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "src/textlayout/evidence/canonical.py",
+        "tests/textlayout_suite/test_canonical_evidence.py",
+        "tests/textlayout_suite/test_evidence_contract.py"
+      ],
+      "missing_gates": [
+        "split historical solver execution and evidence generation provenance",
+        "fresh-environment mutation guard for historical metadata"
+      ]
+    },
+    {
+      "capability": "external tool registry and lock metadata",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "external_tools/registry.toml",
+        "external_tools/lock.toml",
+        "tests/textlayout_suite/test_external_tool_registry.py",
+        "scripts/external/check.py"
+      ],
+      "missing_gates": [
+        "real source download in this run",
+        "image build identity checks",
+        "upstream smoke for every registered tool"
+      ]
+    },
+    {
+      "blocked_by": [
+        "Docker daemon unavailable"
+      ],
+      "capability": "OCI solver stack",
+      "current_verification_level": "IMPLEMENTED",
+      "evidence": [
+        "compose.yaml",
+        "docker-bake.hcl",
+        ".dockerignore",
+        "docker/core.Dockerfile",
+        "docker/josephson.Dockerfile",
+        "docker/josim.Dockerfile",
+        "docker/klayout.Dockerfile",
+        "docker/openems.Dockerfile",
+        "docker/palace.Dockerfile",
+        "docker/paraview.Dockerfile",
+        "docker/simulators.Dockerfile",
+        "docker/solver-full.Dockerfile",
+        "tests/textlayout_suite/test_oci_stack.py"
+      ],
+      "missing_gates": [
+        "Docker daemon available",
+        "docker build",
+        "docker run",
+        "docker compose run",
+        "real executable installation in solver images",
+        "Syft-derived SBOM",
+        "Trivy or Grype scan"
+      ]
+    },
+    {
+      "capability": "Palace parser, retention, MAC, and vertical-slice scaffolding",
+      "current_verification_level": "REAL_FIXTURE_TESTED",
+      "evidence": [
+        "tests/textlayout_suite/test_palace_amr_verification.py",
+        "tests/textlayout_suite/test_palace_artifact_contracts.py",
+        "tests/textlayout_suite/test_palace_backend.py",
+        "tests/textlayout_suite/test_palace_benchmark_evidence.py",
+        "tests/textlayout_suite/test_palace_benchmark_v017.py",
+        "tests/textlayout_suite/test_palace_cross_amr_fixture.py",
+        "tests/textlayout_suite/test_palace_energy_weighted_mac.py",
+        "tests/textlayout_suite/test_palace_field_mac.py",
+        "tests/textlayout_suite/test_palace_field_retention.py",
+        "tests/textlayout_suite/test_palace_higher_order_vtk.py",
+        "tests/textlayout_suite/test_palace_installation.py",
+        "tests/textlayout_suite/test_palace_mac_applicability.py",
+        "tests/textlayout_suite/test_palace_material_overlap.py",
+        "tests/textlayout_suite/test_palace_mpi_integration.py",
+        "tests/textlayout_suite/test_palace_preparation.py",
+        "tests/textlayout_suite/test_palace_process_ownership.py",
+        "tests/textlayout_suite/test_palace_toolchain.py",
+        "tests/textlayout_suite/test_palace_toolchain_pins.py",
+        "tests/textlayout_suite/test_palace_vertical_slice.py"
+      ],
+      "missing_gates": [
+        "functional Palace executable/image in current environment",
+        "bounded Palace benchmark executed",
+        "quadrature-order convergence on fresh data",
+        "field-energy reconstruction tolerance against Palace-owned CSV"
+      ]
+    },
+    {
+      "capability": "critical-region coverage modeling",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "src/textlayout/solvers/palace/models.py",
+        "tests/textlayout_suite/test_palace_benchmark_v017.py",
+        "tests/textlayout_suite/test_palace_benchmark_evidence.py"
+      ],
+      "missing_gates": [
+        "declaration/entity/projection coverage separated for all requested regions",
+        "negative tests for every malformed region case",
+        "100% field projection coverage on real Palace field output"
+      ]
+    },
+    {
+      "capability": "KLayout DRC/readback",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "src/textlayout/verification/",
+        "tests/textlayout_suite/test_verification.py"
+      ],
+      "missing_gates": [
+        "headless KLayout image executes",
+        "partial LVS report with unsupported-structure coverage",
+        "real DRC/LVS runsets from typed PDK"
+      ]
+    },
+    {
+      "capability": "JosephsonCircuits nonlinear JPA execution",
+      "current_verification_level": "IMPLEMENTED",
+      "evidence": [
+        "external_tools/julia/JosephsonCircuits/Project.toml",
+        "external_tools/julia/JosephsonCircuits/Manifest.toml",
+        "src/textlayout/solvers/josephsoncircuits.py"
+      ],
+      "missing_gates": [
+        "Julia executable available",
+        "nonlinear harmonic-balance benchmark run",
+        "pump/signal/idler/gain/bandwidth convergence"
+      ]
+    },
+    {
+      "capability": "openEMS resonator path",
+      "current_verification_level": "REAL_FIXTURE_TESTED",
+      "evidence": [
+        "src/textlayout/simulation/openems_evidence.py",
+        "tests/textlayout_suite/test_openems_evidence.py",
+        "tests/textlayout_suite/test_touchstone_honesty.py"
+      ],
+      "missing_gates": [
+        "real finite openEMS benchmark",
+        "nonzero incident energy",
+        "mesh/time/domain convergence",
+        "port orientation and de-embedding provenance"
+      ]
+    },
+    {
+      "capability": "FasterCap and FastHenry extraction",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "src/textlayout/simulation/fastercap.py",
+        "simulation/idc_fastercap/",
+        "simulation/spiral_fasthenry/"
+      ],
+      "missing_gates": [
+        "panel/filament refinement sequences",
+        "matrix conservation/symmetry/PSD checks",
+        "independent open-source or analytical comparison"
+      ]
+    },
+    {
+      "capability": "showcase evidence records",
+      "current_verification_level": "UNIT_TESTED",
+      "evidence": [
+        "examples/showcase/*/evidence/canonical.json",
+        "tests/textlayout_suite/test_showcase_examples.py",
+        "scripts/audit_evidence_consistency.py"
+      ],
+      "missing_gates": [
+        "fresh regeneration without historical solver metadata mutation",
+        "real external reruns for current environment",
+        "fabrication signoff"
+      ]
+    }
+  ],
+  "generated_at_epoch": 1783947634,
+  "schema": "textlayout.audit.capability-matrix.v1",
+  "verification_ladder": [
+    "NOT_IMPLEMENTED",
+    "IMPLEMENTED",
+    "UNIT_TESTED",
+    "REAL_FIXTURE_TESTED",
+    "FRESH_ENVIRONMENT_TESTED",
+    "UPSTREAM_SMOKE_PASSED",
+    "INTEGRATION_TEST_PASSED",
+    "REAL_BENCHMARK_EXECUTED",
+    "PHYSICAL_SANITY_PASSED",
+    "NUMERICALLY_CONVERGED",
+    "CROSS_VALIDATED",
+    "MEASUREMENT_CORRELATED",
+    "PHYSICS_VERIFIED",
+    "FABRICATION_SIGNED_OFF"
+  ]
+}

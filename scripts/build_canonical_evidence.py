@@ -45,6 +45,7 @@ def _content_fingerprint(record: CanonicalEvidence) -> str:
     payload = record.to_dict()
     payload.pop("timestamp", None)
     payload.pop("git_commit", None)
+    payload.pop("environment_hash", None)
     return sha256_json(payload)
 
 
@@ -79,6 +80,9 @@ def _stabilised(fresh: CanonicalEvidence, existing_path: Path) -> CanonicalEvide
     previous_commit = previous.get("git_commit")
     if isinstance(previous_commit, str):
         updates["git_commit"] = previous_commit
+    previous_environment_hash = previous.get("environment_hash")
+    if isinstance(previous_environment_hash, str):
+        updates["environment_hash"] = previous_environment_hash
     candidate = fresh.model_copy(update=updates)
     return candidate
 
