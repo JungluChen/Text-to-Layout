@@ -56,6 +56,7 @@ CAPABILITY_LEVELS = [
     "UNIT_TESTED",
     "REAL_FIXTURE_TESTED",
     "FRESH_ENVIRONMENT_TESTED",
+    "IDENTITY_VERIFIED",
     "UPSTREAM_SMOKE_PASSED",
     "INTEGRATION_TEST_PASSED",
     "BENCHMARK_EXECUTED",
@@ -155,6 +156,7 @@ class Gate:
     evidence_paths: tuple[str, ...] = ()
     reason: str | None = None
     blocked: bool = False
+    optional: bool = False
 
 
 def sha256_text(text: str) -> str:
@@ -676,18 +678,96 @@ def evidence_hashes(paths: list[str]) -> list[dict[str, Any]]:
     return rows
 
 
-def highest_capability_level(gates: list[Gate]) -> str:
-    passed_levels = [gate.level for gate in gates if gate.passed]
-    if not passed_levels:
-        return "NOT_IMPLEMENTED"
-    return max(passed_levels, key=CAPABILITY_LEVELS.index)
+def _level_index(level: str) -> int:
+    try:
+        return CAPABILITY_LEVELS.index(level)
+    except ValueError as exc:
+        raise ValueError(f"unknown capability level {level!r}") from exc
 
 
-def capability_result(name: str, gates: list[Gate], commit: str) -> dict[str, Any]:
+def evaluate_capability_gates(
+    gates: list[Gate],
+    *,
+    claimed_level: str | None = None,
+) -> dict[str, Any]:
+    """Return the highest contiguous mandatory capability level.
+
+    A later passed gate cannot promote the capability when an earlier mandatory
+    gate failed or is blocked. Optional gates are reported but never stop the
+    functional level, which lets security scans or auxiliary checks remain
+    visible without pretending they are required for a local integration smoke.
+    """
+    mandatory = [gate for gate in gates if not gate.optional]
+    completed = "NOT_IMPLEMENTED"
+    consistency_errors: list[dict[str, Any]] = []
+    stop_gate: Gate | None = None
+    for gate in sorted(mandatory, key=lambda item: (_level_index(item.level), item.name)):
+        if gate.passed:
+            if stop_gate is None and _level_index(gate.level) > _level_index(completed):
+                completed = gate.level
+            elif stop_gate is not None and _level_index(gate.level) >= _level_index(stop_gate.level):
+                consistency_errors.append(
+                    {
+                        "type": "non_monotonic_gate",
+                        "gate": gate.name,
+                        "gate_level": gate.level,
+                        "blocked_by": stop_gate.name,
+                        "blocked_level": stop_gate.level,
+                        "reason": stop_gate.reason,
+                    }
+                )
+            continue
+        if stop_gate is None:
+            stop_gate = gate
+
+    if claimed_level is not None:
+        _level_index(claimed_level)
+        if _level_index(claimed_level) > _level_index(completed):
+            consistency_errors.append(
+                {
+                    "type": "manual_level_exceeds_contiguous_evidence",
+                    "claimed_level": claimed_level,
+                    "computed_level": completed,
+                    "blocked_by": stop_gate.name if stop_gate else None,
+                    "reason": stop_gate.reason if stop_gate else None,
+                }
+            )
+    return {
+        "computed_level": completed,
+        "consistency_errors": consistency_errors,
+        "first_failed_mandatory_gate": (
+            {
+                "gate": stop_gate.name,
+                "level": stop_gate.level,
+                "reason": stop_gate.reason,
+                "blocked": stop_gate.blocked,
+            }
+            if stop_gate
+            else None
+        ),
+    }
+
+
+def capability_result(
+    name: str,
+    gates: list[Gate],
+    commit: str | None = None,
+    *,
+    evaluated_source_commit: str | None = None,
+    evidence_generated_commit: str | None = None,
+    claimed_level: str | None = None,
+) -> dict[str, Any]:
+    if evaluated_source_commit is None:
+        evaluated_source_commit = commit
+    if evidence_generated_commit is None:
+        evidence_generated_commit = commit
+    if evaluated_source_commit is None or evidence_generated_commit is None:
+        raise ValueError("capability_result requires source and evidence commit identity")
     evidence_paths = sorted({path for gate in gates for path in gate.evidence_paths})
+    evaluation = evaluate_capability_gates(gates, claimed_level=claimed_level)
     return {
         "capability": name,
-        "computed_level": highest_capability_level(gates),
+        "computed_level": evaluation["computed_level"],
         "passed_gates": [gate.name for gate in gates if gate.passed],
         "failed_gates": [
             {"gate": gate.name, "reason": gate.reason}
@@ -699,8 +779,22 @@ def capability_result(name: str, gates: list[Gate], commit: str) -> dict[str, An
             for gate in gates
             if not gate.passed and gate.blocked
         ],
+        "optional_gates": [
+            {
+                "gate": gate.name,
+                "level": gate.level,
+                "passed": gate.passed,
+                "blocked": gate.blocked,
+                "reason": gate.reason,
+            }
+            for gate in gates
+            if gate.optional
+        ],
+        "first_failed_mandatory_gate": evaluation["first_failed_mandatory_gate"],
+        "consistency_errors": evaluation["consistency_errors"],
         "evidence_hashes": evidence_hashes(evidence_paths),
-        "evaluated_at_commit": commit,
+        "evaluated_source_commit": evaluated_source_commit,
+        "evidence_generated_commit": evidence_generated_commit,
     }
 
 
@@ -719,6 +813,10 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
         docker_ps = run_payload.get("container_runtime", {}).get("docker_ps", {})
         docker_ok = docker_ps.get("return_code") == 0
     tool_states = {tool["id"]: tool["current_state"] for tool in tool_payload["tools"]}
+    klayout_identity_verified = (
+        tool_states.get("klayout") in {"IDENTITY_VERIFIED", "UPSTREAM_SMOKE_PASSED"}
+        or path_exists("out/audit/klayout_image.json")
+    )
     capabilities = [
         capability_result(
             "core wheel and CLI",
@@ -782,8 +880,10 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
                 Gate("KLayout adapter implemented", "IMPLEMENTED", path_exists("src/textlayout/verification/klayout.py"), ("src/textlayout/verification/klayout.py",)),
                 Gate(
                     "KLayout identity verified",
-                    "IMPLEMENTED",
-                    tool_states.get("klayout") in {"IDENTITY_VERIFIED", "UPSTREAM_SMOKE_PASSED"},
+                    "IDENTITY_VERIFIED",
+                    klayout_identity_verified,
+                    ("out/audit/klayout_image.json",),
+                    reason="no host KLayout identity or OCI executable identity evidence",
                 ),
                 Gate(
                     "minimum-size smoke evidence exists",
@@ -828,7 +928,7 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
                 Gate("adapter implemented", "IMPLEMENTED", path_exists("src/textlayout/solvers/josephsoncircuits.py"), ("src/textlayout/solvers/josephsoncircuits.py",)),
                 Gate(
                     "package identity verified",
-                    "IMPLEMENTED",
+                    "IDENTITY_VERIFIED",
                     tool_states.get("josephsoncircuits")
                     in {"IDENTITY_VERIFIED", "UPSTREAM_SMOKE_PASSED"},
                 ),
@@ -1189,11 +1289,22 @@ def main(argv: list[str] | None = None) -> int:
     json_write(out_dir / "manifest.json", manifest)
     json_write(out_dir / "run.json", run_payload)
     json_write(out_dir / "tool_inventory.json", tools)
-    json_write(out_dir / "capability_matrix.json", capability_matrix(tools, run_payload))
+    matrix = capability_matrix(tools, run_payload)
+    json_write(out_dir / "capability_matrix.json", matrix)
     claims = claim_audit()
     json_write(out_dir / "claim_audit.json", claims)
     print(f"wrote audit artifacts to {out_dir}")
     downgrade_count = sum(1 for claim in claims["claims"] if claim["downgrade_required"])
+    consistency_count = sum(
+        len(capability.get("consistency_errors", []))
+        for capability in matrix["capabilities"]
+    )
+    if consistency_count:
+        print(
+            f"error: {consistency_count} capability state-order violation(s)",
+            file=sys.stderr,
+        )
+        return 1
     if args.fail_on_claim_downgrade and downgrade_count:
         print(f"error: {downgrade_count} public claims exceed computed evidence", file=sys.stderr)
         return 1

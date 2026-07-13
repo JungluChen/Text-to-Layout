@@ -321,6 +321,113 @@ def test_capability_level_from_real_gate_files(audit_module) -> None:
     assert core["evidence_hashes"]
 
 
+def _capability(audit_module, gates):
+    return audit_module.capability_result(
+        "test capability",
+        gates,
+        "a" * 40,
+    )
+
+
+def test_integration_evidence_without_identity_is_rejected(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("implemented", "IMPLEMENTED", True),
+            audit_module.Gate("identity verified", "IDENTITY_VERIFIED", False),
+            audit_module.Gate("integration evidence", "INTEGRATION_TEST_PASSED", True),
+        ],
+    )
+    assert result["computed_level"] == "IMPLEMENTED"
+    assert result["first_failed_mandatory_gate"]["gate"] == "identity verified"
+    assert result["consistency_errors"][0]["type"] == "non_monotonic_gate"
+
+
+def test_benchmark_evidence_without_integration_is_rejected(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("implemented", "IMPLEMENTED", True),
+            audit_module.Gate("integration", "INTEGRATION_TEST_PASSED", False),
+            audit_module.Gate("benchmark", "BENCHMARK_EXECUTED", True),
+        ],
+    )
+    assert result["computed_level"] == "IMPLEMENTED"
+    assert result["consistency_errors"][0]["gate"] == "benchmark"
+
+
+def test_numerical_validation_without_benchmark_is_rejected(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("benchmark", "BENCHMARK_EXECUTED", False),
+            audit_module.Gate("numerical validation", "NUMERICALLY_VALIDATED", True),
+        ],
+    )
+    assert result["computed_level"] == "NOT_IMPLEMENTED"
+    assert result["consistency_errors"][0]["gate"] == "numerical validation"
+
+
+def test_scientific_validation_without_independent_reference_is_rejected(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("independent reference", "SCIENTIFICALLY_VALIDATED", False),
+            audit_module.Gate("scientific validation claim", "SCIENTIFICALLY_VALIDATED", True),
+        ],
+    )
+    assert result["computed_level"] == "NOT_IMPLEMENTED"
+    assert result["first_failed_mandatory_gate"]["gate"] == "independent reference"
+    assert result["consistency_errors"]
+
+
+def test_optional_vulnerability_scan_can_be_blocked_after_integration(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("implemented", "IMPLEMENTED", True),
+            audit_module.Gate("identity", "IDENTITY_VERIFIED", True),
+            audit_module.Gate("integration", "INTEGRATION_TEST_PASSED", True),
+            audit_module.Gate(
+                "vulnerability scan",
+                "INTEGRATION_TEST_PASSED",
+                False,
+                reason="database unavailable",
+                blocked=True,
+                optional=True,
+            ),
+        ],
+    )
+    assert result["computed_level"] == "INTEGRATION_TEST_PASSED"
+    assert result["consistency_errors"] == []
+    assert result["optional_gates"][0]["gate"] == "vulnerability scan"
+
+
+def test_mandatory_identity_failure_blocks_later_levels(audit_module) -> None:
+    result = _capability(
+        audit_module,
+        [
+            audit_module.Gate("implemented", "IMPLEMENTED", True),
+            audit_module.Gate("identity", "IDENTITY_VERIFIED", False, reason="hash mismatch"),
+            audit_module.Gate("upstream smoke", "UPSTREAM_SMOKE_PASSED", True),
+        ],
+    )
+    assert result["computed_level"] == "IMPLEMENTED"
+    assert result["first_failed_mandatory_gate"]["reason"] == "hash mismatch"
+    assert result["consistency_errors"][0]["blocked_by"] == "identity"
+
+
+def test_manually_supplied_contradictory_level_is_rejected(audit_module) -> None:
+    result = audit_module.capability_result(
+        "manual contradiction",
+        [audit_module.Gate("implemented", "IMPLEMENTED", True)],
+        "a" * 40,
+        claimed_level="INTEGRATION_TEST_PASSED",
+    )
+    assert result["computed_level"] == "IMPLEMENTED"
+    assert result["consistency_errors"][0]["type"] == "manual_level_exceeds_contiguous_evidence"
+
+
 def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module) -> None:
     tools = {"tools": [{"id": "klayout", "current_state": "IDENTITY_VERIFIED"}]}
     matrix = audit_module.capability_matrix(tools, {"container_runtime": {"docker_ps": {"return_code": 0}}})
