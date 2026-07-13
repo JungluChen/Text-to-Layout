@@ -2204,10 +2204,10 @@
       ],
       "columnKind": "utf16CodeUnits",
       "properties": {
-        "imageID": "sha256:e7cf1d83170238438168b591af88e1dc99b36e607952304a57d98d5a1c8c0056",
+        "imageID": "sha256:4483089e78af90c07cc6204b7870c1ad1229fc76e008dd2214afc845d1dbf4d3",
         "imageName": "textlayout/klayout:local",
         "repoDigests": [
-          "textlayout/klayout@sha256:e7cf1d83170238438168b591af88e1dc99b36e607952304a57d98d5a1c8c0056"
+          "textlayout/klayout@sha256:4483089e78af90c07cc6204b7870c1ad1229fc76e008dd2214afc845d1dbf4d3"
         ],
         "repoTags": [
           "textlayout/klayout:local"
