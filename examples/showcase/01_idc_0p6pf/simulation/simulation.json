@@ -22,7 +22,8 @@
     "target": 0.6,
     "error_pct": -0.2265,
     "tolerance_pct": 5.0,
-    "within_tolerance": true
+    "within_tolerance": true,
+    "target_tolerance_passed": true
   },
   "artifacts": {
     "panel_file": "extraction\\capacitance_input\\idc.qui",
@@ -75,7 +76,9 @@
         "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
         "Self-resonance and Q are outside this electrostatic model."
       ],
-      "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b"
+      "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b",
+      "scientific_validation_level": "NUMERICALLY_CONVERGED",
+      "target_tolerance_passed": true
     }
   ],
   "backends": {
@@ -84,5 +87,7 @@
     "wrspice": null
   },
   "physics_verified": true,
-  "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b"
+  "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b",
+  "scientific_validation_level": "NUMERICALLY_CONVERGED",
+  "target_tolerance_passed": true
 }

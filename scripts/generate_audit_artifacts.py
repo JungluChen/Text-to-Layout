@@ -531,6 +531,9 @@ def probe_python_package(import_name: str, distribution_name: str) -> dict[str, 
         "print(json.dumps({'module': module.__name__}))"
     )
     result = run_command([str(executable), "-c", code], timeout=30)
+    expected_version = None
+    if distribution_name.lower() == "gmsh":
+        expected_version = "4.15.2"
     return {
         "active_python_executable": normalize_path(str(executable)),
         "active_python_executable_sha256": sha256_file(executable),
@@ -538,8 +541,15 @@ def probe_python_package(import_name: str, distribution_name: str) -> dict[str, 
         "package_name": import_name,
         "distribution_name": distribution_name,
         "distribution_version": version,
+        "expected_version": expected_version,
+        "version_matches_expected": (
+            None if expected_version is None or version is None else version == expected_version
+        ),
+        "spec_present": spec is not None,
+        "metadata_present": version is not None,
         "package_root": package_root,
         "import_return_code": result.return_code,
+        "import_success": result.return_code == 0,
         "import_stdout_sha256": sha256_text(result.stdout),
         "import_stderr_sha256": sha256_text(result.stderr),
         "present": spec is not None and result.return_code == 0,
@@ -581,9 +591,25 @@ def external_tool_state(
     if tool.get("license_review"):
         state = max_state(state, "LICENSE_REVIEWED")
         notes.append("license review recorded")
-    if package_probe and package_probe.get("present"):
-        state = max_state(state, "IDENTITY_VERIFIED")
-        notes.append("package import succeeded in active interpreter")
+    if package_probe:
+        if not package_probe.get("spec_present"):
+            notes.append("package spec absent in active interpreter")
+            return state, notes
+        notes.append("package spec present in active interpreter")
+        if package_probe.get("metadata_present"):
+            state = max_state(state, "INSTALLED")
+            notes.append("distribution metadata/version present")
+        else:
+            notes.append("distribution metadata/version absent")
+            return state, notes
+        if package_probe.get("version_matches_expected") is False:
+            notes.append("distribution version does not match pinned expectation")
+            return state, notes
+        if package_probe.get("import_success"):
+            state = max_state(state, "IDENTITY_VERIFIED")
+            notes.append("package import and version identity succeeded in active interpreter")
+        else:
+            notes.append("package import failed in active interpreter")
     elif executable_path:
         state = max_state(state, "INSTALLED")
         notes.append("executable found on PATH")

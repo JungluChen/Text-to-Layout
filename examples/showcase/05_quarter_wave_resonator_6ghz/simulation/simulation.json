@@ -13,7 +13,8 @@
     "target": 6.0,
     "error_pct": null,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": false,
+    "target_tolerance_passed": false
   },
   "artifacts": {
     "model": "extraction/capacitance_input/openems_model.json",
@@ -65,7 +66,9 @@
       "notes": [
         "SIMULATION_INVALID: openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it"
       ],
-      "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
+      "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
+      "scientific_validation_level": null,
+      "target_tolerance_passed": null
     }
   ],
   "backends": {
@@ -74,5 +77,7 @@
     "wrspice": null
   },
   "physics_verified": false,
-  "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128"
+  "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
+  "scientific_validation_level": null,
+  "target_tolerance_passed": null
 }

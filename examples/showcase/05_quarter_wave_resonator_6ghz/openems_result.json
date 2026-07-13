@@ -28,7 +28,8 @@
     "target": 6.0,
     "error_pct": null,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": false,
+    "target_tolerance_passed": false
   },
   "analytical_quantity": "resonance_frequency",
   "analytical_unit": "GHz",

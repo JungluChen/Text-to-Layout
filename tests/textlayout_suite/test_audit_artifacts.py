@@ -106,6 +106,22 @@ def test_python_package_absent_and_present_probes(audit_module) -> None:
     assert absent["present"] is False
 
 
+def _package_probe(
+    *,
+    spec_present: bool,
+    metadata_present: bool,
+    import_success: bool,
+    version_matches_expected: bool | None = None,
+) -> dict[str, object]:
+    return {
+        "spec_present": spec_present,
+        "metadata_present": metadata_present,
+        "import_success": import_success,
+        "distribution_version": "1.0" if metadata_present else None,
+        "version_matches_expected": version_matches_expected,
+    }
+
+
 def test_disabled_reference_tool_state(audit_module) -> None:
     state, notes = audit_module.external_tool_state(
         {"id": "pyepr", "license_review": "manual"},
@@ -116,6 +132,82 @@ def test_disabled_reference_tool_state(audit_module) -> None:
     )
     assert state == "DISABLED_REFERENCE_ONLY"
     assert notes
+
+
+def test_python_launcher_does_not_make_absent_package_installed(audit_module) -> None:
+    state, notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(spec_present=False, metadata_present=False, import_success=False),
+        "C:\\Windows\\py.exe",
+        None,
+    )
+    assert state == "LICENSE_REVIEWED"
+    assert any("spec absent" in note for note in notes)
+
+
+def test_python_package_in_different_interpreter_is_not_installed(audit_module) -> None:
+    state, _notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(spec_present=False, metadata_present=False, import_success=False),
+        "C:\\other-python\\python.exe",
+        None,
+    )
+    assert state == "LICENSE_REVIEWED"
+
+
+def test_python_package_spec_without_metadata_is_not_installed(audit_module) -> None:
+    state, notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(spec_present=True, metadata_present=False, import_success=True),
+        None,
+        None,
+    )
+    assert state == "LICENSE_REVIEWED"
+    assert any("metadata/version absent" in note for note in notes)
+
+
+def test_python_package_import_failure_stops_at_installed(audit_module) -> None:
+    state, notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(spec_present=True, metadata_present=True, import_success=False),
+        None,
+        None,
+    )
+    assert state == "INSTALLED"
+    assert any("import failed" in note for note in notes)
+
+
+def test_python_package_import_success_verifies_identity(audit_module) -> None:
+    state, notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(spec_present=True, metadata_present=True, import_success=True),
+        None,
+        None,
+    )
+    assert state == "IDENTITY_VERIFIED"
+    assert any("version identity succeeded" in note for note in notes)
+
+
+def test_python_package_version_mismatch_stops_at_installed(audit_module) -> None:
+    state, notes = audit_module.external_tool_state(
+        {"id": "demo", "license_review": "reviewed"},
+        {"demo": {"checksum_verified": True}},
+        _package_probe(
+            spec_present=True,
+            metadata_present=True,
+            import_success=True,
+            version_matches_expected=False,
+        ),
+        None,
+        None,
+    )
+    assert state == "INSTALLED"
+    assert any("does not match" in note for note in notes)
 
 
 def test_absent_external_tool_stops_at_license_review(audit_module) -> None:
@@ -151,6 +243,36 @@ def test_claim_downgrade_required_for_current_showcase_physics_claim(audit_modul
     assert missing
     assert "target_tolerance_passed" in replacement
     assert any("finite parsed output" in gate for gate in passed)
+
+
+def test_restoring_old_showcase_physics_verified_string_fails_gate(
+    audit_module, tmp_path, monkeypatch
+) -> None:
+    old_public_claim = (
+        "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | "
+        "0.227% | `PHYSICS_VERIFIED` |"
+    )
+    computed, _passed, missing, _replacement = audit_module.evaluate_claim(old_public_claim)
+    assert computed == "NUMERICALLY_CONVERGED"
+    assert missing
+
+    monkeypatch.setattr(audit_module, "tool_inventory", lambda: {"tools": []})
+    monkeypatch.setattr(audit_module, "run_record", lambda repository: {"repository": repository})
+    monkeypatch.setattr(
+        audit_module,
+        "capability_matrix",
+        lambda tools, run_payload: {"capabilities": [], "tools": tools},
+    )
+    monkeypatch.setattr(
+        audit_module,
+        "claim_audit",
+        lambda: {
+            "schema": "textlayout.audit.claim-audit.v2",
+            "claims": [{"claim_text": old_public_claim, "downgrade_required": True}],
+        },
+    )
+
+    assert audit_module.main(["--out", str(tmp_path), "--fail-on-claim-downgrade"]) == 1
 
 
 def test_claim_not_downgraded_when_all_physics_gates_pass(audit_module) -> None:

@@ -49,7 +49,8 @@ Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm 
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `ANALYTICAL_ONLY`
+- **Scientific validation level:** `ANALYTICAL_ONLY`
+- **Target tolerance passed:** `None`
 - **Confidence:** `ANALYTICAL`
 - Evidence id: `209c3057e9809607dcfe30a0dad5b742`
 - Analysis scope: `full_tile`

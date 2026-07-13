@@ -49,7 +49,8 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `PHYSICS_VERIFIED`
+- **Scientific validation level:** `NUMERICALLY_CONVERGED`
+- **Target tolerance passed:** `True`
 - **Confidence:** `VERIFIED`
 - Evidence id: `2f2dd2bd9082a2cacf6a5b402f2d9c60`
 - Analysis scope: `embedded_idc_region_only`
@@ -62,6 +63,9 @@ Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines,
 - Convergence: `fastercap_automatic_refinement`, converged: **True**
   - solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0
 - Provenance gap: `solver_executable_hash_unrecorded`
+- Missing scientific-validation gate: `solver identity hash or immutable container digest`
+- Missing scientific-validation gate: `non-empty passing physical sanity checks`
+- Missing scientific-validation gate: `split execution/generation environment identity`
 
 - **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->

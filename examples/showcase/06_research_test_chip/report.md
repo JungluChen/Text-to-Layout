@@ -58,7 +58,8 @@
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `ANALYTICAL_ONLY`
+- **Scientific validation level:** `ANALYTICAL_ONLY`
+- **Target tolerance passed:** `None`
 - **Confidence:** `ANALYTICAL`
 - Evidence id: `209c3057e9809607dcfe30a0dad5b742`
 - Analysis scope: `full_tile`

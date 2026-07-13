@@ -38,7 +38,7 @@ verification.json + klayout_readback.json
   │               honest status vocabulary, retained solver stdout/stderr
   ▼
 simulation.json
-  │  evidence.py — THE evidence contract: a false PHYSICS_VERIFIED record
+  │  evidence.py — THE evidence contract: a false full-physics-signoff record
   │               is structurally unconstructible
   ▼
 report.md

@@ -57,20 +57,20 @@ Current committed showcase evidence includes real FasterCap and FastHenry runs:
 
 <!-- Generated from examples/showcase/*/evidence/canonical.json. Do not edit. -->
 
-| Quantity | Target | Solver-extracted | Error | Evidence status |
-| --- | --- | --- | --- | --- |
-| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `PHYSICS_VERIFIED` |
-| 02_cpw_50ohm characteristic_impedance | 50.000000 ohm | 49.712535 ohm | 0.575% | `PHYSICS_VERIFIED` |
-| 03_idc_cpw_test_structure capacitance | 0.600000 pF | 0.610019 pF | 1.670% | `PHYSICS_VERIFIED` |
-| 04_spiral_inductor_3nh inductance | 3.000000 nH | 2.958308 nH | 1.390% | `SIMULATION_EXECUTED` |
+| Quantity | Target | Solver-extracted | Error | Target tolerance passed | Scientific validation level |
+| --- | --- | --- | --- | --- | --- |
+| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `True` | `NUMERICALLY_CONVERGED` |
+| 02_cpw_50ohm characteristic_impedance | 50.000000 ohm | 49.712535 ohm | 0.575% | `True` | `NUMERICALLY_CONVERGED` |
+| 03_idc_cpw_test_structure capacitance | 0.600000 pF | 0.610019 pF | 1.670% | `True` | `NUMERICALLY_CONVERGED` |
+| 04_spiral_inductor_3nh inductance | 3.000000 nH | 2.958308 nH | 1.390% | `True` | `OUTPUT_PARSED` |
 
 Solvers that ran but produced unusable output (no value extracted): `05_quarter_wave_resonator_6ghz`.
 <!-- END GENERATED: headline-evidence -->
 
-Example 3 is `PHYSICS_VERIFIED` only for its embedded IDC region. CPW launches,
+Example 3 is `NUMERICALLY_CONVERGED` only for its embedded IDC region. CPW launches,
 transitions, resonator behavior, and the full test-chip tile are not full-wave
 verified. A solver-owned output must be parsed and compared with its target
-before any `PHYSICS_VERIFIED` claim is allowed.
+before any full physics-signoff claim is allowed.
 
 > This project is not fabrication-ready by default. Geometry generation and analytical estimation are supported. Physics verification is only claimed when an external solver is executed and its output is parsed successfully.
 
@@ -82,7 +82,7 @@ The natural-language parser is deterministic (no LLM, no API key) and produces
 the GDS, and KLayout — a different code base than the writer — reads the file
 back and verifies top cell, bounding box, layers, and per-layer polygon counts.
 LangGraph orchestrates the stages and records `workflow_trace.json`, but owns
-no geometry and can invent no evidence: a false `PHYSICS_VERIFIED` record is
+no geometry and can invent no evidence: a false full-physics-signoff record is
 structurally unconstructible (see `src/textlayout/evidence.py`).
 
 ## Workflow
@@ -242,9 +242,9 @@ full LangGraph pipeline; every cell below links to committed artifacts under
 
 | # | Target | Prompt | Output | Step Results | Evidence Status |
 |---|--------|--------|--------|--------------|-----------------|
-| 1 | 0.6 pF interdigitated capacitor for a lumped LC / JPA front end | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) · [simulation](examples/showcase/01_idc_0p6pf/simulation.json) · [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) · [evidence](examples/showcase/01_idc_0p6pf/evidence/canonical.json) | **PHYSICS_VERIFIED** — FasterCap extracted 0.598641 pF versus 0.600000 pF target; 0.227% error, within the 5% tolerance. Convergence: `fastercap_automatic_refinement`. **NOT_FABRICATION_READY** |
-| 2 | 50 ohm coplanar-waveguide feedline for microwave routing | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) · [simulation](examples/showcase/02_cpw_50ohm/simulation.json) · [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) · [evidence](examples/showcase/02_cpw_50ohm/evidence/canonical.json) | **PHYSICS_VERIFIED** — openEMS+scikit-rf extracted 49.712535 ohm versus 50.000000 ohm target; 0.575% error, within the 5% tolerance. Convergence: `fdtd_energy_decay_and_excitation_support`. **NOT_FABRICATION_READY** |
-| 3 | 0.6 pF IDC with CPW launches for on-chip measurement | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![TestStructure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) · [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) · [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) · [evidence](examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json) | **PHYSICS_VERIFIED** — FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error, within the 5% tolerance. Convergence: `fastercap_automatic_refinement`. **NOT_FABRICATION_READY** |
+| 1 | 0.6 pF interdigitated capacitor for a lumped LC / JPA front end | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) · [simulation](examples/showcase/01_idc_0p6pf/simulation.json) · [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) · [evidence](examples/showcase/01_idc_0p6pf/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- FasterCap extracted 0.598641 pF versus 0.600000 pF target; 0.227% error, target_tolerance_passed=`True`. Convergence: `fastercap_automatic_refinement`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |
+| 2 | 50 ohm coplanar-waveguide feedline for microwave routing | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) · [simulation](examples/showcase/02_cpw_50ohm/simulation.json) · [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) · [evidence](examples/showcase/02_cpw_50ohm/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- openEMS+scikit-rf extracted 49.712535 ohm versus 50.000000 ohm target; 0.575% error, target_tolerance_passed=`True`. Convergence: `fdtd_energy_decay_and_excitation_support`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |
+| 3 | 0.6 pF IDC with CPW launches for on-chip measurement | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![TestStructure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) · [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) · [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) · [evidence](examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error, target_tolerance_passed=`True`. Convergence: `fastercap_automatic_refinement`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |
 | 4 | Compact planar spiral inductor targeting 3 nH | Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace width, 2 um spacing, and two labeled ports. | [![SpiralInductor](examples/showcase/04_spiral_inductor_3nh/output.png)](examples/showcase/04_spiral_inductor_3nh/output.svg) | [report](examples/showcase/04_spiral_inductor_3nh/report.md) · [simulation](examples/showcase/04_spiral_inductor_3nh/simulation.json) · [trace](examples/showcase/04_spiral_inductor_3nh/workflow_trace.json) · [evidence](examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json) | **SIMULATION_EXECUTED** — fasthenry extracted 2.958308 nH versus 3.000000 nH target (-1.390%), but no convergence criterion is evidenced, so it is **not** physics-verified. **NOT_FABRICATION_READY** |
 | 5 | 6 GHz quarter-wave CPW resonator layout candidate | Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels. | [![QuarterWaveResonator](examples/showcase/05_quarter_wave_resonator_6ghz/output.png)](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | [report](examples/showcase/05_quarter_wave_resonator_6ghz/report.md) · [simulation](examples/showcase/05_quarter_wave_resonator_6ghz/simulation.json) · [trace](examples/showcase/05_quarter_wave_resonator_6ghz/workflow_trace.json) · [evidence](examples/showcase/05_quarter_wave_resonator_6ghz/evidence/canonical.json) | **SIMULATION_INVALID** — openEMS+scikit-rf ran to completion, but its output failed a physical-sanity check: openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) — the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it No value was extracted. **NOT_FABRICATION_READY** |
 | 6 | Multi-device comparison tile (IDC + CPW + spiral + marks + title) | Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label. | [![TestChip](examples/showcase/06_research_test_chip/output.png)](examples/showcase/06_research_test_chip/output.svg) | [report](examples/showcase/06_research_test_chip/report.md) · [simulation](examples/showcase/06_research_test_chip/simulation.json) · [trace](examples/showcase/06_research_test_chip/workflow_trace.json) · [evidence](examples/showcase/06_research_test_chip/evidence/canonical.json) | **ANALYTICAL_ONLY** for scope `full_tile`. **NOT_FABRICATION_READY** |
@@ -267,7 +267,7 @@ Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 | `SIMULATION_INPUT_PREPARED` | Solver input files generated |
 | `SKIPPED_SOLVER_ABSENT` | Solver not found, execution skipped honestly |
 | `SIMULATION_EXECUTED` | Solver executed and output was parsed |
-| `PHYSICS_VERIFIED` | Solver result meets target tolerance |
+| `NUMERICALLY_CONVERGED` | Solver result is finite, target tolerance passed, and convergence evidence exists |
 | `FAILED` | Workflow failed |
 | `NOT_FABRICATION_READY` | Not approved for fabrication |
 
@@ -277,16 +277,16 @@ Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 
 <!-- Generated from examples/showcase/*/evidence/canonical.json. Do not edit. -->
 
-| Showcase | Status | Confidence | Scope | Evidence |
+| Showcase | Scientific validation level | Target tolerance passed | Scope | Evidence |
 | --- | --- | --- | --- | --- |
-| 01_idc_0p6pf | `PHYSICS_VERIFIED` | `VERIFIED` | idc_electrodes | extracted `0.598641` pF versus `0.600000` pF target; `-0.227%` error |
-| 02_cpw_50ohm | `PHYSICS_VERIFIED` | `VERIFIED` | through_line_center_conductor | extracted `49.712535` ohm versus `50.000000` ohm target; `-0.575%` error |
-| 03_idc_cpw_test_structure | `PHYSICS_VERIFIED` | `VERIFIED` | embedded_idc_region_only | extracted `0.610019` pF versus `0.600000` pF target; `+1.670%` error |
-| 04_spiral_inductor_3nh | `SIMULATION_EXECUTED` | `SIMULATED` | spiral_winding | extracted `2.958308` nH versus `3.000000` nH target; `-1.390%` error |
-| 05_quarter_wave_resonator_6ghz | `SIMULATION_INVALID` | `NONE` | resonator_plus_coupler | no value extracted — openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) — the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it |
-| 06_research_test_chip | `ANALYTICAL_ONLY` | `ANALYTICAL` | full_tile | no solver-extracted value |
+| 01_idc_0p6pf | `NUMERICALLY_CONVERGED` | `True` | idc_electrodes | extracted `0.598641` pF versus `0.600000` pF target; `-0.227%` error |
+| 02_cpw_50ohm | `NUMERICALLY_CONVERGED` | `True` | through_line_center_conductor | extracted `49.712535` ohm versus `50.000000` ohm target; `-0.575%` error |
+| 03_idc_cpw_test_structure | `NUMERICALLY_CONVERGED` | `True` | embedded_idc_region_only | extracted `0.610019` pF versus `0.600000` pF target; `+1.670%` error |
+| 04_spiral_inductor_3nh | `OUTPUT_PARSED` | `True` | spiral_winding | extracted `2.958308` nH versus `3.000000` nH target; `-1.390%` error |
+| 05_quarter_wave_resonator_6ghz | `SIMULATION_INVALID` | `None` | resonator_plus_coupler | no value extracted — openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) — the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it |
+| 06_research_test_chip | `ANALYTICAL_ONLY` | `None` | full_tile | no solver-extracted value |
 
-**PHYSICS_VERIFIED** (3): `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure` — a solver ran, its output re-parses to the value shown, a convergence criterion was met, and the result is inside tolerance.
+**NUMERICALLY_CONVERGED** (3): `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure` -- a historical solver output re-parses to the value shown, a convergence criterion was recorded, and target tolerance passed. This is not full physics signoff.
 
 **SIMULATION_EXECUTED** (1): `04_spiral_inductor_3nh` — a solver ran and produced a finite value, but no convergence criterion is evidenced, so the result is not verified.
 
@@ -301,7 +301,7 @@ Each folder carries the full step chain: `prompt.txt`, `intent.json`,
 
 Validated in CI by `scripts/validate_readme_claims.py` — every "yes" below must be backed by committed code, tests, and artifacts, or the build fails.
 
-| Component            | Geometry | Analytical estimate                                                | Solver input                                      | Solver executed                                                    | Physics verified                                                 | Status                                                                 |
+| Component            | Geometry | Analytical estimate                                                | Solver input                                      | Solver executed                                                    | Scientific validation                                            | Status                                                                 |
 | -------------------- | -------- | ------------------------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | IDC                  | yes      | yes (Bahl/Alley)                                                   | yes (FasterCap/FastCap)                           | environment-dependent (runs when installed; honest skip otherwise) | environment-dependent (never claimed without solver output)      | Supported — full closed loop                                          |
 | CPW                  | yes      | yes (scikit-rf Ghione/Naldi with`[rf]`; Simons/Hilberg fallback) | yes (runnable openEMS/CSXCAD Octave model)        | environment-dependent (external openEMS stack)                     | environment-dependent (target/tolerance gated)                   | Supported — conditional solver closed loop                            |
@@ -332,7 +332,7 @@ analytical vs skipped examples, EPR/measurement support, PDK readiness) is
 and read [PROJECT_STATUS.md](PROJECT_STATUS.md) /
 `out/evidence/project_status.json`. `python scripts/check_project_claims.py`
 fails CI when any hand-written doc drifts from that ground truth (fake
-PHYSICS_VERIFIED claims, stale test counts, version drift, unnegated
+full-physics-signoff claims, stale test counts, version drift, unnegated
 fabrication-readiness language).
 
 The honesty claims above are backed by committed, checkable artifacts:
@@ -372,15 +372,15 @@ This project uses explicit status labels to avoid misleading claims:
 | **ANALYTICAL ONLY**           | Equations computed; no solver executed                          |
 | **SIMULATION INPUT PREPARED** | Solver input files exist; solver not executed                   |
 | **SIMULATION EXECUTED**       | Solver ran and produced non-empty output file                   |
-| **PHYSICS VERIFIED**          | Extracted values compared against target with tolerance         |
+| **NUMERICALLY CONVERGED**     | Extracted values compared against target with tolerance and convergence evidence |
 | **FABRICATION READY**         | Process-specific DRC, EM simulation, and expert review complete |
 | **INFEASIBLE**                | Target not achievable under realistic constraints               |
 
-**No `examples/benchmarks/` default artifact is PHYSICS VERIFIED, and nothing in this repository is FABRICATION READY.**
+**No `examples/benchmarks/` default artifact has full physics signoff, and nothing in this repository is FABRICATION READY.**
 
 <!-- BEGIN GENERATED: verified-list -->
 
-The `PHYSICS_VERIFIED` artifacts are [01_idc_0p6pf](examples/showcase/01_idc_0p6pf/) (FasterCap, scope `idc_electrodes`), [02_cpw_50ohm](examples/showcase/02_cpw_50ohm/) (openEMS+scikit-rf, scope `through_line_center_conductor`), [03_idc_cpw_test_structure](examples/showcase/03_idc_cpw_test_structure/) (FasterCap, scope `embedded_idc_region_only`). Each has a convergence criterion recorded in its canonical evidence. Claim validation enforces each scope.
+The `NUMERICALLY_CONVERGED` artifacts are [01_idc_0p6pf](examples/showcase/01_idc_0p6pf/) (FasterCap, scope `idc_electrodes`), [02_cpw_50ohm](examples/showcase/02_cpw_50ohm/) (openEMS+scikit-rf, scope `through_line_center_conductor`), [03_idc_cpw_test_structure](examples/showcase/03_idc_cpw_test_structure/) (FasterCap, scope `embedded_idc_region_only`). Each keeps historical solver provenance and target agreement, but missing scientific-validation gates are still recorded in canonical evidence.
 <!-- END GENERATED: verified-list -->
 
 ## Legacy analytical benchmarks
@@ -676,7 +676,7 @@ What to expect:
 - **Honesty is unchanged by installation.** JoSIM/PSCAN2/WRspice are circuit
   simulators, not EM capacitance solvers — FasterCap/FastCap is still needed
   for geometry-level capacitance extraction. An installed simulator does not
-  make anything `PHYSICS_VERIFIED`: that label requires a real extraction
+  make anything full physics signoff: that label requires a real extraction
   *and* a real simulation, both within declared tolerances. A real JoSIM LC
   run yields at most `JOSIM_RESONANCE_CHECKED`.
 - Strict mode: `TEXTLAYOUT_STRICT_SIMULATORS=1`, the scripts' `--strict`
@@ -746,7 +746,7 @@ record may advance or fail, never silently demote):
 - `*_RESONANCE_CHECKED` — a resonance was extracted and compared with `f0 = 1/(2π√(LC))`.
 - `*_GAIN_CHECKED` — pump/signal transient data plus FFT-based gain extraction (not yet claimable in production — see limitations).
 - `FAILED` — execution or parsing failed, with the reason recorded.
-- `PHYSICS_VERIFIED` is reserved for a complete benchmark where geometry
+- Full physics signoff is reserved for a complete benchmark where geometry
   extraction **and** circuit-level checks both meet declared tolerances.
 
 ### Honest limitations
@@ -781,7 +781,7 @@ py -3 scripts/check_benchmarks.py
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
 <!-- BEGIN GENERATED: verified-bullet -->
 
-- **PHYSICS_VERIFIED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise.
+- **NUMERICALLY_CONVERGED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise. No showcase carries full physics signoff.
 <!-- END GENERATED: verified-bullet -->
 - **Nothing in this repository is FABRICATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.
 

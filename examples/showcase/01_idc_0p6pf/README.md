@@ -49,7 +49,8 @@ Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum g
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `PHYSICS_VERIFIED`
+- **Scientific validation level:** `NUMERICALLY_CONVERGED`
+- **Target tolerance passed:** `True`
 - **Confidence:** `VERIFIED`
 - Evidence id: `15feda89b0a0e45314a933af087d234b`
 - Analysis scope: `idc_electrodes`
@@ -62,6 +63,9 @@ Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum g
 - Convergence: `fastercap_automatic_refinement`, converged: **True**
   - solver refined its panel discretisation until the relative change fell below 1% (-a flag), and exited 0
 - Provenance gap: `solver_executable_hash_unrecorded`
+- Missing scientific-validation gate: `solver identity hash or immutable container digest`
+- Missing scientific-validation gate: `non-empty passing physical sanity checks`
+- Missing scientific-validation gate: `split execution/generation environment identity`
 
 - **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->

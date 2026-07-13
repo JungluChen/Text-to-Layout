@@ -41,7 +41,8 @@
     "target": 0.6,
     "error_pct": -0.2265,
     "tolerance_pct": 5.0,
-    "within_tolerance": true
+    "within_tolerance": true,
+    "target_tolerance_passed": true
   },
   "analytical_quantity": "capacitance",
   "analytical_unit": "pF",

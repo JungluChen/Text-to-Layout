@@ -59,7 +59,8 @@
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `PHYSICS_VERIFIED`
+- **Scientific validation level:** `NUMERICALLY_CONVERGED`
+- **Target tolerance passed:** `True`
 - **Confidence:** `VERIFIED`
 - Evidence id: `525c5c091c57223099a616761124d031`
 - Analysis scope: `through_line_center_conductor`
@@ -78,6 +79,9 @@
 - Withdrawn value: `49.88827755069874` ohm
 - Why withdrawn: not reproducible from the committed openems_result.s2p. Re-extracting at the design frequency gives 49.712535 ohm; sample_frequency_ghz, s11_magnitude and return_loss_db all reproduce exactly, so the file and the parser agree and only this number is stale. No output hash existed at the time, so it cannot be established whether the Touchstone file or the impedance estimator changed.
 - Provenance gap: `solver_executable_hash_unrecorded`
+- Missing scientific-validation gate: `solver identity hash or immutable container digest`
+- Missing scientific-validation gate: `non-empty passing physical sanity checks`
+- Missing scientific-validation gate: `split execution/generation environment identity`
 
 - **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->

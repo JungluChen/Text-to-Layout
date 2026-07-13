@@ -85,13 +85,15 @@ def _summary_row(record: CanonicalEvidence) -> str:
     else:
         detail = "no solver-extracted value"
     return (
-        f"| {record.design_id} | `{record.status.value}` | "
-        f"`{record.confidence_class.name}` | {record.analysis_scope} | {detail} |"
+        f"| {record.design_id} | `{record.scientific_validation_level or record.status.value}` | "
+        f"`{record.target_tolerance_passed}` | {record.analysis_scope} | {detail} |"
     )
 
 
 def _evidence_summary(records: list[CanonicalEvidence]) -> str:
-    verified = [r for r in records if r.status is EvidenceStatus.PHYSICS_VERIFIED]
+    numerically_converged = [
+        r for r in records if r.scientific_validation_level == "NUMERICALLY_CONVERGED"
+    ]
     executed = [r for r in records if r.status is EvidenceStatus.SIMULATION_EXECUTED]
     invalid = [r for r in records if r.status is EvidenceStatus.SIMULATION_INVALID]
     analytical = [r for r in records if r.status is EvidenceStatus.ANALYTICAL_ONLY]
@@ -103,13 +105,14 @@ def _evidence_summary(records: list[CanonicalEvidence]) -> str:
         "",
         "<!-- Generated from examples/showcase/*/evidence/canonical.json. Do not edit. -->",
         "",
-        "| Showcase | Status | Confidence | Scope | Evidence |",
+        "| Showcase | Scientific validation level | Target tolerance passed | Scope | Evidence |",
         "| --- | --- | --- | --- | --- |",
         *[_summary_row(r) for r in records],
         "",
-        f"**PHYSICS_VERIFIED** ({len(verified)}): {names(verified)} — a solver ran, its "
-        "output re-parses to the value shown, a convergence criterion was met, and the "
-        "result is inside tolerance.",
+        f"**NUMERICALLY_CONVERGED** ({len(numerically_converged)}): "
+        f"{names(numerically_converged)} -- a historical solver output re-parses to the "
+        "value shown, a convergence criterion was recorded, and target tolerance passed. "
+        "This is not full physics signoff.",
         "",
         f"**SIMULATION_EXECUTED** ({len(executed)}): {names(executed)} — a solver ran and "
         "produced a finite value, but no convergence criterion is evidenced, so the "
@@ -135,8 +138,8 @@ def _headline_evidence(records: list[CanonicalEvidence]) -> str:
         "",
         "<!-- Generated from examples/showcase/*/evidence/canonical.json. Do not edit. -->",
         "",
-        "| Quantity | Target | Solver-extracted | Error | Evidence status |",
-        "| --- | --- | --- | --- | --- |",
+        "| Quantity | Target | Solver-extracted | Error | Target tolerance passed | Scientific validation level |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for record in records:
         if record.extracted_value is None:
@@ -146,7 +149,8 @@ def _headline_evidence(records: list[CanonicalEvidence]) -> str:
             f"| {record.target_value:.6f} {record.target_unit} "
             f"| {record.extracted_value:.6f} {record.extracted_unit} "
             f"| {abs(record.error_percent):.3f}% "
-            f"| `{record.status.value}` |"
+            f"| `{record.target_tolerance_passed}` "
+            f"| `{record.scientific_validation_level or record.status.value}` |"
         )
     invalid = [r for r in records if r.status is EvidenceStatus.SIMULATION_INVALID]
     if invalid:
@@ -161,40 +165,44 @@ def _headline_evidence(records: list[CanonicalEvidence]) -> str:
 
 
 def _verified_list(records: list[CanonicalEvidence]) -> str:
-    verified = [r for r in records if r.status is EvidenceStatus.PHYSICS_VERIFIED]
+    verified = [r for r in records if r.scientific_validation_level == "NUMERICALLY_CONVERGED"]
     if not verified:
-        return "\nNo showcase currently carries `PHYSICS_VERIFIED`.\n"
+        return "\nNo showcase currently carries `NUMERICALLY_CONVERGED`.\n"
     items = ", ".join(
         f"[{r.design_id}](examples/showcase/{r.design_id}/) "
         f"({r.solver_name}, scope `{r.analysis_scope}`)"
         for r in verified
     )
     return (
-        f"\nThe `PHYSICS_VERIFIED` artifacts are {items}. "
-        "Each has a convergence criterion recorded in its canonical evidence. "
-        "Claim validation enforces each scope.\n"
+        f"\nThe `NUMERICALLY_CONVERGED` artifacts are {items}. "
+        "Each keeps historical solver provenance and target agreement, but missing "
+        "scientific-validation gates are still recorded in canonical evidence.\n"
     )
 
 
 def _verified_bullet(records: list[CanonicalEvidence]) -> str:
-    verified = [r.design_id for r in records if r.status is EvidenceStatus.PHYSICS_VERIFIED]
+    verified = [
+        r.design_id for r in records if r.scientific_validation_level == "NUMERICALLY_CONVERGED"
+    ]
     listed = ", ".join(f"`{name}`" for name in verified) or "no showcase"
     return (
-        f"\n- **PHYSICS_VERIFIED currently exists for {listed}.** Other scopes remain "
+        f"\n- **NUMERICALLY_CONVERGED currently exists for {listed}.** Other scopes remain "
         "analytical, executed-without-convergence, invalid, prepared, or honestly "
-        "skipped unless their canonical evidence says otherwise.\n"
+        "skipped unless their canonical evidence says otherwise. No showcase carries "
+        "full physics signoff.\n"
     )
 
 
 def _evidence_cell(record: CanonicalEvidence) -> str:
     solver = record.solver_name or "no solver"
-    if record.status is EvidenceStatus.PHYSICS_VERIFIED:
+    if record.scientific_validation_level == "NUMERICALLY_CONVERGED":
         body = (
-            f"**PHYSICS_VERIFIED** — {solver} extracted {record.extracted_value:.6f} "
+            f"**NUMERICALLY_CONVERGED** -- {solver} extracted {record.extracted_value:.6f} "
             f"{record.extracted_unit} versus {record.target_value:.6f} "
             f"{record.extracted_unit} target; {abs(record.error_percent):.3f}% error, "
-            f"within the {record.tolerance_percent:.0f}% tolerance. Convergence: "
-            f"`{record.convergence.method}`."
+            f"target_tolerance_passed=`{record.target_tolerance_passed}`. Convergence: "
+            f"`{record.convergence.method}`. Missing gates: "
+            f"{', '.join(record.missing_scientific_validation_gates) or 'none'}."
         )
     elif record.status is EvidenceStatus.SIMULATION_EXECUTED:
         body = (
@@ -243,6 +251,8 @@ def _showcase_table(records: list[CanonicalEvidence], index: dict[str, object]) 
 def _index_entry(entry: dict[str, object], record: CanonicalEvidence) -> dict[str, object]:
     entry["evidence_status"] = record.status.value
     entry["simulation_status"] = record.status.value
+    entry["scientific_validation_level"] = record.scientific_validation_level or record.status.value
+    entry["target_tolerance_passed"] = record.target_tolerance_passed
     entry["solver"] = record.solver_name or "none"
     entry["solver_executed"] = record.solver_name is not None and record.status not in {
         EvidenceStatus.ANALYTICAL_ONLY,

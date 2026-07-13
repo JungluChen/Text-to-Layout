@@ -36,6 +36,40 @@ from textlayout.evidence.contract import EvidenceStatus
 PARSER_VERSION = "2"
 
 
+def _audit_level_and_missing(
+    *,
+    extracted_value: float | None,
+    target_tolerance_passed: bool | None,
+    convergence: ConvergenceMetrics | None,
+    analytical_model: str | None,
+    depends_on: bool = False,
+    solver_identity_known: bool = False,
+    split_environment_known: bool = False,
+    sanity_checks_present: bool = False,
+) -> tuple[str, list[str]]:
+    missing: list[str] = []
+    if not solver_identity_known:
+        missing.append("solver identity hash or immutable container digest")
+    if extracted_value is None:
+        missing.append("finite parsed output")
+    if not sanity_checks_present:
+        missing.append("non-empty passing physical sanity checks")
+    if convergence is None or not convergence.converged:
+        missing.append("independent numerical-convergence evidence")
+    if not (analytical_model or depends_on):
+        missing.append("independent reference or measurement")
+    if not split_environment_known:
+        missing.append("split execution/generation environment identity")
+
+    if not missing and target_tolerance_passed is True:
+        return "PHYSICS_VERIFIED", missing
+    if convergence is not None and convergence.converged and target_tolerance_passed is True:
+        return "NUMERICALLY_CONVERGED", missing
+    if extracted_value is not None:
+        return "OUTPUT_PARSED", missing
+    return "IMPLEMENTED", missing
+
+
 @dataclass(frozen=True)
 class Recipe:
     """How to re-derive one showcase's headline claim from its own outputs."""
@@ -387,6 +421,9 @@ def build_canonical(
         ),
         "environment_hash": environment_hash,
         "timestamp": stamp,
+        "evidence_generation_environment_hash": environment_hash,
+        "evidence_generation_git_commit": _git_commit(repo_root, ["src/textlayout/evidence/build.py"]),
+        "evidence_generated_at": stamp,
         "warnings": list(result.get("warnings", [])),
         "analytical_value": analytical_value,
         "analytical_model": analytical_model,
@@ -441,6 +478,11 @@ def build_canonical(
         "extraction_config": recipe.extraction_config,
         "extraction_config_hash": config_hash,
         "provenance_gaps": ["solver_executable_hash_unrecorded"],
+        "solver_execution_git_commit": common["git_commit"],
+        "solver_execution_environment_hash": None,
+        "solver_executable_sha256": None,
+        "solver_container_digest": None,
+        "solver_executed_at": None,
         "superseded": recipe.superseded,
     }
     solver_common["warnings"] = [*solver_common.pop("warnings"), *recipe.notes]
@@ -461,6 +503,17 @@ def build_canonical(
         if target is not None and target != 0
         else None
     )
+    target_tolerance_passed = (
+        abs(error_percent) <= solver_common["tolerance_percent"]
+        if error_percent is not None
+        else None
+    )
+    scientific_validation_level, missing_gates = _audit_level_and_missing(
+        extracted_value=extracted,
+        target_tolerance_passed=target_tolerance_passed,
+        convergence=convergence,
+        analytical_model=analytical_model,
+    )
     verified = (
         convergence.converged
         and error_percent is not None
@@ -472,6 +525,9 @@ def build_canonical(
         extracted_value=extracted,
         extracted_unit=recipe.target_unit,
         error_percent=round(error_percent, 6) if error_percent is not None else None,
+        target_tolerance_passed=target_tolerance_passed,
+        scientific_validation_level=scientific_validation_level,
+        missing_scientific_validation_gates=missing_gates,
         convergence=convergence,
         **solver_common,
     )

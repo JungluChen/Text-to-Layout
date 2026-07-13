@@ -427,5 +427,7 @@
     }
   ],
   "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
-  "canonical_evidence_status": "SIMULATION_INVALID"
+  "canonical_evidence_status": "SIMULATION_INVALID",
+  "scientific_validation_level": null,
+  "target_tolerance_passed": null
 }

@@ -49,7 +49,8 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `SIMULATION_EXECUTED`
+- **Scientific validation level:** `OUTPUT_PARSED`
+- **Target tolerance passed:** `True`
 - **Confidence:** `SIMULATED`
 - Evidence id: `731a7af91767c62aaf145ef32dc1d176`
 - Analysis scope: `spiral_winding`
@@ -62,6 +63,10 @@ Create a compact planar spiral inductor targeting 3 nH with 4 turns, 4 um trace 
 - Convergence: `none_recorded`, converged: **False**
   - FastHenry ran once at the deck's default single-filament discretisation: the deck declares no nhinc/nwinc, and no refinement sweep exists. Current crowding in a spiral is unresolved, so no convergence is evidenced.
 - Provenance gap: `solver_executable_hash_unrecorded`
+- Missing scientific-validation gate: `solver identity hash or immutable container digest`
+- Missing scientific-validation gate: `non-empty passing physical sanity checks`
+- Missing scientific-validation gate: `independent numerical-convergence evidence`
+- Missing scientific-validation gate: `split execution/generation environment identity`
 
 - **Fabrication readiness:** `NOT_FABRICATION_READY` — no DRC/LVS signoff has been performed for this showcase.
 <!-- END GENERATED: evidence-status -->

@@ -23,7 +23,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 ## Showcase evidence
 
 - Total examples: 6
-- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh
+- Solver-backed (`NUMERICALLY_CONVERGED`/`OUTPUT_PARSED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh
 - Skipped (`SKIPPED_SOLVER_ABSENT`): (none)
 - Analytical only: 06_research_test_chip
 - Invalid or failed: 05_quarter_wave_resonator_6ghz
@@ -61,5 +61,5 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 - The FasterCap model uses zero-thickness panels and an effective dielectric — a correlation model, not signoff; it requires mesh convergence and finite-thickness/full-wave cross-checks.
 - Full-chip density, antenna, slot, enclosure, LVS, and process-specific DRC are outside the clean plugin package today.
 - The next component should be promoted only after typed ports, extraction, literature comparison, and a reproducible benchmark are complete.
-- **PHYSICS_VERIFIED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise.
+- **NUMERICALLY_CONVERGED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise. No showcase carries full physics signoff.
 - **Nothing in this repository is FABRICATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.

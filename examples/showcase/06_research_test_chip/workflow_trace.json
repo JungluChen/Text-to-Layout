@@ -420,5 +420,7 @@
     }
   ],
   "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742",
-  "canonical_evidence_status": "ANALYTICAL_ONLY"
+  "canonical_evidence_status": "ANALYTICAL_ONLY",
+  "scientific_validation_level": null,
+  "target_tolerance_passed": null
 }

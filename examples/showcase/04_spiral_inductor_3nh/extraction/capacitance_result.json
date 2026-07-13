@@ -30,7 +30,8 @@
     "target": 3.0,
     "error_pct": -1.389719,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": true,
+    "target_tolerance_passed": true
   },
   "analytical_quantity": "inductance",
   "analytical_unit": "nH",

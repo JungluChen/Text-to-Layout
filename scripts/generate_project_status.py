@@ -26,7 +26,7 @@ STATUS_SCHEMA = "textlayout.project-status.v2"
 
 #: Statuses that count as real solver-backed evidence (mirrors the shared
 #: evidence vocabulary in textlayout.evidence / textlayout.simulation.evidence).
-_SOLVER_BACKED_STATUSES = frozenset({"PHYSICS_VERIFIED", "SIMULATION_EXECUTED"})
+_SOLVER_BACKED_STATUSES = frozenset({"NUMERICALLY_CONVERGED", "OUTPUT_PARSED", "SIMULATION_EXECUTED"})
 _SKIPPED_STATUSES = frozenset({"SKIPPED_SOLVER_ABSENT"})
 _ANALYTICAL_STATUSES = frozenset({"ANALYTICAL_ONLY"})
 _INVALID_STATUSES = frozenset({"SIMULATION_INVALID", "CONVERGENCE_FAILED", "FAILED"})
@@ -55,7 +55,11 @@ def _classify_showcase(examples: list[dict[str, Any]]) -> dict[str, list[str]]:
     by_status: dict[str, list[str]] = {}
     for example in examples:
         example_id = example.get("id", "unknown")
-        status = example.get("evidence_status") or example.get("simulation_status")
+        status = (
+            example.get("scientific_validation_level")
+            or example.get("evidence_status")
+            or example.get("simulation_status")
+        )
         status_name = str(status or "UNCLASSIFIED")
         by_status.setdefault(status_name, []).append(example_id)
         if status in _SOLVER_BACKED_STATUSES:
@@ -301,7 +305,7 @@ def render_markdown(status: dict[str, Any]) -> str:
         "## Showcase evidence",
         "",
         f"- Total examples: {status['showcase']['total_examples']}",
-        f"- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): "
+        f"- Solver-backed (`NUMERICALLY_CONVERGED`/`OUTPUT_PARSED`/`SIMULATION_EXECUTED`): "
         f"{', '.join(status['showcase']['solver_backed']) or '(none)'}",
         f"- Skipped (`SKIPPED_SOLVER_ABSENT`): "
         f"{', '.join(status['showcase']['skipped_solver_absent']) or '(none)'}",

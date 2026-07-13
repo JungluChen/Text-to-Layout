@@ -181,8 +181,8 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "10959f373ea98c97",
-      "claim_text": "| Quantity | Target | Solver-extracted | Error | Evidence status |",
+      "claim_id": "eff5fb2897dc7a27",
+      "claim_text": "| Quantity | Target | Solver-extracted | Error | Target tolerance passed | Scientific validation level |",
       "claim_type": "solver_execution",
       "claimed_level": "IMPLEMENTED",
       "computed_level": "IMPLEMENTED",
@@ -198,101 +198,61 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "89ab0d683c4926ea",
-      "claim_text": "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `PHYSICS_VERIFIED` |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "76abf0e0121e07d2",
+      "claim_text": "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `True` | `NUMERICALLY_CONVERGED` |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 62,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity"
+        "typed evidence rule for this public claim"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "7473011b60176078",
-      "claim_text": "| 02_cpw_50ohm characteristic_impedance | 50.000000 ohm | 49.712535 ohm | 0.575% | `PHYSICS_VERIFIED` |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "05acdc6ce71b3044",
+      "claim_text": "| 02_cpw_50ohm characteristic_impedance | 50.000000 ohm | 49.712535 ohm | 0.575% | `True` | `NUMERICALLY_CONVERGED` |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 63,
       "linked_evidence": [
         "examples/showcase/02_cpw_50ohm/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity"
+        "typed evidence rule for this public claim"
       ],
-      "passed_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "02_cpw_50ohm",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "0994786442462950",
-      "claim_text": "| 03_idc_cpw_test_structure capacitance | 0.600000 pF | 0.610019 pF | 1.670% | `PHYSICS_VERIFIED` |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "9d0af7e719df26aa",
+      "claim_text": "| 03_idc_cpw_test_structure capacitance | 0.600000 pF | 0.610019 pF | 1.670% | `True` | `NUMERICALLY_CONVERGED` |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 64,
       "linked_evidence": [
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
-      ],
-      "passed_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
-      "source_file": "README.md",
-      "subject": "03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
-    },
-    {
-      "claim_id": "2b7734d4f4284de9",
-      "claim_text": "| 04_spiral_inductor_3nh inductance | 3.000000 nH | 2.958308 nH | 1.390% | `SIMULATION_EXECUTED` |",
-      "claim_type": "solver_execution",
-      "claimed_level": "IMPLEMENTED",
-      "computed_level": "IMPLEMENTED",
-      "downgrade_required": false,
-      "line": 65,
-      "linked_evidence": [
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json"
-      ],
-      "missing_mandatory_gates": [
-        "fresh external solver execution in this environment"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
-      "subject": "04_spiral_inductor_3nh",
-      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
+      "subject": "03_idc_cpw_test_structure",
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "4ad2d513790c49c4",
@@ -314,21 +274,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "9efb4cfbd55e9e77",
-      "claim_text": "Example 3 is `PHYSICS_VERIFIED` only for its embedded IDC region. CPW launches,",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "2c2abd74d69b17bf",
+      "claim_text": "Example 3 is `NUMERICALLY_CONVERGED` only for its embedded IDC region. CPW launches,",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 70,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "IDC",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "370892a424a00f30",
@@ -348,21 +308,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "d847af9c978b1b2c",
-      "claim_text": "before any `PHYSICS_VERIFIED` claim is allowed.",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "2e7d0a72948b1521",
+      "claim_text": "before any full physics-signoff claim is allowed.",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 73,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "2f7ba3521f8a7526",
@@ -399,21 +359,21 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "039c5a5cfa744015",
-      "claim_text": "no geometry and can invent no evidence: a false `PHYSICS_VERIFIED` record is",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "01152697abf326b0",
+      "claim_text": "no geometry and can invent no evidence: a false full-physics-signoff record is",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 85,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "66ef8899def17ef3",
@@ -586,82 +546,61 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "234252795b22d5e6",
-      "claim_text": "| 1 | 0.6 pF interdigitated capacitor for a lumped LC / JPA front end | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) \u00b7 [simulation](examples/showcase/01_idc_0p6pf/simulation.json) \u00b7 [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) \u00b7 [evidence](examples/showcase/01_idc_0p6pf/evidence/canonical.json) | **PHYSICS_VERIFIED** \u2014 FasterCap extracted 0.598641 pF versus 0.600000 pF target; 0.227% error, within the 5% tolerance. Convergence: `fastercap_automatic_refinement`. **NOT_FABRICATION_READY** |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "b3f3ba5e562655e7",
+      "claim_text": "| 1 | 0.6 pF interdigitated capacitor for a lumped LC / JPA front end | Create a 0.6 pF interdigitated capacitor on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports. | [![IDC](examples/showcase/01_idc_0p6pf/output.png)](examples/showcase/01_idc_0p6pf/output.svg) | [report](examples/showcase/01_idc_0p6pf/report.md) \u00b7 [simulation](examples/showcase/01_idc_0p6pf/simulation.json) \u00b7 [trace](examples/showcase/01_idc_0p6pf/workflow_trace.json) \u00b7 [evidence](examples/showcase/01_idc_0p6pf/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- FasterCap extracted 0.598641 pF versus 0.600000 pF target; 0.227% error, target_tolerance_passed=`True`. Convergence: `fastercap_automatic_refinement`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |",
+      "claim_type": "fabrication",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 245,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity"
+        "foundry-qualified DRC/LVS/fabrication signoff evidence"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
-      "claim_id": "05ee74d95fc45d7c",
-      "claim_text": "| 2 | 50 ohm coplanar-waveguide feedline for microwave routing | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) \u00b7 [simulation](examples/showcase/02_cpw_50ohm/simulation.json) \u00b7 [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) \u00b7 [evidence](examples/showcase/02_cpw_50ohm/evidence/canonical.json) | **PHYSICS_VERIFIED** \u2014 openEMS+scikit-rf extracted 49.712535 ohm versus 50.000000 ohm target; 0.575% error, within the 5% tolerance. Convergence: `fdtd_energy_decay_and_excitation_support`. **NOT_FABRICATION_READY** |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "548553cbf1be0dad",
+      "claim_text": "| 2 | 50 ohm coplanar-waveguide feedline for microwave routing | Create a 50 ohm CPW feedline on silicon at 6 GHz with ground-signal-ground geometry and labeled input/output ports. | [![CPW](examples/showcase/02_cpw_50ohm/output.png)](examples/showcase/02_cpw_50ohm/output.svg) | [report](examples/showcase/02_cpw_50ohm/report.md) \u00b7 [simulation](examples/showcase/02_cpw_50ohm/simulation.json) \u00b7 [trace](examples/showcase/02_cpw_50ohm/workflow_trace.json) \u00b7 [evidence](examples/showcase/02_cpw_50ohm/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- openEMS+scikit-rf extracted 49.712535 ohm versus 50.000000 ohm target; 0.575% error, target_tolerance_passed=`True`. Convergence: `fdtd_energy_decay_and_excitation_support`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |",
+      "claim_type": "fabrication",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 246,
       "linked_evidence": [
         "examples/showcase/02_cpw_50ohm/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity"
+        "foundry-qualified DRC/LVS/fabrication signoff evidence"
       ],
-      "passed_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "02_cpw_50ohm",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
-      "claim_id": "cb0ab2ef871c3b4b",
-      "claim_text": "| 3 | 0.6 pF IDC with CPW launches for on-chip measurement | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![TestStructure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) \u00b7 [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) \u00b7 [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) \u00b7 [evidence](examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json) | **PHYSICS_VERIFIED** \u2014 FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error, within the 5% tolerance. Convergence: `fastercap_automatic_refinement`. **NOT_FABRICATION_READY** |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "0c6bbc064a08aaec",
+      "claim_text": "| 3 | 0.6 pF IDC with CPW launches for on-chip measurement | Create a test structure with a 0.6 pF IDC connected to two 50 ohm CPW feedlines, with GSG-style launch regions, ground clearance, and measurement-friendly port labels. | [![TestStructure](examples/showcase/03_idc_cpw_test_structure/output.png)](examples/showcase/03_idc_cpw_test_structure/output.svg) | [report](examples/showcase/03_idc_cpw_test_structure/report.md) \u00b7 [simulation](examples/showcase/03_idc_cpw_test_structure/simulation.json) \u00b7 [trace](examples/showcase/03_idc_cpw_test_structure/workflow_trace.json) \u00b7 [evidence](examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json) | **NUMERICALLY_CONVERGED** -- FasterCap extracted 0.610019 pF versus 0.600000 pF target; 1.670% error, target_tolerance_passed=`True`. Convergence: `fastercap_automatic_refinement`. Missing gates: solver identity hash or immutable container digest, non-empty passing physical sanity checks, split execution/generation environment identity. **NOT_FABRICATION_READY** |",
+      "claim_type": "fabrication",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 247,
       "linked_evidence": [
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
+        "foundry-qualified DRC/LVS/fabrication signoff evidence"
       ],
-      "passed_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
       "claim_id": "93ffdbefc1ec241e",
@@ -840,21 +779,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "a8e6fcfa800366af",
-      "claim_text": "| `PHYSICS_VERIFIED` | Solver result meets target tolerance |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "97305332d77d9121",
+      "claim_text": "| `NUMERICALLY_CONVERGED` | Solver result is finite, target tolerance passed, and convergence evidence exists |",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 270,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "fresh external solver execution in this environment"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "85a41048200ab5de",
@@ -891,105 +830,82 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "1341582cb513475b",
-      "claim_text": "| 01_idc_0p6pf | `PHYSICS_VERIFIED` | `VERIFIED` | idc_electrodes | extracted `0.598641` pF versus `0.600000` pF target; `-0.227%` error |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "2c5c323ebcf30992",
+      "claim_text": "| Showcase | Scientific validation level | Target tolerance passed | Scope | Evidence |",
+      "claim_type": "support",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
+      "line": 280,
+      "linked_evidence": [],
+      "missing_mandatory_gates": [
+        "typed evidence rule for this public claim"
+      ],
+      "passed_gates": [],
+      "source_file": "README.md",
+      "subject": "project",
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
+    },
+    {
+      "claim_id": "836244fd33340e05",
+      "claim_text": "| 01_idc_0p6pf | `NUMERICALLY_CONVERGED` | `True` | idc_electrodes | extracted `0.598641` pF versus `0.600000` pF target; `-0.227%` error |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 282,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity"
+        "typed evidence rule for this public claim"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "8b5ee8e2f384495f",
-      "claim_text": "| 02_cpw_50ohm | `PHYSICS_VERIFIED` | `VERIFIED` | through_line_center_conductor | extracted `49.712535` ohm versus `50.000000` ohm target; `-0.575%` error |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "1eaf1b3ef66fed3c",
+      "claim_text": "| 02_cpw_50ohm | `NUMERICALLY_CONVERGED` | `True` | through_line_center_conductor | extracted `49.712535` ohm versus `50.000000` ohm target; `-0.575%` error |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 283,
       "linked_evidence": [
         "examples/showcase/02_cpw_50ohm/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity"
+        "typed evidence rule for this public claim"
       ],
-      "passed_gates": [
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "02_cpw_50ohm",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "79292cb699748dcb",
-      "claim_text": "| 03_idc_cpw_test_structure | `PHYSICS_VERIFIED` | `VERIFIED` | embedded_idc_region_only | extracted `0.610019` pF versus `0.600000` pF target; `+1.670%` error |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "0b39020a52a253cc",
+      "claim_text": "| 03_idc_cpw_test_structure | `NUMERICALLY_CONVERGED` | `True` | embedded_idc_region_only | extracted `0.610019` pF versus `0.600000` pF target; `+1.670%` error |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 284,
       "linked_evidence": [
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
-      ],
-      "passed_gates": [
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
-      "source_file": "README.md",
-      "subject": "03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
-    },
-    {
-      "claim_id": "25ca052a01550639",
-      "claim_text": "| 04_spiral_inductor_3nh | `SIMULATION_EXECUTED` | `SIMULATED` | spiral_winding | extracted `2.958308` nH versus `3.000000` nH target; `-1.390%` error |",
-      "claim_type": "solver_execution",
-      "claimed_level": "IMPLEMENTED",
-      "computed_level": "IMPLEMENTED",
-      "downgrade_required": false,
-      "line": 285,
-      "linked_evidence": [
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json"
-      ],
-      "missing_mandatory_gates": [
-        "fresh external solver execution in this environment"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
-      "subject": "04_spiral_inductor_3nh",
-      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
+      "subject": "03_idc_cpw_test_structure",
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "82311d9af8c1f585",
-      "claim_text": "| 05_quarter_wave_resonator_6ghz | `SIMULATION_INVALID` | `NONE` | resonator_plus_coupler | no value extracted \u2014 openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it |",
+      "claim_id": "2986da0ef370d5cb",
+      "claim_text": "| 05_quarter_wave_resonator_6ghz | `SIMULATION_INVALID` | `None` | resonator_plus_coupler | no value extracted \u2014 openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it |",
       "claim_type": "solver_execution",
       "claimed_level": "IMPLEMENTED",
       "computed_level": "IMPLEMENTED",
@@ -1007,8 +923,8 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "d8ace69e6045eae6",
-      "claim_text": "| 06_research_test_chip | `ANALYTICAL_ONLY` | `ANALYTICAL` | full_tile | no solver-extracted value |",
+      "claim_id": "63286cab2f0b4618",
+      "claim_text": "| 06_research_test_chip | `ANALYTICAL_ONLY` | `None` | full_tile | no solver-extracted value |",
       "claim_type": "solver_execution",
       "claimed_level": "IMPLEMENTED",
       "computed_level": "IMPLEMENTED",
@@ -1026,12 +942,12 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "0948f5217a989997",
-      "claim_text": "**PHYSICS_VERIFIED** (3): `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure` \u2014 a solver ran, its output re-parses to the value shown, a convergence criterion was met, and the result is inside tolerance.",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "de7147cba025cd9a",
+      "claim_text": "**NUMERICALLY_CONVERGED** (3): `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure` -- a historical solver output re-parses to the value shown, a convergence criterion was recorded, and target tolerance passed. This is not full physics signoff.",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 289,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
@@ -1039,33 +955,12 @@
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
+        "fresh external solver execution in this environment"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf,02_cpw_50ohm,03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "01370349cb1612ba",
@@ -1159,21 +1054,21 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "4a0eaa27b72c95ae",
-      "claim_text": "| Component            | Geometry | Analytical estimate                                                | Solver input                                      | Solver executed                                                    | Physics verified                                                 | Status                                                                 |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "ef250d7da54d955e",
+      "claim_text": "| Component            | Geometry | Analytical estimate                                                | Solver input                                      | Solver executed                                                    | Scientific validation                                            | Status                                                                 |",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 304,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "fresh external solver execution in this environment"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "82cdbd19ebe6b87a",
@@ -1363,21 +1258,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "3c6eaafb102138cd",
-      "claim_text": "PHYSICS_VERIFIED claims, stale test counts, version drift, unnegated",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "1b63924e31f4daa6",
+      "claim_text": "full-physics-signoff claims, stale test counts, version drift, unnegated",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 335,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "40b5cb8f0ca57c21",
@@ -1516,21 +1411,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "2d8c898e709b2d9c",
-      "claim_text": "| **PHYSICS VERIFIED**          | Extracted values compared against target with tolerance         |",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "9c901c86af5d2cb0",
+      "claim_text": "| **NUMERICALLY CONVERGED**     | Extracted values compared against target with tolerance and convergence evidence |",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 375,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "611d075a6f252e8d",
@@ -1550,29 +1445,29 @@
       "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
-      "claim_id": "b4c0e79f23430dea",
-      "claim_text": "**No `examples/benchmarks/` default artifact is PHYSICS VERIFIED, and nothing in this repository is FABRICATION READY.**",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "053c36e82ce8f1be",
+      "claim_text": "**No `examples/benchmarks/` default artifact has full physics signoff, and nothing in this repository is FABRICATION READY.**",
+      "claim_type": "fabrication",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 379,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "foundry-qualified DRC/LVS/fabrication signoff evidence"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Use NOT_FABRICATION_READY unless foundry signoff evidence exists."
     },
     {
-      "claim_id": "64943086fa52d910",
-      "claim_text": "The `PHYSICS_VERIFIED` artifacts are [01_idc_0p6pf](examples/showcase/01_idc_0p6pf/) (FasterCap, scope `idc_electrodes`), [02_cpw_50ohm](examples/showcase/02_cpw_50ohm/) (openEMS+scikit-rf, scope `through_line_center_conductor`), [03_idc_cpw_test_structure](examples/showcase/03_idc_cpw_test_structure/) (FasterCap, scope `embedded_idc_region_only`). Each has a convergence criterion recorded in its canonical evidence. Claim validation enforces each scope.",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "e530f49a411c1f38",
+      "claim_text": "The `NUMERICALLY_CONVERGED` artifacts are [01_idc_0p6pf](examples/showcase/01_idc_0p6pf/) (FasterCap, scope `idc_electrodes`), [02_cpw_50ohm](examples/showcase/02_cpw_50ohm/) (openEMS+scikit-rf, scope `through_line_center_conductor`), [03_idc_cpw_test_structure](examples/showcase/03_idc_cpw_test_structure/) (FasterCap, scope `embedded_idc_region_only`). Each keeps historical solver provenance and target agreement, but missing scientific-validation gates are still recorded in canonical evidence.",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 383,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
@@ -1580,33 +1475,12 @@
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
+        "fresh external solver execution in this environment"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "3f7d40a22ab904b1",
@@ -2225,21 +2099,21 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "84bf97a0a4523b8e",
-      "claim_text": "make anything `PHYSICS_VERIFIED`: that label requires a real extraction",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "25b930ee1b08fb9e",
+      "claim_text": "make anything full physics signoff: that label requires a real extraction",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 679,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "ea88acd96ee052be",
@@ -2397,21 +2271,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "1485e5078d725c9d",
-      "claim_text": "- `PHYSICS_VERIFIED` is reserved for a complete benchmark where geometry",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "07efb182bd44733b",
+      "claim_text": "- Full physics signoff is reserved for a complete benchmark where geometry",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 749,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "README.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "99ab00e81867a2b3",
@@ -2516,12 +2390,12 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "cc55717246934829",
-      "claim_text": "- **PHYSICS_VERIFIED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise.",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "b10ac15fbb07c89e",
+      "claim_text": "- **NUMERICALLY_CONVERGED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise. No showcase carries full physics signoff.",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 784,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
@@ -2529,33 +2403,12 @@
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
+        "fresh external solver execution in this environment"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "README.md",
       "subject": "01_idc_0p6pf,02_cpw_50ohm,03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "aa0c7114080cac32",
@@ -2694,21 +2547,21 @@
       "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
-      "claim_id": "a50cb7f3e04689ff",
-      "claim_text": "\u2502  evidence.py \u2014 THE evidence contract: a false PHYSICS_VERIFIED record",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NOT_IMPLEMENTED",
-      "downgrade_required": true,
+      "claim_id": "a82f5962567299dc",
+      "claim_text": "\u2502  evidence.py \u2014 THE evidence contract: a false full-physics-signoff record",
+      "claim_type": "general",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 41,
       "linked_evidence": [],
       "missing_mandatory_gates": [
-        "PHYSICS_VERIFIED claim is not linked to canonical evidence"
+        "typed evidence rule for this public claim"
       ],
       "passed_gates": [],
       "source_file": "ARCHITECTURE.md",
       "subject": "project",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with the highest canonical status and link evidence."
+      "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
       "claim_id": "f94e50e3f819537e",
@@ -2762,12 +2615,12 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "61c7f659b9c8a709",
-      "claim_text": "- Solver-backed (`PHYSICS_VERIFIED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "OUTPUT_PARSED",
-      "downgrade_required": true,
+      "claim_id": "ca88a1e3dad8c47b",
+      "claim_text": "- Solver-backed (`NUMERICALLY_CONVERGED`/`OUTPUT_PARSED`/`SIMULATION_EXECUTED`): 01_idc_0p6pf, 02_cpw_50ohm, 03_idc_cpw_test_structure, 04_spiral_inductor_3nh",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 26,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
@@ -2776,40 +2629,12 @@
         "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: split execution/generation environment identity"
+        "fresh external solver execution in this environment"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: actual solver execution",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: finite parsed output",
-        "examples/showcase/04_spiral_inductor_3nh/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "PROJECT_STATUS.md",
       "subject": "01_idc_0p6pf,02_cpw_50ohm,03_idc_cpw_test_structure,04_spiral_inductor_3nh",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with OUTPUT_PARSED; keep target_tolerance_passed separate."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "54f475e6b8c015a7",
@@ -3016,12 +2841,12 @@
       "suggested_replacement": "Keep claim conservative or link a machine-readable evidence record."
     },
     {
-      "claim_id": "703e9c487d84f447",
-      "claim_text": "- **PHYSICS_VERIFIED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise.",
-      "claim_type": "physics_verified",
-      "claimed_level": "PHYSICS_VERIFIED",
-      "computed_level": "NUMERICALLY_CONVERGED",
-      "downgrade_required": true,
+      "claim_id": "5b981c69411dc573",
+      "claim_text": "- **NUMERICALLY_CONVERGED currently exists for `01_idc_0p6pf`, `02_cpw_50ohm`, `03_idc_cpw_test_structure`.** Other scopes remain analytical, executed-without-convergence, invalid, prepared, or honestly skipped unless their canonical evidence says otherwise. No showcase carries full physics signoff.",
+      "claim_type": "solver_execution",
+      "claimed_level": "IMPLEMENTED",
+      "computed_level": "IMPLEMENTED",
+      "downgrade_required": false,
       "line": 64,
       "linked_evidence": [
         "examples/showcase/01_idc_0p6pf/evidence/canonical.json",
@@ -3029,33 +2854,12 @@
         "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json"
       ],
       "missing_mandatory_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: split execution/generation environment identity",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: non-empty passing physical sanity checks",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: solver identity hash or immutable container digest",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: split execution/generation environment identity"
+        "fresh external solver execution in this environment"
       ],
-      "passed_gates": [
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: actual solver execution",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: finite parsed output",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/01_idc_0p6pf/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: actual solver execution",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: finite parsed output",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/02_cpw_50ohm/evidence/canonical.json: independent reference or measurement",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: actual solver execution",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: finite parsed output",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent numerical-convergence evidence",
-        "examples/showcase/03_idc_cpw_test_structure/evidence/canonical.json: independent reference or measurement"
-      ],
+      "passed_gates": [],
       "source_file": "PROJECT_STATUS.md",
       "subject": "01_idc_0p6pf,02_cpw_50ohm,03_idc_cpw_test_structure",
-      "suggested_replacement": "Replace PHYSICS_VERIFIED with NUMERICALLY_CONVERGED; keep target_tolerance_passed separate."
+      "suggested_replacement": "State solver execution as conditional or historical unless run evidence is linked."
     },
     {
       "claim_id": "f3afe74b76b54be5",

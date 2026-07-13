@@ -60,7 +60,8 @@ def _target_comparison(record: CanonicalEvidence) -> dict[str, Any]:
         "target": record.target_value,
         "error_pct": record.error_percent,
         "tolerance_pct": record.tolerance_percent,
-        "within_tolerance": record.status is EvidenceStatus.PHYSICS_VERIFIED,
+        "within_tolerance": record.target_tolerance_passed is True,
+        "target_tolerance_passed": record.target_tolerance_passed is True,
     }
 
 
@@ -69,6 +70,8 @@ def render_simulation_json(record: CanonicalEvidence, path: Path) -> bool:
     if payload is None:
         return False
     payload["status"] = record.status.value
+    payload["scientific_validation_level"] = record.scientific_validation_level
+    payload["target_tolerance_passed"] = record.target_tolerance_passed
     payload["extracted_value"] = record.extracted_value
     payload["extracted_unit"] = record.extracted_unit
     payload["solver_executed"] = record.status not in {
@@ -89,6 +92,8 @@ def render_simulation_json(record: CanonicalEvidence, path: Path) -> bool:
             if not isinstance(item, dict) or item.get("quantity") != record.target_quantity:
                 continue
             item["status"] = record.status.value
+            item["scientific_validation_level"] = record.scientific_validation_level
+            item["target_tolerance_passed"] = record.target_tolerance_passed
             item["extracted_value"] = record.extracted_value
             item["extracted_unit"] = record.extracted_unit
             item["target_value"] = record.target_value
@@ -101,6 +106,8 @@ def render_simulation_json(record: CanonicalEvidence, path: Path) -> bool:
                 item["notes"] = [f"SIMULATION_INVALID: {record.invalidation_reason}"]
 
     payload["canonical_evidence_id"] = record.evidence_id
+    payload["scientific_validation_level"] = record.scientific_validation_level
+    payload["target_tolerance_passed"] = record.target_tolerance_passed
     _dump(path, payload)
     return True
 
@@ -159,6 +166,8 @@ def render_workflow_trace(record: CanonicalEvidence, path: Path) -> bool:
     reported = _run_reported_status(payload)
     payload["canonical_evidence_id"] = record.evidence_id
     payload["canonical_evidence_status"] = record.status.value
+    payload["scientific_validation_level"] = record.scientific_validation_level
+    payload["target_tolerance_passed"] = record.target_tolerance_passed
     if reported and reported != record.status.value:
         payload["run_reported_status"] = reported
         payload["historical_note"] = (
@@ -204,7 +213,8 @@ def evidence_block_markdown(record: CanonicalEvidence) -> str:
         "",
         "<!-- Generated from evidence/canonical.json. Do not edit by hand. -->",
         "",
-        f"- **Status:** `{record.status.value}`",
+        f"- **Scientific validation level:** `{record.scientific_validation_level or record.status.value}`",
+        f"- **Target tolerance passed:** `{record.target_tolerance_passed}`",
         f"- **Confidence:** `{record.confidence_class.name}`",
         f"- Evidence id: `{record.evidence_id}`",
         f"- Analysis scope: `{record.analysis_scope}`",
@@ -256,6 +266,8 @@ def evidence_block_markdown(record: CanonicalEvidence) -> str:
         ]
     for gap in record.provenance_gaps:
         lines.append(f"- Provenance gap: `{gap}`")
+    for gate in record.missing_scientific_validation_gates:
+        lines.append(f"- Missing scientific-validation gate: `{gate}`")
     # Fabrication readiness is a *different scope* from the quantity status
     # above: an impedance can be PHYSICS_VERIFIED while the design still has no
     # DRC/LVS signoff. Label the scope, because a bare `NOT_FABRICATION_READY`

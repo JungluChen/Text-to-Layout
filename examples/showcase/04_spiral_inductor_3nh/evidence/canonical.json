@@ -16,11 +16,20 @@
   "analytical_model": "Modified-Wheeler / Mohan planar spiral inductor",
   "tolerance_percent": 5.0,
   "error_percent": -1.389719,
+  "target_tolerance_passed": true,
+  "scientific_validation_level": "OUTPUT_PARSED",
+  "missing_scientific_validation_gates": [
+    "solver identity hash or immutable container digest",
+    "non-empty passing physical sanity checks",
+    "independent numerical-convergence evidence",
+    "split execution/generation environment identity"
+  ],
   "status": "SIMULATION_EXECUTED",
   "solver_name": "fasthenry",
   "solver_version": "FastHenry 3.0.1",
   "solver_executable_sha256": null,
   "container_digest": null,
+  "solver_container_digest": null,
   "command": [
     "wsl",
     "bash",
@@ -57,8 +66,14 @@
   "depends_on": [],
   "blocking_reason": null,
   "git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
-  "environment_hash": "07fc95c91e3cc68705578af6874fbe771a876dacbb51a9e1a2b8e4795ebba1d5",
-  "timestamp": "2026-07-13T12:11:11+00:00",
+  "environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
+  "timestamp": "2026-07-13T14:03:05+00:00",
+  "solver_execution_environment_hash": null,
+  "solver_execution_git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
+  "solver_executed_at": null,
+  "evidence_generation_environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
+  "evidence_generation_git_commit": "35335ef22ef93a6bebdb9b55f8a033cb37962c9e",
+  "evidence_generated_at": "2026-07-13T14:03:05+00:00",
   "warnings": [
     "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
     "Conductor conductivity and thickness are generic and require process replacement."

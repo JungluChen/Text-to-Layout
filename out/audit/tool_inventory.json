@@ -1,5 +1,5 @@
 {
-  "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+  "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
   "schema": "textlayout.audit.tool-inventory.v2",
   "tool_state_ladder": [
     "UNREGISTERED",
@@ -20,7 +20,7 @@
   "tools": [
     {
       "canonical_name": "Gmsh",
-      "current_state": "INSTALLED",
+      "current_state": "LICENSE_REVIEWED",
       "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "gmsh",
@@ -33,12 +33,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "gmsh",
         "distribution_version": null,
+        "expected_version": "4.15.2",
         "import_return_code": 1,
         "import_stderr_sha256": "57f945cde83d4c732ae432fed0d99b11ae38d16ce5d56c0cdee1cd6b5e3a99cb",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "gmsh",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -53,7 +58,7 @@
         "lock entry exists",
         "locked checksum marked verified",
         "license review recorded",
-        "executable found on PATH"
+        "package spec absent in active interpreter"
       ]
     },
     {
@@ -71,12 +76,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "JosephsonCircuits",
         "distribution_version": null,
+        "expected_version": null,
         "import_return_code": 1,
         "import_stderr_sha256": "7f474b529cfccc585c4a5a31ebd45b7387428af0ad2a21ad1f162fbd3739a272",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "JosephsonCircuits",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -90,7 +100,8 @@
         "registry entry exists",
         "lock entry exists",
         "locked checksum marked verified",
-        "license review recorded"
+        "license review recorded",
+        "package spec absent in active interpreter"
       ]
     },
     {
@@ -148,12 +159,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "kqcircuits",
         "distribution_version": null,
+        "expected_version": null,
         "import_return_code": 1,
         "import_stderr_sha256": "7f2bd5863cd1da0eac35aef2742abd99bab535768021ebf017fc6689233886dc",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "kqcircuits",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -167,7 +183,8 @@
         "registry entry exists",
         "lock entry exists",
         "locked checksum marked verified",
-        "license review recorded"
+        "license review recorded",
+        "package spec absent in active interpreter"
       ]
     },
     {
@@ -272,7 +289,7 @@
     },
     {
       "canonical_name": "Quantum Metal / Qiskit Metal",
-      "current_state": "INSTALLED",
+      "current_state": "LICENSE_REVIEWED",
       "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "qiskit-metal",
@@ -285,12 +302,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "qiskit-metal",
         "distribution_version": null,
+        "expected_version": null,
         "import_return_code": 1,
         "import_stderr_sha256": "44ee81f7b4c706504032a47c0b9b9fa75a09592d06e0f08026e818e642c122da",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "qiskit_metal",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -305,12 +327,12 @@
         "lock entry exists",
         "locked checksum marked verified",
         "license review recorded",
-        "executable found on PATH"
+        "package spec absent in active interpreter"
       ]
     },
     {
       "canonical_name": "scqubits",
-      "current_state": "INSTALLED",
+      "current_state": "LICENSE_REVIEWED",
       "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "scqubits",
@@ -323,12 +345,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "scqubits",
         "distribution_version": null,
+        "expected_version": null,
         "import_return_code": 1,
         "import_stderr_sha256": "35af875e4875ce96e89f4c21e679d4c48aa2b3d6e2793e1a331017039b35ee50",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "scqubits",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -343,7 +370,7 @@
         "lock entry exists",
         "locked checksum marked verified",
         "license review recorded",
-        "executable found on PATH"
+        "package spec absent in active interpreter"
       ]
     },
     {
@@ -380,7 +407,7 @@
     },
     {
       "canonical_name": "SQuADDS",
-      "current_state": "INSTALLED",
+      "current_state": "LICENSE_REVIEWED",
       "executable_path": "$ABS_PATH:2d0a8b2713c11f7d",
       "executable_probe": "py",
       "id": "squadds",
@@ -393,12 +420,17 @@
         "active_python_executable_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
         "distribution_name": "squadds",
         "distribution_version": null,
+        "expected_version": null,
         "import_return_code": 1,
         "import_stderr_sha256": "68c930e1ae6b8b02989554fceabdb8e60617f76e17af37084cee9d9654ab570a",
         "import_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "import_success": false,
+        "metadata_present": false,
         "package_name": "squadds",
         "package_root": null,
         "present": false,
+        "spec_present": false,
+        "version_matches_expected": null,
         "virtual_environment": {
           "base_prefix": "$ABS_PATH:0303c071e0d0d6fd",
           "is_venv": true,
@@ -413,7 +445,7 @@
         "lock entry exists",
         "locked checksum marked verified",
         "license review recorded",
-        "executable found on PATH"
+        "package spec absent in active interpreter"
       ]
     }
   ]

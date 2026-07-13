@@ -43,9 +43,15 @@ def _fingerprint(record: CanonicalEvidence) -> str:
 def _content_fingerprint(record: CanonicalEvidence) -> str:
     """Hash evidence content while excluding stable audit metadata."""
     payload = record.to_dict()
-    payload.pop("timestamp", None)
-    payload.pop("git_commit", None)
-    payload.pop("environment_hash", None)
+    for key in (
+        "timestamp",
+        "git_commit",
+        "environment_hash",
+        "evidence_generation_environment_hash",
+        "evidence_generation_git_commit",
+        "evidence_generated_at",
+    ):
+        payload.pop(key, None)
     return sha256_json(payload)
 
 
@@ -76,13 +82,23 @@ def _stabilised(fresh: CanonicalEvidence, existing_path: Path) -> CanonicalEvide
     if _content_fingerprint(previous_record) != _content_fingerprint(fresh):
         return fresh
 
-    updates: dict[str, str] = {"timestamp": stamp}
-    previous_commit = previous.get("git_commit")
-    if isinstance(previous_commit, str):
-        updates["git_commit"] = previous_commit
-    previous_environment_hash = previous.get("environment_hash")
-    if isinstance(previous_environment_hash, str):
-        updates["environment_hash"] = previous_environment_hash
+    updates: dict[str, str | None] = {"timestamp": stamp}
+    for key in (
+        "git_commit",
+        "environment_hash",
+        "evidence_generation_environment_hash",
+        "evidence_generation_git_commit",
+        "evidence_generated_at",
+        "solver_execution_environment_hash",
+        "solver_execution_git_commit",
+        "solver_executable_sha256",
+        "solver_container_digest",
+        "solver_executed_at",
+        "container_digest",
+    ):
+        previous_value = previous.get(key)
+        if isinstance(previous_value, str) or previous_value is None:
+            updates[key] = previous_value
     candidate = fresh.model_copy(update=updates)
     return candidate
 

@@ -220,6 +220,15 @@ class CanonicalEvidence(BaseModel):
     analytical_model: str | None = None
     tolerance_percent: float = Field(default=5.0, gt=0)
     error_percent: float | None = None
+    target_tolerance_passed: bool | None = Field(
+        default=None,
+        description="Whether the parsed solver value is within the declared design tolerance.",
+    )
+    scientific_validation_level: str | None = Field(
+        default=None,
+        description="Audit-facing level such as OUTPUT_PARSED or NUMERICALLY_CONVERGED.",
+    )
+    missing_scientific_validation_gates: list[str] = Field(default_factory=list)
 
     status: EvidenceStatus
 
@@ -227,6 +236,7 @@ class CanonicalEvidence(BaseModel):
     solver_version: str | None = None
     solver_executable_sha256: str | None = None
     container_digest: str | None = None
+    solver_container_digest: str | None = None
     command: list[str] = Field(default_factory=list)
     return_code: int | None = None
     runtime_seconds: float | None = None
@@ -252,6 +262,12 @@ class CanonicalEvidence(BaseModel):
         default=None, description="SHA-256 of the lock file the run used."
     )
     timestamp: str
+    solver_execution_environment_hash: str | None = None
+    solver_execution_git_commit: str | None = None
+    solver_executed_at: str | None = None
+    evidence_generation_environment_hash: str | None = None
+    evidence_generation_git_commit: str | None = None
+    evidence_generated_at: str | None = None
 
     warnings: list[str] = Field(default_factory=list)
     invalidation_reason: str | None = None

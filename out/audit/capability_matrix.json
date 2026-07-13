@@ -4,7 +4,7 @@
       "blocked_gates": [],
       "capability": "core wheel and CLI",
       "computed_level": "FRESH_ENVIRONMENT_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -33,12 +33,12 @@
       "blocked_gates": [],
       "capability": "CanonicalEvidence semantics",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
           "path": "src/textlayout/evidence/canonical.py",
-          "sha256": "98e3bfcf5aec710c65630416f4b2f14519cc4ceebd54791d2fa85078a6cdcbf8"
+          "sha256": "56bba9c7fc46a72ef733bb23a73dd47f177b2cd13e2a6b5667c4f4ae5b3279a6"
         },
         {
           "exists": true,
@@ -56,7 +56,7 @@
       "blocked_gates": [],
       "capability": "OCI stack",
       "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -71,7 +71,7 @@
         {
           "exists": true,
           "path": "out/audit/klayout_image.json",
-          "sha256": "f448972d284d3e000fa1c72077f5ac57cfbe376fee85d50b1819ac9f5e2ef9b2"
+          "sha256": "33beb5665bf82372247d4417af7577ab2a9b16e81125d53dbcdf1315d1b9db75"
         }
       ],
       "failed_gates": [],
@@ -85,7 +85,7 @@
       "blocked_gates": [],
       "capability": "Palace parser/MAC",
       "computed_level": "REAL_FIXTURE_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -108,7 +108,7 @@
       "blocked_gates": [],
       "capability": "Palace real execution",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -134,7 +134,7 @@
       "blocked_gates": [],
       "capability": "critical-region coverage",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -157,7 +157,7 @@
       "blocked_gates": [],
       "capability": "KLayout DRC",
       "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -180,7 +180,7 @@
       "blocked_gates": [],
       "capability": "KLayout partial LVS",
       "computed_level": "INTEGRATION_TEST_PASSED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -198,7 +198,7 @@
       "blocked_gates": [],
       "capability": "JosephsonCircuits",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -224,7 +224,7 @@
       "blocked_gates": [],
       "capability": "openEMS",
       "computed_level": "REAL_FIXTURE_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -247,7 +247,7 @@
       "blocked_gates": [],
       "capability": "FasterCap",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -269,7 +269,7 @@
       "blocked_gates": [],
       "capability": "FastHenry",
       "computed_level": "IMPLEMENTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,
@@ -291,7 +291,7 @@
       "blocked_gates": [],
       "capability": "showcase evidence",
       "computed_level": "UNIT_TESTED",
-      "evaluated_at_commit": "36d6c9cf8f10285e7400274b0e03f92670e144df",
+      "evaluated_at_commit": "fc02364509d11029d74ae2b8efbb21c7ec592d04",
       "evidence_hashes": [
         {
           "exists": true,

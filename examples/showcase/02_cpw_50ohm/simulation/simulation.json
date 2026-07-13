@@ -13,7 +13,8 @@
     "target": 50.0,
     "error_pct": -0.574931,
     "tolerance_pct": 5.0,
-    "within_tolerance": true
+    "within_tolerance": true,
+    "target_tolerance_passed": true
   },
   "artifacts": {
     "model": "extraction\\capacitance_input\\openems_model.json",
@@ -68,7 +69,9 @@
         "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
         "Boundary placement and mesh convergence must be reviewed before signoff."
       ],
-      "canonical_evidence_id": "525c5c091c57223099a616761124d031"
+      "canonical_evidence_id": "525c5c091c57223099a616761124d031",
+      "scientific_validation_level": "NUMERICALLY_CONVERGED",
+      "target_tolerance_passed": true
     }
   ],
   "backends": {
@@ -77,5 +80,7 @@
     "wrspice": null
   },
   "physics_verified": true,
-  "canonical_evidence_id": "525c5c091c57223099a616761124d031"
+  "canonical_evidence_id": "525c5c091c57223099a616761124d031",
+  "scientific_validation_level": "NUMERICALLY_CONVERGED",
+  "target_tolerance_passed": true
 }

@@ -49,7 +49,8 @@ Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input lin
 
 <!-- Generated from evidence/canonical.json. Do not edit by hand. -->
 
-- **Status:** `SIMULATION_INVALID`
+- **Scientific validation level:** `SIMULATION_INVALID`
+- **Target tolerance passed:** `None`
 - **Confidence:** `NONE`
 - Evidence id: `b5e514d1281a9d0fd74c2f47cbb42128`
 - Analysis scope: `resonator_plus_coupler`

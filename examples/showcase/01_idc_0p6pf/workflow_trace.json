@@ -708,5 +708,7 @@
     }
   ],
   "canonical_evidence_id": "15feda89b0a0e45314a933af087d234b",
-  "canonical_evidence_status": "PHYSICS_VERIFIED"
+  "canonical_evidence_status": "PHYSICS_VERIFIED",
+  "scientific_validation_level": "NUMERICALLY_CONVERGED",
+  "target_tolerance_passed": true
 }

@@ -13,7 +13,8 @@
     "target": 3.0,
     "error_pct": -1.389719,
     "tolerance_pct": 5.0,
-    "within_tolerance": false
+    "within_tolerance": true,
+    "target_tolerance_passed": true
   },
   "artifacts": {
     "input": "extraction\\capacitance_input\\spiral.inp",
@@ -65,7 +66,9 @@
         "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
         "Conductor conductivity and thickness are generic and require process replacement."
       ],
-      "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176"
+      "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
+      "scientific_validation_level": "OUTPUT_PARSED",
+      "target_tolerance_passed": true
     }
   ],
   "backends": {
@@ -74,5 +77,7 @@
     "wrspice": null
   },
   "physics_verified": true,
-  "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176"
+  "canonical_evidence_id": "731a7af91767c62aaf145ef32dc1d176",
+  "scientific_validation_level": "OUTPUT_PARSED",
+  "target_tolerance_passed": true
 }
