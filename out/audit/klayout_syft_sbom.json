@@ -8,7 +8,7 @@
     "-v",
     "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit:/out",
     "anchore/syft@sha256:473a60e3a58e29aca3aedb3e99e787bb4ef273917e44d10fcbea4330a07320bb",
-    "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
+    "textlayout/klayout@sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09",
     "-o",
     "spdx-json=/out/klayout.syft.spdx.json"
   ],
@@ -26,13 +26,13 @@
     "version_stdout_sha256": "34880972b42e312e6753a4852c66550198f45c8149ad372bc3c0b71e3ed0c43b"
   },
   "return_code": 0,
-  "runtime_seconds": 15.497,
+  "runtime_seconds": 15.903,
   "sbom_path": "out/audit/klayout.syft.spdx.json",
-  "sbom_sha256": "1ca43ec3d0cca9b30f9efdd3c16148ceba7651833c763104b6dc371dfc25a292",
+  "sbom_sha256": "1ac09af5a03a4c5258670691c30504cd0da104e1cc0888245d4fd5976adffa3d",
   "schema": "textlayout.syft-sbom-generation.v1",
   "status": "SYFT_SBOM_GENERATED",
   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "target_image": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
-  "target_image_digest": "sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c"
+  "target_image": "textlayout/klayout@sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09",
+  "target_image_digest": "sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09"
 }

@@ -5,8 +5,8 @@
       "capability": "core wheel and CLI",
       "computed_level": "FRESH_ENVIRONMENT_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -38,8 +38,8 @@
       "capability": "CanonicalEvidence semantics",
       "computed_level": "UNIT_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -65,8 +65,8 @@
       "capability": "OCI stack",
       "computed_level": "INTEGRATION_TEST_PASSED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -81,7 +81,7 @@
         {
           "exists": true,
           "path": "out/audit/klayout_image.json",
-          "sha256": "cb853c1c286788f168779281430a1c2f216e0a6a7d2bb7ed1f5d9ac560020901"
+          "sha256": "b9bcbefea212297a1be56b123e1aabf6b9f6b1125f0b2eddac47301c877ca0e4"
         }
       ],
       "failed_gates": [],
@@ -98,8 +98,8 @@
       "capability": "Palace parser/MAC",
       "computed_level": "REAL_FIXTURE_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -125,8 +125,8 @@
       "capability": "Palace real execution",
       "computed_level": "IMPLEMENTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -160,8 +160,8 @@
       "capability": "critical-region coverage",
       "computed_level": "UNIT_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -187,13 +187,13 @@
       "capability": "KLayout installation smoke",
       "computed_level": "INTEGRATION_TEST_PASSED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
           "path": "out/audit/klayout_image.json",
-          "sha256": "cb853c1c286788f168779281430a1c2f216e0a6a7d2bb7ed1f5d9ac560020901"
+          "sha256": "b9bcbefea212297a1be56b123e1aabf6b9f6b1125f0b2eddac47301c877ca0e4"
         },
         {
           "exists": true,
@@ -220,13 +220,13 @@
       "capability": "Typed PDK DRC",
       "computed_level": "INTEGRATION_TEST_PASSED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
           "path": "out/audit/klayout_containerized_drc.json",
-          "sha256": "9eabb788b73c509ac376d0a5066756ba3ea12f867e4175de6d125a00f2f03f7f"
+          "sha256": "67fcabc8a0c679ead601525e379605ee524ecafb98a7224e53bea04d60cb368f"
         },
         {
           "exists": true,
@@ -259,8 +259,8 @@
       "capability": "KLayout layer-population smoke",
       "computed_level": "INTEGRATION_TEST_PASSED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -280,8 +280,8 @@
       "capability": "KLayout partial electrical LVS",
       "computed_level": "INTEGRATION_TEST_PASSED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -319,8 +319,8 @@
       "capability": "JosephsonCircuits",
       "computed_level": "IMPLEMENTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -354,8 +354,8 @@
       "capability": "openEMS",
       "computed_level": "REAL_FIXTURE_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -381,8 +381,8 @@
       "capability": "FasterCap",
       "computed_level": "IMPLEMENTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -412,8 +412,8 @@
       "capability": "FastHenry",
       "computed_level": "IMPLEMENTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,
@@ -443,8 +443,8 @@
       "capability": "showcase evidence",
       "computed_level": "UNIT_TESTED",
       "consistency_errors": [],
-      "evaluated_source_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
-      "evidence_generated_commit": "bb40c460b96521841ff8aba068d48a6620e12e84",
+      "evaluated_source_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
+      "evidence_generated_commit": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f",
       "evidence_hashes": [
         {
           "exists": true,

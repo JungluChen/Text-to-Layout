@@ -6,11 +6,11 @@
   },
   "policy_hash": "aeaa48cf1b81b6a77dbea727c643bfd6ad0904e2f0421f8fbdeb5773d306cbf2",
   "report_path": "out/audit/klayout.trivy.json",
-  "report_sha256": "327779c314da8e2cd991984ab40f14b7043e3f549920de968336ca6606bbfe95",
+  "report_sha256": "3931cbb143b4371e57d62da0d293d6248e57e65ea0c5e994cc3ff8f13db91727",
   "scanned_image": {
-    "digest": "sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
-    "image": "textlayout/klayout@sha256:94e76d502e13825243454ef3c99b8291a4d218921d6a2673980ec5e58250265c",
-    "revision_label": "14811db234d4eb6ea663180d142532bc9d87f965"
+    "digest": "sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09",
+    "image": "textlayout/klayout@sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09",
+    "revision_label": "d8f6252345f7a2a1a6f475c9727e20d4dc10b57f"
   },
   "schema": "textlayout.trivy-policy.v1",
   "status": "PASSED",
