@@ -30,6 +30,15 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def evidence_command(command: list[str], fixture_out: Path) -> list[str]:
+    """Redact host mount roots while preserving the executable command shape."""
+    mappings = ((str(fixture_out), "$REPORT_DIR"), (str(REPO), "$REPO"))
+    return [
+        next((item.replace(source, label) for source, label in mappings if source in item), item)
+        for item in command
+    ]
+
+
 def parse_lyrdb(path: Path) -> dict[str, Any]:
     root = ET.parse(path).getroot()
     categories = [
@@ -142,7 +151,7 @@ def run_fixture(image: str, fixture: dict[str, Any], manifest: dict[str, Any], o
             json.dumps([rule.to_dict() for rule in compile_drc_rules(pdk)], sort_keys=True)
         ),
         "lydrc_sha256": sha256(runset),
-        "command": command,
+        "command": evidence_command(command, fixture_out),
         "return_code": result.returncode,
         "stdout_sha256": sha256(stdout),
         "stderr_sha256": sha256(stderr),

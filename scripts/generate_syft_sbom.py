@@ -39,6 +39,11 @@ def image_id(image: str) -> str | None:
     return result.stdout.strip() if result.returncode == 0 else None
 
 
+def evidence_command(command: list[str], output_directory: Path) -> list[str]:
+    """Remove the local checkout path from the persisted Docker invocation."""
+    return [item.replace(str(output_directory), "$OUTPUT_DIR") for item in command]
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", default=KLAYOUT_IMAGE)
@@ -72,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
         "target_image_digest": args.image.split("@", 1)[1] if "@" in args.image else image_id(args.image),
         "sbom_path": str(out.relative_to(REPO)).replace("\\", "/"),
         "sbom_sha256": sha256(out),
-        "command": command,
+        "command": evidence_command(command, out.parent),
         "return_code": result.returncode,
         "stdout_sha256": hashlib.sha256(result.stdout.encode()).hexdigest(),
         "stderr_sha256": hashlib.sha256(result.stderr.encode()).hexdigest(),

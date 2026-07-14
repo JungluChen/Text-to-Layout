@@ -6,7 +6,7 @@
     "-v",
     "/var/run/docker.sock:/var/run/docker.sock",
     "-v",
-    "C:\\Users\\justi\\Desktop\\Layout\\text-to-gds\\out\\audit:/out",
+    "$OUTPUT_DIR:/out",
     "anchore/syft@sha256:473a60e3a58e29aca3aedb3e99e787bb4ef273917e44d10fcbea4330a07320bb",
     "textlayout/klayout@sha256:e711b139384fa2b1124fa9f851053a430fffe3a094c44a1f9630f25997254b09",
     "-o",
