@@ -20,6 +20,11 @@ from textlayout.solvers.palace.models import (
     classify_mac_applicability,
     PalaceOutputError,
 )
+from textlayout.solvers.palace.mode_sanity import (
+    evaluate_quarter_wave_energy_profiles,
+    QuarterWaveSanitySettings,
+    ResonatorEndpointMetadata,
+)
 from textlayout.solvers.palace.parser import _decode_vtk_array, field_artifact_files
 
 EPSILON_0_F_PER_M = 8.8541878128e-12
@@ -593,12 +598,13 @@ def quarter_wave_longitudinal_sanity(
     corridor_half_width: float = 100.0,
     interface_half_height: float = 100.0,
     bins: int = 20,
+    local_mesh_size: float = 3.0,
+    conductor_dimension: float = 10.0,
 ) -> dict[str, Any]:
     """Measure quarter-wave electric and magnetic energy profiles near the CPW."""
     if electrical_length <= 0.0 or bins < 4:
         raise ValueError("electrical_length must be positive and bins must be at least four")
-    profiles: dict[str, npt.NDArray[np.float64]] = {}
-    selected_cells = 0
+    samples: dict[str, tuple[npt.NDArray[np.float64], npt.NDArray[np.complex128], npt.NDArray[np.float64]]] = {}
     for kind in ("electric", "magnetic"):
         mesh = _integration_mesh(field, kind)
         selected = (
@@ -609,52 +615,33 @@ def quarter_wave_longitudinal_sanity(
         )
         if not np.any(selected):
             raise PalaceOutputError("quarter-wave sanity corridor contains no field cells")
-        selected_cells = max(selected_cells, int(selected.sum()))
         values = mesh.cell_fields[selected]
         tensors = _tensors(material_map, mesh.attributes[selected], kind)
         weighted = np.einsum("nij,nj->ni", tensors, values)
-        density = np.real(np.einsum("ni,ni->n", np.conjugate(values), weighted))
-        energy = density * mesh.volumes[selected]
-        indices = np.minimum(
-            (mesh.centroids[selected, 1] / electrical_length * bins).astype(int), bins - 1
+        phasor_density = np.einsum("ni,ni->n", values, weighted)
+        samples[kind] = (
+            mesh.centroids[selected, 1],
+            np.asarray(phasor_density, dtype=np.complex128),
+            mesh.volumes[selected],
         )
-        profile = np.bincount(indices, weights=energy, minlength=bins).astype(float)
-        if profile.sum() <= 0.0:
-            raise PalaceOutputError(f"quarter-wave {kind} profile has zero energy")
-        profiles[kind] = profile / profile.sum()
-    electric = profiles["electric"]
-    magnetic = profiles["magnetic"]
-    positions = (np.arange(bins, dtype=float) + 0.5) / bins
-    electric_reference = np.sin(0.5 * np.pi * positions) ** 2
-    magnetic_reference = np.cos(0.5 * np.pi * positions) ** 2
-
-    def correlation(values: npt.NDArray[np.float64], expected: npt.NDArray[np.float64]) -> float:
-        return float(np.corrcoef(values, expected)[0, 1])
-
-    endpoint_bins = max(1, bins // 10)
-    electric_ground = float(electric[:endpoint_bins].sum())
-    electric_open = float(electric[-endpoint_bins:].sum())
-    magnetic_ground = float(magnetic[:endpoint_bins].sum())
-    magnetic_open = float(magnetic[-endpoint_bins:].sum())
-    return {
-        "schema": "textlayout.palace-quarter-wave-sanity.v1",
-        "selected_cell_count": selected_cells,
-        "bin_count": bins,
-        "electric_profile": electric.tolist(),
-        "magnetic_profile": magnetic.tolist(),
-        "electric_open_to_ground_ratio": electric_open / max(electric_ground, 1e-300),
-        "magnetic_ground_to_open_ratio": magnetic_ground / max(magnetic_open, 1e-300),
-        "electric_quarter_wave_profile_correlation": correlation(
-            electric, electric_reference
+    electric_position, electric_phasor, electric_weight = samples["electric"]
+    magnetic_position, magnetic_phasor, magnetic_weight = samples["magnetic"]
+    result = evaluate_quarter_wave_energy_profiles(
+        electric_positions=electric_position,
+        electric_energy_phasors=electric_phasor,
+        electric_weights=electric_weight,
+        magnetic_positions=magnetic_position,
+        magnetic_energy_phasors=magnetic_phasor,
+        magnetic_weights=magnetic_weight,
+        endpoints=ResonatorEndpointMetadata(
+            grounded_coordinate=0.0,
+            open_coordinate=electrical_length,
+            local_mesh_size=local_mesh_size,
+            conductor_dimension=conductor_dimension,
         ),
-        "magnetic_quarter_wave_profile_correlation": correlation(
-            magnetic, magnetic_reference
-        ),
-        "electric_antinode_near_open_end": electric_open > electric_ground,
-        "electric_node_near_grounded_end": electric_ground < electric_open,
-        "magnetic_antinode_near_grounded_end": magnetic_ground > magnetic_open,
-        "magnetic_node_near_open_end": magnetic_open < magnetic_ground,
-    }
+        settings=QuarterWaveSanitySettings(bins=bins),
+    )
+    return result.model_dump(mode="json", by_alias=True)
 
 
 def _tetra_quadrature(order: int) -> list[tuple[npt.NDArray[np.float64], float]]:

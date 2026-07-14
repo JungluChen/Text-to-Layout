@@ -1144,6 +1144,8 @@ def _bounded_overlap_and_energy_report(
     material_map: MaterialOverlapMap,
     *,
     electrical_length: float,
+    endpoint_mesh_size: float,
+    conductor_dimension: float,
     energy_tolerance_percent: float = 2.0,
     max_process_rss_bytes: int | None = None,
 ) -> Path:
@@ -1230,6 +1232,8 @@ def _bounded_overlap_and_energy_report(
         right,
         material_map=material_map,
         electrical_length=electrical_length,
+        local_mesh_size=endpoint_mesh_size,
+        conductor_dimension=conductor_dimension,
     )
     final_localization = fields[-1].resonator_localization
     physical_sanity.update(
@@ -1239,15 +1243,8 @@ def _bounded_overlap_and_energy_report(
             "stable_target_identity": tracked[0] > 0 and tracked[1] > 0,
         }
     )
-    sanity_passed = all(
-        bool(physical_sanity[name])
-        for name in (
-            "electric_antinode_near_open_end",
-            "electric_node_near_grounded_end",
-            "magnetic_antinode_near_grounded_end",
-            "magnetic_node_near_open_end",
-            "stable_target_identity",
-        )
+    sanity_passed = bool(physical_sanity["passed"]) and bool(
+        physical_sanity["stable_target_identity"]
     )
     write_json(
         {
@@ -1961,6 +1958,12 @@ def run_quarter_wave_benchmark_v017(
                 tracked,
                 material_map,
                 electrical_length=float(geometry.metadata["electrical_length_um"]),
+                endpoint_mesh_size=min(
+                    refinement.characteristic_length
+                    for refinement in model.mesh.refinements
+                    if refinement.target in {"open_end", "grounded_end"}
+                ),
+                conductor_dimension=params.center_width_um,
                 max_process_rss_bytes=bounded.max_rss_bytes,
             )
             complete_atomic_stage(

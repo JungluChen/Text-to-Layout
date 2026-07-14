@@ -8,6 +8,12 @@ from textlayout.solvers.palace.models import (
     PalaceOutputError,
     PalaceUnavailable,
 )
+from textlayout.solvers.palace.mode_sanity import (
+    evaluate_quarter_wave_energy_profiles,
+    QuarterWaveSanityResult,
+    QuarterWaveSanitySettings,
+    ResonatorEndpointMetadata,
+)
 
 __all__ = [
     "Eigenmode",
@@ -15,5 +21,9 @@ __all__ = [
     "PalaceCapability",
     "PalaceOutputError",
     "PalaceUnavailable",
+    "QuarterWaveSanityResult",
+    "QuarterWaveSanitySettings",
+    "ResonatorEndpointMetadata",
     "detect_palace",
+    "evaluate_quarter_wave_energy_profiles",
 ]
