@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from time import perf_counter
 from typing import Any, Literal, cast
 from xml.etree import ElementTree
 
@@ -20,6 +21,9 @@ from textlayout.solvers.palace.models import (
     PalaceOutputError,
 )
 from textlayout.solvers.palace.parser import _decode_vtk_array, field_artifact_files
+
+EPSILON_0_F_PER_M = 8.8541878128e-12
+MU_0_H_PER_M = 1.25663706212e-6
 
 
 def _tensor(value: object, *, what: str) -> tuple[tuple[float, float, float], ...]:
@@ -84,6 +88,7 @@ def build_material_overlap_map(
         "schema_version": "textlayout.palace-material-overlap.v1",
         "model_sha256": model_hash,
         "palace_config_sha256": config_hash,
+        "length_unit_m": model.length_unit_m,
         "entries": [entry.model_dump(mode="json") for entry in entries],
         "critical_surface_attribute_ids": sorted(model.critical_surface_attributes),
         "critical_near_field_region_names": sorted(model.critical_near_field_region_names),
@@ -108,6 +113,149 @@ class _Mesh:
     unsupported_cells: int
     raw_total_volume: float
     mesh_sha256: str
+
+
+@dataclass
+class _LocatorMetrics:
+    build_seconds: float = 0.0
+    query_seconds: float = 0.0
+    query_count: int = 0
+    candidate_count: int = 0
+    maximum_candidates: int = 0
+    failed_queries: int = 0
+    material_mismatch_rejections: int = 0
+    maximum_candidate_centroid_distance: float = 0.0
+    peak_process_rss_bytes: int = 0
+
+
+class _MaterialAABBLocator:
+    """Material-partitioned cell locator with an indexed bounding-sphere broad phase."""
+
+    def __init__(self, mesh: _Mesh, *, max_process_rss_bytes: int | None = None) -> None:
+        from scipy.spatial import cKDTree  # type: ignore[import-untyped]
+
+        started = perf_counter()
+        self._mesh = mesh
+        self._max_process_rss_bytes = max_process_rss_bytes
+        self._groups: dict[
+            int,
+            tuple[
+                npt.NDArray[np.int64],
+                Any,
+                npt.NDArray[np.float64],
+                npt.NDArray[np.float64],
+                float,
+            ],
+        ] = {}
+        for attribute in sorted(set(int(value) for value in mesh.attributes)):
+            indices = np.flatnonzero(mesh.attributes == attribute).astype(np.int64)
+            nodes = [mesh.interpolation_nodes[int(index)] for index in indices]
+            lower = np.asarray([item.min(axis=0) for item in nodes], dtype=float)
+            upper = np.asarray([item.max(axis=0) for item in nodes], dtype=float)
+            centroids = mesh.centroids[indices]
+            radii = np.linalg.norm(
+                np.maximum(np.abs(lower - centroids), np.abs(upper - centroids)), axis=1
+            )
+            self._groups[attribute] = (
+                indices,
+                cKDTree(centroids),
+                lower,
+                upper,
+                float(radii.max(initial=0.0)),
+            )
+        self.metrics = _LocatorMetrics(build_seconds=perf_counter() - started)
+
+    def candidates(
+        self, point: npt.NDArray[np.float64], attribute: int
+    ) -> list[tuple[int, float]]:
+        return self.candidate_batches(
+            np.asarray([point]), np.asarray([attribute], dtype=np.int32)
+        )[0]
+
+    def candidate_batches(
+        self,
+        points: npt.NDArray[np.float64],
+        attributes: npt.NDArray[np.int32],
+    ) -> list[list[tuple[int, float]]]:
+        """Query many points while preserving deterministic per-point candidates."""
+        if len(points) != len(attributes):
+            raise ValueError("point and material-attribute counts differ")
+        started = perf_counter()
+        self.metrics.query_count += len(points)
+        output: list[list[tuple[int, float]]] = [[] for _ in range(len(points))]
+        for attribute in sorted(set(int(value) for value in attributes)):
+            rows = np.flatnonzero(attributes == attribute)
+            group = self._groups.get(attribute)
+            if group is None:
+                continue
+            indices, tree, lower, upper, maximum_radius = group
+            queried = tree.query_ball_point(points[rows], maximum_radius, workers=-1)
+            for row, raw_local in zip(rows, queried, strict=True):
+                point = points[row]
+                local = np.asarray(raw_local, dtype=np.int64)
+                if local.size:
+                    tolerance = 64.0 * np.finfo(float).eps * max(
+                        1.0, float(np.max(np.abs(point)))
+                    )
+                    selected = np.all(point >= lower[local] - tolerance, axis=1) & np.all(
+                        point <= upper[local] + tolerance, axis=1
+                    )
+                    local = local[selected]
+                candidates = [
+                    (
+                        int(indices[index]),
+                        float(
+                            np.linalg.norm(
+                                self._mesh.centroids[indices[index]] - point
+                            )
+                        ),
+                    )
+                    for index in local
+                ]
+                candidates.sort(key=lambda item: (item[1], item[0]))
+                output[int(row)] = candidates
+        counts = [len(item) for item in output]
+        self.metrics.candidate_count += sum(counts)
+        self.metrics.maximum_candidates = max(
+            self.metrics.maximum_candidates, max(counts, default=0)
+        )
+        self.metrics.failed_queries += sum(count == 0 for count in counts)
+        self.metrics.maximum_candidate_centroid_distance = max(
+            self.metrics.maximum_candidate_centroid_distance,
+            max((distance for items in output for _, distance in items), default=0.0),
+        )
+        self.metrics.query_seconds += perf_counter() - started
+        try:
+            import psutil  # type: ignore[import-untyped]
+
+            rss = psutil.Process().memory_info().rss
+        except (ImportError, OSError):
+            rss = 0
+        self.metrics.peak_process_rss_bytes = max(
+            self.metrics.peak_process_rss_bytes, rss
+        )
+        if self._max_process_rss_bytes is not None and rss > self._max_process_rss_bytes:
+            raise PalaceOutputError(
+                "RESOURCE_LIMIT_TERMINATED: field projection RSS "
+                f"{rss} exceeds {self._max_process_rss_bytes} bytes"
+            )
+        return output
+
+
+def _locator_result_fields(metrics: _LocatorMetrics) -> dict[str, float | int]:
+    average = metrics.candidate_count / metrics.query_count if metrics.query_count else 0.0
+    return {
+        "spatial_index_build_seconds": metrics.build_seconds,
+        "spatial_index_query_seconds": metrics.query_seconds,
+        "average_candidates_per_point": average,
+        "maximum_candidates_per_point": metrics.maximum_candidates,
+        "failed_point_queries": metrics.failed_queries,
+        "material_mismatch_rejections": metrics.material_mismatch_rejections,
+        "maximum_candidate_centroid_distance": (
+            metrics.maximum_candidate_centroid_distance
+        ),
+        "peak_projection_process_rss_bytes": metrics.peak_process_rss_bytes,
+    }
 
 
 def _optional_array(
@@ -290,16 +438,21 @@ def _geometry_jacobian(
 def _cell_volume(nodes: npt.NDArray[np.float64], order: int) -> float:
     if order == 1:
         edges = nodes[1:4] - nodes[0]
-        return float(abs(np.linalg.det(edges)) / 6.0)
+        determinant = float(np.linalg.det(edges))
+        if determinant <= np.finfo(float).eps:
+            raise PalaceOutputError("tetrahedron has a non-positive or degenerate Jacobian")
+        return determinant / 6.0
     high, low = 0.5854101966249685, 0.1381966011250105
     barycentric_points = [
         np.asarray([high if index == axis else low for index in range(4)])
         for axis in range(4)
     ]
     determinants = [
-        abs(np.linalg.det(_geometry_jacobian(nodes, order, barycentric[1:])))
+        float(np.linalg.det(_geometry_jacobian(nodes, order, barycentric[1:])))
         for barycentric in barycentric_points
     ]
+    if min(determinants) <= np.finfo(float).eps:
+        raise PalaceOutputError("quadratic tetrahedron has a non-positive Jacobian")
     return float(sum(determinants) / 24.0)
 
 
@@ -375,6 +528,135 @@ def _mac_from_samples(
     return max(0.0, min(1.0, float(abs(inner) ** 2 / (norm_a * norm_b))))
 
 
+def reconstruct_field_energy_j(
+    field: Path,
+    *,
+    kind: Literal["electric", "magnetic"],
+    material_map: MaterialOverlapMap,
+    quadrature_order: int = 2,
+) -> float:
+    """Reconstruct time-averaged field energy from Palace's complex VTK field."""
+    mesh = _integration_mesh(field, kind)
+    entries = {entry.attribute: entry for entry in material_map.entries}
+    missing = sorted(set(int(value) for value in mesh.attributes) - set(entries))
+    if missing:
+        raise PalaceOutputError(f"integration attributes lack material assignments: {missing}")
+    total = 0.0
+    if np.all(mesh.interpolation_orders == 1):
+        fields = np.asarray(mesh.interpolation_fields, dtype=np.complex128)
+        tensors = _tensors(material_map, mesh.attributes, kind)
+        determinants = 6.0 * mesh.volumes
+        for barycentric, base_weight in _tetra_quadrature(quadrature_order):
+            values = np.einsum("nvc,v->nc", fields, barycentric)
+            weighted = np.einsum("nij,nj->ni", tensors, values)
+            density = np.real(np.einsum("ni,ni->n", np.conjugate(values), weighted))
+            total += float(np.sum(density * determinants * base_weight))
+        physical_scale = (
+            EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
+        )
+        return 0.5 * physical_scale * total * material_map.length_unit_m**3
+    for nodes, field_values, order, attribute in zip(
+        mesh.interpolation_nodes,
+        mesh.interpolation_fields,
+        mesh.interpolation_orders,
+        mesh.attributes,
+        strict=True,
+    ):
+        entry = entries[int(attribute)]
+        tensor = np.asarray(
+            entry.permittivity if kind == "electric" else entry.permeability,
+            dtype=float,
+        )
+        if kind == "magnetic":
+            tensor = np.linalg.inv(tensor)
+        for barycentric, base_weight in _tetra_quadrature(quadrature_order):
+            jacobian = _geometry_jacobian(nodes, int(order), barycentric[1:])
+            determinant = float(np.linalg.det(jacobian))
+            if determinant <= 0.0:
+                raise PalaceOutputError("non-positive Jacobian during energy reconstruction")
+            value = _interpolate_cell(nodes, field_values, int(order), barycentric)
+            density = float(np.real(np.vdot(value, tensor @ value)))
+            total += density * determinant * base_weight
+    physical_scale = (
+        EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
+    )
+    # Palace's complex fields use its energy normalization convention. Mesh
+    # coordinates remain in the FEM model's declared length unit.
+    return 0.5 * physical_scale * total * material_map.length_unit_m**3
+
+
+def quarter_wave_longitudinal_sanity(
+    field: Path,
+    *,
+    material_map: MaterialOverlapMap,
+    electrical_length: float,
+    corridor_half_width: float = 100.0,
+    interface_half_height: float = 100.0,
+    bins: int = 20,
+) -> dict[str, Any]:
+    """Measure quarter-wave electric and magnetic energy profiles near the CPW."""
+    if electrical_length <= 0.0 or bins < 4:
+        raise ValueError("electrical_length must be positive and bins must be at least four")
+    profiles: dict[str, npt.NDArray[np.float64]] = {}
+    selected_cells = 0
+    for kind in ("electric", "magnetic"):
+        mesh = _integration_mesh(field, kind)
+        selected = (
+            (np.abs(mesh.centroids[:, 0]) <= corridor_half_width)
+            & (np.abs(mesh.centroids[:, 2]) <= interface_half_height)
+            & (mesh.centroids[:, 1] >= 0.0)
+            & (mesh.centroids[:, 1] <= electrical_length)
+        )
+        if not np.any(selected):
+            raise PalaceOutputError("quarter-wave sanity corridor contains no field cells")
+        selected_cells = max(selected_cells, int(selected.sum()))
+        values = mesh.cell_fields[selected]
+        tensors = _tensors(material_map, mesh.attributes[selected], kind)
+        weighted = np.einsum("nij,nj->ni", tensors, values)
+        density = np.real(np.einsum("ni,ni->n", np.conjugate(values), weighted))
+        energy = density * mesh.volumes[selected]
+        indices = np.minimum(
+            (mesh.centroids[selected, 1] / electrical_length * bins).astype(int), bins - 1
+        )
+        profile = np.bincount(indices, weights=energy, minlength=bins).astype(float)
+        if profile.sum() <= 0.0:
+            raise PalaceOutputError(f"quarter-wave {kind} profile has zero energy")
+        profiles[kind] = profile / profile.sum()
+    electric = profiles["electric"]
+    magnetic = profiles["magnetic"]
+    positions = (np.arange(bins, dtype=float) + 0.5) / bins
+    electric_reference = np.sin(0.5 * np.pi * positions) ** 2
+    magnetic_reference = np.cos(0.5 * np.pi * positions) ** 2
+
+    def correlation(values: npt.NDArray[np.float64], expected: npt.NDArray[np.float64]) -> float:
+        return float(np.corrcoef(values, expected)[0, 1])
+
+    endpoint_bins = max(1, bins // 10)
+    electric_ground = float(electric[:endpoint_bins].sum())
+    electric_open = float(electric[-endpoint_bins:].sum())
+    magnetic_ground = float(magnetic[:endpoint_bins].sum())
+    magnetic_open = float(magnetic[-endpoint_bins:].sum())
+    return {
+        "schema": "textlayout.palace-quarter-wave-sanity.v1",
+        "selected_cell_count": selected_cells,
+        "bin_count": bins,
+        "electric_profile": electric.tolist(),
+        "magnetic_profile": magnetic.tolist(),
+        "electric_open_to_ground_ratio": electric_open / max(electric_ground, 1e-300),
+        "magnetic_ground_to_open_ratio": magnetic_ground / max(magnetic_open, 1e-300),
+        "electric_quarter_wave_profile_correlation": correlation(
+            electric, electric_reference
+        ),
+        "magnetic_quarter_wave_profile_correlation": correlation(
+            magnetic, magnetic_reference
+        ),
+        "electric_antinode_near_open_end": electric_open > electric_ground,
+        "electric_node_near_grounded_end": electric_ground < electric_open,
+        "magnetic_antinode_near_grounded_end": magnetic_ground > magnetic_open,
+        "magnetic_node_near_open_end": magnetic_open < magnetic_ground,
+    }
+
+
 def _tetra_quadrature(order: int) -> list[tuple[npt.NDArray[np.float64], float]]:
     if order == 1:
         return [(np.asarray([0.25, 0.25, 0.25, 0.25]), 1.0 / 6.0)]
@@ -415,6 +697,7 @@ def _result(
     interpolation_order: int,
     minimum_coverage: float,
     distance_limit: float,
+    locator_metrics: _LocatorMetrics | None = None,
 ) -> FieldOverlapResult:
     total_volume = float(reference.volumes.sum())
     mapped_volume = float(reference.volumes[mapped].sum())
@@ -485,6 +768,7 @@ def _result(
         integration_cell_count=len(reference.volumes),
         raw_total_volume=reference.raw_total_volume,
         deduplicated_total_volume=total_volume,
+        **_locator_result_fields(locator_metrics or _LocatorMetrics()),
         passed_projection_quality=(
             coverage >= minimum_coverage
             and critical_coverage == 1.0
@@ -513,6 +797,7 @@ def reference_quadrature_energy_mac(
     relative_mapping_distance_limit: float = 0.25,
     minimum_coverage: float = 0.99,
     candidate_cells: int = 24,
+    max_process_rss_bytes: int | None = None,
 ) -> FieldOverlapResult:
     """Reference quadrature integration over interpolated tetrahedral fields.
 
@@ -520,11 +805,11 @@ def reference_quadrature_energy_mac(
     overlap. It evaluates both complex vector fields at tetrahedral quadrature
     points and applies epsilon or inverse-mu material weighting at each sample.
     """
-    from scipy.spatial import cKDTree  # type: ignore[import-untyped]
-
     reference, source = _mesh_pair(left, right, kind)
     samples = _tetra_quadrature(quadrature_order)
-    source_tree = cKDTree(source.centroids)
+    locator = _MaterialAABBLocator(
+        source, max_process_rss_bytes=max_process_rss_bytes
+    )
     entries = {entry.attribute: entry for entry in material_map.entries}
     missing = sorted(set(int(value) for value in reference.attributes) - set(entries))
     if missing:
@@ -540,8 +825,13 @@ def reference_quadrature_energy_mac(
     failures = 0
     distances: list[float] = []
 
-    k = min(candidate_cells, len(source.centroids))
-    for cell_index, (nodes, field_values, order, attribute) in enumerate(
+    del candidate_cells  # Compatibility-only; the AABB locator has no arbitrary k limit.
+    sample_points: list[npt.NDArray[np.float64]] = []
+    sample_cells: list[int] = []
+    sample_barycentric: list[npt.NDArray[np.float64]] = []
+    sample_weights: list[float] = []
+    sample_attributes: list[int] = []
+    for cell_index, (nodes, _field_values, order, attribute) in enumerate(
         zip(
             reference.interpolation_nodes,
             reference.interpolation_fields,
@@ -554,24 +844,43 @@ def reference_quadrature_energy_mac(
         for barycentric, base_weight in samples:
             point = _physical_point(nodes, int(order), barycentric)
             jacobian = _geometry_jacobian(nodes, int(order), barycentric[1:])
-            weight = abs(float(np.linalg.det(jacobian))) * base_weight
+            determinant = float(np.linalg.det(jacobian))
+            if determinant <= 0.0:
+                raise PalaceOutputError("non-positive quadrature Jacobian")
+            weight = determinant * base_weight
             cell_weight += weight
             attribute_int = int(attribute)
             is_critical = entries[attribute_int].critical_region
             if is_critical:
                 critical_weight += weight
-            candidate_distances, candidates = source_tree.query(point, k=k, workers=-1)
-            if np.ndim(candidates) == 0:
-                candidates = np.asarray([candidates])
-                candidate_distances = np.asarray([candidate_distances])
+            sample_points.append(point)
+            sample_cells.append(cell_index)
+            sample_barycentric.append(barycentric)
+            sample_weights.append(weight)
+            sample_attributes.append(attribute_int)
+        if cell_weight <= 0.0:
+            raise PalaceOutputError("non-positive quadrature cell weight")
+
+    point_array = np.asarray(sample_points, dtype=float)
+    attribute_array = np.asarray(sample_attributes, dtype=np.int32)
+    chunk_size = 4096
+    for start in range(0, len(point_array), chunk_size):
+        end = min(start + chunk_size, len(point_array))
+        candidate_batches = locator.candidate_batches(
+            point_array[start:end], attribute_array[start:end]
+        )
+        for point, cell_index, barycentric, weight, attribute_int, candidates in zip(
+            point_array[start:end],
+            sample_cells[start:end],
+            sample_barycentric[start:end],
+            sample_weights[start:end],
+            sample_attributes[start:end],
+            candidate_batches,
+            strict=True,
+        ):
             mapped_value: npt.NDArray[np.complex128] | None = None
-            selected_distance = float(np.asarray(candidate_distances)[0])
-            for candidate, distance in zip(
-                np.asarray(candidates), np.asarray(candidate_distances), strict=True
-            ):
-                candidate_index = int(candidate)
-                if int(source.attributes[candidate_index]) != attribute_int:
-                    continue
+            selected_distance = float("inf")
+            for candidate_index, _distance in candidates:
                 bary = _locate_point(
                     source.interpolation_nodes[candidate_index],
                     int(source.interpolation_orders[candidate_index]),
@@ -585,7 +894,12 @@ def reference_quadrature_energy_mac(
                     int(source.interpolation_orders[candidate_index]),
                     bary,
                 )
-                selected_distance = float(distance)
+                reconstructed = _physical_point(
+                    source.interpolation_nodes[candidate_index],
+                    int(source.interpolation_orders[candidate_index]),
+                    bary,
+                )
+                selected_distance = float(np.linalg.norm(reconstructed - point))
                 break
             limit = relative_mapping_distance_limit * np.cbrt(
                 max(reference.volumes[cell_index], np.finfo(float).tiny)
@@ -593,16 +907,19 @@ def reference_quadrature_energy_mac(
             if mapped_value is None or selected_distance > limit:
                 failures += 1
                 continue
-            reference_values.append(_interpolate_cell(nodes, field_values, int(order), barycentric))
+            nodes = reference.interpolation_nodes[cell_index]
+            field_values = reference.interpolation_fields[cell_index]
+            order = int(reference.interpolation_orders[cell_index])
+            reference_values.append(
+                _interpolate_cell(nodes, field_values, order, barycentric)
+            )
             projected_values.append(mapped_value)
             integration_weights.append(weight)
             integration_attributes.append(attribute_int)
             distances.append(selected_distance)
             mapped_weight += weight
-            if is_critical:
+            if entries[attribute_int].critical_region:
                 mapped_critical_weight += weight
-        if cell_weight <= 0.0:
-            raise PalaceOutputError("non-positive quadrature cell weight")
 
     if not reference_values:
         raise PalaceOutputError("field projection mapped no quadrature points")
@@ -674,6 +991,7 @@ def reference_quadrature_energy_mac(
         integration_cell_count=len(weights),
         raw_total_volume=reference.raw_total_volume,
         deduplicated_total_volume=total_volume,
+        **_locator_result_fields(locator.metrics),
         passed_projection_quality=(
             coverage >= minimum_coverage
             and critical_coverage == 1.0
@@ -729,39 +1047,50 @@ def reference_interpolated_energy_mac(
     relative_mapping_distance_limit: float = 0.25,
     minimum_coverage: float = 0.99,
     candidate_cells: int = 24,
+    max_process_rss_bytes: int | None = None,
 ) -> FieldOverlapResult:
     """Reference point-location and linear FEM interpolation onto a common mesh."""
-    from scipy.spatial import cKDTree
-
     reference, source = _mesh_pair(left, right, kind)
-    distances, candidates = cKDTree(source.centroids).query(
-        reference.centroids, k=min(candidate_cells, len(source.centroids)), workers=-1
+    locator = _MaterialAABBLocator(
+        source, max_process_rss_bytes=max_process_rss_bytes
     )
-    if candidates.ndim == 1:
-        candidates, distances = candidates[:, None], distances[:, None]
+    del candidate_cells  # Compatibility-only; the AABB locator has no arbitrary k limit.
     projected = np.zeros_like(reference.cell_fields)
     mapped = np.zeros(len(reference.centroids), dtype=bool)
-    selected_distance = np.asarray(distances[:, 0], dtype=float)
-    for row, point in enumerate(reference.centroids):
-        for candidate, distance in zip(candidates[row], distances[row]):
-            candidate = int(candidate)
-            if source.attributes[candidate] != reference.attributes[row]:
-                continue
-            barycentric = _locate_point(
-                source.interpolation_nodes[candidate],
-                int(source.interpolation_orders[candidate]),
-                point,
-            )
-            if barycentric is not None:
-                projected[row] = _interpolate_cell(
+    selected_distance = np.zeros(len(reference.centroids), dtype=float)
+    chunk_size = 4096
+    for start in range(0, len(reference.centroids), chunk_size):
+        end = min(start + chunk_size, len(reference.centroids))
+        candidate_batches = locator.candidate_batches(
+            reference.centroids[start:end], reference.attributes[start:end]
+        )
+        for offset, (point, candidates) in enumerate(
+            zip(reference.centroids[start:end], candidate_batches, strict=True)
+        ):
+            row = start + offset
+            for candidate, _distance in candidates:
+                barycentric = _locate_point(
                     source.interpolation_nodes[candidate],
-                    source.interpolation_fields[candidate],
                     int(source.interpolation_orders[candidate]),
-                    barycentric,
+                    point,
                 )
-                mapped[row] = True
-                selected_distance[row] = float(distance)
-                break
+                if barycentric is not None:
+                    projected[row] = _interpolate_cell(
+                        source.interpolation_nodes[candidate],
+                        source.interpolation_fields[candidate],
+                        int(source.interpolation_orders[candidate]),
+                        barycentric,
+                    )
+                    mapped[row] = True
+                    reconstructed = _physical_point(
+                        source.interpolation_nodes[candidate],
+                        int(source.interpolation_orders[candidate]),
+                        barycentric,
+                    )
+                    selected_distance[row] = float(
+                        np.linalg.norm(reconstructed - point)
+                    )
+                    break
     mapped &= selected_distance / np.cbrt(reference.volumes) <= relative_mapping_distance_limit
     return _result(
         reference,
@@ -777,4 +1106,5 @@ def reference_interpolated_energy_mac(
         interpolation_order=int(source.interpolation_orders.max()),
         minimum_coverage=minimum_coverage,
         distance_limit=relative_mapping_distance_limit,
+        locator_metrics=locator.metrics,
     )

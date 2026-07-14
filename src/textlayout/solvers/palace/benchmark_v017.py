@@ -54,6 +54,7 @@ from textlayout.knowledge.technology_library import default_technology_library
 from textlayout.simulation.resource_sampler import (
     MemorySampler,
     decide_process_count,
+    evaluate_resource_budget,
     palace_reported_peak_memory_mb,
     read_memory_budget,
 )
@@ -67,6 +68,13 @@ from textlayout.simulation.palace_verification import (
     assess_palace_verification,
 )
 from textlayout.solvers.palace.capability import capability_report, detect_palace
+from textlayout.solvers.palace.atomic_stages import (
+    complete_atomic_stage,
+    fail_atomic_stage,
+    fail_unfinished_atomic_stages,
+    read_atomic_stage,
+    start_atomic_stage,
+)
 from textlayout.solvers.palace.config import (
     DomainExtents,
     build_eigenmode_config,
@@ -77,24 +85,34 @@ from textlayout.solvers.palace.config import (
 )
 from textlayout.solvers.palace.models import (
     Eigenmode,
+    FieldOverlapResult,
     ModeFieldData,
     PalaceCapability,
     PalaceOutputError,
     PalaceRun,
     MaterialOverlapMap,
+    PalaceBoundedAMRPolicy,
 )
 from textlayout.solvers.palace.overlap import (
     build_material_overlap_map,
     centroid_projected_energy_mac,
     reference_interpolated_energy_mac,
+    reference_quadrature_energy_mac,
+    reconstruct_field_energy_j,
+    quarter_wave_longitudinal_sanity,
 )
 from textlayout.solvers.palace.parser import (
+    nearest_node_sampled_mac,
     parse_eigenmodes,
     parse_global_error_indicator,
     parse_mode_fields,
     field_artifact_files,
 )
 from textlayout.solvers.palace.runner import build_command, run_palace
+from textlayout.solvers.palace.retention import (
+    FieldRetentionPolicy,
+    apply_field_retention,
+)
 from textlayout.solvers.palace.stages import (
     StageName,
     relative_hashes,
@@ -158,9 +176,10 @@ class AMRSettings(BaseModel):
     max_iterations: int = Field(default=5, ge=1)
     update_fraction: float = Field(default=0.7, gt=0, lt=1)
     nonconformal: bool = False
+    bounded_policy: PalaceBoundedAMRPolicy | None = None
 
     def refinement_config(self) -> dict[str, Any]:
-        return {
+        config: dict[str, Any] = {
             "Tol": self.tolerance,
             "MaxIts": self.max_iterations,
             "UpdateFraction": self.update_fraction,
@@ -168,6 +187,9 @@ class AMRSettings(BaseModel):
             "SaveAdaptIterations": True,
             "SaveAdaptMesh": True,
         }
+        if self.bounded_policy is not None:
+            config.update(self.bounded_policy.refinement_config())
+        return config
 
 
 class AMRIterationRecord(BaseModel):
@@ -478,7 +500,7 @@ def _completed_stdout(stdout_path: Path) -> bool:
     return "Completed" in text and "adaptive mesh refinement" in text
 
 
-def _load_peak_memory(run_dir: Path) -> dict[str, int]:
+def _load_peak_memory(run_dir: Path) -> PeakMemory:
     path = run_dir / "peak_memory.json"
     if not path.is_file():
         return {}
@@ -486,7 +508,11 @@ def _load_peak_memory(run_dir: Path) -> dict[str, int]:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return {}
-    return {str(key): int(value) for key, value in data.items() if isinstance(value, int)}
+    return {
+        str(key): value
+        for key, value in data.items()
+        if value is None or isinstance(value, (int, float))
+    }
 
 
 def validate_completed_base_amr(
@@ -494,6 +520,7 @@ def validate_completed_base_amr(
     *,
     capability: PalaceCapability | None = None,
     processes: int = 4,
+    require_adapted_mesh: bool = True,
 ) -> CompletedBaseAMR:
     """Validate and reconstruct a completed base AMR run without rerunning it."""
     root = Path(root).resolve()
@@ -525,7 +552,7 @@ def validate_completed_base_amr(
     ]
     adapted_meshes = [path for path in adapted_meshes if path.is_file()]
     raw_adapted = root / "raw" / "final_adapted.mesh"
-    if not adapted_meshes and not raw_adapted.is_file():
+    if require_adapted_mesh and not adapted_meshes and not raw_adapted.is_file():
         raise PalaceOutputError(
             "completed base AMR cannot be reused; no Palace adapted mesh was retained"
         )
@@ -545,6 +572,25 @@ def validate_completed_base_amr(
         )
     command = build_command(detected, config_path, cwd=base_dir, processes=processes)
     runtime = _runtime_from_stdout(base_dir / "palace.stdout.txt") or 0.0
+    resource_summary = base_dir / "resource_summary.json"
+    if not resource_summary.is_file():
+        raise PalaceOutputError("completed base AMR has no process resource summary")
+    resource = json.loads(resource_summary.read_text(encoding="utf-8"))
+    if resource.get("termination_reason") is not None:
+        raise PalaceOutputError(
+            f"completed base AMR has termination reason {resource['termination_reason']}"
+        )
+    if resource.get("orphan_processes_remaining") is not False:
+        raise PalaceOutputError("completed base AMR did not verify orphan-free completion")
+    peak_memory = _load_peak_memory(base_dir)
+    palace_peak = palace_reported_peak_memory_mb(
+        (base_dir / "palace.stdout.txt").read_text(encoding="utf-8", errors="replace")
+    )
+    observed_group = resource.get("observed_process_group_peak_rss_bytes")
+    if isinstance(observed_group, int):
+        peak_memory["observed_process_group_peak_rss_mb"] = observed_group / 1024**2
+    peak_memory["palace_reported_peak_memory_mb"] = palace_peak
+    write_json(peak_memory, base_dir / "peak_memory.json")
     output_files = [
         postpro / "eig.csv",
         postpro / "domain-E.csv",
@@ -553,7 +599,8 @@ def validate_completed_base_amr(
         resolved,
         base_dir / "palace.stdout.txt",
         base_dir / "palace.stderr.txt",
-        *(adapted_meshes[-1:] or [raw_adapted]),
+        resource_summary,
+        *(adapted_meshes[-1:] or ([raw_adapted] if raw_adapted.is_file() else [])),
     ]
     run = PalaceRun(
         command=command,
@@ -562,6 +609,7 @@ def validate_completed_base_amr(
         stdout_path=base_dir / "palace.stdout.txt",
         stderr_path=base_dir / "palace.stderr.txt",
         output_dir=base_dir,
+        resource_summary_path=resource_summary,
         input_file_hashes=relative_hashes([config_path, mesh_path], base_dir),
         output_file_hashes=relative_hashes(output_files, root),
     )
@@ -570,12 +618,16 @@ def validate_completed_base_amr(
         "validated_at": _timestamp(),
         "return_code": 0,
         "return_code_basis": (
-            "reconstructed from completed Palace stdout and parseable required outputs; "
-            "the interrupted shell did not leave a standalone process manifest"
+            "reconstructed from completed Palace stdout, parseable required outputs, "
+            "and an orphan-free process resource summary"
         ),
         "modes_ghz": [mode.frequency_ghz for mode in modes],
         "resolved_config": str(resolved),
-        "adapted_mesh": str(adapted_meshes[-1] if adapted_meshes else raw_adapted),
+        "adapted_mesh": (
+            str(adapted_meshes[-1])
+            if adapted_meshes
+            else (str(raw_adapted) if raw_adapted.is_file() else None)
+        ),
         "executable_sha256": detected.executable_sha256,
         "install_executable_sha256": install_hash,
         "command": command,
@@ -586,7 +638,7 @@ def validate_completed_base_amr(
         config_path=config_path,
         postpro=postpro,
         run=run,
-        peak_memory=_load_peak_memory(base_dir),
+        peak_memory=peak_memory,
         validation=validation,
     )
 
@@ -836,6 +888,7 @@ def _run_palace_once(
     processes: int,
     timeout_seconds: float,
     cancel_event: Event | None,
+    max_rss_bytes: int | None = None,
 ) -> tuple[Path, Path, PalaceRun, PeakMemory]:
     """Execute one Palace AMR solve while sampling memory.
 
@@ -866,6 +919,7 @@ def _run_palace_once(
             timeout_seconds=timeout_seconds,
             cancel_event=cancel_event,
             input_paths=[mesh.path],
+            max_rss_bytes=max_rss_bytes,
         )
     peak: PeakMemory = {**sampler.result.to_dict()}
     palace_peak = palace_reported_peak_memory_mb(
@@ -882,6 +936,10 @@ def _run_palace_once(
         raise PalaceOutputError(f"{run_dir.name}: Palace timed out")
     if run.cancelled:
         raise PalaceOutputError(f"{run_dir.name}: Palace was cancelled")
+    if run.resource_limit_terminated:
+        raise PalaceOutputError(f"{run_dir.name}: RESOURCE_LIMIT_TERMINATED")
+    if run.orphan_processes_remaining:
+        raise PalaceOutputError(f"{run_dir.name}: owned Palace/MPI process remains active")
     if run.return_code != 0:
         raise PalaceOutputError(
             f"{run_dir.name}: Palace returned non-zero exit code {run.return_code}"
@@ -934,6 +992,7 @@ def track_amr_modes(
     material_map: MaterialOverlapMap,
     minimum_score: float = 0.98,
     minimum_margin: float = 0.05,
+    max_process_rss_bytes: int | None = None,
 ) -> tuple[list[int], list[ModeMatch]]:
     """Track one physical mode across AMR iterations without assuming mode 1.
 
@@ -1043,10 +1102,18 @@ def track_amr_modes(
         if left_file is None or right_file is None:
             raise PalaceOutputError("reference overlap requires retained field files")
         reference_e = reference_interpolated_energy_mac(
-            left_file, right_file, kind="electric", material_map=material_map
+            left_file,
+            right_file,
+            kind="electric",
+            material_map=material_map,
+            max_process_rss_bytes=max_process_rss_bytes,
         )
         reference_m = reference_interpolated_energy_mac(
-            left_file, right_file, kind="magnetic", material_map=material_map
+            left_file,
+            right_file,
+            kind="magnetic",
+            material_map=material_map,
+            max_process_rss_bytes=max_process_rss_bytes,
         )
         best = best.model_copy(
             update={
@@ -1068,6 +1135,138 @@ def track_amr_modes(
         matches.append(best)
         current = best.to_mode
     return indices, matches
+
+
+def _bounded_overlap_and_energy_report(
+    root: Path,
+    iterations: list[_ParsedIteration],
+    tracked: list[int],
+    material_map: MaterialOverlapMap,
+    *,
+    electrical_length: float,
+    energy_tolerance_percent: float = 2.0,
+    max_process_rss_bytes: int | None = None,
+) -> Path:
+    if len(iterations) != 2 or len(tracked) != 2:
+        raise PalaceOutputError("bounded overlap validation requires exactly two solved states")
+    fields = [
+        _mode_field(iteration.fields, mode, iteration.tag)
+        for iteration, mode in zip(iterations, tracked, strict=True)
+    ]
+    if any(field.field_file is None for field in fields):
+        raise PalaceOutputError("bounded overlap validation requires retained target fields")
+    left = fields[0].field_file
+    right = fields[1].field_file
+    assert left is not None and right is not None
+    methods: dict[str, dict[str, Any]] = {}
+    overlap_dir = root / "overlap_methods"
+    overlap_dir.mkdir(parents=True, exist_ok=True)
+    for kind in ("electric", "magnetic"):
+        result_by_name: dict[str, FieldOverlapResult] = {}
+        for name, function in (
+            ("centroid_projected_energy_mac", centroid_projected_energy_mac),
+            ("reference_interpolated_energy_mac", reference_interpolated_energy_mac),
+            ("reference_quadrature_energy_mac", reference_quadrature_energy_mac),
+        ):
+            result_path = overlap_dir / f"{kind}_{name}.json"
+            if result_path.is_file():
+                result = FieldOverlapResult.model_validate_json(
+                    result_path.read_text(encoding="utf-8")
+                )
+            else:
+                kwargs: dict[str, Any] = {
+                    "kind": kind,
+                    "material_map": material_map,
+                }
+                if name.startswith("reference_"):
+                    kwargs["max_process_rss_bytes"] = max_process_rss_bytes
+                result = function(left, right, **kwargs)
+                write_json(result.model_dump(mode="json"), result_path)
+            result_by_name[name] = result
+        nearest_path = overlap_dir / f"{kind}_nearest_node_sampled_mac.json"
+        if nearest_path.is_file():
+            nearest = float(
+                json.loads(nearest_path.read_text(encoding="utf-8"))["mac"]
+            )
+        else:
+            nearest = nearest_node_sampled_mac(left, right, kind=kind)
+            write_json({"mac": nearest, "diagnostic_only": True}, nearest_path)
+        methods[kind] = {
+            "nearest_node_sampled_mac": nearest,
+            **{
+                name: result.model_dump(mode="json")
+                for name, result in result_by_name.items()
+            },
+        }
+    energy_rows: list[dict[str, Any]] = []
+    energy_consistent = True
+    for iteration, field in zip(iterations, fields, strict=True):
+        assert field.field_file is not None
+        reconstructed_e = reconstruct_field_energy_j(
+            field.field_file, kind="electric", material_map=material_map
+        )
+        reconstructed_m = reconstruct_field_energy_j(
+            field.field_file, kind="magnetic", material_map=material_map
+        )
+        if field.electric_energy_j is None or field.magnetic_energy_j is None:
+            raise PalaceOutputError(f"{iteration.tag}: Palace total field energies are missing")
+        difference_e = abs(reconstructed_e - field.electric_energy_j) / field.electric_energy_j * 100.0
+        difference_m = abs(reconstructed_m - field.magnetic_energy_j) / field.magnetic_energy_j * 100.0
+        energy_consistent &= max(difference_e, difference_m) <= energy_tolerance_percent
+        energy_rows.append(
+            {
+                "state": iteration.tag,
+                "mode": field.mode_index,
+                "palace_electric_energy_j": field.electric_energy_j,
+                "reconstructed_electric_energy_j": reconstructed_e,
+                "electric_relative_difference_percent": difference_e,
+                "palace_magnetic_energy_j": field.magnetic_energy_j,
+                "reconstructed_magnetic_energy_j": reconstructed_m,
+                "magnetic_relative_difference_percent": difference_m,
+            }
+        )
+    path = root / "field_energy_validation.json"
+    physical_sanity = quarter_wave_longitudinal_sanity(
+        right,
+        material_map=material_map,
+        electrical_length=electrical_length,
+    )
+    final_localization = fields[-1].resonator_localization
+    physical_sanity.update(
+        {
+            "resonator_energy_localization": final_localization,
+            "package_or_slab_contamination": 1.0 - final_localization,
+            "stable_target_identity": tracked[0] > 0 and tracked[1] > 0,
+        }
+    )
+    sanity_passed = all(
+        bool(physical_sanity[name])
+        for name in (
+            "electric_antinode_near_open_end",
+            "electric_node_near_grounded_end",
+            "magnetic_antinode_near_grounded_end",
+            "magnetic_node_near_open_end",
+            "stable_target_identity",
+        )
+    )
+    write_json(
+        {
+            "schema": "textlayout.palace-field-energy-validation.v1",
+            "target_modes": tracked,
+            "methods": methods,
+            "amplitude_invariant": True,
+            "global_phase_invariant": True,
+            "energy_tolerance_percent": energy_tolerance_percent,
+            "energy_comparisons": energy_rows,
+            "energy_consistent": energy_consistent,
+            "mac_status": "REFERENCE_GATE" if energy_consistent else "DIAGNOSTIC_ONLY",
+            "promotion_allowed": energy_consistent,
+            "physical_sanity": physical_sanity,
+            "physical_sanity_passed": sanity_passed,
+        },
+        path,
+    )
+    return path
 
 
 def _iteration_records(
@@ -1193,6 +1392,10 @@ def run_quarter_wave_benchmark_v017(
     base_extents = extents or DomainExtents()
     settings = amr or AMRSettings()
     sweep_settings = sweep_amr or settings
+    bounded = settings.bounded_policy
+    atomic_two_state = bounded is not None and bounded.solved_states == 2
+    if atomic_two_state:
+        start_atomic_stage(root, "preflight", inputs=[Path(layout_path).resolve()])
     numerical_requested = dict(
         numerical_sweep_values
         if numerical_sweep_values is not None
@@ -1222,8 +1425,10 @@ def run_quarter_wave_benchmark_v017(
         "git_commit": _git_commit(repo_root),
         "generated_at": _timestamp(),
     }
-    write_json(toolchain, root / "toolchain.json")
-    write_json(_environment(repo_root, detected), root / "environment.json")
+    if not resume or not (root / "toolchain.json").is_file():
+        write_json(toolchain, root / "toolchain.json")
+    if not resume or not (root / "environment.json").is_file():
+        write_json(_environment(repo_root, detected), root / "environment.json")
 
     # Documented resource gate: record the memory budget and the process-count
     # decision before any solve. The count is never silently changed; when a
@@ -1234,9 +1439,36 @@ def run_quarter_wave_benchmark_v017(
         processes, budget, preflight_peak_mb=preflight_peak
     )
     resource_decision["timestamp"] = _timestamp()
-    write_json(resource_decision, root / "resource_decision.json")
+    if resume and (root / "resource_decision.json").is_file():
+        resource_decision = json.loads(
+            (root / "resource_decision.json").read_text(encoding="utf-8")
+        )
+    else:
+        write_json(resource_decision, root / "resource_decision.json")
     accepted = resource_decision["accepted_processes"]
     processes = accepted if isinstance(accepted, int) else processes
+    if bounded is not None:
+        hard_budget = evaluate_resource_budget(
+            root,
+            configured_max_rss_bytes=bounded.max_rss_bytes,
+            estimated_field_output_bytes=250 * 1024**2,
+            estimated_mesh_output_bytes=64 * 1024**2,
+        )
+        if not resume or not (root / "hard_resource_budget.json").is_file():
+            write_json(
+                hard_budget.model_dump(mode="json"), root / "hard_resource_budget.json"
+            )
+        if not resume and not hard_budget.allowed:
+            if atomic_two_state:
+                fail_atomic_stage(
+                    root, "preflight", reason="; ".join(hard_budget.blockers)
+                )
+            return V017BenchmarkResult(
+                status="RESOURCE_BUDGET_REJECTED",
+                output_dir=root,
+                reason="; ".join(hard_budget.blockers),
+            )
+        timeout_seconds = min(timeout_seconds, float(bounded.max_runtime_seconds))
 
     model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=base_extents)
     if mode_count < 2:
@@ -1244,7 +1476,30 @@ def run_quarter_wave_benchmark_v017(
     model = model.model_copy(
         update={"eigenmode": model.eigenmode.model_copy(update={"mode_count": mode_count})}
     )
-    fem_hash = write_json(model.model_dump(mode="json"), root / "fem_model.json")
+    fem_path = root / "fem_model.json"
+    if resume and fem_path.is_file():
+        existing_model = FEMModel.model_validate_json(fem_path.read_text(encoding="utf-8"))
+        if existing_model != model:
+            raise PalaceOutputError("resume FEM model differs from the retained model")
+        fem_hash = sha256_file(fem_path)
+    else:
+        fem_hash = write_json(model.model_dump(mode="json"), fem_path)
+    if atomic_two_state:
+        complete_atomic_stage(
+            root,
+            "preflight",
+            return_code=0,
+            required_outputs=[
+                root / "toolchain.json",
+                root / "environment.json",
+                root / "resource_decision.json",
+                root / "hard_resource_budget.json",
+                root / "fem_model.json",
+            ],
+            parsed_result=root / "fem_model.json",
+            resource_summary=root / "hard_resource_budget.json",
+            owned_children_remaining=False,
+        )
     preflight_record = write_stage_record(
         root,
         stage="preflight",
@@ -1309,6 +1564,8 @@ def run_quarter_wave_benchmark_v017(
         return mesh
 
     try:
+        if atomic_two_state:
+            start_atomic_stage(root, "mesh_generation", inputs=[root / "fem_model.json"])
         base_mesh = _load_existing_base_mesh(base_dir) if resume else None
         if base_mesh is None:
             base_mesh = _mesh_for(base_extents, base_dir, "quarter_wave_base")
@@ -1323,6 +1580,16 @@ def run_quarter_wave_benchmark_v017(
                     "mesh_scale": mesh_scale,
                 },
                 base_dir / "mesh_metrics.json",
+            )
+        if atomic_two_state:
+            complete_atomic_stage(
+                root,
+                "mesh_generation",
+                return_code=0,
+                required_outputs=[base_mesh.path, base_dir / "mesh_metrics.json"],
+                parsed_result=base_dir / "mesh_metrics.json",
+                resource_summary=root / "hard_resource_budget.json",
+                owned_children_remaining=False,
             )
 
         base_mesh_hash = sha256_file(base_mesh.path)
@@ -1343,12 +1610,24 @@ def run_quarter_wave_benchmark_v017(
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
 
         if resume:
-            completed = validate_completed_base_amr(root, capability=detected, processes=processes)
+            completed = validate_completed_base_amr(
+                root,
+                capability=detected,
+                processes=processes,
+                require_adapted_mesh=(
+                    settings.bounded_policy is None
+                    or settings.bounded_policy.retain_final_adapted_mesh
+                ),
+            )
             config_path = completed.config_path
             postpro = completed.postpro
             amr_run = completed.run
             amr_peak = completed.peak_memory
         else:
+            if atomic_two_state:
+                start_atomic_stage(root, "solve_state_0", inputs=[base_mesh.path])
+                start_atomic_stage(root, "adapt_mesh_0", inputs=[base_mesh.path])
+                start_atomic_stage(root, "solve_state_1", inputs=[base_mesh.path])
             config_path, postpro, amr_run, amr_peak = _run_palace_once(
                 detected,
                 run_dir=base_dir,
@@ -1358,6 +1637,11 @@ def run_quarter_wave_benchmark_v017(
                 processes=processes,
                 timeout_seconds=timeout_seconds,
                 cancel_event=cancel_event,
+                max_rss_bytes=(
+                    settings.bounded_policy.max_rss_bytes
+                    if settings.bounded_policy is not None
+                    else None
+                ),
             )
         base_amr_record = write_stage_record(
             root,
@@ -1407,7 +1691,11 @@ def run_quarter_wave_benchmark_v017(
         # (moving the symlink would dangle) and copy the content into raw/.
         raw_dir = root / "raw"
         raw_dir.mkdir(parents=True, exist_ok=True)
-        adapted_meshes = sorted(postpro.rglob("*.mesh"))
+        retain_adapted_mesh = (
+            settings.bounded_policy is None
+            or settings.bounded_policy.retain_final_adapted_mesh
+        )
+        adapted_meshes = sorted(postpro.rglob("*.mesh")) if retain_adapted_mesh else []
         final_adapted_mesh: Path | None = None
         final_adapted_mesh_hash: str | None = None
         real_meshes = [
@@ -1435,7 +1723,10 @@ def run_quarter_wave_benchmark_v017(
 
         amr_dir = root / "amr"
         parsed_iterations: list[_ParsedIteration] = []
-        for order, (palace_iteration, source) in enumerate(_collect_amr_iterations(postpro)):
+        iteration_sources = _collect_amr_iterations(postpro)
+        if atomic_two_state:
+            start_atomic_stage(root, "field_parse", inputs=[config_path])
+        for order, (palace_iteration, source) in enumerate(iteration_sources):
             tag = f"iteration_{order:02d}"
             destination = amr_dir / tag
             destination.mkdir(parents=True, exist_ok=True)
@@ -1446,34 +1737,159 @@ def run_quarter_wave_benchmark_v017(
                         f"{source}: Palace-owned output {name} is missing for {tag}"
                     )
                 shutil.copy2(candidate, destination / name)
+            parsed = _parse_iteration_dir(
+                source,
+                tag=tag,
+                palace_iteration=palace_iteration,
+                model=model,
+                output_root=root,
+            )
+            packet_hashes = relative_hashes(
+                [destination / name for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")],
+                root,
+            )
             parsed_iterations.append(
-                _parse_iteration_dir(
-                    source,
-                    tag=tag,
-                    palace_iteration=palace_iteration,
-                    model=model,
-                    output_root=root,
+                parsed.model_copy(
+                    update={
+                        "output_file_hashes": {
+                            **parsed.output_file_hashes,
+                            **packet_hashes,
+                        }
+                    }
                 )
+            )
+
+        if bounded is not None:
+            if len(parsed_iterations) != bounded.solved_states:
+                raise PalaceOutputError(
+                    "bounded AMR solved-state count mismatch: "
+                    f"expected {bounded.solved_states}, parsed {len(parsed_iterations)}"
+                )
+            elements = [item.element_count for item in parsed_iterations]
+            dofs = [item.degrees_of_freedom for item in parsed_iterations]
+            if any(right <= left for left, right in zip(elements, elements[1:])):
+                raise PalaceOutputError(
+                    f"bounded AMR element counts are not strictly increasing: {elements}"
+                )
+            if any(right <= left for left, right in zip(dofs, dofs[1:])):
+                raise PalaceOutputError(
+                    f"bounded AMR degrees of freedom are not strictly increasing: {dofs}"
+                )
+            if bounded.max_elements is not None and max(elements) > bounded.max_elements:
+                raise PalaceOutputError(
+                    f"bounded AMR element limit exceeded: {max(elements)} > {bounded.max_elements}"
+                )
+            if bounded.max_dofs is not None and max(dofs) > bounded.max_dofs:
+                raise PalaceOutputError(
+                    f"bounded AMR DOF limit exceeded: {max(dofs)} > {bounded.max_dofs}"
+                )
+        if atomic_two_state:
+            assert bounded is not None
+            state_summary = root / "bounded_solved_states.json"
+            write_json(
+                {
+                    "solved_state_count": len(parsed_iterations),
+                    "refinement_count": bounded.effective_refinement_count,
+                    "adapted_mesh_count": bounded.adapted_mesh_count,
+                    "saved_mesh_count": bounded.saved_mesh_count,
+                    "states": [
+                        {
+                            "tag": item.tag,
+                            "palace_iteration": item.palace_iteration,
+                            "element_count": item.element_count,
+                            "degrees_of_freedom": item.degrees_of_freedom,
+                        }
+                        for item in parsed_iterations
+                    ],
+                },
+                state_summary,
+            )
+            resource_summary = base_dir / "resource_summary.json"
+            state_outputs = [
+                [source / name for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")]
+                for _, source in iteration_sources
+            ]
+            complete_atomic_stage(
+                root,
+                "solve_state_0",
+                return_code=amr_run.return_code,
+                required_outputs=state_outputs[0],
+                parsed_result=state_summary,
+                resource_summary=resource_summary,
+                owned_children_remaining=amr_run.orphan_processes_remaining,
+                command=amr_run.command,
+            )
+            complete_atomic_stage(
+                root,
+                "adapt_mesh_0",
+                return_code=amr_run.return_code,
+                required_outputs=[state_outputs[0][2], state_outputs[1][3]],
+                parsed_result=state_summary,
+                resource_summary=resource_summary,
+                owned_children_remaining=amr_run.orphan_processes_remaining,
+                command=amr_run.command,
+            )
+            complete_atomic_stage(
+                root,
+                "solve_state_1",
+                return_code=amr_run.return_code,
+                required_outputs=state_outputs[1],
+                parsed_result=state_summary,
+                resource_summary=resource_summary,
+                owned_children_remaining=amr_run.orphan_processes_remaining,
+                command=amr_run.command,
+            )
+            complete_atomic_stage(
+                root,
+                "field_parse",
+                return_code=0,
+                required_outputs=[state_summary],
+                parsed_result=state_summary,
+                resource_summary=resource_summary,
+                owned_children_remaining=False,
             )
 
         tracking_error: str | None = None
         tracked: list[int] = []
         matches: list[ModeMatch] = []
+        mode_tracking_evidence_id: str | None = None
+        mode_tracking_path = root / "mode_tracking.json"
+        mode_completion_path = (
+            root / "atomic_stages" / "mode_tracking" / "stage_completed.json"
+        )
+        reuse_mode_tracking = (
+            atomic_two_state
+            and resume
+            and mode_tracking_path.is_file()
+            and mode_completion_path.is_file()
+        )
+        if atomic_two_state:
+            start_atomic_stage(root, "mode_tracking", inputs=[root / "bounded_solved_states.json"])
         try:
             material_map = build_material_overlap_map(
                 model, json.loads(resolved_base.read_text(encoding="utf-8"))
             )
             write_json(material_map.model_dump(mode="json"), root / "material_overlap_map.json")
-            tracked, matches = track_amr_modes(
-                parsed_iterations,
-                seed_frequency_ghz=target_frequency,
-                material_map=material_map,
-            )
+            if reuse_mode_tracking:
+                payload = json.loads(mode_tracking_path.read_text(encoding="utf-8"))
+                tracked = [int(value) for value in payload["tracked_mode_indices"]]
+                matches = [ModeMatch.model_validate(item) for item in payload["matches"]]
+                mode_tracking_evidence_id = read_atomic_stage(
+                    mode_completion_path
+                ).evidence_id
+            else:
+                tracked, matches = track_amr_modes(
+                    parsed_iterations,
+                    seed_frequency_ghz=target_frequency,
+                    material_map=material_map,
+                    max_process_rss_bytes=(bounded.max_rss_bytes if bounded else None),
+                )
         except PalaceOutputError as exc:
             tracking_error = str(exc)
 
-        write_json(
-            {
+        if not reuse_mode_tracking:
+            write_json(
+                {
                 "schema": "textlayout.palace-mode-tracking.v3",
                 "method": (
                     "frequency continuity + regional electric/magnetic energy "
@@ -1487,9 +1903,23 @@ def run_quarter_wave_benchmark_v017(
                 "minimum_magnetic_field_mac": 0.90,
                 "minimum_margin": 0.05,
                 "error": tracking_error,
-            },
-            root / "mode_tracking.json",
-        )
+                },
+                mode_tracking_path,
+            )
+        if atomic_two_state:
+            if tracking_error is None:
+                mode_stage_record = complete_atomic_stage(
+                    root,
+                    "mode_tracking",
+                    return_code=0,
+                    required_outputs=[root / "mode_tracking.json"],
+                    parsed_result=root / "mode_tracking.json",
+                    resource_summary=base_dir / "resource_summary.json",
+                    owned_children_remaining=False,
+                )
+                mode_tracking_evidence_id = mode_stage_record.evidence_id
+            else:
+                fail_atomic_stage(root, "mode_tracking", reason=tracking_error)
         mode_record = write_stage_record(
             root,
             stage="mode_tracking",
@@ -1519,6 +1949,84 @@ def run_quarter_wave_benchmark_v017(
             )
         if stop_after_stage == "mode_tracking":
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
+
+        if atomic_two_state:
+            assert bounded is not None
+            start_atomic_stage(
+                root, "energy_validation", inputs=[root / "mode_tracking.json"]
+            )
+            energy_validation_path = _bounded_overlap_and_energy_report(
+                root,
+                parsed_iterations,
+                tracked,
+                material_map,
+                electrical_length=float(geometry.metadata["electrical_length_um"]),
+                max_process_rss_bytes=bounded.max_rss_bytes,
+            )
+            complete_atomic_stage(
+                root,
+                "energy_validation",
+                return_code=0,
+                required_outputs=[energy_validation_path],
+                parsed_result=energy_validation_path,
+                resource_summary=base_dir / "resource_summary.json",
+                owned_children_remaining=False,
+            )
+            if mode_tracking_evidence_id is None:
+                raise PalaceOutputError("mode-tracking evidence ID was not finalized")
+            competitors: list[int | None] = []
+            fields_by_iteration: list[dict[int, Path]] = []
+            for iteration, target_mode in zip(
+                parsed_iterations, tracked, strict=True
+            ):
+                target_frequency_value = next(
+                    mode.frequency_ghz
+                    for mode in iteration.modes
+                    if mode.index == target_mode
+                )
+                alternatives = [
+                    mode for mode in iteration.modes if mode.index != target_mode
+                ]
+                competitor = min(
+                    alternatives,
+                    key=lambda mode: (
+                        abs(mode.frequency_ghz - target_frequency_value),
+                        mode.index,
+                    ),
+                )
+                competitors.append(competitor.index)
+                fields_by_iteration.append(
+                    {
+                        field.mode_index: field.field_file
+                        for field in iteration.fields
+                        if field.field_file is not None
+                    }
+                )
+            start_atomic_stage(
+                root,
+                "field_retention",
+                inputs=[energy_validation_path, root / "mode_tracking.json"],
+            )
+            retention_completion = apply_field_retention(
+                root,
+                fields_by_iteration,
+                target_modes=tracked,
+                competitor_modes=competitors,
+                policy=FieldRetentionPolicy(final_accepted_iterations=2),
+                evidence_id=mode_tracking_evidence_id,
+            )
+            complete_atomic_stage(
+                root,
+                "field_retention",
+                return_code=0,
+                required_outputs=[
+                    root / "field_retention_plan.json",
+                    retention_completion,
+                ],
+                parsed_result=retention_completion,
+                resource_summary=base_dir / "resource_summary.json",
+                owned_children_remaining=False,
+            )
 
         records = _iteration_records(
             parsed_iterations,
@@ -1592,6 +2100,11 @@ def run_quarter_wave_benchmark_v017(
                 processes=processes,
                 timeout_seconds=timeout_seconds,
                 cancel_event=cancel_event,
+                max_rss_bytes=(
+                    sweep_settings.bounded_policy.max_rss_bytes
+                    if sweep_settings.bounded_policy is not None
+                    else None
+                ),
             )
             point_resolved = _resolved_config(point_postpro)
             resolved_copy = resolved_dir / f"{sweep_name}_{value:g}_resolved.json"
@@ -1719,7 +2232,15 @@ def run_quarter_wave_benchmark_v017(
         stage_ids.append(physical_record.evidence_id)
         if stop_after_stage == "physical_sensitivity":
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
-    except PalaceOutputError as exc:
+    except (PalaceOutputError, RuntimeError) as exc:
+        if atomic_two_state:
+            fail_unfinished_atomic_stages(root, reason=str(exc))
+        if "RESOURCE_LIMIT_TERMINATED" in str(exc):
+            return V017BenchmarkResult(
+                status="RESOURCE_LIMIT_TERMINATED",
+                output_dir=root,
+                reason=str(exc),
+            )
         return _finish_invalid(
             root,
             detected,
@@ -1795,6 +2316,14 @@ def run_quarter_wave_benchmark_v017(
         "polynomial_order": model.eigenmode.element_order,
         "amr": {
             "accepted_iterations": len(records),
+            "solved_state_count": len(records),
+            "refinement_count": len(records) - 1,
+            "adapted_mesh_count": len(records) - 1,
+            "saved_mesh_count": (
+                settings.bounded_policy.saved_mesh_count
+                if settings.bounded_policy is not None
+                else int(final_adapted_mesh is not None)
+            ),
             "stop_reason": stop_reason,
             "settings": settings.model_dump(mode="json"),
             "final_element_count": records[-1].element_count,
@@ -1811,6 +2340,25 @@ def run_quarter_wave_benchmark_v017(
             ),
             "peak_solver_rss_mb": max(
                 (inv.get("peak_memory", {}).get("peak_solver_rss_mb", 0) for inv in invocations),
+                default=0,
+            ),
+            "observed_process_group_peak_rss_mb": max(
+                (
+                    inv.get("peak_memory", {}).get(
+                        "observed_process_group_peak_rss_mb", 0
+                    )
+                    for inv in invocations
+                ),
+                default=0,
+            ),
+            "palace_reported_peak_memory_mb": max(
+                (
+                    inv.get("peak_memory", {}).get(
+                        "palace_reported_peak_memory_mb", 0
+                    )
+                    or 0
+                    for inv in invocations
+                ),
                 default=0,
             ),
         },
@@ -1845,6 +2393,54 @@ def run_quarter_wave_benchmark_v017(
     else:
         status = EvidenceStatus.SIMULATION_EXECUTED
 
+    energy_validation = json.loads(
+        (root / "field_energy_validation.json").read_text(encoding="utf-8")
+    ) if (root / "field_energy_validation.json").is_file() else {}
+    promotion_status = (
+        "PHYSICAL_SANITY_PASSED"
+        if energy_validation.get("physical_sanity_passed") is True
+        else "OUTPUT_PARSED"
+    )
+    write_json(
+        {
+            "schema": "textlayout.palace-workflow-status.v1",
+            "operational_status": "WORKFLOW_COMPLETED",
+            "solver_status": "SOLVER_EXECUTED",
+            "parse_status": "OUTPUT_PARSED",
+            "promotion_status": promotion_status,
+            "scientific_status": status.value,
+            "physical_sanity_passed": energy_validation.get(
+                "physical_sanity_passed", False
+            ),
+            "numerically_converged": not convergence_blockers,
+            "cross_validated": False,
+            "physics_verified": False,
+            "retention_completed": (
+                root / "field_retention_completion.json"
+            ).is_file(),
+            "pre_evidence_atomic_stages_completed": all(
+                (
+                    root
+                    / "atomic_stages"
+                    / stage
+                    / "stage_completed.json"
+                ).is_file()
+                for stage in (
+                    "preflight",
+                    "mesh_generation",
+                    "solve_state_0",
+                    "adapt_mesh_0",
+                    "solve_state_1",
+                    "field_parse",
+                    "mode_tracking",
+                    "energy_validation",
+                    "field_retention",
+                )
+            ),
+        },
+        root / "workflow_status.json",
+    )
+
     write_json(
         {
             "schema": "textlayout.palace-convergence.v2",
@@ -1861,6 +2457,17 @@ def run_quarter_wave_benchmark_v017(
         root / "convergence.json",
     )
 
+    if atomic_two_state:
+        start_atomic_stage(
+            root,
+            "canonical_evidence",
+            inputs=[
+                root / "convergence.json",
+                root / "run_manifest.json",
+                root / "field_retention_completion.json",
+                root / "workflow_status.json",
+            ],
+        )
     evidence = _executed_evidence(
         detected,
         layout=layout,
@@ -1882,6 +2489,21 @@ def run_quarter_wave_benchmark_v017(
     )
     evidence_path = write_canonical(evidence, root / "canonical_evidence.json")
     _write_report(root, status, records, matches, sweep_records, verification, supplementary)
+    if atomic_two_state:
+        complete_atomic_stage(
+            root,
+            "canonical_evidence",
+            return_code=0,
+            required_outputs=[
+                evidence_path,
+                root / "report.md",
+                root / "workflow_status.json",
+            ],
+            parsed_result=evidence_path,
+            resource_summary=base_dir / "resource_summary.json",
+            owned_children_remaining=False,
+            command=command,
+        )
     evidence_record = write_stage_record(
         root,
         stage="evidence_promotion",

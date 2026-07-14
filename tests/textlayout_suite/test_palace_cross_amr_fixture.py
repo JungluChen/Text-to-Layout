@@ -68,4 +68,10 @@ def test_real_cross_amr_reference_projection(
     assert diagnostic.total_mac == pytest.approx(reference.total_mac, abs=1e-12)
     assert reference.global_mapped_volume_coverage == pytest.approx(1.0)
     assert reference.critical_region_mapped_volume_coverage == pytest.approx(1.0)
+    assert reference.spatial_index_build_seconds > 0.0
+    assert reference.spatial_index_query_seconds > 0.0
+    assert reference.average_candidates_per_point >= 1.0
+    assert reference.maximum_candidates_per_point >= 1
+    assert reference.failed_point_queries == 0
+    assert reference.material_mismatch_rejections == 0
     assert reference.projection_implementation != diagnostic.projection_implementation

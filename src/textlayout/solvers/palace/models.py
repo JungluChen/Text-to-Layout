@@ -104,6 +104,8 @@ class ModeFieldData(BaseModel):
     magnetic_participation: dict[str, float]
     resonator_localization: float = Field(ge=0.0, le=1.0)
     energy_normalization_error_percent: float = Field(ge=0.0)
+    electric_energy_j: float | None = Field(default=None, gt=0.0)
+    magnetic_energy_j: float | None = Field(default=None, gt=0.0)
     field_file: Path | None = None
 
 
@@ -164,6 +166,7 @@ class FieldOverlapResult(BaseModel):
     mapped_volume: float = Field(ge=0.0)
     expected_domain_volume: float = Field(gt=0.0)
     maximum_mapping_distance: float = Field(ge=0.0)
+    maximum_candidate_centroid_distance: float = Field(default=0.0, ge=0.0)
     average_mapping_distance: float = Field(ge=0.0)
     maximum_normalized_mapping_distance: float = Field(ge=0.0)
     interpolation_failures: int = Field(ge=0)
@@ -175,6 +178,13 @@ class FieldOverlapResult(BaseModel):
     integration_cell_count: int = Field(gt=0)
     raw_total_volume: float = Field(ge=0.0)
     deduplicated_total_volume: float = Field(gt=0.0)
+    spatial_index_build_seconds: float = Field(default=0.0, ge=0.0)
+    spatial_index_query_seconds: float = Field(default=0.0, ge=0.0)
+    average_candidates_per_point: float = Field(default=0.0, ge=0.0)
+    maximum_candidates_per_point: int = Field(default=0, ge=0)
+    failed_point_queries: int = Field(default=0, ge=0)
+    material_mismatch_rejections: int = Field(default=0, ge=0)
+    peak_projection_process_rss_bytes: int = Field(default=0, ge=0)
     passed_projection_quality: bool
     problem_class: ModeProblemClass = "closed_lossless_hermitian"
     ordinary_energy_mac_use: MacUse = "mandatory_gate"
@@ -216,11 +226,70 @@ class MaterialOverlapMap(BaseModel):
     schema_version: str = "textlayout.palace-material-overlap.v1"
     model_sha256: str = Field(min_length=64, max_length=64)
     palace_config_sha256: str = Field(min_length=64, max_length=64)
+    length_unit_m: float = Field(default=1.0, gt=0.0)
     entries: list[MaterialOverlapEntry]
     critical_surface_attribute_ids: list[int] = Field(default_factory=list)
     critical_near_field_region_names: list[str] = Field(default_factory=list)
     critical_region_coverage: dict[str, float | int] = Field(default_factory=dict)
     map_sha256: str = Field(min_length=64, max_length=64)
+
+
+class PalaceBoundedAMRPolicy(BaseModel):
+    """Resource-bounded AMR semantics expressed in solved states, not loop counts."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    solved_states: int = Field(default=2, ge=1)
+    refinement_count: int | None = Field(default=None, ge=0)
+    retain_final_adapted_mesh: bool = False
+    perform_adaptation_after_final_solve: bool = False
+    save_intermediate_meshes: bool = True
+    save_final_mesh: bool = False
+    max_elements: int | None = Field(default=None, gt=0)
+    max_dofs: int | None = Field(default=None, gt=0)
+    max_runtime_seconds: int = Field(default=1200, gt=0)
+    max_rss_bytes: int = Field(default=8 * 1024**3, gt=0)
+
+    @model_validator(mode="after")
+    def _valid_schedule(self) -> PalaceBoundedAMRPolicy:
+        requested = self.effective_refinement_count
+        useful = self.solved_states - 1
+        if requested > useful and not self.retain_final_adapted_mesh:
+            raise ValueError(
+                "adaptation count cannot exceed solved_states - 1 unless the final "
+                "adapted mesh is explicitly retained"
+            )
+        if self.perform_adaptation_after_final_solve and not self.retain_final_adapted_mesh:
+            raise ValueError(
+                "adaptation after the final solve creates an unused mesh; "
+                "set retain_final_adapted_mesh=true explicitly"
+            )
+        if self.save_final_mesh and not self.retain_final_adapted_mesh:
+            raise ValueError("save_final_mesh requires retain_final_adapted_mesh=true")
+        return self
+
+    @property
+    def effective_refinement_count(self) -> int:
+        if self.refinement_count is not None:
+            return self.refinement_count
+        return self.solved_states - 1 + int(self.perform_adaptation_after_final_solve)
+
+    @property
+    def adapted_mesh_count(self) -> int:
+        return self.effective_refinement_count
+
+    @property
+    def saved_mesh_count(self) -> int:
+        # SaveAdaptIterations retains solved-state output directories, not
+        # serialized MFEM meshes. SaveAdaptMesh is the only mesh serialization.
+        return int(self.save_final_mesh and self.retain_final_adapted_mesh)
+
+    def refinement_config(self) -> dict[str, bool | int]:
+        return {
+            "MaxIts": self.effective_refinement_count,
+            "SaveAdaptIterations": self.save_intermediate_meshes,
+            "SaveAdaptMesh": self.save_final_mesh,
+        }
 
 
 class PalaceRun(BaseModel):
@@ -236,12 +305,22 @@ class PalaceRun(BaseModel):
     output_dir: Path
     timed_out: bool = False
     cancelled: bool = False
+    resource_limit_terminated: bool = False
+    termination_reason: str | None = None
+    resource_summary_path: Path | None = None
+    orphan_processes_remaining: bool = False
     input_file_hashes: dict[str, str] = Field(default_factory=dict)
     output_file_hashes: dict[str, str] = Field(default_factory=dict)
 
     @property
     def succeeded(self) -> bool:
-        return self.return_code == 0 and not self.timed_out and not self.cancelled
+        return (
+            self.return_code == 0
+            and not self.timed_out
+            and not self.cancelled
+            and not self.resource_limit_terminated
+            and not self.orphan_processes_remaining
+        )
 
 
 class MeshLevelResult(BaseModel):

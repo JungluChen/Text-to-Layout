@@ -626,6 +626,8 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         palace_resonator_status,
         run_quarter_wave_benchmark_v017,
     )
+    from textlayout.solvers.palace.config import DomainExtents
+    from textlayout.solvers.palace.models import PalaceBoundedAMRPolicy
     from textlayout.solvers.palace.stages import (
         palace_job_profile_from_payload,
         refresh_stage_job_profiles,
@@ -713,6 +715,21 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
             command.extend(["--stage", args.stage])
         if args.from_stage:
             command.extend(["--from-stage", args.from_stage])
+        if args.solved_states is not None:
+            command.extend(
+                [
+                    "--solved-states",
+                    str(args.solved_states),
+                    "--max-rss-gib",
+                    str(args.max_rss_gib),
+                    "--max-runtime-seconds",
+                    str(args.max_runtime_seconds),
+                ]
+            )
+            if args.save_final_mesh:
+                command.append("--save-final-mesh")
+        if args.bounded_validation_profile:
+            command.append("--bounded-validation-profile")
         record = start_job(
             command,
             cwd=Path.cwd(),
@@ -742,6 +759,15 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
     # reduced preflight that exercises only the base AMR study). A positive
     # value runs the sweeps at that AMR budget; it is not merged with the main
     # study's budget.
+    validation_profile = args.bounded_validation_profile
+    if validation_profile:
+        args.processes = 1
+        args.mode_count = 2
+        args.mesh_scale = 4.0
+        args.solved_states = 2
+        args.amr_iterations = 1
+        args.sweep_amr_iterations = 0
+        args.save_final_mesh = False
     skip_sweeps = args.sweep_amr_iterations == 0
     sweep_kwargs: dict[str, object] = {}
     if skip_sweeps:
@@ -751,6 +777,18 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         }
     else:
         sweep_kwargs = {"sweep_amr": AMRSettings(max_iterations=args.sweep_amr_iterations)}
+    bounded_policy = None
+    if args.solved_states is not None:
+        bounded_policy = PalaceBoundedAMRPolicy(
+            solved_states=args.solved_states,
+            retain_final_adapted_mesh=args.save_final_mesh,
+            perform_adaptation_after_final_solve=args.save_final_mesh,
+            save_final_mesh=args.save_final_mesh,
+            max_runtime_seconds=args.max_runtime_seconds,
+            max_rss_bytes=int(args.max_rss_gib * 1024**3),
+            max_elements=200_000 if validation_profile else None,
+            max_dofs=2_000_000 if validation_profile else None,
+        )
     result = run_quarter_wave_benchmark_v017(
         out_dir,
         layout_path=DEFAULT_LAYOUT,
@@ -758,14 +796,37 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         timeout_seconds=args.timeout,
         mesh_scale=args.mesh_scale,
         mode_count=args.mode_count,
-        amr=AMRSettings(max_iterations=args.amr_iterations),
+        amr=AMRSettings(
+            max_iterations=args.amr_iterations,
+            bounded_policy=bounded_policy,
+        ),
         resume=args.resume,
         stop_after_stage=args.stage,
         from_stage=args.from_stage,
+        extents=(
+            DomainExtents(
+                substrate_thickness_um=150.0,
+                vacuum_height_um=150.0,
+                lid_height_um=200.0,
+                lateral_margin_um=50.0,
+            )
+            if validation_profile
+            else None
+        ),
         **sweep_kwargs,  # type: ignore[arg-type]
     )
     print(result.model_dump_json(indent=2))
-    return 1 if result.status in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INVALID"} else 0
+    return (
+        1
+        if result.status
+        in {
+            "SKIPPED_SOLVER_ABSENT",
+            "SIMULATION_INVALID",
+            "RESOURCE_BUDGET_REJECTED",
+            "RESOURCE_LIMIT_TERMINATED",
+        }
+        else 0
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1038,6 +1099,37 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=4,
         help="Number of Palace eigenmodes to solve and retain per iteration.",
+    )
+    p_palace.add_argument(
+        "--solved-states",
+        type=int,
+        default=None,
+        help="Enable bounded AMR with this exact number of solved states.",
+    )
+    p_palace.add_argument(
+        "--max-rss-gib",
+        type=float,
+        default=8.0,
+        help="Hard process-group RSS limit for a bounded Palace run.",
+    )
+    p_palace.add_argument(
+        "--max-runtime-seconds",
+        type=int,
+        default=1200,
+        help="Hard solver runtime limit for a bounded Palace run.",
+    )
+    p_palace.add_argument(
+        "--save-final-mesh",
+        action="store_true",
+        help="Explicitly request adaptation and serialization after the final solved state.",
+    )
+    p_palace.add_argument(
+        "--bounded-validation-profile",
+        action="store_true",
+        help=(
+            "Run the one-rank, two-mode, two-state coarse operational validation "
+            "profile with one refinement, no sweeps, and no final mesh serialization."
+        ),
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
 

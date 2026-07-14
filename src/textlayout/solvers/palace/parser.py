@@ -232,6 +232,8 @@ def parse_mode_fields(
                 magnetic_participation=magnetic,
                 resonator_localization=max(0.0, min(1.0, localization)),
                 energy_normalization_error_percent=balance,
+                electric_energy_j=electric_total,
+                magnetic_energy_j=magnetic_total,
                 field_file=_field_file(output_dir, mode),
             )
         )

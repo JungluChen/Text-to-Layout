@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from textlayout.evidence.canonical import sha256_file, sha256_json
 from textlayout.simulation.runners import _windows_to_wsl, _wsl_exe
@@ -37,6 +37,8 @@ class LinuxProcessRecord(BaseModel):
     process_group_id: int = Field(gt=0)
     start_time_ticks: int = Field(ge=0)
     rss_kb: int = Field(ge=0)
+    virtual_memory_kb: int = Field(default=0, ge=0)
+    thread_count: int = Field(default=0, ge=0)
     cpu_time_ticks: int = Field(ge=0)
     cpu_percent: float = Field(ge=0)
     read_bytes: int = Field(ge=0)
@@ -49,17 +51,31 @@ class SolverProcessRecord(BaseModel):
 
     schema_: str = Field(default="textlayout.palace-solver-process.v1", alias="schema")
     job_id: str
+    outer_python_pid: int | None = None
+    windows_wsl_pid: int | None = None
     linux_pid: int | None = None
     linux_process_group_id: int | None = None
     mpirun_pid: int | None = None
     palace_rank_pids: list[int] = Field(default_factory=list)
     process_start_time_ticks: int | None = None
     command_hash: str
+    environment_hash: str | None = None
     executable_hash: str | None = None
     working_directory: Path
     record_path: Path
     processes: list[LinuxProcessRecord] = Field(default_factory=list)
     cancellation_status: CancellationStatus | None = None
+
+
+def write_solver_process_record(record: SolverProcessRecord) -> None:
+    target = record.record_path
+    temporary = target.with_suffix(target.suffix + ".tmp")
+    temporary.write_text(
+        record.model_dump_json(indent=2, by_alias=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    os.replace(temporary, target)
 
 
 def is_wsl_command(command: list[str]) -> bool:
@@ -91,10 +107,12 @@ def wrap_wsl_command_with_ownership(
     record_wsl = _wsl_record_path(record_path)
     work_wsl = _wsl_record_path(working_directory)
     command_hash = sha256_json({"command": command})
+    environment_hash = sha256_json(dict(sorted(os.environ.items())))
     payload = {
         "schema": "textlayout.palace-solver-process.v1",
         "job_id": job_id,
         "command_hash": command_hash,
+        "environment_hash": environment_hash,
         "executable_hash": executable_hash,
         "working_directory": str(working_directory.resolve()),
         "record_path": str(record_path.resolve()),
@@ -116,14 +134,21 @@ def wrap_wsl_command_with_ownership(
             "    'palace_rank_pids': [],",
             "    'processes': [],",
             "})",
-            "print(json.dumps(payload, indent=2, sort_keys=True))",
+            f"target = {record_wsl!r}",
+            "temporary = f'{target}.tmp.{os.getpid()}'",
+            "with open(temporary, 'w', encoding='utf-8') as handle:",
+            "    json.dump(payload, handle, indent=2, sort_keys=True)",
+            "    handle.write('\\n')",
+            "    handle.flush()",
+            "    os.fsync(handle.fileno())",
+            "os.replace(temporary, target)",
         ]
     )
     inner = "\n".join(
         [
             "set -e",
             f"cd {shlex.quote(work_wsl)}",
-            f"python3 -c {shlex.quote(record_script)} > {shlex.quote(record_wsl)}",
+            f"python3 -c {shlex.quote(record_script)}",
             f"exec bash -lc {shlex.quote(original)}",
         ]
     )
@@ -164,7 +189,7 @@ def aggregate_process_resources(
         "read_bytes": sum(process.read_bytes for process in processes),
         "write_bytes": sum(process.write_bytes for process in processes),
         "mpi_rank_count": sum(
-            Path(process.command.split(maxsplit=1)[0]).name == "palace"
+            _is_palace_command(process.command)
             for process in processes
             if process.command
         ),
@@ -173,6 +198,11 @@ def aggregate_process_resources(
         ),
         "processes": [process.model_dump(mode="json") for process in processes],
     }
+
+
+def _is_palace_command(command: str) -> bool:
+    executable = Path(command.split(maxsplit=1)[0]).name.lower()
+    return executable == "palace" or executable.startswith("palace-")
 
 
 def inspect_owned_processes(record: SolverProcessRecord) -> list[LinuxProcessRecord]:
@@ -197,6 +227,8 @@ for name in os.listdir('/proc'):
         utime, stime, start = int(fields[11]), int(fields[12]), int(fields[19])
         status = open(root + '/status', encoding='utf-8').read().splitlines()
         rss = next((int(x.split()[1]) for x in status if x.startswith('VmRSS:')), 0)
+        virtual = next((int(x.split()[1]) for x in status if x.startswith('VmSize:')), 0)
+        threads = next((int(x.split()[1]) for x in status if x.startswith('Threads:')), 0)
         io = {{}}
         for line in open(root + '/io', encoding='ascii'):
             key, value = line.split(':', 1)
@@ -206,6 +238,7 @@ for name in os.listdir('/proc'):
         rows.append({{
             'pid': int(name), 'parent_pid': ppid, 'process_group_id': pgid,
             'start_time_ticks': start, 'rss_kb': rss,
+            'virtual_memory_kb': virtual, 'thread_count': threads,
             'cpu_time_ticks': utime + stime,
             'cpu_percent': (utime + stime) / clk / elapsed * 100.0,
             'read_bytes': io.get('read_bytes', 0),
@@ -241,7 +274,12 @@ def refresh_solver_process_record(path: str | Path) -> SolverProcessRecord | Non
     record_path = Path(path)
     if not record_path.is_file():
         return None
-    record = SolverProcessRecord.model_validate_json(record_path.read_text(encoding="utf-8"))
+    try:
+        record = SolverProcessRecord.model_validate_json(
+            record_path.read_text(encoding="utf-8")
+        )
+    except (OSError, ValidationError):
+        return None
     processes = inspect_owned_processes(record)
     mpirun = next(
         (
@@ -254,7 +292,7 @@ def refresh_solver_process_record(path: str | Path) -> SolverProcessRecord | Non
     palace_ranks = [
         p.pid
         for p in processes
-        if p.command and Path(p.command.split(maxsplit=1)[0]).name == "palace"
+        if p.command and _is_palace_command(p.command)
     ]
     updated = record.model_copy(
         update={
@@ -263,11 +301,7 @@ def refresh_solver_process_record(path: str | Path) -> SolverProcessRecord | Non
             "palace_rank_pids": palace_ranks,
         }
     )
-    record_path.write_text(
-        updated.model_dump_json(indent=2, by_alias=True) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    write_solver_process_record(updated)
     return updated
 
 
@@ -296,11 +330,7 @@ def cancel_owned_wsl_process_group(
     updated = record.model_copy(
         update={"processes": remaining, "cancellation_status": status}
     )
-    record.record_path.write_text(
-        updated.model_dump_json(indent=2, by_alias=True) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    write_solver_process_record(updated)
     return updated
 
 

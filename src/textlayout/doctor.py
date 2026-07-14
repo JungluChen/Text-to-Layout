@@ -181,6 +181,15 @@ def _optional_solver_checks(
     )
     from textlayout.simulation.wrspice import find_wrspice
 
+    def find_palace() -> str | None:
+        from textlayout.solvers.palace.capability import detect_palace
+
+        capability = detect_palace()
+        if not capability.available:
+            return None
+        identity = capability.executable or capability.container_image
+        return f"{identity} (Palace {capability.version})"
+
     stack = discover_openems_stack()
     checks.append(
         _external_check(
@@ -228,7 +237,7 @@ def _optional_solver_checks(
             ),
             _external_check(
                 "Palace",
-                lambda: find_executable(("palace", "palace.exe"), env_var="TEXTLAYOUT_PALACE"),
+                find_palace,
                 section="3D FEM future",
                 required=strict or strict_fullchip,
             ),

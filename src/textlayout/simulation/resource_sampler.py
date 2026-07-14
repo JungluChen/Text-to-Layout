@@ -11,11 +11,18 @@ error) the sample is skipped rather than raising into the solver path.
 
 from __future__ import annotations
 
+import json
+import os
 import re
 import shutil
 import subprocess
 import threading
+import time
 from dataclasses import dataclass, field
+from pathlib import Path
+
+import psutil  # type: ignore[import-untyped]
+from pydantic import BaseModel, ConfigDict, Field
 
 
 def _wsl_exe() -> str | None:
@@ -68,6 +75,130 @@ def _parse_free_mb(free_output: str) -> dict[str, int]:
 def read_memory_budget() -> dict[str, int]:
     """Return total/available/used WSL memory in MB (best effort)."""
     return _parse_free_mb(_run("free -m"))
+
+
+class ResourceBudgetDecision(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    schema_version: str = "textlayout.palace-resource-budget.v1"
+    total_ram_bytes: int = Field(ge=0)
+    available_ram_bytes: int = Field(ge=0)
+    configured_max_rss_bytes: int = Field(gt=0)
+    maximum_allowed_rss_bytes: int = Field(gt=0)
+    minimum_headroom_bytes: int = Field(ge=0)
+    free_disk_bytes: int = Field(ge=0)
+    estimated_field_output_bytes: int = Field(ge=0)
+    estimated_mesh_output_bytes: int = Field(ge=0)
+    projected_free_disk_bytes: int = Field(ge=0)
+    minimum_free_disk_bytes: int = Field(ge=0)
+    allowed: bool
+    blockers: list[str]
+
+
+def evaluate_resource_budget(
+    output_dir: Path,
+    *,
+    configured_max_rss_bytes: int,
+    estimated_field_output_bytes: int = 0,
+    estimated_mesh_output_bytes: int = 0,
+    maximum_rss_fraction: float = 0.70,
+    minimum_headroom_fraction: float = 0.20,
+    minimum_free_disk_bytes: int = 20 * 1024**3,
+) -> ResourceBudgetDecision:
+    memory = read_memory_budget()
+    total = memory["total_mb"] * 1024**2
+    available = memory["available_mb"] * 1024**2
+    headroom = int(total * minimum_headroom_fraction)
+    maximum = max(min(int(total * maximum_rss_fraction), available - headroom), 1)
+    disk = shutil.disk_usage(output_dir.resolve().anchor or output_dir)
+    projected = max(
+        disk.free - estimated_field_output_bytes - estimated_mesh_output_bytes, 0
+    )
+    blockers: list[str] = []
+    if configured_max_rss_bytes > maximum:
+        blockers.append("configured RSS exceeds 70% of total WSL physical RAM")
+    if available < headroom:
+        blockers.append("available RAM does not preserve 20% system headroom")
+    if projected < minimum_free_disk_bytes:
+        blockers.append("projected free disk is below 20 GiB")
+    return ResourceBudgetDecision(
+        total_ram_bytes=total,
+        available_ram_bytes=available,
+        configured_max_rss_bytes=configured_max_rss_bytes,
+        maximum_allowed_rss_bytes=maximum,
+        minimum_headroom_bytes=headroom,
+        free_disk_bytes=disk.free,
+        estimated_field_output_bytes=estimated_field_output_bytes,
+        estimated_mesh_output_bytes=estimated_mesh_output_bytes,
+        projected_free_disk_bytes=projected,
+        minimum_free_disk_bytes=minimum_free_disk_bytes,
+        allowed=not blockers,
+        blockers=blockers,
+    )
+
+
+class ProcessTreeResourceWatcher:
+    """Enforce an RSS budget for a native process and all recursive children."""
+
+    def __init__(
+        self,
+        pid: int,
+        *,
+        max_rss_bytes: int,
+        event_path: Path,
+        interval_seconds: float = 0.05,
+        grace_seconds: float = 1.0,
+    ) -> None:
+        self.pid = pid
+        self.max_rss_bytes = max_rss_bytes
+        self.event_path = event_path
+        self.interval_seconds = interval_seconds
+        self.grace_seconds = grace_seconds
+
+    def _atomic_event(self, payload: object) -> None:
+        temporary = self.event_path.with_suffix(self.event_path.suffix + ".tmp")
+        temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        os.replace(temporary, self.event_path)
+
+    def run_until_exit(self) -> dict[str, object]:
+        root = psutil.Process(self.pid)
+        peak = 0
+        terminated = False
+        while root.is_running():
+            processes = [root, *root.children(recursive=True)]
+            rss = sum(
+                process.memory_info().rss
+                for process in processes
+                if process.is_running()
+            )
+            peak = max(peak, rss)
+            if rss > self.max_rss_bytes:
+                terminated = True
+                self._atomic_event(
+                    {
+                        "schema": "textlayout.process-resource-limit-event.v1",
+                        "timestamp": time.time(),
+                        "root_pid": self.pid,
+                        "child_pids": [process.pid for process in processes[1:]],
+                        "process_group_rss_bytes": rss,
+                        "max_rss_bytes": self.max_rss_bytes,
+                    }
+                )
+                for process in reversed(processes):
+                    if process.is_running():
+                        process.terminate()
+                _, alive = psutil.wait_procs(processes, timeout=self.grace_seconds)
+                for process in alive:
+                    process.kill()
+                psutil.wait_procs(alive, timeout=self.grace_seconds)
+                break
+            time.sleep(self.interval_seconds)
+        alive = root.is_running() and root.status() != psutil.STATUS_ZOMBIE
+        return {
+            "peak_process_group_rss_bytes": peak,
+            "resource_limit_terminated": terminated,
+            "orphan_process_remaining": alive,
+        }
 
 
 @dataclass
@@ -163,13 +294,21 @@ def palace_reported_peak_memory_mb(text: str) -> float | None:
     patterns = (
         r"(?im)^.*peak(?:\s+resident)?\s+memory\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)\s*(gb|mb|kb)",
         r"(?im)^.*maximum\s+resident\s+set\s+size\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)\s*(gb|mb|kb)",
+        r"(?im)^\s*Total\s+.*?([0-9]+(?:\.[0-9]+)?)\s*([gmk])b?\s*$",
     )
     for pattern in patterns:
         matches = re.findall(pattern, text)
         if not matches:
             continue
         value, unit = matches[-1]
-        scale = {"gb": 1024.0, "mb": 1.0, "kb": 1.0 / 1024.0}[unit.lower()]
+        scale = {
+            "g": 1024.0,
+            "gb": 1024.0,
+            "m": 1.0,
+            "mb": 1.0,
+            "k": 1.0 / 1024.0,
+            "kb": 1.0 / 1024.0,
+        }[unit.lower()]
         return float(value) * scale
     return None
 

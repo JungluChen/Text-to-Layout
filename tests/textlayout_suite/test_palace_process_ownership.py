@@ -15,6 +15,7 @@ from textlayout.solvers.palace.processes import (
     aggregate_process_resources,
     cancel_owned_wsl_process_group,
     inspect_owned_processes,
+    refresh_solver_process_record,
     wrap_wsl_command_with_ownership,
 )
 
@@ -54,7 +55,15 @@ def test_wsl_wrapper_preserves_distribution_and_uses_setsid(tmp_path: Path) -> N
     assert wrapped[4:6] == ["bash", "-lc"]
     assert "exec setsid --wait" in wrapped[-1]
     assert "mpirun_pid" in wrapped[-1]
+    assert "os.replace(temporary, target)" in wrapped[-1]
+    assert "> " not in wrapped[-1]
     assert "int(os.environ['pid'])" not in wrapped[-1].split("mpirun_pid", 1)[1]
+
+
+def test_refresh_tolerates_incomplete_atomic_publication(tmp_path: Path) -> None:
+    path = tmp_path / "solver_process.json"
+    path.write_text("", encoding="utf-8")
+    assert refresh_solver_process_record(path) is None
 
 
 @pytest.mark.skipif(shutil.which("wsl.exe") is None, reason="WSL is not installed")

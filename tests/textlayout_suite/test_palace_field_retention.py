@@ -11,6 +11,8 @@ from textlayout.solvers.palace.retention import (
     rollback_retention_plan,
 )
 
+EVIDENCE_ID = "e" * 64
+
 
 def _manifest(path: Path, piece: str) -> None:
     path.write_text(
@@ -32,6 +34,7 @@ def test_retention_keeps_target_and_competitor_and_records_deletions(tmp_path: P
         [fields],
         target_modes=[2],
         competitor_modes=[1],
+        evidence_id=EVIDENCE_ID,
     )
     assert result.is_file()
     assert fields[1].exists() and fields[2].exists()
@@ -66,6 +69,7 @@ def test_retention_resumes_after_interrupted_quarantine_move(tmp_path: Path) -> 
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     moved_source = _simulate_interrupted_move(tmp_path, plan_path)
     completion = execute_retention_plan(tmp_path)
@@ -82,6 +86,7 @@ def test_retention_rollback_restores_interrupted_move(tmp_path: Path) -> None:
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     moved_source = _simulate_interrupted_move(tmp_path, plan_path)
     rollback_retention_plan(tmp_path)
@@ -97,6 +102,7 @@ def test_retention_rejects_stale_plan_for_different_request(tmp_path: Path) -> N
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     with pytest.raises(RetentionPlanConflict, match="RETENTION_PLAN_CONFLICT"):
         create_retention_plan(
@@ -104,6 +110,7 @@ def test_retention_rejects_stale_plan_for_different_request(tmp_path: Path) -> N
             [fields],
             target_modes=[1],
             competitor_modes=[None],
+            evidence_id=EVIDENCE_ID,
         )
 
 
@@ -114,12 +121,14 @@ def test_retention_reuses_identical_request_plan(tmp_path: Path) -> None:
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     second = create_retention_plan(
         tmp_path,
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     assert second == first
 
@@ -131,6 +140,7 @@ def test_retention_resumes_after_completion_written_before_delete(tmp_path: Path
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     with pytest.raises(RuntimeError, match="after_completion_write"):
         execute_retention_plan(tmp_path, fault_injection="after_completion_write")
@@ -150,6 +160,7 @@ def test_retention_rollback_after_precompletion_faults(tmp_path: Path, fault: st
         [fields],
         target_modes=[2],
         competitor_modes=[None],
+        evidence_id=EVIDENCE_ID,
     )
     with pytest.raises(RuntimeError, match=fault):
         execute_retention_plan(tmp_path, fault_injection=fault)  # type: ignore[arg-type]

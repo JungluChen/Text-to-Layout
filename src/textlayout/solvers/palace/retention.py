@@ -30,6 +30,9 @@ class RetentionPlanConflict(RuntimeError):
 class RetentionRequestFingerprint(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
+    schema_version: str = "textlayout.palace-field-retention-request.v1"
+    run_root: str
+    evidence_id: str = Field(min_length=64, max_length=64)
     policy: FieldRetentionPolicy
     field_inventory: list[dict[str, int | str]]
     source_hashes: dict[str, str]
@@ -81,6 +84,7 @@ def _build_request_fingerprint(
     competitor_modes: list[int | None],
     ambiguous_iterations: set[int],
     policy: FieldRetentionPolicy,
+    evidence_id: str,
 ) -> RetentionRequestFingerprint:
     inventory: list[dict[str, int | str]] = []
     source_hashes: dict[str, str] = {}
@@ -104,6 +108,9 @@ def _build_request_fingerprint(
                 )
                 source_hashes[relative] = sha256_file(resolved)
     payload = {
+        "schema_version": "textlayout.palace-field-retention-request.v1",
+        "run_root": run_root.as_posix(),
+        "evidence_id": evidence_id,
         "policy": policy.model_dump(mode="json"),
         "field_inventory": inventory,
         "source_hashes": source_hashes,
@@ -125,6 +132,7 @@ def create_retention_plan(
     competitor_modes: list[int | None],
     ambiguous_iterations: set[int] | None = None,
     policy: FieldRetentionPolicy | None = None,
+    evidence_id: str,
 ) -> Path:
     """Hash every source and atomically persist an immutable retention plan."""
     root = run_root.resolve()
@@ -138,6 +146,7 @@ def create_retention_plan(
         competitor_modes=competitor_modes,
         ambiguous_iterations=ambiguous,
         policy=selected_policy,
+        evidence_id=evidence_id,
     )
     if plan_path.exists():
         existing = RetentionPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
@@ -212,6 +221,14 @@ def execute_retention_plan(
     completion = root / "field_retention_completion.json"
     quarantine = root / ".field-retention-quarantine" / plan.plan_sha256
     if completion.exists():
+        for entry in plan.entries:
+            if entry.action != "retain":
+                continue
+            retained = root / entry.path
+            if not retained.is_file() or sha256_file(retained) != entry.sha256:
+                raise ValueError(
+                    f"completed retention hash mismatch or missing: {entry.path}"
+                )
         if quarantine.exists():
             shutil.rmtree(quarantine)
         _remove_empty_quarantine_root(root)
@@ -279,6 +296,7 @@ def apply_field_retention(
     competitor_modes: list[int | None],
     ambiguous_iterations: set[int] | None = None,
     policy: FieldRetentionPolicy | None = None,
+    evidence_id: str,
 ) -> Path:
     create_retention_plan(
         run_root,
@@ -287,5 +305,6 @@ def apply_field_retention(
         competitor_modes=competitor_modes,
         ambiguous_iterations=ambiguous_iterations,
         policy=policy,
+        evidence_id=evidence_id,
     )
     return execute_retention_plan(run_root)
