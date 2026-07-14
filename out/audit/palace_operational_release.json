@@ -1,0 +1,102 @@
+{
+  "schema": "textlayout.palace-operational-release.v1",
+  "branch": "main",
+  "starting_commit": "d133eaccd27e2fd47986f7c6c3fc11bdd219acde",
+  "starting_remote_commit": "d133eaccd27e2fd47986f7c6c3fc11bdd219acde",
+  "ending_commit": "dd8e74f969ecb2b113e4e97440eef31bc315d320",
+  "implementation_commits": [
+    "d133eaccd27e2fd47986f7c6c3fc11bdd219acde",
+    "9da6b391798e7e6951dd19f6765308909ea8a370"
+  ],
+  "test_commits": [
+    "d133eaccd27e2fd47986f7c6c3fc11bdd219acde",
+    "584cae5fd44f2477adb40639e656594672dd14d2"
+  ],
+  "evidence_commit": "dd8e74f969ecb2b113e4e97440eef31bc315d320",
+  "bounded_run_id": "palace_bounded_v021_resource_validation",
+  "bounded_run": {
+    "palace_version": "0.17.0",
+    "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+    "invocation_count": 1,
+    "mpi_processes": 1,
+    "return_code": 0,
+    "solver_runtime_seconds": 262.01,
+    "solved_states": 2,
+    "useful_refinements": 1,
+    "final_frequency_ghz": 5.803952925681,
+    "canonical_evidence_sha256": "ef971cebd21be87b9614ebc4381d4726b2645861a21c835a16d6f100044ee0b6",
+    "workflow_status_sha256": "54faf2b4a889cef4ca00d99152737530c1ec408a6307d7050ee5fac1bc215509",
+    "raw_postprocessing_bytes": 240934893,
+    "atomic_stages_completed": 10,
+    "orphan_processes": []
+  },
+  "scientific_status": "CONVERGENCE_FAILED",
+  "physical_sanity_passed": false,
+  "validation": {
+    "initial_pytest": {
+      "tests": 1842,
+      "passed": 1825,
+      "failed": 9,
+      "skipped": 8
+    },
+    "release_pytest": {
+      "tests": 1842,
+      "passed": 1834,
+      "failed": 0,
+      "skipped": 8,
+      "seconds": 204.89
+    },
+    "ruff": "PASS",
+    "mypy_textlayout_files": 172,
+    "mypy": "PASS",
+    "compileall": "PASS",
+    "uv_build": "PASS",
+    "fresh_wheel_install": "PASS",
+    "fresh_wheel_cli_version": "textlayout 0.3.0",
+    "fresh_wheel_doctor": "PASS",
+    "palace_capability": "AVAILABLE",
+    "gmsh_capability": "AVAILABLE",
+    "docker_daemon": "UNAVAILABLE"
+  },
+  "committed_scope": {
+    "production_code": [
+      "src/textlayout/cli.py",
+      "src/textlayout/doctor.py",
+      "src/textlayout/simulation/resource_sampler.py",
+      "src/textlayout/solvers/palace",
+      "src/textlayout/fem/gmsh_physical.py",
+      "src/textlayout/_legacy/meshing.py"
+    ],
+    "tests": [
+      "tests/textlayout_suite/test_palace_atomic_stages.py",
+      "tests/textlayout_suite/test_palace_bounded_amr_policy.py",
+      "tests/textlayout_suite/test_palace_cross_amr_fixture.py",
+      "tests/textlayout_suite/test_palace_field_retention.py",
+      "tests/textlayout_suite/test_palace_p2_manufactured.py",
+      "tests/textlayout_suite/test_palace_process_ownership.py",
+      "tests/textlayout_suite/test_palace_resource_limits.py",
+      "tests/textlayout_suite/test_palace_benchmark_v017.py"
+    ],
+    "documentation": [],
+    "generated_evidence": [
+      "out/audit/klayout_containerized_drc.json",
+      "out/audit/klayout_syft_sbom.json"
+    ],
+    "excluded_large_runtime_artifacts": [
+      "out/palace_bounded_v020_resource_validation",
+      "out/palace_bounded_v021_resource_validation",
+      "out/palace_resonator_v019_reference_mac"
+    ]
+  },
+  "known_blockers": [
+    "selected eigenmode fails quarter-wave open-end and grounded-end physical sanity",
+    "only two solved states exist; numerical convergence requires at least three",
+    "finest frequency change is 2.0625341524622103 percent",
+    "final Palace global ZZ indicator is 61.99734354121 percent",
+    "electric reference quadrature MAC is 0.8586635034974959",
+    "magnetic reference quadrature MAC is 0.890285291222612",
+    "domain and polynomial-order convergence have not been executed",
+    "EPR, Q, T1 and physical sweeps remain prohibited",
+    "Docker daemon was unavailable during release validation"
+  ]
+}
