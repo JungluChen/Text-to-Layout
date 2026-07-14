@@ -168,7 +168,7 @@ def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) ->
     for function in ("centroid_projected_energy_mac", "reference_interpolated_energy_mac"):
         monkeypatch.setattr(
             f"textlayout.solvers.palace.benchmark_v017.{function}",
-            lambda left, right, kind, material_map: _overlap_result(),
+            lambda left, right, kind, material_map, **_kwargs: _overlap_result(),
         )
     tracked, matches = track_amr_modes(
         iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
