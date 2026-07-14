@@ -1,0 +1,437 @@
+{
+  "blockers": [],
+  "conductor_attributes": [
+    10
+  ],
+  "coupling_capacitor_geometry": {
+    "feedline_signal_role": "feedline_signal",
+    "gap_bbox_um": [
+      -5.0,
+      4918.4652,
+      5.0,
+      4922.4652
+    ],
+    "gap_um": 4.0,
+    "resonator_signal_role": "resonator_signal"
+  },
+  "critical_regions": [
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "cpw_gap",
+      "mesh_region_names": [],
+      "name": "cpw_gaps",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "coupling_gap",
+      "mesh_region_names": [],
+      "name": "coupling_gap",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "resonator_end",
+      "mesh_region_names": [],
+      "name": "open_and_grounded_ends",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "substrate_interface",
+      "mesh_region_names": [],
+      "name": "substrate_vacuum_interface",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    }
+  ],
+  "expected_electrical_connectivity": [
+    "grounded_end_connected_to_ground",
+    "open_end_electrically_unshorted",
+    "coupling_electrode_isolated",
+    "signal_conductor_continuous",
+    "no_accidental_signal_ground_bridge"
+  ],
+  "gds_cross_check": {
+    "area_difference_um2": 0.0,
+    "backend": "KLayout",
+    "executed": true,
+    "expected_area_um2": 590051.15,
+    "gds_path": "out/audit/palace_model_audit/quarter_wave_layout.gds",
+    "gds_sha256": "a03b798ae34600755e2cd691a1685640fc21b3de7a5e8682f6294d4a3150ee2b",
+    "imported_area_um2": 590051.15,
+    "passed": true
+  },
+  "ground_connection_bbox_um": [
+    -11.0,
+    0.0,
+    11.0,
+    10.0
+  ],
+  "hypotheses": [
+    {
+      "code": "A",
+      "disposition": "UNRESOLVED",
+      "evidence": [
+        "diagnostic multimode catalog not yet executed"
+      ],
+      "hypothesis": "wrong selected eigenmode"
+    },
+    {
+      "code": "B",
+      "disposition": "NOT_SUPPORTED",
+      "evidence": [
+        "typed endpoint metadata agrees with centreline and KLayout geometry"
+      ],
+      "hypothesis": "wrong endpoint orientation"
+    },
+    {
+      "code": "C",
+      "disposition": "NOT_SUPPORTED",
+      "evidence": [
+        "resolved Palace PEC attributes cross-checked against FEMModel"
+      ],
+      "hypothesis": "incorrect boundary assignment"
+    },
+    {
+      "code": "D",
+      "disposition": "NOT_SUPPORTED",
+      "evidence": [
+        "KLayout region connectivity and GDS readback"
+      ],
+      "hypothesis": "incorrect geometry or conductor connectivity"
+    },
+    {
+      "code": "E",
+      "disposition": "NOT_SUPPORTED",
+      "evidence": [
+        "manufactured evaluator is endpoint-, phase-, amplitude-, and ordering-invariant"
+      ],
+      "hypothesis": "incorrect field sampling"
+    },
+    {
+      "code": "F",
+      "disposition": "UNRESOLVED",
+      "evidence": [
+        "bounded release retained 2 modes"
+      ],
+      "hypothesis": "insufficient modal search range"
+    },
+    {
+      "code": "G",
+      "disposition": "SUPPORTED",
+      "evidence": [
+        "final ZZ indicator 61.99734354121 percent",
+        "finest frequency change 2.0625341524622103 percent"
+      ],
+      "hypothesis": "insufficient mesh resolution"
+    },
+    {
+      "code": "H",
+      "disposition": "UNRESOLVED",
+      "evidence": [
+        "selected-mode resonator localization is 0.525795",
+        "mode classification not yet executed"
+      ],
+      "hypothesis": "package or substrate mode contamination"
+    }
+  ],
+  "klayout_connectivity_checks": [
+    {
+      "detail": "KLayout merges resonator signal, explicit short bridge, and both ground rails",
+      "name": "grounded_end_connected_to_ground",
+      "passed": true
+    },
+    {
+      "detail": "signal is isolated from ground without the declared short and retains the coupling gap",
+      "name": "open_end_electrically_unshorted",
+      "passed": true
+    },
+    {
+      "detail": "KLayout intersection of feedline signal with resonator/ground group is empty",
+      "name": "coupling_electrode_isolated",
+      "passed": true
+    },
+    {
+      "detail": "resonator signal is one merged KLayout region",
+      "name": "signal_conductor_continuous",
+      "passed": true
+    },
+    {
+      "detail": "ground connection appears only after the explicit grounded-end bridge is included",
+      "name": "no_accidental_signal_ground_bridge",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "critical-region records currently use broad volume compatibility attributes; localized surface and near-field mapping remains required before EPR"
+  ],
+  "material_tensor_mapping": {
+    "1": {
+      "material": "silicon",
+      "permeability": 1.0,
+      "permittivity": 11.45,
+      "volume": "substrate_resonator"
+    },
+    "2": {
+      "material": "silicon",
+      "permeability": 1.0,
+      "permittivity": 11.45,
+      "volume": "substrate_outer"
+    },
+    "3": {
+      "material": "vacuum",
+      "permeability": 1.0,
+      "permittivity": 1.0,
+      "volume": "vacuum_resonator"
+    },
+    "4": {
+      "material": "vacuum",
+      "permeability": 1.0,
+      "permittivity": 1.0,
+      "volume": "vacuum_outer"
+    },
+    "5": {
+      "material": "vacuum",
+      "permeability": 1.0,
+      "permittivity": 1.0,
+      "volume": "vacuum_far"
+    }
+  },
+  "mesh_physical_group_cross_check": {
+    "executed": true,
+    "expected": {
+      "RF_IN": {
+        "attribute": 30,
+        "dimension": 2
+      },
+      "RF_OUT": {
+        "attribute": 31,
+        "dimension": 2
+      },
+      "lid": {
+        "attribute": 12,
+        "dimension": 2
+      },
+      "outer_substrate_vacuum_interface": {
+        "attribute": 21,
+        "dimension": 2
+      },
+      "package_walls": {
+        "attribute": 11,
+        "dimension": 2
+      },
+      "substrate_outer": {
+        "attribute": 2,
+        "dimension": 3
+      },
+      "substrate_resonator": {
+        "attribute": 1,
+        "dimension": 3
+      },
+      "substrate_vacuum_interface": {
+        "attribute": 20,
+        "dimension": 2
+      },
+      "superconducting_metal": {
+        "attribute": 10,
+        "dimension": 2
+      },
+      "vacuum_far": {
+        "attribute": 5,
+        "dimension": 3
+      },
+      "vacuum_outer": {
+        "attribute": 4,
+        "dimension": 3
+      },
+      "vacuum_resonator": {
+        "attribute": 3,
+        "dimension": 3
+      }
+    },
+    "observed": {
+      "RF_IN": {
+        "attribute": 30,
+        "dimension": 2
+      },
+      "RF_OUT": {
+        "attribute": 31,
+        "dimension": 2
+      },
+      "lid": {
+        "attribute": 12,
+        "dimension": 2
+      },
+      "outer_substrate_vacuum_interface": {
+        "attribute": 21,
+        "dimension": 2
+      },
+      "package_walls": {
+        "attribute": 11,
+        "dimension": 2
+      },
+      "substrate_outer": {
+        "attribute": 2,
+        "dimension": 3
+      },
+      "substrate_resonator": {
+        "attribute": 1,
+        "dimension": 3
+      },
+      "substrate_vacuum_interface": {
+        "attribute": 20,
+        "dimension": 2
+      },
+      "superconducting_metal": {
+        "attribute": 10,
+        "dimension": 2
+      },
+      "vacuum_far": {
+        "attribute": 5,
+        "dimension": 3
+      },
+      "vacuum_outer": {
+        "attribute": 4,
+        "dimension": 3
+      },
+      "vacuum_resonator": {
+        "attribute": 3,
+        "dimension": 3
+      }
+    },
+    "passed": true
+  },
+  "mesh_physical_groups": {
+    "RF_IN": {
+      "attribute": 30,
+      "dimension": 2
+    },
+    "RF_OUT": {
+      "attribute": 31,
+      "dimension": 2
+    },
+    "lid": {
+      "attribute": 12,
+      "dimension": 2
+    },
+    "outer_substrate_vacuum_interface": {
+      "attribute": 21,
+      "dimension": 2
+    },
+    "package_walls": {
+      "attribute": 11,
+      "dimension": 2
+    },
+    "substrate_outer": {
+      "attribute": 2,
+      "dimension": 3
+    },
+    "substrate_resonator": {
+      "attribute": 1,
+      "dimension": 3
+    },
+    "substrate_vacuum_interface": {
+      "attribute": 20,
+      "dimension": 2
+    },
+    "superconducting_metal": {
+      "attribute": 10,
+      "dimension": 2
+    },
+    "vacuum_far": {
+      "attribute": 5,
+      "dimension": 3
+    },
+    "vacuum_outer": {
+      "attribute": 4,
+      "dimension": 3
+    },
+    "vacuum_resonator": {
+      "attribute": 3,
+      "dimension": 3
+    }
+  },
+  "palace_boundary_cross_check": {
+    "executed": true,
+    "expected_inactive_eigenmode_pec_attributes": [
+      10,
+      11,
+      12,
+      30,
+      31
+    ],
+    "interface_attributes": [
+      20,
+      21
+    ],
+    "interface_attributes_in_pec": [],
+    "passed": true,
+    "pec_attributes": [
+      10,
+      11,
+      12,
+      30,
+      31
+    ],
+    "resolved_config_path": "out/palace_bounded_v021_resource_validation/base_mesh/postpro/palace_amr_resolved.json"
+  },
+  "pec_boundary_attributes": [
+    10,
+    11,
+    12
+  ],
+  "physical_grounded_end_um": [
+    0.0,
+    0.0
+  ],
+  "physical_open_end_um": [
+    0.0,
+    4918.4652
+  ],
+  "radiation_or_impedance_boundary_attributes": [],
+  "resonator_centerline_um": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      4918.4652
+    ]
+  ],
+  "resonator_effective_physical_length_um": 4918.4652,
+  "schema_version": "textlayout.palace-quarter-wave-model-audit.v1",
+  "status": "PASS",
+  "substrate_attributes": [
+    1,
+    2
+  ],
+  "vacuum_attributes": [
+    3,
+    4,
+    5
+  ],
+  "visual_diagnostics": [
+    "out/audit/palace_model_audit/geometry_boundary_diagnostics.svg"
+  ]
+}
