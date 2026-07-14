@@ -16,7 +16,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 - `textlayout pdk` — subcommands: `apply-calibration`, `info`, `list`
 - `textlayout prompt`
 - `textlayout serve`
-- `textlayout simulate` — subcommands: `palace-resonator`
+- `textlayout simulate` — subcommands: `palace-diagnostic`, `palace-resonator`
 - `textlayout verify`
 - `textlayout yield` — subcommands: `jj`, `qubit-array`
 
