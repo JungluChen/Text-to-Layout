@@ -12,6 +12,14 @@ from textlayout.solvers.palace.models import (
     PalaceOutputError,
     PalaceUnavailable,
 )
+from textlayout.solvers.palace.global_assignment import (
+    assign_modes_globally,
+    AssignedModePair,
+    AssignmentModeSignature,
+    AssignmentWeights,
+    GlobalModeAssignment,
+    PairMac,
+)
 from textlayout.solvers.palace.model_audit import (
     audit_quarter_wave_model,
     QuarterWaveModelAudit,
@@ -35,6 +43,9 @@ from textlayout.solvers.palace.mode_sanity import (
 
 __all__ = [
     "Eigenmode",
+    "AssignedModePair",
+    "AssignmentModeSignature",
+    "AssignmentWeights",
     "DiagnosticMultimodeResult",
     "PalaceBackend",
     "PalaceCapability",
@@ -42,6 +53,8 @@ __all__ = [
     "PalaceUnavailable",
     "ModeClass",
     "ModeSignature",
+    "GlobalModeAssignment",
+    "PairMac",
     "QuarterWaveModelAudit",
     "QuarterWaveSanityResult",
     "QuarterWaveSanitySettings",
@@ -49,6 +62,7 @@ __all__ = [
     "SpatialEnergyFractions",
     "TargetModeSelection",
     "audit_quarter_wave_model",
+    "assign_modes_globally",
     "classify_mode",
     "detect_palace",
     "evaluate_quarter_wave_energy_profiles",

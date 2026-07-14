@@ -83,6 +83,11 @@ from textlayout.solvers.palace.config import (
     write_config,
     write_json,
 )
+from textlayout.solvers.palace.global_assignment import (
+    assign_modes_globally,
+    AssignmentModeSignature,
+    PairMac,
+)
 from textlayout.solvers.palace.models import (
     Eigenmode,
     FieldOverlapResult,
@@ -246,6 +251,10 @@ class ModeMatch(BaseModel):
     localization_similarity: float = Field(ge=0, le=1)
     score: float = Field(ge=0, le=1)
     runner_up_score: float = Field(ge=0, le=1)
+    assignment_method: str = "global_hungarian"
+    global_alternative_margin: float = Field(default=0.0, ge=0)
+    physical_class_match: bool = True
+    nearest_competitor_mode: int | None = Field(default=None, ge=1)
 
     @property
     def margin(self) -> float:
@@ -989,147 +998,193 @@ def track_amr_modes(
     iterations: list[_ParsedIteration],
     *,
     seed_frequency_ghz: float,
+    seed_mode_index: int | None = None,
     material_map: MaterialOverlapMap,
-    minimum_score: float = 0.98,
+    minimum_score: float = 0.75,
     minimum_margin: float = 0.05,
     max_process_rss_bytes: int | None = None,
+    classifications_by_iteration: dict[str, dict[int, str]] | None = None,
 ) -> tuple[list[int], list[ModeMatch]]:
-    """Track one physical mode across AMR iterations without assuming mode 1.
+    """Track one physical mode using a global assignment at every AMR hop.
 
-    Candidates are scored on frequency continuity, electric and magnetic
-    energy distribution by region, and resonator-region localization. An
-    ambiguous winner (margin below ``minimum_margin``) or a weak match
-    (score below ``minimum_score``) raises ``PalaceOutputError``.
+    Every pair receives reference-mesh electric and magnetic MAC values before
+    Hungarian matching. The selected target is then read from that one-to-one
+    assignment, so two previous modes cannot silently claim the same candidate.
     """
     if len(iterations) < 2:
         raise PalaceOutputError("mode tracking requires at least two AMR iterations")
-    first = min(
-        iterations[0].modes,
-        key=lambda mode: abs(mode.frequency_ghz - seed_frequency_ghz),
-    )
+    if seed_mode_index is None:
+        first = min(
+            iterations[0].modes,
+            key=lambda mode: abs(mode.frequency_ghz - seed_frequency_ghz),
+        )
+    else:
+        classified_first = next(
+            (mode for mode in iterations[0].modes if mode.index == seed_mode_index),
+            None,
+        )
+        if classified_first is None:
+            raise PalaceOutputError(
+                f"{iterations[0].tag}: classified seed mode {seed_mode_index} is absent"
+            )
+        first = classified_first
     indices = [first.index]
     matches: list[ModeMatch] = []
     current = first.index
     for left, right in zip(iterations, iterations[1:]):
-        left_mode = next(mode for mode in left.modes if mode.index == current)
-        left_field = _mode_field(left.fields, current, left.tag)
-        scored: list[ModeMatch] = []
-        for candidate in right.modes:
-            candidate_field = _mode_field(right.fields, candidate.index, right.tag)
-            frequency, electric, magnetic, localization = _score_pair(
-                left_mode.frequency_ghz,
-                left_field.electric_participation,
-                left_field.magnetic_participation,
-                left_field.resonator_localization,
-                candidate.frequency_ghz,
-                candidate_field.electric_participation,
-                candidate_field.magnetic_participation,
-                candidate_field.resonator_localization,
-            )
-            if left_field.field_file is None or candidate_field.field_file is None:
-                raise PalaceOutputError(
-                    f"{left.tag} to {right.tag}: retained Palace fields are required for MAC"
-                )
-            electric_result = centroid_projected_energy_mac(
-                left_field.field_file,
-                candidate_field.field_file,
-                kind="electric",
-                material_map=material_map,
-            )
-            magnetic_result = centroid_projected_energy_mac(
-                left_field.field_file,
-                candidate_field.field_file,
-                kind="magnetic",
-                material_map=material_map,
-            )
-            electric_mac = electric_result.total_mac
-            magnetic_mac = magnetic_result.total_mac
-            score = (
-                frequency
-                + 2.0 * electric
-                + 2.0 * magnetic
-                + localization
-                + 2.0 * electric_mac
-                + 2.0 * magnetic_mac
-            ) / 10.0
-            scored.append(
-                ModeMatch(
-                    from_tag=left.tag,
-                    to_tag=right.tag,
-                    from_mode=current,
-                    to_mode=candidate.index,
-                    frequency_proximity=frequency,
-                    electric_regional_energy_similarity=electric,
-                    magnetic_regional_energy_similarity=magnetic,
-                    electric_field_mac=electric_mac,
-                    magnetic_field_mac=magnetic_mac,
-                    diagnostic_electric_centroid_mac=electric_mac,
-                    diagnostic_magnetic_centroid_mac=magnetic_mac,
-                    electric_mapped_volume_coverage=electric_result.mapped_volume_coverage,
-                    magnetic_mapped_volume_coverage=magnetic_result.mapped_volume_coverage,
-                    maximum_normalized_mapping_distance=max(
-                        electric_result.maximum_normalized_mapping_distance,
-                        magnetic_result.maximum_normalized_mapping_distance,
-                    ),
-                    unmapped_critical_region_count=(
-                        electric_result.unmapped_point_count
-                        + magnetic_result.unmapped_point_count
-                    ),
-                    localization_similarity=localization,
-                    score=score,
-                    runner_up_score=0.0,
+        left_classes = (classifications_by_iteration or {}).get(left.tag, {})
+        right_classes = (classifications_by_iteration or {}).get(right.tag, {})
+        previous_signatures: list[AssignmentModeSignature] = []
+        current_signatures: list[AssignmentModeSignature] = []
+        for mode in left.modes:
+            field = _mode_field(left.fields, mode.index, left.tag)
+            previous_signatures.append(
+                AssignmentModeSignature(
+                    mode_index=mode.index,
+                    frequency_ghz=mode.frequency_ghz,
+                    regional_signature={
+                        **{f"electric:{key}": value for key, value in field.electric_participation.items()},
+                        **{f"magnetic:{key}": value for key, value in field.magnetic_participation.items()},
+                    },
+                    resonator_localization=field.resonator_localization,
+                    physical_class=left_classes.get(mode.index, "UNCLASSIFIED"),
                 )
             )
-        ranked = sorted(scored, key=lambda item: (-item.score, item.to_mode))
-        if not ranked:
-            raise PalaceOutputError(f"{right.tag}: no candidate modes")
-        runner_up = ranked[1].score if len(ranked) > 1 else 0.0
-        best = ranked[0].model_copy(update={"runner_up_score": runner_up})
-        # Ambiguity is a *validity* failure: two candidates the tracker cannot
-        # tell apart (small winner-vs-runner-up margin) -> SIMULATION_INVALID.
-        # A clear winner whose absolute similarity is merely low is NOT
-        # ambiguous -- it is a *convergence* shortfall (the coarse mesh has not
-        # stabilised the mode's regional energy). That is enforced separately by
-        # the ``mode_regional_energy_similarity_above_0p98`` convergence gate,
-        # which yields CONVERGENCE_FAILED rather than SIMULATION_INVALID.
-        if best.margin < minimum_margin:
+        for mode in right.modes:
+            field = _mode_field(right.fields, mode.index, right.tag)
+            current_signatures.append(
+                AssignmentModeSignature(
+                    mode_index=mode.index,
+                    frequency_ghz=mode.frequency_ghz,
+                    regional_signature={
+                        **{f"electric:{key}": value for key, value in field.electric_participation.items()},
+                        **{f"magnetic:{key}": value for key, value in field.magnetic_participation.items()},
+                    },
+                    resonator_localization=field.resonator_localization,
+                    physical_class=right_classes.get(mode.index, "UNCLASSIFIED"),
+                )
+            )
+
+        pair_macs: list[PairMac] = []
+        evidence: dict[tuple[int, int], tuple[Any, ...]] = {}
+        for left_mode in left.modes:
+            left_field = _mode_field(left.fields, left_mode.index, left.tag)
+            if left_field.field_file is None:
+                raise PalaceOutputError(f"{left.tag}: mode {left_mode.index} has no field")
+            for right_mode in right.modes:
+                right_field = _mode_field(right.fields, right_mode.index, right.tag)
+                if right_field.field_file is None:
+                    raise PalaceOutputError(f"{right.tag}: mode {right_mode.index} has no field")
+                regional = _score_pair(
+                    left_mode.frequency_ghz,
+                    left_field.electric_participation,
+                    left_field.magnetic_participation,
+                    left_field.resonator_localization,
+                    right_mode.frequency_ghz,
+                    right_field.electric_participation,
+                    right_field.magnetic_participation,
+                    right_field.resonator_localization,
+                )
+                diagnostic_e = centroid_projected_energy_mac(
+                    left_field.field_file,
+                    right_field.field_file,
+                    kind="electric",
+                    material_map=material_map,
+                )
+                diagnostic_m = centroid_projected_energy_mac(
+                    left_field.field_file,
+                    right_field.field_file,
+                    kind="magnetic",
+                    material_map=material_map,
+                )
+                reference_e = reference_interpolated_energy_mac(
+                    left_field.field_file,
+                    right_field.field_file,
+                    kind="electric",
+                    material_map=material_map,
+                    max_process_rss_bytes=max_process_rss_bytes,
+                )
+                reference_m = reference_interpolated_energy_mac(
+                    left_field.field_file,
+                    right_field.field_file,
+                    kind="magnetic",
+                    material_map=material_map,
+                    max_process_rss_bytes=max_process_rss_bytes,
+                )
+                edge = (left_mode.index, right_mode.index)
+                pair_macs.append(
+                    PairMac(
+                        from_mode=edge[0],
+                        to_mode=edge[1],
+                        electric_mac=reference_e.total_mac,
+                        magnetic_mac=reference_m.total_mac,
+                    )
+                )
+                evidence[edge] = (
+                    *regional,
+                    diagnostic_e,
+                    diagnostic_m,
+                    reference_e,
+                    reference_m,
+                )
+        assignment = assign_modes_globally(
+            previous_signatures,
+            current_signatures,
+            pair_macs,
+            minimum_confidence=minimum_score,
+            minimum_global_margin=minimum_margin,
+        )
+        if not assignment.promotion_allowed:
             raise PalaceOutputError(
-                f"ambiguous_mode_identity: {left.tag} to {right.tag} margin "
-                f"{best.margin:.6f} is below {minimum_margin:.6f}"
+                f"ambiguous_mode_identity: {left.tag} to {right.tag} global assignment "
+                "status MODE_TRACKING_AMBIGUOUS"
             )
-        left_file = _mode_field(left.fields, current, left.tag).field_file
-        right_file = _mode_field(right.fields, best.to_mode, right.tag).field_file
-        if left_file is None or right_file is None:
-            raise PalaceOutputError("reference overlap requires retained field files")
-        reference_e = reference_interpolated_energy_mac(
-            left_file,
-            right_file,
-            kind="electric",
-            material_map=material_map,
-            max_process_rss_bytes=max_process_rss_bytes,
-        )
-        reference_m = reference_interpolated_energy_mac(
-            left_file,
-            right_file,
-            kind="magnetic",
-            material_map=material_map,
-            max_process_rss_bytes=max_process_rss_bytes,
-        )
-        best = best.model_copy(
-            update={
-                "electric_field_mac": reference_e.total_mac,
-                "magnetic_field_mac": reference_m.total_mac,
-                "electric_mapped_volume_coverage": reference_e.global_mapped_volume_coverage,
-                "magnetic_mapped_volume_coverage": reference_m.global_mapped_volume_coverage,
-                "maximum_normalized_mapping_distance": max(
-                    reference_e.maximum_normalized_mapping_distance,
-                    reference_m.maximum_normalized_mapping_distance,
-                ),
-                "unmapped_critical_region_count": (
-                    reference_e.unmapped_critical_region_cell_count
-                    + reference_m.unmapped_critical_region_cell_count
-                ),
-            }
+        assigned = next(pair for pair in assignment.pairs if pair.from_mode == current)
+        (
+            frequency,
+            electric,
+            magnetic,
+            localization,
+            diagnostic_e,
+            diagnostic_m,
+            reference_e,
+            reference_m,
+        ) = evidence[(current, assigned.to_mode)]
+        best = ModeMatch(
+            from_tag=left.tag,
+            to_tag=right.tag,
+            from_mode=current,
+            to_mode=assigned.to_mode,
+            frequency_proximity=frequency,
+            electric_regional_energy_similarity=electric,
+            magnetic_regional_energy_similarity=magnetic,
+            electric_field_mac=reference_e.total_mac,
+            magnetic_field_mac=reference_m.total_mac,
+            diagnostic_electric_centroid_mac=diagnostic_e.total_mac,
+            diagnostic_magnetic_centroid_mac=diagnostic_m.total_mac,
+            electric_mapped_volume_coverage=reference_e.global_mapped_volume_coverage,
+            magnetic_mapped_volume_coverage=reference_m.global_mapped_volume_coverage,
+            maximum_normalized_mapping_distance=max(
+                reference_e.maximum_normalized_mapping_distance,
+                reference_m.maximum_normalized_mapping_distance,
+            ),
+            unmapped_critical_region_count=(
+                reference_e.unmapped_critical_region_cell_count
+                + reference_m.unmapped_critical_region_cell_count
+            ),
+            localization_similarity=localization,
+            score=assigned.confidence,
+            runner_up_score=(
+                1.0 - assigned.nearest_competitor_cost
+                if assigned.nearest_competitor_cost is not None
+                else 0.0
+            ),
+            global_alternative_margin=assigned.global_alternative_margin,
+            physical_class_match=(
+                left_classes.get(current, "UNCLASSIFIED")
+                == right_classes.get(assigned.to_mode, "UNCLASSIFIED")
+            ),
+            nearest_competitor_mode=assigned.nearest_competitor_mode,
         )
         indices.append(best.to_mode)
         matches.append(best)

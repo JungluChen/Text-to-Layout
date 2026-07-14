@@ -184,10 +184,11 @@ def test_track_amr_modes_raises_on_ambiguous_identity(monkeypatch) -> None:
         _iteration("iteration_00", 1, {1: 6.0}, {1: 0.9}),
         _iteration("iteration_01", 2, {1: 6.0005, 2: 6.0006}, {1: 0.9, 2: 0.9}),
     ]
-    monkeypatch.setattr(
-        "textlayout.solvers.palace.benchmark_v017.centroid_projected_energy_mac",
-        lambda left, right, kind, material_map: _overlap_result(),
-    )
+    for function in ("centroid_projected_energy_mac", "reference_interpolated_energy_mac"):
+        monkeypatch.setattr(
+            f"textlayout.solvers.palace.benchmark_v017.{function}",
+            lambda left, right, kind, material_map, **_kwargs: _overlap_result(),
+        )
     with pytest.raises(PalaceOutputError, match="ambiguous_mode_identity"):
         track_amr_modes(
             iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
