@@ -1,0 +1,65 @@
+{
+  "attempts": [
+    {
+      "configured_max_rss_bytes": 7516192768,
+      "final_adapted_element_count": 861370,
+      "initial_degrees_of_freedom": 333954,
+      "initial_element_count": 263313,
+      "observed_process_group_peak_rss_bytes": 8076271616,
+      "orphan_processes_remaining": false,
+      "status": "RESOURCE_LIMIT_TERMINATED",
+      "update_fraction": 0.7
+    },
+    {
+      "classification_status": "TARGET_MODE_NOT_FOUND",
+      "configured_max_rss_bytes": 7516192768,
+      "observed_process_group_peak_rss_bytes": 7276322816,
+      "orphan_processes_remaining": false,
+      "solver_return_code": 0,
+      "state_a": {
+        "degrees_of_freedom": 333954,
+        "eig_csv_sha256": "7ea8b7b0fe2110da21f46ba53c161b1cb28d154d149f339e73ddbda98eedb434",
+        "element_count": 263313,
+        "frequencies_ghz": [
+          5.485387033655,
+          5.928063191969,
+          10.96358712164
+        ],
+        "mode_1_physical_metrics": {
+          "electric_node_residual": 0.3854525123870608,
+          "electric_open_to_ground_ratio": 2.594353306473788,
+          "magnetic_ground_to_open_ratio": 2.7141774366001408,
+          "magnetic_node_residual": 0.3684357501890627,
+          "package_energy_fraction": 0.2564792844388846,
+          "quarter_wave_profile_correlation": 0.9896862263123822,
+          "resonator_localization": 0.74351767113061
+        }
+      },
+      "state_b": {
+        "degrees_of_freedom": 474616,
+        "eig_csv_sha256": "c011352a330f58913f8bd05d2c7e21cd1c561f1eb5ba99d83af4af8a4d5b4b86",
+        "element_count": 381853,
+        "frequencies_ghz": [
+          5.60093103819,
+          6.063004838803,
+          11.18212527923
+        ]
+      },
+      "status": "SIMULATION_INVALID",
+      "untracked_indexwise_frequency_changes_percent": [
+        2.1063965737712222,
+        2.276319304706659,
+        1.9933088975837867
+      ],
+      "update_fraction": 0.2
+    }
+  ],
+  "base_mesh_sha256": "3b211ee06efa3a8df2ac31748935e6195f052175f682cd55114b291b4e21606c",
+  "convergence_claim_allowed": false,
+  "generated_from_git_commit": "ec30b7d8de0c1f79ae72fe7287b6f505815e211d",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "palace_version": "0.17.0",
+  "reason": "state A contained no mode that passed all quarter-wave endpoint and profile gates",
+  "solver_outputs_parsed": true,
+  "target_mode_frequency_change_percent": null
+}
