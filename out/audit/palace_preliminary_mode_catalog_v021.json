@@ -1,0 +1,92 @@
+{
+  "candidate_count": 2,
+  "schema": "textlayout.palace-preliminary-mode-catalog.v1",
+  "scientific_status": "CONVERGENCE_FAILED",
+  "selection": {
+    "confidence": 0.8626524600272377,
+    "rejection_reasons_by_mode": {
+      "1": [],
+      "2": [
+        "electric open-end antinode failed",
+        "electric grounded-end node failed",
+        "magnetic grounded-end antinode failed",
+        "magnetic open-end node failed",
+        "quarter-wave profile failed"
+      ]
+    },
+    "status": "TARGET_MODE_IDENTIFIED",
+    "target_frequency_ghz": 5.19808914133,
+    "target_mode": 1
+  },
+  "signatures": [
+    {
+      "boundary_energy_fraction": 0.011096957035787003,
+      "classification_confidence": 0.8626524600272377,
+      "coupling_region_participation": 0.0018682865845527968,
+      "cpw_gap_participation": 0.286515503518428,
+      "electric_ground_node_score": 0.9130583647973952,
+      "electric_open_end_score": 0.9130583647973952,
+      "frequency_ghz": 5.19808914133,
+      "frequency_prior_score": 0.5990445706649998,
+      "half_wave_profile_score": 0.0,
+      "hard_quarter_wave_gates_passed": true,
+      "longitudinal_phase_score": 0.9999999999999994,
+      "magnetic_ground_end_score": 0.9287767725739186,
+      "mode_class": "QUARTER_WAVE_RESONATOR",
+      "mode_index": 1,
+      "package_energy_fraction": 0.05582335662179283,
+      "quarter_wave_profile_score": 0.9527363462638365,
+      "quarter_wave_weighted_score": 0.8626524600272377,
+      "rejection_reasons": [],
+      "resonator_localization": 0.9441762863944301,
+      "score_components": {
+        "cpw_gap_participation": 0.028651550351842803,
+        "endpoint_shape": 0.18261167295947905,
+        "frequency_prior": 0.029952228533249994,
+        "package_rejection": 0.09441766433782073,
+        "phase_progression": 0.09999999999999995,
+        "quarter_wave_profile": 0.23818408656595913,
+        "resonator_localization": 0.18883525727888603
+      },
+      "substrate_bulk_fraction": 0.914663095017888
+    },
+    {
+      "boundary_energy_fraction": 0.08035204444569538,
+      "classification_confidence": 0.33749794258561594,
+      "coupling_region_participation": 0.000197220583551364,
+      "cpw_gap_participation": 0.03985581124351305,
+      "electric_ground_node_score": 0.15337474129813194,
+      "electric_open_end_score": 0.15337474129813194,
+      "frequency_ghz": 5.803952925681,
+      "frequency_prior_score": 0.9019764628405,
+      "half_wave_profile_score": 0.0,
+      "hard_quarter_wave_gates_passed": false,
+      "longitudinal_phase_score": 0.9999999999999989,
+      "magnetic_ground_end_score": 0.1891322825821592,
+      "mode_class": "UNKNOWN",
+      "mode_index": 2,
+      "package_energy_fraction": 0.47420458209326694,
+      "quarter_wave_profile_score": 0.0,
+      "quarter_wave_weighted_score": 0.33749794258561594,
+      "rejection_reasons": [
+        "electric open-end antinode failed",
+        "electric grounded-end node failed",
+        "magnetic grounded-end antinode failed",
+        "magnetic open-end node failed",
+        "quarter-wave profile failed"
+      ],
+      "resonator_localization": 0.5257952413447,
+      "score_components": {
+        "cpw_gap_participation": 0.003985581124351305,
+        "endpoint_shape": 0.03067494825962639,
+        "frequency_prior": 0.045098823142025006,
+        "package_rejection": 0.052579541790673305,
+        "phase_progression": 0.0999999999999999,
+        "quarter_wave_profile": 0.0,
+        "resonator_localization": 0.10515904826894001
+      },
+      "substrate_bulk_fraction": 0.9251555548245003
+    }
+  ],
+  "source_run": "palace_bounded_v021_resource_validation"
+}
