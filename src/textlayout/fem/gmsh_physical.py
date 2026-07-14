@@ -237,20 +237,30 @@ def mesh_quarter_wave(
                 if dim == 1
             }
         )
-        open_curves: list[int] = []
-        grounded_curves: list[int] = []
-        coupler_curves: list[int] = []
-        for curve in metal_curves:
-            box = gmsh.model.getBoundingBox(1, curve)
-            _, cy, _ = _bbox_center(box)
-            if abs(cy) <= params.short_width_um * 1.5:
-                grounded_curves.append(curve)
-            if abs(cy - params.length_um) <= max(params.gap_um, params.coupling_gap_um) * 2:
-                open_curves.append(curve)
-            if abs(cy - (params.length_um + params.coupling_gap_um)) <= params.center_width_um * 2:
-                coupler_curves.append(curve)
-
         fields: list[int] = []
+
+        def box(
+            *,
+            x_min: float,
+            x_max: float,
+            y_min: float,
+            y_max: float,
+            z_min: float,
+            z_max: float,
+            size: float,
+        ) -> None:
+            field = gmsh.model.mesh.field.add("Box")
+            gmsh.model.mesh.field.setNumber(field, "VIn", size)
+            gmsh.model.mesh.field.setNumber(
+                field, "VOut", model.mesh.characteristic_length
+            )
+            gmsh.model.mesh.field.setNumber(field, "XMin", x_min)
+            gmsh.model.mesh.field.setNumber(field, "XMax", x_max)
+            gmsh.model.mesh.field.setNumber(field, "YMin", y_min)
+            gmsh.model.mesh.field.setNumber(field, "YMax", y_max)
+            gmsh.model.mesh.field.setNumber(field, "ZMin", z_min)
+            gmsh.model.mesh.field.setNumber(field, "ZMax", z_max)
+            fields.append(field)
 
         def threshold(
             *, curves: list[int] | None = None, surfaces: list[int] | None = None,
@@ -276,14 +286,56 @@ def mesh_quarter_wave(
             size=sizes["cpw_conductor_edges"],
             distance=60.0,
         )
-        threshold(
-            surfaces=near_interface,
-            size=sizes["cpw_gaps"],
-            distance=50.0,
+        signal_half_width = params.center_width_um / 2.0
+        gap_outer = signal_half_width + params.gap_um
+        interface_half_height = max(
+            sizes["substrate_vacuum_interface"] * 2.0, 2.0
         )
-        threshold(curves=coupler_curves, size=sizes["coupler_gap"], distance=40.0)
-        threshold(curves=open_curves, size=sizes["open_end"], distance=40.0)
-        threshold(curves=grounded_curves, size=sizes["grounded_end"], distance=40.0)
+        box(
+            x_min=-gap_outer,
+            x_max=gap_outer,
+            y_min=0.0,
+            y_max=params.length_um,
+            z_min=-interface_half_height,
+            z_max=interface_half_height,
+            size=sizes["cpw_gaps"],
+        )
+        box(
+            x_min=-gap_outer,
+            x_max=gap_outer,
+            y_min=params.length_um,
+            y_max=params.length_um + params.coupling_gap_um,
+            z_min=-interface_half_height,
+            z_max=interface_half_height,
+            size=sizes["coupling_gap"],
+        )
+        endpoint_width = max(params.center_width_um + 2.0 * params.gap_um, 20.0)
+        box(
+            x_min=-endpoint_width,
+            x_max=endpoint_width,
+            y_min=params.length_um - endpoint_width,
+            y_max=params.length_um + endpoint_width,
+            z_min=-interface_half_height,
+            z_max=interface_half_height,
+            size=sizes["open_end"],
+        )
+        box(
+            x_min=-endpoint_width,
+            x_max=endpoint_width,
+            y_min=-params.short_width_um,
+            y_max=endpoint_width,
+            z_min=-interface_half_height,
+            z_max=interface_half_height,
+            size=sizes["grounded_end"],
+        )
+        threshold(
+            surfaces=metal_surfaces,
+            size=min(
+                sizes["metal_substrate_interface"],
+                sizes["metal_air_interface"],
+            ),
+            distance=80.0,
+        )
         threshold(
             surfaces=[*near_interface, *outer_interface],
             size=sizes["substrate_vacuum_interface"],

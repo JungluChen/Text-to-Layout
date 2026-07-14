@@ -24,13 +24,20 @@ from textlayout.solvers.palace.mode_classification import (
     TargetModeSelection,
 )
 from textlayout.solvers.palace.mode_sanity import QuarterWaveSanityResult
-from textlayout.solvers.palace.models import PalaceCapability, PalaceOutputError
+from textlayout.solvers.palace.models import (
+    Eigenmode,
+    MaterialOverlapMap,
+    ModeFieldData,
+    PalaceCapability,
+    PalaceOutputError,
+)
 from textlayout.solvers.palace.overlap import (
     build_material_overlap_map,
     quarter_wave_longitudinal_sanity,
 )
 from textlayout.solvers.palace.parser import parse_eigenmodes, parse_mode_fields
 from textlayout.solvers.palace.runner import run_palace
+from textlayout.schemas.dsl import QuarterWaveResonatorSpec
 
 
 class DiagnosticMultimodeResult(BaseModel):
@@ -72,6 +79,59 @@ def _profile_svg(signature: ModeSignature, sanity: QuarterWaveSanityResult) -> s
             "</svg>",
         ]
     )
+
+
+def classify_retained_modes(
+    modes: list[Eigenmode],
+    fields: list[ModeFieldData],
+    *,
+    model: FEMModel,
+    material_map: MaterialOverlapMap,
+    params: QuarterWaveResonatorSpec,
+    search_window_ghz: tuple[float, float],
+) -> tuple[list[ModeSignature], dict[int, QuarterWaveSanityResult]]:
+    """Classify every retained Palace field using the same physical gates."""
+    fields_by_mode = {field.mode_index: field for field in fields}
+    endpoint_mesh_size = min(
+        refinement.characteristic_length
+        for refinement in model.mesh.refinements
+        if refinement.target in {"open_end", "grounded_end"}
+    )
+    signatures: list[ModeSignature] = []
+    sanity_by_mode: dict[int, QuarterWaveSanityResult] = {}
+    for mode in modes:
+        field = fields_by_mode.get(mode.index)
+        if field is None or field.field_file is None:
+            raise PalaceOutputError(f"mode {mode.index} has no retained field")
+        sanity = QuarterWaveSanityResult.model_validate(
+            quarter_wave_longitudinal_sanity(
+                field.field_file,
+                material_map=material_map,
+                electrical_length=params.length_um,
+                local_mesh_size=endpoint_mesh_size,
+                conductor_dimension=params.center_width_um,
+            )
+        )
+        spatial = extract_spatial_energy_fractions(
+            field.field_file,
+            material_map=material_map,
+            center_width=params.center_width_um,
+            gap=params.gap_um,
+            coupling_gap=params.coupling_gap_um,
+            electrical_length=params.length_um,
+        )
+        signatures.append(
+            classify_mode(
+                mode_index=mode.index,
+                frequency_ghz=mode.frequency_ghz,
+                search_window_ghz=search_window_ghz,
+                sanity=sanity,
+                resonator_localization=field.resonator_localization,
+                spatial=spatial,
+            )
+        )
+        sanity_by_mode[mode.index] = sanity
+    return signatures, sanity_by_mode
 
 
 def _report(signatures: list[ModeSignature], selection: TargetModeSelection) -> str:
@@ -205,48 +265,24 @@ def run_diagnostic_multimode_catalog(
             output_dir=postpro,
         )
     }
-    endpoint_mesh_size = min(
-        refinement.characteristic_length
-        for refinement in model.mesh.refinements
-        if refinement.target in {"open_end", "grounded_end"}
-    )
     gallery = root / "mode_gallery"
     gallery.mkdir(parents=True, exist_ok=True)
-    signatures: list[ModeSignature] = []
-    sanity_by_mode: dict[int, dict[str, object]] = {}
-    for mode in modes:
-        field = fields.get(mode.index)
-        if field is None or field.field_file is None:
-            raise PalaceOutputError(f"diagnostic mode {mode.index} has no retained field")
-        sanity = QuarterWaveSanityResult.model_validate(
-            quarter_wave_longitudinal_sanity(
-                field.field_file,
-                material_map=material_map,
-                electrical_length=params.length_um,
-                local_mesh_size=endpoint_mesh_size,
-                conductor_dimension=params.center_width_um,
-            )
-        )
-        spatial = extract_spatial_energy_fractions(
-            field.field_file,
-            material_map=material_map,
-            center_width=params.center_width_um,
-            gap=params.gap_um,
-            coupling_gap=params.coupling_gap_um,
-            electrical_length=params.length_um,
-        )
-        signature = classify_mode(
-            mode_index=mode.index,
-            frequency_ghz=mode.frequency_ghz,
-            search_window_ghz=search_window_ghz,
-            sanity=sanity,
-            resonator_localization=field.resonator_localization,
-            spatial=spatial,
-        )
-        signatures.append(signature)
-        sanity_by_mode[mode.index] = sanity.model_dump(mode="json", by_alias=True)
-        (gallery / f"mode_{mode.index:02d}.svg").write_text(
-            _profile_svg(signature, sanity), encoding="utf-8"
+    signatures, sanity_results = classify_retained_modes(
+        modes,
+        list(fields.values()),
+        model=model,
+        material_map=material_map,
+        params=params,
+        search_window_ghz=search_window_ghz,
+    )
+    sanity_by_mode = {
+        index: sanity.model_dump(mode="json", by_alias=True)
+        for index, sanity in sanity_results.items()
+    }
+    for signature in signatures:
+        (gallery / f"mode_{signature.mode_index:02d}.svg").write_text(
+            _profile_svg(signature, sanity_results[signature.mode_index]),
+            encoding="utf-8",
         )
     selection = select_target_mode(signatures)
     status = (

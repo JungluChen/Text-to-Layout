@@ -706,6 +706,8 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
             str(args.mesh_scale),
             "--amr-iterations",
             str(args.amr_iterations),
+            "--amr-update-fraction",
+            str(args.amr_update_fraction),
             "--sweep-amr-iterations",
             str(args.sweep_amr_iterations),
             "--mode-count",
@@ -798,6 +800,7 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
         mode_count=args.mode_count,
         amr=AMRSettings(
             max_iterations=args.amr_iterations,
+            update_fraction=args.amr_update_fraction,
             bounded_policy=bounded_policy,
         ),
         resume=args.resume,
@@ -1103,6 +1106,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=5,
         help="Palace AMR MaxIts for the main study; at least 4 accepted iterations "
         "are required by the gates.",
+    )
+    p_palace.add_argument(
+        "--amr-update-fraction",
+        type=float,
+        default=0.7,
+        help="Fraction of the Palace ZZ indicator norm marked per adaptation.",
     )
     p_palace.add_argument(
         "--sweep-amr-iterations",

@@ -83,6 +83,7 @@ from textlayout.solvers.palace.config import (
     write_config,
     write_json,
 )
+from textlayout.solvers.palace.diagnostic import classify_retained_modes
 from textlayout.solvers.palace.global_assignment import (
     assign_modes_globally,
     AssignmentModeSignature,
@@ -98,6 +99,7 @@ from textlayout.solvers.palace.models import (
     MaterialOverlapMap,
     PalaceBoundedAMRPolicy,
 )
+from textlayout.solvers.palace.mode_classification import select_target_mode
 from textlayout.solvers.palace.overlap import (
     build_material_overlap_map,
     centroid_projected_energy_mac,
@@ -1904,6 +1906,9 @@ def run_quarter_wave_benchmark_v017(
         tracking_error: str | None = None
         tracked: list[int] = []
         matches: list[ModeMatch] = []
+        classifications_by_iteration: dict[str, dict[int, str]] = {}
+        classified_seed_mode: int | None = None
+        classification_selection: dict[str, Any] | None = None
         mode_tracking_evidence_id: str | None = None
         mode_tracking_path = root / "mode_tracking.json"
         mode_completion_path = (
@@ -1922,6 +1927,36 @@ def run_quarter_wave_benchmark_v017(
                 model, json.loads(resolved_base.read_text(encoding="utf-8"))
             )
             write_json(material_map.model_dump(mode="json"), root / "material_overlap_map.json")
+            maximum_candidate_frequency = max(
+                mode.frequency_ghz
+                for iteration in parsed_iterations
+                for mode in iteration.modes
+            )
+            classifier_window = (
+                max(target_frequency * 0.3, 0.001),
+                max(maximum_candidate_frequency * 1.1, target_frequency * 1.5),
+            )
+            for iteration in parsed_iterations:
+                signatures, _ = classify_retained_modes(
+                    iteration.modes,
+                    iteration.fields,
+                    model=model,
+                    material_map=material_map,
+                    params=params,
+                    search_window_ghz=classifier_window,
+                )
+                classifications_by_iteration[iteration.tag] = {
+                    signature.mode_index: str(signature.mode_class)
+                    for signature in signatures
+                }
+                if classified_seed_mode is None:
+                    selection = select_target_mode(signatures)
+                    classification_selection = selection.model_dump(mode="json")
+                    if selection.status != "TARGET_MODE_IDENTIFIED" or selection.target_mode is None:
+                        raise PalaceOutputError(
+                            f"physical target classification failed: {selection.status}"
+                        )
+                    classified_seed_mode = selection.target_mode
             if reuse_mode_tracking:
                 payload = json.loads(mode_tracking_path.read_text(encoding="utf-8"))
                 tracked = [int(value) for value in payload["tracked_mode_indices"]]
@@ -1933,8 +1968,10 @@ def run_quarter_wave_benchmark_v017(
                 tracked, matches = track_amr_modes(
                     parsed_iterations,
                     seed_frequency_ghz=target_frequency,
+                    seed_mode_index=classified_seed_mode,
                     material_map=material_map,
                     max_process_rss_bytes=(bounded.max_rss_bytes if bounded else None),
+                    classifications_by_iteration=classifications_by_iteration,
                 )
         except PalaceOutputError as exc:
             tracking_error = str(exc)
@@ -1948,6 +1985,9 @@ def run_quarter_wave_benchmark_v017(
                     "similarity + electric/magnetic field MAC + resonator localization"
                 ),
                 "seed_frequency_ghz": target_frequency,
+                "classified_seed_mode": classified_seed_mode,
+                "classification_selection": classification_selection,
+                "classifications_by_iteration": classifications_by_iteration,
                 "tracked_mode_indices": tracked,
                 "matches": [match.model_dump(mode="json") for match in matches],
                 "minimum_regional_energy_similarity": 0.98,

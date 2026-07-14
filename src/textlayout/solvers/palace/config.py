@@ -77,6 +77,45 @@ def load_quarter_wave_layout(path: str | Path) -> tuple[LayoutSpec, QuarterWaveR
     return spec, QuarterWaveResonatorSpec.model_validate(spec.parameters)
 
 
+class TargetedMeshControls(BaseModel):
+    """Independent mesh lengths for the resonator's critical regions."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    bulk_mesh_size: float = Field(default=220.0, gt=0.0)
+    conductor_edge_mesh_size: float = Field(default=3.0, gt=0.0)
+    cpw_gap_mesh_size: float | None = Field(default=None, gt=0.0)
+    coupling_gap_mesh_size: float | None = Field(default=None, gt=0.0)
+    open_end_mesh_size: float | None = Field(default=None, gt=0.0)
+    grounded_end_mesh_size: float | None = Field(default=None, gt=0.0)
+    interface_normal_mesh_size: float = Field(default=10.0, gt=0.0)
+    transition_mesh_size: float = Field(default=40.0, gt=0.0)
+
+    def resolved(self, params: QuarterWaveResonatorSpec) -> TargetedMeshControls:
+        return self.model_copy(
+            update={
+                "cpw_gap_mesh_size": self.cpw_gap_mesh_size
+                or max(params.gap_um / 3.0, 1.0),
+                "coupling_gap_mesh_size": self.coupling_gap_mesh_size
+                or max(params.coupling_gap_um / 3.0, 1.0),
+                "open_end_mesh_size": self.open_end_mesh_size
+                or max(params.coupling_gap_um / 3.0, 1.0),
+                "grounded_end_mesh_size": self.grounded_end_mesh_size
+                or max(params.gap_um / 3.0, 1.0),
+            }
+        )
+
+    def scaled(self, factor: float) -> TargetedMeshControls:
+        if factor <= 0.0:
+            raise ValueError("targeted mesh scale must be positive")
+        return TargetedMeshControls(
+            **{
+                name: (value * factor if value is not None else None)
+                for name, value in self.model_dump().items()
+            }
+        )
+
+
 def quarter_wave_fem_model(
     layout_path: str | Path,
     *,
@@ -84,6 +123,7 @@ def quarter_wave_fem_model(
     domain_scale: float = 1.0,
     extents: DomainExtents | None = None,
     substrate_permittivity: float = 11.45,
+    targeted_mesh: TargetedMeshControls | None = None,
 ) -> FEMModel:
     """Build the physical FEM IR from the committed 6 GHz layout parameters."""
     if mesh_scale <= 0 or domain_scale <= 0:
@@ -93,45 +133,58 @@ def quarter_wave_fem_model(
     spec, params = load_quarter_wave_layout(layout_path)
     target = float(spec.target.get("frequency_ghz", 6.0))
 
+    controls = (targeted_mesh or TargetedMeshControls()).resolved(params).scaled(mesh_scale)
+    assert controls.cpw_gap_mesh_size is not None
+    assert controls.coupling_gap_mesh_size is not None
+    assert controls.open_end_mesh_size is not None
+    assert controls.grounded_end_mesh_size is not None
     mesh = MeshControl(
-        characteristic_length=220.0 * mesh_scale,
+        characteristic_length=controls.bulk_mesh_size,
         min_element_quality=0.01,
         refinements=[
             LocalRefinement(
                 target="cpw_conductor_edges",
-                characteristic_length=3.0 * mesh_scale,
+                characteristic_length=controls.conductor_edge_mesh_size,
                 growth_distance=80.0,
             ),
             LocalRefinement(
                 target="cpw_gaps",
-                characteristic_length=max(params.gap_um / 3.0, 1.0) * mesh_scale,
+                characteristic_length=controls.cpw_gap_mesh_size,
                 growth_distance=70.0,
             ),
             LocalRefinement(
-                target="coupler_gap",
-                characteristic_length=max(params.coupling_gap_um / 3.0, 1.0)
-                * mesh_scale,
+                target="coupling_gap",
+                characteristic_length=controls.coupling_gap_mesh_size,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="open_end",
-                characteristic_length=max(params.coupling_gap_um / 3.0, 1.0)
-                * mesh_scale,
+                characteristic_length=controls.open_end_mesh_size,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="grounded_end",
-                characteristic_length=max(params.gap_um / 3.0, 1.0) * mesh_scale,
+                characteristic_length=controls.grounded_end_mesh_size,
                 growth_distance=40.0,
             ),
             LocalRefinement(
                 target="substrate_vacuum_interface",
-                characteristic_length=10.0 * mesh_scale,
+                characteristic_length=controls.interface_normal_mesh_size,
                 growth_distance=160.0,
             ),
             LocalRefinement(
+                target="metal_substrate_interface",
+                characteristic_length=controls.interface_normal_mesh_size,
+                growth_distance=80.0,
+            ),
+            LocalRefinement(
+                target="metal_air_interface",
+                characteristic_length=controls.interface_normal_mesh_size,
+                growth_distance=80.0,
+            ),
+            LocalRefinement(
                 target="mesh_transition_buffer",
-                characteristic_length=40.0 * mesh_scale,
+                characteristic_length=controls.transition_mesh_size,
                 growth_distance=300.0,
             ),
         ],
@@ -254,12 +307,22 @@ def quarter_wave_fem_model(
         mesh_regions=[
             MeshRegion(name="cpw_conductor_edges", kind="conductor_edge", dimension=1),
             MeshRegion(name="cpw_gaps", kind="cpw_gap", dimension=2),
-            MeshRegion(name="coupler_gap", kind="coupler_gap", dimension=2),
+            MeshRegion(name="coupling_gap", kind="coupler_gap", dimension=2),
             MeshRegion(name="open_end", kind="open_end", dimension=1),
             MeshRegion(name="mesh_transition_buffer", kind="custom", dimension=3),
             MeshRegion(name="grounded_end", kind="grounded_end", dimension=1),
             MeshRegion(
                 name="substrate_vacuum_interface",
+                kind="dielectric_interface",
+                dimension=2,
+            ),
+            MeshRegion(
+                name="metal_substrate_interface",
+                kind="dielectric_interface",
+                dimension=2,
+            ),
+            MeshRegion(
+                name="metal_air_interface",
                 kind="dielectric_interface",
                 dimension=2,
             ),

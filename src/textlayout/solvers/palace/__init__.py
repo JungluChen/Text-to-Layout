@@ -2,6 +2,7 @@
 
 from textlayout.solvers.palace.backend import PalaceBackend
 from textlayout.solvers.palace.capability import detect_palace
+from textlayout.solvers.palace.config import TargetedMeshControls
 from textlayout.solvers.palace.diagnostic import (
     DiagnosticMultimodeResult,
     run_diagnostic_multimode_catalog,
@@ -61,6 +62,7 @@ __all__ = [
     "ResonatorEndpointMetadata",
     "SpatialEnergyFractions",
     "TargetModeSelection",
+    "TargetedMeshControls",
     "audit_quarter_wave_model",
     "assign_modes_globally",
     "classify_mode",
