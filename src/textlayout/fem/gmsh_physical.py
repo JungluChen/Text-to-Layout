@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -77,6 +78,7 @@ def mesh_quarter_wave(
     near_x0, near_x1 = -near_half_width, near_half_width
 
     started = time.perf_counter()
+    process_path = os.environ.get("PATH")
     gmsh.initialize()
     try:
         gmsh.option.setNumber("General.Terminal", 0)
@@ -322,4 +324,13 @@ def mesh_quarter_wave(
             mean_quality=float(sum(qualities) / len(qualities)),
         )
     finally:
-        gmsh.finalize()
+        try:
+            gmsh.finalize()
+        finally:
+            # The Windows Gmsh runtime mutates the native process environment.
+            # Restore PATH so later subprocesses (Git, Palace, and audit tools)
+            # retain the environment that entered this exporter.
+            if process_path is None:
+                os.environ.pop("PATH", None)
+            else:
+                os.environ["PATH"] = process_path

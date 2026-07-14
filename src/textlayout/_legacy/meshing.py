@@ -10,6 +10,7 @@ conformal solid per populated metal layer at its real elevation/thickness, on a
 from __future__ import annotations
 
 import json
+import os
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
@@ -62,6 +63,7 @@ def build_stack_mesh(
     margin = float(substrate.get("lateral_margin_um", 50.0))
     size = float(mesh_size_um) if mesh_size_um else max(lateral / 18.0, 4.0)
 
+    process_path = os.environ.get("PATH")
     gmsh.initialize()
     try:
         gmsh.option.setNumber("General.Terminal", 0)
@@ -113,7 +115,13 @@ def build_stack_mesh(
         gmsh.option.setNumber("Mesh.MshFileVersion", 2.2)
         gmsh.write(str(mesh_file))
     finally:
-        gmsh.finalize()
+        try:
+            gmsh.finalize()
+        finally:
+            if process_path is None:
+                os.environ.pop("PATH", None)
+            else:
+                os.environ["PATH"] = process_path
 
     return {
         "nodes": n_nodes,
