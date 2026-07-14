@@ -829,6 +829,24 @@ def _cmd_simulate_palace_resonator(args: argparse.Namespace) -> int:
     )
 
 
+def _cmd_simulate_palace_diagnostic(args: argparse.Namespace) -> int:
+    from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
+    from textlayout.solvers.palace.diagnostic import run_diagnostic_multimode_catalog
+
+    result = run_diagnostic_multimode_catalog(
+        args.out,
+        layout_path=DEFAULT_LAYOUT,
+        mesh_path=args.mesh,
+        fem_model_path=args.fem_model,
+        mode_count=args.mode_count,
+        processes=1,
+        timeout_seconds=args.timeout,
+        max_rss_bytes=int(args.max_rss_gib * 1024**3),
+    )
+    print(json.dumps(result.model_dump(mode="json"), indent=2))
+    return 0 if result.status in {"OUTPUT_PARSED", "SKIPPED_SOLVER_ABSENT"} else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="textlayout", description="Text-to-Layout CLI")
     parser.add_argument("--version", action="version", version=f"textlayout {__version__}")
@@ -1132,6 +1150,18 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     p_palace.set_defaults(func=_cmd_simulate_palace_resonator)
+
+    p_diagnostic = simulate_sub.add_parser(
+        "palace-diagnostic",
+        help="Run a bounded one-state Palace multimode classification catalog.",
+    )
+    p_diagnostic.add_argument("--out", required=True)
+    p_diagnostic.add_argument("--mesh", required=True)
+    p_diagnostic.add_argument("--fem-model", required=True)
+    p_diagnostic.add_argument("--mode-count", type=int, default=8, choices=range(6, 11))
+    p_diagnostic.add_argument("--timeout", type=float, default=1200.0)
+    p_diagnostic.add_argument("--max-rss-gib", type=float, default=7.0)
+    p_diagnostic.set_defaults(func=_cmd_simulate_palace_diagnostic)
 
     p_yield = sub.add_parser(
         "yield",

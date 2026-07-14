@@ -2,6 +2,10 @@
 
 from textlayout.solvers.palace.backend import PalaceBackend
 from textlayout.solvers.palace.capability import detect_palace
+from textlayout.solvers.palace.diagnostic import (
+    DiagnosticMultimodeResult,
+    run_diagnostic_multimode_catalog,
+)
 from textlayout.solvers.palace.models import (
     Eigenmode,
     PalaceCapability,
@@ -31,6 +35,7 @@ from textlayout.solvers.palace.mode_sanity import (
 
 __all__ = [
     "Eigenmode",
+    "DiagnosticMultimodeResult",
     "PalaceBackend",
     "PalaceCapability",
     "PalaceOutputError",
@@ -49,5 +54,6 @@ __all__ = [
     "evaluate_quarter_wave_energy_profiles",
     "extract_spatial_energy_fractions",
     "render_quarter_wave_audit_svg",
+    "run_diagnostic_multimode_catalog",
     "select_target_mode",
 ]
