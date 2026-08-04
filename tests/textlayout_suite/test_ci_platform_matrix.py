@@ -41,6 +41,13 @@ def test_every_core_matrix_platform_runs_the_same_required_smokes() -> None:
         assert required in commands
     assert "--junit-xml=out/evidence/test_report.xml" not in commands
 
+    legacy = yaml.safe_load((ROOT / ".github" / "workflows" / "test.yml").read_text())
+    legacy_steps = legacy["jobs"]["test"]["steps"]
+    legacy_commands = "\n".join(str(step.get("run", "")) for step in legacy_steps)
+    assert any(step.get("uses") == "astral-sh/setup-uv@v5" for step in legacy_steps)
+    assert "uv sync --dev" in legacy_commands
+    assert "py -3 -m uv" not in legacy_commands
+
 
 def test_platform_records_preserve_the_certification_boundary() -> None:
     macos = (ROOT / "docs" / "platforms" / "macos_arm64.md").read_text(encoding="utf-8")
