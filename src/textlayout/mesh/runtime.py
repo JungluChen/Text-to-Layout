@@ -20,7 +20,7 @@ def _sha256(path: Path) -> str:
 def gmsh_identity() -> dict[str, Any]:
     """Return availability, exact version, module path, and module hash."""
     try:
-        import gmsh  # type: ignore[import-untyped]
+        import gmsh
     except ImportError:
         return {
             "available": False,

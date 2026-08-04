@@ -47,7 +47,7 @@ def mesh_quarter_wave(
     if domain_scale <= 0:
         raise ValueError("domain_scale must be positive")
     try:
-        import gmsh  # type: ignore[import-untyped]
+        import gmsh
     except ImportError as exc:
         raise RuntimeError("gmsh Python bindings are required for the Palace mesh") from exc
 
