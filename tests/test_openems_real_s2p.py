@@ -24,6 +24,8 @@ from __future__ import annotations
 
 import json
 
+import os
+
 from pathlib import Path
 
 
@@ -131,11 +133,21 @@ def test_openems_no_octave_returns_skipped_with_explanation(
 
 
 
-    # Create a fake openEMS executable that exits 0
+    # Create a platform-native probe executable that exits 0.
 
-    fake_exe = tmp_path / "fake_openems.bat"
+    if os.name == "nt":
 
-    fake_exe.write_text("@echo off\r\nexit 0\r\n", encoding="utf-8")
+        fake_exe = tmp_path / "fake_openems.bat"
+
+        fake_exe.write_text("@echo off\r\nexit 0\r\n", encoding="utf-8")
+
+    else:
+
+        fake_exe = tmp_path / "fake_openems"
+
+        fake_exe.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+
+        fake_exe.chmod(0o755)
 
 
 

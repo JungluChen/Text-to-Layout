@@ -221,7 +221,22 @@ def test_openems_post_processing_sets_physics_verified(tmp_path: Path) -> None:
     assert result.physics_verified is True
 
 
-def test_openems_present_uses_real_subprocess_and_touchstone_parser(tmp_path: Path) -> None:
+def test_openems_present_uses_real_subprocess_and_touchstone_parser(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from textlayout.simulation import runners
+
+    monkeypatch.setattr(
+        runners,
+        "discover_openems_stack",
+        lambda: {
+            "openems": "test-openems-core",
+            "csxcad": "test-csxcad",
+            "octave": "test-octave",
+            "octave_openems_path": "test-openems-interface",
+            "octave_csxcad_path": "test-csxcad-interface",
+        },
+    )
     spec = LayoutSpec.model_validate(
         json.loads(
             (ROOT / "examples/benchmarks/04_quarter_wave_resonator/layout.json").read_text("utf-8")
@@ -259,7 +274,22 @@ def test_openems_present_uses_real_subprocess_and_touchstone_parser(tmp_path: Pa
     assert result.extracted_quantities["resonance_frequency_ghz"] == pytest.approx(6.0)
 
 
-def test_cpw_openems_present_subprocess_extracts_impedance(tmp_path: Path) -> None:
+def test_cpw_openems_present_subprocess_extracts_impedance(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from textlayout.simulation import runners
+
+    monkeypatch.setattr(
+        runners,
+        "discover_openems_stack",
+        lambda: {
+            "openems": "test-openems-core",
+            "csxcad": "test-csxcad",
+            "octave": "test-octave",
+            "octave_openems_path": "test-openems-interface",
+            "octave_csxcad_path": "test-csxcad-interface",
+        },
+    )
     spec = LayoutSpec.model_validate(
         json.loads((ROOT / "examples/benchmarks/02_cpw_50ohm/layout.json").read_text("utf-8"))
     )
