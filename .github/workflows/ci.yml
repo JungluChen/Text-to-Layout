@@ -4,8 +4,12 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        # macos-15 is GitHub's public arm64/Apple Silicon runner. Keep the
+        # version explicit so a macos-latest migration cannot silently change
+        # the platform that this compatibility gate certifies.
+        os: [ubuntu-latest, windows-latest, macos-15]
         python: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
