@@ -7,6 +7,17 @@ Local-first EDA harness for superconducting quantum GDS layout. Every agent
 listed here is a **deterministic Python function** — no LLM API calls, no
 network calls, no fake data. All verdicts are reproducible functions of inputs.
 
+## Mandatory reproduce-before-edit policy
+
+Before changing any tracked file in response to a failure or unexpected result,
+read and follow [the canonical diagnostic policy](docs/development/reproduce_before_edit.md).
+The required sequence is:
+
+`REPRODUCE → RERUN UNCHANGED → DIAGNOSE → EDIT → RERUN ORIGINAL COMMAND → RERUN AGAIN → REGRESSION`.
+
+If the unchanged runs disagree, stop editing and investigate nondeterminism or
+environment differences first. This policy is mandatory, not advisory.
+
 ---
 
 ## Development Commands
