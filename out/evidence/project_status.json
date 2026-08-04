@@ -76,10 +76,10 @@
   },
   "test_report": {
     "source": "out/evidence/test_report.xml (pytest JUnit report)",
-    "generated_at": "2026-08-04T08:21:33+00:00",
-    "passed": 1887,
+    "generated_at": "2026-08-04T09:09:58+00:00",
+    "passed": 1889,
     "failed": 0,
-    "skipped": 13,
+    "skipped": 11,
     "total": 1900
   },
   "known_limitations": [
