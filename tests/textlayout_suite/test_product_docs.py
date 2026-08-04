@@ -141,3 +141,53 @@ def test_api_errors_are_json_not_html() -> None:
     assert resp.headers["content-type"].split(";")[0] == "application/json"
     assert resp.status_code >= 400
     assert "error" in resp.json() or "detail" in resp.json()
+
+
+def test_reference_architecture_review_covers_required_open_source_projects() -> None:
+    doc = (REPO / "docs" / "reference_architecture_review.md").read_text(encoding="utf-8")
+    for project in (
+        "gdsfactory",
+        "quantum-rf-pdk",
+        "KQCircuits",
+        "Qiskit Metal",
+        "KLayout",
+        "SQuADDS",
+        "SQDMetal",
+        "Palace",
+        "openEMS",
+        "FasterCap",
+        "FastHenry",
+        "JoSIM",
+        "JosephsonCircuits.jl",
+        "scqubits",
+    ):
+        assert project in doc, f"missing required architecture reference: {project}"
+    for concern in (
+        "Architecture and data model",
+        "Algorithms and interface",
+        "Testing and reproducibility",
+        "Adopt:",
+        "Do not copy:",
+        "License:",
+    ):
+        assert concern in doc
+
+
+def test_function_maturity_matrix_preserves_truth_boundaries() -> None:
+    doc = (REPO / "docs" / "function_maturity_matrix.md").read_text(encoding="utf-8")
+    for classification in (
+        "`PRODUCTION`",
+        "`VALIDATED`",
+        "`EXPERIMENTAL`",
+        "`PARTIAL`",
+        "`PLACEHOLDER`",
+        "`SYNTHETIC_ONLY`",
+        "`BROKEN`",
+        "`DEPRECATED`",
+    ):
+        assert classification in doc
+    assert "No subsystem currently meets this bar" in doc
+    assert "Quarter-wave resonator numerical benchmark | `BROKEN`" in doc
+    assert "JosephsonCircuits.jl backend | `PLACEHOLDER`" in doc
+    assert "Committed measurement records | `SYNTHETIC_ONLY`" in doc
+    assert "no current cross-solver or real-measurement validation exists" in doc
