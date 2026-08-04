@@ -75,7 +75,7 @@ class GdsExporter(Exporter):
         out.parent.mkdir(parents=True, exist_ok=True)
         component = self.build_component(geometry, tech)
         component.write_gds(str(out))
-        return out
+        return canonicalize_gds(out, cell_name=_safe_name(geometry.name))
 
     def render_bytes(self, geometry: Geometry, tech: Technology) -> bytes:
         with tempfile.TemporaryDirectory() as tmp:

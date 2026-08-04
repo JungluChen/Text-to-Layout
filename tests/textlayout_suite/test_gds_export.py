@@ -25,3 +25,10 @@ def test_gds_file_is_written_and_nonempty(tmp_path: Path) -> None:
 def test_gds_component_has_ports(tmp_path: Path) -> None:
     component = GdsExporter().build_component(_idc_geometry(), GENERIC_2METAL)
     assert len(component.ports) == 2
+
+
+def test_repeated_gds_exports_are_byte_identical(tmp_path: Path) -> None:
+    first = GdsExporter().write(_idc_geometry(), GENERIC_2METAL, tmp_path / "first.gds")
+    second = GdsExporter().write(_idc_geometry(), GENERIC_2METAL, tmp_path / "second.gds")
+
+    assert first.read_bytes() == second.read_bytes()
