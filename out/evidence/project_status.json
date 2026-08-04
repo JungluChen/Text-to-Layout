@@ -75,8 +75,12 @@
     }
   },
   "test_report": {
-    "available": false,
-    "note": "No saved test report at out/evidence/test_report.json; run pytest and save a report before trusting a test count here."
+    "source": "out/evidence/test_report.xml (pytest JUnit report)",
+    "generated_at": "2026-08-04T08:21:33+00:00",
+    "passed": 1887,
+    "failed": 0,
+    "skipped": 13,
+    "total": 1900
   },
   "known_limitations": [
     "The generic technology is not a foundry PDK. A richer, still-illustrative PDK schema and example (`textlayout pdk list` / `textlayout pdk info`) is documented in [docs/pdk_abstraction.md](docs/pdk_abstraction.md) \u2014 real fabrication still requires a foundry-qualified PDK.",

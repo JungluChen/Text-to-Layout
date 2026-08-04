@@ -33,7 +33,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 
 ## Tests
 
-- No saved test report available. No saved test report at out/evidence/test_report.json; run pytest and save a report before trusting a test count here.
+- **1887 passed, 0 failed, 13 skipped** (source: out/evidence/test_report.xml (pytest JUnit report))
 
 ## Platform support
 
