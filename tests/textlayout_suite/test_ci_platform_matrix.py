@@ -24,7 +24,7 @@ def test_platform_records_preserve_the_certification_boundary() -> None:
     wsl = (ROOT / "docs" / "platforms" / "wsl2_ubuntu.md").read_text(encoding="utf-8")
 
     assert "CORE CERTIFIED" in macos
-    assert "1,865 passed; 13 skipped" in macos
+    assert "1,871 passed; 13 skipped" in macos
     assert "external numerical solvers are not certified" in macos
     assert "NOT_TESTED_ON_PLATFORM" in wsl
     assert "explicit non-certification record" in wsl

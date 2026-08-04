@@ -1,7 +1,7 @@
 # Function maturity matrix
 
 **Audited:** 2026-08-04  
-**Snapshot:** `7df69f7` (`main`)  
+**Snapshot:** `454e7c6` (`main`)
 **Rule:** maturity describes committed evidence, not intended architecture.
 
 ## Classification

@@ -12,7 +12,7 @@ fabrication readiness.
 | Field | Value |
 | --- | --- |
 | Date | 2026-08-04 (Asia/Shanghai) |
-| Tested git SHA | `a2c50af5c01fe73e45a995886dc1d28d16353141` |
+| Tested git SHA | `454e7c6f94829215e9b97d5e1ab549021a202592` |
 | Machine | Apple Silicon, `arm64` |
 | OS | macOS 15.5, build 24F74 |
 | Python | CPython 3.11.15 and CPython 3.12.13 |
@@ -54,8 +54,8 @@ For Python 3.12, each command used an explicit isolated
 | Doctor core checks | PASS | PASS |
 | Natural-language IDC generation | PASS; solver honestly skipped | PASS; solver honestly skipped |
 | Geometry verification | PASS; analytical-only warning | PASS; analytical-only warning |
-| Full suite, run 1 | 1,865 passed; 13 skipped | 1,865 passed; 13 skipped |
-| Full suite, run 2 | 1,865 passed; 13 skipped | 1,865 passed; 13 skipped |
+| Full suite, run 1 | 1,871 passed; 13 skipped | 1,871 passed; 13 skipped |
+| Full suite, run 2 | 1,871 passed; 13 skipped | 1,871 passed; 13 skipped |
 | Ruff lint / format | PASS / PASS | PASS / PASS |
 | Strict mypy | 177 source files PASS | 177 source files PASS |
 | sdist + wheel build | PASS | PASS |
