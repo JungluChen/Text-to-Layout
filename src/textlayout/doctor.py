@@ -217,9 +217,7 @@ def _optional_solver_checks(
             )
         )
     checks.append(
-        _check_import(
-            "scikit-rf", "skrf", required=strict or strict_em, section="RF / EM"
-        )
+        _check_import("scikit-rf", "skrf", required=strict or strict_em, section="RF / EM")
     )
     checks.extend(
         (
@@ -249,8 +247,10 @@ def _optional_solver_checks(
             ),
             _external_check(
                 "WRspice / ngspice",
-                lambda: find_wrspice(None)
-                or find_executable(("ngspice", "ngspice.exe"), env_var="TEXTLAYOUT_NGSPICE"),
+                lambda: (
+                    find_wrspice(None)
+                    or find_executable(("ngspice", "ngspice.exe"), env_var="TEXTLAYOUT_NGSPICE")
+                ),
                 section="Circuit",
                 required=strict,
             ),
@@ -274,9 +274,7 @@ def run_doctor(
     report.checks.append(_check_output_dir(output_dir))
     report.checks.append(_check_fastercap(strict=strict))
     report.checks.extend(
-        _optional_solver_checks(
-            strict=strict, strict_em=strict_em, strict_fullchip=strict_fullchip
-        )
+        _optional_solver_checks(strict=strict, strict_em=strict_em, strict_fullchip=strict_fullchip)
     )
     return report
 

@@ -45,9 +45,7 @@ def test_contract_prefilters_unchanged_and_reports_undeclared(tmp_path: Path) ->
     second = scan_palace_artifacts(tmp_path, "preflight", previous_manifest=previous)
     assert "surprise.bin" in second.undeclared_outputs
     assert all(
-        entry.status == "UNCHANGED"
-        for entry in second.entries
-        if entry.role != "undeclared"
+        entry.status == "UNCHANGED" for entry in second.entries if entry.role != "undeclared"
     )
 
 

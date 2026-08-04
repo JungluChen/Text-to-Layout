@@ -79,8 +79,12 @@ class TestSanityChecks:
     def test_every_check_is_reported_even_when_passing(self, outputs) -> None:
         checks = sanity_checks(_levels([6.0, 6.01, 6.011], outputs))
         names = {check.name for check in checks}
-        assert {"every_level_produced_a_frequency", "frequencies_finite",
-                "frequencies_positive", "mesh_is_strictly_refined"} <= names
+        assert {
+            "every_level_produced_a_frequency",
+            "frequencies_finite",
+            "frequencies_positive",
+            "mesh_is_strictly_refined",
+        } <= names
         assert all(check.passed for check in checks)
 
     def test_a_nan_frequency_is_caught(self, outputs) -> None:
@@ -189,9 +193,7 @@ class TestEvidenceLadder:
         assert record.confidence_class is ConfidenceClass.SIMULATED
 
     def test_converged_and_on_target_is_physics_verified(self, tmp_path: Path, outputs) -> None:
-        record = _evidence(
-            _levels([6.5, 6.05, 6.0], outputs), tmp_path, target_frequency_ghz=6.0
-        )
+        record = _evidence(_levels([6.5, 6.05, 6.0], outputs), tmp_path, target_frequency_ghz=6.0)
         assert record.status is EvidenceStatus.PHYSICS_VERIFIED
         assert record.error_percent == pytest.approx(0.0)
         assert record.confidence_class is ConfidenceClass.VERIFIED
@@ -201,8 +203,10 @@ class TestEvidenceLadder:
     ) -> None:
         """Convergence is not agreement: a well-resolved wrong answer is not verified."""
         record = _evidence(
-            _levels([6.5, 6.05, 6.0], outputs), tmp_path,
-            target_frequency_ghz=5.0, tolerance_percent=2.0,
+            _levels([6.5, 6.05, 6.0], outputs),
+            tmp_path,
+            target_frequency_ghz=5.0,
+            tolerance_percent=2.0,
         )
         assert record.status is EvidenceStatus.SIMULATION_EXECUTED
         assert record.error_percent == pytest.approx(20.0)

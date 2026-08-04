@@ -26,8 +26,11 @@ from textlayout.pdk.models import PDK, PDKGrid, PDKLayer, PDKSubstrate
 
 def _pdk(**overrides) -> PDK:
     payload = {
-        "name": "gate_pdk", "version": "1.0", "foundry_validated": True,
-        "calibration_status": "foundry_calibrated", "source": "test fixture",
+        "name": "gate_pdk",
+        "version": "1.0",
+        "foundry_validated": True,
+        "calibration_status": "foundry_calibrated",
+        "source": "test fixture",
         "grid": PDKGrid(grid_nm=1.0, default_min_spacing_um=1.0, default_min_width_um=1.0),
         "substrate": PDKSubstrate(material="Si", epsilon_r=11.9, loss_tangent=1e-6),
         "layers": [
@@ -82,8 +85,11 @@ def verified(tmp_path: Path) -> CanonicalEvidence:
         extraction_config={"mode": 1},
         extraction_config_hash="e" * 64,
         convergence=ConvergenceMetrics(
-            method="mesh_refinement", refinement_levels=3, delta_percent=0.07,
-            threshold_percent=0.5, converged=True,
+            method="mesh_refinement",
+            refinement_levels=3,
+            delta_percent=0.07,
+            threshold_percent=0.5,
+            converged=True,
         ),
         timestamp="2026-07-10T00:00:00+00:00",
     )

@@ -39,8 +39,7 @@ def resolve_pdk_path(name_or_path: str) -> Path:
         return registered
     available = sorted(p.stem for p in PDKS_DIR.glob("*.yaml"))
     raise FileNotFoundError(
-        f"PDK {name_or_path!r} is neither a file nor a registered PDK name; "
-        f"registered: {available}"
+        f"PDK {name_or_path!r} is neither a file nor a registered PDK name; registered: {available}"
     )
 
 

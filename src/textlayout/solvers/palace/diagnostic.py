@@ -67,13 +67,12 @@ def _profile_svg(signature: ModeSignature, sanity: QuarterWaveSanityResult) -> s
             f'viewBox="0 0 {width} {height}">',
             '<rect width="100%" height="100%" fill="white"/>',
             f'<text x="{margin}" y="30" font-size="20">Mode {signature.mode_index}: '
-            f'{signature.frequency_ghz:.9f} GHz - {signature.mode_class}</text>',
+            f"{signature.frequency_ghz:.9f} GHz - {signature.mode_class}</text>",
             f'<polyline points="{points(sanity.electric_profile)}" fill="none" '
             'stroke="#dc2626" stroke-width="3"/>',
             f'<polyline points="{points(sanity.magnetic_profile)}" fill="none" '
             'stroke="#2563eb" stroke-width="3"/>',
-            f'<text x="{margin}" y="{height - 15}" font-size="16" '
-            'fill="#dc2626">Electric</text>',
+            f'<text x="{margin}" y="{height - 15}" font-size="16" fill="#dc2626">Electric</text>',
             f'<text x="{margin + 100}" y="{height - 15}" font-size="16" '
             'fill="#2563eb">Magnetic</text>',
             "</svg>",
@@ -149,9 +148,7 @@ def _report(signatures: list[ModeSignature], selection: TargetModeSelection) -> 
             f"{signature.mode_class} | {signature.classification_confidence:.6f} | "
             f"{'yes' if signature.hard_quarter_wave_gates_passed else 'no'} |"
         )
-    lines.extend(
-        ["", "Frequency proximity did not override a failed physical-shape gate.", ""]
-    )
+    lines.extend(["", "Frequency proximity did not override a failed physical-shape gate.", ""])
     return "\n".join(lines)
 
 
@@ -207,9 +204,7 @@ def run_diagnostic_multimode_catalog(
     if not retained_mesh.is_file() or sha256_file(retained_mesh) != sha256_file(source_mesh):
         shutil.copy2(source_mesh, retained_mesh)
     write_json(model.model_dump(mode="json"), root / "fem_model.json")
-    config = build_eigenmode_config(
-        model, mesh_filename=retained_mesh.name, output_dir="postpro"
-    )
+    config = build_eigenmode_config(model, mesh_filename=retained_mesh.name, output_dir="postpro")
     config["Model"]["Refinement"] = {
         "MaxIts": 0,
         "SaveAdaptIterations": False,
@@ -254,9 +249,7 @@ def run_diagnostic_multimode_catalog(
     postpro = run_dir / "postpro"
     modes = parse_eigenmodes(postpro / "eig.csv")
     if len(modes) != mode_count:
-        raise PalaceOutputError(
-            f"diagnostic requested {mode_count} modes but parsed {len(modes)}"
-        )
+        raise PalaceOutputError(f"diagnostic requested {mode_count} modes but parsed {len(modes)}")
     fields = {
         field.mode_index: field
         for field in parse_mode_fields(

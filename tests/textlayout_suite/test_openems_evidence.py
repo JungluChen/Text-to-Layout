@@ -99,9 +99,7 @@ class TestReportContents:
         assert "Known issue" in markdown
         assert "SIMULATION_EXECUTED" in markdown
 
-    def test_verified_report_has_no_known_issue_but_keeps_honesty(
-        self, tmp_path: Path
-    ) -> None:
+    def test_verified_report_has_no_known_issue_but_keeps_honesty(self, tmp_path: Path) -> None:
         files = write_openems_evidence(
             _executed(True, 49.9),
             tmp_path,

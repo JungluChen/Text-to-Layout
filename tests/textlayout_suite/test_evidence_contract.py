@@ -215,9 +215,7 @@ def test_rejected_statuses_require_a_solver_and_carry_no_value(tmp_path: Path) -
         with pytest.raises(ValidationError, match="requires a named solver"):
             QuantityEvidence(quantity="q", status=status)
         with pytest.raises(ValidationError, match="must not carry an extracted value"):
-            QuantityEvidence(
-                quantity="q", status=status, solver="Palace", extracted_value=1.0
-            )
+            QuantityEvidence(quantity="q", status=status, solver="Palace", extracted_value=1.0)
         # the honest form is constructible
         record = QuantityEvidence(quantity="q", status=status, solver="Palace")
         assert record.is_physics_verified is False

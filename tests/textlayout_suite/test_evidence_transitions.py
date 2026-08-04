@@ -66,9 +66,15 @@ def _record(status: EvidenceStatus, out: Path) -> QuantityEvidence:
         "input_files": ["idc.lst"],
     }
     verified_kwargs = {
-        "quantity": QUANTITY, "target_value": 0.6, "target_unit": "pF",
-        "extracted_value": 0.598, "extracted_unit": "pF", "error_percent": 0.33,
-        "tolerance_percent": 5.0, "output_files": [str(out)], **solver_kwargs,
+        "quantity": QUANTITY,
+        "target_value": 0.6,
+        "target_unit": "pF",
+        "extracted_value": 0.598,
+        "extracted_unit": "pF",
+        "error_percent": 0.33,
+        "tolerance_percent": 5.0,
+        "output_files": [str(out)],
+        **solver_kwargs,
     }
     if status is EvidenceStatus.MEASUREMENT_CORRELATED:
         return QuantityEvidence(status=status, **verified_kwargs, **MEASUREMENT_KWARGS)
@@ -76,20 +82,29 @@ def _record(status: EvidenceStatus, out: Path) -> QuantityEvidence:
         return QuantityEvidence(status=status, **verified_kwargs)
     if status is EvidenceStatus.SIMULATION_EXECUTED:
         return QuantityEvidence(
-            quantity=QUANTITY, status=status, target_value=0.6, target_unit="pF",
-            extracted_value=0.9, extracted_unit="pF", error_percent=50.0,
-            output_files=[str(out)], **solver_kwargs,
+            quantity=QUANTITY,
+            status=status,
+            target_value=0.6,
+            target_unit="pF",
+            extracted_value=0.9,
+            extracted_unit="pF",
+            error_percent=50.0,
+            output_files=[str(out)],
+            **solver_kwargs,
         )
     if status in (EvidenceStatus.SIMULATION_INVALID, EvidenceStatus.CONVERGENCE_FAILED):
         return QuantityEvidence(quantity=QUANTITY, status=status, solver="Palace")
     if status is EvidenceStatus.NOT_FABRICATION_READY:
         return QuantityEvidence(
-            quantity=QUANTITY, status=status,
+            quantity=QUANTITY,
+            status=status,
             blocking_reason="junction overlap 40 nm < 60 nm process minimum",
         )
     if status is EvidenceStatus.ANALYTICAL_ONLY:
         return QuantityEvidence(
-            quantity=QUANTITY, status=status, analytical_value=0.61,
+            quantity=QUANTITY,
+            status=status,
+            analytical_value=0.61,
             analytical_model="conformal mapping",
         )
     # SIMULATION_INPUT_PREPARED, SKIPPED_SOLVER_ABSENT, FAILED
@@ -196,9 +211,7 @@ class TestIllegalPromotionsNamedExplicitly:
         "old",
         [s for s in ALL_STATUSES if s is not EvidenceStatus.PHYSICS_VERIFIED],
     )
-    def test_only_a_verified_claim_may_be_measurement_correlated(
-        self, old: EvidenceStatus
-    ) -> None:
+    def test_only_a_verified_claim_may_be_measurement_correlated(self, old: EvidenceStatus) -> None:
         """Agreement with a fabricated chip cannot rescue an unconverged model."""
         if old is EvidenceStatus.MEASUREMENT_CORRELATED:
             return  # restating the same level is always legal
@@ -211,10 +224,17 @@ class TestMeasurementCorrelation:
 
     def _kwargs(self, out: Path) -> dict[str, object]:
         return {
-            "quantity": QUANTITY, "status": EvidenceStatus.MEASUREMENT_CORRELATED,
-            "target_value": 0.6, "target_unit": "pF", "extracted_value": 0.598,
-            "extracted_unit": "pF", "error_percent": 0.33, "output_files": [str(out)],
-            "solver": "FasterCap 6.0.7", "parser": "m._parse", "command": "FasterCap -b x",
+            "quantity": QUANTITY,
+            "status": EvidenceStatus.MEASUREMENT_CORRELATED,
+            "target_value": 0.6,
+            "target_unit": "pF",
+            "extracted_value": 0.598,
+            "extracted_unit": "pF",
+            "error_percent": 0.33,
+            "output_files": [str(out)],
+            "solver": "FasterCap 6.0.7",
+            "parser": "m._parse",
+            "command": "FasterCap -b x",
         }
 
     def test_a_measured_claim_is_the_highest_confidence(self, out_file: Path) -> None:
@@ -267,14 +287,10 @@ class TestNotFabricationReady:
         assert "must not be taped out" in record.summary_line()
 
     def test_a_verified_design_may_later_be_blocked_by_drc(self) -> None:
-        validate_transition(
-            EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.NOT_FABRICATION_READY
-        )
+        validate_transition(EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.NOT_FABRICATION_READY)
 
     def test_a_blocked_design_may_be_redesigned_but_not_re_verified(self) -> None:
-        validate_transition(
-            EvidenceStatus.NOT_FABRICATION_READY, EvidenceStatus.ANALYTICAL_ONLY
-        )
+        validate_transition(EvidenceStatus.NOT_FABRICATION_READY, EvidenceStatus.ANALYTICAL_ONLY)
         with pytest.raises(EvidenceError, match="illegal confidence promotion"):
             validate_transition(
                 EvidenceStatus.NOT_FABRICATION_READY, EvidenceStatus.PHYSICS_VERIFIED

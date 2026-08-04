@@ -43,7 +43,9 @@ def _pdk(**overrides) -> PDK:
         "source": "synthetic, for tests",
         "grid": GRID,
         "layers": [
-            PDKLayer(name="metal", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=2.0),
+            PDKLayer(
+                name="metal", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=2.0
+            ),
         ],
         "substrate": SUBSTRATE,
     }
@@ -215,7 +217,9 @@ class TestSignoffIsStricterThanPassing:
         assert report.signoff_ready is False
         assert "illustrative" in (report.blocking_reason() or "")
 
-    def test_a_foundry_calibrated_clean_python_run_is_not_standalone_signoff(self, tmp_path: Path) -> None:
+    def test_a_foundry_calibrated_clean_python_run_is_not_standalone_signoff(
+        self, tmp_path: Path
+    ) -> None:
         pdk = _pdk(foundry_validated=True, calibration_status="foundry_calibrated")
         gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
         report = run_drc(pdk, gds)
@@ -223,7 +227,9 @@ class TestSignoffIsStricterThanPassing:
         assert report.signoff_ready is False
         assert "standalone DRC deck" in (report.blocking_reason() or "")
 
-    def test_a_foundry_calibrated_clean_run_with_deck_evidence_signs_off(self, tmp_path: Path) -> None:
+    def test_a_foundry_calibrated_clean_run_with_deck_evidence_signs_off(
+        self, tmp_path: Path
+    ) -> None:
         pdk = _pdk(foundry_validated=True, calibration_status="foundry_calibrated")
         gds = _gds(tmp_path, {(1, 0): [kdb.Box(0, 0, _um(5), _um(5))]})
         report = run_drc(pdk, gds, deck_fixture_validated=True)
@@ -241,8 +247,12 @@ class TestTwoLayerRules:
     def _pdk(self) -> PDK:
         return _pdk(
             layers=[
-                PDKLayer(name="metal", purpose="metal", gds_layer=1, min_width_um=0.1, min_spacing_um=0.1),
-                PDKLayer(name="via", purpose="via", gds_layer=2, min_width_um=0.1, min_spacing_um=0.1),
+                PDKLayer(
+                    name="metal", purpose="metal", gds_layer=1, min_width_um=0.1, min_spacing_um=0.1
+                ),
+                PDKLayer(
+                    name="via", purpose="via", gds_layer=2, min_width_um=0.1, min_spacing_um=0.1
+                ),
             ],
             enclosures=[PDKEnclosure(inner="via", outer="metal", min_um=0.5)],
             overlaps=[PDKOverlap(a="metal", b="via", min_um=0.5)],
@@ -314,8 +324,20 @@ class TestAreaNotchAndSeparationRules:
     def test_inter_layer_separation_is_caught(self, tmp_path: Path) -> None:
         pdk = _pdk(
             layers=[
-                PDKLayer(name="CPW_SIGNAL", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=1.0),
-                PDKLayer(name="CPW_GROUND", purpose="ground", gds_layer=2, min_width_um=1.0, min_spacing_um=1.0),
+                PDKLayer(
+                    name="CPW_SIGNAL",
+                    purpose="metal",
+                    gds_layer=1,
+                    min_width_um=1.0,
+                    min_spacing_um=1.0,
+                ),
+                PDKLayer(
+                    name="CPW_GROUND",
+                    purpose="ground",
+                    gds_layer=2,
+                    min_width_um=1.0,
+                    min_spacing_um=1.0,
+                ),
             ],
             separations=[
                 PDKSeparation(
@@ -345,9 +367,13 @@ class TestTiledDensity:
         return _pdk(
             layers=[
                 PDKLayer(
-                    name="metal", purpose="metal", gds_layer=1,
-                    min_width_um=0.1, min_spacing_um=0.1,
-                    min_density_fraction=0.2, max_density_fraction=0.8,
+                    name="metal",
+                    purpose="metal",
+                    gds_layer=1,
+                    min_width_um=0.1,
+                    min_spacing_um=0.1,
+                    min_density_fraction=0.2,
+                    max_density_fraction=0.8,
                 )
             ],
             density_window_um=window,
@@ -383,7 +409,13 @@ class TestJunctionRules:
     def _pdk(self) -> PDK:
         return _pdk(
             layers=[
-                PDKLayer(name="jj", purpose="junction", gds_layer=5, min_width_um=0.05, min_spacing_um=0.05),
+                PDKLayer(
+                    name="jj",
+                    purpose="junction",
+                    gds_layer=5,
+                    min_width_um=0.05,
+                    min_spacing_um=0.05,
+                ),
             ],
             junction_process=PDKJunctionProcess(
                 target_jc_ua_per_um2=1.0, jc_sigma_pct=5.0, min_junction_area_um2=0.04
@@ -412,8 +444,12 @@ class TestRunsetEmission:
     def test_the_runset_is_derived_from_the_same_pdk(self) -> None:
         pdk = _pdk(
             layers=[
-                PDKLayer(name="metal", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=2.0),
-                PDKLayer(name="via", purpose="via", gds_layer=2, min_width_um=0.2, min_spacing_um=0.2),
+                PDKLayer(
+                    name="metal", purpose="metal", gds_layer=1, min_width_um=1.0, min_spacing_um=2.0
+                ),
+                PDKLayer(
+                    name="via", purpose="via", gds_layer=2, min_width_um=0.2, min_spacing_um=0.2
+                ),
             ],
             enclosures=[PDKEnclosure(inner="via", outer="metal", min_um=0.5)],
         )
@@ -489,7 +525,9 @@ class TestCommittedGoldenFixtures:
             if not expected:
                 assert report.passed, fixture["name"]
             else:
-                assert len(report.violations) >= fixture["min_expected_violation_count"], fixture["name"]
+                assert len(report.violations) >= fixture["min_expected_violation_count"], fixture[
+                    "name"
+                ]
 
 
 def _sha256(path: Path) -> str:

@@ -165,9 +165,7 @@ def write_chip_optimize_report(
     payload = result.to_dict()
     payload["provenance"] = provenance or chip_report_provenance()
     json_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    md_path.write_text(
-        render_optimize_markdown(result) + "\n" + _PROVENANCE_MD, encoding="utf-8"
-    )
+    md_path.write_text(render_optimize_markdown(result) + "\n" + _PROVENANCE_MD, encoding="utf-8")
     # Standalone machine-readable proposal so a later design run can consume
     # the retuned targets without parsing the whole report.
     proposal_path.write_text(

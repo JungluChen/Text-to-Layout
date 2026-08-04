@@ -10,9 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from textlayout.evidence.canonical import sha256_file
 
 ArtifactRole = Literal["expected_input", "expected_output", "optional_output", "undeclared"]
-ArtifactStatus = Literal[
-    "present", "missing", "UNCHANGED", "OVERSIZE", "UNDECLARED_OUTPUT"
-]
+ArtifactStatus = Literal["present", "missing", "UNCHANGED", "OVERSIZE", "UNDECLARED_OUTPUT"]
 
 EXCLUDED_ARTIFACT_DIRS = {
     ".git",
@@ -69,9 +67,7 @@ class PalaceArtifactEntry(BaseModel):
 class PalaceArtifactReport(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, populate_by_name=True)
 
-    schema_: str = Field(
-        default="textlayout.palace-artifact-contract-report.v1", alias="schema"
-    )
+    schema_: str = Field(default="textlayout.palace-artifact-contract-report.v1", alias="schema")
     stage: str
     entries: list[PalaceArtifactEntry]
     undeclared_outputs: list[str] = Field(default_factory=list)
@@ -306,16 +302,12 @@ def scan_palace_artifacts(
         for pattern in patterns:
             matches = sorted(_collect_declared_matches(root_path, [pattern]))
             if not matches and role != "optional_output":
-                entries.append(
-                    PalaceArtifactEntry(path=pattern, role=role, status="missing")
-                )
+                entries.append(PalaceArtifactEntry(path=pattern, role=role, status="missing"))
                 continue
             for relative in matches:
                 fingerprint = _fingerprint(root_path / relative, root_path, previous)
                 status: ArtifactStatus = (
-                    "UNCHANGED"
-                    if previous.get(relative) == fingerprint
-                    else "present"
+                    "UNCHANGED" if previous.get(relative) == fingerprint else "present"
                 )
                 maximum = _maximum_size(relative, contract)
                 if maximum is not None and fingerprint.size_bytes > maximum:

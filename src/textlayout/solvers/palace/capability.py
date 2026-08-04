@@ -134,9 +134,7 @@ def _detect_sif(
         if probe_version
         else None
     )
-    image = (
-        f"wsl:{_windows_to_wsl(source)}" if engine.startswith(_WSL_PREFIX) else str(source)
-    )
+    image = f"wsl:{_windows_to_wsl(source)}" if engine.startswith(_WSL_PREFIX) else str(source)
     return PalaceCapability(
         execution_kind="container",
         version=version,
@@ -201,9 +199,7 @@ def detect_palace(
             explicit = candidate
     executable = locate(("palace", "palace.exe"), explicit, env_var="TEXTLAYOUT_PALACE")
     if executable is not None:
-        launcher = locate(
-            ("mpirun", "mpiexec"), None, env_var="TEXTLAYOUT_MPIRUN"
-        )
+        launcher = locate(("mpirun", "mpiexec"), None, env_var="TEXTLAYOUT_MPIRUN")
         return PalaceCapability(
             execution_kind="executable",
             executable=executable,

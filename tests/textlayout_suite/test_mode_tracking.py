@@ -57,9 +57,10 @@ class TestScoring:
         reference = _mode(0, 6.0, RESONATOR)
         same_field = _mode(1, 6.0, RESONATOR)
         other_field = _mode(2, 6.0, FEEDLINE)
-        assert score_pair(reference, same_field, MatchCriteria())[0] > score_pair(
-            reference, other_field, MatchCriteria()
-        )[0]
+        assert (
+            score_pair(reference, same_field, MatchCriteria())[0]
+            > score_pair(reference, other_field, MatchCriteria())[0]
+        )
 
     def test_absent_observables_cast_no_vote(self) -> None:
         """A solver reporting no ports must not be penalised for silence."""
@@ -70,7 +71,9 @@ class TestScoring:
         assert score == pytest.approx(1.0)
 
     def test_localization_is_reported_as_a_component(self) -> None:
-        _, components = score_pair(_mode(0, 6.0, RESONATOR), _mode(1, 6.05, FEEDLINE), MatchCriteria())
+        _, components = score_pair(
+            _mode(0, 6.0, RESONATOR), _mode(1, 6.05, FEEDLINE), MatchCriteria()
+        )
         assert components["localization"] == 0.0
 
     def test_zero_energy_vectors_are_unusable_rather_than_similar(self) -> None:
@@ -250,7 +253,9 @@ class TestTrackingGatesTheEvidenceLadder:
             component="quarter_wave_resonator",
             analysis_scope="resonator_eigenmode",
             levels=mesh_levels,
-            solver=SolverIdentity(name="Palace", version="0.13.0", container_digest="sha256:" + "c" * 64),
+            solver=SolverIdentity(
+                name="Palace", version="0.13.0", container_digest="sha256:" + "c" * 64
+            ),
             threshold_percent=1.0,
             extra_checks=[tracking_check],
             output_root=tmp_path,

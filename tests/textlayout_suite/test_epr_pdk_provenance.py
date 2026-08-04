@@ -81,9 +81,7 @@ class TestHonestyIsNotUpgraded:
     def test_markdown_report_states_not_foundry_calibrated(self) -> None:
         db, provenance = materials_db_from_pdk(DEFAULT_PDK_NAME)
         result = AnalyticalEPRBackend().analyze(_spec(), frequency_ghz=6.0, materials=db)
-        result = result.model_copy(
-            update={"pdk_provenance": provenance.model_dump(mode="json")}
-        )
+        result = result.model_copy(update={"pdk_provenance": provenance.model_dump(mode="json")})
         markdown = render_markdown(result)
         assert "PDK provenance" in markdown
         assert provenance.file_hash_sha256 in markdown
@@ -126,9 +124,7 @@ class TestEprCli:
     def test_unknown_pdk_fails_cleanly(
         self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
     ) -> None:
-        exit_code = cli_main(
-            ["epr", str(IDC_SPEC), "--pdk", "no-such-pdk", "--out", str(tmp_path)]
-        )
+        exit_code = cli_main(["epr", str(IDC_SPEC), "--pdk", "no-such-pdk", "--out", str(tmp_path)])
         assert exit_code == 2
         payload = json.loads(capsys.readouterr().out)
         assert "no-such-pdk" in payload["error"]

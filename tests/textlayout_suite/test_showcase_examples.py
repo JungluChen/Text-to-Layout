@@ -87,7 +87,11 @@ def test_physics_verified_claims_are_solver_backed(example_id: str) -> None:
         raw = Path(artifacts[key])
         candidates = [raw] if raw.is_absolute() else [folder / raw]
         # Artifacts may be recorded relative to the repo or the example folder.
-        candidates += [ROOT / raw, folder / raw.name, folder / "extraction" / "capacitance_input" / raw.name]
+        candidates += [
+            ROOT / raw,
+            folder / raw.name,
+            folder / "extraction" / "capacitance_input" / raw.name,
+        ]
         assert any(c.is_file() and c.stat().st_size > 0 for c in candidates), (
             f"{example_id}: PHYSICS_VERIFIED without solver-owned {key} on disk"
         )
@@ -95,9 +99,7 @@ def test_physics_verified_claims_are_solver_backed(example_id: str) -> None:
 
 @pytest.mark.parametrize("example_id", EXPECTED_IDS)
 def test_skipped_examples_carry_no_extracted_value(example_id: str) -> None:
-    simulation = json.loads(
-        (SHOWCASE / example_id / "simulation.json").read_text(encoding="utf-8")
-    )
+    simulation = json.loads((SHOWCASE / example_id / "simulation.json").read_text(encoding="utf-8"))
     evidence = (simulation.get("evidence") or [{}])[0]
     if evidence.get("status") in {"SKIPPED_SOLVER_ABSENT", "SIMULATION_INPUT_PREPARED"}:
         assert evidence.get("extracted_value") is None

@@ -24,8 +24,11 @@ from textlayout.evidence.canonical import (
 
 def _converged() -> ConvergenceMetrics:
     return ConvergenceMetrics(
-        method="fdtd_energy_decay", refinement_levels=1, delta_percent=0.4,
-        threshold_percent=1.0, converged=True,
+        method="fdtd_energy_decay",
+        refinement_levels=1,
+        delta_percent=0.4,
+        threshold_percent=1.0,
+        converged=True,
     )
 
 
@@ -196,9 +199,12 @@ class TestProvenance:
         # and a round-trip ignores any injected value
         payload = record.to_dict()
         payload["confidence_class"] = "NONE"
-        assert CanonicalEvidence.model_validate(
-            {k: v for k, v in payload.items() if k != "confidence_class"}
-        ).confidence_class is ConfidenceClass.VERIFIED
+        assert (
+            CanonicalEvidence.model_validate(
+                {k: v for k, v in payload.items() if k != "confidence_class"}
+            ).confidence_class
+            is ConfidenceClass.VERIFIED
+        )
 
 
 class TestOutputHashVerification:
@@ -377,9 +383,7 @@ class TestQuantityEvidenceProjection:
         projected = record.to_quantity_evidence(root=out_file.parent)
         assert projected.output_files == [str(out_file)]
 
-    def test_projection_summarises_what_the_narrow_schema_cannot_hold(
-        self, out_file: Path
-    ) -> None:
+    def test_projection_summarises_what_the_narrow_schema_cannot_hold(self, out_file: Path) -> None:
         """Convergence, gaps and dependencies are surfaced, never silently dropped."""
         record = CanonicalEvidence(
             **_base(  # type: ignore[arg-type]
@@ -400,8 +404,11 @@ class TestQuantityEvidenceProjection:
                 out_file,
                 status=EvidenceStatus.MEASUREMENT_CORRELATED,
                 measurement=MeasurementCorrelation(
-                    measured_value=49.9, measured_unit="ohm", uncertainty=0.3,
-                    calibration_version="cryo-cal-2026.02", device_id="lot7/w3/d12/dev4",
+                    measured_value=49.9,
+                    measured_unit="ohm",
+                    uncertainty=0.3,
+                    calibration_version="cryo-cal-2026.02",
+                    device_id="lot7/w3/d12/dev4",
                 ),
             )
         )

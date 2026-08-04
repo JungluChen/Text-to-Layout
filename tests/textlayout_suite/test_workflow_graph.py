@@ -57,9 +57,7 @@ def test_workflow_trace_records_every_node(tmp_path: Path) -> None:
 def test_workflow_writes_klayout_readback(tmp_path: Path) -> None:
     workflow = build_from_text_workflow()
     workflow.run(DEMO_PROMPT, tmp_path / "run", execute_solver=False)
-    readback = json.loads(
-        (tmp_path / "run" / "klayout_readback.json").read_text(encoding="utf-8")
-    )
+    readback = json.loads((tmp_path / "run" / "klayout_readback.json").read_text(encoding="utf-8"))
     assert readback["schema"] == "textlayout.klayout-readback.v1"
     assert readback["status"] == "pass"
     assert readback["polygon_count"] > 0

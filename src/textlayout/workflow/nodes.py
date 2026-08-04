@@ -94,9 +94,7 @@ class PromptPipeline:
         sizing = size_parameters(intent, technology, tolerance_percent=state.tolerance_percent)
         files = dict(state.files)
         if sizing.jpa_sizing is not None:
-            files["design_equations"] = write_json(
-                out / "design_equations.json", sizing.jpa_sizing
-            )
+            files["design_equations"] = write_json(out / "design_equations.json", sizing.jpa_sizing)
         spec = build_spec(intent, sizing)
         files["layout"] = write_json(out / "layout.json", spec.model_dump(mode="json"))
         return {
@@ -213,7 +211,8 @@ class PromptPipeline:
         if state.layout_dsl is not None and state.layout_dsl.component == "SpiralInductor":
             files["fasthenry_result"] = write_json(out / "fasthenry_result.json", payload)
         elif state.layout_dsl is not None and state.layout_dsl.component in {
-            "CPW", "QuarterWaveResonator"
+            "CPW",
+            "QuarterWaveResonator",
         }:
             files["openems_result"] = write_json(out / "openems_result.json", payload)
         return {"simulation_result": payload, "files": files}
@@ -222,9 +221,7 @@ class PromptPipeline:
     def compare_target(self, state: LayoutWorkflowState) -> dict[str, Any]:
         evidence = _required(state.evidence, "evidence record")
         updates: dict[str, Any] = {"evidence_status": evidence.status.value}
-        if (
-            state.optimization is not None and state.target_capacitance_pf is not None
-        ) or (
+        if (state.optimization is not None and state.target_capacitance_pf is not None) or (
             state.layout_dsl is not None
             and state.layout_dsl.component == "SpiralInductor"
             and state.target_inductance_nh is not None
@@ -353,10 +350,14 @@ class PromptPipeline:
                 for item in iterations
                 if isinstance(item.get("extracted_inductance_nh"), (int, float))
             ]
-            selected = min(
-                successful,
-                key=lambda item: abs(float(item["target_comparison"]["error_pct"])),
-            ) if successful else None
+            selected = (
+                min(
+                    successful,
+                    key=lambda item: abs(float(item["target_comparison"]["error_pct"])),
+                )
+                if successful
+                else None
+            )
             reason = (
                 "target tolerance reached"
                 if comparison.get("within_tolerance") is True
@@ -369,9 +370,7 @@ class PromptPipeline:
                 "target_inductance_nh": state.target_inductance_nh,
                 "tolerance_pct": state.tolerance_percent,
                 "max_iterations": MAX_SOLVER_ITERATIONS,
-                "design_variables": [
-                    "outer_dimension_um", "trace_width_um", "spacing_um", "turns"
-                ],
+                "design_variables": ["outer_dimension_um", "trace_width_um", "spacing_um", "turns"],
                 "candidates": iterations,
                 "selected_candidate": selected,
                 "final_parameters": dict(state.layout_dsl.parameters),
@@ -480,9 +479,7 @@ def should_retune(state: LayoutWorkflowState) -> bool:
         return False
     if is_spiral:
         current = float(spec.parameters["outer_dimension_um"])
-        return _retuned_spiral_outer(
-            current, target, float(extracted), spec.parameters
-        ) != current
+        return _retuned_spiral_outer(current, target, float(extracted), spec.parameters) != current
     if "overlap_um" not in spec.parameters:
         return False
     current = float(spec.parameters["overlap_um"])

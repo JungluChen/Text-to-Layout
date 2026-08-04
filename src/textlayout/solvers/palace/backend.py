@@ -112,9 +112,7 @@ class PalaceBackend:
                 problems.append(f"{tag} mesh hash drift")
             model = quarter_wave_fem_model(layout, mesh_scale=scale)
             expected_config = deterministic_json_bytes(
-                build_eigenmode_config(
-                    model, mesh_filename=mesh_path.name, output_dir="postpro"
-                )
+                build_eigenmode_config(model, mesh_filename=mesh_path.name, output_dir="postpro")
             )
             config_path = level_dir / "palace.json"
             if not config_path.is_file() or config_path.read_bytes() != expected_config:
@@ -242,9 +240,7 @@ class PalaceBackend:
         )
         config_path = level_dir / "palace.json"
         write_config(
-            build_eigenmode_config(
-                model, mesh_filename=mesh.path.name, output_dir="postpro"
-            ),
+            build_eigenmode_config(model, mesh_filename=mesh.path.name, output_dir="postpro"),
             config_path,
         )
         return model, mesh, config_path
@@ -268,9 +264,7 @@ class PalaceBackend:
             timeout_seconds=timeout_seconds,
             cancel_event=cancel_event,
         )
-        return self.parse_level(
-            tag=tag, model=model, mesh=mesh, config_path=config_path, run=run
-        )
+        return self.parse_level(tag=tag, model=model, mesh=mesh, config_path=config_path, run=run)
 
     def run_quarter_wave_benchmark(
         self,
@@ -287,9 +281,7 @@ class PalaceBackend:
         layout = Path(layout_path).resolve()
         spec, params = load_quarter_wave_layout(layout)
         technology = default_technology_library().get(spec.technology)
-        geometry = QuarterWaveResonatorGenerator().generate(
-            params, technology, spec.origin
-        )
+        geometry = QuarterWaveResonatorGenerator().generate(params, technology, spec.origin)
         base_model = quarter_wave_fem_model(layout)
         fem_path = root / "fem_model.json"
         fem_hash = write_fem_model(base_model, fem_path)
@@ -313,8 +305,7 @@ class PalaceBackend:
                     "tag": tag,
                     "characteristic_length_um": model.mesh.characteristic_length,
                     "local_characteristic_lengths_um": {
-                        item.target: item.characteristic_length
-                        for item in model.mesh.refinements
+                        item.target: item.characteristic_length for item in model.mesh.refinements
                     },
                     "element_count": mesh.element_count,
                     "minimum_quality": mesh.minimum_quality,
@@ -455,9 +446,7 @@ class PalaceBackend:
             tracking_path,
         )
         write_json(report.model_dump(mode="json"), mesh_report_path)
-        write_json(
-            [point.model_dump(mode="json") for point in domain_points], domain_report_path
-        )
+        write_json([point.model_dump(mode="json") for point in domain_points], domain_report_path)
         geometry_path = layout.parent / "output.gds"
         evidence = canonical_evidence(
             design_id="quarter_wave_resonator_6ghz_palace",

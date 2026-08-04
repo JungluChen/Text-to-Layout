@@ -43,9 +43,6 @@ def test_retained_paraview_smoke_hashes_verify_when_installed() -> None:
     if payload["identity"] is None:
         pytest.skip("pinned ParaView is optional")
     assert payload["state"] == "SMOKE_TEST_PASSED"
-    result = json.loads(
-        (ROOT / "out" / "toolchain" / "paraview_smoke" / "result.json").read_text()
-    )
+    result = json.loads((ROOT / "out" / "toolchain" / "paraview_smoke" / "result.json").read_text())
     assert result["return_code"] == 0
     assert len(result["output_sha256"]) == 64
-

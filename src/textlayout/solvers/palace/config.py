@@ -94,8 +94,7 @@ class TargetedMeshControls(BaseModel):
     def resolved(self, params: QuarterWaveResonatorSpec) -> TargetedMeshControls:
         return self.model_copy(
             update={
-                "cpw_gap_mesh_size": self.cpw_gap_mesh_size
-                or max(params.gap_um / 3.0, 1.0),
+                "cpw_gap_mesh_size": self.cpw_gap_mesh_size or max(params.gap_um / 3.0, 1.0),
                 "coupling_gap_mesh_size": self.coupling_gap_mesh_size
                 or max(params.coupling_gap_um / 3.0, 1.0),
                 "open_end_mesh_size": self.open_end_mesh_size
@@ -253,9 +252,7 @@ def quarter_wave_fem_model(
         volumes=volumes,
         critical_regions=[
             CriticalRegion(name="cpw_gaps", kind="cpw_gap", attribute_ids=[1, 3]),
-            CriticalRegion(
-                name="coupling_gap", kind="coupling_gap", attribute_ids=[1, 3]
-            ),
+            CriticalRegion(name="coupling_gap", kind="coupling_gap", attribute_ids=[1, 3]),
             CriticalRegion(
                 name="open_and_grounded_ends",
                 kind="resonator_end",
@@ -347,9 +344,7 @@ def build_eigenmode_config(
     activate_ports: bool = False,
 ) -> dict[str, Any]:
     """Project one FEM model into a Palace eigenmode run configuration."""
-    config = model.to_palace_eigenmode_config(
-        mesh_filename=mesh_filename, output_dir=output_dir
-    )
+    config = model.to_palace_eigenmode_config(mesh_filename=mesh_filename, output_dir=output_dir)
     problem = config["Problem"]
     problem["OutputFormats"] = {"GridFunction": True, "Paraview": True}
     config["Solver"]["Eigenmode"]["Save"] = model.eigenmode.mode_count
@@ -361,9 +356,7 @@ def build_eigenmode_config(
         boundaries.pop("WavePort", None)
         if inactive_attributes:
             pec = boundaries.setdefault("PEC", {"Attributes": []})
-            pec["Attributes"] = sorted(
-                set(pec.get("Attributes", [])) | set(inactive_attributes)
-            )
+            pec["Attributes"] = sorted(set(pec.get("Attributes", [])) | set(inactive_attributes))
     return config
 
 

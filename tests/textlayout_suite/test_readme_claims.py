@@ -31,9 +31,7 @@ def test_windows_relative_artifact_path_resolves_on_posix(tmp_path: Path) -> Non
     artifact.parent.mkdir(parents=True)
     artifact.write_text("solver output\n", encoding="utf-8")
 
-    assert _artifact_nonempty(
-        result, r"extraction\capacitance_input\solver.stdout.txt"
-    )
+    assert _artifact_nonempty(result, r"extraction\capacitance_input\solver.stdout.txt")
 
 
 def _doctored(tmp_path: Path, old: str, new: str) -> Path:
@@ -136,7 +134,9 @@ def test_committed_repo_has_no_local_absolute_paths() -> None:
 
 def test_new_absolute_path_leak_in_json_fails_validation(tmp_path: Path) -> None:
     leaky = ROOT / "docs" / "path-leak-regression.json"
-    leaky.write_text('{"path": "C:\\\\Users\\\\realuser\\\\Desktop\\\\artifact"}\n', encoding="utf-8")
+    leaky.write_text(
+        '{"path": "C:\\\\Users\\\\realuser\\\\Desktop\\\\artifact"}\n', encoding="utf-8"
+    )
     try:
         errors = validate(README)
     finally:
@@ -168,9 +168,9 @@ def test_inductance_report_with_capacitance_language_fails_validation(tmp_path: 
         errors = validate(README)
     finally:
         report.write_text(original, encoding="utf-8")
-    assert any(
-        "04_spiral_inductor_3nh" in e and "capacitance/pF language" in e for e in errors
-    ), errors
+    assert any("04_spiral_inductor_3nh" in e and "capacitance/pF language" in e for e in errors), (
+        errors
+    )
 
 
 def test_tile_map_without_report_summary_fails_validation(tmp_path: Path) -> None:
@@ -197,9 +197,7 @@ def test_tile_map_without_report_summary_fails_validation(tmp_path: Path) -> Non
     finally:
         report.write_text(original_report, encoding="utf-8")
         readme.write_text(original_readme, encoding="utf-8")
-    assert any(
-        "06_research_test_chip" in e and "full-tile status" in e for e in errors
-    ), errors
+    assert any("06_research_test_chip" in e and "full-tile status" in e for e in errors), errors
 
 
 def test_collapsed_showcase_table_row_fails_validation(tmp_path: Path) -> None:

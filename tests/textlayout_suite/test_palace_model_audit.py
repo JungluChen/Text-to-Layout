@@ -38,9 +38,7 @@ def test_model_audit_cross_checks_real_gds_and_boundaries(tmp_path: Path) -> Non
     )
     resolved = tmp_path / "resolved.json"
     resolved.write_text(
-        json.dumps(
-            build_eigenmode_config(model, mesh_filename="mesh.msh", output_dir="postpro")
-        ),
+        json.dumps(build_eigenmode_config(model, mesh_filename="mesh.msh", output_dir="postpro")),
         encoding="utf-8",
     )
     audit = audit_quarter_wave_model(

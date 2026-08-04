@@ -25,9 +25,7 @@ def _write_s2p(path: Path, rows: list[str]) -> Path:
 
 
 def _nan_s2p(path: Path, n: int = 20) -> Path:
-    rows = [
-        f"{3.0 + i * 0.1:.3f} nan nan nan nan nan nan nan nan" for i in range(n)
-    ]
+    rows = [f"{3.0 + i * 0.1:.3f} nan nan nan nan nan nan nan nan" for i in range(n)]
     return _write_s2p(path, rows)
 
 

@@ -48,9 +48,7 @@ class QuarterWaveSanitySettings(BaseModel):
 class QuarterWaveSanityResult(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, populate_by_name=True)
 
-    schema_version: str = Field(
-        default="textlayout.palace-quarter-wave-sanity.v2", alias="schema"
-    )
+    schema_version: str = Field(default="textlayout.palace-quarter-wave-sanity.v2", alias="schema")
     selected_sample_count: int = Field(ge=1)
     bin_count: int = Field(ge=8)
     physical_length: float = Field(gt=0.0)
@@ -135,9 +133,7 @@ def _profile(
     indices = np.minimum((scaled * settings.bins).astype(int), settings.bins - 1)
     profile = np.bincount(indices, weights=energy, minlength=settings.bins).astype(float)
     profile /= profile.sum()
-    ground = float(
-        energy[u <= exclusion_fraction + settings.endpoint_window_fraction].sum()
-    )
+    ground = float(energy[u <= exclusion_fraction + settings.endpoint_window_fraction].sum())
     open_end = float(
         energy[u >= 1.0 - exclusion_fraction - settings.endpoint_window_fraction].sum()
     )
@@ -215,7 +211,9 @@ def evaluate_quarter_wave_energy_profiles(
         physical_length=endpoints.physical_length,
         grounded_coordinate=endpoints.grounded_coordinate,
         open_coordinate=endpoints.open_coordinate,
-        coordinate_direction=(1 if endpoints.open_coordinate > endpoints.grounded_coordinate else -1),
+        coordinate_direction=(
+            1 if endpoints.open_coordinate > endpoints.grounded_coordinate else -1
+        ),
         endpoint_exclusion_length=exclusion,
         electric_profile=electric.tolist(),
         magnetic_profile=magnetic.tolist(),

@@ -23,9 +23,7 @@ from textlayout.evidence.contract import EvidenceStatus, validate_transition
 from textlayout.pdk.klayout_drc import DRCReport
 
 
-def apply_fabrication_gate(
-    evidence: CanonicalEvidence, report: DRCReport
-) -> CanonicalEvidence:
+def apply_fabrication_gate(evidence: CanonicalEvidence, report: DRCReport) -> CanonicalEvidence:
     """Demote ``evidence`` to ``NOT_FABRICATION_READY`` when DRC blocks the design.
 
     Returns the record unchanged when the DRC run is signoff-ready. The physics

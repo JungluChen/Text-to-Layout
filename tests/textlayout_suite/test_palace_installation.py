@@ -40,9 +40,9 @@ def test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree() 
     assert common.PALACE_ROOT == common.ROOT / ".tools" / "palace"
     assert common.INSTALL_RECORD == common.PALACE_ROOT / "install.json"
     assert (
-        common.palace_archive().resolve().is_relative_to(
-            (common.ROOT / ".tools" / "external" / "sources").resolve()
-        )
+        common.palace_archive()
+        .resolve()
+        .is_relative_to((common.ROOT / ".tools" / "external" / "sources").resolve())
     )
     # The Spack tree is resolved to a native path, overridable and documented.
     installer = _load("install_palace")
@@ -120,9 +120,7 @@ def test_capability_can_use_verified_install_manifest(monkeypatch, tmp_path: Pat
     from textlayout.solvers.palace import capability
 
     record = tmp_path / "install.json"
-    record.write_text(
-        '{"palace_executable":"wsl:/opt/palace/bin/palace"}', encoding="utf-8"
-    )
+    record.write_text('{"palace_executable":"wsl:/opt/palace/bin/palace"}', encoding="utf-8")
     monkeypatch.setattr(capability, "_INSTALL_RECORD", record)
     monkeypatch.setattr(
         capability,

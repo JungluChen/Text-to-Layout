@@ -189,13 +189,9 @@ def aggregate_process_resources(
         "read_bytes": sum(process.read_bytes for process in processes),
         "write_bytes": sum(process.write_bytes for process in processes),
         "mpi_rank_count": sum(
-            _is_palace_command(process.command)
-            for process in processes
-            if process.command
+            _is_palace_command(process.command) for process in processes if process.command
         ),
-        "process_group_ids": sorted(
-            {process.process_group_id for process in processes}
-        ),
+        "process_group_ids": sorted({process.process_group_id for process in processes}),
         "processes": [process.model_dump(mode="json") for process in processes],
     }
 
@@ -257,14 +253,11 @@ PY"""
     except json.JSONDecodeError:
         return []
     processes = [LinuxProcessRecord.model_validate(item) for item in payload]
-    recorded_identities = {
-        (process.pid, process.start_time_ticks) for process in record.processes
-    }
+    recorded_identities = {(process.pid, process.start_time_ticks) for process in record.processes}
     if record.linux_pid is not None and record.process_start_time_ticks is not None:
         recorded_identities.add((record.linux_pid, record.process_start_time_ticks))
     if recorded_identities and not any(
-        (process.pid, process.start_time_ticks) in recorded_identities
-        for process in processes
+        (process.pid, process.start_time_ticks) in recorded_identities for process in processes
     ):
         return []
     return processes
@@ -275,9 +268,7 @@ def refresh_solver_process_record(path: str | Path) -> SolverProcessRecord | Non
     if not record_path.is_file():
         return None
     try:
-        record = SolverProcessRecord.model_validate_json(
-            record_path.read_text(encoding="utf-8")
-        )
+        record = SolverProcessRecord.model_validate_json(record_path.read_text(encoding="utf-8"))
     except (OSError, ValidationError):
         return None
     processes = inspect_owned_processes(record)
@@ -289,11 +280,7 @@ def refresh_solver_process_record(path: str | Path) -> SolverProcessRecord | Non
         ),
         None,
     )
-    palace_ranks = [
-        p.pid
-        for p in processes
-        if p.command and _is_palace_command(p.command)
-    ]
+    palace_ranks = [p.pid for p in processes if p.command and _is_palace_command(p.command)]
     updated = record.model_copy(
         update={
             "processes": processes,
@@ -324,12 +311,8 @@ def cancel_owned_wsl_process_group(
         _run_wsl(f"kill -KILL -{record.linux_process_group_id} 2>/dev/null || true")
         time.sleep(0.2)
         remaining = inspect_owned_processes(record)
-    status: CancellationStatus = (
-        "CANCEL_FAILED_ORPHAN_REMAINS" if remaining else "CANCELLED"
-    )
-    updated = record.model_copy(
-        update={"processes": remaining, "cancellation_status": status}
-    )
+    status: CancellationStatus = "CANCEL_FAILED_ORPHAN_REMAINS" if remaining else "CANCELLED"
+    updated = record.model_copy(update={"processes": remaining, "cancellation_status": status})
     write_solver_process_record(updated)
     return updated
 

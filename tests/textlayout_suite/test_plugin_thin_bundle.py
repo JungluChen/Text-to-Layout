@@ -27,9 +27,7 @@ SCRIPTS_DIR = REPO_ROOT / "scripts"
 
 
 def _bundler():
-    spec = importlib.util.spec_from_file_location(
-        "bundle_plugin", SCRIPTS_DIR / "bundle_plugin.py"
-    )
+    spec = importlib.util.spec_from_file_location("bundle_plugin", SCRIPTS_DIR / "bundle_plugin.py")
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     sys.modules["bundle_plugin"] = module
@@ -51,7 +49,10 @@ def _bundled_files() -> list[Path]:
     assert git is not None, "git is required to verify the committed plugin bundle"
     listing = subprocess.run(
         [git, "ls-files", "--", "plugins/text-to-gds"],
-        cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout.splitlines()
     return [Path(line).relative_to("plugins/text-to-gds") for line in listing if line.strip()]
 
@@ -72,9 +73,7 @@ class TestNoCopiedImplementation:
     def test_no_core_module_is_duplicated_in_the_bundle(self) -> None:
         """Not one file of the implementation may exist under two paths."""
         duplicated = [
-            relative
-            for relative in _bundled_files()
-            if (REPO_ROOT / "src" / relative).is_file()
+            relative for relative in _bundled_files() if (REPO_ROOT / "src" / relative).is_file()
         ]
         assert duplicated == [], f"copied core implementation files: {duplicated}"
 
@@ -139,7 +138,9 @@ class TestBundleIsInstallableMetadata:
 
 
 class TestBundleCheckGate:
-    def test_check_rejects_a_stray_in_the_working_tree(self, bundler, tmp_path, monkeypatch) -> None:
+    def test_check_rejects_a_stray_in_the_working_tree(
+        self, bundler, tmp_path, monkeypatch
+    ) -> None:
         """`--check` guards the tree; the tests above guard what is committed."""
         fake_plugin = tmp_path / "plugins" / "text-to-gds"
         (fake_plugin / "examples").mkdir(parents=True)

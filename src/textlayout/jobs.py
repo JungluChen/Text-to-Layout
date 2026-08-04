@@ -199,7 +199,7 @@ def _windows_process(pid: int) -> dict[str, Any]:
                 "-NoProfile",
                 "-Command",
                 (
-                    f"$p=Get-CimInstance Win32_Process -Filter \"ProcessId={pid}\";"
+                    f'$p=Get-CimInstance Win32_Process -Filter "ProcessId={pid}";'
                     "if ($p) { $p | Select-Object ProcessId,ParentProcessId,"
                     "CommandLine,WorkingSetSize,KernelModeTime,UserModeTime | ConvertTo-Json }"
                 ),
@@ -445,9 +445,7 @@ def start_job(
     _save_record(record)
     monitor_command = [sys.executable, "-m", "textlayout.jobs", "_run", str(job_dir)]
     with (job_dir / "monitor.stdout.txt").open("w", encoding="utf-8", newline="\n") as mon_out:
-        with (job_dir / "monitor.stderr.txt").open(
-            "w", encoding="utf-8", newline="\n"
-        ) as mon_err:
+        with (job_dir / "monitor.stderr.txt").open("w", encoding="utf-8", newline="\n") as mon_err:
             monitor = subprocess.Popen(
                 monitor_command,
                 cwd=cwd_path,
@@ -565,9 +563,7 @@ def finalize_job(record: JobRecord) -> JobRecord:
     resource_hash = _hash_if_file(resource_path)
     output_hash = _hash_if_file(output_inventory_path)
     solver_paths = _palace_solver_record_paths(record)
-    solver_hashes = {
-        str(path): sha256_file(path) for path in solver_paths if path.is_file()
-    }
+    solver_hashes = {str(path): sha256_file(path) for path in solver_paths if path.is_file()}
     stage_refresh: dict[str, Any] = {"refreshed": False, "records": [], "error": None}
     try:
         palace_root = _palace_output_root(record)
@@ -685,7 +681,13 @@ def _monitor_job(job_dir: Path) -> int:
     after = _inventory(record.inventory_root, exclude=record.job_dir)
     outputs = {key: value for key, value in after.items() if before.get(key) != value}
     latest = write_heartbeat(_load_record(record.job_dir.parent, record.job_id))
-    status = "completed" if return_code == 0 else "CANCELLED" if latest.cancellation_requested else "failed"
+    status = (
+        "completed"
+        if return_code == 0
+        else "CANCELLED"
+        if latest.cancellation_requested
+        else "failed"
+    )
     finished = latest.model_copy(
         update={
             "status": status,
@@ -858,10 +860,10 @@ def cancel_job(
         )
 
         for path in solver_paths:
-            solver_record = SolverProcessRecord.model_validate_json(path.read_text(encoding="utf-8"))
-            cancelled = cancel_owned_wsl_process_group(
-                solver_record, grace_seconds=grace_seconds
+            solver_record = SolverProcessRecord.model_validate_json(
+                path.read_text(encoding="utf-8")
             )
+            cancelled = cancel_owned_wsl_process_group(solver_record, grace_seconds=grace_seconds)
             orphan_remains |= cancelled.cancellation_status == "CANCEL_FAILED_ORPHAN_REMAINS"
     if record.pid is not None and _pid_alive(record.pid) and not orphan_remains:
         _terminate_process_group(record)

@@ -171,7 +171,9 @@ def test_track_amr_modes_follows_the_physical_mode_not_the_index(monkeypatch) ->
             lambda left, right, kind, material_map, **_kwargs: _overlap_result(),
         )
     tracked, matches = track_amr_modes(
-        iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
+        iterations,
+        seed_frequency_ghz=6.0,
+        material_map=object(),  # type: ignore[arg-type]
     )
     assert tracked == [2, 1, 1]
     assert all(match.score > 0.98 for match in matches)
@@ -191,7 +193,9 @@ def test_track_amr_modes_raises_on_ambiguous_identity(monkeypatch) -> None:
         )
     with pytest.raises(PalaceOutputError, match="ambiguous_mode_identity"):
         track_amr_modes(
-            iterations, seed_frequency_ghz=6.0, material_map=object()  # type: ignore[arg-type]
+            iterations,
+            seed_frequency_ghz=6.0,
+            material_map=object(),  # type: ignore[arg-type]
         )
 
 

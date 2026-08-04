@@ -141,9 +141,7 @@ def extract_spatial_energy_fractions(
     )
 
 
-def _profile_correlation(
-    values: list[float], expected: npt.NDArray[np.float64]
-) -> float:
+def _profile_correlation(values: list[float], expected: npt.NDArray[np.float64]) -> float:
     array = np.asarray(values, dtype=float)
     if np.std(array) <= np.finfo(float).eps:
         return 0.0

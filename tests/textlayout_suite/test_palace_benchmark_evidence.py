@@ -41,8 +41,15 @@ def participation():
 class TestEvidenceIsCurrent:
     def test_regenerating_from_the_committed_outputs_reproduces_the_records(self) -> None:
         completed = subprocess.run(
-            [sys.executable, str(REPO_ROOT / "scripts" / "build_palace_benchmark_evidence.py"), "--check"],
-            cwd=REPO_ROOT, capture_output=True, text=True, check=False,
+            [
+                sys.executable,
+                str(REPO_ROOT / "scripts" / "build_palace_benchmark_evidence.py"),
+                "--check",
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
         )
         assert completed.returncode == 0, completed.stderr
 
@@ -117,7 +124,9 @@ class TestParticipationIsNotOverClaimed:
         )
         assert tracking.passed
         overlap = next(
-            c for c in participation.sanity_checks if c.name == "field_overlap_match_score_above_0p90"
+            c
+            for c in participation.sanity_checks
+            if c.name == "field_overlap_match_score_above_0p90"
         )
         assert overlap.passed
 

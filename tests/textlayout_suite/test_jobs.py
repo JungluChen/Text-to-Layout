@@ -100,9 +100,7 @@ def test_job_cancel_requests_process_group_termination(tmp_path: Path) -> None:
 
 def test_jobs_cli_parses_start_and_lifecycle_commands() -> None:
     parser = build_parser()
-    started = parser.parse_args(
-        ["jobs", "start", "--cwd", ".", "--", "python", "-c", "print(1)"]
-    )
+    started = parser.parse_args(["jobs", "start", "--cwd", ".", "--", "python", "-c", "print(1)"])
     assert started.jobs_command == "start"
     assert started.command == ["--", "python", "-c", "print(1)"]
     status = parser.parse_args(["jobs", "status", "job-abc"])
@@ -121,9 +119,7 @@ def test_palace_cli_parses_background_job_flags() -> None:
         ["simulate", "palace-resonator", "--out", "out/palace", "--job-status"]
     )
     assert status.job_status is True
-    cancel = parser.parse_args(
-        ["simulate", "palace-resonator", "--out", "out/palace", "--cancel"]
-    )
+    cancel = parser.parse_args(["simulate", "palace-resonator", "--out", "out/palace", "--cancel"])
     assert cancel.cancel is True
 
 

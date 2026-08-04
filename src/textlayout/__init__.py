@@ -20,6 +20,7 @@ from textlayout.schemas.dsl import DSL_VERSION, LayoutSpec
 from textlayout.verification import VerificationReport, default_verifier
 from textlayout.workflows import FromTextResult, FromTextWorkflow, GenerateResult, GenerateWorkflow
 
+
 def _distribution_version() -> str:
     """Single source of truth: the installed distribution's own metadata.
 

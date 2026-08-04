@@ -76,7 +76,9 @@ def test_committed_partial_lvs_fixtures_match_expectations() -> None:
 
 
 def test_positive_cpw_has_expected_extracted_nets_and_terminals() -> None:
-    fixture = next(item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass")
+    fixture = next(
+        item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass"
+    )
     report = _run(fixture)
     extracted = {tuple(net["terminals"]) for net in report["extracted_nets"]}
     assert ("GND_IN", "GND_OUT") in extracted
@@ -85,7 +87,9 @@ def test_positive_cpw_has_expected_extracted_nets_and_terminals() -> None:
 
 
 def test_native_klayout_partial_lvs_extracts_l2n_without_full_lvs_claim(tmp_path: Path) -> None:
-    fixture = next(item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass")
+    fixture = next(
+        item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass"
+    )
     report = run_native_klayout_partial_lvs(
         REPO_ROOT / fixture["path"],
         reference_nets=fixture["reference_nets"],
@@ -107,7 +111,9 @@ def test_native_klayout_partial_lvs_extracts_l2n_without_full_lvs_claim(tmp_path
 
 
 def test_connectivity_invariant_under_flattening_polygon_order_and_dbu(tmp_path: Path) -> None:
-    fixture = next(item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass")
+    fixture = next(
+        item for item in _manifest()["fixtures"] if item["name"] == "cpw_connectivity_pass"
+    )
     source = REPO_ROOT / fixture["path"]
     baseline = _run(fixture)["extracted_nets"]
 

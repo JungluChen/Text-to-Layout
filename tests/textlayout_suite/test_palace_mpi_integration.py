@@ -61,9 +61,7 @@ def _parallel_fixture(root: Path, *, ghost_second: bool) -> Path:
 
 def test_mpi_ghost_cells_are_removed(tmp_path: Path) -> None:
     fixture = _parallel_fixture(tmp_path, ghost_second=True)
-    result = centroid_projected_energy_mac(
-        fixture, fixture, kind="electric", material_map=_map()
-    )
+    result = centroid_projected_energy_mac(fixture, fixture, kind="electric", material_map=_map())
     assert result.raw_cell_count == 2
     assert result.ghost_cells_removed == 1
     assert result.duplicate_cells_removed == 0
@@ -72,9 +70,7 @@ def test_mpi_ghost_cells_are_removed(tmp_path: Path) -> None:
 
 def test_mpi_duplicate_global_cells_are_removed(tmp_path: Path) -> None:
     fixture = _parallel_fixture(tmp_path, ghost_second=False)
-    result = centroid_projected_energy_mac(
-        fixture, fixture, kind="electric", material_map=_map()
-    )
+    result = centroid_projected_energy_mac(fixture, fixture, kind="electric", material_map=_map())
     assert result.raw_cell_count == 2
     assert result.ghost_cells_removed == 0
     assert result.duplicate_cells_removed == 1

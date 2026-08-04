@@ -53,9 +53,10 @@ class TestChipSpec(BaseModel):
         usable_h = self.tile_height_um - 2 * self.margin_um
         if usable_w <= 0 or usable_h <= 0:
             raise ValueError("margin_um leaves no usable area inside the tile")
-        idc_width = 2 * self.idc_finger_pairs * self.idc_finger_width_um + (
-            2 * self.idc_finger_pairs - 1
-        ) * self.idc_gap_um
+        idc_width = (
+            2 * self.idc_finger_pairs * self.idc_finger_width_um
+            + (2 * self.idc_finger_pairs - 1) * self.idc_gap_um
+        )
         half_w = usable_w / 2.0
         half_h = usable_h / 2.0
         if idc_width > half_w:

@@ -29,9 +29,7 @@ LATTICE_YAML = REPO_ROOT / "examples" / "chip_lattices" / "40q_synthetic.yaml"
 
 
 def _lattice() -> QubitLattice:
-    return QubitLattice.model_validate(
-        yaml.safe_load(LATTICE_YAML.read_text(encoding="utf-8"))
-    )
+    return QubitLattice.model_validate(yaml.safe_load(LATTICE_YAML.read_text(encoding="utf-8")))
 
 
 class TestYamlLattice:
@@ -56,9 +54,7 @@ class TestYamlLattice:
         assert "SYNTHETIC_EXAMPLE" in text
         assert "NOT_FABRICATION_READY" in text
 
-    def test_cli_chip_analyze_accepts_yaml(
-        self, tmp_path: Path, capsys
-    ) -> None:
+    def test_cli_chip_analyze_accepts_yaml(self, tmp_path: Path, capsys) -> None:
         exit_code = cli_main(
             [
                 "chip",
@@ -94,9 +90,7 @@ class TestRetuneProposalArtifact:
         lattice = _lattice()
         result = optimize_frequencies(lattice, max_retune_mhz=300.0)
         files = write_chip_optimize_report(result, tmp_path)
-        proposal = json.loads(
-            Path(files["retune_proposal"]).read_text(encoding="utf-8")
-        )
+        proposal = json.loads(Path(files["retune_proposal"]).read_text(encoding="utf-8"))
         assert proposal["schema"] == "textlayout.retune-proposal.v1"
         # The deliberate placement errors must be found and fixed.
         assert proposal["violations_before"] > 0

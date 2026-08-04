@@ -162,10 +162,7 @@ def _field_file(output_dir: Path, mode: int) -> Path | None:
         root = ElementTree.parse(selected).getroot()
     except (OSError, ElementTree.ParseError):
         return None
-    names = {
-        item.attrib.get("Name")
-        for item in root.findall(".//PPointData/PDataArray")
-    }
+    names = {item.attrib.get("Name") for item in root.findall(".//PPointData/PDataArray")}
     required = {"E_real", "E_imag", "B_real", "B_imag"}
     return selected if required <= names else None
 
@@ -222,9 +219,7 @@ def parse_mode_fields(
         magnetic_total = _finite(normalized.get("E_mag (J)", ""), domain_csv, "E_mag")
         denominator = max((abs(electric_total) + abs(magnetic_total)) / 2.0, 1e-300)
         balance = abs(electric_total - magnetic_total) / denominator * 100.0
-        localization = sum(
-            value for name, value in electric.items() if "resonator" in name.lower()
-        )
+        localization = sum(value for name, value in electric.items() if "resonator" in name.lower())
         parsed.append(
             ModeFieldData(
                 mode_index=mode,
@@ -440,7 +435,9 @@ def _tetra_integration_data(
     for piece in piece_paths:
         root = ElementTree.parse(piece).getroot()
         points_element = root.find(".//Points/DataArray")
-        point_data = {item.attrib.get("Name"): item for item in root.findall(".//PointData/DataArray")}
+        point_data = {
+            item.attrib.get("Name"): item for item in root.findall(".//PointData/DataArray")
+        }
         cell_data = {item.attrib.get("Name"): item for item in root.findall(".//Cells/DataArray")}
         attributes = root.find(".//CellData/DataArray[@Name='attribute']")
         if points_element is None or attributes is None:
@@ -449,7 +446,9 @@ def _tetra_integration_data(
         real = np.asarray(_decode_vtk_array(point_data[f"{prefix}_real"], piece), dtype=np.float64)
         imag = np.asarray(_decode_vtk_array(point_data[f"{prefix}_imag"], piece), dtype=np.float64)
         values = real.astype(np.complex128) + 1j * imag
-        connectivity = np.asarray(_decode_vtk_array(cell_data["connectivity"], piece), dtype=np.int64)
+        connectivity = np.asarray(
+            _decode_vtk_array(cell_data["connectivity"], piece), dtype=np.int64
+        )
         offsets = np.asarray(_decode_vtk_array(cell_data["offsets"], piece), dtype=np.int64)
         types = np.asarray(_decode_vtk_array(cell_data["types"], piece), dtype=np.uint8)
         region_values = np.asarray(_decode_vtk_array(attributes, piece), dtype=np.int32)

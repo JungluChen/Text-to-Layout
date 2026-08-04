@@ -207,7 +207,9 @@ def _run_reported_status(payload: dict[str, Any]) -> str | None:
 
 
 def _block(name: str, body: str) -> str:
-    return f"{GENERATED_BEGIN.format(name=name)}\n{body.rstrip()}\n{GENERATED_END.format(name=name)}"
+    return (
+        f"{GENERATED_BEGIN.format(name=name)}\n{body.rstrip()}\n{GENERATED_END.format(name=name)}"
+    )
 
 
 def evidence_block_markdown(record: CanonicalEvidence) -> str:
@@ -228,8 +230,9 @@ def evidence_block_markdown(record: CanonicalEvidence) -> str:
         version = f" {record.solver_version}" if record.solver_version else ""
         lines.append(f"- Solver: `{record.solver_name}{version}`")
         if record.runtime_seconds is not None:
-            lines.append(f"- Runtime: `{record.runtime_seconds:.1f}` s "
-                         f"(return code `{record.return_code}`)")
+            lines.append(
+                f"- Runtime: `{record.runtime_seconds:.1f}` s (return code `{record.return_code}`)"
+            )
     if record.extracted_value is not None:
         lines.append(
             f"- Extracted {record.target_quantity}: `{record.extracted_value:.6f}` "
@@ -242,8 +245,9 @@ def evidence_block_markdown(record: CanonicalEvidence) -> str:
                 f"(tolerance `±{record.tolerance_percent:.2f}%`)"
             )
     else:
-        lines.append(f"- Extracted {record.target_quantity}: **none** "
-                     f"— no value was extracted from this run")
+        lines.append(
+            f"- Extracted {record.target_quantity}: **none** — no value was extracted from this run"
+        )
     if record.analytical_value is not None:
         model = f" ({record.analytical_model})" if record.analytical_model else ""
         lines.append(

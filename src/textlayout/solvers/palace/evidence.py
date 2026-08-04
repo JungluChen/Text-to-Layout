@@ -43,8 +43,7 @@ def _mode_field(level: MeshLevelResult, index: int) -> ModeFieldData:
 
 def _has_retained_field(level: MeshLevelResult, index: int) -> bool:
     return any(
-        field.mode_index == index and field.field_file is not None
-        for field in level.mode_fields
+        field.mode_index == index and field.field_file is not None for field in level.mode_fields
     )
 
 
@@ -67,17 +66,14 @@ def _pair_score(
         )
     frequency = max(
         0.0,
-        1.0 - abs(right_mode.frequency_ghz - left_mode.frequency_ghz)
-        / left_mode.frequency_ghz
-        / 0.15,
+        1.0
+        - abs(right_mode.frequency_ghz - left_mode.frequency_ghz) / left_mode.frequency_ghz / 0.15,
     )
     electric = overlap(left_field.field_file, right_field.field_file, kind="electric")
     magnetic = overlap(left_field.field_file, right_field.field_file, kind="magnetic")
     localization = max(
         0.0,
-        1.0 - abs(
-            right_field.resonator_localization - left_field.resonator_localization
-        ),
+        1.0 - abs(right_field.resonator_localization - left_field.resonator_localization),
     )
     score = (frequency + 2.0 * electric + 2.0 * magnetic + localization) / 6.0
     return ModeMatchResult(
@@ -143,9 +139,7 @@ def _relative_change(first: float, second: float) -> float:
     return abs(second - first) / max(abs(second), 1e-300) * 100.0
 
 
-def _participation_change(
-    left: ModeFieldData, right: ModeFieldData
-) -> float | None:
+def _participation_change(left: ModeFieldData, right: ModeFieldData) -> float | None:
     names = set(left.electric_participation) | set(right.electric_participation)
     changes = []
     for name in names:
@@ -230,10 +224,7 @@ def assess_convergence(
         )
     )
     minimum_overlap = (
-        min(
-            min(match.electric_field_overlap, match.magnetic_field_overlap)
-            for match in matches
-        )
+        min(min(match.electric_field_overlap, match.magnetic_field_overlap) for match in matches)
         if matches
         else None
     )
@@ -247,10 +238,14 @@ def assess_convergence(
         )
     )
 
-    frequencies = [
-        next(mode.frequency_ghz for mode in level.modes if mode.index == index)
-        for level, index in zip(levels, tracked_mode_indices)
-    ] if tracking_complete else []
+    frequencies = (
+        [
+            next(mode.frequency_ghz for mode in level.modes if mode.index == index)
+            for level, index in zip(levels, tracked_mode_indices)
+        ]
+        if tracking_complete
+        else []
+    )
     delta = _relative_change(frequencies[-2], frequencies[-1]) if len(frequencies) >= 2 else None
     gates.append(
         ConvergenceGate(
@@ -316,8 +311,7 @@ def assess_convergence(
     )
     low, high = search_window_ghz
     boundary_pinned = any(
-        math.isclose(frequency, low, rel_tol=1e-6)
-        or math.isclose(frequency, high, rel_tol=1e-6)
+        math.isclose(frequency, low, rel_tol=1e-6) or math.isclose(frequency, high, rel_tol=1e-6)
         for frequency in frequencies
     )
     gates.append(

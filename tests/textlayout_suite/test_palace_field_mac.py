@@ -19,9 +19,7 @@ def _encoded(values: np.ndarray) -> str:
 
 
 def _write_field(path: Path, electric: np.ndarray, magnetic: np.ndarray) -> None:
-    points = np.asarray(
-        [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float
-    )
+    points = np.asarray([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float)
     zero = np.zeros_like(electric)
     arrays = {
         "E_real": electric,
@@ -62,4 +60,3 @@ def test_field_mac_rejects_orthogonal_electric_fields(tmp_path: Path) -> None:
     _write_field(left, ex, magnetic)
     _write_field(right, ey, magnetic)
     assert field_mac(left, right, kind="electric") == pytest.approx(0.0)
-

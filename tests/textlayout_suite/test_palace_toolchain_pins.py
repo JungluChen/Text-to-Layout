@@ -82,8 +82,9 @@ def test_palace_readme_states_the_pinned_toolchain() -> None:
 def test_smoke_manifest_pins_the_registry_commit() -> None:
     common = _palace_common()
     manifest = json.loads(
-        (ROOT / "external_tools" / "palace" / "smoke" / "eigenmode" / "manifest.json")
-        .read_text(encoding="utf-8")
+        (ROOT / "external_tools" / "palace" / "smoke" / "eigenmode" / "manifest.json").read_text(
+            encoding="utf-8"
+        )
     )
     assert manifest["palace_commit"] == common.PALACE_COMMIT
 
@@ -161,9 +162,7 @@ def test_native_storage_model_is_consistent_everywhere() -> None:
     assert native_marker in trouble_doc
     assert override in trouble_doc
 
-    installer = (ROOT / "scripts" / "external" / "install_palace.py").read_text(
-        encoding="utf-8"
-    )
+    installer = (ROOT / "scripts" / "external" / "install_palace.py").read_text(encoding="utf-8")
     assert native_marker in installer
     assert override in installer
 

@@ -41,15 +41,11 @@ class TestNegationDetection:
     def test_negated_claims_are_not_flagged(self, claims_module) -> None:
         assert claims_module._NEGATION_RE.search("No example is fabrication-ready.")
         assert claims_module._NEGATION_RE.search("fabrication ready **no**.")
-        assert claims_module._NEGATION_RE.search(
-            "Nothing in this repository is FABRICATION READY"
-        )
+        assert claims_module._NEGATION_RE.search("Nothing in this repository is FABRICATION READY")
         assert claims_module._NEGATION_RE.search("No benchmark is FABRICATION READY.")
 
     def test_unnegated_claim_is_detected(self, claims_module) -> None:
-        assert not claims_module._NEGATION_RE.search(
-            "This chip is fabrication-ready today."
-        )
+        assert not claims_module._NEGATION_RE.search("This chip is fabrication-ready today.")
 
     def test_legend_row_is_recognized(self, claims_module) -> None:
         assert claims_module.legend_row_re.match(
@@ -110,8 +106,7 @@ class TestPhysicsVerifiedCrossCheck:
             encoding="utf-8",
         )
         (tmp_path / "README.md").write_text(
-            "| 2 | CPW | prompt | examples/showcase/02_cpw/output.png | "
-            "**PHYSICS_VERIFIED** |\n",
+            "| 2 | CPW | prompt | examples/showcase/02_cpw/output.png | **PHYSICS_VERIFIED** |\n",
             encoding="utf-8",
         )
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
@@ -146,8 +141,7 @@ class TestPhysicsVerifiedCrossCheck:
             encoding="utf-8",
         )
         (tmp_path / "README.md").write_text(
-            "| 3 | Spiral | prompt | examples/showcase/03_spiral/output.png | "
-            "ANALYTICAL_ONLY |\n",
+            "| 3 | Spiral | prompt | examples/showcase/03_spiral/output.png | ANALYTICAL_ONLY |\n",
             encoding="utf-8",
         )
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
@@ -193,9 +187,7 @@ class TestVersionConsistency:
         (tmp_path / "pyproject.toml").write_text(
             '[project]\nname = "x"\nversion = "1.2.3"\n', encoding="utf-8"
         )
-        (tmp_path / "IMPLEMENTATION_REPORT.md").write_text(
-            "**Version:** 1.2.3\n", encoding="utf-8"
-        )
+        (tmp_path / "IMPLEMENTATION_REPORT.md").write_text("**Version:** 1.2.3\n", encoding="utf-8")
         (tmp_path / "CHANGELOG.md").write_text("## [1.2.3] - today\n", encoding="utf-8")
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
         errors: list[str] = []
@@ -208,9 +200,7 @@ class TestVersionConsistency:
         (tmp_path / "pyproject.toml").write_text(
             '[project]\nname = "x"\nversion = "1.2.3"\n', encoding="utf-8"
         )
-        (tmp_path / "IMPLEMENTATION_REPORT.md").write_text(
-            "**Version:** 9.9.9\n", encoding="utf-8"
-        )
+        (tmp_path / "IMPLEMENTATION_REPORT.md").write_text("**Version:** 9.9.9\n", encoding="utf-8")
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
         errors: list[str] = []
         claims_module.check_version_consistency(errors)
@@ -274,7 +264,9 @@ class TestIndexMatchesSimulationJson:
         claims_module.check_index_matches_simulation_json(errors)
         assert errors == []
 
-    def test_index_under_reporting_execution_is_caught(self, tmp_path, monkeypatch, claims_module) -> None:
+    def test_index_under_reporting_execution_is_caught(
+        self, tmp_path, monkeypatch, claims_module
+    ) -> None:
         """The exact real-world case: index.json says skipped, simulation.json says executed."""
         self._fixture(tmp_path, index_executed=False, simulation_executed=True)
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
@@ -357,9 +349,7 @@ class TestProjectStatusGenerator:
         assert pdk_status["any_foundry_validated"] is False
         assert all(not pdk["foundry_validated"] for pdk in pdk_status["pdks"])
 
-    def test_markdown_render_includes_honesty_note_when_no_test_report(
-        self, status_module
-    ) -> None:
+    def test_markdown_render_includes_honesty_note_when_no_test_report(self, status_module) -> None:
         status = {
             "generated_at": "2026-01-01T00:00:00+00:00",
             "package_version": "0.0.0",

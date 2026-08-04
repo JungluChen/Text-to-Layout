@@ -14,6 +14,4 @@ import pytest
 
 @pytest.fixture(autouse=True)
 def _fastercap_absent_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv(
-        "TEXTLAYOUT_FASTERCAP", "textlayout-tests-no-fastercap-by-default"
-    )
+    monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "textlayout-tests-no-fastercap-by-default")

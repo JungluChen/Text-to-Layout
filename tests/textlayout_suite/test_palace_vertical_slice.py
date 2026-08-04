@@ -84,8 +84,7 @@ def _level(
     stderr.write_text("none\n", encoding="utf-8")
     field.write_text("field fixture", encoding="utf-8")
     outputs = {
-        str(path.relative_to(level)): sha256_file(path)
-        for path in (eig, domain, indicator, field)
+        str(path.relative_to(level)): sha256_file(path) for path in (eig, domain, indicator, field)
     }
     return MeshLevelResult(
         tag=tag,
@@ -123,7 +122,9 @@ def _level(
     )
 
 
-def _study(tmp_path: Path) -> tuple[list[MeshLevelResult], list[ModeMatchResult], list[DomainSweepPoint]]:
+def _study(
+    tmp_path: Path,
+) -> tuple[list[MeshLevelResult], list[ModeMatchResult], list[DomainSweepPoint]]:
     levels = [
         _level(tmp_path, "A", length=40, elements=100, dof=200, frequency=6.03),
         _level(tmp_path, "B", length=30, elements=200, dof=400, frequency=6.01),
@@ -217,7 +218,9 @@ def test_missing_output_is_rejected(tmp_path: Path) -> None:
     mesh_path = tmp_path / "mesh.msh"
     mesh_path.write_text("mesh", encoding="utf-8")
     config = tmp_path / "palace.json"
-    write_config(build_eigenmode_config(model, mesh_filename=mesh_path.name, output_dir="postpro"), config)
+    write_config(
+        build_eigenmode_config(model, mesh_filename=mesh_path.name, output_dir="postpro"), config
+    )
     backend = PalaceBackend(_capability(shim))
     run = backend.execute(config, cwd=tmp_path, mesh_path=mesh_path)
     mesh = GmshMeshResult(mesh_path, 1.0, 10, 0.2, 0.8)

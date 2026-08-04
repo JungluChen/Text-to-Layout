@@ -21,7 +21,9 @@ class GmshMeshResult:
     mean_quality: float
 
 
-def _bbox_center(box: tuple[float, float, float, float, float, float]) -> tuple[float, float, float]:
+def _bbox_center(
+    box: tuple[float, float, float, float, float, float],
+) -> tuple[float, float, float]:
     return ((box[0] + box[3]) / 2.0, (box[1] + box[4]) / 2.0, (box[2] + box[5]) / 2.0)
 
 
@@ -122,9 +124,7 @@ def mesh_quarter_wave(
             far_vacuum = [
                 (
                     3,
-                    occ.addBox(
-                        x0, y0, vacuum_height, x1 - x0, y1 - y0, lid_height - vacuum_height
-                    ),
+                    occ.addBox(x0, y0, vacuum_height, x1 - x0, y1 - y0, lid_height - vacuum_height),
                 )
             ]
         volume_inputs = [
@@ -156,18 +156,11 @@ def mesh_quarter_wave(
             )
             metal_inputs.append((2, occ.addPlaneSurface([wire])))
 
-        _, mapping = occ.fragment(
-            volume_inputs, metal_inputs, removeObject=True, removeTool=True
-        )
+        _, mapping = occ.fragment(volume_inputs, metal_inputs, removeObject=True, removeTool=True)
         occ.synchronize()
 
         metal_surfaces = sorted(
-            {
-                tag
-                for mapped in mapping[len(volume_inputs) :]
-                for dim, tag in mapped
-                if dim == 2
-            }
+            {tag for mapped in mapping[len(volume_inputs) :] for dim, tag in mapped if dim == 2}
         )
         volume_tags = sorted(tag for dim, tag in gmsh.model.getEntities(3) if dim == 3)
         volume_groups: dict[int, list[int]] = {
@@ -175,9 +168,7 @@ def mesh_quarter_wave(
         }
         for attribute, mapped in zip(volume_attributes, mapping[: len(volume_inputs)]):
             volume_groups[attribute].extend(tag for dim, tag in mapped if dim == 3)
-        volume_groups = {
-            attribute: sorted(set(tags)) for attribute, tags in volume_groups.items()
-        }
+        volume_groups = {attribute: sorted(set(tags)) for attribute, tags in volume_groups.items()}
 
         boundary_counts: dict[int, int] = {}
         for tag in volume_tags:
@@ -213,7 +204,10 @@ def mesh_quarter_wave(
                 package.append(surface)
 
         physical: list[tuple[int, int, list[int], str]] = [
-            *((3, attribute, tags, model.volumes[attribute - 1].name) for attribute, tags in volume_groups.items()),
+            *(
+                (3, attribute, tags, model.volumes[attribute - 1].name)
+                for attribute, tags in volume_groups.items()
+            ),
             (2, 10, metal_surfaces, "superconducting_metal"),
             (2, 11, package, "package_walls"),
             (2, 12, lid, "lid"),
@@ -251,9 +245,7 @@ def mesh_quarter_wave(
         ) -> None:
             field = gmsh.model.mesh.field.add("Box")
             gmsh.model.mesh.field.setNumber(field, "VIn", size)
-            gmsh.model.mesh.field.setNumber(
-                field, "VOut", model.mesh.characteristic_length
-            )
+            gmsh.model.mesh.field.setNumber(field, "VOut", model.mesh.characteristic_length)
             gmsh.model.mesh.field.setNumber(field, "XMin", x_min)
             gmsh.model.mesh.field.setNumber(field, "XMax", x_max)
             gmsh.model.mesh.field.setNumber(field, "YMin", y_min)
@@ -263,8 +255,11 @@ def mesh_quarter_wave(
             fields.append(field)
 
         def threshold(
-            *, curves: list[int] | None = None, surfaces: list[int] | None = None,
-            size: float, distance: float
+            *,
+            curves: list[int] | None = None,
+            surfaces: list[int] | None = None,
+            size: float,
+            distance: float,
         ) -> None:
             if not curves and not surfaces:
                 return
@@ -288,9 +283,7 @@ def mesh_quarter_wave(
         )
         signal_half_width = params.center_width_um / 2.0
         gap_outer = signal_half_width + params.gap_um
-        interface_half_height = max(
-            sizes["substrate_vacuum_interface"] * 2.0, 2.0
-        )
+        interface_half_height = max(sizes["substrate_vacuum_interface"] * 2.0, 2.0)
         box(
             x_min=-gap_outer,
             x_max=gap_outer,

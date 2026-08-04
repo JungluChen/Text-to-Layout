@@ -34,7 +34,9 @@ SCIENTIFIC_LEVEL_TOKENS = (
     "OUTPUT_PARSED",
     "NUMERICALLY_CONVERGED",
 )
-_STATUS_TOKENS: tuple[str, ...] = tuple(status.value for status in EvidenceStatus) + SCIENTIFIC_LEVEL_TOKENS
+_STATUS_TOKENS: tuple[str, ...] = (
+    tuple(status.value for status in EvidenceStatus) + SCIENTIFIC_LEVEL_TOKENS
+)
 
 #: Files whose `status` is a solver-level extraction outcome, not an evidence
 #: status. They constrain the evidence status without equalling it.

@@ -13,9 +13,7 @@ from textlayout.solvers.palace.overlap import (
 
 
 def _p2_nodes(*, curved: bool = False) -> np.ndarray:
-    corners = np.asarray(
-        [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
-    )
+    corners = np.asarray([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     edges = np.asarray(
         [(corners[left] + corners[right]) / 2 for left, right in _VTK_P2_TETRA_EDGES]
     )

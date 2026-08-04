@@ -76,9 +76,7 @@ def start_atomic_stage(
     if started.is_file():
         return read_atomic_stage(started)
     input_hashes = {
-        str(path.resolve()): sha256_file(path)
-        for path in inputs or []
-        if path.is_file()
+        str(path.resolve()): sha256_file(path) for path in inputs or [] if path.is_file()
     }
     payload: dict[str, object] = {
         "stage": stage,

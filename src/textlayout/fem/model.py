@@ -375,15 +375,12 @@ class FEMModel(BaseModel):
         self._unique("volume", [v.attribute for v in self.volumes])
         volume_attributes = {v.attribute for v in self.volumes}
         critical_attributes = {
-            attribute
-            for region in self.critical_regions
-            for attribute in region.volume_ids
+            attribute for region in self.critical_regions for attribute in region.volume_ids
         }
         unknown_critical = sorted(critical_attributes - volume_attributes)
         if unknown_critical:
             raise FEMModelError(
-                "critical-region attributes must name model volumes; unknown: "
-                f"{unknown_critical}"
+                f"critical-region attributes must name model volumes; unknown: {unknown_critical}"
             )
         # Surfaces, interfaces and ports all live on 2-D entities and therefore
         # share one attribute space. A port that reused an interface's tag would
@@ -442,9 +439,7 @@ class FEMModel(BaseModel):
             raise FEMModelError("mesh-region names must be unique")
         for refinement in self.mesh.refinements:
             if refinement.target not in entity_names:
-                raise FEMModelError(
-                    f"mesh refinement targets unknown entity {refinement.target!r}"
-                )
+                raise FEMModelError(f"mesh refinement targets unknown entity {refinement.target!r}")
         mesh_region_names = {region.name for region in self.mesh_regions}
         critical_near_field_regions = {
             name for region in self.critical_regions for name in region.mesh_region_names
@@ -452,18 +447,13 @@ class FEMModel(BaseModel):
         unknown_near_field = sorted(critical_near_field_regions - mesh_region_names)
         if unknown_near_field:
             raise FEMModelError(
-                "critical near-field regions must name mesh regions; unknown: "
-                f"{unknown_near_field}"
+                f"critical near-field regions must name mesh regions; unknown: {unknown_near_field}"
             )
         return self
 
     @property
     def critical_region_attributes(self) -> set[int]:
-        return {
-            attribute
-            for region in self.critical_regions
-            for attribute in region.volume_ids
-        }
+        return {attribute for region in self.critical_regions for attribute in region.volume_ids}
 
     @property
     def critical_surface_attributes(self) -> set[int]:
@@ -475,9 +465,7 @@ class FEMModel(BaseModel):
 
     @property
     def critical_near_field_region_names(self) -> set[str]:
-        return {
-            name for region in self.critical_regions for name in region.mesh_region_names
-        }
+        return {name for region in self.critical_regions for name in region.mesh_region_names}
 
     def critical_region_coverage(self) -> dict[str, Any]:
         volume_attributes = {volume.attribute for volume in self.volumes}
@@ -508,9 +496,7 @@ class FEMModel(BaseModel):
             "declared_near_field_regions": len(declared_near_field),
             "mapped_near_field_regions": len(mapped_near_field),
             "mapped_near_field_coverage": (
-                len(mapped_near_field) / len(declared_near_field)
-                if declared_near_field
-                else 1.0
+                len(mapped_near_field) / len(declared_near_field) if declared_near_field else 1.0
             ),
         }
 

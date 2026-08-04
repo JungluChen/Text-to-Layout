@@ -52,9 +52,7 @@ def _container_command(
         raise PalaceUnavailable("container capability is missing engine or image")
     basename = Path(engine.removeprefix("wsl:")).name.lower()
     palace_args = (
-        ["-serial", config_name]
-        if processes == 1
-        else ["-np", str(processes), config_name]
+        ["-serial", config_name] if processes == 1 else ["-np", str(processes), config_name]
     )
     if basename in {"docker", "docker.exe", "podman", "podman.exe"}:
         return [
@@ -100,9 +98,7 @@ def build_command(
     if detected.executable is None:
         raise PalaceUnavailable("executable capability has no executable")
     if processes > 1 and detected.mpi_launcher is None:
-        raise PalaceUnavailable(
-            f"{processes} processes requested but no mpirun/mpiexec was found"
-        )
+        raise PalaceUnavailable(f"{processes} processes requested but no mpirun/mpiexec was found")
     arguments = (
         ["-serial", config_path.name]
         if processes == 1
@@ -219,9 +215,10 @@ def run_palace(
     creationflags = 0
     if os.name == "nt" and hasattr(subprocess, "CREATE_NEW_PROCESS_GROUP"):
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
-    with stdout_path.open("w", encoding="utf-8", newline="\n") as stdout, stderr_path.open(
-        "w", encoding="utf-8", newline="\n"
-    ) as stderr:
+    with (
+        stdout_path.open("w", encoding="utf-8", newline="\n") as stdout,
+        stderr_path.open("w", encoding="utf-8", newline="\n") as stderr,
+    ):
         try:
             process = subprocess.Popen(
                 command,
@@ -306,9 +303,7 @@ def run_palace(
                     termination_reason = "USER_CANCELLED"
                     record = refresh_solver_process_record(process_record_path)
                     if record is not None:
-                        cancel_owned_wsl_process_group(
-                            record, grace_seconds=resource_grace_seconds
-                        )
+                        cancel_owned_wsl_process_group(record, grace_seconds=resource_grace_seconds)
                     _terminate(process)
                     break
                 if now >= deadline:
@@ -316,9 +311,7 @@ def run_palace(
                     termination_reason = "TIMEOUT"
                     record = refresh_solver_process_record(process_record_path)
                     if record is not None:
-                        cancel_owned_wsl_process_group(
-                            record, grace_seconds=resource_grace_seconds
-                        )
+                        cancel_owned_wsl_process_group(record, grace_seconds=resource_grace_seconds)
                     _terminate(process)
                     break
                 time.sleep(0.05)

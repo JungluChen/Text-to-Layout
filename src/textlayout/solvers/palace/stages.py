@@ -306,9 +306,7 @@ def write_stage_record(
     inputs = input_hashes or {}
     outputs = output_hashes or {}
     upstream = upstream_stage_evidence_ids or []
-    profile = job_profile or current_palace_job_profile(
-        upstream_stage_evidence_ids=upstream
-    )
+    profile = job_profile or current_palace_job_profile(upstream_stage_evidence_ids=upstream)
     exe = executable_identity(capability)
     stages = root / "stages"
     stages.mkdir(parents=True, exist_ok=True)
@@ -328,9 +326,7 @@ def write_stage_record(
             for entry in prior_report.entries
             if entry.sha256 is not None
         }
-    artifact_report = scan_palace_artifacts(
-        root, stage, previous_manifest=previous
-    )
+    artifact_report = scan_palace_artifacts(root, stage, previous_manifest=previous)
     artifact_target.write_text(
         artifact_report.model_dump_json(indent=2, by_alias=True) + "\n",
         encoding="utf-8",

@@ -481,8 +481,7 @@ def _load_existing_base_mesh(base_dir: Path) -> GmshMeshResult | None:
     actual_hash = sha256_file(mesh_path)
     if recorded_hash and recorded_hash != actual_hash:
         raise PalaceOutputError(
-            f"{mesh_path}: mesh hash {actual_hash} does not match mesh_metrics.json "
-            f"{recorded_hash}"
+            f"{mesh_path}: mesh hash {actual_hash} does not match mesh_metrics.json {recorded_hash}"
         )
     return GmshMeshResult(
         path=mesh_path,
@@ -558,8 +557,7 @@ def validate_completed_base_amr(
         )
     resolved = _resolved_config(postpro)
     adapted_meshes = [
-        (path.resolve() if path.is_symlink() else path)
-        for path in postpro.rglob("*.mesh")
+        (path.resolve() if path.is_symlink() else path) for path in postpro.rglob("*.mesh")
     ]
     adapted_meshes = [path for path in adapted_meshes if path.is_file()]
     raw_adapted = root / "raw" / "final_adapted.mesh"
@@ -698,11 +696,7 @@ def _environment(repo_root: Path, capability: PalaceCapability) -> dict[str, Any
                 timeout=60,
                 check=False,
             )
-            fields = dict(
-                line.split("=", 1)
-                for line in probe.stdout.splitlines()
-                if "=" in line
-            )
+            fields = dict(line.split("=", 1) for line in probe.stdout.splitlines() if "=" in line)
             wsl = fields.get("wsl", wsl)
             cpu_model = fields.get("cpu", cpu_model)
             cores = fields.get("cores", cores)
@@ -787,9 +781,7 @@ def _score_pair(
     candidate_magnetic: dict[str, float],
     candidate_localization: float,
 ) -> tuple[float, float, float, float]:
-    frequency = max(
-        0.0, 1.0 - abs(candidate_frequency - left_frequency) / left_frequency / 0.15
-    )
+    frequency = max(0.0, 1.0 - abs(candidate_frequency - left_frequency) / left_frequency / 0.15)
     electric = _cosine(left_electric, candidate_electric)
     magnetic = _cosine(left_magnetic, candidate_magnetic)
     localization = max(0.0, 1.0 - abs(candidate_localization - left_localization))
@@ -841,9 +833,7 @@ def _parse_iteration_dir(
         if field.field_file is not None:
             retained.extend(field_artifact_files(field.field_file))
     hashes = {
-        str(path.resolve().relative_to(output_root.resolve())).replace("\\", "/"): sha256_file(
-            path
-        )
+        str(path.resolve().relative_to(output_root.resolve())).replace("\\", "/"): sha256_file(path)
         for path in dict.fromkeys(retained)
     }
     return _ParsedIteration(
@@ -905,9 +895,7 @@ def _run_palace_once(
 
     Returns ``(config_path, postpro, retained run, peak-memory dict)``.
     """
-    config = build_eigenmode_config(
-        model, mesh_filename=mesh.path.name, output_dir="postpro"
-    )
+    config = build_eigenmode_config(model, mesh_filename=mesh.path.name, output_dir="postpro")
     config["Model"]["Refinement"] = refinement
     # Retain selected-mode fields for every saved adaptive iteration. These
     # Palace-owned vectors are required for electric/magnetic field MAC and
@@ -918,9 +906,7 @@ def _run_palace_once(
     write_config(config, config_path)
     process_record = run_dir / "solver_process.json"
     with MemorySampler(
-        solver_process_record=str(process_record)
-        if os.environ.get("TEXTLAYOUT_JOB_ID")
-        else None
+        solver_process_record=str(process_record) if os.environ.get("TEXTLAYOUT_JOB_ID") else None
     ) as sampler:
         run = run_palace(
             capability,
@@ -1045,8 +1031,14 @@ def track_amr_modes(
                     mode_index=mode.index,
                     frequency_ghz=mode.frequency_ghz,
                     regional_signature={
-                        **{f"electric:{key}": value for key, value in field.electric_participation.items()},
-                        **{f"magnetic:{key}": value for key, value in field.magnetic_participation.items()},
+                        **{
+                            f"electric:{key}": value
+                            for key, value in field.electric_participation.items()
+                        },
+                        **{
+                            f"magnetic:{key}": value
+                            for key, value in field.magnetic_participation.items()
+                        },
                     },
                     resonator_localization=field.resonator_localization,
                     physical_class=left_classes.get(mode.index, "UNCLASSIFIED"),
@@ -1059,8 +1051,14 @@ def track_amr_modes(
                     mode_index=mode.index,
                     frequency_ghz=mode.frequency_ghz,
                     regional_signature={
-                        **{f"electric:{key}": value for key, value in field.electric_participation.items()},
-                        **{f"magnetic:{key}": value for key, value in field.magnetic_participation.items()},
+                        **{
+                            f"electric:{key}": value
+                            for key, value in field.electric_participation.items()
+                        },
+                        **{
+                            f"magnetic:{key}": value
+                            for key, value in field.magnetic_participation.items()
+                        },
                     },
                     resonator_localization=field.resonator_localization,
                     physical_class=right_classes.get(mode.index, "UNCLASSIFIED"),
@@ -1244,18 +1242,13 @@ def _bounded_overlap_and_energy_report(
             result_by_name[name] = result
         nearest_path = overlap_dir / f"{kind}_nearest_node_sampled_mac.json"
         if nearest_path.is_file():
-            nearest = float(
-                json.loads(nearest_path.read_text(encoding="utf-8"))["mac"]
-            )
+            nearest = float(json.loads(nearest_path.read_text(encoding="utf-8"))["mac"])
         else:
             nearest = nearest_node_sampled_mac(left, right, kind=kind)
             write_json({"mac": nearest, "diagnostic_only": True}, nearest_path)
         methods[kind] = {
             "nearest_node_sampled_mac": nearest,
-            **{
-                name: result.model_dump(mode="json")
-                for name, result in result_by_name.items()
-            },
+            **{name: result.model_dump(mode="json") for name, result in result_by_name.items()},
         }
     energy_rows: list[dict[str, Any]] = []
     energy_consistent = True
@@ -1269,8 +1262,12 @@ def _bounded_overlap_and_energy_report(
         )
         if field.electric_energy_j is None or field.magnetic_energy_j is None:
             raise PalaceOutputError(f"{iteration.tag}: Palace total field energies are missing")
-        difference_e = abs(reconstructed_e - field.electric_energy_j) / field.electric_energy_j * 100.0
-        difference_m = abs(reconstructed_m - field.magnetic_energy_j) / field.magnetic_energy_j * 100.0
+        difference_e = (
+            abs(reconstructed_e - field.electric_energy_j) / field.electric_energy_j * 100.0
+        )
+        difference_m = (
+            abs(reconstructed_m - field.magnetic_energy_j) / field.magnetic_energy_j * 100.0
+        )
         energy_consistent &= max(difference_e, difference_m) <= energy_tolerance_percent
         energy_rows.append(
             {
@@ -1489,9 +1486,7 @@ def run_quarter_wave_benchmark_v017(
     # prior preflight peak is available the tier is applied and recorded.
     budget = read_memory_budget()
     preflight_peak = _preflight_peak_mb(root)
-    resource_decision = decide_process_count(
-        processes, budget, preflight_peak_mb=preflight_peak
-    )
+    resource_decision = decide_process_count(processes, budget, preflight_peak_mb=preflight_peak)
     resource_decision["timestamp"] = _timestamp()
     if resume and (root / "resource_decision.json").is_file():
         resource_decision = json.loads(
@@ -1509,14 +1504,10 @@ def run_quarter_wave_benchmark_v017(
             estimated_mesh_output_bytes=64 * 1024**2,
         )
         if not resume or not (root / "hard_resource_budget.json").is_file():
-            write_json(
-                hard_budget.model_dump(mode="json"), root / "hard_resource_budget.json"
-            )
+            write_json(hard_budget.model_dump(mode="json"), root / "hard_resource_budget.json")
         if not resume and not hard_budget.allowed:
             if atomic_two_state:
-                fail_atomic_stage(
-                    root, "preflight", reason="; ".join(hard_budget.blockers)
-                )
+                fail_atomic_stage(root, "preflight", reason="; ".join(hard_budget.blockers))
             return V017BenchmarkResult(
                 status="RESOURCE_BUDGET_REJECTED",
                 output_dir=root,
@@ -1569,9 +1560,7 @@ def run_quarter_wave_benchmark_v017(
             root,
         ),
         capability=detected,
-        notes=[
-            "toolchain identity, environment, resource decision and FEM model prepared"
-        ],
+        notes=["toolchain identity, environment, resource decision and FEM model prepared"],
     )
     stage_ids.append(preflight_record.evidence_id)
     if stop_after_stage == "preflight":
@@ -1652,9 +1641,7 @@ def run_quarter_wave_benchmark_v017(
             stage="base_mesh",
             status="reused" if resume else "complete",
             input_hashes=relative_hashes([root / "fem_model.json"], root),
-            output_hashes=relative_hashes(
-                [base_mesh.path, base_dir / "mesh_metrics.json"], root
-            ),
+            output_hashes=relative_hashes([base_mesh.path, base_dir / "mesh_metrics.json"], root),
             runtime_seconds=base_mesh.runtime_seconds,
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
@@ -1709,9 +1696,7 @@ def run_quarter_wave_benchmark_v017(
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
             notes=(
-                [
-                    "return code reconstructed from completed stdout and parseable Palace outputs"
-                ]
+                ["return code reconstructed from completed stdout and parseable Palace outputs"]
                 if resume
                 else []
             ),
@@ -1746,16 +1731,12 @@ def run_quarter_wave_benchmark_v017(
         raw_dir = root / "raw"
         raw_dir.mkdir(parents=True, exist_ok=True)
         retain_adapted_mesh = (
-            settings.bounded_policy is None
-            or settings.bounded_policy.retain_final_adapted_mesh
+            settings.bounded_policy is None or settings.bounded_policy.retain_final_adapted_mesh
         )
         adapted_meshes = sorted(postpro.rglob("*.mesh")) if retain_adapted_mesh else []
         final_adapted_mesh: Path | None = None
         final_adapted_mesh_hash: str | None = None
-        real_meshes = [
-            (path.resolve() if path.is_symlink() else path)
-            for path in adapted_meshes
-        ]
+        real_meshes = [(path.resolve() if path.is_symlink() else path) for path in adapted_meshes]
         real_meshes = [path for path in real_meshes if path.is_file()]
         if real_meshes:
             final_adapted_mesh = raw_dir / "final_adapted.mesh"
@@ -1799,7 +1780,10 @@ def run_quarter_wave_benchmark_v017(
                 output_root=root,
             )
             packet_hashes = relative_hashes(
-                [destination / name for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")],
+                [
+                    destination / name
+                    for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")
+                ],
                 root,
             )
             parsed_iterations.append(
@@ -1860,7 +1844,10 @@ def run_quarter_wave_benchmark_v017(
             )
             resource_summary = base_dir / "resource_summary.json"
             state_outputs = [
-                [source / name for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")]
+                [
+                    source / name
+                    for name in ("eig.csv", "domain-E.csv", "error-indicators.csv", "palace.json")
+                ]
                 for _, source in iteration_sources
             ]
             complete_atomic_stage(
@@ -1911,9 +1898,7 @@ def run_quarter_wave_benchmark_v017(
         classification_selection: dict[str, Any] | None = None
         mode_tracking_evidence_id: str | None = None
         mode_tracking_path = root / "mode_tracking.json"
-        mode_completion_path = (
-            root / "atomic_stages" / "mode_tracking" / "stage_completed.json"
-        )
+        mode_completion_path = root / "atomic_stages" / "mode_tracking" / "stage_completed.json"
         reuse_mode_tracking = (
             atomic_two_state
             and resume
@@ -1928,9 +1913,7 @@ def run_quarter_wave_benchmark_v017(
             )
             write_json(material_map.model_dump(mode="json"), root / "material_overlap_map.json")
             maximum_candidate_frequency = max(
-                mode.frequency_ghz
-                for iteration in parsed_iterations
-                for mode in iteration.modes
+                mode.frequency_ghz for iteration in parsed_iterations for mode in iteration.modes
             )
             classifier_window = (
                 max(target_frequency * 0.3, 0.001),
@@ -1946,13 +1929,15 @@ def run_quarter_wave_benchmark_v017(
                     search_window_ghz=classifier_window,
                 )
                 classifications_by_iteration[iteration.tag] = {
-                    signature.mode_index: str(signature.mode_class)
-                    for signature in signatures
+                    signature.mode_index: str(signature.mode_class) for signature in signatures
                 }
                 if classified_seed_mode is None:
                     selection = select_target_mode(signatures)
                     classification_selection = selection.model_dump(mode="json")
-                    if selection.status != "TARGET_MODE_IDENTIFIED" or selection.target_mode is None:
+                    if (
+                        selection.status != "TARGET_MODE_IDENTIFIED"
+                        or selection.target_mode is None
+                    ):
                         raise PalaceOutputError(
                             f"physical target classification failed: {selection.status}"
                         )
@@ -1961,9 +1946,7 @@ def run_quarter_wave_benchmark_v017(
                 payload = json.loads(mode_tracking_path.read_text(encoding="utf-8"))
                 tracked = [int(value) for value in payload["tracked_mode_indices"]]
                 matches = [ModeMatch.model_validate(item) for item in payload["matches"]]
-                mode_tracking_evidence_id = read_atomic_stage(
-                    mode_completion_path
-                ).evidence_id
+                mode_tracking_evidence_id = read_atomic_stage(mode_completion_path).evidence_id
             else:
                 tracked, matches = track_amr_modes(
                     parsed_iterations,
@@ -1979,22 +1962,22 @@ def run_quarter_wave_benchmark_v017(
         if not reuse_mode_tracking:
             write_json(
                 {
-                "schema": "textlayout.palace-mode-tracking.v3",
-                "method": (
-                    "frequency continuity + regional electric/magnetic energy "
-                    "similarity + electric/magnetic field MAC + resonator localization"
-                ),
-                "seed_frequency_ghz": target_frequency,
-                "classified_seed_mode": classified_seed_mode,
-                "classification_selection": classification_selection,
-                "classifications_by_iteration": classifications_by_iteration,
-                "tracked_mode_indices": tracked,
-                "matches": [match.model_dump(mode="json") for match in matches],
-                "minimum_regional_energy_similarity": 0.98,
-                "minimum_electric_field_mac": 0.95,
-                "minimum_magnetic_field_mac": 0.90,
-                "minimum_margin": 0.05,
-                "error": tracking_error,
+                    "schema": "textlayout.palace-mode-tracking.v3",
+                    "method": (
+                        "frequency continuity + regional electric/magnetic energy "
+                        "similarity + electric/magnetic field MAC + resonator localization"
+                    ),
+                    "seed_frequency_ghz": target_frequency,
+                    "classified_seed_mode": classified_seed_mode,
+                    "classification_selection": classification_selection,
+                    "classifications_by_iteration": classifications_by_iteration,
+                    "tracked_mode_indices": tracked,
+                    "matches": [match.model_dump(mode="json") for match in matches],
+                    "minimum_regional_energy_similarity": 0.98,
+                    "minimum_electric_field_mac": 0.95,
+                    "minimum_magnetic_field_mac": 0.90,
+                    "minimum_margin": 0.05,
+                    "error": tracking_error,
                 },
                 mode_tracking_path,
             )
@@ -2044,9 +2027,7 @@ def run_quarter_wave_benchmark_v017(
 
         if atomic_two_state:
             assert bounded is not None
-            start_atomic_stage(
-                root, "energy_validation", inputs=[root / "mode_tracking.json"]
-            )
+            start_atomic_stage(root, "energy_validation", inputs=[root / "mode_tracking.json"])
             energy_validation_path = _bounded_overlap_and_energy_report(
                 root,
                 parsed_iterations,
@@ -2074,17 +2055,11 @@ def run_quarter_wave_benchmark_v017(
                 raise PalaceOutputError("mode-tracking evidence ID was not finalized")
             competitors: list[int | None] = []
             fields_by_iteration: list[dict[int, Path]] = []
-            for iteration, target_mode in zip(
-                parsed_iterations, tracked, strict=True
-            ):
+            for iteration, target_mode in zip(parsed_iterations, tracked, strict=True):
                 target_frequency_value = next(
-                    mode.frequency_ghz
-                    for mode in iteration.modes
-                    if mode.index == target_mode
+                    mode.frequency_ghz for mode in iteration.modes if mode.index == target_mode
                 )
-                alternatives = [
-                    mode for mode in iteration.modes if mode.index != target_mode
-                ]
+                alternatives = [mode for mode in iteration.modes if mode.index != target_mode]
                 competitor = min(
                     alternatives,
                     key=lambda mode: (
@@ -2184,9 +2159,7 @@ def run_quarter_wave_benchmark_v017(
                 )
             else:
                 extent = _extents_for(base_extents, sweep_name, value)
-                point_model = quarter_wave_fem_model(
-                    layout, mesh_scale=mesh_scale, extents=extent
-                )
+                point_model = quarter_wave_fem_model(layout, mesh_scale=mesh_scale, extents=extent)
                 point_mesh = _mesh_for(extent, point_dir, "quarter_wave")
             point_mesh_hash = sha256_file(point_mesh.path)
             _, point_postpro, point_run, point_peak = _run_palace_once(
@@ -2283,13 +2256,9 @@ def run_quarter_wave_benchmark_v017(
                     )
                     sweep_records.append(sweep_point_record)
                     points.append(point)
-                sweeps.append(
-                    SensitivitySweep(name=sweep_name, category=category, points=points)
-                )
+                sweeps.append(SensitivitySweep(name=sweep_name, category=category, points=points))
         numerical_files = [
-            path
-            for path in (root / "numerical_domain_sweeps").rglob("*")
-            if path.is_file()
+            path for path in (root / "numerical_domain_sweeps").rglob("*") if path.is_file()
         ]
         numerical_record = write_stage_record(
             root,
@@ -2299,19 +2268,13 @@ def run_quarter_wave_benchmark_v017(
             output_hashes=relative_hashes(numerical_files, root),
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
-            notes=(
-                [f"{sweep_plan.tier}: {sweep_plan.reason}"]
-                if not numerical_requested
-                else []
-            ),
+            notes=([f"{sweep_plan.tier}: {sweep_plan.reason}"] if not numerical_requested else []),
         )
         stage_ids.append(numerical_record.evidence_id)
         if stop_after_stage == "numerical_sweeps":
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
         physical_files = [
-            path
-            for path in (root / "physical_sensitivity").rglob("*")
-            if path.is_file()
+            path for path in (root / "physical_sensitivity").rglob("*") if path.is_file()
         ]
         physical_record = write_stage_record(
             root,
@@ -2321,11 +2284,7 @@ def run_quarter_wave_benchmark_v017(
             output_hashes=relative_hashes(physical_files, root),
             capability=detected,
             upstream_stage_evidence_ids=list(stage_ids),
-            notes=(
-                [f"{sweep_plan.tier}: {sweep_plan.reason}"]
-                if not physical_requested
-                else []
-            ),
+            notes=([f"{sweep_plan.tier}: {sweep_plan.reason}"] if not physical_requested else []),
         )
         stage_ids.append(physical_record.evidence_id)
         if stop_after_stage == "physical_sensitivity":
@@ -2383,9 +2342,7 @@ def run_quarter_wave_benchmark_v017(
     )
     verification = assess_palace_verification(study)
     stop_reason = (
-        "tolerance_reached"
-        if len(records) < settings.max_iterations
-        else "max_iterations_reached"
+        "tolerance_reached" if len(records) < settings.max_iterations else "max_iterations_reached"
     )
     supplementary = _supplementary_gates(
         detected, records, matches, target_frequency, model, stop_reason=stop_reason
@@ -2442,19 +2399,14 @@ def run_quarter_wave_benchmark_v017(
             ),
             "observed_process_group_peak_rss_mb": max(
                 (
-                    inv.get("peak_memory", {}).get(
-                        "observed_process_group_peak_rss_mb", 0
-                    )
+                    inv.get("peak_memory", {}).get("observed_process_group_peak_rss_mb", 0)
                     for inv in invocations
                 ),
                 default=0,
             ),
             "palace_reported_peak_memory_mb": max(
                 (
-                    inv.get("peak_memory", {}).get(
-                        "palace_reported_peak_memory_mb", 0
-                    )
-                    or 0
+                    inv.get("peak_memory", {}).get("palace_reported_peak_memory_mb", 0) or 0
                     for inv in invocations
                 ),
                 default=0,
@@ -2491,9 +2443,11 @@ def run_quarter_wave_benchmark_v017(
     else:
         status = EvidenceStatus.SIMULATION_EXECUTED
 
-    energy_validation = json.loads(
-        (root / "field_energy_validation.json").read_text(encoding="utf-8")
-    ) if (root / "field_energy_validation.json").is_file() else {}
+    energy_validation = (
+        json.loads((root / "field_energy_validation.json").read_text(encoding="utf-8"))
+        if (root / "field_energy_validation.json").is_file()
+        else {}
+    )
     promotion_status = (
         "PHYSICAL_SANITY_PASSED"
         if energy_validation.get("physical_sanity_passed") is True
@@ -2507,22 +2461,13 @@ def run_quarter_wave_benchmark_v017(
             "parse_status": "OUTPUT_PARSED",
             "promotion_status": promotion_status,
             "scientific_status": status.value,
-            "physical_sanity_passed": energy_validation.get(
-                "physical_sanity_passed", False
-            ),
+            "physical_sanity_passed": energy_validation.get("physical_sanity_passed", False),
             "numerically_converged": not convergence_blockers,
             "cross_validated": False,
             "physics_verified": False,
-            "retention_completed": (
-                root / "field_retention_completion.json"
-            ).is_file(),
+            "retention_completed": (root / "field_retention_completion.json").is_file(),
             "pre_evidence_atomic_stages_completed": all(
-                (
-                    root
-                    / "atomic_stages"
-                    / stage
-                    / "stage_completed.json"
-                ).is_file()
+                (root / "atomic_stages" / stage / "stage_completed.json").is_file()
                 for stage in (
                     "preflight",
                     "mesh_generation",
@@ -2613,9 +2558,7 @@ def run_quarter_wave_benchmark_v017(
         runtime_seconds=amr_runtime + sum(r.runtime_seconds for r in sweep_records),
         capability=detected,
         upstream_stage_evidence_ids=list(stage_ids),
-        notes=[
-            "without an independent reference, the maximum valid status is SIMULATION_EXECUTED"
-        ],
+        notes=["without an independent reference, the maximum valid status is SIMULATION_EXECUTED"],
     )
     stage_ids.append(evidence_record.evidence_id)
     if stop_after_stage == "evidence_promotion":
@@ -2722,12 +2665,8 @@ def _supplementary_gates(
         default=0.0,
     )
     minimum_margin = min((match.margin for match in matches), default=0.0)
-    minimum_electric_mac = min(
-        (match.electric_field_mac for match in matches), default=0.0
-    )
-    minimum_magnetic_mac = min(
-        (match.magnetic_field_mac for match in matches), default=0.0
-    )
+    minimum_electric_mac = min((match.electric_field_mac for match in matches), default=0.0)
+    minimum_magnetic_mac = min((match.magnetic_field_mac for match in matches), default=0.0)
     minimum_coverage = min(
         (
             min(match.electric_mapped_volume_coverage, match.magnetic_mapped_volume_coverage)
@@ -2820,9 +2759,7 @@ def _supplementary_gates(
         for record in records
         if record.tracked_frequency_ghz is not None
     ]
-    pinned = any(
-        math.isclose(frequency, window_low, rel_tol=1e-6) for frequency in tracked
-    )
+    pinned = any(math.isclose(frequency, window_low, rel_tol=1e-6) for frequency in tracked)
     gates.append(
         VerificationGate(
             name="eigenfrequency_not_at_search_window_boundary",
@@ -2901,7 +2838,7 @@ def _finish_invalid(
     evidence_path = write_canonical(evidence, root / "canonical_evidence.json")
     (root / "report.md").write_text(
         "# Palace 0.17 quarter-wave AMR benchmark\n\n"
-        f"Status: `SIMULATION_INVALID`\n\nreason = \"{reason}\"\n\n{detail}\n",
+        f'Status: `SIMULATION_INVALID`\n\nreason = "{reason}"\n\n{detail}\n',
         encoding="utf-8",
         newline="\n",
     )
@@ -2963,8 +2900,7 @@ def _executed_evidence(
         if record.tracked_frequency_ghz is not None
     ]
     frequency_changes = [
-        abs(b - a) / max(abs(b), 1e-12) * 100.0
-        for a, b in zip(tracked_series, tracked_series[1:])
+        abs(b - a) / max(abs(b), 1e-12) * 100.0 for a, b in zip(tracked_series, tracked_series[1:])
     ]
     sanity_names = {
         "palace_version_exactly_0_17_0",
@@ -2990,9 +2926,7 @@ def _executed_evidence(
             if gate.name not in sanity_names
         ],
     )
-    error = (
-        (finest - target_frequency) / target_frequency * 100.0 if finest is not None else None
-    )
+    error = (finest - target_frequency) / target_frequency * 100.0 if finest is not None else None
     promoted_value = finest if status is EvidenceStatus.SIMULATION_EXECUTED else None
     return CanonicalEvidence(
         evidence_id=compute_evidence_id(
@@ -3160,8 +3094,7 @@ def _write_report(
         "",
         "- **Mesh-discretization uncertainty**: bounded by the Palace AMR error "
         "indicator and the last-two-iteration frequency change above.",
-        "- **Computational-domain uncertainty**: bounded by the numerical-domain "
-        "sweeps above.",
+        "- **Computational-domain uncertainty**: bounded by the numerical-domain sweeps above.",
         "- **Physical-model uncertainty**: shown by the physical sensitivity "
         "studies above; it is a property of the stack assumptions, not the solver.",
         "- **Fabrication/process uncertainty**: not assessed here; substrate "

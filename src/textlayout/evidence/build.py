@@ -122,7 +122,9 @@ def _cpw_impedance_ohm(showcase: Path) -> float:
     from textlayout.simulation.runners import extract_cpw_from_touchstone
 
     path = showcase / "extraction/capacitance_input/openems_result.s2p"
-    return float(extract_cpw_from_touchstone(path, frequency_ghz=6.0)["characteristic_impedance_ohm"])
+    return float(
+        extract_cpw_from_touchstone(path, frequency_ghz=6.0)["characteristic_impedance_ohm"]
+    )
 
 
 def _resonance_ghz(showcase: Path) -> float:
@@ -422,7 +424,9 @@ def build_canonical(
         "environment_hash": environment_hash,
         "timestamp": stamp,
         "evidence_generation_environment_hash": environment_hash,
-        "evidence_generation_git_commit": _git_commit(repo_root, ["src/textlayout/evidence/build.py"]),
+        "evidence_generation_git_commit": _git_commit(
+            repo_root, ["src/textlayout/evidence/build.py"]
+        ),
         "evidence_generated_at": stamp,
         "warnings": list(result.get("warnings", [])),
         "analytical_value": analytical_value,
@@ -499,9 +503,7 @@ def build_canonical(
 
     target = recipe.target_value
     error_percent = (
-        (extracted - target) / abs(target) * 100.0
-        if target is not None and target != 0
-        else None
+        (extracted - target) / abs(target) * 100.0 if target is not None and target != 0 else None
     )
     target_tolerance_passed = (
         abs(error_percent) <= solver_common["tolerance_percent"]

@@ -202,9 +202,7 @@ class CanonicalEvidence(BaseModel):
 
     design_id: str
     design_hash: str = Field(description="SHA-256 of the typed DSL (layout.json).")
-    geometry_hash: str | None = Field(
-        default=None, description="SHA-256 of the exported GDS."
-    )
+    geometry_hash: str | None = Field(default=None, description="SHA-256 of the exported GDS.")
     component: str
     analysis_scope: str = Field(
         description="What the claim covers, e.g. 'embedded_idc_region' vs 'full_tile'."

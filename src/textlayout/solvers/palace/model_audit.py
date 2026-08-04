@@ -169,9 +169,7 @@ def _mesh_physical_groups(mesh_path: Path | None) -> dict[str, dict[str, int]]:
     return dict(sorted(groups.items()))
 
 
-def _palace_boundary_check(
-    model: FEMModel, resolved_config_path: Path | None
-) -> dict[str, Any]:
+def _palace_boundary_check(model: FEMModel, resolved_config_path: Path | None) -> dict[str, Any]:
     if resolved_config_path is None:
         return {"executed": False, "reason": "no resolved Palace config supplied"}
     config = json.loads(resolved_config_path.read_text(encoding="utf-8"))
@@ -218,16 +216,16 @@ def audit_quarter_wave_model(
     )
     open_end = _point(geometry.metadata.get("physical_open_end_um"), name="physical open end")
     if centerline[0] != grounded or centerline[1] != open_end:
-        raise PalaceOutputError("centreline endpoint order disagrees with physical endpoint metadata")
+        raise PalaceOutputError(
+            "centreline endpoint order disagrees with physical endpoint metadata"
+        )
     length = ((open_end[0] - grounded[0]) ** 2 + (open_end[1] - grounded[1]) ** 2) ** 0.5
     if abs(length - params.length_um) > 1e-9:
         raise PalaceOutputError("resonator centreline length disagrees with layout parameters")
     ground_box = _box(
         geometry.metadata.get("ground_connection_bbox_um"), name="ground connection bbox"
     )
-    coupling_box = _box(
-        geometry.metadata.get("coupling_gap_bbox_um"), name="coupling gap bbox"
-    )
+    coupling_box = _box(geometry.metadata.get("coupling_gap_bbox_um"), name="coupling gap bbox")
 
     signal = roles["resonator_signal"]
     ground_left = roles["resonator_ground_left"]
@@ -271,8 +269,7 @@ def audit_quarter_wave_model(
     groups = _mesh_physical_groups(mesh_path)
     expected_groups = {
         **{
-            volume.name: {"dimension": 3, "attribute": volume.attribute}
-            for volume in model.volumes
+            volume.name: {"dimension": 3, "attribute": volume.attribute} for volume in model.volumes
         },
         **{
             surface.name: {"dimension": 2, "attribute": surface.attribute}
@@ -282,14 +279,8 @@ def audit_quarter_wave_model(
             interface.name: {"dimension": 2, "attribute": interface.attribute}
             for interface in model.interfaces
         },
-        **{
-            port.name: {"dimension": 2, "attribute": port.attribute}
-            for port in model.wave_ports
-        },
-        **{
-            port.name: {"dimension": 2, "attribute": port.attribute}
-            for port in model.lumped_ports
-        },
+        **{port.name: {"dimension": 2, "attribute": port.attribute} for port in model.wave_ports},
+        **{port.name: {"dimension": 2, "attribute": port.attribute} for port in model.lumped_ports},
     }
     mesh_groups_passed = not groups or groups == dict(sorted(expected_groups.items()))
     mesh_group_check = {
@@ -301,9 +292,7 @@ def audit_quarter_wave_model(
     boundary = _palace_boundary_check(model, resolved_config_path)
     connectivity_passed = all(check.passed for check in checks)
     auxiliary_passed = (
-        bool(gds.get("passed", True))
-        and mesh_groups_passed
-        and bool(boundary.get("passed", True))
+        bool(gds.get("passed", True)) and mesh_groups_passed and bool(boundary.get("passed", True))
     )
     blockers = [check.name for check in checks if not check.passed]
     if gds.get("passed") is False:
@@ -326,14 +315,67 @@ def audit_quarter_wave_model(
         if value is not None
     ]
     hypotheses = [
-        HypothesisDisposition(code="A", hypothesis="wrong selected eigenmode", disposition="UNRESOLVED", evidence=["diagnostic multimode catalog not yet executed"]),
-        HypothesisDisposition(code="B", hypothesis="wrong endpoint orientation", disposition="NOT_SUPPORTED", evidence=["typed endpoint metadata agrees with centreline and KLayout geometry"]),
-        HypothesisDisposition(code="C", hypothesis="incorrect boundary assignment", disposition=("NOT_SUPPORTED" if boundary.get("passed") else "SUPPORTED"), evidence=["resolved Palace PEC attributes cross-checked against FEMModel"]),
-        HypothesisDisposition(code="D", hypothesis="incorrect geometry or conductor connectivity", disposition=("NOT_SUPPORTED" if connectivity_passed and gds.get("passed", True) else "SUPPORTED"), evidence=["KLayout region connectivity and GDS readback"]),
-        HypothesisDisposition(code="E", hypothesis="incorrect field sampling", disposition="NOT_SUPPORTED", evidence=["manufactured evaluator is endpoint-, phase-, amplitude-, and ordering-invariant"]),
-        HypothesisDisposition(code="F", hypothesis="insufficient modal search range", disposition="UNRESOLVED", evidence=[f"bounded release retained {mode_count} modes" if mode_count else "mode count was not supplied"]),
-        HypothesisDisposition(code="G", hypothesis="insufficient mesh resolution", disposition=("SUPPORTED" if mesh_evidence else "UNRESOLVED"), evidence=mesh_evidence or ["mesh-convergence context was not supplied"]),
-        HypothesisDisposition(code="H", hypothesis="package or substrate mode contamination", disposition="UNRESOLVED", evidence=([f"selected-mode resonator localization is {localization}"] if localization is not None else []) + ["mode classification not yet executed"]),
+        HypothesisDisposition(
+            code="A",
+            hypothesis="wrong selected eigenmode",
+            disposition="UNRESOLVED",
+            evidence=["diagnostic multimode catalog not yet executed"],
+        ),
+        HypothesisDisposition(
+            code="B",
+            hypothesis="wrong endpoint orientation",
+            disposition="NOT_SUPPORTED",
+            evidence=["typed endpoint metadata agrees with centreline and KLayout geometry"],
+        ),
+        HypothesisDisposition(
+            code="C",
+            hypothesis="incorrect boundary assignment",
+            disposition=("NOT_SUPPORTED" if boundary.get("passed") else "SUPPORTED"),
+            evidence=["resolved Palace PEC attributes cross-checked against FEMModel"],
+        ),
+        HypothesisDisposition(
+            code="D",
+            hypothesis="incorrect geometry or conductor connectivity",
+            disposition=(
+                "NOT_SUPPORTED" if connectivity_passed and gds.get("passed", True) else "SUPPORTED"
+            ),
+            evidence=["KLayout region connectivity and GDS readback"],
+        ),
+        HypothesisDisposition(
+            code="E",
+            hypothesis="incorrect field sampling",
+            disposition="NOT_SUPPORTED",
+            evidence=[
+                "manufactured evaluator is endpoint-, phase-, amplitude-, and ordering-invariant"
+            ],
+        ),
+        HypothesisDisposition(
+            code="F",
+            hypothesis="insufficient modal search range",
+            disposition="UNRESOLVED",
+            evidence=[
+                f"bounded release retained {mode_count} modes"
+                if mode_count
+                else "mode count was not supplied"
+            ],
+        ),
+        HypothesisDisposition(
+            code="G",
+            hypothesis="insufficient mesh resolution",
+            disposition=("SUPPORTED" if mesh_evidence else "UNRESOLVED"),
+            evidence=mesh_evidence or ["mesh-convergence context was not supplied"],
+        ),
+        HypothesisDisposition(
+            code="H",
+            hypothesis="package or substrate mode contamination",
+            disposition="UNRESOLVED",
+            evidence=(
+                [f"selected-mode resonator localization is {localization}"]
+                if localization is not None
+                else []
+            )
+            + ["mode classification not yet executed"],
+        ),
     ]
     material_by_name = {material.name: material for material in model.materials}
     material_mapping = {
@@ -358,12 +400,24 @@ def audit_quarter_wave_model(
             "resonator_signal_role": "resonator_signal",
         },
         conductor_attributes=sorted(
-            surface.attribute for surface in model.surfaces if surface.role == "superconducting_metal"
+            surface.attribute
+            for surface in model.surfaces
+            if surface.role == "superconducting_metal"
         ),
-        substrate_attributes=sorted(volume.attribute for volume in model.volumes if volume.role == "substrate"),
-        vacuum_attributes=sorted(volume.attribute for volume in model.volumes if volume.role == "vacuum"),
-        pec_boundary_attributes=sorted(surface.attribute for surface in model.surfaces if surface.kind == "pec"),
-        radiation_or_impedance_boundary_attributes=sorted(surface.attribute for surface in model.surfaces if surface.kind in {"absorbing", "impedance"}),
+        substrate_attributes=sorted(
+            volume.attribute for volume in model.volumes if volume.role == "substrate"
+        ),
+        vacuum_attributes=sorted(
+            volume.attribute for volume in model.volumes if volume.role == "vacuum"
+        ),
+        pec_boundary_attributes=sorted(
+            surface.attribute for surface in model.surfaces if surface.kind == "pec"
+        ),
+        radiation_or_impedance_boundary_attributes=sorted(
+            surface.attribute
+            for surface in model.surfaces
+            if surface.kind in {"absorbing", "impedance"}
+        ),
         material_tensor_mapping=material_mapping,
         critical_regions=[region.model_dump(mode="json") for region in model.critical_regions],
         expected_electrical_connectivity=[check.name for check in checks],
@@ -405,9 +459,13 @@ def render_quarter_wave_audit_svg(
     ]
     for polygon in geometry.polygons:
         points = " ".join(f"{x:g},{flip - y:g}" for x, y in polygon.points)
-        parts.append(f'<polygon points="{points}" fill="#6b7280" fill-opacity="0.45" stroke="#111827" stroke-width="1"/>')
+        parts.append(
+            f'<polygon points="{points}" fill="#6b7280" fill-opacity="0.45" stroke="#111827" stroke-width="1"/>'
+        )
     (gx, gy), (ox, oy) = audit.physical_grounded_end_um, audit.physical_open_end_um
-    parts.append(f'<line x1="{gx:g}" y1="{flip - gy:g}" x2="{ox:g}" y2="{flip - oy:g}" stroke="#2563eb" stroke-width="3"/>')
+    parts.append(
+        f'<line x1="{gx:g}" y1="{flip - gy:g}" x2="{ox:g}" y2="{flip - oy:g}" stroke="#2563eb" stroke-width="3"/>'
+    )
     for index in range(sampling_stations):
         fraction = (index + 0.5) / sampling_stations
         x = gx + fraction * (ox - gx)
@@ -415,8 +473,12 @@ def render_quarter_wave_audit_svg(
         parts.append(f'<circle cx="{x:g}" cy="{flip - y:g}" r="3" fill="#0ea5e9"/>')
     for x, y, color, label in ((gx, gy, "#16a34a", "GROUNDED"), (ox, oy, "#dc2626", "OPEN")):
         parts.append(f'<circle cx="{x:g}" cy="{flip - y:g}" r="10" fill="{color}"/>')
-        parts.append(f'<text x="{x + 15:g}" y="{flip - y:g}" font-size="24" fill="{color}">{label}</text>')
-    parts.append(f'<rect x="{box.xmin:g}" y="{flip - box.ymax:g}" width="{box.width:g}" height="{box.height:g}" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="10 8"/>')
+        parts.append(
+            f'<text x="{x + 15:g}" y="{flip - y:g}" font-size="24" fill="{color}">{label}</text>'
+        )
+    parts.append(
+        f'<rect x="{box.xmin:g}" y="{flip - box.ymax:g}" width="{box.width:g}" height="{box.height:g}" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="10 8"/>'
+    )
     legend_x = box.xmax + 20.0
     legend_y = flip - box.ymax + 30.0
     labels = [
@@ -426,6 +488,8 @@ def render_quarter_wave_audit_svg(
         "CRITICAL: CPW gaps, coupling gap, endpoints, interface",
     ]
     for index, label in enumerate(labels):
-        parts.append(f'<text x="{legend_x:g}" y="{legend_y + index * 30:g}" font-size="20" fill="#111827">{label}</text>')
+        parts.append(
+            f'<text x="{legend_x:g}" y="{legend_y + index * 30:g}" font-size="20" fill="#111827">{label}</text>'
+        )
     parts.append("</svg>")
     return "".join(parts)

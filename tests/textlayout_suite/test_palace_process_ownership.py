@@ -174,9 +174,7 @@ def test_cancellation_escalates_and_verifies_owned_group(monkeypatch, tmp_path: 
     commands: list[str] = []
     monkeypatch.setattr(
         "textlayout.solvers.palace.processes._run_wsl",
-        lambda script, timeout=20.0: (
-            commands.append(script) or CompletedProcess([], 0, "", "")
-        ),
+        lambda script, timeout=20.0: commands.append(script) or CompletedProcess([], 0, "", ""),
     )
     monkeypatch.setattr("textlayout.solvers.palace.processes.time.sleep", lambda _: None)
     cancelled = cancel_owned_wsl_process_group(record, grace_seconds=0.0)

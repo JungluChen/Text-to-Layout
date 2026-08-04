@@ -25,8 +25,7 @@ def test_s1p_and_return_loss(tmp_path: Path) -> None:
 def test_s2p_extracts_transmission_and_symmetric_z0(tmp_path: Path) -> None:
     path = tmp_path / "line.s2p"
     path.write_text(
-        "# Hz S RI R 50\n"
-        "6000000000 0 0 0.5 0 0.5 0 0 0\n",
+        "# Hz S RI R 50\n6000000000 0 0 0.5 0 0.5 0 0 0\n",
         encoding="utf-8",
     )
     assert extract_s21_at_frequency(path, 6e9) == pytest.approx(0.5 + 0j)

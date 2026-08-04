@@ -22,6 +22,4 @@ def test_palace_path_prepares_geo_and_config_without_solver(tmp_path: Path) -> N
     assert result.solver_executed is False
     assert Path(result.artifacts["gmsh_geo"]).is_file()
     assert Path(result.artifacts["palace_config"]).is_file()
-    assert "Physical Volume(1)" in Path(result.artifacts["gmsh_geo"]).read_text(
-        encoding="utf-8"
-    )
+    assert "Physical Volume(1)" in Path(result.artifacts["gmsh_geo"]).read_text(encoding="utf-8")

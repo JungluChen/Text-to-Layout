@@ -90,13 +90,9 @@ class TestFreezeRejectsNewImplementation:
     def test_unlisted_non_shim_file_is_flagged(self, tmp_path, monkeypatch):
         legacy = tmp_path / "src" / "text_to_gds"
         legacy.mkdir(parents=True)
-        (legacy / "__init__.py").write_text(
-            "__textlayout_shim__ = True\n", encoding="utf-8"
-        )
+        (legacy / "__init__.py").write_text("__textlayout_shim__ = True\n", encoding="utf-8")
         (legacy / "brand_new_feature.py").write_text("X = 1\n", encoding="utf-8")
-        (legacy / "retired_module.py").write_text(
-            "__textlayout_shim__ = True\n", encoding="utf-8"
-        )
+        (legacy / "retired_module.py").write_text("__textlayout_shim__ = True\n", encoding="utf-8")
         monkeypatch.setattr(GUARD, "ROOT", tmp_path)
         monkeypatch.setattr(GUARD, "LEGACY_SRC", legacy)
 

@@ -135,7 +135,7 @@ def test_longitudinal_phase_variation_fails() -> None:
 
 def test_coupler_localized_profile_fails_shape_gate() -> None:
     coordinate, electric, magnetic = _ideal()
-    electric += 8.0 * np.exp(-((coordinate - 0.88) / 0.015) ** 2)
+    electric += 8.0 * np.exp(-(((coordinate - 0.88) / 0.015) ** 2))
     result = _evaluate(electric, magnetic, positions=coordinate)
     assert not result.passed
     assert not result.profile_shape_passed
@@ -146,9 +146,7 @@ def test_mesh_ordering_does_not_change_metrics() -> None:
     generator = np.random.default_rng(57)
     ordering = generator.permutation(len(coordinate))
     baseline = _evaluate(electric, magnetic, positions=coordinate)
-    shuffled = _evaluate(
-        electric[ordering], magnetic[ordering], positions=coordinate[ordering]
-    )
+    shuffled = _evaluate(electric[ordering], magnetic[ordering], positions=coordinate[ordering])
     assert shuffled.passed == baseline.passed
     assert shuffled.electric_profile == pytest.approx(baseline.electric_profile)
     assert shuffled.magnetic_profile == pytest.approx(baseline.magnetic_profile)
@@ -161,6 +159,4 @@ def test_mesh_ordering_does_not_change_metrics() -> None:
     assert shuffled.quarter_wave_profile_correlation == pytest.approx(
         baseline.quarter_wave_profile_correlation
     )
-    assert shuffled.phase_progression_score == pytest.approx(
-        baseline.phase_progression_score
-    )
+    assert shuffled.phase_progression_score == pytest.approx(baseline.phase_progression_score)

@@ -74,7 +74,11 @@ def test_weighted_mac_is_invariant_to_amplitude_and_global_phase(
     _write_tetra_field(left, points, tetra, field)
     _write_tetra_field(right, points[::-1], np.asarray([[3, 2, 1, 0]]), field[::-1] * scale)
     result = reference_interpolated_energy_mac(
-        left, right, kind="electric", material_map=_material_map(), relative_mapping_distance_limit=1
+        left,
+        right,
+        kind="electric",
+        material_map=_material_map(),
+        relative_mapping_distance_limit=1,
     )
     assert result.total_mac == pytest.approx(1.0)
     assert result.mapped_volume_coverage == pytest.approx(1.0)
@@ -135,9 +139,12 @@ def test_weighted_mac_detects_local_perturbation(tmp_path: Path) -> None:
     left, right = tmp_path / "left.vtu", tmp_path / "right.vtu"
     _write_tetra_field(left, points, tetra, base)
     _write_tetra_field(right, points, tetra, changed)
-    assert centroid_projected_energy_mac(
-        left, right, kind="electric", material_map=_material_map()
-    ).total_mac < 1
+    assert (
+        centroid_projected_energy_mac(
+            left, right, kind="electric", material_map=_material_map()
+        ).total_mac
+        < 1
+    )
 
 
 def test_weighted_mac_reports_mapping_distance_and_partial_domain(tmp_path: Path) -> None:

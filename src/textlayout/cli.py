@@ -446,7 +446,10 @@ def _render_overlay_markdown(overlay: "CalibrationOverlay") -> str:
         unc = f"{factor.uncertainty_pct:.2f}%" if factor.uncertainty_pct is not None else "—"
         lines.append(f"| {factor.name} | {scale} | {unc} | {factor.n_pairs} | {factor.status} |")
     if overlay.jc_sigma_update_pct is not None:
-        lines += ["", f"- Updated wafer-level Jc sigma estimate: {overlay.jc_sigma_update_pct:.3f}%"]
+        lines += [
+            "",
+            f"- Updated wafer-level Jc sigma estimate: {overlay.jc_sigma_update_pct:.3f}%",
+        ]
     if overlay.warnings:
         lines += ["", "## Warnings", ""]
         lines += [f"- {w}" for w in overlay.warnings]
@@ -517,9 +520,7 @@ def _cmd_evidence_check(args: argparse.Namespace) -> int:
                 "quantity": ledger.quantity,
                 "n_records": len(ledger.history),
                 "current_status": current.status.value if current else None,
-                "current_confidence": (
-                    current.confidence_class.name if current else "NONE"
-                ),
+                "current_confidence": (current.confidence_class.name if current else "NONE"),
                 "transitions_validated": max(len(ledger.history) - 1, 0),
             },
             indent=2,
@@ -943,8 +944,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_evidence = sub.add_parser(
         "evidence",
-        help="Inspect and validate evidence ledgers (the source of truth for "
-        "every physics claim).",
+        help="Inspect and validate evidence ledgers (the source of truth for every physics claim).",
     )
     evidence_sub = p_evidence.add_subparsers(dest="evidence_command", required=True)
 
@@ -1014,7 +1014,11 @@ def build_parser() -> argparse.ArgumentParser:
         ("status", "Inspect a job and write a heartbeat sample.", _cmd_jobs_status),
         ("collect", "Collect return code and solver-owned output inventory.", _cmd_jobs_collect),
         ("cancel", "Request cancellation and terminate the process group.", _cmd_jobs_cancel),
-        ("resume", "Resume bookkeeping/post-processing without relaunching the solver.", _cmd_jobs_resume),
+        (
+            "resume",
+            "Resume bookkeeping/post-processing without relaunching the solver.",
+            _cmd_jobs_resume,
+        ),
     ):
         p_job = jobs_sub.add_parser(name, help=help_text)
         _add_job_root(p_job)
@@ -1335,7 +1339,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--overlay", required=True, help="Path to calibrated_pdk_overlay.yaml."
     )
     p_pdk_apply.add_argument(
-        "--out", required=True, help="Output path for the calibrated PDK YAML (must differ from base)."
+        "--out",
+        required=True,
+        help="Output path for the calibrated PDK YAML (must differ from base).",
     )
     p_pdk_apply.set_defaults(func=_cmd_pdk_apply_calibration)
 
@@ -1361,8 +1367,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_meas_compare.add_argument(
         "--out",
         default=None,
-        help="Directory for measurement_residuals.csv and "
-        "measurement_comparison_report.json/.md.",
+        help="Directory for measurement_residuals.csv and measurement_comparison_report.json/.md.",
     )
     p_meas_compare.set_defaults(func=_cmd_measurement_compare)
 

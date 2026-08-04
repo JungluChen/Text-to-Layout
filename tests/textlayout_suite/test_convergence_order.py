@@ -143,7 +143,9 @@ class TestNonUniformRefinement:
 
     def test_a_non_uniform_second_order_sequence_still_yields_p_two(self) -> None:
         # h = 6, 2, 1  ->  r32 = 3, r21 = 2
-        levels = [GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (6.0, 2.0, 1.0)]
+        levels = [
+            GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (6.0, 2.0, 1.0)
+        ]
         result = estimate_order(levels, expected_order=2.0)
         assert result.observed_order == pytest.approx(2.0, abs=1e-6)
         assert result.extrapolated_value == pytest.approx(6.0, abs=1e-6)
@@ -204,7 +206,9 @@ class TestDegenerateSequences:
 
 class TestSafetyFactor:
     def test_a_larger_safety_factor_widens_the_declared_uncertainty(self) -> None:
-        levels = [GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (4.0, 2.0, 1.0)]
+        levels = [
+            GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (4.0, 2.0, 1.0)
+        ]
         loose = estimate_order(levels, safety_factor=3.0)
         tight = estimate_order(levels, safety_factor=1.25)
         assert loose.gci_percent is not None and tight.gci_percent is not None
@@ -252,9 +256,7 @@ class TestMandatoryCategories:
         verdict = evaluate_categories(
             [
                 CategoryResult(name="frequency", order=self._converged()),
-                CategoryResult(
-                    name="participation", order=self._oscillating(), mandatory=False
-                ),
+                CategoryResult(name="participation", order=self._oscillating(), mandatory=False),
             ]
         )
         assert verdict.passed is True
@@ -288,7 +290,9 @@ class TestMandatoryCategories:
 
 class TestGciIsAnUncertainty:
     def test_the_extrapolated_value_lies_within_the_gci_band(self) -> None:
-        levels = [GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (4.0, 2.0, 1.0)]
+        levels = [
+            GridLevel(characteristic_length=h, value=6.0 + 0.1 * h**2) for h in (4.0, 2.0, 1.0)
+        ]
         result = estimate_order(levels, expected_order=2.0)
         assert result.gci_percent is not None and result.extrapolated_value is not None
         finest = levels[-1].value

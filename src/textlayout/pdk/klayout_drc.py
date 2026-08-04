@@ -215,14 +215,14 @@ class DRCReport:
     def coverage_complete(self) -> bool:
         """Every shape and every required layer is covered by the declared PDK."""
         return not self.undeclared_layers and not any(
-            violation.rule_id == "PDK.REQUIRED_LAYER_MISSING"
-            for violation in self.violations
+            violation.rule_id == "PDK.REQUIRED_LAYER_MISSING" for violation in self.violations
         )
 
     @property
     def skipped_mandatory_checks(self) -> list[DRCCheck]:
         return [
-            check for check in self.checks
+            check
+            for check in self.checks
             if check.mandatory and not check.ran and check.skip_kind == "skipped_mandatory_rule"
         ]
 
@@ -249,9 +249,7 @@ class DRCReport:
     def blocking_reason(self) -> str | None:
         """Why this layout may not be taped out, or ``None``."""
         if self.violations:
-            worst = ", ".join(
-                f"{v.rule} on {v.layer} ({v.count})" for v in self.violations[:3]
-            )
+            worst = ", ".join(f"{v.rule} on {v.layer} ({v.count})" for v in self.violations[:3])
             return f"{len(self.violations)} DRC rule(s) violated: {worst}"
         if self.undeclared_layers:
             return (
@@ -264,9 +262,8 @@ class DRCReport:
             skipped = ", ".join(check.rule_id for check in self.skipped_mandatory_checks[:3])
             return f"mandatory DRC checks were skipped: {skipped}"
         if self.unsupported_mandatory_rules:
-            return (
-                "mandatory DRC rule families are unsupported: "
-                + ", ".join(self.unsupported_mandatory_rules)
+            return "mandatory DRC rule families are unsupported: " + ", ".join(
+                self.unsupported_mandatory_rules
             )
         if not self.pdk_calibrated:
             return (
@@ -331,8 +328,7 @@ def _rule_metadata(
     rule_id: str | None = None,
 ) -> dict[str, Any]:
     return {
-        "rule_id": rule_id
-        or _canonical_rule_id(pdk.name, rule, layer),
+        "rule_id": rule_id or _canonical_rule_id(pdk.name, rule, layer),
         "description": description,
         "severity": severity,
         "value": value,
@@ -662,7 +658,8 @@ def run_drc(
         {
             rule.family
             for rule in compiled_rules
-            if rule.mandatory and (not rule.supported_backends or "standalone" not in rule.supported_backends)
+            if rule.mandatory
+            and (not rule.supported_backends or "standalone" not in rule.supported_backends)
         }
     )
 
@@ -698,8 +695,11 @@ def run_drc(
         if count:
             violations.append(
                 DRCViolation(
-                    rule=rule, layer=layer, required_um=required,
-                    count=count, sample_bbox_um=_bbox_um(edge_pairs, dbu),
+                    rule=rule,
+                    layer=layer,
+                    required_um=required,
+                    count=count,
+                    sample_bbox_um=_bbox_um(edge_pairs, dbu),
                     **metadata,
                 )
             )
@@ -744,10 +744,14 @@ def run_drc(
                 )
             checks.append(
                 DRCCheck(
-                    rule="min_width", layer=layer.name, ran=False,
+                    rule="min_width",
+                    layer=layer.name,
+                    ran=False,
                     skip_reason="layer carries no geometry in this layout",
                     mandatory=layer.required,
-                    skip_kind="skipped_mandatory_rule" if layer.required else "skipped_optional_rule",
+                    skip_kind="skipped_mandatory_rule"
+                    if layer.required
+                    else "skipped_optional_rule",
                     **_rule_metadata(
                         rule="min_width",
                         layer=layer.name,
@@ -761,10 +765,14 @@ def run_drc(
             )
             checks.append(
                 DRCCheck(
-                    rule="min_spacing", layer=layer.name, ran=False,
+                    rule="min_spacing",
+                    layer=layer.name,
+                    ran=False,
                     skip_reason="layer carries no geometry in this layout",
                     mandatory=layer.required,
-                    skip_kind="skipped_mandatory_rule" if layer.required else "skipped_optional_rule",
+                    skip_kind="skipped_mandatory_rule"
+                    if layer.required
+                    else "skipped_optional_rule",
                     **_rule_metadata(
                         rule="min_spacing",
                         layer=layer.name,
@@ -779,17 +787,23 @@ def run_drc(
             continue
         assert region is not None
         regions[layer.name] = region
-        add("min_width", layer.name, layer.min_width_um,
+        add(
+            "min_width",
+            layer.name,
+            layer.min_width_um,
             region.width_check(int(round(layer.min_width_um / dbu))),
-            f"{layer.name} width must be at least {layer.min_width_um} um.")
-        add("min_spacing", layer.name, layer.min_spacing_um,
+            f"{layer.name} width must be at least {layer.min_width_um} um.",
+        )
+        add(
+            "min_spacing",
+            layer.name,
+            layer.min_spacing_um,
             region.space_check(int(round(layer.min_spacing_um / dbu))),
-            f"{layer.name} spacing must be at least {layer.min_spacing_um} um.")
+            f"{layer.name} spacing must be at least {layer.min_spacing_um} um.",
+        )
         min_area_um2 = layer.min_width_um * layer.min_width_um
         undersized_polygons = [
-            polygon
-            for polygon in region.each()
-            if polygon.area() * dbu * dbu < min_area_um2
+            polygon for polygon in region.each() if polygon.area() * dbu * dbu < min_area_um2
         ]
         undersized_region = kdb.Region()
         for polygon in undersized_polygons:
@@ -797,10 +811,7 @@ def run_drc(
         min_area_metadata = _rule_metadata(
             rule="min_area",
             layer=layer.name,
-            description=(
-                f"{layer.name} feature area must be at least "
-                f"{min_area_um2:.6g} um^2."
-            ),
+            description=(f"{layer.name} feature area must be at least {min_area_um2:.6g} um^2."),
             value=min_area_um2,
             unit="um^2",
             pdk=pdk,
@@ -842,7 +853,9 @@ def run_drc(
         if first is None or second is None:
             checks.append(
                 DRCCheck(
-                    rule="separation", layer=name, ran=False,
+                    rule="separation",
+                    layer=name,
+                    ran=False,
                     skip_reason="one of the two layers carries no geometry",
                     mandatory=False,
                     skip_kind="skipped_optional_rule",
@@ -900,7 +913,9 @@ def run_drc(
         if inner is None or outer is None:
             checks.append(
                 DRCCheck(
-                    rule="enclosure", layer=name, ran=False,
+                    rule="enclosure",
+                    layer=name,
+                    ran=False,
                     skip_reason="one of the two layers carries no geometry",
                     mandatory=False,
                     skip_kind="skipped_optional_rule",
@@ -919,9 +934,13 @@ def run_drc(
                 )
             )
             continue
-        add("enclosure", name, enclosure.min_um,
+        add(
+            "enclosure",
+            name,
+            enclosure.min_um,
             outer.enclosing_check(inner, int(round(enclosure.min_um / dbu))),
-            f"{enclosure.outer} must enclose {enclosure.inner} by {enclosure.min_um} um.")
+            f"{enclosure.outer} must enclose {enclosure.inner} by {enclosure.min_um} um.",
+        )
 
     for overlap in pdk.overlaps:
         name = f"{overlap.a}&{overlap.b}"
@@ -929,7 +948,9 @@ def run_drc(
         if first is None or second is None:
             checks.append(
                 DRCCheck(
-                    rule="overlap", layer=name, ran=False,
+                    rule="overlap",
+                    layer=name,
+                    ran=False,
                     skip_reason="one of the two layers carries no geometry",
                     mandatory=False,
                     skip_kind="skipped_optional_rule",
@@ -945,9 +966,13 @@ def run_drc(
                 )
             )
             continue
-        add("overlap", name, overlap.min_um,
+        add(
+            "overlap",
+            name,
+            overlap.min_um,
             first.overlap_check(second, int(round(overlap.min_um / dbu))),
-            f"{overlap.a} and {overlap.b} must overlap by {overlap.min_um} um.")
+            f"{overlap.a} and {overlap.b} must overlap by {overlap.min_um} um.",
+        )
 
     bbox = cell.bbox()
     for layer in pdk.layers:
@@ -963,32 +988,42 @@ def run_drc(
             "stride_um": stride_um,
             "boundary_policy": pdk.density_boundary_policy,
             "analysis_boundary_um": [
-                _um(bbox.left, dbu), _um(bbox.bottom, dbu),
-                _um(bbox.right, dbu), _um(bbox.top, dbu),
+                _um(bbox.left, dbu),
+                _um(bbox.bottom, dbu),
+                _um(bbox.right, dbu),
+                _um(bbox.top, dbu),
             ],
         }
         if region is None:
             checks.append(
-                DRCCheck(rule="density_tiled", layer=layer.name, ran=False,
-                         skip_reason="layer carries no geometry in this layout",
-                         mandatory=layer.required,
-                         skip_kind="skipped_mandatory_rule" if layer.required else "skipped_optional_rule",
-                         **_rule_metadata(
-                             rule="density_tiled",
-                             layer=layer.name,
-                             description="Layer density must stay inside the declared local window bounds.",
-                             value=pdk.density_window_um or 0.0,
-                             pdk=pdk,
-                             pdk_hash=pdk_hash,
-                             runset_hash=runset_hash,
-                         ),
-                         details={**density_base_details, "number_of_windows": 0})
+                DRCCheck(
+                    rule="density_tiled",
+                    layer=layer.name,
+                    ran=False,
+                    skip_reason="layer carries no geometry in this layout",
+                    mandatory=layer.required,
+                    skip_kind="skipped_mandatory_rule"
+                    if layer.required
+                    else "skipped_optional_rule",
+                    **_rule_metadata(
+                        rule="density_tiled",
+                        layer=layer.name,
+                        description="Layer density must stay inside the declared local window bounds.",
+                        value=pdk.density_window_um or 0.0,
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
+                    details={**density_base_details, "number_of_windows": 0},
+                )
             )
             continue
         if bbox.width() < window_dbu or bbox.height() < window_dbu:
             checks.append(
                 DRCCheck(
-                    rule="density_tiled", layer=layer.name, ran=False,
+                    rule="density_tiled",
+                    layer=layer.name,
+                    ran=False,
                     skip_reason=(
                         f"layout ({_um(bbox.width(), dbu):.3f} x {_um(bbox.height(), dbu):.3f} um) "
                         f"is smaller than the {pdk.density_window_um} um density window; "
@@ -1054,11 +1089,15 @@ def run_drc(
             )
             violations.append(
                 DRCViolation(
-                    rule="density_tiled", layer=layer.name,
-                    required_um=pdk.density_window_um, count=len(density_offenders),
+                    rule="density_tiled",
+                    layer=layer.name,
+                    required_um=pdk.density_window_um,
+                    count=len(density_offenders),
                     sample_bbox_um=(
-                        _um(window.left, dbu), _um(window.bottom, dbu),
-                        _um(window.right, dbu), _um(window.top, dbu),
+                        _um(window.left, dbu),
+                        _um(window.bottom, dbu),
+                        _um(window.right, dbu),
+                        _um(window.top, dbu),
                     ),
                     **density_metadata,
                 )
@@ -1072,45 +1111,52 @@ def run_drc(
             region = regions.get(layer.name)
             if region is None:
                 checks.append(
-                    DRCCheck(rule="junction_min_area", layer=layer.name, ran=False,
-                             skip_reason="no junction geometry in this layout",
-                             mandatory=layer.required,
-                             skip_kind="skipped_mandatory_rule" if layer.required else "skipped_optional_rule",
-                             **_rule_metadata(
-                                 rule="junction_min_area",
-                                 layer=layer.name,
-                                 description=(
-                                     f"Junction area on {layer.name} must be at least "
-                                     f"{minimum} um^2."
-                                 ),
-                                 value=minimum,
-                                 unit="um^2",
-                                 pdk=pdk,
-                                 pdk_hash=pdk_hash,
-                                 runset_hash=runset_hash,
-                             ))
+                    DRCCheck(
+                        rule="junction_min_area",
+                        layer=layer.name,
+                        ran=False,
+                        skip_reason="no junction geometry in this layout",
+                        mandatory=layer.required,
+                        skip_kind="skipped_mandatory_rule"
+                        if layer.required
+                        else "skipped_optional_rule",
+                        **_rule_metadata(
+                            rule="junction_min_area",
+                            layer=layer.name,
+                            description=(
+                                f"Junction area on {layer.name} must be at least {minimum} um^2."
+                            ),
+                            value=minimum,
+                            unit="um^2",
+                            pdk=pdk,
+                            pdk_hash=pdk_hash,
+                            runset_hash=runset_hash,
+                        ),
+                    )
                 )
                 continue
             undersized = [
-                polygon for polygon in region.each()
-                if polygon.area() * dbu * dbu < minimum
+                polygon for polygon in region.each() if polygon.area() * dbu * dbu < minimum
             ]
             checks.append(
-                DRCCheck(rule="junction_min_area", layer=layer.name, ran=True,
-                         violations=len(undersized),
-                         **_rule_metadata(
-                             rule="junction_min_area",
-                             layer=layer.name,
-                             description=(
-                                 f"Junction area on {layer.name} must be at least "
-                                 f"{minimum} um^2."
-                             ),
-                             value=minimum,
-                             unit="um^2",
-                             pdk=pdk,
-                             pdk_hash=pdk_hash,
-                             runset_hash=runset_hash,
-                         ))
+                DRCCheck(
+                    rule="junction_min_area",
+                    layer=layer.name,
+                    ran=True,
+                    violations=len(undersized),
+                    **_rule_metadata(
+                        rule="junction_min_area",
+                        layer=layer.name,
+                        description=(
+                            f"Junction area on {layer.name} must be at least {minimum} um^2."
+                        ),
+                        value=minimum,
+                        unit="um^2",
+                        pdk=pdk,
+                        pdk_hash=pdk_hash,
+                        runset_hash=runset_hash,
+                    ),
+                )
             )
             if undersized:
                 box = undersized[0].bbox()
@@ -1126,11 +1172,15 @@ def run_drc(
                 )
                 violations.append(
                     DRCViolation(
-                        rule="junction_min_area", layer=layer.name, required_um=minimum,
+                        rule="junction_min_area",
+                        layer=layer.name,
+                        required_um=minimum,
                         count=len(undersized),
                         sample_bbox_um=(
-                            _um(box.left, dbu), _um(box.bottom, dbu),
-                            _um(box.right, dbu), _um(box.top, dbu),
+                            _um(box.left, dbu),
+                            _um(box.bottom, dbu),
+                            _um(box.right, dbu),
+                            _um(box.top, dbu),
                         ),
                         **junction_metadata,
                     )
@@ -1166,7 +1216,7 @@ def to_lydrc(pdk: PDK) -> str:
         f"# PDK: {pdk.name} {pdk.version} ({pdk.calibration_status})",
         f"# Source: {pdk.source}",
         "",
-        "report(\"textlayout DRC\", $report)",
+        'report("textlayout DRC", $report)',
         "",
     ]
     for layer in pdk.layers:
@@ -1181,38 +1231,35 @@ def to_lydrc(pdk: PDK) -> str:
         threshold = rule.threshold or 0.0
         if rule.family == "min_width":
             lines.append(
-                f"{rule.layers[0]}.width({threshold}.um)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'{rule.layers[0]}.width({threshold}.um).output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "min_spacing":
             lines.append(
-                f"{rule.layers[0]}.space({threshold}.um)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'{rule.layers[0]}.space({threshold}.um).output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "min_area":
             lines.append(
                 f"{rule.layers[0]}.with_area(nil, {threshold}.um2)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'.output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "notch":
             lines.append(
-                f"{rule.layers[0]}.notch({threshold}.um)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'{rule.layers[0]}.notch({threshold}.um).output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "separation":
             lines.append(
                 f"({rule.layers[0]}.sized({threshold}.um) & {rule.layers[1]})"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'.output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "enclosure":
             lines.append(
                 f"{rule.layers[0]}.enclosing({rule.layers[1]}, {threshold}.um)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'.output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "overlap":
             lines.append(
                 f"{rule.layers[0]}.overlap({rule.layers[1]}, {threshold}.um)"
-                f".output(\"{rule.rule_id}\", \"{description}\")"
+                f'.output("{rule.rule_id}", "{description}")'
             )
         elif rule.family == "junction_min_area":
             layer = by_name[rule.layers[0]]
@@ -1221,17 +1268,23 @@ def to_lydrc(pdk: PDK) -> str:
             if threshold != layer.min_width_um * layer.min_width_um:
                 lines.append(
                     f"{rule.layers[0]}.with_area(nil, {threshold}.um2)"
-                    f".output(\"{rule.rule_id}\", \"{description}\")"
+                    f'.output("{rule.rule_id}", "{description}")'
                 )
         else:
             raise ValueError(f"standalone backend has no emitter for {rule.family!r}")
     unsupported_standalone = sorted(
-        {rule.family for rule in rules if rule.mandatory and "standalone" not in rule.supported_backends}
+        {
+            rule.family
+            for rule in rules
+            if rule.mandatory and "standalone" not in rule.supported_backends
+        }
     )
     lines += [
         "",
         "# Rules this deck does NOT check, and which a clean run therefore does not",
-        "# establish: " + ", ".join(sorted(set(UNSUPPORTED_RULES) | set(unsupported_standalone))) + ".",
+        "# establish: "
+        + ", ".join(sorted(set(UNSUPPORTED_RULES) | set(unsupported_standalone)))
+        + ".",
         "",
     ]
     return "\n".join(lines)

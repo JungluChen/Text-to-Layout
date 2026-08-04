@@ -32,10 +32,14 @@ def test_global_assignment_follows_fields_through_frequency_crossing() -> None:
     result = assign_modes_globally(
         previous,
         current,
-        _macs({
-            (1, 1): (0.1, 0.1), (1, 2): (0.995, 0.994),
-            (2, 1): (0.996, 0.997), (2, 2): (0.1, 0.1),
-        }),
+        _macs(
+            {
+                (1, 1): (0.1, 0.1),
+                (1, 2): (0.995, 0.994),
+                (2, 1): (0.996, 0.997),
+                (2, 2): (0.1, 0.1),
+            }
+        ),
     )
     assert result.status == "MODE_TRACKING_ASSIGNED"
     assert result.promotion_allowed

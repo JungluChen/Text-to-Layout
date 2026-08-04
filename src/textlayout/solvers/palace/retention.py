@@ -226,9 +226,7 @@ def execute_retention_plan(
                 continue
             retained = root / entry.path
             if not retained.is_file() or sha256_file(retained) != entry.sha256:
-                raise ValueError(
-                    f"completed retention hash mismatch or missing: {entry.path}"
-                )
+                raise ValueError(f"completed retention hash mismatch or missing: {entry.path}")
         if quarantine.exists():
             shutil.rmtree(quarantine)
         _remove_empty_quarantine_root(root)

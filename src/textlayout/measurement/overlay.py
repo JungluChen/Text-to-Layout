@@ -100,8 +100,7 @@ class CalibrationOverlay(BaseModel):
     is_synthetic: bool
     fabrication_readiness: str = Field(default="NOT_FABRICATION_READY")
     fit_method: str = Field(
-        default="median ratio, 1.4826*MAD spread, 3-MAD outlier exclusion, "
-        "minimum-sample gate"
+        default="median ratio, 1.4826*MAD spread, 3-MAD outlier exclusion, minimum-sample gate"
     )
     fit_timestamp: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -225,9 +224,7 @@ def build_overlay(
         max_stable_spread_pct=max_stable_spread_pct,
     )
     jc_factor = factors["jc_mean_scale"]
-    jc_sigma_update = (
-        jc_factor.uncertainty_pct if jc_factor.status == FIT_OK else None
-    )
+    jc_sigma_update = jc_factor.uncertainty_pct if jc_factor.status == FIT_OK else None
 
     warnings = []
     if is_synthetic:
@@ -296,8 +293,7 @@ def apply_overlay_to_pdk(
     out = Path(out_path)
     if out.resolve() == base.resolve():
         raise ValueError(
-            f"refusing to overwrite the base PDK {base}; calibration output must "
-            "be a new file"
+            f"refusing to overwrite the base PDK {base}; calibration output must be a new file"
         )
     provenance = describe_pdk_file(base)
     if provenance.file_hash_sha256 != overlay.base_pdk_hash_sha256:
@@ -324,9 +320,7 @@ def apply_overlay_to_pdk(
         applied.append(f"junction_process.target_jc_ua_per_um2 *= {jc.scale:.6g}")
         if overlay.jc_sigma_update_pct is not None:
             junction["jc_sigma_pct"] = overlay.jc_sigma_update_pct
-            applied.append(
-                f"junction_process.jc_sigma_pct = {overlay.jc_sigma_update_pct:.4g}"
-            )
+            applied.append(f"junction_process.jc_sigma_pct = {overlay.jc_sigma_update_pct:.4g}")
 
     suffix = "_synthetic_calibrated" if overlay.is_synthetic else "_calibrated"
     data["name"] = f"{data['name']}{suffix}"

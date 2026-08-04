@@ -36,8 +36,8 @@ def export_smoke_test_gmsh_geo(
         f"lc = {characteristic_length_um:.9g};",
         (
             f"substrate = newv; Box(substrate) = "
-            f"{{{bbox.xmin-margin:.9g}, {bbox.ymin-margin:.9g}, {-substrate_thickness_um:.9g}, "
-            f"{bbox.width+2*margin:.9g}, {bbox.height+2*margin:.9g}, {substrate_thickness_um:.9g}}};"
+            f"{{{bbox.xmin - margin:.9g}, {bbox.ymin - margin:.9g}, {-substrate_thickness_um:.9g}, "
+            f"{bbox.width + 2 * margin:.9g}, {bbox.height + 2 * margin:.9g}, {substrate_thickness_um:.9g}}};"
         ),
     ]
     volumes: list[str] = []

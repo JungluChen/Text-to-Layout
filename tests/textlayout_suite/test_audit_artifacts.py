@@ -86,7 +86,9 @@ def test_run_record_redacts_paths(audit_module, tmp_path) -> None:
 
 
 def test_timeout_and_failed_command_recording(audit_module) -> None:
-    timeout = audit_module.run_command([sys.executable, "-c", "import time; time.sleep(2)"], timeout=1)
+    timeout = audit_module.run_command(
+        [sys.executable, "-c", "import time; time.sleep(2)"], timeout=1
+    )
     assert timeout.timed_out is True
     failed = audit_module.run_command([sys.executable, "-c", "raise SystemExit(7)"], timeout=5)
     assert failed.return_code == 7
@@ -234,10 +236,7 @@ def test_external_executable_identity_only(audit_module) -> None:
 
 
 def test_claim_downgrade_required_for_current_showcase_physics_claim(audit_module) -> None:
-    claim = (
-        "**PHYSICS_VERIFIED** "
-        "`01_idc_0p6pf` - target agreement and historical solver output."
-    )
+    claim = "**PHYSICS_VERIFIED** `01_idc_0p6pf` - target agreement and historical solver output."
     computed, passed, missing, replacement = audit_module.evaluate_claim(claim)
     assert computed != "PHYSICS_VERIFIED"
     assert missing
@@ -249,8 +248,7 @@ def test_restoring_old_showcase_physics_verified_string_fails_gate(
     audit_module, tmp_path, monkeypatch
 ) -> None:
     old_public_claim = (
-        "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | "
-        "0.227% | `PHYSICS_VERIFIED` |"
+        "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `PHYSICS_VERIFIED` |"
     )
     computed, _passed, missing, _replacement = audit_module.evaluate_claim(old_public_claim)
     assert computed == "NUMERICALLY_CONVERGED"
@@ -315,7 +313,9 @@ def test_mutated_physics_evidence_downgrades(audit_module) -> None:
 
 def test_capability_level_from_real_gate_files(audit_module) -> None:
     tools = {"tools": [{"id": "klayout", "current_state": "LICENSE_REVIEWED"}]}
-    matrix = audit_module.capability_matrix(tools, {"container_runtime": {"docker_ps": {"return_code": 1}}})
+    matrix = audit_module.capability_matrix(
+        tools, {"container_runtime": {"docker_ps": {"return_code": 1}}}
+    )
     core = next(row for row in matrix["capabilities"] if row["capability"] == "core wheel and CLI")
     assert core["computed_level"] in audit_module.CAPABILITY_LEVELS
     assert core["evidence_hashes"]
@@ -438,12 +438,18 @@ def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module, monkeypat
 
     monkeypatch.setattr(audit_module, "path_exists", path_exists_without_lvs_evidence)
     tools = {"tools": [{"id": "klayout", "current_state": "IDENTITY_VERIFIED"}]}
-    matrix = audit_module.capability_matrix(tools, {"container_runtime": {"docker_ps": {"return_code": 0}}})
+    matrix = audit_module.capability_matrix(
+        tools, {"container_runtime": {"docker_ps": {"return_code": 0}}}
+    )
     layer_smoke = next(
-        row for row in matrix["capabilities"] if row["capability"] == "KLayout layer-population smoke"
+        row
+        for row in matrix["capabilities"]
+        if row["capability"] == "KLayout layer-population smoke"
     )
     partial_lvs = next(
-        row for row in matrix["capabilities"] if row["capability"] == "KLayout partial electrical LVS"
+        row
+        for row in matrix["capabilities"]
+        if row["capability"] == "KLayout partial electrical LVS"
     )
     assert layer_smoke["computed_level"] == "INTEGRATION_TEST_PASSED"
     assert partial_lvs["computed_level"] == "REAL_FIXTURE_TESTED"

@@ -76,8 +76,15 @@ class TestGeneratedBlocks:
 class TestDriftDetection:
     """Synthetic showcases: the checker must catch each drift class."""
 
-    def _showcase(self, tmp_path: Path, *, sim_status: str, solver_status: str,
-                  sim_value: float | None, solver_value: float | None) -> Path:
+    def _showcase(
+        self,
+        tmp_path: Path,
+        *,
+        sim_status: str,
+        solver_status: str,
+        sim_value: float | None,
+        solver_value: float | None,
+    ) -> Path:
         d = tmp_path / "examples" / "showcase" / "99_synthetic"
         d.mkdir(parents=True)
         (d / "simulation.json").write_text(
@@ -283,7 +290,9 @@ class TestNoStaleGeneratedArtifacts:
 
         return subprocess.run(
             [sys.executable, str(ROOT / "scripts" / script), "--check"],
-            cwd=ROOT, capture_output=True, text=True,
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
         ).returncode
 
     def test_canonical_records_are_current(self) -> None:

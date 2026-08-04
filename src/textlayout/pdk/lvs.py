@@ -147,14 +147,10 @@ def compare_partial_connectivity_lvs(
     unsupported_devices: list[str] | None = None,
 ) -> dict[str, Any]:
     expected_terminals = {
-        terminal
-        for net in reference_nets
-        for terminal in net.get("terminals", [])
+        terminal for net in reference_nets for terminal in net.get("terminals", [])
     }
     observed_terminals = {
-        terminal
-        for net in extracted_nets
-        for terminal in net.get("terminals", [])
+        terminal for net in extracted_nets for terminal in net.get("terminals", [])
     }
     missing_terminals = sorted(expected_terminals - observed_terminals)
     extra_terminals = sorted(observed_terminals - expected_terminals)
@@ -163,9 +159,7 @@ def compare_partial_connectivity_lvs(
     terminal_mismatches: list[dict[str, Any]] = []
 
     expected_by_terminal = {
-        terminal: ref["name"]
-        for ref in reference_nets
-        for terminal in ref.get("terminals", [])
+        terminal: ref["name"] for ref in reference_nets for terminal in ref.get("terminals", [])
     }
     for extracted in extracted_nets:
         expected_net_names = sorted(
@@ -220,11 +214,7 @@ def compare_partial_connectivity_lvs(
                     }
                 )
 
-    floating = [
-        extracted["name"]
-        for extracted in extracted_nets
-        if not extracted.get("terminals")
-    ]
+    floating = [extracted["name"] for extracted in extracted_nets if not extracted.get("terminals")]
     matched = [
         reference["name"]
         for reference in reference_nets

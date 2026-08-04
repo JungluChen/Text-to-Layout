@@ -102,4 +102,3 @@ def render_palace_view(
         newline="\n",
     )
     return result
-

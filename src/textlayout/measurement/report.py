@@ -171,18 +171,15 @@ def write_comparison_bundle(
     md = [
         "# Measurement comparison report",
         "",
-        f"- **Status:** **{summary['comparison_status']}** "
-        f"({', '.join(summary['labels'])})",
+        f"- **Status:** **{summary['comparison_status']}** ({', '.join(summary['labels'])})",
         f"- Predictions: {summary['n_predictions']} · Measurements: "
         f"{summary['n_measurements']} · Matched: {summary['n_matched']} · "
         f"Unmatched: {summary['n_unmatched']} (matched by design_hash)",
         f"- **Comparison coverage: {summary['coverage_pct']:.1f}%** "
         f"({summary['n_unmatched_predictions']} prediction(s) and "
         f"{summary['n_unmatched_measurements']} measurement(s) unmatched)",
-        f"- Quantities compared: "
-        f"{', '.join(summary['quantities_compared']) or '(none)'}",
-        f"- PDKs behind the predictions: "
-        f"{', '.join(summary['pdk_names']) or '(not recorded)'}",
+        f"- Quantities compared: {', '.join(summary['quantities_compared']) or '(none)'}",
+        f"- PDKs behind the predictions: {', '.join(summary['pdk_names']) or '(not recorded)'}",
         f"- {summary['warning']}",
         "",
         "## Per-quantity summary",

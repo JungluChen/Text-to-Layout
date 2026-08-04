@@ -105,12 +105,8 @@ def _pair_cost(
         "frequency_cost": frequency,
         "electric_mac_cost": 1.0 - mac.electric_mac,
         "magnetic_mac_cost": 1.0 - mac.magnetic_mac,
-        "signature_cost": _cosine_distance(
-            left.regional_signature, right.regional_signature
-        ),
-        "localization_cost": abs(
-            left.resonator_localization - right.resonator_localization
-        ),
+        "signature_cost": _cosine_distance(left.regional_signature, right.regional_signature),
+        "localization_cost": abs(left.resonator_localization - right.resonator_localization),
         "class_mismatch_cost": float(left.physical_class != right.physical_class),
     }
     weighted = (
@@ -146,9 +142,7 @@ def assign_modes_globally(
     if len({mode.mode_index for mode in current}) != len(current):
         raise ValueError("current mode indices must be unique")
     mac_by_edge = {(item.from_mode, item.to_mode): item for item in pair_macs}
-    expected = {
-        (left.mode_index, right.mode_index) for left in previous for right in current
-    }
+    expected = {(left.mode_index, right.mode_index) for left in previous for right in current}
     if set(mac_by_edge) != expected:
         missing = sorted(expected - set(mac_by_edge))
         extra = sorted(set(mac_by_edge) - expected)
@@ -201,9 +195,7 @@ def assign_modes_globally(
                 confidence=confidence,
                 global_alternative_margin=margin,
                 nearest_competitor_mode=(
-                    current[competitor_column].mode_index
-                    if competitor_column is not None
-                    else None
+                    current[competitor_column].mode_index if competitor_column is not None else None
                 ),
                 nearest_competitor_cost=competitor_cost,
                 components=components[edge],

@@ -43,9 +43,13 @@ def main(
     if mesh_quality:
         Hide(source)
     point_arrays, cell_arrays = _arrays(rendered)
-    selected = "Quality" if mesh_quality else next(
-        (name for name in candidates if name in point_arrays or name in cell_arrays),
-        None,
+    selected = (
+        "Quality"
+        if mesh_quality
+        else next(
+            (name for name in candidates if name in point_arrays or name in cell_arrays),
+            None,
+        )
     )
     if selected is None:
         raise RuntimeError(
@@ -75,4 +79,3 @@ def main(
         encoding="utf-8",
     )
     return 0
-

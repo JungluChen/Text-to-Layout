@@ -122,9 +122,7 @@ class TestStatusManifestSchema:
         assert "05_quarter_wave_resonator_6ghz" in status["invalid_or_failed"]
         assert "05_quarter_wave_resonator_6ghz" not in status["analytical_only"]
 
-    def test_generated_project_status_check_mode(
-        self, status_module, tmp_path: Path
-    ) -> None:
+    def test_generated_project_status_check_mode(self, status_module, tmp_path: Path) -> None:
         out = tmp_path / "project_status.json"
         markdown = tmp_path / "PROJECT_STATUS.md"
         status = status_module.build_status(generated_at="2026-01-01T00:00:00+00:00")
@@ -173,9 +171,7 @@ class TestHardcodedTestCountGate:
         self, claims_module, tmp_path, monkeypatch
     ) -> None:
         monkeypatch.setattr(claims_module, "ROOT", tmp_path)
-        errors = self._run(
-            claims_module, tmp_path, "See PROJECT_STATUS.md for live numbers.\n"
-        )
+        errors = self._run(claims_module, tmp_path, "See PROJECT_STATUS.md for live numbers.\n")
         assert errors == []
 
 
@@ -203,8 +199,7 @@ class TestPublishedTestCountProvenance:
             pytest.skip("no out/evidence/test_report.xml in this working tree")
         published = (REPO_ROOT / "PROJECT_STATUS.md").read_text(encoding="utf-8")
         expected = (
-            f"**{report['passed']} passed, {report['failed']} failed, "
-            f"{report['skipped']} skipped**"
+            f"**{report['passed']} passed, {report['failed']} failed, {report['skipped']} skipped**"
         )
         assert expected in published
 

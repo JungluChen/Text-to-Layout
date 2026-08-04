@@ -27,9 +27,7 @@ from textlayout.epr import (
 from textlayout.schemas.dsl import LayoutSpec
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-FIELD_ENERGY_FIXTURE = (
-    REPO_ROOT / "examples" / "epr_fixtures" / "field_energy_export_example.json"
-)
+FIELD_ENERGY_FIXTURE = REPO_ROOT / "examples" / "epr_fixtures" / "field_energy_export_example.json"
 
 IDC_SPEC = {
     "component": "IDC",
@@ -175,10 +173,16 @@ class TestReportAndCLI:
 
     def test_cli_prompt_include_epr_appends_to_main_report(self, tmp_path, capsys) -> None:
         out_dir = tmp_path / "prompt_out"
-        code = cli_main([
-            "prompt", "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
-            "--out", str(out_dir), "--no-solver", "--include-epr",
-        ])
+        code = cli_main(
+            [
+                "prompt",
+                "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+                "--out",
+                str(out_dir),
+                "--no-solver",
+                "--include-epr",
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert payload["epr"]["status"] == EPR_STATUS_ANALYTICAL
@@ -193,10 +197,15 @@ class TestReportAndCLI:
     def test_cli_prompt_without_include_epr_is_unchanged(self, tmp_path, capsys) -> None:
         """Backward compatibility: the flag must be strictly additive."""
         out_dir = tmp_path / "prompt_out_no_epr"
-        code = cli_main([
-            "prompt", "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
-            "--out", str(out_dir), "--no-solver",
-        ])
+        code = cli_main(
+            [
+                "prompt",
+                "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+                "--out",
+                str(out_dir),
+                "--no-solver",
+            ]
+        )
         assert code == 0
         payload = json.loads(capsys.readouterr().out)
         assert "epr" not in payload

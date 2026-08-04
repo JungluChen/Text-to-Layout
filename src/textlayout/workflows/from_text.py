@@ -632,10 +632,14 @@ def simulation_payload(
 ) -> dict[str, Any]:
     is_capacitance = evidence.quantity == "capacitance"
     capacitance_source = (
-        "geometry_extracted"
-        if evidence.extracted_value is not None
-        else "analytical_estimate_not_geometry_extracted"
-    ) if is_capacitance else "not_applicable"
+        (
+            "geometry_extracted"
+            if evidence.extracted_value is not None
+            else "analytical_estimate_not_geometry_extracted"
+        )
+        if is_capacitance
+        else "not_applicable"
+    )
     inductance_source = (
         (intent.inductance_assumption or {}).get("source", "unspecified")
         if intent.component == "JPA"
@@ -1068,8 +1072,7 @@ def render_jpa_report(
     ]
     if evidence.extracted_value is None:
         lines.append(
-            f"- {quantity_label.capitalize()} extraction input exists, but no solver "
-            "result exists."
+            f"- {quantity_label.capitalize()} extraction input exists, but no solver result exists."
         )
 
     lines += [

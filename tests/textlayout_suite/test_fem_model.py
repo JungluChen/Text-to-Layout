@@ -107,11 +107,7 @@ class TestAttributesCannotCollide:
     def test_a_port_may_not_reuse_a_surface_attribute(self) -> None:
         """A port that overwrote a wall's tag would silently unbind the cavity."""
         with pytest.raises(ValidationError, match="surface/interface/port attributes"):
-            _cavity(
-                lumped_ports=[
-                    LumpedPort(name="p1", index=1, attribute=2, direction="+Z")
-                ]
-            )
+            _cavity(lumped_ports=[LumpedPort(name="p1", index=1, attribute=2, direction="+Z")])
 
     def test_an_interface_may_not_reuse_a_surface_attribute(self) -> None:
         with pytest.raises(ValidationError, match="surface/interface/port attributes"):
@@ -122,8 +118,12 @@ class TestAttributesCannotCollide:
                 ],
                 interfaces=[
                     Interface(
-                        name="ms", attribute=2, between=("sub", "air"),
-                        thickness_nm=2.0, permittivity=10.0, loss_tangent=1e-3,
+                        name="ms",
+                        attribute=2,
+                        between=("sub", "air"),
+                        thickness_nm=2.0,
+                        permittivity=10.0,
+                        loss_tangent=1e-3,
                     )
                 ],
             )
@@ -146,8 +146,12 @@ class TestPhysicalCoherence:
             _cavity(
                 interfaces=[
                     Interface(
-                        name="ms", attribute=9, between=("cavity", "ghost"),
-                        thickness_nm=2.0, permittivity=10.0, loss_tangent=1e-3,
+                        name="ms",
+                        attribute=9,
+                        between=("cavity", "ghost"),
+                        thickness_nm=2.0,
+                        permittivity=10.0,
+                        loss_tangent=1e-3,
                     )
                 ]
             )
@@ -155,8 +159,12 @@ class TestPhysicalCoherence:
     def test_an_interface_may_not_separate_a_volume_from_itself(self) -> None:
         with pytest.raises(ValidationError, match="from itself"):
             Interface(
-                name="ms", attribute=9, between=("cavity", "cavity"),
-                thickness_nm=2.0, permittivity=10.0, loss_tangent=1e-3,
+                name="ms",
+                attribute=9,
+                between=("cavity", "cavity"),
+                thickness_nm=2.0,
+                permittivity=10.0,
+                loss_tangent=1e-3,
             )
 
     def test_an_eigenmode_problem_needs_a_bounding_surface(self) -> None:
@@ -238,8 +246,12 @@ class TestProjections:
             materials=[VACUUM, SILICON],
             interfaces=[
                 Interface(
-                    name="sa", attribute=3, between=("sub", "air"),
-                    thickness_nm=2.0, permittivity=4.0, loss_tangent=1e-3,
+                    name="sa",
+                    attribute=3,
+                    between=("sub", "air"),
+                    thickness_nm=2.0,
+                    permittivity=4.0,
+                    loss_tangent=1e-3,
                 )
             ],
             surfaces=[Surface(name="walls", attribute=4, kind="pec")],
@@ -306,7 +318,9 @@ class TestProjections:
             surfaces=[
                 Surface(name="walls", attribute=2, kind="pec"),
                 Surface(name="open", attribute=3, kind="absorbing"),
-                Surface(name="metal", attribute=4, kind="impedance", resistance_ohm_per_square=0.05),
+                Surface(
+                    name="metal", attribute=4, kind="impedance", resistance_ohm_per_square=0.05
+                ),
             ]
         )
         boundaries = model.to_palace_eigenmode_config(mesh_filename="m.msh", output_dir="o")[

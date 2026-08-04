@@ -31,28 +31,20 @@ def test_doctor_reports_required_checks_ok(tmp_path: Path) -> None:
     assert "output directory write permission" in names
 
 
-def test_doctor_missing_fastercap_is_absent_not_failure(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_doctor_missing_fastercap_is_absent_not_failure(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "definitely-not-a-real-solver")
     report = run_doctor(output_dir=tmp_path / "probe")
-    fastercap = next(
-        c for c in report.checks if c.name == "FasterCap/FastCap"
-    )
+    fastercap = next(c for c in report.checks if c.name == "FasterCap/FastCap")
     assert fastercap.status == "absent"
     assert fastercap.required is False
     assert "skipped" in fastercap.detail.lower()
     assert report.ok  # optional solver absence never fails the environment
 
 
-def test_doctor_strict_mode_fails_when_fastercap_is_missing(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_doctor_strict_mode_fails_when_fastercap_is_missing(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setenv("TEXTLAYOUT_FASTERCAP", "definitely-not-a-real-solver")
     report = run_doctor(output_dir=tmp_path / "probe", strict=True)
-    fastercap = next(
-        c for c in report.checks if c.name == "FasterCap/FastCap"
-    )
+    fastercap = next(c for c in report.checks if c.name == "FasterCap/FastCap")
     assert fastercap.status == "absent"
     assert fastercap.required is True
     assert report.ok is False

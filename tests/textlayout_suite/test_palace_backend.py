@@ -196,7 +196,9 @@ class TestStrictEigenmodeParsing:
         )
         modes = parse_eigenmodes(path)
         assert modes == [
-            Eigenmode(index=1, frequency_ghz=6.012345678, frequency_imag_ghz=1e-05, quality_factor=3.0e05)
+            Eigenmode(
+                index=1, frequency_ghz=6.012345678, frequency_imag_ghz=1e-05, quality_factor=3.0e05
+            )
         ]
 
     def test_a_reordered_header_still_parses_correctly(self, tmp_path: Path) -> None:
@@ -239,13 +241,13 @@ class TestStrictEigenmodeParsing:
         with pytest.raises(PalaceOutputError, match="missing Palace eigenvalue output"):
             parse_eigenmodes(tmp_path / "postpro" / "eig.csv")
 
-    def test_a_decoy_csv_cannot_be_mistaken_for_the_eigenvalue_table(
-        self, tmp_path: Path
-    ) -> None:
+    def test_a_decoy_csv_cannot_be_mistaken_for_the_eigenvalue_table(self, tmp_path: Path) -> None:
         """The old parser read any float in [1e6, 1e12] from any CSV in the tree."""
         postpro = tmp_path / "postpro"
         postpro.mkdir()
-        (postpro / "mesh-stats.csv").write_text("elements,dofs\n1000000,5000000\n", encoding="utf-8")
+        (postpro / "mesh-stats.csv").write_text(
+            "elements,dofs\n1000000,5000000\n", encoding="utf-8"
+        )
         with pytest.raises(PalaceOutputError, match="missing Palace eigenvalue output"):
             parse_eigenmodes(postpro / "eig.csv")
 
@@ -267,7 +269,9 @@ class TestDomainEnergyParsing:
 
     def test_per_domain_electric_energy_is_read_by_index(self, tmp_path: Path) -> None:
         path = tmp_path / "domain-E.csv"
-        path.write_text("m,E_elec[1] (J),E_elec[2] (J),E_mag (J)\n1,0.75,0.25,1.0\n", encoding="utf-8")
+        path.write_text(
+            "m,E_elec[1] (J),E_elec[2] (J),E_mag (J)\n1,0.75,0.25,1.0\n", encoding="utf-8"
+        )
         assert parse_domain_energy(path) == {1: 0.75, 2: 0.25}
 
     def test_the_mode_is_selected_by_its_index_not_its_row_position(self, tmp_path: Path) -> None:

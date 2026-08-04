@@ -170,12 +170,10 @@ class _MaterialAABBLocator:
             )
         self.metrics = _LocatorMetrics(build_seconds=perf_counter() - started)
 
-    def candidates(
-        self, point: npt.NDArray[np.float64], attribute: int
-    ) -> list[tuple[int, float]]:
-        return self.candidate_batches(
-            np.asarray([point]), np.asarray([attribute], dtype=np.int32)
-        )[0]
+    def candidates(self, point: npt.NDArray[np.float64], attribute: int) -> list[tuple[int, float]]:
+        return self.candidate_batches(np.asarray([point]), np.asarray([attribute], dtype=np.int32))[
+            0
+        ]
 
     def candidate_batches(
         self,
@@ -199,9 +197,7 @@ class _MaterialAABBLocator:
                 point = points[row]
                 local = np.asarray(raw_local, dtype=np.int64)
                 if local.size:
-                    tolerance = 64.0 * np.finfo(float).eps * max(
-                        1.0, float(np.max(np.abs(point)))
-                    )
+                    tolerance = 64.0 * np.finfo(float).eps * max(1.0, float(np.max(np.abs(point))))
                     selected = np.all(point >= lower[local] - tolerance, axis=1) & np.all(
                         point <= upper[local] + tolerance, axis=1
                     )
@@ -209,11 +205,7 @@ class _MaterialAABBLocator:
                 candidates = [
                     (
                         int(indices[index]),
-                        float(
-                            np.linalg.norm(
-                                self._mesh.centroids[indices[index]] - point
-                            )
-                        ),
+                        float(np.linalg.norm(self._mesh.centroids[indices[index]] - point)),
                     )
                     for index in local
                 ]
@@ -236,9 +228,7 @@ class _MaterialAABBLocator:
             rss = psutil.Process().memory_info().rss
         except (ImportError, OSError):
             rss = 0
-        self.metrics.peak_process_rss_bytes = max(
-            self.metrics.peak_process_rss_bytes, rss
-        )
+        self.metrics.peak_process_rss_bytes = max(self.metrics.peak_process_rss_bytes, rss)
         if self._max_process_rss_bytes is not None and rss > self._max_process_rss_bytes:
             raise PalaceOutputError(
                 "RESOURCE_LIMIT_TERMINATED: field projection RSS "
@@ -256,9 +246,7 @@ def _locator_result_fields(metrics: _LocatorMetrics) -> dict[str, float | int]:
         "maximum_candidates_per_point": metrics.maximum_candidates,
         "failed_point_queries": metrics.failed_queries,
         "material_mismatch_rejections": metrics.material_mismatch_rejections,
-        "maximum_candidate_centroid_distance": (
-            metrics.maximum_candidate_centroid_distance
-        ),
+        "maximum_candidate_centroid_distance": (metrics.maximum_candidate_centroid_distance),
         "peak_projection_process_rss_bytes": metrics.peak_process_rss_bytes,
     }
 
@@ -288,9 +276,7 @@ def _integration_mesh(path: Path, kind: str) -> _Mesh:
         point_data = {
             item.attrib.get("Name"): item for item in root.findall(".//PointData/DataArray")
         }
-        cells_data = {
-            item.attrib.get("Name"): item for item in root.findall(".//Cells/DataArray")
-        }
+        cells_data = {item.attrib.get("Name"): item for item in root.findall(".//Cells/DataArray")}
         cell_data = {
             item.attrib.get("Name"): item for item in root.findall(".//CellData/DataArray")
         }
@@ -301,7 +287,9 @@ def _integration_mesh(path: Path, kind: str) -> _Mesh:
         real = np.asarray(_decode_vtk_array(point_data[f"{prefix}_real"], piece), dtype=float)
         imag = np.asarray(_decode_vtk_array(point_data[f"{prefix}_imag"], piece), dtype=float)
         fields = real.astype(np.complex128) + 1j * imag
-        connectivity = np.asarray(_decode_vtk_array(cells_data["connectivity"], piece), dtype=np.int64)
+        connectivity = np.asarray(
+            _decode_vtk_array(cells_data["connectivity"], piece), dtype=np.int64
+        )
         offsets = np.asarray(_decode_vtk_array(cells_data["offsets"], piece), dtype=np.int64)
         types = np.asarray(_decode_vtk_array(cells_data["types"], piece), dtype=np.uint8)
         attributes = np.asarray(_decode_vtk_array(attributes_element, piece), dtype=np.int32)
@@ -334,10 +322,7 @@ def _integration_mesh(path: Path, kind: str) -> _Mesh:
                 key: object = ("global", int(global_ids[index]))
             else:
                 key = tuple(
-                    sorted(
-                        tuple(float(cell) for cell in row)
-                        for row in np.round(cell_nodes, 12)
-                    )
+                    sorted(tuple(float(cell) for cell in row) for row in np.round(cell_nodes, 12))
                 )
             if key in seen:
                 duplicates += 1
@@ -367,9 +352,7 @@ def _integration_mesh(path: Path, kind: str) -> _Mesh:
             )
         ]
     )
-    artifact_hashes = {
-        str(index): sha256_file(item) for index, item in enumerate(artifacts)
-    }
+    artifact_hashes = {str(index): sha256_file(item) for index, item in enumerate(artifacts)}
     return _Mesh(
         corners=corner_array,
         interpolation_nodes=interpolation_nodes,
@@ -434,8 +417,7 @@ def _geometry_jacobian(
         plus_bary = np.asarray([1.0 - plus.sum(), *plus])
         minus_bary = np.asarray([1.0 - minus.sum(), *minus])
         jacobian[:, axis] = (
-            _physical_point(nodes, order, plus_bary)
-            - _physical_point(nodes, order, minus_bary)
+            _physical_point(nodes, order, plus_bary) - _physical_point(nodes, order, minus_bary)
         ) / (2.0 * step)
     return jacobian
 
@@ -449,8 +431,7 @@ def _cell_volume(nodes: npt.NDArray[np.float64], order: int) -> float:
         return determinant / 6.0
     high, low = 0.5854101966249685, 0.1381966011250105
     barycentric_points = [
-        np.asarray([high if index == axis else low for index in range(4)])
-        for axis in range(4)
+        np.asarray([high if index == axis else low for index in range(4)]) for axis in range(4)
     ]
     determinants = [
         float(np.linalg.det(_geometry_jacobian(nodes, order, barycentric[1:])))
@@ -483,7 +464,9 @@ def _locate_point(
             except np.linalg.LinAlgError:
                 return None
     barycentric = np.asarray([1.0 - local.sum(), *local])
-    return barycentric if np.all(barycentric >= -1e-8) and np.all(barycentric <= 1.0 + 1e-8) else None
+    return (
+        barycentric if np.all(barycentric >= -1e-8) and np.all(barycentric <= 1.0 + 1e-8) else None
+    )
 
 
 def _tensors(
@@ -556,9 +539,7 @@ def reconstruct_field_energy_j(
             weighted = np.einsum("nij,nj->ni", tensors, values)
             density = np.real(np.einsum("ni,ni->n", np.conjugate(values), weighted))
             total += float(np.sum(density * determinants * base_weight))
-        physical_scale = (
-            EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
-        )
+        physical_scale = EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
         return 0.5 * physical_scale * total * material_map.length_unit_m**3
     for nodes, field_values, order, attribute in zip(
         mesh.interpolation_nodes,
@@ -582,9 +563,7 @@ def reconstruct_field_energy_j(
             value = _interpolate_cell(nodes, field_values, int(order), barycentric)
             density = float(np.real(np.vdot(value, tensor @ value)))
             total += density * determinant * base_weight
-    physical_scale = (
-        EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
-    )
+    physical_scale = EPSILON_0_F_PER_M if kind == "electric" else 1.0 / MU_0_H_PER_M
     # Palace's complex fields use its energy normalization convention. Mesh
     # coordinates remain in the FEM model's declared length unit.
     return 0.5 * physical_scale * total * material_map.length_unit_m**3
@@ -604,7 +583,9 @@ def quarter_wave_longitudinal_sanity(
     """Measure quarter-wave electric and magnetic energy profiles near the CPW."""
     if electrical_length <= 0.0 or bins < 4:
         raise ValueError("electrical_length must be positive and bins must be at least four")
-    samples: dict[str, tuple[npt.NDArray[np.float64], npt.NDArray[np.complex128], npt.NDArray[np.float64]]] = {}
+    samples: dict[
+        str, tuple[npt.NDArray[np.float64], npt.NDArray[np.complex128], npt.NDArray[np.float64]]
+    ] = {}
     for kind in ("electric", "magnetic"):
         mesh = _integration_mesh(field, kind)
         selected = (
@@ -668,7 +649,11 @@ def _mesh_pair(left: Path, right: Path, kind: str) -> tuple[_Mesh, _Mesh]:
             f"deduplicated domain volumes disagree by {relative:.3e}; "
             f"left={left_volume:.12g}, right={right_volume:.12g}"
         )
-    return (left_mesh, right_mesh) if len(left_mesh.volumes) <= len(right_mesh.volumes) else (right_mesh, left_mesh)
+    return (
+        (left_mesh, right_mesh)
+        if len(left_mesh.volumes) <= len(right_mesh.volumes)
+        else (right_mesh, left_mesh)
+    )
 
 
 def _result(
@@ -738,8 +723,7 @@ def _result(
             material_map.critical_region_coverage.get("mapped_surface_coverage", 1.0)
         ),
         critical_region_unmapped_surface_coverage=(
-            1.0
-            - float(material_map.critical_region_coverage.get("mapped_surface_coverage", 1.0))
+            1.0 - float(material_map.critical_region_coverage.get("mapped_surface_coverage", 1.0))
         ),
         mapped_volume=mapped_volume,
         expected_domain_volume=total_volume,
@@ -768,9 +752,7 @@ def _result(
         ),
         problem_class=applicability.problem_class,
         ordinary_energy_mac_use=applicability.ordinary_energy_mac_use,
-        promotion_allowed_from_ordinary_mac=(
-            applicability.promotion_allowed_from_ordinary_mac
-        ),
+        promotion_allowed_from_ordinary_mac=(applicability.promotion_allowed_from_ordinary_mac),
     )
 
 
@@ -794,9 +776,7 @@ def reference_quadrature_energy_mac(
     """
     reference, source = _mesh_pair(left, right, kind)
     samples = _tetra_quadrature(quadrature_order)
-    locator = _MaterialAABBLocator(
-        source, max_process_rss_bytes=max_process_rss_bytes
-    )
+    locator = _MaterialAABBLocator(source, max_process_rss_bytes=max_process_rss_bytes)
     entries = {entry.attribute: entry for entry in material_map.entries}
     missing = sorted(set(int(value) for value in reference.attributes) - set(entries))
     if missing:
@@ -897,9 +877,7 @@ def reference_quadrature_energy_mac(
             nodes = reference.interpolation_nodes[cell_index]
             field_values = reference.interpolation_fields[cell_index]
             order = int(reference.interpolation_orders[cell_index])
-            reference_values.append(
-                _interpolate_cell(nodes, field_values, order, barycentric)
-            )
+            reference_values.append(_interpolate_cell(nodes, field_values, order, barycentric))
             projected_values.append(mapped_value)
             integration_weights.append(weight)
             integration_attributes.append(attribute_int)
@@ -989,9 +967,7 @@ def reference_quadrature_energy_mac(
         ),
         problem_class=applicability.problem_class,
         ordinary_energy_mac_use=applicability.ordinary_energy_mac_use,
-        promotion_allowed_from_ordinary_mac=(
-            applicability.promotion_allowed_from_ordinary_mac
-        ),
+        promotion_allowed_from_ordinary_mac=(applicability.promotion_allowed_from_ordinary_mac),
     )
 
 
@@ -1038,9 +1014,7 @@ def reference_interpolated_energy_mac(
 ) -> FieldOverlapResult:
     """Reference point-location and linear FEM interpolation onto a common mesh."""
     reference, source = _mesh_pair(left, right, kind)
-    locator = _MaterialAABBLocator(
-        source, max_process_rss_bytes=max_process_rss_bytes
-    )
+    locator = _MaterialAABBLocator(source, max_process_rss_bytes=max_process_rss_bytes)
     del candidate_cells  # Compatibility-only; the AABB locator has no arbitrary k limit.
     projected = np.zeros_like(reference.cell_fields)
     mapped = np.zeros(len(reference.centroids), dtype=bool)
@@ -1074,9 +1048,7 @@ def reference_interpolated_energy_mac(
                         int(source.interpolation_orders[candidate]),
                         barycentric,
                     )
-                    selected_distance[row] = float(
-                        np.linalg.norm(reconstructed - point)
-                    )
+                    selected_distance[row] = float(np.linalg.norm(reconstructed - point))
                     break
     mapped &= selected_distance / np.cbrt(reference.volumes) <= relative_mapping_distance_limit
     return _result(

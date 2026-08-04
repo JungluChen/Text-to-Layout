@@ -62,7 +62,10 @@ def test_ideal_mode_is_classified_as_quarter_wave() -> None:
     )
     assert signature.mode_class == ModeClass.QUARTER_WAVE_RESONATOR
     assert signature.hard_quarter_wave_gates_passed
-    assert abs(sum(signature.score_components.values()) - signature.quarter_wave_weighted_score) < 1e-12
+    assert (
+        abs(sum(signature.score_components.values()) - signature.quarter_wave_weighted_score)
+        < 1e-12
+    )
 
 
 def test_nearest_frequency_package_mode_cannot_override_physical_candidate() -> None:

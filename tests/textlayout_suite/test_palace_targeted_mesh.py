@@ -25,8 +25,7 @@ def test_targeted_mesh_controls_project_to_independent_fem_regions() -> None:
     )
     model = quarter_wave_fem_model(LAYOUT, targeted_mesh=controls)
     sizes = {
-        refinement.target: refinement.characteristic_length
-        for refinement in model.mesh.refinements
+        refinement.target: refinement.characteristic_length for refinement in model.mesh.refinements
     }
     assert model.mesh.characteristic_length == 180.0
     assert sizes["cpw_gaps"] == 2.0
@@ -51,8 +50,7 @@ def test_targeted_mesh_scaling_preserves_independent_ratios() -> None:
         ),
     )
     sizes = {
-        refinement.target: refinement.characteristic_length
-        for refinement in model.mesh.refinements
+        refinement.target: refinement.characteristic_length for refinement in model.mesh.refinements
     }
     assert model.mesh.characteristic_length == 100.0
     assert sizes["cpw_gaps"] == 2.0

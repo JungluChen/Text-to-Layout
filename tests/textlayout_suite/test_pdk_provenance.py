@@ -108,8 +108,7 @@ class TestPDKFileHashProvenance:
         path_a.write_text(original, encoding="utf-8")
         path_b.write_text(original, encoding="utf-8")
         assert (
-            describe_pdk_file(path_a).file_hash_sha256
-            == describe_pdk_file(path_b).file_hash_sha256
+            describe_pdk_file(path_a).file_hash_sha256 == describe_pdk_file(path_b).file_hash_sha256
         )
 
     def test_find_pdk_provenance_for_known_technology(self) -> None:
@@ -136,8 +135,12 @@ class TestCLIProvenanceIntegration:
             "technology": "example_superconducting_pdk",
             "target": {"capacitance_pf": 0.6},
             "parameters": {
-                "finger_pairs": 22, "finger_width_um": 4, "gap_um": 2,
-                "overlap_um": 250, "bus_width_um": 25, "metal_layer": "M1",
+                "finger_pairs": 22,
+                "finger_width_um": 4,
+                "gap_um": 2,
+                "overlap_um": 250,
+                "bus_width_um": 25,
+                "metal_layer": "M1",
             },
             "rules": {"min_width_um": 1, "min_gap_um": 1},
         }
@@ -201,8 +204,11 @@ class TestSignoffLevels:
 
     def test_analytical_only_evidence_stops_at_level_3(self) -> None:
         evidence = QuantityEvidence(
-            quantity="capacitance", target_value=0.6, target_unit="pF",
-            analytical_value=0.65, status=EvidenceStatus.ANALYTICAL_ONLY,
+            quantity="capacitance",
+            target_value=0.6,
+            target_unit="pF",
+            analytical_value=0.65,
+            status=EvidenceStatus.ANALYTICAL_ONLY,
         )
         result = evaluate_signoff(
             geometry_pass=True, drc_passed=True, verification_passed=True, evidence=evidence
@@ -213,10 +219,18 @@ class TestSignoffLevels:
         output = tmp_path / "out.txt"
         output.write_text("data", encoding="utf-8")
         evidence = QuantityEvidence(
-            quantity="capacitance", target_value=0.6, target_unit="pF",
-            extracted_value=0.9, extracted_unit="pF", tolerance_percent=5.0,
-            status=EvidenceStatus.SIMULATION_EXECUTED, solver="FasterCap", command="x",
-            input_files=[], output_files=[str(output)], parser="x.parse",
+            quantity="capacitance",
+            target_value=0.6,
+            target_unit="pF",
+            extracted_value=0.9,
+            extracted_unit="pF",
+            tolerance_percent=5.0,
+            status=EvidenceStatus.SIMULATION_EXECUTED,
+            solver="FasterCap",
+            command="x",
+            input_files=[],
+            output_files=[str(output)],
+            parser="x.parse",
         )
         result = evaluate_signoff(
             geometry_pass=True, drc_passed=True, verification_passed=True, evidence=evidence
@@ -237,12 +251,17 @@ class TestSignoffLevels:
     def test_synthetic_calibration_does_not_reach_level_6(self, tmp_path) -> None:
         evidence = _physics_verified_evidence(tmp_path / "out.txt")
         calibration = CalibrationFile(
-            corrections=CorrectionFactors(), source_device_ids=["D1"],
-            n_records=1, synthetic=True,
+            corrections=CorrectionFactors(),
+            source_device_ids=["D1"],
+            n_records=1,
+            synthetic=True,
         )
         result = evaluate_signoff(
-            geometry_pass=True, drc_passed=True, verification_passed=True,
-            evidence=evidence, calibration=calibration,
+            geometry_pass=True,
+            drc_passed=True,
+            verification_passed=True,
+            evidence=evidence,
+            calibration=calibration,
         )
         assert result.level == 5
         assert any("synthetic=True" in b for b in result.blockers)
@@ -250,12 +269,17 @@ class TestSignoffLevels:
     def test_real_calibration_reaches_level_6(self, tmp_path) -> None:
         evidence = _physics_verified_evidence(tmp_path / "out.txt")
         calibration = CalibrationFile(
-            corrections=CorrectionFactors(), source_device_ids=["D1"],
-            n_records=1, synthetic=False,
+            corrections=CorrectionFactors(),
+            source_device_ids=["D1"],
+            n_records=1,
+            synthetic=False,
         )
         result = evaluate_signoff(
-            geometry_pass=True, drc_passed=True, verification_passed=True,
-            evidence=evidence, calibration=calibration,
+            geometry_pass=True,
+            drc_passed=True,
+            verification_passed=True,
+            evidence=evidence,
+            calibration=calibration,
         )
         assert result.level == 6
         assert result.passed_level_6_measurement_calibrated
