@@ -224,10 +224,13 @@ Details: [external_tools/palace/README.md](external_tools/palace/README.md) ·
 textlayout doctor
 ```
 
-Checks Python version, `textlayout`/gdsfactory/KLayout/LangGraph imports,
-FasterCap discovery, optional solver availability, and output-directory write
-permission. A missing solver is reported as *absent* — execution will be
-skipped honestly; it is never an environment failure.
+Doctor 2.0 records OS/architecture/Python/git identity and WSL/filesystem
+placement, checks `textlayout`/gdsfactory/KLayout/LangGraph imports, runs bounded
+version/help smoke probes for discovered solver executables, reports the complete
+openEMS stack, and summarizes physics capabilities. A path alone is never enough
+for `FOUND`: an executable that cannot answer a smoke probe is `BROKEN`.
+A missing optional solver is `MISSING` and skipped honestly; it is not a core
+environment failure unless the matching strict mode was requested.
 
 ## Six research-grade examples
 

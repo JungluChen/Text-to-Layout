@@ -10,13 +10,25 @@ from __future__ import annotations
 
 import importlib
 import os
+import platform
+import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-DOCTOR_SCHEMA = "textlayout.doctor.v1"
+DOCTOR_SCHEMA = "textlayout.doctor.v2"
+
+FOUND = "FOUND"
+MISSING = "MISSING"
+BROKEN = "BROKEN"
+WRONG_VERSION = "WRONG_VERSION"
+CONTAINER_AVAILABLE = "CONTAINER_AVAILABLE"
+NOT_SUPPORTED_ON_PLATFORM = "NOT_SUPPORTED_ON_PLATFORM"
+NOT_TESTED_ON_PLATFORM = "NOT_TESTED_ON_PLATFORM"
+
+_PASSING_STATUSES = {FOUND, CONTAINER_AVAILABLE}
 
 #: Hard requirements: (check name, module to import).
 _REQUIRED_IMPORTS: tuple[tuple[str, str], ...] = (
@@ -35,10 +47,15 @@ _FASTERCAP_ABSENT_MESSAGE = (
 @dataclass(slots=True)
 class DoctorCheck:
     name: str
-    status: str  # "ok" | "fail" | "absent"
+    status: str
     detail: str = ""
     required: bool = True
     section: str = "Core"
+    path: str | None = None
+    version: str | None = None
+    backend_type: str | None = None
+    capabilities: list[str] = field(default_factory=list)
+    smoke_test: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -47,23 +64,30 @@ class DoctorCheck:
             "detail": self.detail,
             "required": self.required,
             "section": self.section,
+            "path": self.path,
+            "version": self.version,
+            "backend_type": self.backend_type,
+            "capabilities": self.capabilities,
+            "smoke_test": self.smoke_test,
         }
 
 
 @dataclass(slots=True)
 class DoctorReport:
     checks: list[DoctorCheck] = field(default_factory=list)
+    system: dict[str, Any] = field(default_factory=dict)
+    physics_capabilities: dict[str, str] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
-        return all(check.status == "ok" for check in self.checks if check.required)
+        return all(check.status in _PASSING_STATUSES for check in self.checks if check.required)
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "schema": DOCTOR_SCHEMA,
             "status": "ok" if self.ok else "failed",
-            "python": sys.version.split()[0],
-            "platform": sys.platform,
+            "system": self.system,
+            "physics_capabilities": self.physics_capabilities,
             "checks": [check.to_dict() for check in self.checks],
         }
 
@@ -72,8 +96,11 @@ def _check_python() -> DoctorCheck:
     ok = sys.version_info >= (3, 11)
     return DoctorCheck(
         name="Python",
-        status="ok" if ok else "fail",
+        status=FOUND if ok else WRONG_VERSION,
         detail=f"{sys.version.split()[0]} (requires >= 3.11)",
+        version=sys.version.split()[0],
+        backend_type="runtime",
+        smoke_test="passed" if ok else "failed: unsupported version",
     )
 
 
@@ -82,13 +109,25 @@ def _check_import(
 ) -> DoctorCheck:
     try:
         imported = importlib.import_module(module)
-    except Exception as exc:  # noqa: BLE001 - report any import failure honestly
+    except ModuleNotFoundError as exc:
         return DoctorCheck(
             name=name,
-            status="fail" if required else "absent",
+            status=MISSING,
             detail=f"import {module}: {exc}",
             required=required,
             section=section,
+            backend_type="python-package",
+            smoke_test="failed: module not found",
+        )
+    except Exception as exc:  # noqa: BLE001 - report any import failure honestly
+        return DoctorCheck(
+            name=name,
+            status=BROKEN,
+            detail=f"import {module}: {exc}",
+            required=required,
+            section=section,
+            backend_type="python-package",
+            smoke_test=f"failed: {type(exc).__name__}",
         )
     version = getattr(imported, "__version__", None)
     if version is None and "." in module:
@@ -96,10 +135,14 @@ def _check_import(
         version = getattr(parent, "__version__", None)
     return DoctorCheck(
         name=name,
-        status="ok",
+        status=FOUND,
         detail=f"{module} {version or ''}".strip(),
         required=required,
         section=section,
+        path=str(getattr(imported, "__file__", "")) or None,
+        version=str(version) if version is not None else None,
+        backend_type="python-package",
+        smoke_test="passed: imported",
     )
 
 
@@ -114,33 +157,89 @@ def _check_output_dir(output_dir: str | Path) -> DoctorCheck:
     except OSError as exc:
         return DoctorCheck(
             name="output directory write permission",
-            status="fail",
+            status=BROKEN,
             detail=f"{target}: {exc}",
+            path=str(target),
+            backend_type="filesystem",
+            smoke_test=f"failed: {type(exc).__name__}",
         )
     return DoctorCheck(
-        name="output directory write permission", status="ok", detail=str(target.resolve())
+        name="output directory write permission",
+        status=FOUND,
+        detail=str(target.resolve()),
+        path=str(target.resolve()),
+        backend_type="filesystem",
+        smoke_test="passed: create/write/delete",
     )
 
 
 def _check_fastercap(*, strict: bool = False) -> DoctorCheck:
-    from textlayout.simulation.fastercap import _find_solver
+    from textlayout.simulation.fastercap import _capture_solver_version, _find_solver
 
     found = _find_solver(os.environ.get("TEXTLAYOUT_FASTERCAP") or None)
     if found is None:
         return DoctorCheck(
             name="FasterCap/FastCap",
-            status="absent",
+            status=MISSING,
             detail=_FASTERCAP_ABSENT_MESSAGE,
             required=strict,
             section="Extraction",
+            backend_type="executable",
+            capabilities=["IDC electrostatics", "capacitance matrix"],
+            smoke_test="not run: executable missing",
+        )
+    version = _capture_solver_version(found, Path.cwd())
+    if version is None:
+        return DoctorCheck(
+            name="FasterCap/FastCap",
+            status=BROKEN,
+            detail=f"found {found}, but the deterministic -bv/-v probe returned no banner",
+            required=strict,
+            section="Extraction",
+            path=found,
+            backend_type="executable",
+            capabilities=["IDC electrostatics", "capacitance matrix"],
+            smoke_test="failed: version probe",
         )
     return DoctorCheck(
         name="FasterCap/FastCap",
-        status="ok",
-        detail=found,
+        status=FOUND,
+        detail=f"{found} ({version})",
         required=False,
         section="Extraction",
+        path=found,
+        version=version,
+        backend_type="executable",
+        capabilities=["IDC electrostatics", "capacitance matrix"],
+        smoke_test="passed: process launched and returned a version banner",
     )
+
+
+def _probe_executable(executable: str) -> str | None:
+    """Launch an executable with bounded non-mutating version/help probes."""
+    from textlayout.simulation.runners import _execution_command
+
+    flags: tuple[str, ...] = ("--version", "-v", "--help", "-h")
+    if "fastercap" in Path(executable).name.lower():
+        flags = ("-bv", *flags)
+    for flag in flags:
+        try:
+            completed = subprocess.run(
+                _execution_command(executable, [flag], Path.cwd()),
+                cwd=Path.cwd(),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=10,
+                check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            continue
+        banner = (completed.stdout or completed.stderr).strip()
+        if banner:
+            return banner.splitlines()[0][:200]
+    return None
 
 
 def _external_check(
@@ -149,23 +248,57 @@ def _external_check(
     *,
     section: str,
     required: bool,
+    capabilities: tuple[str, ...] = (),
 ) -> DoctorCheck:
     try:
         found = finder()
     except Exception as exc:  # noqa: BLE001 - discovery must never crash doctor
         return DoctorCheck(
             name=name,
-            status="absent",
+            status=BROKEN,
             detail=f"discovery error: {exc}",
             required=required,
             section=section,
+            backend_type="executable",
+            capabilities=list(capabilities),
+            smoke_test=f"failed: discovery raised {type(exc).__name__}",
+        )
+    if not found:
+        return DoctorCheck(
+            name=name,
+            status=MISSING,
+            detail="not found; execution will be skipped honestly",
+            required=required,
+            section=section,
+            backend_type="executable",
+            capabilities=list(capabilities),
+            smoke_test="not run: executable missing",
+        )
+    executable = str(found)
+    version = _probe_executable(executable)
+    if version is None:
+        return DoctorCheck(
+            name=name,
+            status=BROKEN,
+            detail=f"found {executable}, but no deterministic version/help probe succeeded",
+            required=required,
+            section=section,
+            path=executable,
+            backend_type="executable",
+            capabilities=list(capabilities),
+            smoke_test="failed: process/version probe",
         )
     return DoctorCheck(
         name=name,
-        status="ok" if found else "absent",
-        detail=str(found) if found else "not found; execution will be skipped honestly",
+        status=FOUND,
+        detail=f"{executable} ({version})",
         required=required,
         section=section,
+        path=executable,
+        version=version,
+        backend_type="executable",
+        capabilities=list(capabilities),
+        smoke_test="passed: process launched and returned a version/help banner",
     )
 
 
@@ -181,15 +314,6 @@ def _optional_solver_checks(
     )
     from textlayout.simulation.wrspice import find_wrspice
 
-    def find_palace() -> str | None:
-        from textlayout.solvers.palace.capability import detect_palace
-
-        capability = detect_palace()
-        if not capability.available:
-            return None
-        identity = capability.executable or capability.container_image
-        return f"{identity} (Palace {capability.version})"
-
     stack = discover_openems_stack()
     checks.append(
         _external_check(
@@ -197,12 +321,25 @@ def _optional_solver_checks(
             lambda: find_executable(_FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY"),
             section="Extraction",
             required=strict,
+            capabilities=("Spiral PEEC", "inductance matrix"),
         )
     )
+    for name, key, capabilities in (
+        ("openEMS", "openems", ("CPW FDTD",)),
+        ("CSXCAD", "csxcad", ("CPW FDTD geometry",)),
+        ("Octave", "octave", ("openEMS frontend",)),
+    ):
+        found = stack.get(key)
+        checks.append(
+            _external_check(
+                name,
+                lambda found=found: found,
+                required=strict or strict_em,
+                section="RF / EM",
+                capabilities=capabilities,
+            )
+        )
     for name, key in (
-        ("openEMS", "openems"),
-        ("CSXCAD", "csxcad"),
-        ("Octave", "octave"),
         ("Octave openEMS path", "octave_openems_path"),
         ("Octave CSXCAD path", "octave_csxcad_path"),
     ):
@@ -210,10 +347,16 @@ def _optional_solver_checks(
         checks.append(
             DoctorCheck(
                 name=name,
-                status="ok" if found else "absent",
+                status=FOUND if found else MISSING,
                 detail=str(found) if found else "not found; execution will be skipped honestly",
                 required=strict or strict_em,
                 section="RF / EM",
+                path=str(found) if found else None,
+                backend_type="interface-directory",
+                capabilities=["CPW FDTD"],
+                smoke_test="passed: discovered interface directory"
+                if found
+                else "not run: missing",
             )
         )
     checks.append(
@@ -226,6 +369,7 @@ def _optional_solver_checks(
                 lambda: find_executable(("gmsh", "gmsh.exe"), env_var="TEXTLAYOUT_GMSH"),
                 section="3D FEM future",
                 required=strict or strict_fullchip,
+                capabilities=("3D meshing",),
             ),
             _check_import(
                 "meshio",
@@ -234,16 +378,11 @@ def _optional_solver_checks(
                 section="3D FEM future",
             ),
             _external_check(
-                "Palace",
-                find_palace,
-                section="3D FEM future",
-                required=strict or strict_fullchip,
-            ),
-            _external_check(
                 "JoSIM",
                 lambda: find_josim(None),
                 section="Circuit",
                 required=strict,
+                capabilities=("Josephson transient",),
             ),
             _external_check(
                 "WRspice / ngspice",
@@ -253,10 +392,136 @@ def _optional_solver_checks(
                 ),
                 section="Circuit",
                 required=strict,
+                capabilities=("Josephson harmonic balance", "SPICE transient"),
             ),
         )
     )
+    from textlayout.solvers.palace.capability import detect_palace
+
+    palace = detect_palace()
+    if not palace.available:
+        palace_check = DoctorCheck(
+            name="Palace",
+            status=MISSING,
+            detail=palace.unavailable_reason or "not found",
+            required=strict or strict_fullchip,
+            section="3D FEM future",
+            backend_type="executable-or-container",
+            capabilities=["Eigenmode FEM"],
+            smoke_test="not run: backend missing",
+        )
+    else:
+        is_container = palace.execution_kind == "container"
+        identity = palace.container_image if is_container else palace.executable
+        identified = bool(palace.container_digest if is_container else palace.executable_sha256)
+        probe_ok = identified and palace.version is not None
+        palace_check = DoctorCheck(
+            name="Palace",
+            status=(CONTAINER_AVAILABLE if is_container else FOUND) if probe_ok else BROKEN,
+            detail=(
+                f"{identity} (Palace {palace.version})"
+                if probe_ok
+                else f"found {identity}, but identity/version probing was incomplete"
+            ),
+            required=strict or strict_fullchip,
+            section="3D FEM future",
+            path=identity,
+            version=palace.version,
+            backend_type=str(palace.execution_kind),
+            capabilities=["Eigenmode FEM"],
+            smoke_test=(
+                "passed: immutable identity and version probe"
+                if probe_ok
+                else "failed: identity/version probe"
+            ),
+        )
+    checks.insert(-2, palace_check)
     return checks
+
+
+def _git_commit() -> str:
+    from textlayout._paths import repository_root
+
+    try:
+        completed = subprocess.run(
+            ["git", "-C", str(repository_root()), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=5,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return "unknown"
+    commit = completed.stdout.strip()
+    return commit if len(commit) == 40 else "unknown"
+
+
+def _wsl_system() -> dict[str, Any]:
+    release = platform.release()
+    is_wsl = bool(os.environ.get("WSL_INTEROP")) or "microsoft" in release.lower()
+    distro = os.environ.get("WSL_DISTRO_NAME") if is_wsl else None
+    version: int | None = None
+    if is_wsl:
+        version = 2 if "wsl2" in release.lower() or "microsoft-standard" in release.lower() else 1
+    cwd = str(Path.cwd().resolve())
+    filesystem_warning = None
+    if is_wsl and cwd.startswith("/mnt/"):
+        filesystem_warning = (
+            "Repository is on a Windows-mounted filesystem. Put heavy FEM build and solve "
+            "directories on WSL-native ext4 (for example under $HOME)."
+        )
+    return {
+        "detected": is_wsl,
+        "version": version,
+        "distro": distro,
+        "filesystem_warning": filesystem_warning,
+    }
+
+
+def _system_report() -> dict[str, Any]:
+    return {
+        "os": platform.system(),
+        "os_release": platform.release(),
+        "architecture": platform.machine(),
+        "python": sys.version.split()[0],
+        "package_commit": _git_commit(),
+        "filesystem": str(Path.cwd().resolve()),
+        "wsl": _wsl_system(),
+    }
+
+
+def _physics_capabilities(checks: list[DoctorCheck]) -> dict[str, str]:
+    by_name = {check.name: check for check in checks}
+
+    def state(*names: str) -> str:
+        selected = [by_name[name] for name in names]
+        if all(check.status == FOUND for check in selected):
+            return "READY"
+        if any(check.status == BROKEN for check in selected):
+            return "INCOMPLETE"
+        if any(check.status == CONTAINER_AVAILABLE for check in selected):
+            return "NOT_TESTED"
+        if all(check.status == MISSING for check in selected):
+            return "NOT_INSTALLED"
+        return "INCOMPLETE"
+
+    return {
+        "IDC electrostatics": state("FasterCap/FastCap"),
+        "CPW FDTD": state(
+            "openEMS",
+            "CSXCAD",
+            "Octave",
+            "Octave openEMS path",
+            "Octave CSXCAD path",
+            "scikit-rf",
+        ),
+        "Spiral PEEC": state("FastHenry/FastHenry2"),
+        "Eigenmode FEM": state("Gmsh", "meshio", "Palace"),
+        "Josephson transient": state("JoSIM"),
+        "Josephson harmonic balance": state("WRspice / ngspice"),
+    }
 
 
 def run_doctor(
@@ -267,7 +532,7 @@ def run_doctor(
     strict_fullchip: bool = False,
 ) -> DoctorReport:
     """Run every environment check and return the structured report."""
-    report = DoctorReport()
+    report = DoctorReport(system=_system_report())
     report.checks.append(_check_python())
     for name, module in _REQUIRED_IMPORTS:
         report.checks.append(_check_import(name, module))
@@ -276,12 +541,27 @@ def run_doctor(
     report.checks.extend(
         _optional_solver_checks(strict=strict, strict_em=strict_em, strict_fullchip=strict_fullchip)
     )
+    report.physics_capabilities = _physics_capabilities(report.checks)
     return report
 
 
 def render_text(report: DoctorReport) -> str:
-    marks = {"ok": "[ok]     ", "fail": "[FAIL]   ", "absent": "[missing]"}
-    lines = ["textlayout doctor", ""]
+    lines = ["textlayout doctor 2.0", "", "[System]"]
+    lines.extend(
+        (
+            f"OS: {report.system['os']} {report.system['os_release']}",
+            f"architecture: {report.system['architecture']}",
+            f"Python: {report.system['python']}",
+            f"package commit: {report.system['package_commit']}",
+            f"filesystem: {report.system['filesystem']}",
+        )
+    )
+    wsl = report.system["wsl"]
+    if wsl["detected"]:
+        lines.append(f"WSL: version={wsl['version']} distro={wsl['distro'] or 'unknown'}")
+        if wsl["filesystem_warning"]:
+            lines.append(f"WARNING: {wsl['filesystem_warning']}")
+    lines.append("")
     section: str | None = None
     for check in report.checks:
         if check.section != section:
@@ -289,13 +569,17 @@ def render_text(report: DoctorReport) -> str:
                 lines.append("")
             section = check.section
             lines.append(f"[{section}]")
-        lines.append(f"{marks[check.status]} {check.name}: {check.detail}")
+        lines.append(f"[{check.status}] {check.name}: {check.detail}")
+    lines.extend(("", "[Physics capability]"))
+    width = max(len(name) for name in report.physics_capabilities)
+    for name, status in report.physics_capabilities.items():
+        lines.append(f"{name.ljust(width)}  {status}")
     lines.append("")
     lines.append(
         "Environment OK." if report.ok else "Environment has failures; see [FAIL] lines above."
     )
     lines.append(
-        "Optional solvers marked [missing] cause honest SKIPPED_SOLVER_ABSENT evidence, "
+        "Optional solvers marked [MISSING] cause honest SKIPPED_SOLVER_ABSENT evidence, "
         "never fake results."
     )
     return "\n".join(lines)

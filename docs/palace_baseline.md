@@ -102,7 +102,7 @@ uv run python scripts/bundle_plugin.py --check
 Detect the solver stack:
 
 ```bash
-uv run textlayout doctor          # reports Palace as [missing], honestly
+uv run textlayout doctor          # reports Palace as [MISSING], honestly
 uv run python -c "import gmsh; gmsh.initialize(); print(gmsh.option.getString('General.Version'))"
 wsl -e bash -lc "mpirun --version"
 ```
