@@ -1,5 +1,8 @@
 # Solver Evidence Contract
 
+**Document class: MANUAL_DOCUMENTATION.** This is a normative evidence
+contract, not a record that any solver is installed or executed.
+
 Text-to-GDS must never report solver execution unless a real solver produced a
 verifiable output file.
 

@@ -1,5 +1,9 @@
 # AGENTS.md — Text-to-GDS Multi-Agent System
 
+**Document class: MANUAL_DOCUMENTATION.** This file defines repository agent
+rules; current execution evidence lives in [PROJECT_STATUS.md](PROJECT_STATUS.md)
+and generated [platform reports](docs/platforms/).
+
 **Version:** 2.0  
 **Updated:** 2026-06-24
 

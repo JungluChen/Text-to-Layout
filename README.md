@@ -1,5 +1,10 @@
 # Text-to-Layout
 
+**Document class: MANUAL_DOCUMENTATION.** Generated evidence blocks are marked
+in place. Current test/platform summaries live in [PROJECT_STATUS.md](PROJECT_STATUS.md),
+and document authority is defined in
+[docs/status_documentation.md](docs/status_documentation.md).
+
 Text-to-Layout converts natural-language chip design requests into typed layout
 DSL, deterministic GDS geometry, KLayout-verified artifacts, and honest
 simulation evidence — every claim in this README is backed by committed files
@@ -243,8 +248,9 @@ an IDC, and runs the test suite. Heavy optional solver builds are opt-in; use
 `--help` to list them. If the checkout is under `/mnt/c`, solver sources and
 builds are redirected to WSL-native storage by default.
 
-Platform evidence: [macOS arm64 core certification](docs/platforms/macos_arm64.md)
-and [WSL2 Ubuntu non-certification record](docs/platforms/wsl2_ubuntu.md).
+Platform evidence: [macOS arm64 evidence](docs/platforms/macos_arm64.md) and
+[WSL2 Ubuntu evidence](docs/platforms/wsl2_ubuntu.md). Both reports are rendered
+from machine-readable JSON; their support state must not be inferred from link text.
 
 ## Six research-grade examples
 

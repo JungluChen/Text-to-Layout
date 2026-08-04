@@ -1,0 +1,35 @@
+{
+  "schema": "textlayout.platform-milestone-baseline.v1",
+  "git_sha": "b4026296fc9eebaacdf096409c172bebed93eeac",
+  "branch": "main",
+  "worktree": "clean",
+  "platform": "macOS 15.5 (24F74)",
+  "architecture": "arm64",
+  "python": "uv CPython 3.11.15; system Python 3.14.6",
+  "uv": "0.12.1",
+  "test_status": "RUN_1: 1871 passed, 13 skipped, 0 failed in 61.90s; RUN_2: 1871 passed, 13 skipped, 0 failed in 74.51s",
+  "doctor_status": "RUN_1/RUN_2: exit 0, core FOUND; all numerical solver capabilities unavailable or incomplete",
+  "baseline_failures": [
+    "RUN_1/RUN_2: uv run python scripts/generate_project_status.py --check exited 1 because PROJECT_STATUS.md is stale",
+    "RUN_1/RUN_2: prompt succeeded but its CLI artifact map flattened extraction/capacitance_result.json to the non-existent root basename capacitance_result.json"
+  ],
+  "baseline_differences": [
+    "pytest runtimes differed by 12.61 seconds; pass/fail/skip counts were identical",
+    "IDC layout.json and canonical output.gds hashes were identical",
+    "verification/simulation JSON differed only in requested output-directory paths and generated evidence timestamp"
+  ],
+  "known_doc_drift": [
+    "PROJECT_STATUS.md reports 1703 passed and 2 skipped, older than the current suite",
+    "CURRENT_STATUS.md says generated GDS bytes are not bit-reproducible, but all GDS exports are now canonicalized",
+    "CLEAN_ROOM_VERIFICATION.md describes an older Windows/Linux matrix, an older 726-pass baseline, and no solver-backed current showcase",
+    "PHYSICS_VALIDATION_REPORT.md and CLAUDE.md describe a 2026-06 Windows-local external-tool state rather than current product evidence",
+    "current status, historical record, legacy scope, and manual documentation roles are not consistently machine-labelled"
+  ],
+  "known_platform_gaps": [
+    "macOS certification Markdown is hand-maintained rather than generated from a machine evidence JSON",
+    "no scripts/platform/verify_macos.sh clean-room evidence collector exists",
+    "no scripts/platform/verify_wsl.sh evidence collector exists",
+    "WSL2 has not been executed on this macOS host and remains NOT_TESTED_ON_PLATFORM",
+    "CI macOS core job lacks some explicitly requested project-status, namespace, CLI, doctor, prompt, and API gates"
+  ]
+}

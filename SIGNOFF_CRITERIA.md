@@ -1,5 +1,8 @@
 # Signoff Criteria
 
+**Document class: MANUAL_DOCUMENTATION.** This is a normative contract, not an
+execution or platform-status record.
+
 Text-to-GDS signoff is evidence-level based. Higher levels require all lower
 levels.
 
@@ -36,4 +39,3 @@ Only Level 6 can be called `measurement-calibrated`.
 
 The Python evaluator is `text_to_gds.signoff.evaluate_signoff`. It audits
 existing artifacts; it does not run solvers or generate evidence.
-

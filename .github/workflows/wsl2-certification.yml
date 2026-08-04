@@ -1,0 +1,34 @@
+name: WSL2 Certification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  certify:
+    # Real WSL2 requires a Windows host with virtualization enabled. Ordinary
+    # ubuntu-latest and windows-latest jobs are intentionally not substitutes.
+    runs-on: [self-hosted, Windows, X64, wsl2]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prove the runtime is WSL2
+        shell: pwsh
+        run: |
+          wsl --status
+          wsl bash -lc 'uname -a; cat /proc/version; lsb_release -a; test "$(printf %s "$WSL_INTEROP" | wc -c)" -gt 0'
+
+      - name: Run generated WSL2 certification
+        shell: pwsh
+        run: |
+          $repo = (wsl wslpath -a $env:GITHUB_WORKSPACE).Trim()
+          wsl bash -lc "cd '$repo' && bash scripts/platform/verify_wsl.sh"
+
+      - name: Upload machine and Markdown evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: wsl2-certification-${{ github.sha }}
+          path: |
+            out/platform/wsl2_ubuntu.json
+            docs/platforms/wsl2_ubuntu.md
+          if-no-files-found: error
+

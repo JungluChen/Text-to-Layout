@@ -1,5 +1,10 @@
 # Physics Validation Report
 
+**Document class: HISTORICAL_RECORD.** This June 2026 local tool snapshot is
+retained for provenance. Its installed-version and availability statements are
+not current claims; use [PROJECT_STATUS.md](PROJECT_STATUS.md) and generated
+platform evidence under [docs/platforms/](docs/platforms/) instead.
+
 Generated: 2026-06-23  
 Mission: Convert "SOLVER NOT EXECUTED" → "SOLVER EXECUTED + artifact produced"
 

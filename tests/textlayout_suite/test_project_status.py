@@ -71,8 +71,37 @@ class TestStatusManifestSchema:
             "pdk_status",
             "epr_support",
             "measurement_support",
+            "platform_support",
         ):
             assert key in status, key
+
+    def test_missing_platform_evidence_is_reported_as_untested(
+        self, status_module, tmp_path: Path, monkeypatch
+    ) -> None:
+        monkeypatch.setattr(status_module, "ROOT", tmp_path)
+        support = status_module._read_platform_support()
+        assert support["macOS arm64"]["support_state"] == "UNTESTED"
+        assert support["WSL2 Ubuntu"]["real_execution"] is False
+
+    def test_platform_summary_does_not_copy_producer_commit_sha(
+        self, status_module, tmp_path: Path, monkeypatch
+    ) -> None:
+        output = tmp_path / "out" / "platform"
+        output.mkdir(parents=True)
+        (output / "macos_arm64.json").write_text(
+            json.dumps(
+                {
+                    "support_state": "CORE_CERTIFIED",
+                    "real_execution": True,
+                    "git_sha": "a" * 40,
+                    "solvers": {},
+                }
+            ),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(status_module, "ROOT", tmp_path)
+        support = status_module._read_platform_support()
+        assert "git_sha" not in support["macOS arm64"]
 
     def test_cli_commands_are_introspected_not_hand_listed(self, status_module) -> None:
         commands = status_module._cli_commands()

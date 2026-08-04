@@ -1,5 +1,10 @@
 # Clean-Room Verification
 
+**Document class: HISTORICAL_RECORD.** This earlier local run is preserved for
+provenance and must not be read as current package, test, solver, or platform
+status. See [PROJECT_STATUS.md](PROJECT_STATUS.md) and the generated
+[platform reports](docs/platforms/) for current evidence.
+
 **Result: local CLI / API / plugin-style verification PASS.**
 
 This document records a from-scratch install-and-verify run of Text-to-Layout in

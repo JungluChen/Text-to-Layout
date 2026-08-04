@@ -1,5 +1,7 @@
 # Project Status
 
+<!-- GENERATED_CURRENT_STATUS: scripts/generate_project_status.py; do not hand-edit. -->
+
 Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
 - **Package version:** `0.3.0`
@@ -31,7 +33,14 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 
 ## Tests
 
-- **1703 passed, 0 failed, 2 skipped** (source: out/evidence/test_report.xml (pytest JUnit report))
+- No saved test report available. No saved test report at out/evidence/test_report.json; run pytest and save a report before trusting a test count here.
+
+## Platform support
+
+| Platform | Support state | Real execution | Evidence |
+| --- | --- | --- | --- |
+| macOS arm64 | `CORE_CERTIFIED` | True | `out/platform/macos_arm64.json` |
+| WSL2 Ubuntu | `UNTESTED` | False | `out/platform/wsl2_ubuntu.json` |
 
 ## PDK / fabrication readiness
 

@@ -1,0 +1,2248 @@
+{
+  "blocking_reason": null,
+  "capabilities": {
+    "CPW full-wave": {
+      "state": "BLOCKED_SOLVER_ABSENT",
+      "support_state": "UNTESTED"
+    },
+    "IDC BEM": {
+      "state": "BLOCKED_SOLVER_ABSENT",
+      "support_state": "UNTESTED"
+    },
+    "IDC analytical": {
+      "state": "READY",
+      "support_state": "CORE_TESTED"
+    },
+    "JJ transient": {
+      "state": "BLOCKED_SOLVER_ABSENT",
+      "support_state": "UNTESTED"
+    },
+    "KLayout verification": {
+      "state": "READY",
+      "support_state": "CORE_TESTED"
+    },
+    "Layout generation": {
+      "state": "READY",
+      "support_state": "CORE_TESTED"
+    },
+    "Resonator FEM": {
+      "state": "BLOCKED_STACK_INCOMPLETE",
+      "support_state": "UNTESTED"
+    },
+    "Spiral PEEC": {
+      "state": "BLOCKED_SOLVER_ABSENT",
+      "support_state": "UNTESTED"
+    }
+  },
+  "certification": "CORE_CERTIFIED",
+  "core_pass": true,
+  "git_sha": "4794457e04aeab48b0a98634bf63aadb184828aa",
+  "host": {
+    "architecture": "arm64",
+    "lsb_release": null,
+    "os": "Darwin",
+    "os_release": "24.5.0",
+    "os_version": "Darwin Kernel Version 24.5.0: Tue Apr 22 19:48:46 PDT 2025; root:xnu-11417.121.6~2/RELEASE_ARM64_T8103",
+    "proc_version": null,
+    "repository_filesystem": null,
+    "requested_platform": "macos",
+    "solver_filesystem": null,
+    "solver_root": "/Users/lu/.local/share/textlayout",
+    "uname": "Darwin Chens-MacBook-Pro.local 24.5.0 Darwin Kernel Version 24.5.0: Tue Apr 22 19:48:46 PDT 2025; root:xnu-11417.121.6~2/RELEASE_ARM64_T8103 arm64 arm",
+    "windows_mount_warning": null,
+    "wsl_detected": false,
+    "wsl_distribution": null,
+    "wsl_version": null
+  },
+  "input_hashes": {
+    "pyproject.toml": "a89ae89596e8b0d4721bb30c927abf2ef995801c4e5c28f3298a483e6bcabc4f",
+    "uv.lock": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69"
+  },
+  "platform": "macos",
+  "python_runs": [
+    {
+      "commands": [
+        {
+          "command": [
+            "uv",
+            "--version"
+          ],
+          "exit_code": 0,
+          "name": "uv_version",
+          "runtime_seconds": 0.009991,
+          "stderr": "",
+          "stdout": "uv 0.12.1 (Homebrew 2026-07-31 aarch64-apple-darwin)\n"
+        },
+        {
+          "command": [
+            "uv",
+            "sync",
+            "--frozen",
+            "--dev",
+            "--python",
+            "3.11"
+          ],
+          "exit_code": 0,
+          "name": "sync",
+          "runtime_seconds": 0.952996,
+          "stderr": "Using CPython 3.11.15\nCreating virtual environment at: out/platform/runs/clean-macos-py311-x4dwdeya/.venv\nInstalled 153 packages in 882ms\n + aenum==3.1.17\n + annotated-doc==0.0.4\n + annotated-types==0.7.0\n + anyio==4.13.0\n + appnope==0.1.4\n + ast-serialize==0.5.0\n + asttokens==3.0.1\n + attrs==26.1.0\n + build==1.5.1\n + cachetools==7.1.4\n + certifi==2026.5.20\n + cffi==2.0.0\n + charset-normalizer==3.4.7\n + click==8.4.1\n + comm==0.2.3\n + contourpy==1.3.3\n + coverage==7.14.3\n + cryptography==48.0.0\n + cycler==0.12.1\n + debugpy==1.8.21\n + decorator==5.3.1\n + distro==1.9.0\n + executing==2.2.1\n + fastapi==0.138.1\n + fonttools==4.63.0\n + freetype-py==2.5.1\n + gdsfactory==9.43.0\n + graphviz==0.21\n + h11==0.16.0\n + hatchling==1.31.0\n + httpcore==1.0.9\n + httpx==0.28.1\n + httpx-sse==0.4.3\n + idna==3.18\n + imageio==2.37.3\n + iniconfig==2.3.0\n + ipyevents==2.0.4\n + ipykernel==7.2.0\n + ipython==9.14.0\n + ipython-pygments-lexers==1.1.1\n + ipytree==0.2.2\n + ipywidgets==8.1.8\n + jedi==0.20.0\n + jinja2==3.1.6\n + jsonpatch==1.33\n + jsonpointer==3.1.1\n + jsonschema==4.26.0\n + jsonschema-specifications==2025.9.1\n + jupyter-client==8.8.0\n + jupyter-core==5.9.1\n + jupyterlab-widgets==3.0.16\n + kfactory==2.5.3\n + kiwisolver==1.5.0\n + klayout==0.30.9\n + langchain-core==1.4.8\n + langchain-protocol==0.0.18\n + langgraph==1.2.7\n + langgraph-checkpoint==4.1.1\n + langgraph-prebuilt==1.1.0\n + langgraph-sdk==0.4.2\n + langsmith==0.9.7\n + lazy-loader==0.5\n + librt==0.11.0\n + loguru==0.7.3\n + mapbox-earcut==2.0.0\n + markdown-it-py==4.2.0\n + markupsafe==3.0.3\n + matplotlib==3.10.9\n + matplotlib-inline==0.2.2\n + mcp==1.27.2\n + mdurl==0.1.2\n + meshio==5.3.5\n + mypy==2.1.0\n + mypy-extensions==1.1.0\n + natsort==8.4.0\n + nest-asyncio==1.6.0\n + networkx==3.6.1\n + numpy==1.26.4\n + orjson==3.11.9\n + ormsgpack==1.12.2\n + packaging==26.2\n + pandas==3.0.3\n + parso==0.8.7\n + pathspec==1.1.1\n + pexpect==4.9.0\n + pillow==12.2.0\n + platformdirs==4.10.0\n + pluggy==1.6.0\n + prompt-toolkit==3.0.52\n + psutil==7.2.2\n + ptyprocess==0.7.0\n + pure-eval==0.2.3\n + pycparser==3.0\n + pydantic==2.12.5\n + pydantic-core==2.41.5\n + pydantic-extra-types==2.11.1\n + pydantic-settings==2.14.1\n + pygit2==1.19.2\n + pyglet==2.1.14\n + pygments==2.20.0\n + pyjwt==2.13.0\n + pyparsing==3.3.2\n + pyproject-hooks==1.2.0\n + pytest==9.0.3\n + pytest-cov==7.1.0\n + python-dateutil==2.9.0.post0\n + python-dotenv==1.2.2\n + python-multipart==0.0.30\n + pyyaml==6.0.3\n + pyzmq==27.1.0\n + qrcode==8.2\n + rapidfuzz==3.14.5\n + rectangle-packer==2.1.0\n + rectpack==0.2.2\n + referencing==0.37.0\n + requests==2.34.2\n + requests-toolbelt==1.0.0\n + rich==15.0.0\n + rpds-py==2026.5.1\n + ruamel-yaml==0.19.1\n + ruamel-yaml-string==0.1.1\n + ruff==0.15.15\n + scikit-image==0.26.0\n + scipy==1.17.1\n + semver==3.0.4\n + shapely==2.1.2\n + shellingham==1.5.4\n + six==1.17.0\n + sniffio==1.3.1\n + sse-starlette==3.4.4\n + stack-data==0.6.3\n + starlette==1.2.1\n + tenacity==9.1.4\n + text-to-gds==0.3.0 (from file:///Users/lu/Desktop/T2T/Text-to-Layout)\n + tifffile==2026.3.3\n + toolz==1.1.0\n + tornado==6.5.6\n + traitlets==5.15.0\n + trimesh==4.12.2\n + trove-classifiers==2026.6.1.19\n + typer==0.24.2\n + types-pyyaml==6.0.12.20260518\n + typing-extensions==4.15.0\n + typing-inspection==0.4.2\n + urllib3==2.7.0\n + uuid-utils==0.16.2\n + uvicorn==0.48.0\n + watchdog==6.0.0\n + wcwidth==0.7.0\n + websockets==15.0.1\n + widgetsnbextension==4.0.15\n + xxhash==3.8.0\n + zstandard==0.25.0\n",
+          "stdout": ""
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "textlayout",
+            "doctor",
+            "--json"
+          ],
+          "exit_code": 0,
+          "name": "doctor_json",
+          "runtime_seconds": 45.177238,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.doctor.v2\",\n  \"status\": \"ok\",\n  \"host\": {\n    \"os\": \"Darwin\",\n    \"os_release\": \"24.5.0\",\n    \"architecture\": \"arm64\",\n    \"filesystem\": \"/Users/lu/Desktop/T2T/Text-to-Layout\"\n  },\n  \"runtime\": {\n    \"python\": \"3.11.15\",\n    \"textlayout\": \"0.3.0\",\n    \"git_sha\": \"4794457e04aeab48b0a98634bf63aadb184828aa\",\n    \"support_state\": \"CORE_TESTED\"\n  },\n  \"wsl\": {\n    \"detected\": false,\n    \"version\": null,\n    \"distro\": null,\n    \"filesystem_warning\": null\n  },\n  \"core_dependencies\": {\n    \"Python\": {\n      \"name\": \"Python\",\n      \"status\": \"FOUND\",\n      \"detail\": \"3.11.15 (requires >= 3.11)\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": null,\n      \"version\": \"3.11.15\",\n      \"backend_type\": \"runtime\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed\",\n      \"executable_sha256\": null\n    },\n    \"textlayout\": {\n      \"name\": \"textlayout\",\n      \"status\": \"FOUND\",\n      \"detail\": \"textlayout 0.3.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py\",\n      \"version\": \"0.3.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"gdsfactory\": {\n      \"name\": \"gdsfactory\",\n      \"status\": \"FOUND\",\n      \"detail\": \"gdsfactory 9.43.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/gdsfactory/__init__.py\",\n      \"version\": \"9.43.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"klayout.db\": {\n      \"name\": \"klayout.db\",\n      \"status\": \"FOUND\",\n      \"detail\": \"klayout.db 0.30.9\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/klayout/db/__init__.py\",\n      \"version\": \"0.30.9\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"langgraph.graph\": {\n      \"name\": \"langgraph.graph\",\n      \"status\": \"FOUND\",\n      \"detail\": \"langgraph.graph\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/langgraph/graph/__init__.py\",\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"output directory write permission\": {\n      \"name\": \"output directory write permission\",\n      \"status\": \"FOUND\",\n      \"detail\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"version\": null,\n      \"backend_type\": \"filesystem\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: create/write/delete\",\n      \"executable_sha256\": null\n    }\n  },\n  \"external_solvers\": {\n    \"FasterCap/FastCap\": {\n      \"name\": \"FasterCap/FastCap\",\n      \"status\": \"MISSING\",\n      \"detail\": \"FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"IDC electrostatics\",\n        \"capacitance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"FastHenry/FastHenry2\": {\n      \"name\": \"FastHenry/FastHenry2\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Spiral PEEC\",\n        \"inductance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"openEMS\": {\n      \"name\": \"openEMS\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"CSXCAD\": {\n      \"name\": \"CSXCAD\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD geometry\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave\": {\n      \"name\": \"Octave\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"openEMS frontend\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave openEMS path\": {\n      \"name\": \"Octave openEMS path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave CSXCAD path\": {\n      \"name\": \"Octave CSXCAD path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"scikit-rf\": {\n      \"name\": \"scikit-rf\",\n      \"status\": \"MISSING\",\n      \"detail\": \"import skrf: No module named 'skrf'\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"failed: module not found\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Gmsh\": {\n      \"name\": \"Gmsh\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"3D meshing\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"meshio\": {\n      \"name\": \"meshio\",\n      \"status\": \"FOUND\",\n      \"detail\": \"meshio 5.3.5\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/meshio/__init__.py\",\n      \"version\": \"5.3.5\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"PROBE_PASS\",\n      \"support_state\": \"SOLVER_PARTIAL\"\n    },\n    \"Palace\": {\n      \"name\": \"Palace\",\n      \"status\": \"MISSING\",\n      \"detail\": \"Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable-or-container\",\n      \"capabilities\": [\n        \"Eigenmode FEM\"\n      ],\n      \"smoke_test\": \"not run: backend missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"JoSIM\": {\n      \"name\": \"JoSIM\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"WRspice / ngspice\": {\n      \"name\": \"WRspice / ngspice\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson harmonic balance\",\n        \"SPICE transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    }\n  },\n  \"capabilities\": {\n    \"Layout generation\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"KLayout verification\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"IDC analytical\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"IDC BEM\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"CPW full-wave\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Spiral PEEC\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Resonator FEM\": {\n      \"state\": \"BLOCKED_STACK_INCOMPLETE\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"JJ transient\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    }\n  },\n  \"system\": {\n    \"os\": \"Darwin\",\n    \"os_release\": \"24.5.0\",\n    \"architecture\": \"arm64\",\n    \"python\": \"3.11.15\",\n    \"package_commit\": \"4794457e04aeab48b0a98634bf63aadb184828aa\",\n    \"package_version\": \"0.3.0\",\n    \"filesystem\": \"/Users/lu/Desktop/T2T/Text-to-Layout\",\n    \"wsl\": {\n      \"detected\": false,\n      \"version\": null,\n      \"distro\": null,\n      \"filesystem_warning\": null\n    }\n  },\n  \"physics_capabilities\": {\n    \"IDC electrostatics\": \"NOT_INSTALLED\",\n    \"CPW FDTD\": \"NOT_INSTALLED\",\n    \"Spiral PEEC\": \"NOT_INSTALLED\",\n    \"Eigenmode FEM\": \"INCOMPLETE\",\n    \"Josephson transient\": \"NOT_INSTALLED\",\n    \"Josephson harmonic balance\": \"NOT_INSTALLED\"\n  },\n  \"checks\": [\n    {\n      \"name\": \"Python\",\n      \"status\": \"FOUND\",\n      \"detail\": \"3.11.15 (requires >= 3.11)\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": null,\n      \"version\": \"3.11.15\",\n      \"backend_type\": \"runtime\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"textlayout\",\n      \"status\": \"FOUND\",\n      \"detail\": \"textlayout 0.3.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py\",\n      \"version\": \"0.3.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"gdsfactory\",\n      \"status\": \"FOUND\",\n      \"detail\": \"gdsfactory 9.43.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/gdsfactory/__init__.py\",\n      \"version\": \"9.43.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"klayout.db\",\n      \"status\": \"FOUND\",\n      \"detail\": \"klayout.db 0.30.9\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/klayout/db/__init__.py\",\n      \"version\": \"0.30.9\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"langgraph.graph\",\n      \"status\": \"FOUND\",\n      \"detail\": \"langgraph.graph\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/langgraph/graph/__init__.py\",\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"output directory write permission\",\n      \"status\": \"FOUND\",\n      \"detail\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"version\": null,\n      \"backend_type\": \"filesystem\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: create/write/delete\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"FasterCap/FastCap\",\n      \"status\": \"MISSING\",\n      \"detail\": \"FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"IDC electrostatics\",\n        \"capacitance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"FastHenry/FastHenry2\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Spiral PEEC\",\n        \"inductance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"openEMS\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"CSXCAD\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD geometry\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"openEMS frontend\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave openEMS path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave CSXCAD path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"scikit-rf\",\n      \"status\": \"MISSING\",\n      \"detail\": \"import skrf: No module named 'skrf'\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"failed: module not found\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Gmsh\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"3D meshing\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"meshio\",\n      \"status\": \"FOUND\",\n      \"detail\": \"meshio 5.3.5\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/meshio/__init__.py\",\n      \"version\": \"5.3.5\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Palace\",\n      \"status\": \"MISSING\",\n      \"detail\": \"Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable-or-container\",\n      \"capabilities\": [\n        \"Eigenmode FEM\"\n      ],\n      \"smoke_test\": \"not run: backend missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"JoSIM\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"WRspice / ngspice\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson harmonic balance\",\n        \"SPICE transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    }\n  ]\n}\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "textlayout",
+            "--help"
+          ],
+          "exit_code": 0,
+          "name": "cli_help",
+          "runtime_seconds": 0.615013,
+          "stderr": "",
+          "stdout": "usage: textlayout [-h] [--version]\n                  {prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}\n                  ...\n\nText-to-Layout CLI\n\npositional arguments:\n  {prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}\n    prompt              Natural-language request -> intent, layout,\n                        verification, simulation, report.\n    generate            Generate verified artifacts from a DSL file.\n    verify              Verify a DSL file (no export).\n    epr                 Loss-participation (EPR) and coherence estimate for a\n                        DSL file. EPR_ANALYTICAL_ONLY by default; never a\n                        field solution.\n    evidence            Inspect and validate evidence ledgers (the source of\n                        truth for every physics claim).\n    doctor              Check the environment (imports, solvers, write perms).\n    jobs                Start, inspect, collect, cancel, and resume persistent\n                        local solver jobs.\n    serve               Run the FastAPI plugin server.\n    simulate            Run supported external solver benchmarks.\n    yield               JJ critical-current variability / fabrication-yield\n                        Monte Carlo. Drawing one SQUID loop proves geometry,\n                        not manufacturability.\n    chip                Multi-qubit chip-level frequency-collision analysis. A\n                        single-device closed loop cannot answer whether a\n                        processor works.\n    pdk                 Foundry PDK abstraction: list registered technologies\n                        or inspect a PDK's full provenance and process\n                        parameters.\n    measurement         Simulation-vs-measurement correlation: the path from\n                        illustrative to fab-calibrated numbers.\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "python",
+            "scripts/validate_readme_claims.py"
+          ],
+          "exit_code": 0,
+          "name": "readme_claim_audit",
+          "runtime_seconds": 0.607816,
+          "stderr": "",
+          "stdout": "README claim validation passed: every support claim is backed by artifacts.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "python",
+            "scripts/check_namespace_boundary.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "name": "namespace_check",
+          "runtime_seconds": 1.010323,
+          "stderr": "",
+          "stdout": "namespace boundary OK: textlayout imports no legacy code; legacy package frozen.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "ruff",
+            "check",
+            "."
+          ],
+          "exit_code": 0,
+          "name": "ruff",
+          "runtime_seconds": 0.419326,
+          "stderr": "",
+          "stdout": "All checks passed!\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "mypy"
+          ],
+          "exit_code": 0,
+          "name": "mypy",
+          "runtime_seconds": 3.123245,
+          "stderr": "",
+          "stdout": "Success: no issues found in 178 source files\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "pytest",
+            "--junit-xml=/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/test_report.xml"
+          ],
+          "exit_code": 0,
+          "name": "pytest",
+          "runtime_seconds": 75.274101,
+          "stderr": "",
+          "stdout": "============================= test session starts ==============================\nplatform darwin -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0\nrootdir: /Users/lu/Desktop/T2T/Text-to-Layout\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: cov-7.1.0, langsmith-0.9.7, anyio-4.13.0\ncollected 1899 items\n\ntests/test_ai_copilot.py ...........                                     [  0%]\ntests/test_backend_orchestration.py .....                                [  0%]\ntests/test_candidate_loop.py ............                                [  1%]\ntests/test_closed_loop.py .......                                        [  1%]\ntests/test_cpw_boolean_gap.py ....                                       [  2%]\ntests/test_cpw_matches_reference.py ..                                   [  2%]\ntests/test_device_views.py ...                                           [  2%]\ntests/test_eda_framework_architecture.py .......                         [  2%]\ntests/test_em_solvers.py ...                                             [  2%]\ntests/test_fitting.py ...                                                [  3%]\ntests/test_fourth_wave.py ........................                       [  4%]\ntests/test_improvements.py ......                                        [  4%]\ntests/test_jj_boolean_overlap.py ...                                     [  4%]\ntests/test_jj_stack_matches_reference.py ..                              [  4%]\ntests/test_jpa_matches_literature.py ..                                  [  4%]\ntests/test_jpa_topology.py ......                                        [  5%]\ntests/test_layout_backend.py ......                                      [  5%]\ntests/test_layout_quality_modes.py .......                               [  5%]\ntests/test_layout_validator.py ......................................... [  8%]\n...                                                                      [  8%]\ntests/test_new_modules.py ...................................            [ 10%]\ntests/test_next_improvements.py .......                                  [ 10%]\ntests/test_no_fake_gain.py .......                                       [ 10%]\ntests/test_no_toy_layouts.py .....                                       [ 11%]\ntests/test_open_solver.py ...........                                    [ 11%]\ntests/test_openems_real_s2p.py .......                                   [ 12%]\ntests/test_opensource_em.py ....                                         [ 12%]\ntests/test_packaging.py ....                                             [ 12%]\ntests/test_paper_benchmarks.py .                                         [ 12%]\ntests/test_pdk.py .....                                                  [ 12%]\ntests/test_phase1_phase2.py ............                                 [ 13%]\ntests/test_phase456.py ..........                                        [ 13%]\ntests/test_phase8_foundations.py ....                                    [ 14%]\ntests/test_phase8_operations.py ..                                       [ 14%]\ntests/test_phases_1_10.py ...............................                [ 15%]\ntests/test_physics_benchmark.py ......................                   [ 17%]\ntests/test_physics_compiler.py ....................                      [ 18%]\ntests/test_physics_compiler_loop.py ......                               [ 18%]\ntests/test_physics_engine.py ........................................... [ 20%]\n.........s..                                                             [ 21%]\ntests/test_physics_first_pipeline.py .................................   [ 23%]\ntests/test_physics_grounded_compiler_contract.py .....                   [ 23%]\ntests/test_physics_provenance.py ...                                     [ 23%]\ntests/test_pyaedt_bridge.py ...                                          [ 23%]\ntests/test_quantum_eda_platform.py ..................................... [ 25%]\n.                                                                        [ 25%]\ntests/test_readiness.py ..                                               [ 25%]\ntests/test_report_visual_quality.py ...                                  [ 25%]\ntests/test_research_execution.py sssss.ss                                [ 26%]\ntests/test_research_quality_goal.py .......                              [ 26%]\ntests/test_review_committee.py .............                             [ 27%]\ntests/test_review_coverage.py ........                                   [ 27%]\ntests/test_signoff.py ......                                             [ 28%]\ntests/test_signoff_contract.py .......                                   [ 28%]\ntests/test_smoke.py ................                                     [ 29%]\ntests/test_solver_adapters.py ....                                       [ 29%]\ntests/test_solver_artifacts_required.py .......                          [ 29%]\ntests/test_solver_evidence.py .......                                    [ 30%]\ntests/test_solver_truthfulness.py ....                                   [ 30%]\ntests/test_sop_qa.py ................................................    [ 33%]\ntests/test_superconducting_eda_compiler.py .......                       [ 33%]\ntests/test_superconductivity.py ....                                     [ 33%]\ntests/test_third_wave.py ......                                          [ 33%]\ntests/test_transmon_matches_literature.py ..                             [ 34%]\ntests/test_transmon_topology.py .....                                    [ 34%]\ntests/test_visual_credibility.py .......                                 [ 34%]\ntests/textlayout_suite/test_acceptance.py ..............                 [ 35%]\ntests/textlayout_suite/test_acceptance_physics.py ............           [ 36%]\ntests/textlayout_suite/test_api.py ............                          [ 36%]\ntests/textlayout_suite/test_api_from_text.py ..                          [ 36%]\ntests/textlayout_suite/test_audit_artifacts.py ......................... [ 38%]\n......                                                                   [ 38%]\ntests/textlayout_suite/test_benchmark_structure.py ....                  [ 38%]\ntests/textlayout_suite/test_canonical_evidence.py ...................... [ 39%]\n.....................                                                    [ 40%]\ntests/textlayout_suite/test_chip_40q_showcase.py ........                [ 41%]\ntests/textlayout_suite/test_chip_lattice.py ..........................   [ 42%]\ntests/textlayout_suite/test_ci_platform_matrix.py ...                    [ 42%]\ntests/textlayout_suite/test_convergence_order.py ....................... [ 44%]\n..............                                                           [ 44%]\ntests/textlayout_suite/test_cpw_generator.py ....                        [ 44%]\ntests/textlayout_suite/test_doctor_and_dependencies.py .........         [ 45%]\ntests/textlayout_suite/test_document_authority.py ...                    [ 45%]\ntests/textlayout_suite/test_dsl.py .....                                 [ 45%]\ntests/textlayout_suite/test_epr_coherence.py ......................      [ 47%]\ntests/textlayout_suite/test_epr_pdk_provenance.py ............           [ 47%]\ntests/textlayout_suite/test_evidence_consistency.py .................... [ 48%]\n............                                                             [ 49%]\ntests/textlayout_suite/test_evidence_contract.py ..................      [ 50%]\ntests/textlayout_suite/test_evidence_transitions.py .................... [ 51%]\n........................................................................ [ 55%]\n..............................................                           [ 57%]\ntests/textlayout_suite/test_exporters.py ....                            [ 57%]\ntests/textlayout_suite/test_extended_generators.py ........              [ 58%]\ntests/textlayout_suite/test_external_tool_registry.py ......             [ 58%]\ntests/textlayout_suite/test_fabrication_gate.py ..........               [ 59%]\ntests/textlayout_suite/test_fastercap_execution.py ........              [ 59%]\ntests/textlayout_suite/test_fem_model.py ............................    [ 60%]\ntests/textlayout_suite/test_from_text_workflow.py ......                 [ 61%]\ntests/textlayout_suite/test_gds_export.py ...                            [ 61%]\ntests/textlayout_suite/test_generate_workflow.py ......                  [ 61%]\ntests/textlayout_suite/test_geometry_engine.py ....                      [ 61%]\ntests/textlayout_suite/test_gmsh_runtime.py .                            [ 61%]\ntests/textlayout_suite/test_golden_cpw.py .                              [ 62%]\ntests/textlayout_suite/test_idc_generator.py .....                       [ 62%]\ntests/textlayout_suite/test_idc_optimization.py ........                 [ 62%]\ntests/textlayout_suite/test_jobs.py ......                               [ 63%]\ntests/textlayout_suite/test_josim_adapter.py .........                   [ 63%]\ntests/textlayout_suite/test_josim_idc.py ....                            [ 63%]\ntests/textlayout_suite/test_jpa_mvp.py ...                               [ 63%]\ntests/textlayout_suite/test_klayout_drc.py ............................. [ 65%]\n.......                                                                  [ 65%]\ntests/textlayout_suite/test_measurement.py ............................. [ 67%]\n..                                                                       [ 67%]\ntests/textlayout_suite/test_mesh_convergence.py ........................ [ 68%]\n....                                                                     [ 68%]\ntests/textlayout_suite/test_mode_tracking.py ........................... [ 70%]\n..                                                                       [ 70%]\ntests/textlayout_suite/test_multi_device_generators.py .......           [ 70%]\ntests/textlayout_suite/test_multi_sim_prompt.py ..                       [ 70%]\ntests/textlayout_suite/test_namespace_boundary.py ...............        [ 71%]\ntests/textlayout_suite/test_oci_stack.py ...                             [ 71%]\ntests/textlayout_suite/test_open_source_simulation.py .....              [ 72%]\ntests/textlayout_suite/test_openems_evidence.py ........                 [ 72%]\ntests/textlayout_suite/test_palace_amr_verification.py .........         [ 72%]\ntests/textlayout_suite/test_palace_artifact_contracts.py ...             [ 73%]\ntests/textlayout_suite/test_palace_atomic_stages.py ...                  [ 73%]\ntests/textlayout_suite/test_palace_backend.py .......................... [ 74%]\n.....                                                                    [ 74%]\ntests/textlayout_suite/test_palace_benchmark_evidence.py ............... [ 75%]\n........                                                                 [ 76%]\ntests/textlayout_suite/test_palace_benchmark_v017.py .................   [ 77%]\ntests/textlayout_suite/test_palace_bounded_amr_policy.py .........       [ 77%]\ntests/textlayout_suite/test_palace_cross_amr_fixture.py ..               [ 77%]\ntests/textlayout_suite/test_palace_diagnostic.py ....                    [ 77%]\ntests/textlayout_suite/test_palace_energy_weighted_mac.py .......        [ 78%]\ntests/textlayout_suite/test_palace_field_mac.py ..                       [ 78%]\ntests/textlayout_suite/test_palace_field_retention.py .........          [ 78%]\ntests/textlayout_suite/test_palace_global_assignment.py ....             [ 78%]\ntests/textlayout_suite/test_palace_higher_order_vtk.py ..                [ 79%]\ntests/textlayout_suite/test_palace_installation.py ..s..                 [ 79%]\ntests/textlayout_suite/test_palace_mac_applicability.py ......           [ 79%]\ntests/textlayout_suite/test_palace_material_overlap.py ...               [ 79%]\ntests/textlayout_suite/test_palace_mode_classification.py .....          [ 80%]\ntests/textlayout_suite/test_palace_model_audit.py ...                    [ 80%]\ntests/textlayout_suite/test_palace_mpi_integration.py ..                 [ 80%]\ntests/textlayout_suite/test_palace_p2_manufactured.py ......             [ 80%]\ntests/textlayout_suite/test_palace_preparation.py .                      [ 80%]\ntests/textlayout_suite/test_palace_process_ownership.py ..s...           [ 81%]\ntests/textlayout_suite/test_palace_quarter_wave_sanity.py ............   [ 81%]\ntests/textlayout_suite/test_palace_resource_limits.py ..                 [ 81%]\ntests/textlayout_suite/test_palace_targeted_mesh.py ..                   [ 81%]\ntests/textlayout_suite/test_palace_toolchain.py .....                    [ 82%]\ntests/textlayout_suite/test_palace_toolchain_pins.py ............        [ 82%]\ntests/textlayout_suite/test_palace_vertical_slice.py .............       [ 83%]\ntests/textlayout_suite/test_paraview_toolchain.py .s                     [ 83%]\ntests/textlayout_suite/test_partial_lvs.py ....                          [ 83%]\ntests/textlayout_suite/test_pdk.py ........................              [ 85%]\ntests/textlayout_suite/test_pdk_provenance.py .......................... [ 86%]\n                                                                         [ 86%]\ntests/textlayout_suite/test_platform_certification.py .....              [ 86%]\ntests/textlayout_suite/test_plugin_thin_bundle.py ..............         [ 87%]\ntests/textlayout_suite/test_polygon_drc.py ..                            [ 87%]\ntests/textlayout_suite/test_product_docs.py ............                 [ 88%]\ntests/textlayout_suite/test_project_claims.py ....................       [ 89%]\ntests/textlayout_suite/test_project_status.py ............ss........     [ 90%]\ntests/textlayout_suite/test_prompt_parsing.py .............              [ 91%]\ntests/textlayout_suite/test_pscan2_adapter.py ......                     [ 91%]\ntests/textlayout_suite/test_readme_claims.py .................           [ 92%]\ntests/textlayout_suite/test_real_cqed_loop_demo.py .......               [ 92%]\ntests/textlayout_suite/test_reproduce_policy.py ..                       [ 92%]\ntests/textlayout_suite/test_resource_sampler.py ........                 [ 93%]\ntests/textlayout_suite/test_showcase_examples.py ....................... [ 94%]\n............                                                             [ 94%]\ntests/textlayout_suite/test_simulation_postprocess.py .....              [ 95%]\ntests/textlayout_suite/test_simulator_bootstrap.py ....................  [ 96%]\ntests/textlayout_suite/test_solver_execution.py ..................       [ 97%]\ntests/textlayout_suite/test_sparameters.py ...                           [ 97%]\ntests/textlayout_suite/test_touchstone_honesty.py ......                 [ 97%]\ntests/textlayout_suite/test_verification.py ......                       [ 98%]\ntests/textlayout_suite/test_workflow_graph.py .....                      [ 98%]\ntests/textlayout_suite/test_wrspice_adapter.py .....                     [ 98%]\ntests/textlayout_suite/test_wsl_bootstrap.py ..                          [ 98%]\ntests/textlayout_suite/test_yield_model.py .........................     [100%]\n\n=============================== warnings summary ===============================\ntests/test_ai_copilot.py:3\n  /Users/lu/Desktop/T2T/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.\n    from text_to_gds.ai import DesignIntent, DesignIntentParser\n\nsrc/textlayout/_legacy/device_optimizer.py:24\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name \"schema\" in \"OptimizationReport\" shadows an attribute in parent \"BaseModel\"\n    class OptimizationReport(BaseModel):\n\nsrc/textlayout/_legacy/extracted_device.py:39\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name \"schema\" in \"ExtractedDevice\" shadows an attribute in parent \"BaseModel\"\n    class ExtractedDevice(BaseModel):\n\nsrc/textlayout/_legacy/microwave_validator.py:12\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name \"schema\" in \"MicrowaveReport\" shadows an attribute in parent \"BaseModel\"\n    class MicrowaveReport(BaseModel):\n\nout/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\ntests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings\ntests/textlayout_suite/test_chip_lattice.py: 141500 warnings\ntests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/pydantic/main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n- generated xml file: /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/test_report.xml -\n========= 1886 passed, 13 skipped, 518005 warnings in 67.04s (0:01:07) =========\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "python",
+            "scripts/generate_project_status.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "name": "project_status_check",
+          "runtime_seconds": 0.633977,
+          "stderr": "",
+          "stdout": "project status artifacts are current.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "build"
+          ],
+          "exit_code": 0,
+          "name": "build",
+          "runtime_seconds": 6.313466,
+          "stderr": "Building source distribution...\nBuilding wheel from source distribution...\nSuccessfully built dist/text_to_gds-0.3.0.tar.gz\nSuccessfully built dist/text_to_gds-0.3.0-py3-none-any.whl\n",
+          "stdout": ""
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "pytest",
+            "tests/textlayout_suite/test_api.py",
+            "-q"
+          ],
+          "exit_code": 0,
+          "name": "api_smoke",
+          "runtime_seconds": 3.294287,
+          "stderr": "",
+          "stdout": "............                                                             [100%]\n=============================== warnings summary ===============================\nout/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n12 passed, 1 warning in 2.03s\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "textlayout",
+            "prompt",
+            "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+            "--out",
+            "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1"
+          ],
+          "exit_code": 0,
+          "name": "prompt_1",
+          "runtime_seconds": 2.008401,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.from-text.v1\",\n  \"status\": \"ok\",\n  \"component\": \"IDC\",\n  \"layout_component\": \"IDC\",\n  \"target\": {\n    \"capacitance_pf\": 0.6,\n    \"frequency_ghz\": 6.0\n  },\n  \"simulation_status\": \"SKIPPED_SOLVER_ABSENT\",\n  \"simulation_summary\": \"capacitance: SKIPPED_SOLVER_ABSENT \\u2014 solver not installed; no physics verification was performed\",\n  \"circuit_simulators\": {},\n  \"artifacts\": {\n    \"intent\": \"intent.json\",\n    \"layout\": \"layout.json\",\n    \"optimization\": \"optimization.json\",\n    \"gds\": \"output.gds\",\n    \"svg\": \"output.svg\",\n    \"png\": \"output.png\",\n    \"klayout_readback\": \"klayout_readback.json\",\n    \"verification\": \"verification.json\",\n    \"capacitance_result\": \"extraction/capacitance_result.json\",\n    \"simulation\": \"simulation/simulation.json\",\n    \"simulation_legacy\": \"simulation.json\",\n    \"report\": \"report.md\",\n    \"workflow_trace\": \"workflow_trace.json\"\n  },\n  \"output_dir\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1\",\n  \"pdk_provenance\": {\n    \"available\": false,\n    \"technology\": \"generic_2metal\",\n    \"note\": \"Technology 'generic_2metal' is not backed by a PDK YAML (e.g. the built-in generic_2metal Technology, which predates the PDK schema). No PDK provenance is available.\"\n  }\n}\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.11",
+            "textlayout",
+            "prompt",
+            "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+            "--out",
+            "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2"
+          ],
+          "exit_code": 0,
+          "name": "prompt_2",
+          "runtime_seconds": 1.89676,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.from-text.v1\",\n  \"status\": \"ok\",\n  \"component\": \"IDC\",\n  \"layout_component\": \"IDC\",\n  \"target\": {\n    \"capacitance_pf\": 0.6,\n    \"frequency_ghz\": 6.0\n  },\n  \"simulation_status\": \"SKIPPED_SOLVER_ABSENT\",\n  \"simulation_summary\": \"capacitance: SKIPPED_SOLVER_ABSENT \\u2014 solver not installed; no physics verification was performed\",\n  \"circuit_simulators\": {},\n  \"artifacts\": {\n    \"intent\": \"intent.json\",\n    \"layout\": \"layout.json\",\n    \"optimization\": \"optimization.json\",\n    \"gds\": \"output.gds\",\n    \"svg\": \"output.svg\",\n    \"png\": \"output.png\",\n    \"klayout_readback\": \"klayout_readback.json\",\n    \"verification\": \"verification.json\",\n    \"capacitance_result\": \"extraction/capacitance_result.json\",\n    \"simulation\": \"simulation/simulation.json\",\n    \"simulation_legacy\": \"simulation.json\",\n    \"report\": \"report.md\",\n    \"workflow_trace\": \"workflow_trace.json\"\n  },\n  \"output_dir\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2\",\n  \"pdk_provenance\": {\n    \"available\": false,\n    \"technology\": \"generic_2metal\",\n    \"note\": \"Technology 'generic_2metal' is not backed by a PDK YAML (e.g. the built-in generic_2metal Technology, which predates the PDK schema). No PDK provenance is available.\"\n  }\n}\n"
+        }
+      ],
+      "core_pass": true,
+      "doctor": {
+        "capabilities": {
+          "CPW full-wave": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "IDC BEM": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "IDC analytical": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "JJ transient": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "KLayout verification": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "Layout generation": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "Resonator FEM": {
+            "state": "BLOCKED_STACK_INCOMPLETE",
+            "support_state": "UNTESTED"
+          },
+          "Spiral PEEC": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          }
+        },
+        "checks": [
+          {
+            "backend_type": "runtime",
+            "capabilities": [],
+            "detail": "3.11.15 (requires >= 3.11)",
+            "executable_sha256": null,
+            "name": "Python",
+            "path": null,
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed",
+            "status": "FOUND",
+            "version": "3.11.15"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "textlayout 0.3.0",
+            "executable_sha256": null,
+            "name": "textlayout",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.3.0"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "gdsfactory 9.43.0",
+            "executable_sha256": null,
+            "name": "gdsfactory",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/gdsfactory/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "9.43.0"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "klayout.db 0.30.9",
+            "executable_sha256": null,
+            "name": "klayout.db",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/klayout/db/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.30.9"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "langgraph.graph",
+            "executable_sha256": null,
+            "name": "langgraph.graph",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/langgraph/graph/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": null
+          },
+          {
+            "backend_type": "filesystem",
+            "capabilities": [],
+            "detail": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "executable_sha256": null,
+            "name": "output directory write permission",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: create/write/delete",
+            "status": "FOUND",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "IDC electrostatics",
+              "capacitance matrix"
+            ],
+            "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+            "executable_sha256": null,
+            "name": "FasterCap/FastCap",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Spiral PEEC",
+              "inductance matrix"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "FastHenry/FastHenry2",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "openEMS",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD geometry"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "CSXCAD",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "openEMS frontend"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave openEMS path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave CSXCAD path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "import skrf: No module named 'skrf'",
+            "executable_sha256": null,
+            "name": "scikit-rf",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "failed: module not found",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "3D meshing"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Gmsh",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "meshio 5.3.5",
+            "executable_sha256": null,
+            "name": "meshio",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/meshio/__init__.py",
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "5.3.5"
+          },
+          {
+            "backend_type": "executable-or-container",
+            "capabilities": [
+              "Eigenmode FEM"
+            ],
+            "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+            "executable_sha256": null,
+            "name": "Palace",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: backend missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "JoSIM",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson harmonic balance",
+              "SPICE transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "WRspice / ngspice",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          }
+        ],
+        "core_dependencies": {
+          "Python": {
+            "backend_type": "runtime",
+            "capabilities": [],
+            "detail": "3.11.15 (requires >= 3.11)",
+            "executable_sha256": null,
+            "name": "Python",
+            "path": null,
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed",
+            "status": "FOUND",
+            "version": "3.11.15"
+          },
+          "gdsfactory": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "gdsfactory 9.43.0",
+            "executable_sha256": null,
+            "name": "gdsfactory",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/gdsfactory/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "9.43.0"
+          },
+          "klayout.db": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "klayout.db 0.30.9",
+            "executable_sha256": null,
+            "name": "klayout.db",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/klayout/db/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.30.9"
+          },
+          "langgraph.graph": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "langgraph.graph",
+            "executable_sha256": null,
+            "name": "langgraph.graph",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/langgraph/graph/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": null
+          },
+          "output directory write permission": {
+            "backend_type": "filesystem",
+            "capabilities": [],
+            "detail": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "executable_sha256": null,
+            "name": "output directory write permission",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: create/write/delete",
+            "status": "FOUND",
+            "version": null
+          },
+          "textlayout": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "textlayout 0.3.0",
+            "executable_sha256": null,
+            "name": "textlayout",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.3.0"
+          }
+        },
+        "external_solvers": {
+          "CSXCAD": {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD geometry"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "CSXCAD",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "FastHenry/FastHenry2": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Spiral PEEC",
+              "inductance matrix"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "FastHenry/FastHenry2",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "FasterCap/FastCap": {
+            "backend_type": "executable",
+            "capabilities": [
+              "IDC electrostatics",
+              "capacitance matrix"
+            ],
+            "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "FasterCap/FastCap",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Gmsh": {
+            "backend_type": "executable",
+            "capabilities": [
+              "3D meshing"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Gmsh",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "JoSIM": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "JoSIM",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave": {
+            "backend_type": "executable",
+            "capabilities": [
+              "openEMS frontend"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave CSXCAD path": {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave CSXCAD path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave openEMS path": {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave openEMS path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Palace": {
+            "backend_type": "executable-or-container",
+            "capabilities": [
+              "Eigenmode FEM"
+            ],
+            "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Palace",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: backend missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "WRspice / ngspice": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson harmonic balance",
+              "SPICE transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "WRspice / ngspice",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "meshio": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "meshio 5.3.5",
+            "evidence_stage": "PROBE_PASS",
+            "executable_sha256": null,
+            "name": "meshio",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv/lib/python3.11/site-packages/meshio/__init__.py",
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "support_state": "SOLVER_PARTIAL",
+            "version": "5.3.5"
+          },
+          "openEMS": {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "openEMS",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "scikit-rf": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "import skrf: No module named 'skrf'",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "scikit-rf",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "failed: module not found",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          }
+        },
+        "host": {
+          "architecture": "arm64",
+          "filesystem": "/Users/lu/Desktop/T2T/Text-to-Layout",
+          "os": "Darwin",
+          "os_release": "24.5.0"
+        },
+        "physics_capabilities": {
+          "CPW FDTD": "NOT_INSTALLED",
+          "Eigenmode FEM": "INCOMPLETE",
+          "IDC electrostatics": "NOT_INSTALLED",
+          "Josephson harmonic balance": "NOT_INSTALLED",
+          "Josephson transient": "NOT_INSTALLED",
+          "Spiral PEEC": "NOT_INSTALLED"
+        },
+        "runtime": {
+          "git_sha": "4794457e04aeab48b0a98634bf63aadb184828aa",
+          "python": "3.11.15",
+          "support_state": "CORE_TESTED",
+          "textlayout": "0.3.0"
+        },
+        "schema": "textlayout.doctor.v2",
+        "status": "ok",
+        "system": {
+          "architecture": "arm64",
+          "filesystem": "/Users/lu/Desktop/T2T/Text-to-Layout",
+          "os": "Darwin",
+          "os_release": "24.5.0",
+          "package_commit": "4794457e04aeab48b0a98634bf63aadb184828aa",
+          "package_version": "0.3.0",
+          "python": "3.11.15",
+          "wsl": {
+            "detected": false,
+            "distro": null,
+            "filesystem_warning": null,
+            "version": null
+          }
+        },
+        "wsl": {
+          "detected": false,
+          "distro": null,
+          "filesystem_warning": null,
+          "version": null
+        }
+      },
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv"
+      },
+      "isolated_environment": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py311-x4dwdeya/.venv",
+      "prompt": {
+        "input": "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+        "input_sha256": "6ce58bcc7d0bf8887847691e7861beef03f6a8fdf00deb66da46061969eee23a",
+        "layout_and_gds_deterministic": true,
+        "run_1": {
+          "files": {
+            "capacitance_result": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/extraction/capacitance_result.json",
+              "sha256": "517e125d96dfaa563c69799582ed28a79024ea859086770d401aa1fce47ae60a",
+              "size": 1362
+            },
+            "gds": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/output.gds",
+              "sha256": "2425706521692d1424aa22599235985381a1bb263f7aad8e8089456b3c16dbed",
+              "size": 3632
+            },
+            "intent": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/intent.json",
+              "sha256": "7aac8c60b74ca80c305b47b74876494754c68c482293fff726d5be13051c3581",
+              "size": 537
+            },
+            "klayout_readback": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/klayout_readback.json",
+              "sha256": "3a348f7b0ab57c20ff9dd188a7548fb1b3fc8ed9b5ce548cbfe56e85963b1c1f",
+              "size": 1705
+            },
+            "layout": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/layout.json",
+              "sha256": "a09e323eb05a6e6b0b983e254ca6ff267c119986562fb05edd0cc972f7f50a16",
+              "size": 971
+            },
+            "optimization": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/optimization.json",
+              "sha256": "cc3fc84d14be7217db31cca4711571c26e236e9564ce9f560e547ca3edf63829",
+              "size": 1351
+            },
+            "png": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/output.png",
+              "sha256": "ceb271d57216c622cc55b196ef700edd79591595112a896de6b2e96a3f8e239b",
+              "size": 7439
+            },
+            "report": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/report.md",
+              "sha256": "c73e72b32b1b4c3563d0b235367897f7b3e25bc3d6894b8d0e7b1dbf6535c70b",
+              "size": 4623
+            },
+            "simulation": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/simulation/simulation.json",
+              "sha256": "cea1f17033e8d04a6add3eef8cbfd0cdaa89821a145f5a1bcc4c9403a3b26ea0",
+              "size": 3068
+            },
+            "simulation_legacy": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/simulation.json",
+              "sha256": "cea1f17033e8d04a6add3eef8cbfd0cdaa89821a145f5a1bcc4c9403a3b26ea0",
+              "size": 3068
+            },
+            "svg": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/output.svg",
+              "sha256": "d80d7d80780efc50f3e4ffcd596ce7b962aa21e7a71f84d9ceac23c531f144c6",
+              "size": 5534
+            },
+            "verification": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/verification.json",
+              "sha256": "e238b5ff27b5d9faf489d747ef2e7d9e635bbd8ae3f6cc926b1f9b550e03cfcf",
+              "size": 4271
+            },
+            "workflow_trace": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_1/workflow_trace.json",
+              "sha256": "4f5f4ac868d7e535fa502293917c480b18461bfe48ee89a2beeda21c5fc22f4d",
+              "size": 9977
+            }
+          },
+          "missing_or_empty": [],
+          "simulation_status": "SKIPPED_SOLVER_ABSENT",
+          "valid": true
+        },
+        "run_2": {
+          "files": {
+            "capacitance_result": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/extraction/capacitance_result.json",
+              "sha256": "52075b75609a163b3e720266ccfa8116224f8292085997282029360bbdd3e177",
+              "size": 1362
+            },
+            "gds": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/output.gds",
+              "sha256": "2425706521692d1424aa22599235985381a1bb263f7aad8e8089456b3c16dbed",
+              "size": 3632
+            },
+            "intent": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/intent.json",
+              "sha256": "7aac8c60b74ca80c305b47b74876494754c68c482293fff726d5be13051c3581",
+              "size": 537
+            },
+            "klayout_readback": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/klayout_readback.json",
+              "sha256": "cd78aa958a5c21cd3d4f71bac609f055d83ee779d30da52ab42d36e4101ebfdf",
+              "size": 1705
+            },
+            "layout": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/layout.json",
+              "sha256": "a09e323eb05a6e6b0b983e254ca6ff267c119986562fb05edd0cc972f7f50a16",
+              "size": 971
+            },
+            "optimization": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/optimization.json",
+              "sha256": "cc3fc84d14be7217db31cca4711571c26e236e9564ce9f560e547ca3edf63829",
+              "size": 1351
+            },
+            "png": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/output.png",
+              "sha256": "ceb271d57216c622cc55b196ef700edd79591595112a896de6b2e96a3f8e239b",
+              "size": 7439
+            },
+            "report": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/report.md",
+              "sha256": "dbd3c4a29252776feb90715b766ffe6cb683bf67a5a67cbc9e97dcb0b1fe204d",
+              "size": 4623
+            },
+            "simulation": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/simulation/simulation.json",
+              "sha256": "c2d29e8ca950405dd6328437809368f2082281ea5cc3ea2391f1b1cebe60c0e1",
+              "size": 3068
+            },
+            "simulation_legacy": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/simulation.json",
+              "sha256": "c2d29e8ca950405dd6328437809368f2082281ea5cc3ea2391f1b1cebe60c0e1",
+              "size": 3068
+            },
+            "svg": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/output.svg",
+              "sha256": "d80d7d80780efc50f3e4ffcd596ce7b962aa21e7a71f84d9ceac23c531f144c6",
+              "size": 5534
+            },
+            "verification": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/verification.json",
+              "sha256": "2cd65788951d7705ed41eed8f2d8560d9324f6bf37a51a1c4e9d61a675e754de",
+              "size": 4271
+            },
+            "workflow_trace": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py311-myqau5ug/idc_2/workflow_trace.json",
+              "sha256": "8ff069b67aeea4e66c16a939e8fbd9abcacfef29956370290671727bef2c214f",
+              "size": 9977
+            }
+          },
+          "missing_or_empty": [],
+          "simulation_status": "SKIPPED_SOLVER_ABSENT",
+          "valid": true
+        }
+      },
+      "python_actual": "3.11.15",
+      "python_requested": "3.11",
+      "quick": false,
+      "solver_smokes": {},
+      "tests": {
+        "failed": 0,
+        "passed": 1886,
+        "skipped": 13,
+        "total": 1899
+      },
+      "tool_versions": {
+        "gdsfactory": "9.43.0",
+        "klayout": "0.30.9",
+        "textlayout": "0.3.0",
+        "uv": "uv 0.12.1 (Homebrew 2026-07-31 aarch64-apple-darwin)"
+      }
+    },
+    {
+      "commands": [
+        {
+          "command": [
+            "uv",
+            "--version"
+          ],
+          "exit_code": 0,
+          "name": "uv_version",
+          "runtime_seconds": 0.007017,
+          "stderr": "",
+          "stdout": "uv 0.12.1 (Homebrew 2026-07-31 aarch64-apple-darwin)\n"
+        },
+        {
+          "command": [
+            "uv",
+            "sync",
+            "--frozen",
+            "--dev",
+            "--python",
+            "3.12"
+          ],
+          "exit_code": 0,
+          "name": "sync",
+          "runtime_seconds": 1.007907,
+          "stderr": "Using CPython 3.12.13\nCreating virtual environment at: out/platform/runs/clean-macos-py312-nahk8yro/.venv\nInstalled 153 packages in 936ms\n + aenum==3.1.17\n + annotated-doc==0.0.4\n + annotated-types==0.7.0\n + anyio==4.13.0\n + appnope==0.1.4\n + ast-serialize==0.5.0\n + asttokens==3.0.1\n + attrs==26.1.0\n + build==1.5.1\n + cachetools==7.1.4\n + certifi==2026.5.20\n + cffi==2.0.0\n + charset-normalizer==3.4.7\n + click==8.4.1\n + comm==0.2.3\n + contourpy==1.3.3\n + coverage==7.14.3\n + cryptography==48.0.0\n + cycler==0.12.1\n + debugpy==1.8.21\n + decorator==5.3.1\n + distro==1.9.0\n + executing==2.2.1\n + fastapi==0.138.1\n + fonttools==4.63.0\n + freetype-py==2.5.1\n + gdsfactory==9.43.0\n + graphviz==0.21\n + h11==0.16.0\n + hatchling==1.31.0\n + httpcore==1.0.9\n + httpx==0.28.1\n + httpx-sse==0.4.3\n + idna==3.18\n + imageio==2.37.3\n + iniconfig==2.3.0\n + ipyevents==2.0.4\n + ipykernel==7.2.0\n + ipython==9.14.0\n + ipython-pygments-lexers==1.1.1\n + ipytree==0.2.2\n + ipywidgets==8.1.8\n + jedi==0.20.0\n + jinja2==3.1.6\n + jsonpatch==1.33\n + jsonpointer==3.1.1\n + jsonschema==4.26.0\n + jsonschema-specifications==2025.9.1\n + jupyter-client==8.8.0\n + jupyter-core==5.9.1\n + jupyterlab-widgets==3.0.16\n + kfactory==2.5.3\n + kiwisolver==1.5.0\n + klayout==0.30.9\n + langchain-core==1.4.8\n + langchain-protocol==0.0.18\n + langgraph==1.2.7\n + langgraph-checkpoint==4.1.1\n + langgraph-prebuilt==1.1.0\n + langgraph-sdk==0.4.2\n + langsmith==0.9.7\n + lazy-loader==0.5\n + librt==0.11.0\n + loguru==0.7.3\n + mapbox-earcut==2.0.0\n + markdown-it-py==4.2.0\n + markupsafe==3.0.3\n + matplotlib==3.10.9\n + matplotlib-inline==0.2.2\n + mcp==1.27.2\n + mdurl==0.1.2\n + meshio==5.3.5\n + mypy==2.1.0\n + mypy-extensions==1.1.0\n + natsort==8.4.0\n + nest-asyncio==1.6.0\n + networkx==3.6.1\n + numpy==1.26.4\n + orjson==3.11.9\n + ormsgpack==1.12.2\n + packaging==26.2\n + pandas==3.0.3\n + parso==0.8.7\n + pathspec==1.1.1\n + pexpect==4.9.0\n + pillow==12.2.0\n + platformdirs==4.10.0\n + pluggy==1.6.0\n + prompt-toolkit==3.0.52\n + psutil==7.2.2\n + ptyprocess==0.7.0\n + pure-eval==0.2.3\n + pycparser==3.0\n + pydantic==2.12.5\n + pydantic-core==2.41.5\n + pydantic-extra-types==2.11.1\n + pydantic-settings==2.14.1\n + pygit2==1.19.2\n + pyglet==2.1.14\n + pygments==2.20.0\n + pyjwt==2.13.0\n + pyparsing==3.3.2\n + pyproject-hooks==1.2.0\n + pytest==9.0.3\n + pytest-cov==7.1.0\n + python-dateutil==2.9.0.post0\n + python-dotenv==1.2.2\n + python-multipart==0.0.30\n + pyyaml==6.0.3\n + pyzmq==27.1.0\n + qrcode==8.2\n + rapidfuzz==3.14.5\n + rectangle-packer==2.1.0\n + rectpack==0.2.2\n + referencing==0.37.0\n + requests==2.34.2\n + requests-toolbelt==1.0.0\n + rich==15.0.0\n + rpds-py==2026.5.1\n + ruamel-yaml==0.19.1\n + ruamel-yaml-string==0.1.1\n + ruff==0.15.15\n + scikit-image==0.26.0\n + scipy==1.17.1\n + semver==3.0.4\n + shapely==2.1.2\n + shellingham==1.5.4\n + six==1.17.0\n + sniffio==1.3.1\n + sse-starlette==3.4.4\n + stack-data==0.6.3\n + starlette==1.2.1\n + tenacity==9.1.4\n + text-to-gds==0.3.0 (from file:///Users/lu/Desktop/T2T/Text-to-Layout)\n + tifffile==2026.3.3\n + toolz==1.1.0\n + tornado==6.5.6\n + traitlets==5.15.0\n + trimesh==4.12.2\n + trove-classifiers==2026.6.1.19\n + typer==0.24.2\n + types-pyyaml==6.0.12.20260518\n + typing-extensions==4.15.0\n + typing-inspection==0.4.2\n + urllib3==2.7.0\n + uuid-utils==0.16.2\n + uvicorn==0.48.0\n + watchdog==6.0.0\n + wcwidth==0.7.0\n + websockets==15.0.1\n + widgetsnbextension==4.0.15\n + xxhash==3.8.0\n + zstandard==0.25.0\n",
+          "stdout": ""
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "textlayout",
+            "doctor",
+            "--json"
+          ],
+          "exit_code": 0,
+          "name": "doctor_json",
+          "runtime_seconds": 37.221129,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.doctor.v2\",\n  \"status\": \"ok\",\n  \"host\": {\n    \"os\": \"Darwin\",\n    \"os_release\": \"24.5.0\",\n    \"architecture\": \"arm64\",\n    \"filesystem\": \"/Users/lu/Desktop/T2T/Text-to-Layout\"\n  },\n  \"runtime\": {\n    \"python\": \"3.12.13\",\n    \"textlayout\": \"0.3.0\",\n    \"git_sha\": \"4794457e04aeab48b0a98634bf63aadb184828aa\",\n    \"support_state\": \"CORE_TESTED\"\n  },\n  \"wsl\": {\n    \"detected\": false,\n    \"version\": null,\n    \"distro\": null,\n    \"filesystem_warning\": null\n  },\n  \"core_dependencies\": {\n    \"Python\": {\n      \"name\": \"Python\",\n      \"status\": \"FOUND\",\n      \"detail\": \"3.12.13 (requires >= 3.11)\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": null,\n      \"version\": \"3.12.13\",\n      \"backend_type\": \"runtime\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed\",\n      \"executable_sha256\": null\n    },\n    \"textlayout\": {\n      \"name\": \"textlayout\",\n      \"status\": \"FOUND\",\n      \"detail\": \"textlayout 0.3.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py\",\n      \"version\": \"0.3.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"gdsfactory\": {\n      \"name\": \"gdsfactory\",\n      \"status\": \"FOUND\",\n      \"detail\": \"gdsfactory 9.43.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/gdsfactory/__init__.py\",\n      \"version\": \"9.43.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"klayout.db\": {\n      \"name\": \"klayout.db\",\n      \"status\": \"FOUND\",\n      \"detail\": \"klayout.db 0.30.9\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/klayout/db/__init__.py\",\n      \"version\": \"0.30.9\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"langgraph.graph\": {\n      \"name\": \"langgraph.graph\",\n      \"status\": \"FOUND\",\n      \"detail\": \"langgraph.graph\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/langgraph/graph/__init__.py\",\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    \"output directory write permission\": {\n      \"name\": \"output directory write permission\",\n      \"status\": \"FOUND\",\n      \"detail\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"version\": null,\n      \"backend_type\": \"filesystem\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: create/write/delete\",\n      \"executable_sha256\": null\n    }\n  },\n  \"external_solvers\": {\n    \"FasterCap/FastCap\": {\n      \"name\": \"FasterCap/FastCap\",\n      \"status\": \"MISSING\",\n      \"detail\": \"FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"IDC electrostatics\",\n        \"capacitance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"FastHenry/FastHenry2\": {\n      \"name\": \"FastHenry/FastHenry2\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Spiral PEEC\",\n        \"inductance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"openEMS\": {\n      \"name\": \"openEMS\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"CSXCAD\": {\n      \"name\": \"CSXCAD\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD geometry\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave\": {\n      \"name\": \"Octave\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"openEMS frontend\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave openEMS path\": {\n      \"name\": \"Octave openEMS path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Octave CSXCAD path\": {\n      \"name\": \"Octave CSXCAD path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"scikit-rf\": {\n      \"name\": \"scikit-rf\",\n      \"status\": \"MISSING\",\n      \"detail\": \"import skrf: No module named 'skrf'\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"failed: module not found\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Gmsh\": {\n      \"name\": \"Gmsh\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"3D meshing\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"meshio\": {\n      \"name\": \"meshio\",\n      \"status\": \"FOUND\",\n      \"detail\": \"meshio 5.3.5\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/meshio/__init__.py\",\n      \"version\": \"5.3.5\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"PROBE_PASS\",\n      \"support_state\": \"SOLVER_PARTIAL\"\n    },\n    \"Palace\": {\n      \"name\": \"Palace\",\n      \"status\": \"MISSING\",\n      \"detail\": \"Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable-or-container\",\n      \"capabilities\": [\n        \"Eigenmode FEM\"\n      ],\n      \"smoke_test\": \"not run: backend missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"JoSIM\": {\n      \"name\": \"JoSIM\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"WRspice / ngspice\": {\n      \"name\": \"WRspice / ngspice\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson harmonic balance\",\n        \"SPICE transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null,\n      \"evidence_stage\": \"NOT_INSTALLED\",\n      \"support_state\": \"UNTESTED\"\n    }\n  },\n  \"capabilities\": {\n    \"Layout generation\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"KLayout verification\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"IDC analytical\": {\n      \"state\": \"READY\",\n      \"support_state\": \"CORE_TESTED\"\n    },\n    \"IDC BEM\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"CPW full-wave\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Spiral PEEC\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"Resonator FEM\": {\n      \"state\": \"BLOCKED_STACK_INCOMPLETE\",\n      \"support_state\": \"UNTESTED\"\n    },\n    \"JJ transient\": {\n      \"state\": \"BLOCKED_SOLVER_ABSENT\",\n      \"support_state\": \"UNTESTED\"\n    }\n  },\n  \"system\": {\n    \"os\": \"Darwin\",\n    \"os_release\": \"24.5.0\",\n    \"architecture\": \"arm64\",\n    \"python\": \"3.12.13\",\n    \"package_commit\": \"4794457e04aeab48b0a98634bf63aadb184828aa\",\n    \"package_version\": \"0.3.0\",\n    \"filesystem\": \"/Users/lu/Desktop/T2T/Text-to-Layout\",\n    \"wsl\": {\n      \"detected\": false,\n      \"version\": null,\n      \"distro\": null,\n      \"filesystem_warning\": null\n    }\n  },\n  \"physics_capabilities\": {\n    \"IDC electrostatics\": \"NOT_INSTALLED\",\n    \"CPW FDTD\": \"NOT_INSTALLED\",\n    \"Spiral PEEC\": \"NOT_INSTALLED\",\n    \"Eigenmode FEM\": \"INCOMPLETE\",\n    \"Josephson transient\": \"NOT_INSTALLED\",\n    \"Josephson harmonic balance\": \"NOT_INSTALLED\"\n  },\n  \"checks\": [\n    {\n      \"name\": \"Python\",\n      \"status\": \"FOUND\",\n      \"detail\": \"3.12.13 (requires >= 3.11)\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": null,\n      \"version\": \"3.12.13\",\n      \"backend_type\": \"runtime\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"textlayout\",\n      \"status\": \"FOUND\",\n      \"detail\": \"textlayout 0.3.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py\",\n      \"version\": \"0.3.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"gdsfactory\",\n      \"status\": \"FOUND\",\n      \"detail\": \"gdsfactory 9.43.0\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/gdsfactory/__init__.py\",\n      \"version\": \"9.43.0\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"klayout.db\",\n      \"status\": \"FOUND\",\n      \"detail\": \"klayout.db 0.30.9\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/klayout/db/__init__.py\",\n      \"version\": \"0.30.9\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"langgraph.graph\",\n      \"status\": \"FOUND\",\n      \"detail\": \"langgraph.graph\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/langgraph/graph/__init__.py\",\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"output directory write permission\",\n      \"status\": \"FOUND\",\n      \"detail\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"required\": true,\n      \"section\": \"Core\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out\",\n      \"version\": null,\n      \"backend_type\": \"filesystem\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: create/write/delete\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"FasterCap/FastCap\",\n      \"status\": \"MISSING\",\n      \"detail\": \"FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"IDC electrostatics\",\n        \"capacitance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"FastHenry/FastHenry2\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Extraction\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Spiral PEEC\",\n        \"inductance matrix\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"openEMS\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"CSXCAD\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"CPW FDTD geometry\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"openEMS frontend\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave openEMS path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Octave CSXCAD path\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"interface-directory\",\n      \"capabilities\": [\n        \"CPW FDTD\"\n      ],\n      \"smoke_test\": \"not run: missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"scikit-rf\",\n      \"status\": \"MISSING\",\n      \"detail\": \"import skrf: No module named 'skrf'\",\n      \"required\": false,\n      \"section\": \"RF / EM\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"failed: module not found\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Gmsh\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"3D meshing\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"meshio\",\n      \"status\": \"FOUND\",\n      \"detail\": \"meshio 5.3.5\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/meshio/__init__.py\",\n      \"version\": \"5.3.5\",\n      \"backend_type\": \"python-package\",\n      \"capabilities\": [],\n      \"smoke_test\": \"passed: imported\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"Palace\",\n      \"status\": \"MISSING\",\n      \"detail\": \"Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.\",\n      \"required\": false,\n      \"section\": \"3D FEM future\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable-or-container\",\n      \"capabilities\": [\n        \"Eigenmode FEM\"\n      ],\n      \"smoke_test\": \"not run: backend missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"JoSIM\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    },\n    {\n      \"name\": \"WRspice / ngspice\",\n      \"status\": \"MISSING\",\n      \"detail\": \"not found; execution will be skipped honestly\",\n      \"required\": false,\n      \"section\": \"Circuit\",\n      \"path\": null,\n      \"version\": null,\n      \"backend_type\": \"executable\",\n      \"capabilities\": [\n        \"Josephson harmonic balance\",\n        \"SPICE transient\"\n      ],\n      \"smoke_test\": \"not run: executable missing\",\n      \"executable_sha256\": null\n    }\n  ]\n}\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "textlayout",
+            "--help"
+          ],
+          "exit_code": 0,
+          "name": "cli_help",
+          "runtime_seconds": 0.517188,
+          "stderr": "",
+          "stdout": "usage: textlayout [-h] [--version]\n                  {prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}\n                  ...\n\nText-to-Layout CLI\n\npositional arguments:\n  {prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}\n    prompt              Natural-language request -> intent, layout,\n                        verification, simulation, report.\n    generate            Generate verified artifacts from a DSL file.\n    verify              Verify a DSL file (no export).\n    epr                 Loss-participation (EPR) and coherence estimate for a\n                        DSL file. EPR_ANALYTICAL_ONLY by default; never a\n                        field solution.\n    evidence            Inspect and validate evidence ledgers (the source of\n                        truth for every physics claim).\n    doctor              Check the environment (imports, solvers, write perms).\n    jobs                Start, inspect, collect, cancel, and resume persistent\n                        local solver jobs.\n    serve               Run the FastAPI plugin server.\n    simulate            Run supported external solver benchmarks.\n    yield               JJ critical-current variability / fabrication-yield\n                        Monte Carlo. Drawing one SQUID loop proves geometry,\n                        not manufacturability.\n    chip                Multi-qubit chip-level frequency-collision analysis. A\n                        single-device closed loop cannot answer whether a\n                        processor works.\n    pdk                 Foundry PDK abstraction: list registered technologies\n                        or inspect a PDK's full provenance and process\n                        parameters.\n    measurement         Simulation-vs-measurement correlation: the path from\n                        illustrative to fab-calibrated numbers.\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "python",
+            "scripts/validate_readme_claims.py"
+          ],
+          "exit_code": 0,
+          "name": "readme_claim_audit",
+          "runtime_seconds": 0.57554,
+          "stderr": "",
+          "stdout": "README claim validation passed: every support claim is backed by artifacts.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "python",
+            "scripts/check_namespace_boundary.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "name": "namespace_check",
+          "runtime_seconds": 0.754429,
+          "stderr": "",
+          "stdout": "namespace boundary OK: textlayout imports no legacy code; legacy package frozen.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "ruff",
+            "check",
+            "."
+          ],
+          "exit_code": 0,
+          "name": "ruff",
+          "runtime_seconds": 0.550201,
+          "stderr": "",
+          "stdout": "All checks passed!\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "mypy"
+          ],
+          "exit_code": 0,
+          "name": "mypy",
+          "runtime_seconds": 3.046265,
+          "stderr": "",
+          "stdout": "Success: no issues found in 178 source files\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "pytest",
+            "--junit-xml=/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/test_report.xml"
+          ],
+          "exit_code": 0,
+          "name": "pytest",
+          "runtime_seconds": 90.565888,
+          "stderr": "",
+          "stdout": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0\nrootdir: /Users/lu/Desktop/T2T/Text-to-Layout\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: cov-7.1.0, langsmith-0.9.7, anyio-4.13.0\ncollected 1899 items\n\ntests/test_ai_copilot.py ...........                                     [  0%]\ntests/test_backend_orchestration.py .....                                [  0%]\ntests/test_candidate_loop.py ............                                [  1%]\ntests/test_closed_loop.py .......                                        [  1%]\ntests/test_cpw_boolean_gap.py ....                                       [  2%]\ntests/test_cpw_matches_reference.py ..                                   [  2%]\ntests/test_device_views.py ...                                           [  2%]\ntests/test_eda_framework_architecture.py .......                         [  2%]\ntests/test_em_solvers.py ...                                             [  2%]\ntests/test_fitting.py ...                                                [  3%]\ntests/test_fourth_wave.py ........................                       [  4%]\ntests/test_improvements.py ......                                        [  4%]\ntests/test_jj_boolean_overlap.py ...                                     [  4%]\ntests/test_jj_stack_matches_reference.py ..                              [  4%]\ntests/test_jpa_matches_literature.py ..                                  [  4%]\ntests/test_jpa_topology.py ......                                        [  5%]\ntests/test_layout_backend.py ......                                      [  5%]\ntests/test_layout_quality_modes.py .......                               [  5%]\ntests/test_layout_validator.py ......................................... [  8%]\n...                                                                      [  8%]\ntests/test_new_modules.py ...................................            [ 10%]\ntests/test_next_improvements.py .......                                  [ 10%]\ntests/test_no_fake_gain.py .......                                       [ 10%]\ntests/test_no_toy_layouts.py .....                                       [ 11%]\ntests/test_open_solver.py ...........                                    [ 11%]\ntests/test_openems_real_s2p.py .......                                   [ 12%]\ntests/test_opensource_em.py ....                                         [ 12%]\ntests/test_packaging.py ....                                             [ 12%]\ntests/test_paper_benchmarks.py .                                         [ 12%]\ntests/test_pdk.py .....                                                  [ 12%]\ntests/test_phase1_phase2.py ............                                 [ 13%]\ntests/test_phase456.py ..........                                        [ 13%]\ntests/test_phase8_foundations.py ....                                    [ 14%]\ntests/test_phase8_operations.py ..                                       [ 14%]\ntests/test_phases_1_10.py ...............................                [ 15%]\ntests/test_physics_benchmark.py ......................                   [ 17%]\ntests/test_physics_compiler.py ....................                      [ 18%]\ntests/test_physics_compiler_loop.py ......                               [ 18%]\ntests/test_physics_engine.py ........................................... [ 20%]\n.........s..                                                             [ 21%]\ntests/test_physics_first_pipeline.py .................................   [ 23%]\ntests/test_physics_grounded_compiler_contract.py .....                   [ 23%]\ntests/test_physics_provenance.py ...                                     [ 23%]\ntests/test_pyaedt_bridge.py ...                                          [ 23%]\ntests/test_quantum_eda_platform.py ..................................... [ 25%]\n.                                                                        [ 25%]\ntests/test_readiness.py ..                                               [ 25%]\ntests/test_report_visual_quality.py ...                                  [ 25%]\ntests/test_research_execution.py sssss.ss                                [ 26%]\ntests/test_research_quality_goal.py .......                              [ 26%]\ntests/test_review_committee.py .............                             [ 27%]\ntests/test_review_coverage.py ........                                   [ 27%]\ntests/test_signoff.py ......                                             [ 28%]\ntests/test_signoff_contract.py .......                                   [ 28%]\ntests/test_smoke.py ................                                     [ 29%]\ntests/test_solver_adapters.py ....                                       [ 29%]\ntests/test_solver_artifacts_required.py .......                          [ 29%]\ntests/test_solver_evidence.py .......                                    [ 30%]\ntests/test_solver_truthfulness.py ....                                   [ 30%]\ntests/test_sop_qa.py ................................................    [ 33%]\ntests/test_superconducting_eda_compiler.py .......                       [ 33%]\ntests/test_superconductivity.py ....                                     [ 33%]\ntests/test_third_wave.py ......                                          [ 33%]\ntests/test_transmon_matches_literature.py ..                             [ 34%]\ntests/test_transmon_topology.py .....                                    [ 34%]\ntests/test_visual_credibility.py .......                                 [ 34%]\ntests/textlayout_suite/test_acceptance.py ..............                 [ 35%]\ntests/textlayout_suite/test_acceptance_physics.py ............           [ 36%]\ntests/textlayout_suite/test_api.py ............                          [ 36%]\ntests/textlayout_suite/test_api_from_text.py ..                          [ 36%]\ntests/textlayout_suite/test_audit_artifacts.py ......................... [ 38%]\n......                                                                   [ 38%]\ntests/textlayout_suite/test_benchmark_structure.py ....                  [ 38%]\ntests/textlayout_suite/test_canonical_evidence.py ...................... [ 39%]\n.....................                                                    [ 40%]\ntests/textlayout_suite/test_chip_40q_showcase.py ........                [ 41%]\ntests/textlayout_suite/test_chip_lattice.py ..........................   [ 42%]\ntests/textlayout_suite/test_ci_platform_matrix.py ...                    [ 42%]\ntests/textlayout_suite/test_convergence_order.py ....................... [ 44%]\n..............                                                           [ 44%]\ntests/textlayout_suite/test_cpw_generator.py ....                        [ 44%]\ntests/textlayout_suite/test_doctor_and_dependencies.py .........         [ 45%]\ntests/textlayout_suite/test_document_authority.py ...                    [ 45%]\ntests/textlayout_suite/test_dsl.py .....                                 [ 45%]\ntests/textlayout_suite/test_epr_coherence.py ......................      [ 47%]\ntests/textlayout_suite/test_epr_pdk_provenance.py ............           [ 47%]\ntests/textlayout_suite/test_evidence_consistency.py .................... [ 48%]\n............                                                             [ 49%]\ntests/textlayout_suite/test_evidence_contract.py ..................      [ 50%]\ntests/textlayout_suite/test_evidence_transitions.py .................... [ 51%]\n........................................................................ [ 55%]\n..............................................                           [ 57%]\ntests/textlayout_suite/test_exporters.py ....                            [ 57%]\ntests/textlayout_suite/test_extended_generators.py ........              [ 58%]\ntests/textlayout_suite/test_external_tool_registry.py ......             [ 58%]\ntests/textlayout_suite/test_fabrication_gate.py ..........               [ 59%]\ntests/textlayout_suite/test_fastercap_execution.py ........              [ 59%]\ntests/textlayout_suite/test_fem_model.py ............................    [ 60%]\ntests/textlayout_suite/test_from_text_workflow.py ......                 [ 61%]\ntests/textlayout_suite/test_gds_export.py ...                            [ 61%]\ntests/textlayout_suite/test_generate_workflow.py ......                  [ 61%]\ntests/textlayout_suite/test_geometry_engine.py ....                      [ 61%]\ntests/textlayout_suite/test_gmsh_runtime.py .                            [ 61%]\ntests/textlayout_suite/test_golden_cpw.py .                              [ 62%]\ntests/textlayout_suite/test_idc_generator.py .....                       [ 62%]\ntests/textlayout_suite/test_idc_optimization.py ........                 [ 62%]\ntests/textlayout_suite/test_jobs.py ......                               [ 63%]\ntests/textlayout_suite/test_josim_adapter.py .........                   [ 63%]\ntests/textlayout_suite/test_josim_idc.py ....                            [ 63%]\ntests/textlayout_suite/test_jpa_mvp.py ...                               [ 63%]\ntests/textlayout_suite/test_klayout_drc.py ............................. [ 65%]\n.......                                                                  [ 65%]\ntests/textlayout_suite/test_measurement.py ............................. [ 67%]\n..                                                                       [ 67%]\ntests/textlayout_suite/test_mesh_convergence.py ........................ [ 68%]\n....                                                                     [ 68%]\ntests/textlayout_suite/test_mode_tracking.py ........................... [ 70%]\n..                                                                       [ 70%]\ntests/textlayout_suite/test_multi_device_generators.py .......           [ 70%]\ntests/textlayout_suite/test_multi_sim_prompt.py ..                       [ 70%]\ntests/textlayout_suite/test_namespace_boundary.py ...............        [ 71%]\ntests/textlayout_suite/test_oci_stack.py ...                             [ 71%]\ntests/textlayout_suite/test_open_source_simulation.py .....              [ 72%]\ntests/textlayout_suite/test_openems_evidence.py ........                 [ 72%]\ntests/textlayout_suite/test_palace_amr_verification.py .........         [ 72%]\ntests/textlayout_suite/test_palace_artifact_contracts.py ...             [ 73%]\ntests/textlayout_suite/test_palace_atomic_stages.py ...                  [ 73%]\ntests/textlayout_suite/test_palace_backend.py .......................... [ 74%]\n.....                                                                    [ 74%]\ntests/textlayout_suite/test_palace_benchmark_evidence.py ............... [ 75%]\n........                                                                 [ 76%]\ntests/textlayout_suite/test_palace_benchmark_v017.py .................   [ 77%]\ntests/textlayout_suite/test_palace_bounded_amr_policy.py .........       [ 77%]\ntests/textlayout_suite/test_palace_cross_amr_fixture.py ..               [ 77%]\ntests/textlayout_suite/test_palace_diagnostic.py ....                    [ 77%]\ntests/textlayout_suite/test_palace_energy_weighted_mac.py .......        [ 78%]\ntests/textlayout_suite/test_palace_field_mac.py ..                       [ 78%]\ntests/textlayout_suite/test_palace_field_retention.py .........          [ 78%]\ntests/textlayout_suite/test_palace_global_assignment.py ....             [ 78%]\ntests/textlayout_suite/test_palace_higher_order_vtk.py ..                [ 79%]\ntests/textlayout_suite/test_palace_installation.py ..s..                 [ 79%]\ntests/textlayout_suite/test_palace_mac_applicability.py ......           [ 79%]\ntests/textlayout_suite/test_palace_material_overlap.py ...               [ 79%]\ntests/textlayout_suite/test_palace_mode_classification.py .....          [ 80%]\ntests/textlayout_suite/test_palace_model_audit.py ...                    [ 80%]\ntests/textlayout_suite/test_palace_mpi_integration.py ..                 [ 80%]\ntests/textlayout_suite/test_palace_p2_manufactured.py ......             [ 80%]\ntests/textlayout_suite/test_palace_preparation.py .                      [ 80%]\ntests/textlayout_suite/test_palace_process_ownership.py ..s...           [ 81%]\ntests/textlayout_suite/test_palace_quarter_wave_sanity.py ............   [ 81%]\ntests/textlayout_suite/test_palace_resource_limits.py ..                 [ 81%]\ntests/textlayout_suite/test_palace_targeted_mesh.py ..                   [ 81%]\ntests/textlayout_suite/test_palace_toolchain.py .....                    [ 82%]\ntests/textlayout_suite/test_palace_toolchain_pins.py ............        [ 82%]\ntests/textlayout_suite/test_palace_vertical_slice.py .............       [ 83%]\ntests/textlayout_suite/test_paraview_toolchain.py .s                     [ 83%]\ntests/textlayout_suite/test_partial_lvs.py ....                          [ 83%]\ntests/textlayout_suite/test_pdk.py ........................              [ 85%]\ntests/textlayout_suite/test_pdk_provenance.py .......................... [ 86%]\n                                                                         [ 86%]\ntests/textlayout_suite/test_platform_certification.py .....              [ 86%]\ntests/textlayout_suite/test_plugin_thin_bundle.py ..............         [ 87%]\ntests/textlayout_suite/test_polygon_drc.py ..                            [ 87%]\ntests/textlayout_suite/test_product_docs.py ............                 [ 88%]\ntests/textlayout_suite/test_project_claims.py ....................       [ 89%]\ntests/textlayout_suite/test_project_status.py ............ss........     [ 90%]\ntests/textlayout_suite/test_prompt_parsing.py .............              [ 91%]\ntests/textlayout_suite/test_pscan2_adapter.py ......                     [ 91%]\ntests/textlayout_suite/test_readme_claims.py .................           [ 92%]\ntests/textlayout_suite/test_real_cqed_loop_demo.py .......               [ 92%]\ntests/textlayout_suite/test_reproduce_policy.py ..                       [ 92%]\ntests/textlayout_suite/test_resource_sampler.py ........                 [ 93%]\ntests/textlayout_suite/test_showcase_examples.py ....................... [ 94%]\n............                                                             [ 94%]\ntests/textlayout_suite/test_simulation_postprocess.py .....              [ 95%]\ntests/textlayout_suite/test_simulator_bootstrap.py ....................  [ 96%]\ntests/textlayout_suite/test_solver_execution.py ..................       [ 97%]\ntests/textlayout_suite/test_sparameters.py ...                           [ 97%]\ntests/textlayout_suite/test_touchstone_honesty.py ......                 [ 97%]\ntests/textlayout_suite/test_verification.py ......                       [ 98%]\ntests/textlayout_suite/test_workflow_graph.py .....                      [ 98%]\ntests/textlayout_suite/test_wrspice_adapter.py .....                     [ 98%]\ntests/textlayout_suite/test_wsl_bootstrap.py ..                          [ 98%]\ntests/textlayout_suite/test_yield_model.py .........................     [100%]\n\n=============================== warnings summary ===============================\ntests/test_ai_copilot.py:3\n  /Users/lu/Desktop/T2T/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.\n    from text_to_gds.ai import DesignIntent, DesignIntentParser\n\nsrc/textlayout/_legacy/device_optimizer.py:24\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name \"schema\" in \"OptimizationReport\" shadows an attribute in parent \"BaseModel\"\n    class OptimizationReport(BaseModel):\n\nsrc/textlayout/_legacy/extracted_device.py:39\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name \"schema\" in \"ExtractedDevice\" shadows an attribute in parent \"BaseModel\"\n    class ExtractedDevice(BaseModel):\n\nsrc/textlayout/_legacy/microwave_validator.py:12\n  /Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name \"schema\" in \"MicrowaveReport\" shadows an attribute in parent \"BaseModel\"\n    class MicrowaveReport(BaseModel):\n\nout/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\ntests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings\ntests/textlayout_suite/test_chip_lattice.py: 141500 warnings\ntests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/pydantic/main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n- generated xml file: /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/test_report.xml -\n========= 1886 passed, 13 skipped, 518005 warnings in 82.23s (0:01:22) =========\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "python",
+            "scripts/generate_project_status.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "name": "project_status_check",
+          "runtime_seconds": 0.684271,
+          "stderr": "",
+          "stdout": "project status artifacts are current.\n"
+        },
+        {
+          "command": [
+            "uv",
+            "build"
+          ],
+          "exit_code": 0,
+          "name": "build",
+          "runtime_seconds": 6.877481,
+          "stderr": "Building source distribution...\nBuilding wheel from source distribution...\nSuccessfully built dist/text_to_gds-0.3.0.tar.gz\nSuccessfully built dist/text_to_gds-0.3.0-py3-none-any.whl\n",
+          "stdout": ""
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "pytest",
+            "tests/textlayout_suite/test_api.py",
+            "-q"
+          ],
+          "exit_code": 0,
+          "name": "api_smoke",
+          "runtime_seconds": 3.688483,
+          "stderr": "",
+          "stdout": "............                                                             [100%]\n=============================== warnings summary ===============================\nout/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1\n  /Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n12 passed, 1 warning in 2.29s\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "textlayout",
+            "prompt",
+            "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+            "--out",
+            "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1"
+          ],
+          "exit_code": 0,
+          "name": "prompt_1",
+          "runtime_seconds": 6.751784,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.from-text.v1\",\n  \"status\": \"ok\",\n  \"component\": \"IDC\",\n  \"layout_component\": \"IDC\",\n  \"target\": {\n    \"capacitance_pf\": 0.6,\n    \"frequency_ghz\": 6.0\n  },\n  \"simulation_status\": \"SKIPPED_SOLVER_ABSENT\",\n  \"simulation_summary\": \"capacitance: SKIPPED_SOLVER_ABSENT \\u2014 solver not installed; no physics verification was performed\",\n  \"circuit_simulators\": {},\n  \"artifacts\": {\n    \"intent\": \"intent.json\",\n    \"layout\": \"layout.json\",\n    \"optimization\": \"optimization.json\",\n    \"gds\": \"output.gds\",\n    \"svg\": \"output.svg\",\n    \"png\": \"output.png\",\n    \"klayout_readback\": \"klayout_readback.json\",\n    \"verification\": \"verification.json\",\n    \"capacitance_result\": \"extraction/capacitance_result.json\",\n    \"simulation\": \"simulation/simulation.json\",\n    \"simulation_legacy\": \"simulation.json\",\n    \"report\": \"report.md\",\n    \"workflow_trace\": \"workflow_trace.json\"\n  },\n  \"output_dir\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1\",\n  \"pdk_provenance\": {\n    \"available\": false,\n    \"technology\": \"generic_2metal\",\n    \"note\": \"Technology 'generic_2metal' is not backed by a PDK YAML (e.g. the built-in generic_2metal Technology, which predates the PDK schema). No PDK provenance is available.\"\n  }\n}\n"
+        },
+        {
+          "command": [
+            "uv",
+            "run",
+            "--python",
+            "3.12",
+            "textlayout",
+            "prompt",
+            "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+            "--out",
+            "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2"
+          ],
+          "exit_code": 0,
+          "name": "prompt_2",
+          "runtime_seconds": 3.351254,
+          "stderr": "",
+          "stdout": "{\n  \"schema\": \"textlayout.from-text.v1\",\n  \"status\": \"ok\",\n  \"component\": \"IDC\",\n  \"layout_component\": \"IDC\",\n  \"target\": {\n    \"capacitance_pf\": 0.6,\n    \"frequency_ghz\": 6.0\n  },\n  \"simulation_status\": \"SKIPPED_SOLVER_ABSENT\",\n  \"simulation_summary\": \"capacitance: SKIPPED_SOLVER_ABSENT \\u2014 solver not installed; no physics verification was performed\",\n  \"circuit_simulators\": {},\n  \"artifacts\": {\n    \"intent\": \"intent.json\",\n    \"layout\": \"layout.json\",\n    \"optimization\": \"optimization.json\",\n    \"gds\": \"output.gds\",\n    \"svg\": \"output.svg\",\n    \"png\": \"output.png\",\n    \"klayout_readback\": \"klayout_readback.json\",\n    \"verification\": \"verification.json\",\n    \"capacitance_result\": \"extraction/capacitance_result.json\",\n    \"simulation\": \"simulation/simulation.json\",\n    \"simulation_legacy\": \"simulation.json\",\n    \"report\": \"report.md\",\n    \"workflow_trace\": \"workflow_trace.json\"\n  },\n  \"output_dir\": \"/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2\",\n  \"pdk_provenance\": {\n    \"available\": false,\n    \"technology\": \"generic_2metal\",\n    \"note\": \"Technology 'generic_2metal' is not backed by a PDK YAML (e.g. the built-in generic_2metal Technology, which predates the PDK schema). No PDK provenance is available.\"\n  }\n}\n"
+        }
+      ],
+      "core_pass": true,
+      "doctor": {
+        "capabilities": {
+          "CPW full-wave": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "IDC BEM": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "IDC analytical": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "JJ transient": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          },
+          "KLayout verification": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "Layout generation": {
+            "state": "READY",
+            "support_state": "CORE_TESTED"
+          },
+          "Resonator FEM": {
+            "state": "BLOCKED_STACK_INCOMPLETE",
+            "support_state": "UNTESTED"
+          },
+          "Spiral PEEC": {
+            "state": "BLOCKED_SOLVER_ABSENT",
+            "support_state": "UNTESTED"
+          }
+        },
+        "checks": [
+          {
+            "backend_type": "runtime",
+            "capabilities": [],
+            "detail": "3.12.13 (requires >= 3.11)",
+            "executable_sha256": null,
+            "name": "Python",
+            "path": null,
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed",
+            "status": "FOUND",
+            "version": "3.12.13"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "textlayout 0.3.0",
+            "executable_sha256": null,
+            "name": "textlayout",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.3.0"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "gdsfactory 9.43.0",
+            "executable_sha256": null,
+            "name": "gdsfactory",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/gdsfactory/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "9.43.0"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "klayout.db 0.30.9",
+            "executable_sha256": null,
+            "name": "klayout.db",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/klayout/db/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.30.9"
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "langgraph.graph",
+            "executable_sha256": null,
+            "name": "langgraph.graph",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/langgraph/graph/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": null
+          },
+          {
+            "backend_type": "filesystem",
+            "capabilities": [],
+            "detail": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "executable_sha256": null,
+            "name": "output directory write permission",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: create/write/delete",
+            "status": "FOUND",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "IDC electrostatics",
+              "capacitance matrix"
+            ],
+            "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+            "executable_sha256": null,
+            "name": "FasterCap/FastCap",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Spiral PEEC",
+              "inductance matrix"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "FastHenry/FastHenry2",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "openEMS",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD geometry"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "CSXCAD",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "openEMS frontend"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave openEMS path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Octave CSXCAD path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "import skrf: No module named 'skrf'",
+            "executable_sha256": null,
+            "name": "scikit-rf",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "failed: module not found",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "3D meshing"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "Gmsh",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "meshio 5.3.5",
+            "executable_sha256": null,
+            "name": "meshio",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/meshio/__init__.py",
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "5.3.5"
+          },
+          {
+            "backend_type": "executable-or-container",
+            "capabilities": [
+              "Eigenmode FEM"
+            ],
+            "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+            "executable_sha256": null,
+            "name": "Palace",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: backend missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "JoSIM",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          },
+          {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson harmonic balance",
+              "SPICE transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "executable_sha256": null,
+            "name": "WRspice / ngspice",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "version": null
+          }
+        ],
+        "core_dependencies": {
+          "Python": {
+            "backend_type": "runtime",
+            "capabilities": [],
+            "detail": "3.12.13 (requires >= 3.11)",
+            "executable_sha256": null,
+            "name": "Python",
+            "path": null,
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed",
+            "status": "FOUND",
+            "version": "3.12.13"
+          },
+          "gdsfactory": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "gdsfactory 9.43.0",
+            "executable_sha256": null,
+            "name": "gdsfactory",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/gdsfactory/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "9.43.0"
+          },
+          "klayout.db": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "klayout.db 0.30.9",
+            "executable_sha256": null,
+            "name": "klayout.db",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/klayout/db/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.30.9"
+          },
+          "langgraph.graph": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "langgraph.graph",
+            "executable_sha256": null,
+            "name": "langgraph.graph",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/langgraph/graph/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": null
+          },
+          "output directory write permission": {
+            "backend_type": "filesystem",
+            "capabilities": [],
+            "detail": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "executable_sha256": null,
+            "name": "output directory write permission",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: create/write/delete",
+            "status": "FOUND",
+            "version": null
+          },
+          "textlayout": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "textlayout 0.3.0",
+            "executable_sha256": null,
+            "name": "textlayout",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/src/textlayout/__init__.py",
+            "required": true,
+            "section": "Core",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "version": "0.3.0"
+          }
+        },
+        "external_solvers": {
+          "CSXCAD": {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD geometry"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "CSXCAD",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "FastHenry/FastHenry2": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Spiral PEEC",
+              "inductance matrix"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "FastHenry/FastHenry2",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "FasterCap/FastCap": {
+            "backend_type": "executable",
+            "capabilities": [
+              "IDC electrostatics",
+              "capacitance matrix"
+            ],
+            "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "FasterCap/FastCap",
+            "path": null,
+            "required": false,
+            "section": "Extraction",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Gmsh": {
+            "backend_type": "executable",
+            "capabilities": [
+              "3D meshing"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Gmsh",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "JoSIM": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "JoSIM",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave": {
+            "backend_type": "executable",
+            "capabilities": [
+              "openEMS frontend"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave CSXCAD path": {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave CSXCAD path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Octave openEMS path": {
+            "backend_type": "interface-directory",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Octave openEMS path",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "Palace": {
+            "backend_type": "executable-or-container",
+            "capabilities": [
+              "Eigenmode FEM"
+            ],
+            "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "Palace",
+            "path": null,
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "not run: backend missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "WRspice / ngspice": {
+            "backend_type": "executable",
+            "capabilities": [
+              "Josephson harmonic balance",
+              "SPICE transient"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "WRspice / ngspice",
+            "path": null,
+            "required": false,
+            "section": "Circuit",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "meshio": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "meshio 5.3.5",
+            "evidence_stage": "PROBE_PASS",
+            "executable_sha256": null,
+            "name": "meshio",
+            "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv/lib/python3.12/site-packages/meshio/__init__.py",
+            "required": false,
+            "section": "3D FEM future",
+            "smoke_test": "passed: imported",
+            "status": "FOUND",
+            "support_state": "SOLVER_PARTIAL",
+            "version": "5.3.5"
+          },
+          "openEMS": {
+            "backend_type": "executable",
+            "capabilities": [
+              "CPW FDTD"
+            ],
+            "detail": "not found; execution will be skipped honestly",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "openEMS",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "not run: executable missing",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          },
+          "scikit-rf": {
+            "backend_type": "python-package",
+            "capabilities": [],
+            "detail": "import skrf: No module named 'skrf'",
+            "evidence_stage": "NOT_INSTALLED",
+            "executable_sha256": null,
+            "name": "scikit-rf",
+            "path": null,
+            "required": false,
+            "section": "RF / EM",
+            "smoke_test": "failed: module not found",
+            "status": "MISSING",
+            "support_state": "UNTESTED",
+            "version": null
+          }
+        },
+        "host": {
+          "architecture": "arm64",
+          "filesystem": "/Users/lu/Desktop/T2T/Text-to-Layout",
+          "os": "Darwin",
+          "os_release": "24.5.0"
+        },
+        "physics_capabilities": {
+          "CPW FDTD": "NOT_INSTALLED",
+          "Eigenmode FEM": "INCOMPLETE",
+          "IDC electrostatics": "NOT_INSTALLED",
+          "Josephson harmonic balance": "NOT_INSTALLED",
+          "Josephson transient": "NOT_INSTALLED",
+          "Spiral PEEC": "NOT_INSTALLED"
+        },
+        "runtime": {
+          "git_sha": "4794457e04aeab48b0a98634bf63aadb184828aa",
+          "python": "3.12.13",
+          "support_state": "CORE_TESTED",
+          "textlayout": "0.3.0"
+        },
+        "schema": "textlayout.doctor.v2",
+        "status": "ok",
+        "system": {
+          "architecture": "arm64",
+          "filesystem": "/Users/lu/Desktop/T2T/Text-to-Layout",
+          "os": "Darwin",
+          "os_release": "24.5.0",
+          "package_commit": "4794457e04aeab48b0a98634bf63aadb184828aa",
+          "package_version": "0.3.0",
+          "python": "3.12.13",
+          "wsl": {
+            "detected": false,
+            "distro": null,
+            "filesystem_warning": null,
+            "version": null
+          }
+        },
+        "wsl": {
+          "detected": false,
+          "distro": null,
+          "filesystem_warning": null,
+          "version": null
+        }
+      },
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv"
+      },
+      "isolated_environment": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/clean-macos-py312-nahk8yro/.venv",
+      "prompt": {
+        "input": "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+        "input_sha256": "6ce58bcc7d0bf8887847691e7861beef03f6a8fdf00deb66da46061969eee23a",
+        "layout_and_gds_deterministic": true,
+        "run_1": {
+          "files": {
+            "capacitance_result": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/extraction/capacitance_result.json",
+              "sha256": "04db626be2266befb956174ac1a408ba244caf44c6adc5a7f238fc5a8f45e7d8",
+              "size": 1362
+            },
+            "gds": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/output.gds",
+              "sha256": "2425706521692d1424aa22599235985381a1bb263f7aad8e8089456b3c16dbed",
+              "size": 3632
+            },
+            "intent": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/intent.json",
+              "sha256": "7aac8c60b74ca80c305b47b74876494754c68c482293fff726d5be13051c3581",
+              "size": 537
+            },
+            "klayout_readback": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/klayout_readback.json",
+              "sha256": "9e9aecafea1f36d9ad3e084e0ffe8aad0a56084d8e3aac044ec3187ca9224295",
+              "size": 1705
+            },
+            "layout": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/layout.json",
+              "sha256": "a09e323eb05a6e6b0b983e254ca6ff267c119986562fb05edd0cc972f7f50a16",
+              "size": 971
+            },
+            "optimization": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/optimization.json",
+              "sha256": "cc3fc84d14be7217db31cca4711571c26e236e9564ce9f560e547ca3edf63829",
+              "size": 1351
+            },
+            "png": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/output.png",
+              "sha256": "ceb271d57216c622cc55b196ef700edd79591595112a896de6b2e96a3f8e239b",
+              "size": 7439
+            },
+            "report": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/report.md",
+              "sha256": "fb421a0fc5b74a609538d7ab0a9d0c59f58a40d60dafe9b6d56e24e341fe9aec",
+              "size": 4623
+            },
+            "simulation": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/simulation/simulation.json",
+              "sha256": "5a057b9b749baa63811fb5a149d51c52557403692cef4341962ce8d167a40318",
+              "size": 3068
+            },
+            "simulation_legacy": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/simulation.json",
+              "sha256": "5a057b9b749baa63811fb5a149d51c52557403692cef4341962ce8d167a40318",
+              "size": 3068
+            },
+            "svg": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/output.svg",
+              "sha256": "d80d7d80780efc50f3e4ffcd596ce7b962aa21e7a71f84d9ceac23c531f144c6",
+              "size": 5534
+            },
+            "verification": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/verification.json",
+              "sha256": "ff765a6fa079ac2a5fa3fdc7c33ec2676cdd20f54d35ebe5aaa37c8b851dd216",
+              "size": 4271
+            },
+            "workflow_trace": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_1/workflow_trace.json",
+              "sha256": "13886b376972f8d52594be530c563d382af779fe8bfeda3f059b9622db52c8d2",
+              "size": 9977
+            }
+          },
+          "missing_or_empty": [],
+          "simulation_status": "SKIPPED_SOLVER_ABSENT",
+          "valid": true
+        },
+        "run_2": {
+          "files": {
+            "capacitance_result": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/extraction/capacitance_result.json",
+              "sha256": "8dd8a54bb347a70fe8fd79bfb3ed983ea1427236b3ff8dfb12f50440509c78bd",
+              "size": 1362
+            },
+            "gds": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/output.gds",
+              "sha256": "2425706521692d1424aa22599235985381a1bb263f7aad8e8089456b3c16dbed",
+              "size": 3632
+            },
+            "intent": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/intent.json",
+              "sha256": "7aac8c60b74ca80c305b47b74876494754c68c482293fff726d5be13051c3581",
+              "size": 537
+            },
+            "klayout_readback": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/klayout_readback.json",
+              "sha256": "82110aa53847fe28b5edd18092b7fdfaf11e88d6c7f856612cd3a2890cef1241",
+              "size": 1705
+            },
+            "layout": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/layout.json",
+              "sha256": "a09e323eb05a6e6b0b983e254ca6ff267c119986562fb05edd0cc972f7f50a16",
+              "size": 971
+            },
+            "optimization": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/optimization.json",
+              "sha256": "cc3fc84d14be7217db31cca4711571c26e236e9564ce9f560e547ca3edf63829",
+              "size": 1351
+            },
+            "png": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/output.png",
+              "sha256": "ceb271d57216c622cc55b196ef700edd79591595112a896de6b2e96a3f8e239b",
+              "size": 7439
+            },
+            "report": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/report.md",
+              "sha256": "96e3b02791041971c8bda6c300dcecd8982ee74aacf8855e372d4f972448140a",
+              "size": 4623
+            },
+            "simulation": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/simulation/simulation.json",
+              "sha256": "0d805afc0653c95c9a2f1727285011e1d389a14f3551e96b9fb9d94b8e561757",
+              "size": 3068
+            },
+            "simulation_legacy": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/simulation.json",
+              "sha256": "0d805afc0653c95c9a2f1727285011e1d389a14f3551e96b9fb9d94b8e561757",
+              "size": 3068
+            },
+            "svg": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/output.svg",
+              "sha256": "d80d7d80780efc50f3e4ffcd596ce7b962aa21e7a71f84d9ceac23c531f144c6",
+              "size": 5534
+            },
+            "verification": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/verification.json",
+              "sha256": "4ac87cf5bd5a3f752c89b8abc4dc7139b7a9045d9046cd078ad1efbe27706e82",
+              "size": 4271
+            },
+            "workflow_trace": {
+              "exists": true,
+              "path": "/Users/lu/Desktop/T2T/Text-to-Layout/out/platform/runs/macos-py312-vawew9kb/idc_2/workflow_trace.json",
+              "sha256": "6aa08e703b2e6ef6a58e3eb0c30b6dee98d98ee62348cf448978fe3878817f37",
+              "size": 9977
+            }
+          },
+          "missing_or_empty": [],
+          "simulation_status": "SKIPPED_SOLVER_ABSENT",
+          "valid": true
+        }
+      },
+      "python_actual": "3.12.13",
+      "python_requested": "3.12",
+      "quick": false,
+      "solver_smokes": {},
+      "tests": {
+        "failed": 0,
+        "passed": 1886,
+        "skipped": 13,
+        "total": 1899
+      },
+      "tool_versions": {
+        "gdsfactory": "9.43.0",
+        "klayout": "0.30.9",
+        "textlayout": "0.3.0",
+        "uv": "uv 0.12.1 (Homebrew 2026-07-31 aarch64-apple-darwin)"
+      }
+    }
+  ],
+  "real_execution": true,
+  "schema": "textlayout.platform-certification.v1",
+  "solvers": {
+    "FastHenry": {
+      "evidence_stage": "NOT_INSTALLED",
+      "executable_sha256": null,
+      "execution_evidence": null,
+      "path": null,
+      "probe": "not run: executable missing",
+      "support_state": "UNTESTED",
+      "version": null
+    },
+    "FasterCap": {
+      "evidence_stage": "NOT_INSTALLED",
+      "executable_sha256": null,
+      "execution_evidence": null,
+      "path": null,
+      "probe": "not run: executable missing",
+      "support_state": "UNTESTED",
+      "version": null
+    },
+    "JoSIM": {
+      "evidence_stage": "NOT_INSTALLED",
+      "executable_sha256": null,
+      "execution_evidence": null,
+      "path": null,
+      "probe": "not run: executable missing",
+      "support_state": "UNTESTED",
+      "version": null
+    },
+    "Palace": {
+      "evidence_stage": "NOT_INSTALLED",
+      "executable_sha256": null,
+      "execution_evidence": null,
+      "path": null,
+      "probe": "not run: backend missing",
+      "support_state": "UNTESTED",
+      "version": null
+    },
+    "openEMS": {
+      "evidence_stage": "NOT_INSTALLED",
+      "executable_sha256": null,
+      "execution_evidence": null,
+      "path": null,
+      "probe": "not run: executable missing",
+      "support_state": "UNTESTED",
+      "version": null
+    }
+  },
+  "support_state": "CORE_CERTIFIED"
+}

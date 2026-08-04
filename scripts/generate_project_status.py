@@ -26,7 +26,9 @@ STATUS_SCHEMA = "textlayout.project-status.v2"
 
 #: Statuses that count as real solver-backed evidence (mirrors the shared
 #: evidence vocabulary in textlayout.evidence / textlayout.simulation.evidence).
-_SOLVER_BACKED_STATUSES = frozenset({"NUMERICALLY_CONVERGED", "OUTPUT_PARSED", "SIMULATION_EXECUTED"})
+_SOLVER_BACKED_STATUSES = frozenset(
+    {"NUMERICALLY_CONVERGED", "OUTPUT_PARSED", "SIMULATION_EXECUTED"}
+)
 _SKIPPED_STATUSES = frozenset({"SKIPPED_SOLVER_ABSENT"})
 _ANALYTICAL_STATUSES = frozenset({"ANALYTICAL_ONLY"})
 _INVALID_STATUSES = frozenset({"SIMULATION_INVALID", "CONVERGENCE_FAILED", "FAILED"})
@@ -84,9 +86,7 @@ def _classify_showcase(examples: list[dict[str, Any]]) -> dict[str, list[str]]:
 
 def _read_readme_limitations() -> list[str]:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    match = re.search(
-        r"^## Limitations and next work\n(.*?)(?=\n## |\Z)", readme, re.S | re.M
-    )
+    match = re.search(r"^## Limitations and next work\n(.*?)(?=\n## |\Z)", readme, re.S | re.M)
     if not match:
         return []
     return [
@@ -129,13 +129,15 @@ def _read_junit_report() -> dict[str, Any] | None:
     total, failed, skipped = count("tests"), count("failures") + count("errors"), count("skipped")
     raw_timestamp = suite.get("timestamp")
     if raw_timestamp:
-        generated_at = datetime.fromisoformat(raw_timestamp).astimezone(timezone.utc).isoformat(
-            timespec="seconds"
+        generated_at = (
+            datetime.fromisoformat(raw_timestamp)
+            .astimezone(timezone.utc)
+            .isoformat(timespec="seconds")
         )
     else:
-        generated_at = datetime.fromtimestamp(
-            xml_path.stat().st_mtime, tz=timezone.utc
-        ).isoformat(timespec="seconds")
+        generated_at = datetime.fromtimestamp(xml_path.stat().st_mtime, tz=timezone.utc).isoformat(
+            timespec="seconds"
+        )
     return {
         "source": "out/evidence/test_report.xml (pytest JUnit report)",
         "generated_at": generated_at,
@@ -256,6 +258,42 @@ def _pdk_status() -> dict[str, Any]:
     }
 
 
+def _read_platform_support() -> dict[str, dict[str, Any]]:
+    """Read generated platform evidence without inventing missing results."""
+    reports = {
+        "macOS arm64": ROOT / "out" / "platform" / "macos_arm64.json",
+        "WSL2 Ubuntu": ROOT / "out" / "platform" / "wsl2_ubuntu.json",
+    }
+    result: dict[str, dict[str, Any]] = {}
+    for name, path in reports.items():
+        if not path.is_file():
+            result[name] = {
+                "evidence_available": False,
+                "support_state": "UNTESTED",
+                "real_execution": False,
+                "source": path.relative_to(ROOT).as_posix(),
+            }
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            result[name] = {
+                "evidence_available": False,
+                "support_state": "UNTESTED",
+                "real_execution": False,
+                "source": path.relative_to(ROOT).as_posix(),
+                "error": "invalid platform evidence JSON",
+            }
+            continue
+        result[name] = {
+            "evidence_available": True,
+            "support_state": payload.get("support_state", "UNTESTED"),
+            "real_execution": payload.get("real_execution", False),
+            "source": path.relative_to(ROOT).as_posix(),
+        }
+    return result
+
+
 def build_status(*, generated_at: str | None = None) -> dict[str, Any]:
     showcase_examples = _read_showcase_index()
     classification = _classify_showcase(showcase_examples)
@@ -263,8 +301,7 @@ def build_status(*, generated_at: str | None = None) -> dict[str, Any]:
     cli_commands = _cli_commands()
     return {
         "schema": STATUS_SCHEMA,
-        "generated_at": generated_at
-        or datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": generated_at or datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "package_version": _read_package_version(),
         "cli_commands": cli_commands,
         "showcase": {
@@ -281,12 +318,15 @@ def build_status(*, generated_at: str | None = None) -> dict[str, Any]:
         "pdk_status": _pdk_status(),
         "epr_support": _epr_support(cli_commands),
         "measurement_support": _measurement_support(cli_commands),
+        "platform_support": _read_platform_support(),
     }
 
 
 def render_markdown(status: dict[str, Any]) -> str:
     lines: list[str] = [
         "# Project Status",
+        "",
+        "<!-- GENERATED_CURRENT_STATUS: scripts/generate_project_status.py; do not hand-edit. -->",
         "",
         f"Generated: {status['generated_at']} — by `scripts/generate_project_status.py`. "
         "Do not hand-edit; this file is a rendering of "
@@ -312,8 +352,7 @@ def render_markdown(status: dict[str, Any]) -> str:
         f"- Analytical only: {', '.join(status['showcase']['analytical_only']) or '(none)'}",
         f"- Invalid or failed: "
         f"{', '.join(status['showcase'].get('invalid_or_failed', [])) or '(none)'}",
-        f"- Unclassified: "
-        f"{', '.join(status['showcase'].get('unclassified', [])) or '(none)'}",
+        f"- Unclassified: {', '.join(status['showcase'].get('unclassified', [])) or '(none)'}",
         "",
         "## Tests",
         "",
@@ -326,6 +365,17 @@ def render_markdown(status: dict[str, Any]) -> str:
         )
     else:
         lines.append(f"- No saved test report available. {report.get('note', '')}")
+    lines += ["", "## Platform support", ""]
+    lines.append("| Platform | Support state | Real execution | Evidence |")
+    lines.append("| --- | --- | --- | --- |")
+    platform_support = status.get("platform_support", {})
+    for platform_name, platform_record in platform_support.items():
+        lines.append(
+            f"| {platform_name} | `{platform_record['support_state']}` | "
+            f"{platform_record['real_execution']} | `{platform_record['source']}` |"
+        )
+    if not platform_support:
+        lines.append("| no evidence loaded | `UNTESTED` | False | not available |")
     lines += ["", "## PDK / fabrication readiness", ""]
     lines.append(f"- **{status['pdk_status']['fabrication_readiness']}**")
     lines.append("")
@@ -364,12 +414,8 @@ def render_markdown(status: dict[str, Any]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--out", default=str(ROOT / "out" / "evidence" / "project_status.json")
-    )
-    parser.add_argument(
-        "--markdown-out", default=str(ROOT / "PROJECT_STATUS.md")
-    )
+    parser.add_argument("--out", default=str(ROOT / "out" / "evidence" / "project_status.json"))
+    parser.add_argument("--markdown-out", default=str(ROOT / "PROJECT_STATUS.md"))
     parser.add_argument(
         "--check", action="store_true", help="Fail instead of writing when generated output drifts."
     )

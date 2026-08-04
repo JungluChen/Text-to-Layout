@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Document class: MANUAL_DOCUMENTATION.** Any machine-specific tool versions or
+availability notes retained below are historical context, not current status.
+Use [PROJECT_STATUS.md](PROJECT_STATUS.md) and generated
+[platform evidence](docs/platforms/) for current claims.
+
 ## Mandatory reproduce-before-edit policy
 
 Before changing any tracked file in response to a failure or unexpected result,

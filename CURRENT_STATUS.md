@@ -1,5 +1,8 @@
 # Current Status
 
+**Document class: LEGACY_SCOPE.** This is the retained status record for
+`examples/benchmarks/`; it is not the current whole-product status authority.
+
 **Scope note:** this file covers the legacy `examples/benchmarks/` analytical
 packets specifically (see "Benchmark readiness" below) — a different, older
 artifact set than the solver-backed `examples/showcase/` examples described in
@@ -50,7 +53,8 @@ the suite had grown past 1000 tests) and has been replaced by that pointer.
   (analytical/simulation/physics/fabrication evidence) is produced by the
   benchmark pipeline (`generate_benchmarks.py`), which also runs research and
   simulation preparation.
-- Generated GDS bytes are not bit-reproducible (gdsfactory assigns a unique
-  top-cell name per build); provenance keys on the `layout.json` hash instead.
+- Legacy benchmark GDS is canonicalized for byte stability. Provenance still
+  keys on the `layout.json` hash because semantic design identity must not
+  depend on a container's byte encoding.
 - The legacy `text-to-gds` MCP server (`.mcp.json`) is a stdio server for Claude
   Desktop, not a `--help` CLI. See [docs/plugin_design.md](docs/plugin_design.md).

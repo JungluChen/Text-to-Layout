@@ -1,0 +1,34 @@
+{
+  "blocking_reason": "WSL2 clean-room execution is blocked: this report was generated on Darwin arm64, not inside WSL. Run 'bash scripts/platform/verify_wsl.sh' from Ubuntu on WSL2.",
+  "capabilities": {},
+  "certification": "BLOCKED_AWAITING_REAL_EXECUTION",
+  "core_pass": false,
+  "git_sha": "4794457e04aeab48b0a98634bf63aadb184828aa",
+  "host": {
+    "architecture": "arm64",
+    "lsb_release": null,
+    "os": "Darwin",
+    "os_release": "24.5.0",
+    "os_version": "Darwin Kernel Version 24.5.0: Tue Apr 22 19:48:46 PDT 2025; root:xnu-11417.121.6~2/RELEASE_ARM64_T8103",
+    "proc_version": null,
+    "repository_filesystem": null,
+    "requested_platform": "wsl2",
+    "solver_filesystem": null,
+    "solver_root": "/Users/lu/.local/share/textlayout",
+    "uname": "Darwin Chens-MacBook-Pro.local 24.5.0 Darwin Kernel Version 24.5.0: Tue Apr 22 19:48:46 PDT 2025; root:xnu-11417.121.6~2/RELEASE_ARM64_T8103 arm64 arm",
+    "windows_mount_warning": null,
+    "wsl_detected": false,
+    "wsl_distribution": null,
+    "wsl_version": null
+  },
+  "input_hashes": {
+    "pyproject.toml": "a89ae89596e8b0d4721bb30c927abf2ef995801c4e5c28f3298a483e6bcabc4f",
+    "uv.lock": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69"
+  },
+  "platform": "wsl2",
+  "python_runs": [],
+  "real_execution": false,
+  "schema": "textlayout.platform-certification.v1",
+  "solvers": {},
+  "support_state": "UNTESTED"
+}
