@@ -104,4 +104,56 @@ def test_doctor_v2_reports_system_solver_and_physics_capability_fields(tmp_path:
         "Josephson transient",
         "Josephson harmonic balance",
     } <= set(capabilities)
-    assert set(capabilities.values()) <= {"READY", "NOT_INSTALLED", "INCOMPLETE", "NOT_TESTED"}
+    assert set(capabilities.values()) <= {
+        "PROBE_PASS_ONLY",
+        "NOT_INSTALLED",
+        "INCOMPLETE",
+    }
+
+
+def test_doctor_json_separates_probe_from_execution_and_certification(tmp_path: Path) -> None:
+    payload = run_doctor(output_dir=tmp_path / "probe").to_dict()
+
+    assert {
+        "host",
+        "runtime",
+        "wsl",
+        "core_dependencies",
+        "external_solvers",
+        "capabilities",
+    } <= set(payload)
+    assert payload["runtime"]["support_state"] == "CORE_TESTED"
+    assert payload["capabilities"]["Layout generation"]["state"] == "READY"
+
+    for solver in payload["external_solvers"].values():
+        assert solver["evidence_stage"] in {"NOT_INSTALLED", "FOUND", "PROBE_PASS"}
+        assert solver["evidence_stage"] not in {
+            "EXECUTION_PASS",
+            "OUTPUT_PARSED",
+            "CONVERGENCE_PROVEN",
+        }
+        assert solver["support_state"] != "SOLVER_CERTIFIED"
+
+
+def test_platform_and_solver_state_vocabularies_are_explicit() -> None:
+    from textlayout.platform_support import (
+        SOLVER_EVIDENCE_STAGE_VALUES,
+        SUPPORT_STATE_VALUES,
+    )
+
+    assert SUPPORT_STATE_VALUES == {
+        "UNTESTED",
+        "CORE_TESTED",
+        "CORE_CERTIFIED",
+        "SOLVER_PARTIAL",
+        "SOLVER_CERTIFIED",
+        "UNSUPPORTED",
+    }
+    assert SOLVER_EVIDENCE_STAGE_VALUES == {
+        "NOT_INSTALLED",
+        "FOUND",
+        "PROBE_PASS",
+        "EXECUTION_PASS",
+        "OUTPUT_PARSED",
+        "CONVERGENCE_PROVEN",
+    }

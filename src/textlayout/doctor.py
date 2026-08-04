@@ -9,6 +9,7 @@ and solver input generation remains available.
 from __future__ import annotations
 
 import importlib
+import hashlib
 import os
 import platform
 import subprocess
@@ -17,6 +18,8 @@ import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from textlayout.platform_support import PlatformSupportState, SolverEvidenceStage
 
 DOCTOR_SCHEMA = "textlayout.doctor.v2"
 
@@ -56,6 +59,7 @@ class DoctorCheck:
     backend_type: str | None = None
     capabilities: list[str] = field(default_factory=list)
     smoke_test: str | None = None
+    executable_sha256: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -69,6 +73,7 @@ class DoctorCheck:
             "backend_type": self.backend_type,
             "capabilities": self.capabilities,
             "smoke_test": self.smoke_test,
+            "executable_sha256": self.executable_sha256,
         }
 
 
@@ -83,13 +88,74 @@ class DoctorReport:
         return all(check.status in _PASSING_STATUSES for check in self.checks if check.required)
 
     def to_dict(self) -> dict[str, Any]:
+        core = {check.name: check.to_dict() for check in self.checks if check.section == "Core"}
+        external = {
+            check.name: {
+                **check.to_dict(),
+                "evidence_stage": _solver_evidence_stage(check).value,
+                "support_state": _solver_support_state(check).value,
+            }
+            for check in self.checks
+            if check.section != "Core"
+        }
         return {
             "schema": DOCTOR_SCHEMA,
             "status": "ok" if self.ok else "failed",
+            "host": {
+                "os": self.system["os"],
+                "os_release": self.system["os_release"],
+                "architecture": self.system["architecture"],
+                "filesystem": self.system["filesystem"],
+            },
+            "runtime": {
+                "python": self.system["python"],
+                "textlayout": self.system["package_version"],
+                "git_sha": self.system["package_commit"],
+                "support_state": (
+                    PlatformSupportState.CORE_TESTED if self.ok else PlatformSupportState.UNTESTED
+                ).value,
+            },
+            "wsl": self.system["wsl"],
+            "core_dependencies": core,
+            "external_solvers": external,
+            "capabilities": _capability_report(self.checks, core_ok=self.ok),
+            # Compatibility views retained for existing consumers.
             "system": self.system,
             "physics_capabilities": self.physics_capabilities,
             "checks": [check.to_dict() for check in self.checks],
         }
+
+
+def _solver_evidence_stage(check: DoctorCheck) -> SolverEvidenceStage:
+    if check.status in {FOUND, CONTAINER_AVAILABLE}:
+        return SolverEvidenceStage.PROBE_PASS
+    if check.path:
+        return SolverEvidenceStage.FOUND
+    return SolverEvidenceStage.NOT_INSTALLED
+
+
+def _solver_support_state(check: DoctorCheck) -> PlatformSupportState:
+    if check.status == NOT_SUPPORTED_ON_PLATFORM:
+        return PlatformSupportState.UNSUPPORTED
+    if _solver_evidence_stage(check) is SolverEvidenceStage.PROBE_PASS:
+        return PlatformSupportState.SOLVER_PARTIAL
+    return PlatformSupportState.UNTESTED
+
+
+def _file_sha256(path: str | Path | None) -> str | None:
+    if not path:
+        return None
+    candidate = Path(path)
+    if not candidate.is_file():
+        return None
+    digest = hashlib.sha256()
+    try:
+        with candidate.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+    except OSError:
+        return None
+    return digest.hexdigest()
 
 
 def _check_python() -> DoctorCheck:
@@ -212,6 +278,7 @@ def _check_fastercap(*, strict: bool = False) -> DoctorCheck:
         backend_type="executable",
         capabilities=["IDC electrostatics", "capacitance matrix"],
         smoke_test="passed: process launched and returned a version banner",
+        executable_sha256=_file_sha256(found),
     )
 
 
@@ -299,6 +366,7 @@ def _external_check(
         backend_type="executable",
         capabilities=list(capabilities),
         smoke_test="passed: process launched and returned a version/help banner",
+        executable_sha256=_file_sha256(executable),
     )
 
 
@@ -434,6 +502,9 @@ def _optional_solver_checks(
                 if probe_ok
                 else "failed: identity/version probe"
             ),
+            executable_sha256=(
+                palace.executable_sha256 if not is_container else palace.container_digest
+            ),
         )
     checks.insert(-2, palace_check)
     return checks
@@ -481,12 +552,15 @@ def _wsl_system() -> dict[str, Any]:
 
 
 def _system_report() -> dict[str, Any]:
+    from textlayout import __version__
+
     return {
         "os": platform.system(),
         "os_release": platform.release(),
         "architecture": platform.machine(),
         "python": sys.version.split()[0],
         "package_commit": _git_commit(),
+        "package_version": __version__,
         "filesystem": str(Path.cwd().resolve()),
         "wsl": _wsl_system(),
     }
@@ -497,12 +571,12 @@ def _physics_capabilities(checks: list[DoctorCheck]) -> dict[str, str]:
 
     def state(*names: str) -> str:
         selected = [by_name[name] for name in names]
-        if all(check.status == FOUND for check in selected):
-            return "READY"
+        if all(check.status in {FOUND, CONTAINER_AVAILABLE} for check in selected):
+            return "PROBE_PASS_ONLY"
         if any(check.status == BROKEN for check in selected):
             return "INCOMPLETE"
         if any(check.status == CONTAINER_AVAILABLE for check in selected):
-            return "NOT_TESTED"
+            return "PROBE_PASS_ONLY"
         if all(check.status == MISSING for check in selected):
             return "NOT_INSTALLED"
         return "INCOMPLETE"
@@ -521,6 +595,66 @@ def _physics_capabilities(checks: list[DoctorCheck]) -> dict[str, str]:
         "Eigenmode FEM": state("Gmsh", "meshio", "Palace"),
         "Josephson transient": state("JoSIM"),
         "Josephson harmonic balance": state("WRspice / ngspice"),
+    }
+
+
+def _capability_report(checks: list[DoctorCheck], *, core_ok: bool) -> dict[str, dict[str, str]]:
+    by_name = {check.name: check for check in checks}
+
+    def numerical(*names: str) -> str:
+        selected = [by_name[name] for name in names]
+        if all(check.status in {FOUND, CONTAINER_AVAILABLE} for check in selected):
+            return "PROBE_PASS_ONLY"
+        if all(check.status == MISSING for check in selected):
+            return "BLOCKED_SOLVER_ABSENT"
+        return "BLOCKED_STACK_INCOMPLETE"
+
+    return {
+        "Layout generation": {
+            "state": "READY" if core_ok else "BLOCKED_CORE",
+            "support_state": (
+                PlatformSupportState.CORE_TESTED if core_ok else PlatformSupportState.UNTESTED
+            ).value,
+        },
+        "KLayout verification": {
+            "state": "READY" if by_name["klayout.db"].status == FOUND else "BLOCKED_CORE",
+            "support_state": (
+                PlatformSupportState.CORE_TESTED
+                if by_name["klayout.db"].status == FOUND
+                else PlatformSupportState.UNTESTED
+            ).value,
+        },
+        "IDC analytical": {
+            "state": "READY" if core_ok else "BLOCKED_CORE",
+            "support_state": PlatformSupportState.CORE_TESTED.value,
+        },
+        "IDC BEM": {
+            "state": numerical("FasterCap/FastCap"),
+            "support_state": _solver_support_state(by_name["FasterCap/FastCap"]).value,
+        },
+        "CPW full-wave": {
+            "state": numerical(
+                "openEMS",
+                "CSXCAD",
+                "Octave",
+                "Octave openEMS path",
+                "Octave CSXCAD path",
+                "scikit-rf",
+            ),
+            "support_state": PlatformSupportState.UNTESTED.value,
+        },
+        "Spiral PEEC": {
+            "state": numerical("FastHenry/FastHenry2"),
+            "support_state": _solver_support_state(by_name["FastHenry/FastHenry2"]).value,
+        },
+        "Resonator FEM": {
+            "state": numerical("Gmsh", "meshio", "Palace"),
+            "support_state": PlatformSupportState.UNTESTED.value,
+        },
+        "JJ transient": {
+            "state": numerical("JoSIM"),
+            "support_state": _solver_support_state(by_name["JoSIM"]).value,
+        },
     }
 
 
@@ -546,7 +680,8 @@ def run_doctor(
 
 
 def render_text(report: DoctorReport) -> str:
-    lines = ["textlayout doctor 2.0", "", "[System]"]
+    structured = report.to_dict()
+    lines = ["TEXT-TO-LAYOUT DOCTOR 2.0", "", "[Host]"]
     lines.extend(
         (
             f"OS: {report.system['os']} {report.system['os_release']}",
@@ -554,6 +689,10 @@ def render_text(report: DoctorReport) -> str:
             f"Python: {report.system['python']}",
             f"package commit: {report.system['package_commit']}",
             f"filesystem: {report.system['filesystem']}",
+            "",
+            "[Runtime]",
+            f"Text-to-Layout: {report.system['package_version']}",
+            f"support state: {structured['runtime']['support_state']}",
         )
     )
     wsl = report.system["wsl"]
@@ -570,10 +709,10 @@ def render_text(report: DoctorReport) -> str:
             section = check.section
             lines.append(f"[{section}]")
         lines.append(f"[{check.status}] {check.name}: {check.detail}")
-    lines.extend(("", "[Physics capability]"))
-    width = max(len(name) for name in report.physics_capabilities)
-    for name, status in report.physics_capabilities.items():
-        lines.append(f"{name.ljust(width)}  {status}")
+    lines.extend(("", "[Capabilities]"))
+    width = max(len(name) for name in structured["capabilities"])
+    for name, record in structured["capabilities"].items():
+        lines.append(f"{name.ljust(width)}  {record['state']}")
     lines.append("")
     lines.append(
         "Environment OK." if report.ok else "Environment has failures; see [FAIL] lines above."
