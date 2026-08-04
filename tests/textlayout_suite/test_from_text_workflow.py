@@ -66,6 +66,10 @@ def test_cli_prompt_produces_all_required_files(tmp_path: Path, capsys) -> None:
     payload = json.loads(capsys.readouterr().out)
     assert payload["status"] == "ok"
     assert payload["simulation_status"] == "SIMULATION_INPUT_PREPARED"
+    assert payload["artifacts"]["capacitance_result"] == "extraction/capacitance_result.json"
+    for relative_path in payload["artifacts"].values():
+        artifact = out / relative_path
+        assert artifact.is_file() and artifact.stat().st_size > 0, relative_path
 
 
 def test_cli_malformed_prompt_fails_gracefully(tmp_path: Path, capsys) -> None:

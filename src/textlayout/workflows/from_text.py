@@ -70,6 +70,16 @@ class FromTextResult:
         return [name for name, sim in self.circuit_simulations.items() if sim.status == "skipped"]
 
     def to_dict(self) -> dict[str, Any]:
+        def artifact_location(filename: str) -> str:
+            path = Path(filename)
+            try:
+                return path.relative_to(self.output_dir).as_posix()
+            except ValueError:
+                try:
+                    return path.resolve().relative_to(self.output_dir.resolve()).as_posix()
+                except ValueError:
+                    return str(path)
+
         return {
             "schema": FROM_TEXT_SCHEMA,
             "status": "ok" if self.ok else "verification_failed",
@@ -82,7 +92,7 @@ class FromTextResult:
                 name: {"status": sim.status, "evidence_level": sim.evidence_level}
                 for name, sim in self.circuit_simulations.items()
             },
-            "artifacts": {name: Path(p).name for name, p in self.files.items()},
+            "artifacts": {name: artifact_location(p) for name, p in self.files.items()},
             "output_dir": str(self.output_dir),
         }
 
