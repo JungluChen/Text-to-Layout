@@ -3,7 +3,7 @@
 <!-- GENERATED_CURRENT_STATUS: scripts/platform/verify_platform.py; do not hand-edit. -->
 
 **Evidence source:** `out/platform/wsl2_ubuntu.json`
-**Git SHA:** `4794457e04aeab48b0a98634bf63aadb184828aa`
+**Git SHA:** `c47c31d118a7bbcb4c6d8e80da7a42a0175a533d`
 **Real execution:** `False`
 **Support state:** `UNTESTED`
 **Core pass:** `False`

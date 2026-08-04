@@ -3,7 +3,7 @@
   "capabilities": {},
   "certification": "BLOCKED_AWAITING_REAL_EXECUTION",
   "core_pass": false,
-  "git_sha": "4794457e04aeab48b0a98634bf63aadb184828aa",
+  "git_sha": "c47c31d118a7bbcb4c6d8e80da7a42a0175a533d",
   "host": {
     "architecture": "arm64",
     "lsb_release": null,
