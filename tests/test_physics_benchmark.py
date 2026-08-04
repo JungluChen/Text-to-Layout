@@ -297,6 +297,16 @@ class TestTechnologyYAMLRequirement:
         )
         assert path.is_file()
 
+    def test_technology_filename_matching_is_case_portable(self, tmp_path):
+        from text_to_gds.process import find_technology_yaml
+
+        technology = tmp_path / "Mixed_Case_Process.yaml"
+        technology.write_text("name: portable\n", encoding="utf-8")
+
+        path = find_technology_yaml("mixed_case_process", extra_dirs=[tmp_path])
+
+        assert path == technology
+
     def test_unknown_technology_returns_none(self):
         from text_to_gds.process import find_technology_yaml
 

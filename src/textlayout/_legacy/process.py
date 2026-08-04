@@ -257,12 +257,14 @@ def find_technology_yaml(tech_id: str, extra_dirs: list[_Path] | None = None) ->
     """
     slug = tech_id.lower().replace("-", "_").replace(" ", "_")
     search = list(extra_dirs or []) + _FALLBACK_PROCESS_DIRS
+    wanted = {f"{slug}.yaml".casefold(), f"{tech_id}.yaml".casefold()}
     for directory in search:
-        for candidate in (
-            directory / f"{slug}.yaml",
-            directory / f"{tech_id}.yaml",
-        ):
-            if candidate.is_file():
+        try:
+            candidates = sorted(directory.iterdir(), key=lambda path: path.name.casefold())
+        except OSError:
+            continue
+        for candidate in candidates:
+            if candidate.name.casefold() in wanted and candidate.is_file():
                 return candidate
     return None
 

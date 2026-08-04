@@ -153,8 +153,9 @@ def _read_test_report() -> dict[str, Any] | None:
 
     This script never runs the test suite itself (a status generator that
     silently re-runs pytest as a side effect is surprising and slow). Produce
-    the report first with the same command CI uses, so the published count is
-    reproducible:
+    the report explicitly before regenerating project status, so the published
+    count is reproducible. Cross-platform CI intentionally does not overwrite
+    this canonical artifact because optional-test skip counts vary by host:
         pytest --junit-xml=out/evidence/test_report.xml
     Absence is reported honestly, not filled with a stale or guessed number.
     """

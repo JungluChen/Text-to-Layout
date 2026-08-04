@@ -298,6 +298,26 @@ class TestNoStaleGeneratedArtifacts:
     def test_canonical_records_are_current(self) -> None:
         assert self._run("build_canonical_evidence.py") == 0
 
+    def test_shallow_history_does_not_invalidate_hashed_solver_evidence(self) -> None:
+        import runpy
+
+        from textlayout.evidence.build import build_canonical
+        from textlayout.evidence.canonical import load_canonical
+
+        functions = runpy.run_path(str(ROOT / "scripts" / "build_canonical_evidence.py"))
+        stabilised = functions["_stabilised"]
+        showcase = ROOT / "examples" / "showcase" / "01_idc_0p6pf"
+        target = showcase / "evidence" / "canonical.json"
+        committed = load_canonical(target)
+        fresh = build_canonical(showcase, ROOT, timestamp=committed.timestamp).model_copy(
+            update={"git_commit": None, "solver_execution_git_commit": None}
+        )
+
+        result = stabilised(fresh, target)
+
+        assert result.git_commit == committed.git_commit
+        assert result.solver_execution_git_commit == committed.solver_execution_git_commit
+
     def test_derived_artifacts_are_current(self) -> None:
         assert self._run("render_showcase_artifacts.py") == 0
 

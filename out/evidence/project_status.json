@@ -76,11 +76,11 @@
   },
   "test_report": {
     "source": "out/evidence/test_report.xml (pytest JUnit report)",
-    "generated_at": "2026-08-04T09:09:58+00:00",
-    "passed": 1889,
+    "generated_at": "2026-08-04T09:36:48+00:00",
+    "passed": 1891,
     "failed": 0,
     "skipped": 11,
-    "total": 1900
+    "total": 1902
   },
   "known_limitations": [
     "The generic technology is not a foundry PDK. A richer, still-illustrative PDK schema and example (`textlayout pdk list` / `textlayout pdk info`) is documented in [docs/pdk_abstraction.md](docs/pdk_abstraction.md) \u2014 real fabrication still requires a foundry-qualified PDK.",

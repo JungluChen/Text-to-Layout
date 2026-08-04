@@ -33,6 +33,22 @@ from textlayout.evidence.canonical import (  # noqa: E402
 from textlayout.evidence.consistency import canonical_path  # noqa: E402
 
 
+_STABLE_AUDIT_FIELDS = (
+    "timestamp",
+    "git_commit",
+    "environment_hash",
+    "evidence_generation_environment_hash",
+    "evidence_generation_git_commit",
+    "evidence_generated_at",
+    "solver_execution_environment_hash",
+    "solver_execution_git_commit",
+    "solver_executable_sha256",
+    "solver_container_digest",
+    "solver_executed_at",
+    "container_digest",
+)
+
+
 def _fingerprint(record: CanonicalEvidence) -> str:
     """Content hash of everything except the timestamp."""
     payload = record.to_dict()
@@ -43,14 +59,7 @@ def _fingerprint(record: CanonicalEvidence) -> str:
 def _content_fingerprint(record: CanonicalEvidence) -> str:
     """Hash evidence content while excluding stable audit metadata."""
     payload = record.to_dict()
-    for key in (
-        "timestamp",
-        "git_commit",
-        "environment_hash",
-        "evidence_generation_environment_hash",
-        "evidence_generation_git_commit",
-        "evidence_generated_at",
-    ):
+    for key in _STABLE_AUDIT_FIELDS:
         payload.pop(key, None)
     return sha256_json(payload)
 
@@ -83,19 +92,7 @@ def _stabilised(fresh: CanonicalEvidence, existing_path: Path) -> CanonicalEvide
         return fresh
 
     updates: dict[str, str | None] = {"timestamp": stamp}
-    for key in (
-        "git_commit",
-        "environment_hash",
-        "evidence_generation_environment_hash",
-        "evidence_generation_git_commit",
-        "evidence_generated_at",
-        "solver_execution_environment_hash",
-        "solver_execution_git_commit",
-        "solver_executable_sha256",
-        "solver_container_digest",
-        "solver_executed_at",
-        "container_digest",
-    ):
+    for key in _STABLE_AUDIT_FIELDS[1:]:
         previous_value = previous.get(key)
         if isinstance(previous_value, str) or previous_value is None:
             updates[key] = previous_value

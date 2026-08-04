@@ -30,7 +30,7 @@ def test_every_core_matrix_platform_runs_the_same_required_smokes() -> None:
         "check_namespace_boundary.py --check",
         "ruff check .",
         "mypy",
-        "pytest --junit-xml=out/evidence/test_report.xml",
+        "uv run pytest",
         "generate_project_status.py --check",
         "uv build",
         "textlayout --help",
@@ -39,6 +39,7 @@ def test_every_core_matrix_platform_runs_the_same_required_smokes() -> None:
         "textlayout prompt",
     ):
         assert required in commands
+    assert "--junit-xml=out/evidence/test_report.xml" not in commands
 
 
 def test_platform_records_preserve_the_certification_boundary() -> None:
