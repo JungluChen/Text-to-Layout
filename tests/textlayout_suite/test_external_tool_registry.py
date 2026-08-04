@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
+
+import textlayout.solvers.josephsoncircuits as josephsoncircuits
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src"))
@@ -102,3 +106,49 @@ def test_josephsoncircuits_missing_runtime_is_skipped_not_executed(tmp_path):
     assert result.solver_executed is False
     assert result.physics_verified is False
     assert "SKIPPED_SOLVER_ABSENT" in result.reason
+
+
+def test_josephsoncircuits_prepared_marker_cannot_be_promoted_to_executed(tmp_path, monkeypatch):
+    prepared = prepare_jpa_netlist(
+        {
+            "schema": "textlayout.josephsoncircuits-netlist.v1",
+            "capacitances_f": [1e-12],
+            "inductances_h": [1e-9],
+            "junctions": [{"critical_current_a": 1e-6}],
+        },
+        tmp_path,
+    )
+
+    def fake_process(command, *, cwd, timeout_seconds, log_prefix):
+        del timeout_seconds, log_prefix
+        result = cwd / josephsoncircuits.RESULT_FILE
+        result.write_text(
+            json.dumps(
+                {
+                    "status": "INPUT_FILES_PREPARED",
+                    "solver": "JosephsonCircuits.jl",
+                    "reason": "netlist prepared; nonlinear solve not executed by this driver",
+                }
+            ),
+            encoding="utf-8",
+        )
+        stdout = cwd / "solver.stdout.txt"
+        stderr = cwd / "solver.stderr.txt"
+        stdout.write_text("driver ran\n", encoding="utf-8")
+        stderr.write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            command=tuple(command),
+            returncode=0,
+            runtime_seconds=0.01,
+            stdout_path=stdout,
+            stderr_path=stderr,
+        )
+
+    monkeypatch.setattr(josephsoncircuits, "discover_julia", lambda explicit: "/fake/julia")
+    monkeypatch.setattr(josephsoncircuits, "run_subprocess", fake_process)
+
+    result = execute_josephsoncircuits(prepared, executable="/fake/julia")
+
+    assert result.status == "failed"
+    assert result.solver_executed is False
+    assert "nonlinear solve" in result.reason

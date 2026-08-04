@@ -146,6 +146,43 @@ def execute_josephsoncircuits(
             return_code=completed.returncode,
             runtime_seconds=completed.runtime_seconds,
         )
+    try:
+        payload = json.loads(result.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return SimulationResult(
+            status="failed",
+            solver="JosephsonCircuits.jl",
+            readiness_level=prepared.readiness_level,
+            reason=f"Julia driver produced an invalid result document: {exc}",
+            output_dir=prepared.output_dir,
+            artifacts={**artifacts, "result": str(result)},
+            warnings=prepared.warnings,
+            command=completed.command,
+            return_code=completed.returncode,
+            runtime_seconds=completed.runtime_seconds,
+        )
+    executed_statuses = {"SOLVER_EXECUTED", "executed"}
+    if (
+        not isinstance(payload, dict)
+        or payload.get("status") not in executed_statuses
+        or payload.get("solver_executed") is not True
+    ):
+        status = payload.get("status") if isinstance(payload, dict) else type(payload).__name__
+        return SimulationResult(
+            status="failed",
+            solver="JosephsonCircuits.jl",
+            readiness_level=prepared.readiness_level,
+            reason=(
+                "JosephsonCircuits.jl driver did not execute a nonlinear solve; "
+                f"result status was {status!r}. Prepared handoffs are not solver evidence."
+            ),
+            output_dir=prepared.output_dir,
+            artifacts={**artifacts, "result": str(result)},
+            warnings=prepared.warnings,
+            command=completed.command,
+            return_code=completed.returncode,
+            runtime_seconds=completed.runtime_seconds,
+        )
     return SimulationResult(
         status="executed",
         solver="JosephsonCircuits.jl",
