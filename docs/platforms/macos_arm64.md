@@ -3,7 +3,7 @@
 <!-- GENERATED_CURRENT_STATUS: scripts/platform/verify_platform.py; do not hand-edit. -->
 
 **Evidence source:** `out/platform/macos_arm64.json`
-**Git SHA:** `c47c31d118a7bbcb4c6d8e80da7a42a0175a533d`
+**Git SHA:** `96c4c2b6e44eabf53f7c05496c88b9c010151e4b`
 **Real execution:** `True`
 **Support state:** `CORE_CERTIFIED`
 **Core pass:** `True`
@@ -23,8 +23,8 @@
 
 | Python | Tests | Commands | Deterministic IDC | Result |
 | --- | --- | --- | --- | --- |
-| 3.11.15 | 1887 passed / 0 failed / 13 skipped | 14/14 passed | True | PASS |
-| 3.12.13 | 1887 passed / 0 failed / 13 skipped | 14/14 passed | True | PASS |
+| 3.11.15 | 1891 passed / 0 failed / 11 skipped | 14/14 passed | True | PASS |
+| 3.12.13 | 1891 passed / 0 failed / 11 skipped | 14/14 passed | True | PASS |
 
 ## External solvers
 
