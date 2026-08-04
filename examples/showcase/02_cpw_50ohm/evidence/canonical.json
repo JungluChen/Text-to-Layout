@@ -2,7 +2,7 @@
   "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "525c5c091c57223099a616761124d031",
   "design_id": "02_cpw_50ohm",
-  "design_hash": "85f2cec3fb185e90d7e7ff74772c5b4fedf151935b0cb4e0704bf13eda8f99f8",
+  "design_hash": "2869267d1f2613daba29c56cb49efd0be2e95b6673d7e6464c1c3cbd7eac6afb",
   "geometry_hash": "e5bb73036344c24bb6e8e168731391deb349d1389564da31804cf6cf971ef29e",
   "component": "CPW",
   "analysis_scope": "through_line_center_conductor",
@@ -38,8 +38,8 @@
   "return_code": 0,
   "runtime_seconds": 1223.167097700003,
   "input_file_hashes": {
-    "extraction/capacitance_input/openems_model.json": "24fb017977debd84a04cfe18d794cd995a0e582adfae90808ba51342462bfeaa",
-    "extraction/capacitance_input/openems_model.m": "92b6e9d5281b2b21c1eb267a34fc2dcceed0224479a4fbb90c7564624039021a"
+    "extraction/capacitance_input/openems_model.json": "7818d674b24784303733dafbafaadb5ee10f63223983445c20e4df2f8435332a",
+    "extraction/capacitance_input/openems_model.m": "8dfd3dfc92ff9764feb7bb85390e1a2c6b23ad7544fd3a47513ffe561a1b0fb2"
   },
   "output_file_hashes": {
     "extraction/capacitance_input/openems_result.s2p": "ef96a8bbf97afa71b8b7fd297f692e13fadb4b4caa89fd57e72a10da06286488"
@@ -67,13 +67,13 @@
   "blocking_reason": null,
   "git_commit": "358c983d48a770bd72c9d88ab64b3a238ef60896",
   "environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
-  "timestamp": "2026-07-13T14:03:05+00:00",
+  "timestamp": "2026-08-04T02:21:05+00:00",
   "solver_execution_environment_hash": null,
   "solver_execution_git_commit": "358c983d48a770bd72c9d88ab64b3a238ef60896",
   "solver_executed_at": null,
   "evidence_generation_environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
-  "evidence_generation_git_commit": "35335ef22ef93a6bebdb9b55f8a033cb37962c9e",
-  "evidence_generated_at": "2026-07-13T14:03:05+00:00",
+  "evidence_generation_git_commit": "177cdbaa33495a753a6091a329e3a9fafc8dfb85",
+  "evidence_generated_at": "2026-08-04T02:21:05+00:00",
   "warnings": [
     "The Octave driver is runnable only with the external openEMS/CSXCAD stack installed.",
     "Boundary placement and mesh convergence must be reviewed before signoff."

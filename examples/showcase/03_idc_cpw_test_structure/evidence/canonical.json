@@ -2,7 +2,7 @@
   "schema_version": "textlayout.canonical-evidence.v3",
   "evidence_id": "2f2dd2bd9082a2cacf6a5b402f2d9c60",
   "design_id": "03_idc_cpw_test_structure",
-  "design_hash": "6e226720ad49637c2e580cec3d8fd58ba136dcb1c9c1f4f853841132088d1d9b",
+  "design_hash": "a25ddd973b482fc96db7eaab4bcc8b5d48083bc4904e9932c3871c37f9d55aca",
   "geometry_hash": "4e215c7c2bf7572cea220a43cbd6e226f6e0dd8f243d4dbebc5ef3a4b04440bc",
   "component": "TestStructure",
   "analysis_scope": "embedded_idc_region_only",
@@ -39,8 +39,8 @@
   "return_code": 0,
   "runtime_seconds": 2.4920579999998154,
   "input_file_hashes": {
-    "extraction/capacitance_input/idc.lst": "259e3eeba1ce4e73cd97b8db192365662f0eaba7954651802550a7fc062adc22",
-    "extraction/capacitance_input/idc.qui": "5c2b71ea78f0262dcf46e0d46a901a38bf21fd92204dae5031521f224f9f5f0f"
+    "extraction/capacitance_input/idc.lst": "a7e3a1b003799678021f3bb29edfccae52ebf3a27a3cf9871b0fdc990f9acd0a",
+    "extraction/capacitance_input/idc.qui": "62758d655ade03824eb4b900f7530e81c5dab3012e38101358f855f35d059b7c"
   },
   "output_file_hashes": {
     "extraction/capacitance_input/solver.stdout.txt": "a9939eae70d4f5d650fef0221c820fd6f99010b90fb6c7f92ef7d9ed68574bac"
@@ -72,13 +72,13 @@
   "blocking_reason": null,
   "git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
   "environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
-  "timestamp": "2026-07-13T14:03:05+00:00",
+  "timestamp": "2026-08-04T02:21:05+00:00",
   "solver_execution_environment_hash": null,
   "solver_execution_git_commit": "6a444d7ea77625d02b9c94da8683b645ec4e8bec",
   "solver_executed_at": null,
   "evidence_generation_environment_hash": "abaf9bcdc779c6757ed90f58cb21103317742176ad09f0f5e1e399e4bf328c69",
-  "evidence_generation_git_commit": "35335ef22ef93a6bebdb9b55f8a033cb37962c9e",
-  "evidence_generated_at": "2026-07-13T14:03:05+00:00",
+  "evidence_generation_git_commit": "177cdbaa33495a753a6091a329e3a9fafc8dfb85",
+  "evidence_generated_at": "2026-08-04T02:21:05+00:00",
   "warnings": [
     "Effective-medium capacitance is not a full air/silicon interface extraction.",
     "Mesh convergence and a finite-thickness or full-wave cross-check are required.",
