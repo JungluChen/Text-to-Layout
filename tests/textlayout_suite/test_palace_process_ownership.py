@@ -33,6 +33,24 @@ def _record(tmp_path: Path) -> SolverProcessRecord:
     )
 
 
+def _ubuntu_wsl_is_runnable() -> bool:
+    """Return true only when the distro required by the live test can execute."""
+    wsl = shutil.which("wsl.exe")
+    if wsl is None:
+        return False
+    try:
+        completed = subprocess.run(
+            [wsl, "-d", "Ubuntu", "--", "true"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=10,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    return completed.returncode == 0
+
+
 def test_wsl_wrapper_preserves_distribution_and_uses_setsid(tmp_path: Path) -> None:
     original = [
         "wsl.exe",
@@ -66,7 +84,10 @@ def test_refresh_tolerates_incomplete_atomic_publication(tmp_path: Path) -> None
     assert refresh_solver_process_record(path) is None
 
 
-@pytest.mark.skipif(shutil.which("wsl.exe") is None, reason="WSL is not installed")
+@pytest.mark.skipif(
+    not _ubuntu_wsl_is_runnable(),
+    reason="the Ubuntu WSL distribution is not installed and runnable",
+)
 def test_wsl_wrapper_writes_real_session_identity() -> None:
     working = Path.cwd().resolve()
     record_path = working / "out" / f"test_solver_process_record_{os.getpid()}.json"
