@@ -87,9 +87,14 @@ def test_closed_loop_reports_skipped_without_solver_callback():
     assert result["initial_design"]["frequency_ghz"] == 6.0
 
 
-def test_reference_comparison_uses_cloned_stack(tmp_path):
+def test_reference_comparison_uses_available_open_source(tmp_path):
     report = compare_cpw_against_references(project_root=ROOT, output_dir=tmp_path)
     assert report["schema"] == "text-to-gds.reference-comparison.v1"
     assert Path(report["report_path"]).is_file()
     assert Path(report["image_path"]).is_file()
     assert any(item["available"] for item in report["comparisons"])
+    gdsfactory = next(
+        item for item in report["comparisons"] if item["reference"] == "gdsfactory"
+    )
+    assert gdsfactory["available"] is True
+    assert gdsfactory["source"] in {"cloned_stack", "installed_package"}

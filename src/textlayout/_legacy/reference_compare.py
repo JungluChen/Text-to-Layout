@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import math
+from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +44,18 @@ def quantum_stack_root(project_root: str | Path) -> Path:
     return sibling
 
 
+def _installed_module_source(module: str) -> Path | None:
+    """Return an importable package module's source file without importing it."""
+    try:
+        spec = find_spec(module)
+    except (ModuleNotFoundError, ValueError):
+        return None
+    if spec is None or not isinstance(spec.origin, str):
+        return None
+    path = Path(spec.origin)
+    return path if path.is_file() else None
+
+
 def compare_cpw_against_references(
     *,
     project_root: str | Path,
@@ -53,20 +66,39 @@ def compare_cpw_against_references(
     root = Path(project_root)
     stack = quantum_stack_root(root)
     refs = {
-        "KQCircuits": stack / "KQCircuits" / "klayout_package" / "python" / "kqcircuits" / "elements" / "quarter_wave_cpw_resonator.py",
-        "Qiskit Metal": stack / "qiskit-metal" / "src" / "qiskit_metal" / "analyses" / "em" / "cpw_calculations.py",
-        "gdsfactory": stack / "gdsfactory" / "gdsfactory" / "components" / "quantum" / "resonator.py",
+        "KQCircuits": (
+            stack / "KQCircuits" / "klayout_package" / "python" / "kqcircuits" / "elements" / "quarter_wave_cpw_resonator.py",
+            "kqcircuits.elements.quarter_wave_cpw_resonator",
+        ),
+        "Qiskit Metal": (
+            stack / "qiskit-metal" / "src" / "qiskit_metal" / "analyses" / "em" / "cpw_calculations.py",
+            "qiskit_metal.analyses.em.cpw_calculations",
+        ),
+        "gdsfactory": (
+            stack / "gdsfactory" / "gdsfactory" / "components" / "quantum" / "resonator.py",
+            "gdsfactory.components.quantum.resonator",
+        ),
     }
     ours = synthesize_resonator(frequency_ghz=frequency_ghz, impedance_ohm=50.0)
     comparisons = []
-    for name, path in refs.items():
+    for name, (cloned_path, module) in refs.items():
+        installed_path = _installed_module_source(module)
+        path = cloned_path if cloned_path.is_file() else installed_path or cloned_path
         available = path.is_file()
+        source = (
+            "cloned_stack"
+            if cloned_path.is_file()
+            else "installed_package"
+            if installed_path is not None
+            else "missing"
+        )
         text = path.read_text(encoding="utf-8", errors="ignore")[:20_000] if available else ""
         comparisons.append(
             {
                 "reference": name,
                 "path": str(path),
                 "available": available,
+                "source": source,
                 "mentions_ports": "port" in text.lower(),
                 "mentions_cpw": "cpw" in text.lower(),
                 "mentions_layer": "layer" in text.lower(),
