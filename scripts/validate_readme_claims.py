@@ -174,7 +174,10 @@ def _result_records(root: Path, benchmark: str) -> list[tuple[Path, dict[str, ob
 def _artifact_nonempty(result_path: Path, value: object) -> bool:
     if not isinstance(value, str) or not value:
         return False
-    path = Path(value)
+    # Evidence may be generated on Windows and checked on POSIX (or vice
+    # versa). Committed artifact references are repository-relative, so make
+    # their separators platform-neutral before resolving them.
+    path = Path(value.replace("\\", "/"))
     candidates = [path]
     if not path.is_absolute():
         candidates.extend((result_path.parent / path, result_path.parent / path.name))

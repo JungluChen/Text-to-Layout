@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from validate_readme_claims import validate  # noqa: E402
+from validate_readme_claims import _artifact_nonempty, validate  # noqa: E402
 
 README = ROOT / "README.md"
 
@@ -22,6 +22,18 @@ README = ROOT / "README.md"
 def test_committed_readme_has_no_unsupported_claims() -> None:
     errors = validate(README)
     assert errors == [], "README makes claims the repo cannot back:\n" + "\n".join(errors)
+
+
+def test_windows_relative_artifact_path_resolves_on_posix(tmp_path: Path) -> None:
+    result = tmp_path / "simulation.json"
+    result.write_text("{}\n", encoding="utf-8")
+    artifact = tmp_path / "extraction" / "capacitance_input" / "solver.stdout.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text("solver output\n", encoding="utf-8")
+
+    assert _artifact_nonempty(
+        result, r"extraction\capacitance_input\solver.stdout.txt"
+    )
 
 
 def _doctored(tmp_path: Path, old: str, new: str) -> Path:
