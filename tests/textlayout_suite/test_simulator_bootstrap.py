@@ -24,6 +24,12 @@ _SIM_ENV_VARS = (
     "TEXTLAYOUT_STRICT_SIMULATORS",
 )
 
+_FASTERCAP_CMAKE_FIXTURE = REPO_ROOT / "tests" / "fixtures" / "fastercap" / "CMakeLists.txt"
+
+
+def _fastercap_cmake_fixture() -> str:
+    return _FASTERCAP_CMAKE_FIXTURE.read_text(encoding="utf-8")
+
 
 @pytest.fixture()
 def no_simulators(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
@@ -200,9 +206,7 @@ def test_tools_dir_is_gitignored() -> None:
 
 
 def test_fastercap_local_cmake_patch_is_idempotent() -> None:
-    original = (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
-        encoding="utf-8"
-    )
+    original = _fastercap_cmake_fixture()
     once = bootstrap_simulators.apply_textlayout_local_patch_to_fastercap_cmakelists(original)
     twice = bootstrap_simulators.apply_textlayout_local_patch_to_fastercap_cmakelists(once)
     assert once == twice
@@ -217,9 +221,7 @@ def test_fastercap_wsl_build_ignores_object_files(monkeypatch: pytest.MonkeyPatc
     tools = tmp_path / "tools"
     (tools / "FasterCap").mkdir(parents=True)
     (tools / "FasterCap" / "CMakeLists.txt").write_text(
-        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
-            encoding="utf-8"
-        ),
+        _fastercap_cmake_fixture(),
         encoding="utf-8",
     )
     monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
@@ -260,9 +262,7 @@ def test_fastercap_failed_build_is_not_marked_ready(monkeypatch: pytest.MonkeyPa
     tools = tmp_path / "tools"
     (tools / "FasterCap").mkdir(parents=True)
     (tools / "FasterCap" / "CMakeLists.txt").write_text(
-        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
-            encoding="utf-8"
-        ),
+        _fastercap_cmake_fixture(),
         encoding="utf-8",
     )
     monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
@@ -295,9 +295,7 @@ def test_fastercap_successful_mocked_build_is_recorded_ready(monkeypatch: pytest
     tools = tmp_path / "tools"
     (tools / "FasterCap").mkdir(parents=True)
     (tools / "FasterCap" / "CMakeLists.txt").write_text(
-        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
-            encoding="utf-8"
-        ),
+        _fastercap_cmake_fixture(),
         encoding="utf-8",
     )
     monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
@@ -334,9 +332,7 @@ def test_fastercap_existing_verified_wsl_binary_is_recorded_ready(
     tools = tmp_path / "tools"
     (tools / "FasterCap").mkdir(parents=True)
     (tools / "FasterCap" / "CMakeLists.txt").write_text(
-        (REPO_ROOT / ".tools" / "FasterCap" / "CMakeLists.txt.textlayout.bak").read_text(
-            encoding="utf-8"
-        ),
+        _fastercap_cmake_fixture(),
         encoding="utf-8",
     )
     monkeypatch.setattr(bootstrap_simulators.platform, "system", lambda: "Windows")
