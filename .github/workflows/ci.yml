@@ -6,16 +6,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos-15 is GitHub's public arm64/Apple Silicon runner. Keep the
+        # macos-14 is GitHub's public arm64/Apple Silicon runner. Keep the
         # version explicit so a macos-latest migration cannot silently change
         # the platform that this compatibility gate certifies.
-        os: [ubuntu-latest, windows-latest, macos-15]
+        os: [ubuntu-latest, windows-latest, macos-14]
         python: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
         with: { python-version: '${{ matrix.python }}' }
       - run: uv sync --dev
+      - name: CLI help smoke
+        run: uv run textlayout --help
+      - name: Structured Doctor smoke
+        run: uv run textlayout doctor --json
       - run: uv run python scripts/validate_readme_claims.py
       - run: uv run python scripts/check_namespace_boundary.py --check
       - run: uv run ruff check .
@@ -25,6 +29,13 @@ jobs:
       - run: uv run pytest --junit-xml=out/evidence/test_report.xml
       - run: uv run python scripts/generate_project_status.py --check
       - run: uv build
+      - name: API smoke
+        run: uv run pytest tests/textlayout_suite/test_api.py -q
+      - name: Deterministic IDC prompt smoke
+        run: >-
+          uv run textlayout prompt
+          "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap"
+          --out ci_out/platform_idc
 
   quality-gates:
     # Benchmark audit, CLI smoke, and determinism. Optional solvers (FasterCap,
