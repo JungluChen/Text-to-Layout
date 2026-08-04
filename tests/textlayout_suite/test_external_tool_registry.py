@@ -59,6 +59,16 @@ def test_notices_are_generated_from_registry():
     assert actual == expected
 
 
+def test_pinned_josim_v27_uses_its_upstream_mit_license_and_product_adapter():
+    registry = COMMON.load_registry()
+    josim = next(tool for tool in registry.tools if tool["id"] == "josim")
+
+    assert josim["pinned_ref"] == "v2.7"
+    assert josim["spdx_license"] == "MIT"
+    assert "GPL" not in josim["integration_mode"]
+    assert josim["adapter_module"] == "textlayout.simulation.josim"
+
+
 def test_external_check_cli_writes_reports():
     completed = subprocess.run(
         [sys.executable, str(SCRIPTS / "check.py"), "--check-notices"],

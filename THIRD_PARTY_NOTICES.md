@@ -124,13 +124,13 @@ GPL tools are kept in separate processes or environments with file-exchange adap
 - Pinned ref: `v2.7`
 - Resolved commit: `02a34ee5e7a3a6952b21ccc726fbf7a6d5e2b224`
 - Source archive SHA-256: `900d763011bcaba3413d18d159514aab74ec69d319346bc8ca646dc75fc6e4eb`
-- SPDX license identifier: `GPL-3.0-or-later`
-- Copyright holder: JoSIM contributors
-- Install mode: isolated OCI image or external executable
-- Integration mode: external GPL transient runtime via subprocess and process-isolated file exchange
+- SPDX license identifier: `MIT`
+- Copyright holder: Johannes Delport and JoSIM contributors
+- Install mode: official release artifact or pinned source build
+- Integration mode: external MIT-licensed transient runtime via subprocess and file exchange
 - Redistributes source: false
 - Redistributes binaries: false
-- Adapter module: `textlayout._legacy.simulation.backends.josim`
+- Adapter module: `textlayout.simulation.josim`
 - Dataset license: not_applicable
 - Human review required: false
 
