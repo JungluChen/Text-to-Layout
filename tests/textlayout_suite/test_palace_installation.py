@@ -120,16 +120,43 @@ def test_capability_can_use_verified_install_manifest(monkeypatch, tmp_path: Pat
     from textlayout.solvers.palace import capability
 
     record = tmp_path / "install.json"
-    record.write_text('{"palace_executable":"wsl:/opt/palace/bin/palace"}', encoding="utf-8")
-    monkeypatch.setattr(capability, "_INSTALL_RECORD", record)
-    monkeypatch.setattr(
-        capability,
-        "find_executable",
-        lambda names, explicit=None, **kwargs: explicit,
+    record.write_text(
+        '{"status":"INSTALLED","palace_version":"0.17.0",'
+        '"palace_executable":"wsl:/opt/palace/bin/palace",'
+        '"palace_executable_sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}',
+        encoding="utf-8",
     )
+    monkeypatch.setattr(capability, "_INSTALL_RECORD", record)
+    monkeypatch.setattr(capability, "find_executable", lambda *args, **kwargs: None)
     monkeypatch.setattr(capability, "_probe_executable_version", lambda executable: "0.17.0")
     monkeypatch.setattr(capability, "_hash_executable", lambda executable: "b" * 64)
     detected = capability.detect_palace()
     assert detected.available is True
     assert detected.version == "0.17.0"
     assert detected.executable_sha256 == "b" * 64
+
+
+def test_installer_check_and_smoke_identity_delegate_to_product_resolver(
+    monkeypatch, tmp_path: Path
+) -> None:
+    from textlayout.solvers.palace import capability
+
+    common = _load("_palace_common")
+    record = tmp_path / "install.json"
+    expected = {
+        "status": "INSTALLED",
+        "palace_version": "0.17.0",
+        "palace_executable": "/opt/palace/bin/palace",
+        "palace_executable_sha256": "a" * 64,
+    }
+    calls: list[tuple[Path, str]] = []
+
+    def validated(path: Path, *, required_version: str):
+        calls.append((path, required_version))
+        return expected
+
+    monkeypatch.setattr(common, "INSTALL_RECORD", record)
+    monkeypatch.setattr(capability, "validated_palace_install_record", validated)
+    assert common.palace_install_identity() == expected
+    assert calls == [(record, common.PALACE_VERSION)]

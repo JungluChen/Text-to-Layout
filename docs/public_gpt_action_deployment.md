@@ -23,7 +23,7 @@ Action can call.
 
 A ChatGPT custom GPT Action runs on OpenAI's servers. It **cannot reach
 `127.0.0.1` / `localhost`** on your machine. The example manifest
-([`../plugin_manifest.example.json`](../plugin_manifest.example.json)) points at
+([`plugin_manifest.example.json`](plugin_manifest.example.json)) points at
 `http://127.0.0.1:8000/openapi.json` for local development only. For a real GPT
 Action you must:
 

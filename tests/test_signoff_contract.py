@@ -105,6 +105,35 @@ def test_gds_with_no_sidecar_cannot_pass_extraction(tmp_path: Path) -> None:
     assert any("no sidecar" in blocker for blocker in result["blockers"])
 
 
+def test_legacy_passed_flag_cannot_fabricate_level_5(tmp_path: Path) -> None:
+    gds = tmp_path / "device.gds"
+    sidecar = tmp_path / "device.sidecar.json"
+    extraction = tmp_path / "device.extraction.json"
+    first = tmp_path / "first.out"
+    second = tmp_path / "second.out"
+    for path in (gds, sidecar, extraction, first, second):
+        path.write_text("data", encoding="utf-8")
+
+    result = evaluate_signoff(
+        {
+            "gds_path": str(gds),
+            "sidecar_path": str(sidecar),
+            "drc": {"status": "passed"},
+            "extraction": {"result_path": str(extraction)},
+            "analytical_sanity": {"passed": True},
+            "values": [],
+            "solvers": [
+                {"solver": "openEMS", "status": "executed", "output_file": str(first)},
+                {"solver": "Palace", "status": "executed", "output_file": str(second)},
+            ],
+            "solver_agreement": {"passed": True},
+        }
+    )
+    assert result["schema"] == "textlayout.signoff.v2"
+    assert result["level"] == 4
+    assert any("is not evidence" in blocker for blocker in result["blockers"])
+
+
 def test_benchmark_layout_and_panel_assets_are_separate() -> None:
     root = Path(__file__).resolve().parents[1]
     for index in range(1, 7):

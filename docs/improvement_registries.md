@@ -2,6 +2,13 @@
 
 # Improvement Function Registry
 
+> **Historical legacy registry.** This document describes the frozen
+> `text_to_gds` catalog as it existed before the supported `textlayout` product
+> boundary. Source links are retained as historical references and may point to
+> compatibility shims that have since moved under `textlayout._legacy`. It is
+> excluded explicitly from current-site link enforcement and must not be used
+> as evidence that a product capability executed.
+
 The package exposes every item in the 157-point improvement list through
 [`text_to_gds.improvements`](src/text_to_gds/improvements.py). The registry maps
 each numbered capability to a concrete Python implementation and validates that
@@ -147,4 +154,3 @@ access literature by itself. Those stages require configured adapters, user
 authority, source provenance, uncertainty evidence, safety interlocks, and
 reviewer approval. “Nobel-level” is treated as an aspiration, not a verifiable
 software capability or performance claim.
-

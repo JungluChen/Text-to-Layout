@@ -238,15 +238,15 @@ class TestSignoffLevels:
         assert result.level == 4
         assert not result.passed_level_5_physics_signoff
 
-    def test_physics_verified_without_calibration_stops_at_level_5(self, tmp_path) -> None:
+    def test_single_physics_verified_record_can_reach_only_level_4(self, tmp_path) -> None:
         evidence = _physics_verified_evidence(tmp_path / "out.txt")
         result = evaluate_signoff(
             geometry_pass=True, drc_passed=True, verification_passed=True, evidence=evidence
         )
-        assert result.level == 5
-        assert result.passed_level_5_physics_signoff
+        assert result.level == 4
+        assert not result.passed_level_5_physics_signoff
         assert not result.passed_level_6_measurement_calibrated
-        assert any("measurement correlation" in b for b in result.blockers)
+        assert any("compatibility evidence=" in blocker for blocker in result.blockers)
 
     def test_synthetic_calibration_does_not_reach_level_6(self, tmp_path) -> None:
         evidence = _physics_verified_evidence(tmp_path / "out.txt")
@@ -263,10 +263,10 @@ class TestSignoffLevels:
             evidence=evidence,
             calibration=calibration,
         )
-        assert result.level == 5
-        assert any("synthetic=True" in b for b in result.blockers)
+        assert result.level == 4
+        assert any("compatibility evidence=" in blocker for blocker in result.blockers)
 
-    def test_real_calibration_reaches_level_6(self, tmp_path) -> None:
+    def test_real_calibration_cannot_promote_single_solver_to_level_6(self, tmp_path) -> None:
         evidence = _physics_verified_evidence(tmp_path / "out.txt")
         calibration = CalibrationFile(
             corrections=CorrectionFactors(),
@@ -281,9 +281,9 @@ class TestSignoffLevels:
             evidence=evidence,
             calibration=calibration,
         )
-        assert result.level == 6
-        assert result.passed_level_6_measurement_calibrated
-        assert result.blockers == []
+        assert result.level == 4
+        assert not result.passed_level_6_measurement_calibrated
+        assert result.blockers
 
     def test_levels_are_sequential_never_skip(self) -> None:
         """A design must pass through every level; none can be skipped."""

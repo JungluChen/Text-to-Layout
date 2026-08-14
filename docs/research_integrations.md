@@ -13,8 +13,9 @@ upstream tools when they are installed.
 | scikit-rf | Touchstone `.s2p` RF-network export path and optional inspection backend. |
 | openEMS | Generated CPW/resonator EM handoff script for future `Z0`, field map, and S-parameter extraction. |
 | Optuna | Optional study/trial optimizer backend with deterministic fallback. |
-| Quantum Metal / Qiskit Metal | Component -> geometry -> renderer -> analysis architecture bridge metadata. |
-| scqubits | Layout-derived `EJ`, `EC`, `f01`, and anharmonicity handoff script. |
+| Quantum Metal / Qiskit Metal | **Experimental boundary:** architecture metadata only; no imported upstream geometry or solver output is executed or accepted as evidence. |
+| SQDMetal | **Experimental boundary:** explicit non-passing placeholder until comparable GDS/mesh/Palace artifacts are supplied and validated. |
+| scqubits | **Experimental boundary:** layout-derived Hamiltonian input serialization only; no component-specific diagonalization or cutoff-convergence evidence yet. |
 | QCoDeS | VNA, pump, flux-bias, and cryostat measurement-plan template. |
 | JTWPA transfer-matrix engine | Typed periodic-cell configurations, vectorized finite-line S-parameters, Bloch dispersion, stop-band detection, phase mismatch, coherence length, and reduced 3WM gain. |
 | pyEPR | Generated `ProjectInfo`/`DistributedAnalysis`/`QuantumAnalysis` workflow plus field-energy participation, loss, and T1 calculation. |

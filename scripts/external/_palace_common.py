@@ -226,30 +226,13 @@ def download(url: str, destination: Path, expected_sha256: str) -> Path:
 
 
 def palace_install_identity() -> dict[str, Any] | None:
-    record = read_json(INSTALL_RECORD)
-    if record is None:
-        return None
-    executable = str(record.get("palace_executable", ""))
-    target = executable.removeprefix("wsl:")
-    probe = (
-        run_wsl(
-            f"test -x {shlex_quote(target)} && {shlex_quote(target)} --version && "
-            f"sha256sum {shlex_quote(target)}",
-            timeout=120,
-        )
-        if executable.startswith("wsl:")
-        else run([target, "--version"], timeout=120)
+    """Use the product resolver so install, smoke, Doctor, and CLI agree."""
+    from textlayout.solvers.palace.capability import validated_palace_install_record
+
+    return validated_palace_install_record(
+        INSTALL_RECORD,
+        required_version=PALACE_VERSION,
     )
-    if probe.returncode != 0 or PALACE_VERSION not in probe.stdout:
-        return None
-    digest = (
-        probe.stdout.strip().splitlines()[-1].split()[0]
-        if executable.startswith("wsl:")
-        else sha256_file(Path(target))
-    )
-    if digest != record.get("palace_executable_sha256"):
-        return None
-    return record
 
 
 def shlex_quote(value: str) -> str:

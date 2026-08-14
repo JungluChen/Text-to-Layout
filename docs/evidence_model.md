@@ -4,7 +4,11 @@ Every physics claim in this repository is a `QuantityEvidence` record. The model
 does not *document* the honesty rules — it **enforces** them in a pydantic
 validator, so a false claim cannot be constructed at all.
 
-Source: [`src/textlayout/evidence.py`](../src/textlayout/evidence.py).
+Source: the supported
+[`src/textlayout/evidence/` package](https://github.com/JungluChen/Text-to-Layout/tree/main/src/textlayout/evidence).
+`contract.py` owns quantity-level status transitions, `canonical.py` owns the
+content-addressed source of truth, and `agreement.py` owns design-level
+independent-solver agreement.
 
 ## The one invariant
 
@@ -139,7 +143,7 @@ uv run pytest tests/textlayout_suite/test_evidence_contract.py      # 18 tests
 
 `test_evidence_transitions.py` sweeps all 8 × 8 = 64 status pairs against an
 **independently restated** promotion set, so widening the lattice in
-`evidence.py` alone fails the suite — the graph must be changed deliberately in
+`evidence/contract.py` alone fails the suite — the graph must be changed deliberately in
 two places.
 
 ## What this model does *not* claim
@@ -151,7 +155,7 @@ checks. See [`pdk_abstraction.md`](pdk_abstraction.md).
 
 ---
 
-# Canonical evidence (schema v2) and the derivation graph
+# Canonical evidence (schema v3) and the derivation graph
 
 Everything above describes the per-quantity honesty contract. It was not
 enough: statuses were *strings copied into each artifact at generation time*.
@@ -160,7 +164,7 @@ was corrected to `SIMULATION_INVALID`, and eight derived artifacts kept
 publishing a successfully extracted 3.0 GHz resonance. See
 [`evidence_consistency_baseline.md`](evidence_consistency_baseline.md).
 
-`CanonicalEvidence` (`textlayout.canonical-evidence.v2`) is now the only source
+`CanonicalEvidence` (`textlayout.canonical-evidence.v3`) is now the only source
 of truth. Every public artifact is a projection of it.
 
 ```mermaid

@@ -1,7 +1,13 @@
 """Executable Palace eigenmode backend."""
 
 from textlayout.solvers.palace.backend import PalaceBackend
-from textlayout.solvers.palace.capability import detect_palace
+from textlayout.solvers.palace.capability import (
+    PALACE_REQUIRED_VERSION,
+    PalaceInstallResolution,
+    detect_palace,
+    resolve_palace_install,
+    validated_palace_install_record,
+)
 from textlayout.solvers.palace.config import TargetedMeshControls
 from textlayout.solvers.palace.diagnostic import (
     DiagnosticMultimodeResult,
@@ -50,6 +56,7 @@ __all__ = [
     "DiagnosticMultimodeResult",
     "PalaceBackend",
     "PalaceCapability",
+    "PalaceInstallResolution",
     "PalaceOutputError",
     "PalaceUnavailable",
     "ModeClass",
@@ -72,4 +79,7 @@ __all__ = [
     "render_quarter_wave_audit_svg",
     "run_diagnostic_multimode_catalog",
     "select_target_mode",
+    "PALACE_REQUIRED_VERSION",
+    "resolve_palace_install",
+    "validated_palace_install_record",
 ]

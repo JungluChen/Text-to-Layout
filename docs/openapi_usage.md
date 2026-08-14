@@ -26,7 +26,8 @@ curl -s -X POST http://127.0.0.1:8000/layout/research \
   --data-binary @examples/benchmarks/01_idc_0p6pf/layout.json
 ```
 
-The example manifest at [`../plugin_manifest.example.json`](../plugin_manifest.example.json) points a local tool client to the live OpenAPI document.
+The example manifest at [`plugin_manifest.example.json`](plugin_manifest.example.json)
+points a local tool client to the live OpenAPI document.
 
 ## Compile natural language
 

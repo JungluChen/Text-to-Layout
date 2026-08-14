@@ -104,6 +104,17 @@ packages = ["src/text_to_gds", "src/textlayout"]
 "process" = "textlayout/data/process"
 "drc/superconducting_min_width.drc" = "textlayout/data/drc/superconducting_min_width.drc"
 
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/out/",
+  "/site/",
+  "/paper/*.pdf",
+  "/**/openems_run/et",
+  "/**/openems_run/ht",
+  "/**/raw/",
+  "/**/audit_scan*/",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
@@ -144,9 +155,13 @@ ignore_missing_imports = true
 [tool.coverage.run]
 source = ["textlayout"]
 branch = true
+omit = ["src/textlayout/_legacy/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = [
+  "error::DeprecationWarning:^textlayout(\\.|$)",
+]
 norecursedirs = [
   ".git",
   ".hg",

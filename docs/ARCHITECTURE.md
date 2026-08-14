@@ -1,11 +1,11 @@
 # Architecture — textlayout (the supported product path)
 
 Updated: 2026-07-05 (root doc now summarizes the product path).
-For the frozen legacy MCP package see [§ Legacy](#legacy-src-text_to_gds) below;
+For the frozen legacy MCP package see [§ Legacy](#legacy-srctext_to_gds) below;
 its full pipeline document is
 [docs/legacy/ARCHITECTURE_text_to_gds.md](legacy/ARCHITECTURE_text_to_gds.md).
-The root [`ARCHITECTURE.md`](../ARCHITECTURE.md) is a short overview of this
-document.
+The [repository-root architecture overview](https://github.com/JungluChen/Text-to-Layout/blob/main/ARCHITECTURE.md)
+is a short overview of this document.
 
 ## The one-minute map
 
@@ -21,7 +21,7 @@ src/textlayout/
   verification/        design-rule + geometry checks → VerificationReport (exact polygon clearance DRC)
   research/            cited analytical models per component (Bahl, Simons, Mohan …) → ResearchReport
   optimization/        closed-loop analytical tuners, per component (idc.py)
-  evidence.py          THE evidence contract: QuantityEvidence + EvidenceStatus (single source of truth)
+  evidence/            evidence contract, canonical records, and independent-solver agreement
   simulation/          solver adapters: input prep (open_source.py, fastercap.py), execution+parsing
                        (runners.py, fastercap.py), SimulationResult (models.py),
                        evidence_map.py = the only SimulationResult → QuantityEvidence mapping
@@ -56,7 +56,7 @@ Three invariants the layout of the code enforces:
 1. **The DSL is the AI firewall.** Anything above `schemas/dsl` may be driven
    by an agent; everything below is deterministic. Generators never see raw
    text; the parser never draws geometry.
-2. **`evidence.py` is the only place a physics claim can be minted.**
+2. **`evidence/` is the only place a physics claim can be minted.**
    `simulation/evidence_map.py` is the only bridge from solver records to
    claims; `SimulationResult.target_comparison` (built by the one shared
    `models.target_comparison()` helper) is raw data, never a claim.
@@ -156,6 +156,12 @@ path is load-bearing for the MCP stdio server, five console scripts, and ~60
 test modules, and a physical move would be pure churn with regression risk.
 Dead-code removal inside it is a separate, explicitly-scoped follow-up (see
 `docs/PROGRESS.md` backlog).
+
+Compatibility horizon: `text_to_gds` and the mechanically migrated
+`textlayout._legacy` implementation remain importable for the entire 0.x
+series. They will not be removed before a major release, and any removal must
+be preceded by a documented deprecation cycle and migration guide. New product
+features continue to land only under non-legacy `textlayout` modules.
 
 ## Naming conventions
 

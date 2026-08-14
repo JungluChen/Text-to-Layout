@@ -1,5 +1,6 @@
-name: CI
-on: [push, pull_request]
+name: Reusable core CI
+on:
+  workflow_call:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -12,8 +13,8 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-14]
         python: ['3.11', '3.12']
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
         with: { python-version: '${{ matrix.python }}' }
       - run: uv sync --dev
       - name: CLI help smoke
@@ -45,8 +46,9 @@ jobs:
     # input-prepared / solver-missing states and nothing is over-claimed.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {fetch-depth: 2}
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
         with: { python-version: '3.12' }
       - run: uv sync --dev
 
@@ -55,6 +57,9 @@ jobs:
 
       - name: README claim audit
         run: uv run python scripts/validate_readme_claims.py
+
+      - name: Signoff documentation is generated from evaluator constants
+        run: uv run python scripts/generate_signoff_docs.py --check
 
       - name: Public claim audit cannot exceed computed evidence
         run: uv run python scripts/generate_audit_artifacts.py --fail-on-claim-downgrade
@@ -126,11 +131,18 @@ jobs:
           print("API smoke test passed")
           PY
 
+      - name: Non-legacy product coverage floor
+        run: |
+          uv run pytest tests/textlayout_suite \
+            --cov=textlayout --cov-branch \
+            --cov-report=json:out/coverage.json --cov-report=term
+          uv run python scripts/check_coverage_thresholds.py out/coverage.json --base HEAD~1
+
   bundle-sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
         with: { python-version: '3.12' }
       # Runs before the rebuild: a rebuild would delete a stray implementation
       # file and hide the fact that one was committed.
@@ -144,3 +156,16 @@ jobs:
             echo "::error::plugins/text-to-gds is stale. Run 'python scripts/bundle_plugin.py' and commit the result." >&2
             exit 1
           fi
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
+        with: { python-version: '3.12' }
+      - name: Install documentation dependencies
+        run: uv sync --extra docs --frozen
+      - name: Check maintained local links
+        run: uv run python scripts/check_docs_links.py
+      - name: Build documentation strictly
+        run: uv run mkdocs build --strict

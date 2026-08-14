@@ -9,7 +9,7 @@ jobs:
     # ubuntu-latest and windows-latest jobs are intentionally not substitutes.
     runs-on: [self-hosted, Windows, X64, wsl2]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Prove the runtime is WSL2
         shell: pwsh
@@ -24,11 +24,10 @@ jobs:
           wsl bash -lc "cd '$repo' && bash scripts/platform/verify_wsl.sh"
 
       - name: Upload machine and Markdown evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: wsl2-certification-${{ github.sha }}
           path: |
             out/platform/wsl2_ubuntu.json
             docs/platforms/wsl2_ubuntu.md
           if-no-files-found: error
-

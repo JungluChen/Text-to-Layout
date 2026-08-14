@@ -55,7 +55,7 @@ returns a +3.6% frequency error, a 1.036 CPW-length scale, and a 1.043 gap seed.
 `readiness_demo` geometry (25 shapes) on the generic Nb/SIS stack; the vertical
 axis is exaggerated 60x so the sub-micron films are visible.
 
-![HFSS import 3D stack model](assets/hfss_stack_3d.png)
+![HFSS import 3D stack model](https://raw.githubusercontent.com/JungluChen/Text-to-Layout/main/assets/hfss_stack_3d.png)
 
 | GDS layer | Name | Elevation (um) | Thickness (um) | HFSS material | Q3D material |
 | --- | --- | --- | --- | --- | --- |
@@ -112,7 +112,7 @@ microstrip model, which produces the same class of S-parameter and impedance
 outputs as HFSS driven-modal. It is a transmission-line cross-check, not a full
 GDS-equivalent CPW solve:
 
-![openEMS FDTD extraction for the same geometry](assets/openems_extraction_example.png)
+![openEMS FDTD extraction for the same geometry](https://raw.githubusercontent.com/JungluChen/Text-to-Layout/main/assets/openems_extraction_example.png)
 
 | Quantity | openEMS FDTD (`readiness_demo`) |
 | --- | --- |

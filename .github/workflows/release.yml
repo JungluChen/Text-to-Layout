@@ -1,14 +1,51 @@
 name: Release
 on:
   push: {tags: ['v*.*.*']}
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions: {id-token: write, contents: write}
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
-      - run: uv build
-      - uses: pypa/gh-action-pypi-publish@release/v1
-      - uses: softprops/action-gh-release@v2
-        with: {files: 'dist/*'}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {fetch-depth: 0}
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
+        with: {python-version: '3.12'}
+      - name: Install the frozen release environment
+        run: uv sync --dev --extra docs --frozen
+      - name: Require tag/package/changelog agreement
+        run: uv run python scripts/check_release_consistency.py --tag "${GITHUB_REF_NAME}"
+      - name: Quality and claim gates
+        run: |
+          uv run ruff check .
+          uv run mypy
+          uv run pytest
+          uv run python scripts/validate_readme_claims.py
+          uv run python scripts/build_canonical_evidence.py --check
+          uv run python scripts/render_showcase_artifacts.py --check
+          uv run python scripts/audit_evidence_consistency.py
+          uv run python scripts/check_docs_links.py
+          uv run mkdocs build --strict
+      - name: Build wheel and source distribution
+        run: uv build
+      - name: Smoke the built wheel in a clean environment
+        run: |
+          uv venv .release-venv --python 3.12
+          uv pip install --python .release-venv/bin/python dist/*.whl
+          .release-venv/bin/textlayout --help
+          .release-venv/bin/textlayout doctor --json
+          .release-venv/bin/python -c "import textlayout"
+          .release-venv/bin/textlayout prompt \
+            "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap" \
+            --out out/release-wheel-idc
+      - name: Generate SBOM and provenance
+        run: uv run python scripts/generate_release_metadata.py --dist dist --output release
+      - name: Publish with PyPI trusted publishing
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+      - name: Publish GitHub release assets
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        with:
+          files: |
+            dist/*
+            release/sbom.spdx.json
+            release/provenance.intoto.jsonl

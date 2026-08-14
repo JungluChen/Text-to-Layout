@@ -86,4 +86,5 @@ the first through fifth "waves" into a versioned baseline.
   the source tree, preventing silent drift.
 
 [Unreleased]: https://github.com/JungluChen/Text-to-Layout/compare/v0.2.0...HEAD
+[0.3.0]: https://github.com/JungluChen/Text-to-Layout/releases/tag/v0.3.0
 [0.2.0]: https://github.com/JungluChen/Text-to-Layout/releases/tag/v0.2.0

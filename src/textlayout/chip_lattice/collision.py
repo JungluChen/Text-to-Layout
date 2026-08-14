@@ -39,7 +39,9 @@ def _finding(
         node_b=node_b,
         detuning_mhz=detuning_mhz,
         min_required_mhz=min_required_mhz,
-        violated=detuning_mhz < min_required_mhz - _EPS_MHZ,
+        # NumPy comparisons return np.bool_, which Pydantic currently coerces
+        # with a warning and will reject at stricter model boundaries.
+        violated=bool(detuning_mhz < min_required_mhz - _EPS_MHZ),
     )
 
 

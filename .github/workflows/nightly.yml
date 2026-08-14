@@ -2,13 +2,51 @@ name: Nightly benchmarks
 on:
   schedule: [{cron: '0 3 * * *'}]
   workflow_dispatch:
+
 jobs:
   benchmark:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
-      - run: uv sync --dev
-      - run: uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q
-      - uses: actions/upload-artifact@v4
-        with: {name: benchmark-results, path: workspace/artifacts}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
+      - name: Install locked development environment
+        run: uv sync --dev --frozen
+      - name: Create the artifact root before any fallible gate
+        run: mkdir -p out/nightly
+      - name: Benchmark regression tests
+        run: >-
+          uv run pytest
+          tests/test_paper_benchmarks.py
+          tests/test_em_solvers.py
+          -q
+          --junitxml=out/nightly/pytest.xml
+      - name: Canonical evidence drift check
+        run: uv run python scripts/build_canonical_evidence.py --check
+      - name: Showcase projection drift check
+        run: uv run python scripts/render_showcase_artifacts.py --check
+      - name: Cross-artifact evidence consistency
+        run: uv run python scripts/audit_evidence_consistency.py
+      - name: Deterministic prompt smoke — first run
+        run: >-
+          uv run textlayout prompt
+          "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap"
+          --out out/nightly/prompt_first
+      - name: Deterministic prompt smoke — unchanged second run
+        run: >-
+          uv run textlayout prompt
+          "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap"
+          --out out/nightly/prompt_second
+      - name: Write and enforce the deterministic nightly manifest
+        run: >-
+          uv run python scripts/generate_nightly_manifest.py
+          --first out/nightly/prompt_first
+          --second out/nightly/prompt_second
+          --output out/nightly/manifest.json
+      - name: Upload nightly evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nightly-evidence-${{ github.sha }}
+          path: out/nightly
+          retention-days: 30
+          if-no-files-found: error

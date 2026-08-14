@@ -4,6 +4,8 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.coverage
+.coverage.*
 .ruff_cache/
 .mypy_cache/
 .agents/
@@ -16,6 +18,7 @@ workspace/textlayout*/
 # CLI / CI scratch output directories
 out/
 ci_out/
+site/
 
 # Non-reproducible benchmark generation metadata (wall-clock time, tool versions).
 # The committed provenance uses a normalized timestamp; the real time lives here.
@@ -30,6 +33,9 @@ plugins/*/workspace/artifacts/*
 external_repos/
 quantum-eda-stack/
 docs/references/
+!docs/references/
+docs/references/*
+!docs/references/jtwpa_numerical_simulations_review.md
 workspace/catalog.py
 plugins/*/examples/**/.generation_meta.json
 external_references/

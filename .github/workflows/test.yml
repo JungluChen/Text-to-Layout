@@ -1,25 +1,9 @@
-name: test
-
+name: CI
 on:
   push:
     branches: ["main"]
   pull_request:
 
 jobs:
-  test:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
-        with:
-          python-version: "3.12"
-      - name: Sync
-        run: uv sync --dev
-      - name: Compile
-        run: uv run python -m compileall src scripts examples
-      - name: Test
-        run: uv run pytest
-      - name: Lint
-        run: uv run ruff check .
-      - name: Type check
-        run: uv run mypy
+  core:
+    uses: ./.github/workflows/ci.yml

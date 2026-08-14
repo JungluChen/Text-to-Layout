@@ -10,6 +10,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from pydantic import ValidationError
+
+from textlayout.evidence import CanonicalEvidence, SolverAgreementRecord
+from textlayout.signoff import SIGNOFF_SCHEMA, evaluate_signoff as evaluate_product_signoff
+
 REQUIRED_VALUE_FIELDS = {"value", "unit", "source", "method", "confidence", "file_path"}
 INVALID_PHYSICAL_SOURCES = {"llm", "ai", "chatgpt", "prompt"}
 EXECUTED_STATUSES = {"executed", "success", "ok", "passed"}
@@ -141,9 +146,40 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
             "requires higher-confidence topology for Level 5+"
         )
 
-    agreement = evidence.get("solver_agreement") or {}
-    if level >= 4 and len(executed_solvers) >= 2 and agreement.get("passed") is True:
-        level = 5
+    # The legacy ``{"passed": true}`` agreement flag was caller-controlled and
+    # therefore cannot establish design-level signoff. Project structured
+    # canonical records into the product evaluator, which is the sole owner of
+    # Level 5 semantics.
+    product_result = None
+    agreement_payload = evidence.get("solver_agreement")
+    canonical_payloads = evidence.get("canonical_solver_evidence") or []
+    if level >= 4 and agreement_payload and canonical_payloads:
+        try:
+            canonical_records = [
+                CanonicalEvidence.model_validate(payload) for payload in canonical_payloads
+            ]
+            agreement_record = SolverAgreementRecord.model_validate(agreement_payload)
+        except (ValidationError, TypeError, ValueError) as exc:
+            blockers.append(f"invalid structured solver agreement: {exc}")
+        else:
+            product_result = evaluate_product_signoff(
+                geometry_pass=True,
+                drc_passed=True,
+                verification_passed=True,
+                solver_evidence=canonical_records,
+                solver_agreement=agreement_record,
+            )
+            if product_result.level >= 5 and not (
+                topology_device == "unknown" and topology_confidence < 0.3
+            ):
+                level = 5
+            else:
+                blockers.extend(product_result.blockers)
+    elif level >= 4 and isinstance(agreement_payload, dict) and agreement_payload.get("passed"):
+        blockers.append(
+            "legacy solver_agreement.passed is not evidence; Level 5 requires a "
+            "textlayout solver-agreement record and canonical solver evidence"
+        )
 
     measurement = evidence.get("measurement") or {}
     measurement_file = measurement.get("file_path") or measurement.get("measurement_path")
@@ -164,12 +200,29 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
         blockers.append("only Level 6 can be called measurement-calibrated")
 
     result: dict[str, Any] = {
-        "schema": "text-to-gds.signoff-level.v1",
+        "schema": SIGNOFF_SCHEMA,
         "level": max(level, 0),
         "label": label,
         "passed": not blockers,
         "blockers": blockers,
         "executed_solvers": [solver.get("solver", "unknown") for solver in executed_solvers],
+        "executed_solver_evidence_ids": (
+            product_result.executed_solver_evidence_ids if product_result is not None else []
+        ),
+        "executed_solver_ids": (
+            product_result.executed_solver_ids if product_result is not None else []
+        ),
+        "executed_solver_families": (
+            product_result.executed_solver_families if product_result is not None else []
+        ),
+        "solver_agreement_passed": (
+            product_result.solver_agreement_passed if product_result is not None else None
+        ),
+        "solver_agreement_status": (
+            product_result.solver_agreement_status
+            if product_result is not None
+            else "NOT_PROVIDED"
+        ),
         "skipped_solvers": [solver.get("solver", "unknown") for solver in skipped_solvers],
         "value_validation": value_validation,
     }
@@ -179,4 +232,3 @@ def evaluate_signoff(evidence: dict[str, Any]) -> dict[str, Any]:
             "confidence": topology_confidence,
         }
     return result
-

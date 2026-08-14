@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
 
       - name: Install toolchain prerequisites
         run: |
@@ -41,7 +41,7 @@ jobs:
         run: uv sync --all-extras
 
       - name: Restore Spack and Palace caches
-        uses: actions/cache@v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             ~/.cache/textlayout-palace
@@ -118,7 +118,7 @@ jobs:
 
       - name: Upload compact evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: palace-integration-evidence
           path: out/ci_artifacts
@@ -126,7 +126,7 @@ jobs:
 
       - name: Upload adapted mesh (optional, expiring — never committed)
         if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: palace-adapted-mesh
           path: out/palace_resonator_v017/raw
