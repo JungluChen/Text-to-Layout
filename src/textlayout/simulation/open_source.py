@@ -362,10 +362,13 @@ def prepare_spiral_fasthenry(
         )
     width = float(geometry.metadata["trace_width_um"])
     thickness = float(geometry.metadata["thickness_um"])
+    conductivity = float(geometry.metadata.get("conductivity_s_per_m", 5.8e7))
+    # FastHenry converts sigma to S/m by dividing by the input length unit.
+    # In a .units um deck, 5.8e7 S/m must therefore be written as 58, not 5.8e4.
     lines = [
         "* Text-to-Layout square spiral",
         ".units um",
-        ".default sigma=5.8e4",
+        f".default sigma={conductivity * 1e-6:.9g}",
     ]
     for index, point in enumerate(points, 1):
         x, y = point
@@ -377,7 +380,8 @@ def prepare_spiral_fasthenry(
     input_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     warnings = (
         "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
-        "Conductor conductivity and thickness are generic and require process replacement.",
+        f"Normal-metal conductivity={conductivity:.9g} S/m and thickness={thickness:.9g} um; "
+        "replace these assumptions with process data. Kinetic inductance is not modeled.",
     )
     manifest = _write_manifest(
         out, "FastHenry", spec.component, ("inductance", "resistance", "Q"), warnings

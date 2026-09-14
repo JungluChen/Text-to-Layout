@@ -15,6 +15,7 @@ class SpiralInductorSpec(BaseModel):
     trace_width_um: float = Field(gt=0)
     spacing_um: float = Field(gt=0)
     thickness_um: float = Field(default=0.2, gt=0)
+    conductivity_s_per_m: float = Field(default=5.8e7, gt=0, allow_inf_nan=False)
     metal: str = Field(default="M1")
 
     @model_validator(mode="after")

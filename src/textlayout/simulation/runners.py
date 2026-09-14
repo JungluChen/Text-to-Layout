@@ -95,9 +95,11 @@ def find_executable(
     if explicit:
         if explicit.startswith(_WSL_PREFIX):
             return explicit
-        path = Path(explicit)
+        path = Path(explicit).expanduser().resolve()
         if path.is_file():
-            return f"{_WSL_PREFIX}{_windows_to_wsl(path)}" if _is_elf(path) else str(path)
+            if os.name == "nt" and _is_elf(path):
+                return f"{_WSL_PREFIX}{_windows_to_wsl(path)}"
+            return str(path)
         if explicit.startswith("/mnt/"):
             return f"{_WSL_PREFIX}{explicit}"
         return shutil.which(explicit)
@@ -122,7 +124,7 @@ def find_executable(
                     continue
                 if not is_file:
                     continue
-                if _is_elf(candidate):
+                if os.name == "nt" and _is_elf(candidate):
                     return f"{_WSL_PREFIX}{_windows_to_wsl(candidate)}"
                 return str(candidate)
     return _wsl_which(names)

@@ -64,6 +64,7 @@ class SpiralInductorGenerator(Generator):
                 "trace_width_um": width,
                 "spacing_um": spacing,
                 "thickness_um": params.thickness_um,
+                "conductivity_s_per_m": params.conductivity_s_per_m,
                 "centerline_points_um": [list(point) for point in points],
                 "centerline_length_um": round(path_length(points), 4),
                 "estimated_inductance_nh": round(estimate, 4),
