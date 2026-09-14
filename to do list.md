@@ -13,6 +13,14 @@ in the repository's generated evidence and retained solver artifacts.
   First scheduled-run verification remains pending; see the setup report.
 - Read `AGENTS.md`, `docs/development/reproduce_before_edit.md`, this list,
   previous `docs/progress/` reports, and current Git/CI state before working.
+- Read `REQUIREMENTS.md` and `Design.md` for the approved product surfaces and
+  Apple Design Skill-based UI/UX brief. Keep `docs/function-catalog.md` and
+  `docs/guidebook/README.md` current with each delivered capability. Guidebook
+  steps need real screenshots, numbered pointers, CLI commands and AI/MCP
+  examples before they can be marked complete.
+- Design/requirements brief and initial catalog/guidebook delivered in
+  `df9ff2b5dc37db8985207e7c7b839d42987c8991`; UI implementation and illustrated
+  release walkthroughs remain pending. See the design-requirements progress report.
 - Work top to bottom. Numerical/data correctness takes priority over features.
   If blocked, record the evidence and exact next action before continuing to
   the next actionable item. Split large milestones into verifiable increments.
@@ -103,7 +111,9 @@ in the repository's generated evidence and retained solver artifacts.
 - **Status:** TODO; no new platform certification from this setup.
 - **Acceptance:** Install/build and representative CLI/API/desktop workflows
   execute on each claimed platform; packaging and solver dependencies are
-  documented; missing native/WSL evidence remains explicit.
+  documented; missing native/WSL evidence remains explicit. Follow `Design.md`
+  and `REQUIREMENTS.md`; deliver Windows/macOS/Linux software and CLI with
+  matching illustrated setup and first-design walkthroughs.
 - **Evidence:** Existing GitHub Actions platform matrix plus actual platform runs.
 - **Next:** Inventory current packaging and platform evidence, then specify and
   validate the smallest missing delivery milestone.
@@ -114,6 +124,9 @@ in the repository's generated evidence and retained solver artifacts.
 - **Status:** TODO; future product milestone.
 - **Acceptance:** A shared browser interface supports a local solver service and
   later a hosted service with verified end-to-end job, result and error handling.
+  Use the Apple Design Skill-based brief, searchable function catalog and
+  illustrated guidebook; verify keyboard, light/dark, compact-width and failure
+  flows with actual captures from each claimed surface.
 - **Evidence:** Record API/UI checks and real simulation execution separately.
 - **Next:** Audit existing browser/API/job interfaces and write the first bounded
   implementation specification. Hosted services are user-authorized roadmap work;
@@ -129,4 +142,36 @@ in the repository's generated evidence and retained solver artifacts.
   commercial reference evidence stays pending.
 - **Next:** Build a capability-gap inventory after the accuracy foundation is
   validated, then implement and validate one prioritized capability at a time.
+- **Completion commits:** Pending.
+
+### 8. Deliver MCP and Codex / Claude Code plugin workflows
+
+- **Status:** TODO; current legacy MCP inventory and manifests documented,
+  host behavior and modern capability parity not certified.
+- **Acceptance:** Typed discoverable MCP tools use the shared core; existing
+  compatibility is preserved; both plugin hosts install, discover tools and
+  complete bounded workflows with truthful artifacts/status and recovery.
+  Function catalog lists real names, inputs/units, defaults, outputs,
+  prerequisites, effects, errors and CLI/AI examples.
+- **Evidence:** `docs/function-catalog.md` inventories 95 legacy MCP functions
+  by static source inspection. Runtime schemas and host transcripts are pending.
+- **Next:** Audit current stdio discovery and host launch configuration, then
+  specify a bounded modern MCP adapter without adding product logic to the
+  frozen legacy implementation. Regenerate thin bundles using their script.
+- **Completion commits:** Pending.
+
+### 9. Complete and maintain the illustrated guidebook
+
+- **Status:** STARTED: source-grounded guidebook scaffold; real GUI and host
+  screenshots/annotated walkthroughs still pending.
+- **Acceptance:** Every supported CLI, desktop, browser, MCP and plugin path has
+  step-by-step instructions, actual screenshots with numbered arrows/pointers,
+  accessible text, runnable command lines, schema-valid tool examples and AI
+  prompts. Captures record platform/version/commit and expected results; no
+  unsupported interface is described as available.
+- **Evidence:** `docs/guidebook/README.md`; use its capture matrix and metadata
+  requirements. Historical artifact illustrations are not new UI screenshots.
+- **Next:** Complete each chapter with its corresponding feature, not only after
+  all features ship. Add real installation, first design, missing-solver,
+  results/evidence and export captures; validate commands and both plugin hosts.
 - **Completion commits:** Pending.
