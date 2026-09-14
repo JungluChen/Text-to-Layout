@@ -12,6 +12,7 @@ IDC+CPW test structures, and multi-device test-chip tiles.
 
 from __future__ import annotations
 
+import math
 import re
 from typing import Any
 
@@ -38,7 +39,11 @@ _COMPONENT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("SQUID", re.compile(r"\b(?:dc[- ]?)?squid\b", re.I)),
 )
 
-_NUM = r"(\d+(?:\.\d+)?)"
+# Match the entire signed quantity: searching for an unsigned decimal alone
+# turns '.6' into 6, '6e-1' into 1, and '-2' into +2. The left boundary also
+# prevents a match starting halfway through a number or an identifier.
+_NUM = r"(?<![\w.])([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)"
+_COUNT = r"(?<![\w.])([+-]?\d+)(?![\w.])"
 _UM = r"(?:um|µm|μm|micron(?:s)?|micrometer(?:s)?|micrometre(?:s)?)"
 
 _CAPACITANCE_RE = re.compile(rf"{_NUM}\s*(pf|ff|nf)\b", re.I)
@@ -47,14 +52,14 @@ _BANDWIDTH_RE = re.compile(rf"{_NUM}\s*(ghz|mhz)\s+bandwidth\b", re.I)
 _GAIN_RE = re.compile(rf"{_NUM}\s*dB\s+gain(?:\s+target)?\b", re.I)
 _IMPEDANCE_RE = re.compile(rf"{_NUM}\s*(?:ohm|Ω)s?\b", re.I)
 _INDUCTANCE_RE = re.compile(rf"{_NUM}\s*(nh|ph|uh|µh)\b", re.I)
-_TURNS_RE = re.compile(r"(\d+)\s+turns?\b", re.I)
+_TURNS_RE = re.compile(rf"{_COUNT}\s+turns?\b", re.I)
 _MIN_GAP_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?gap", re.I)
 _MIN_GAP_ALT_RE = re.compile(rf"(?:min(?:imum)?\.?\s+)gap\s+(?:of\s+)?{_NUM}\s*{_UM}", re.I)
 _MIN_WIDTH_RE = re.compile(rf"{_NUM}\s*{_UM}\s+(?:min(?:imum)?\.?\s+)?(?:finger\s+)?width", re.I)
 _OVERLAP_RE = re.compile(
     rf"{_NUM}\s*{_UM}\s+overlap|overlap\s+(?:of\s+|length\s+)?{_NUM}\s*{_UM}", re.I
 )
-_FINGER_PAIRS_RE = re.compile(r"(\d+)\s+finger\s+pairs?", re.I)
+_FINGER_PAIRS_RE = re.compile(rf"{_COUNT}\s+finger\s+pairs?", re.I)
 _METAL_LAYER_RE = re.compile(r"\bon\s+(M\d+)\b|\blayer\s+(M\d+)\b", re.I)
 _SUBSTRATE_RE = re.compile(r"\bon\s+(silicon|sapphire|quartz|gaas|fused\s+silica)\b", re.I)
 
@@ -66,7 +71,7 @@ _FREQ_UNIT_TO_GHZ = {"ghz": 1.0, "mhz": 1e-3}
 _TEST_CHIP_RE = re.compile(r"\btest\s+chip\b|\bchip\s+tile\b|\btest[- ]chip\s+tile\b", re.I)
 _TEST_STRUCTURE_RE = re.compile(r"\btest\s+structure\b|\bmeasurement\s+structure\b", re.I)
 _TILE_SIZE_RE = re.compile(rf"{_NUM}\s*mm\s*(?:by|x|×)\s*{_NUM}\s*mm", re.I)
-_TURNS_WORD_RE = re.compile(r"(\d+)[- ]turn\b", re.I)
+_TURNS_WORD_RE = re.compile(rf"{_COUNT}[- ]turn\b", re.I)
 
 #: Substrates the built-in technology library can actually model today.
 _KNOWN_SUBSTRATES = {"silicon": "generic_2metal"}
@@ -239,6 +244,14 @@ def parse_prompt(prompt: str) -> DesignIntent:
 
     if "frequency_ghz" not in target and component == "IDC":
         notes.append("No operating frequency stated; self-resonance headroom is unchecked.")
+
+    # Reject invalid quantities at the intent boundary, before sizing can
+    # replace them with defaults or discard component-specific parameters.
+    for quantities in (target, constraints, parameters):
+        for name, value in quantities.items():
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                if not math.isfinite(value) or value <= 0:
+                    raise PromptParseError(prompt, f"{name} must be finite and positive")
 
     return DesignIntent(
         prompt=text,

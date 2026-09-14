@@ -15,12 +15,14 @@ from __future__ import annotations
 import json
 import math
 import shutil
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, TypeVar
 
 from textlayout.errors import PromptParseError, WorkflowStateError
 from textlayout.prompt import parse_prompt
 from textlayout.verification.klayout_readback import read_back_gds, write_readback_json
+from textlayout.verification import Check, CheckStatus, VerificationReport
 from textlayout.workflow.state import MAX_SOLVER_ITERATIONS, LayoutWorkflowState
 from textlayout.workflows.from_text import (
     build_spec,
@@ -170,14 +172,23 @@ class PromptPipeline:
     def geometry_verification(self, state: LayoutWorkflowState) -> dict[str, Any]:
         result = _required(state.generate, "generate result")
         out = Path(state.output_dir)
+        readback_ok = state.readback.passed if state.readback is not None else False
+        failures = ([c.detail or c.name for c in state.readback.checks if not c.passed]
+                    if state.readback is not None else ["GDS readback is missing"])
+        checks = [c for c in result.report.checks if c.name != "independent_gds_readback"]
+        checks.append(Check("independent_gds_readback",
+                            CheckStatus.PASS if readback_ok else CheckStatus.FAIL,
+                            "; ".join(failures)))
+        result = replace(result, report=VerificationReport.from_checks(
+            result.report.component, checks))
         verification = result.report.to_dict()
         if state.readback is not None:
             verification["klayout_readback"] = state.readback.to_dict()
         files = dict(state.files)
         files["verification"] = write_json(out / "verification.json", verification)
-        readback_ok = state.readback.passed if state.readback is not None else False
         geometry_status = "GEOMETRY_PASS" if result.report.passed and readback_ok else "FAILED"
         return {
+            "generate": result,
             "verification_result": verification,
             "geometry_status": geometry_status,
             "files": files,

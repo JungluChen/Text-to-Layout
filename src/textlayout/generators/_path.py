@@ -16,12 +16,12 @@ def orthogonal_path_rectangles(
     for start, end in zip(points, points[1:], strict=False):
         x0, y0 = start
         x1, y1 = end
-        if x0 == x1 and y0 != y1:
-            polygons.append(rectangle(layer, x0 - half, y0 - half, x1 + half, y1 + half))
-        elif y0 == y1 and x0 != x1:
-            polygons.append(rectangle(layer, x0 - half, y0 - half, x1 + half, y1 + half))
-        else:
+        if not ((x0 == x1 and y0 != y1) or (y0 == y1 and x0 != x1)):
             raise ValueError(f"Path segment must be non-zero and orthogonal: {start} -> {end}")
+        # Sort the centerline endpoints BEFORE expanding them. Expanding first
+        # shortens a reversed segment and disconnects its corner joins.
+        polygons.append(rectangle(layer, min(x0, x1) - half, min(y0, y1) - half,
+                                  max(x0, x1) + half, max(y0, y1) + half))
     return tuple(polygons)
 
 

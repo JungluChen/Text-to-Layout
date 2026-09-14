@@ -180,14 +180,15 @@ def size_parameters(
     elif intent.component == "TestStructure":
         parameters = _test_structure_parameters(intent, parameters, technology)
     elif intent.component == "CPW":
-        width = 10.0
-        target_z0 = intent.target.get("impedance_ohm", 50.0)
-        parameters = {
-            "center_width_um": width,
-            "gap_um": round(F.cpw_gap_for_z0(target_z0, width, technology.substrate_epsilon_r), 4),
-            "length_um": 1000.0,
-            **{k: v for k, v in parameters.items() if k in {"gap_um"}},
-        }
+        from textlayout.optimization.cpw import size_cpw
+
+        parameters = size_cpw(
+            intent.target.get("impedance_ohm", 50.0), technology.substrate_epsilon_r,
+            min_width_um=max(technology.min_width_for("M1"),
+                             intent.constraints.get("min_width_um", 0.0)),
+            min_gap_um=max(technology.min_spacing_for("M1"),
+                           intent.constraints.get("min_gap_um", 0.0)),
+        )
     elif intent.component == "SpiralInductor":
         turns = int(parameters.get("turns", 4))
         width = float(parameters.get("trace_width_um", 5.0))
