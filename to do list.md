@@ -9,6 +9,8 @@ in the repository's generated evidence and retained solver artifacts.
 - Run at 01:00 Asia/Taipei (UTC+8) on the local Mac, attached to the existing
   Codex conversation. Keep the Mac on and Codex running. Automation ID:
   `improve-text-to-layout-accuracy-first`; activated on 2026-09-15.
+- Setup documentation commit: `4f87e766fc06bf8a46cdb10d7979cdbfddd0d414`.
+  First scheduled-run verification remains pending; see the setup report.
 - Read `AGENTS.md`, `docs/development/reproduce_before_edit.md`, this list,
   previous `docs/progress/` reports, and current Git/CI state before working.
 - Work top to bottom. Numerical/data correctness takes priority over features.
