@@ -1,5 +1,13 @@
 # UI/UX Workflow
 
+**Current design direction:** [Design.md](../Design.md) and
+[REQUIREMENTS.md](../REQUIREMENTS.md) define the Apple Design Skill-based target
+across desktop, CLI, local/hosted browser and MCP/Codex/Claude Code surfaces.
+The legacy workflow below is implementation context, not evidence that those
+new interfaces have shipped. Its local-only first UI remains the initial path;
+the approved roadmap also includes hosted services. Follow the new brief for
+new UI work and the [guidebook](guidebook/README.md) for tutorial requirements.
+
 Text-to-GDS should feel like a local Apple-style layout workbench, not a
 marketing page.
 The current `run_design_workflow` output writes a local HTML workbench under

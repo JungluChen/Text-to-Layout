@@ -1,5 +1,12 @@
 # Plugin Design
 
+**Product roadmap:** [REQUIREMENTS.md](../REQUIREMENTS.md) and
+[Design.md](../Design.md) extend the target to CLI, installable desktop software,
+local/hosted browser, MCP, Codex and Claude Code plugins. The integration modes
+below describe existing architecture, not the complete future delivery set.
+See the [function catalog](function-catalog.md) and
+[guidebook](guidebook/README.md) for discovery and documentation requirements.
+
 ## Safety boundary
 
 ```text
