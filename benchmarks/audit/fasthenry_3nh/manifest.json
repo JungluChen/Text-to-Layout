@@ -1,0 +1,16 @@
+{
+  "intent.json": "c19f76f35cfac467a6aadf0d4d8464bf5e4174e53fed69d545a24737dcd22533",
+  "design_review.json": "27461dd3c254297c5260dbb95646d8717614c2b4212633a7a20f8828f268ef92",
+  "klayout_readback.json": "ed6fb063ecaac81e4acb69e365229df93f11e7cf6a463164e52a1f66c0fa457d",
+  "fasthenry.stdout.txt": "e5faac6b7c24e544f65268bcd37be2a502dd0283d49d2d4af568c807eba1ac81",
+  "output.gds": "15fcfd734f66b4ff2bbc711f511a27f6655d402bc19ae1ec405e001c27bdf311",
+  "Zc.mat": "a84c3e16f68a3df1fed6252ae636d86b5a33260eb10459d8b889b48b5c77bf9b",
+  "spiral.inp": "742e08aea973e1b8fc59c9a83d4777ae94f60c15e49b81f4a620e8e3e8ed46cf",
+  "output.png": "2e68546f50169c8e64c32d913e6ab5394ab58a16f78c6e1c0ec59fd62c281916",
+  "layout.json": "665ab53297c0b10a27766556d0356660f104f6af70be1b144b9b9db95176d1e8",
+  "verification.json": "5eba76c3c828f5fb1eb7dbc5d92bdd83f523b39c2f8801b28d759667927860e6",
+  "fasthenry.stderr.txt": "5907157dec2357406b50cae303d0e2b03431931dc2a27320366343e7e466a01e",
+  "fasthenry_result.json": "54e3ac2f9b6a12fc52e587bde8ee1a52e02d9b0a8eb086d19b8304b8bfdc7b1a",
+  "solver_identity.json": "49a0ee65926b221cebaff1ad09cecccb854ac1c7fe0f748495b61161019c8cc0",
+  "optimization.json": "867959b874e5471292823320d5eb3db22d12030d516b3eb2419e9a2ee4e578cd"
+}

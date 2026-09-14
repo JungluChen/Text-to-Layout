@@ -1,0 +1,899 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.15509819984436,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "benchmark_conductivity_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 7.000580787658691,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "benchmark_conductivity_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.1568968296051025,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "benchmark_record_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.123539924621582,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "benchmark_record_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "src",
+      "scripts",
+      "tests"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.736729145050049,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "compile_baseline"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_fasthenry_units.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.9012241363525391,
+    "log_sha256": "d93889f221cdc3bc84deebee275273e73d9bbcac5d2e8b030b80fca71478fc33",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "conductivity_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_fasthenry_units.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.6981089115142822,
+    "log_sha256": "d93889f221cdc3bc84deebee275273e73d9bbcac5d2e8b030b80fca71478fc33",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "conductivity_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_fasthenry_units.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.7669990062713623,
+    "log_sha256": "c699ce6749fdaceda446ae490986fa3f6399319a4452a2f9b61cbb8c99dfe8b4",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "conductivity_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_fasthenry_units.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.7303578853607178,
+    "log_sha256": "01f292decfdc93c54539d16c42f9d8c01fe33567406d5f0159b12f6eb27f298f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "conductivity_before_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_open_source_simulation.py",
+      "tests/textlayout_suite/test_solver_execution.py",
+      "tests/textlayout_suite/test_extended_generators.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.4355971813201904,
+    "log_sha256": "ddcc0c87c522b605b5930047ad38f5004e6c08d0135fbb29950e0cd2d41427f0",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "conductivity_regression"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-c",
+      "import json, math; from scipy.special import ellipk; from textlayout.research.formulas import cpw_z0; rows=[]\nfor w,g in [(10,6),(10,2),(10,30),(0.01,1000000)]:\n try:\n  actual,_=cpw_z0(w,g,11.9); k=w/(w+2*g); reference=30*math.pi/math.sqrt(6.45)*float(ellipk(1-k*k)/ellipk(k*k)); rows.append(dict(width=w,gap=g,actual=actual,reference=reference))\n except Exception as exc: rows.append(dict(width=w,gap=g,error=str(exc)))\nprint(json.dumps(rows,indent=2))"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.322054147720337,
+    "log_sha256": "2ae6407fee8661659a747b651c1de969636eed88a26d340bbc2f4a43b5440201",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "cpw_numerical_baseline"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.127718925476074,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "deliverable_benchmark_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.057741165161133,
+    "log_sha256": "0be806965f670572cc37dd746925342007fd35cf2992db2752d29f20f3f4b89f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "deliverable_benchmark_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap",
+      "--out",
+      "out/audit/demo_cpw",
+      "--no-solver"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.369204044342041,
+    "log_sha256": "e99acd28e70458fb9c1f17de7c0a59b10fd9f5952bbbf77b0517b9ab84767c61",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_cpw"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap",
+      "--out",
+      "out/audit/demo_cpw",
+      "--no-solver"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.5639002323150635,
+    "log_sha256": "852d28771bca419625bb7705f022e4fdd9577f79ec79e99cfa9084ebd3adc403",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_cpw_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap",
+      "--out",
+      "out/audit/demo_cpw",
+      "--no-solver"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.5397708415985107,
+    "log_sha256": "852d28771bca419625bb7705f022e4fdd9577f79ec79e99cfa9084ebd3adc403",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_cpw_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap",
+      "--out",
+      "out/audit/demo_cpw",
+      "--no-solver"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.1697919368743896,
+    "log_sha256": "852d28771bca419625bb7705f022e4fdd9577f79ec79e99cfa9084ebd3adc403",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_cpw_final"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap",
+      "--out",
+      "out/audit/demo_cpw",
+      "--no-solver"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.35413289070129395,
+    "log_sha256": "e99acd28e70458fb9c1f17de7c0a59b10fd9f5952bbbf77b0517b9ab84767c61",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_cpw_repeat"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 50 ohm CPW",
+      "--out",
+      "out/audit/demo_missing_solver",
+      "--require-simulation",
+      "--no-solver"
+    ],
+    "exit_code": 2,
+    "runtime_s": 1.8331639766693115,
+    "log_sha256": "85c351d072ec68cde3afa6388e1beb00d730ce3bb0b35c26cffaeba18f1188b8",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_missing_solver_gate"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/demo_spiral",
+      "--require-simulation"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.472787857055664,
+    "log_sha256": "ad470caea690293df027c6b8b72adc2e4ef6caf0929043257c3cc2fb8266a3ed",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_spiral"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "demo.py",
+      "--prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/demo_spiral",
+      "--require-simulation"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.9223408699035645,
+    "log_sha256": "ad470caea690293df027c6b8b72adc2e4ef6caf0929043257c3cc2fb8266a3ed",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "demo_spiral_final"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "doctor",
+      "--json"
+    ],
+    "exit_code": 0,
+    "runtime_s": 149.67706108093262,
+    "log_sha256": "3d181a8bf174ea7614a8b053e12cf9133ee77676d8d8a94642512ffe6ed868fb",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "doctor_baseline"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_absolute",
+      "--executable",
+      "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.5555100440979004,
+    "log_sha256": "1905469e85cb901a024790a02ae34421733003e490c41289160370bbb6155a22",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_absolute_1"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_absolute",
+      "--executable",
+      "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 2.029994010925293,
+    "log_sha256": "1905469e85cb901a024790a02ae34421733003e490c41289160370bbb6155a22",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_absolute_2"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_demo",
+      "--solver",
+      ".tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 2,
+    "runtime_s": 0.35398197174072266,
+    "log_sha256": "65acdd446808df183d26ace5f2d234465d993ed6bb1edddbeb6173fe95e4d488",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_prompt_1"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_demo",
+      "--executable",
+      ".tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.459346055984497,
+    "log_sha256": "9f27fa967754d278e792c551334c71c33c850f776d3d5427477d1f230b3af7e4",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_prompt_2"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_demo",
+      "--executable",
+      ".tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.4594168663024902,
+    "log_sha256": "9f27fa967754d278e792c551334c71c33c850f776d3d5427477d1f230b3af7e4",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_prompt_repeat"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_demo",
+      "--executable",
+      ".tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.5218780040740967,
+    "log_sha256": "0419bd3917d716d5847b1f7472501248a0eef65fa80946bcce2aed0f1cd06a04",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_relative_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+      "--out",
+      "out/audit/fasthenry_demo",
+      "--executable",
+      ".tools/FastHenry2/bin/fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.5900428295135498,
+    "log_sha256": "0419bd3917d716d5847b1f7472501248a0eef65fa80946bcce2aed0f1cd06a04",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fasthenry_relative_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.204445123672485,
+    "log_sha256": "491a7ace6e28b220095abf94b33c655add8cb7b5a1684477777c846ed6628822",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "final_benchmark_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark",
+      "--with-fasthenry"
+    ],
+    "exit_code": 0,
+    "runtime_s": 6.082821846008301,
+    "log_sha256": "491a7ace6e28b220095abf94b33c655add8cb7b5a1684477777c846ed6628822",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "final_benchmark_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--junitxml=out/audit/tests-final.xml"
+    ],
+    "exit_code": 0,
+    "runtime_s": 79.855220079422,
+    "log_sha256": "ef5a4ebf70251d86815ca04e3e33daed58eaf3afd755b22ecfd7347d1445bc8a",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "final_suite_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--junitxml=out/audit/tests-final.xml"
+    ],
+    "exit_code": 0,
+    "runtime_s": 83.22618389129639,
+    "log_sha256": "d0e87db0a8784b77c920cfa4a8b3d32bb06a1c1e56cadfc85101afa79db19b13",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "final_suite_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_cpw_generator.py",
+      "tests/textlayout_suite/test_golden_cpw.py",
+      "tests/textlayout_suite/test_from_text_workflow.py",
+      "tests/textlayout_suite/test_workflow_graph.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 4.022889137268066,
+    "log_sha256": "92831b534a1480231e558fac3211f84e6198514e5a8b2dc784ef18628b1c2f3d",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "fixes_regression_1"
+  },
+  {
+    "command": [
+      ".venv/bin/textlayout",
+      "prompt",
+      "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um min gap",
+      "--out",
+      "out/audit/idc_smoke"
+    ],
+    "exit_code": 0,
+    "runtime_s": 148.7861351966858,
+    "log_sha256": "85bd303e1f121035e097ad27559fa9ce55cab2e60cc5d1b98b96c0ce090fc4e3",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "idc_smoke_baseline"
+  },
+  {
+    "command": [
+      ".venv/bin/ruff",
+      "check",
+      "."
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.8578400611877441,
+    "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "lint_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/mypy",
+      "src/textlayout"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.2678489685058594,
+    "log_sha256": "022871ecb816a765088751acadc9102aa4dd49aaa5e2e879170c6e4987e580b2",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "mypy_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/mypy",
+      "src/textlayout"
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.27830982208251953,
+    "log_sha256": "022871ecb816a765088751acadc9102aa4dd49aaa5e2e879170c6e4987e580b2",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "mypy_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/mypy",
+      "src/textlayout"
+    ],
+    "exit_code": 1,
+    "runtime_s": 10.212381362915039,
+    "log_sha256": "c89d83e29b8648c38ffca6273c5ea60047941725677ce9c7a91055914f29a33f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "mypy_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/mypy",
+      "src/textlayout"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.28856897354125977,
+    "log_sha256": "c89d83e29b8648c38ffca6273c5ea60047941725677ce9c7a91055914f29a33f",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "mypy_before_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/install_fasthenry_native.py",
+      "--rebuild"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.2096309661865234,
+    "log_sha256": "c2d8047201361703c5d73b365c7cc78037645c78dcc0e4f10e21f168f92591e0",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "native_installer"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_prompt_numeric_conditioning.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.1046440601348877,
+    "log_sha256": "6cce73b87880e32e1639cc60e981e4468418a527b3a543f93b3a482b2f37598c",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "numeric_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_prompt_numeric_conditioning.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.3742990493774414,
+    "log_sha256": "d8fd7059c0979f74ad0bfde1c8cdad438d3e7865b46775bc92b20a62877ae31a",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "numeric_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_prompt_numeric_conditioning.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 41.38834524154663,
+    "log_sha256": "d28af3a35b03fc0b4fc22fb72f63e7ebd99467d921ee13c215a006c8f10d7494",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "numeric_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_prompt_numeric_conditioning.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.445390939712524,
+    "log_sha256": "b26beb86788647bd0b967f1f60166f55a9eee1587d6167019376bfcb6d194f98",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "numeric_before_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/final_benchmark"
+    ],
+    "exit_code": 0,
+    "runtime_s": 4.432435035705566,
+    "log_sha256": "554651776d01672756f0769340d2aadea88bec32268e48f9cf42e2e9ef856759",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "paper_benchmark_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_prompt_parsing.py",
+      "tests/textlayout_suite/test_from_text_workflow.py",
+      "tests/textlayout_suite/test_multi_sim_prompt.py",
+      "tests/textlayout_suite/test_jpa_mvp.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 9.553018808364868,
+    "log_sha256": "a5d20b1d01c23f41503ba4c57811c093a46ec4fcc421fa58f9965c026c2f8eb2",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "parser_regression"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_solver_path_resolution.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.6554098129272461,
+    "log_sha256": "7e15266061ed0d31aa89e2241ce9ed802cf0173def79bf29c0398d727932d5d2",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "solver_paths_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_solver_path_resolution.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 0.657778263092041,
+    "log_sha256": "3c82e1d3305214e6527e81a3191d87bd710aba47bc834df9a486aeefacb40faf",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "solver_paths_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_solver_path_resolution.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.7610549926757812,
+    "log_sha256": "9a05e7b964f62930283aa1d2e077bef2b2edfbce624f307e20d63e71bccfe02c",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "solver_paths_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_solver_path_resolution.py",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 0.711846113204956,
+    "log_sha256": "dab97cc3f50011fc8e492438a6c2285a7459d65fef9b00b948f3651ba99b05a5",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "solver_paths_before_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "--ignore=tests/textlayout_suite/test_prompt_numeric_conditioning.py",
+      "-q",
+      "--junitxml=out/audit/tests-baseline.xml"
+    ],
+    "exit_code": 1,
+    "runtime_s": 317.55290603637695,
+    "log_sha256": "fd062f925b162b92b4fc5d88f4146fb335ad6e2e3e0cb2cedd577169fb77d646",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "suite_baseline"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_smoke.py::test_optimized_design_workflow_and_live_ui",
+      "tests/textlayout_suite/test_palace_resource_limits.py::test_resource_watcher_terminates_memory_consumer",
+      "-q"
+    ],
+    "exit_code": 1,
+    "runtime_s": 9.690481901168823,
+    "log_sha256": "88aff12d81e516a292204f5b28f3985ecf32c941737fba640c9f543c270e5b7a",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "suite_failure_repeat"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_smoke.py::test_optimized_design_workflow_and_live_ui",
+      "tests/textlayout_suite/test_palace_resource_limits.py::test_resource_watcher_terminates_memory_consumer",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 12.005308389663696,
+    "log_sha256": "1c6da170ca8fc8117c649868035aea414346c58269b155564013a8b54d9bd5aa",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "suite_failure_unrestricted"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.8218910694122314,
+    "log_sha256": "9c51ee4d3e275abbf088a6e45e23b7832e2ba0196531637f7a23b45098cf8061",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.396805047988892,
+    "log_sha256": "9c51ee4d3e275abbf088a6e45e23b7832e2ba0196531637f7a23b45098cf8061",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_before"
+    ],
+    "exit_code": 1,
+    "runtime_s": 5.325848817825317,
+    "log_sha256": "02bbe5a670e4a5b8bf9cc78be597ab09da9f23ba94f2d9e50c509c5e8ec5e82d",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_before_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_before"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.423537969589233,
+    "log_sha256": "02bbe5a670e4a5b8bf9cc78be597ab09da9f23ba94f2d9e50c509c5e8ec5e82d",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_before_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.472055673599243,
+    "log_sha256": "3f07e91418c119e51e212ca6c900c30b5fd02bbb9bda77ff0279bcf71a606756",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_corrected_baseline_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 1,
+    "runtime_s": 4.561873197555542,
+    "log_sha256": "3f07e91418c119e51e212ca6c900c30b5fd02bbb9bda77ff0279bcf71a606756",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_corrected_baseline_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 0,
+    "runtime_s": 4.619446039199829,
+    "log_sha256": "cedcc861b3cc5a779cd677f248ce575b8f0b950fef378d95d4bfb44c6497969b",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_grid_after_1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "run_benchmark_validation.py",
+      "--out",
+      "out/audit/sweep_baseline"
+    ],
+    "exit_code": 0,
+    "runtime_s": 4.439723014831543,
+    "log_sha256": "cedcc861b3cc5a779cd677f248ce575b8f0b950fef378d95d4bfb44c6497969b",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "sweep_grid_after_2"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_synthesis_constraints.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.8758232593536377,
+    "log_sha256": "c6e0efc3b84f0b7fc4f8ff25994bbfd3e41b5d71b74619a36ede1cba9a543019",
+    "git_sha": "f4da3b5e2d1a0093fde132e8dc46c52b508376ee",
+    "record": "synthesis_regression"
+  }
+]

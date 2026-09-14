@@ -1,0 +1,129 @@
+{
+  "schema": "textlayout.design-review.v1",
+  "request": "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+  "intent": {
+    "schema_version": "textlayout.design-intent.v1",
+    "prompt": "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+    "component": "SpiralInductor",
+    "technology": "generic_2metal",
+    "substrate": null,
+    "target": {
+      "inductance_nh": 3.0
+    },
+    "constraints": {},
+    "parameters": {
+      "turns": 4,
+      "trace_width_um": 4.0,
+      "spacing_um": 2.0
+    },
+    "notes": [],
+    "topology": null,
+    "capacitor_type": null,
+    "inductance_assumption": null,
+    "simulator_requests": [],
+    "evidence_status": [
+      "INTENT_PARSED"
+    ]
+  },
+  "geometry_passed": true,
+  "chosen_parameters": {
+    "turns": 4,
+    "outer_dimension_um": 129.168,
+    "trace_width_um": 4.0,
+    "spacing_um": 2.0,
+    "thickness_um": 0.2
+  },
+  "first_principles": {
+    "component": "SpiralInductor",
+    "model_name": "Modified-Wheeler / Mohan planar spiral inductor",
+    "physical_target": {
+      "inductance_nh": 3.0
+    },
+    "equations": [
+      {
+        "name": "Modified Wheeler (square)",
+        "expression": "L = K1*mu0*n^2*d_avg / (1 + K2*rho)",
+        "description": "K1=2.34, K2=2.75; d_avg=(d_out+d_in)/2."
+      },
+      {
+        "name": "Fill ratio",
+        "expression": "rho = (d_out - d_in) / (d_out + d_in)",
+        "description": "Density of the winding."
+      }
+    ],
+    "assumptions": [
+      "Square planar spiral; uniform width and spacing; thin-film metal.",
+      "Substrate eps_r = 11.9 (technology 'generic_2metal')."
+    ],
+    "references": [
+      {
+        "citation": "S. S. Mohan, M. del Mar Hershenson, S. P. Boyd, T. H. Lee, 'Simple Accurate Expressions for Planar Spiral Inductances', IEEE JSSC 34(10) (1999) 1419.",
+        "note": "Modified-Wheeler and current-sheet expressions used here."
+      },
+      {
+        "citation": "H. A. Wheeler, 'Simple Inductance Formulas for Radio Coils', Proc. IRE 16 (1928) 1398.",
+        "note": ""
+      }
+    ],
+    "analytical_estimates": {
+      "turns": 4,
+      "outer_dimension_um": 129.168,
+      "inner_dimension_um": 85.168,
+      "estimated_inductance_nh": 3.2227
+    },
+    "design_notes": [
+      "Turn count is the strongest inductance lever but raises resistance and capacitance.",
+      "Trace width and spacing trade footprint, Q, and self-resonance."
+    ],
+    "limitations": [
+      "The Mohan estimate does not establish Q or self-resonance.",
+      "Skin effect, substrate loss, and parasitic capacitance require extraction."
+    ],
+    "simulation_recommendation": {
+      "inductance_and_resistance": "FastHenry/FastHenry2 first; Q3D/HFSS is optional correlation."
+    },
+    "proposed_parameters": {
+      "turns": 4,
+      "outer_dimension_um": 129.168,
+      "trace_width_um": 4.0,
+      "spacing_um": 2.0,
+      "thickness_um": 0.2
+    }
+  },
+  "engineering_rules": [
+    {
+      "id": "process-before-signoff",
+      "rationale": "Fabrication rules and material properties depend on the process.",
+      "action": "Supply a versioned PDK, metal thickness, substrate and operating temperature.",
+      "evidence": "Generic technology parameters are assumptions; geometry DRC is not foundry signoff."
+    },
+    {
+      "id": "independent-export-check",
+      "rationale": "The exported mask must preserve conductor connectivity and clearances.",
+      "action": "Require independent GDS readback, width checks and net-aware spacing checks.",
+      "evidence": "KLayout checks the generated GDS; design_review.geometry_passed reports the verdict."
+    },
+    {
+      "id": "measurement-learning",
+      "rationale": "A process correction needs measurements paired with the exact design.",
+      "action": "Use design hashes to pair simulation and measurement, preserve provenance, then assess corrections on devices held out from fitting.",
+      "evidence": "textlayout measurement calibrate; generated predictions are not measured data."
+    },
+    {
+      "id": "spiral-continuity",
+      "rationale": "One continuous winding is required; disconnected corners change the circuit.",
+      "action": "Check exported metal continuity and full trace width, including reversed segments.",
+      "evidence": "Regression test_synthesis_constraints.py checks merged KLayout geometry."
+    },
+    {
+      "id": "spiral-model-and-process",
+      "rationale": "Modified Wheeler is an approximate geometric-inductance model.",
+      "action": "Extract with FastHenry; add process-specific kinetic inductance and check self-resonance before using a superconducting RF device.",
+      "evidence": "Mohan et al. (1999), DOI 10.1109/4.792620; measured error remains in the benchmark."
+    }
+  ],
+  "simulation_status": "PHYSICS_VERIFIED",
+  "simulation_summary": "inductance: PHYSICS_VERIFIED \u2014 fasthenry extracted 2.9583084202149137 nH vs target 3.0 nH (error 1.39% <= 5.0%)",
+  "fabrication_ready": false,
+  "learning_policy": "Use measured calibration data with provenance; generated designs do not become measurement evidence."
+}

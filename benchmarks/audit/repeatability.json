@@ -1,0 +1,16 @@
+{
+  "same_numeric_results": true,
+  "same_source_tree": true,
+  "source_tree_sha256": "eeacd0a6ecb8ab49b92ec8f0cde98c35e994caab88723cc18c5d6d818e55b7ff",
+  "run_paths": [
+    "out/audit/final_benchmark/run_8l8hgppi/results.json",
+    "out/audit/final_benchmark/run_lg9gokun/results.json"
+  ],
+  "numeric_result_sha256": "0a5d9601ef3ba0fe9766dc403b6c7e0e3df53f0ca86ef606b9dac4400732e0b3",
+  "differences_expected": [
+    "Output directory paths",
+    "Wall clock timestamps and runtimes",
+    "GDS timestamp bytes",
+    "Raw file hashes of timestamp/path-bearing artifacts"
+  ]
+}

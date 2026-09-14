@@ -1,0 +1,280 @@
+{
+  "title": "Simple Accurate Expressions for Planar Spiral Inductances",
+  "authors": [
+    "S. S. Mohan",
+    "M. del Mar Hershenson",
+    "S. P. Boyd",
+    "T. H. Lee"
+  ],
+  "doi": "10.1109/4.792620",
+  "url": "https://web.stanford.edu/~boyd/papers/pdf/inductance_expressions.pdf",
+  "table": "IV, page 1422",
+  "selection": "All 29 integer-turn square spirals in Table IV. Fractional-turn and non-square rows are excluded because the product supports integer square windings. No selection based on measured error.",
+  "model": "Equation (1), modified Wheeler, Table I square coefficients K1=2.34, K2=2.75",
+  "comparison": "Published error column uses 100*(measured-model)/measured; model errors recomputed from rounded printed dimensions may differ slightly.",
+  "coefficient_rounding_tolerance_pp": 0.5,
+  "scope": "Published analytical-model reproduction; not a fresh measurement or a full-wave simulation.",
+  "rows": [
+    {
+      "row": 13,
+      "turns": 5,
+      "outer_um": 171,
+      "width_um": 5.4,
+      "spacing_um": 1.9,
+      "measured_nh": 6.1,
+      "published_wheeler_error_percent": 3.0
+    },
+    {
+      "row": 16,
+      "turns": 12,
+      "outer_um": 180,
+      "width_um": 3.2,
+      "spacing_um": 2.1,
+      "measured_nh": 20.5,
+      "published_wheeler_error_percent": -1.0
+    },
+    {
+      "row": 17,
+      "turns": 7,
+      "outer_um": 300,
+      "width_um": 13,
+      "spacing_um": 7,
+      "measured_nh": 8,
+      "published_wheeler_error_percent": 5.6
+    },
+    {
+      "row": 18,
+      "turns": 6,
+      "outer_um": 400,
+      "width_um": 24,
+      "spacing_um": 7,
+      "measured_nh": 8.0,
+      "published_wheeler_error_percent": 9.2
+    },
+    {
+      "row": 19,
+      "turns": 8,
+      "outer_um": 300,
+      "width_um": 5,
+      "spacing_um": 4,
+      "measured_nh": 22.1,
+      "published_wheeler_error_percent": -9.6
+    },
+    {
+      "row": 20,
+      "turns": 4,
+      "outer_um": 300,
+      "width_um": 5,
+      "spacing_um": 4,
+      "measured_nh": 9.2,
+      "published_wheeler_error_percent": -3.3
+    },
+    {
+      "row": 21,
+      "turns": 9,
+      "outer_um": 210,
+      "width_um": 6.5,
+      "spacing_um": 5.5,
+      "measured_nh": 7.7,
+      "published_wheeler_error_percent": 8
+    },
+    {
+      "row": 22,
+      "turns": 8,
+      "outer_um": 226,
+      "width_um": 6,
+      "spacing_um": 6,
+      "measured_nh": 9,
+      "published_wheeler_error_percent": -1
+    },
+    {
+      "row": 23,
+      "turns": 11,
+      "outer_um": 300,
+      "width_um": 9,
+      "spacing_um": 4,
+      "measured_nh": 15.5,
+      "published_wheeler_error_percent": -9.7
+    },
+    {
+      "row": 24,
+      "turns": 8,
+      "outer_um": 300,
+      "width_um": 14,
+      "spacing_um": 4,
+      "measured_nh": 8.3,
+      "published_wheeler_error_percent": -6.7
+    },
+    {
+      "row": 25,
+      "turns": 6,
+      "outer_um": 300,
+      "width_um": 19,
+      "spacing_um": 4,
+      "measured_nh": 5.1,
+      "published_wheeler_error_percent": -7.2
+    },
+    {
+      "row": 26,
+      "turns": 3,
+      "outer_um": 300,
+      "width_um": 19,
+      "spacing_um": 4,
+      "measured_nh": 3.3,
+      "published_wheeler_error_percent": -7.2
+    },
+    {
+      "row": 27,
+      "turns": 5,
+      "outer_um": 300,
+      "width_um": 24,
+      "spacing_um": 4,
+      "measured_nh": 3.5,
+      "published_wheeler_error_percent": -5.2
+    },
+    {
+      "row": 28,
+      "turns": 9,
+      "outer_um": 230,
+      "width_um": 6.5,
+      "spacing_um": 5.5,
+      "measured_nh": 9.7,
+      "published_wheeler_error_percent": 2.3
+    },
+    {
+      "row": 29,
+      "turns": 16,
+      "outer_um": 300,
+      "width_um": 5,
+      "spacing_um": 4,
+      "measured_nh": 34,
+      "published_wheeler_error_percent": -4.2
+    },
+    {
+      "row": 30,
+      "turns": 6,
+      "outer_um": 300,
+      "width_um": 9,
+      "spacing_um": 4,
+      "measured_nh": 11.7,
+      "published_wheeler_error_percent": -7.8
+    },
+    {
+      "row": 31,
+      "turns": 3,
+      "outer_um": 300,
+      "width_um": 9,
+      "spacing_um": 4,
+      "measured_nh": 5.5,
+      "published_wheeler_error_percent": 6.3
+    },
+    {
+      "row": 32,
+      "turns": 4,
+      "outer_um": 300,
+      "width_um": 14,
+      "spacing_um": 4,
+      "measured_nh": 5.8,
+      "published_wheeler_error_percent": -4.4
+    },
+    {
+      "row": 33,
+      "turns": 2,
+      "outer_um": 300,
+      "width_um": 14,
+      "spacing_um": 4,
+      "measured_nh": 2.9,
+      "published_wheeler_error_percent": 18
+    },
+    {
+      "row": 34,
+      "turns": 2,
+      "outer_um": 300,
+      "width_um": 19,
+      "spacing_um": 4,
+      "measured_nh": 2.5,
+      "published_wheeler_error_percent": 16
+    },
+    {
+      "row": 35,
+      "turns": 3,
+      "outer_um": 300,
+      "width_um": 24,
+      "spacing_um": 4,
+      "measured_nh": 3.1,
+      "published_wheeler_error_percent": 5.9
+    },
+    {
+      "row": 36,
+      "turns": 5,
+      "outer_um": 154,
+      "width_um": 7,
+      "spacing_um": 5,
+      "measured_nh": 3,
+      "published_wheeler_error_percent": 3.9
+    },
+    {
+      "row": 37,
+      "turns": 9,
+      "outer_um": 250,
+      "width_um": 7,
+      "spacing_um": 5,
+      "measured_nh": 12,
+      "published_wheeler_error_percent": 0.2
+    },
+    {
+      "row": 38,
+      "turns": 6,
+      "outer_um": 285,
+      "width_um": 15,
+      "spacing_um": 3,
+      "measured_nh": 6.7,
+      "published_wheeler_error_percent": -9.4
+    },
+    {
+      "row": 49,
+      "turns": 3,
+      "outer_um": 300,
+      "width_um": 18,
+      "spacing_um": 6,
+      "measured_nh": 3.3,
+      "published_wheeler_error_percent": -5.9
+    },
+    {
+      "row": 51,
+      "turns": 3,
+      "outer_um": 700,
+      "width_um": 90,
+      "spacing_um": 6,
+      "measured_nh": 3.7,
+      "published_wheeler_error_percent": -4.9
+    },
+    {
+      "row": 52,
+      "turns": 4,
+      "outer_um": 262,
+      "width_um": 16,
+      "spacing_um": 10,
+      "measured_nh": 2.6,
+      "published_wheeler_error_percent": -19.9
+    },
+    {
+      "row": 53,
+      "turns": 6,
+      "outer_um": 392,
+      "width_um": 16,
+      "spacing_um": 10,
+      "measured_nh": 8.8,
+      "published_wheeler_error_percent": -12.6
+    },
+    {
+      "row": 54,
+      "turns": 8,
+      "outer_um": 532,
+      "width_um": 16,
+      "spacing_um": 10,
+      "measured_nh": 20.4,
+      "published_wheeler_error_percent": -17.3
+    }
+  ]
+}

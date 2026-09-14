@@ -148,7 +148,7 @@ def spiral_inductance_nh(turns: int, outer_um: float, inner_um: float) -> float:
 
     L = K1 * mu0 * n^2 * d_avg / (1 + K2*rho), with K1=2.34 and
     K2=2.75 for a square spiral. Reference: Mohan et al., IEEE JSSC 34(10),
-    1999, Table II.
+    1999, Equation (1) and Table I.
     """
     if turns < 1 or outer_um <= inner_um or inner_um <= 0:
         raise ValueError("turns and spiral diameters must be positive with outer > inner")

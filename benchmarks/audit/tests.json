@@ -1,0 +1,13 @@
+{
+  "name": "pytest",
+  "errors": "0",
+  "failures": "0",
+  "skipped": "11",
+  "tests": "1940",
+  "time": "79.849",
+  "timestamp": "2026-09-14T02:22:14.367507+08:00",
+  "hostname": "Ludkos-MacBook-Air.local",
+  "passed": 1929,
+  "junit_sha256": "d7a286b4f2170cb2f2c1f35f9d3d5d88c0ac532adfa5973fd582cb6bf3656036",
+  "scope": "Full suite after conductivity fix; host socket/process permissions enabled."
+}

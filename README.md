@@ -10,6 +10,73 @@ DSL, deterministic GDS geometry, KLayout-verified artifacts, and honest
 simulation evidence — every claim in this README is backed by committed files
 and enforced by CI claim validation.
 
+## Audited local quickstart
+
+The supported chip-layout workflow runs with open-source tools and no model
+weights, API keys, commercial CAD, or commercial solver license. Python 3.12
+is recommended for the tested environment:
+
+```bash
+uv sync --frozen --python 3.12
+uv run python demo.py --prompt "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap" --no-solver
+```
+
+The output folder contains GDS, PNG/SVG previews, typed requirements, independent
+KLayout checks, and `design_review.json`. The review records the chosen
+dimensions, physical equations, assumptions, engineering rules and solver
+status. With an activated virtual environment the command is simply
+`python demo.py --prompt "..."`.
+
+For real spiral-inductance extraction on macOS/Linux, install the pinned native
+FastHenry build (requires `git`, `make`, `clang`, and `bash`):
+
+```bash
+uv run python scripts/install_fasthenry_native.py
+uv run python demo.py --prompt "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing" --out out/spiral --require-simulation
+uv run python run_benchmark_validation.py --with-fasthenry
+```
+
+The native build was executed on Apple Silicon; Linux build support is provided
+but has not been certified in this audit. Windows uses the existing
+`scripts/install_fasthenry.py` WSL installer. `--require-simulation` exits nonzero
+when a solver result is absent, failed, or outside tolerance. The native solver
+models normal-metal geometric inductance, without superconducting kinetic
+inductance. Installation metadata and build logs stay in `.tools/`.
+
+### Fresh audit results
+
+[Protocol](BENCHMARK_SPEC.md), [retained results](benchmarks/audit/report.md),
+[execution log](AUDIT_LOG.md), and [AI workflow](docs/ai_design_workflow.md).
+These are separate from the historical showcase evidence below.
+
+| Evaluation | Before | After | What was verified |
+| --- | ---: | ---: | --- |
+| Local prompt/geometry/analytical target grid | 33/64 | 64/64 | All exports and GDS checks; target error ≤0.1% |
+| CPW worst target error | 81.313% | 0.0104% | Independent elliptic-integral calculation from sized dimensions |
+| Spiral independent GDS readback | 0/16 | 16/16 | Corrected reversed path segments and full-width joins |
+| Fresh FastHenry local spirals | Not installed | 16/16 | Solver executed and inductance within 5%; worst error 4.802% |
+| Mohan Table IV model reproduction | Not evaluated | 29/29 | All integer-turn square rows, ≤0.5 percentage-point deviation from printed model errors |
+
+For the same 29 published devices, the paper model's RMS measurement error is
+8.9787%; this implementation gives 8.9369%. Maximum deviation from the printed
+error column is 0.2146 percentage points. This reproduces the published
+analytical model, including its substantial measurement errors (worst 19.749%);
+it does not establish a new accuracy improvement. [Mohan et al., Table IV](https://web.stanford.edu/~boyd/papers/pdf/inductance_expressions.pdf).
+
+Recent references remain explicit comparison targets: SQuADDS reports 3.8%
+resonator-frequency RMS error; PalaceForCQED reports frequency errors below
+0.3%. Exact device/field-solver parity with those papers is **not evaluated**.
+The benchmark's `--require-paper-parity` flag fails until that work is done;
+paper frequencies used as prompt seeds are never counted as reproduction.
+See [the source-linked specification](BENCHMARK_SPEC.md) for topology, material,
+port, and solver requirements.
+
+The complete audit test run passed **1,929 tests**, with **11 skipped**. The
+64-case grid and 16-case solver sweep also passed unchanged reruns. SciPy now
+solves constrained CPW dimensions, gdsfactory exports, KLayout checks the actual
+GDS, and FastHenry provides independent inductance extraction. No benchmark
+result establishes universal replacement of commercial EDA or foundry signoff.
+
 ## 30-second demo
 
 One command runs the full closed loop — natural language → intent → tuned Layout DSL → verified geometry → solver preparation (execution if a solver is installed) → honest evidence report:

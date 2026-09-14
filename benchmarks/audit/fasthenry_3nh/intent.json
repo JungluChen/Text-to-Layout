@@ -1,0 +1,24 @@
+{
+  "schema_version": "textlayout.design-intent.v1",
+  "prompt": "Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing",
+  "component": "SpiralInductor",
+  "technology": "generic_2metal",
+  "substrate": null,
+  "target": {
+    "inductance_nh": 3.0
+  },
+  "constraints": {},
+  "parameters": {
+    "turns": 4,
+    "trace_width_um": 4.0,
+    "spacing_um": 2.0
+  },
+  "notes": [],
+  "topology": null,
+  "capacitor_type": null,
+  "inductance_assumption": null,
+  "simulator_requests": [],
+  "evidence_status": [
+    "INTENT_PARSED"
+  ]
+}

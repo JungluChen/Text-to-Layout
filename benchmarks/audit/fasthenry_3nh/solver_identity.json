@@ -1,0 +1,43 @@
+{
+  "upstream": "https://github.com/ediloren/FastHenry2.git",
+  "revision": "363e43ed57ad3b9affa11cba5a86624fad0edaa9",
+  "executable": "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/FastHenry2/bin/fasthenry",
+  "sha256": "007a93526fa931ecea0e86fe37eb43a9b5b88523325c644072fec6392563c3ce",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "flags": "-O -DFOUR -fcommon -std=gnu89 -Wno-implicit-function-declaration -Wno-int-conversion -Wno-return-mismatch",
+  "commands": [
+    [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    [
+      "bash",
+      "./config",
+      "default"
+    ],
+    [
+      "make",
+      "clean"
+    ],
+    [
+      "make",
+      "fasthenry",
+      "CC=clang",
+      "CFLAGS=-O -DFOUR -fcommon -std=gnu89 -Wno-implicit-function-declaration -Wno-int-conversion -Wno-return-mismatch"
+    ],
+    [
+      "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/FastHenry2/bin/fasthenry",
+      "-h"
+    ],
+    [
+      "clang",
+      "--version"
+    ]
+  ],
+  "log": "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/fasthenry-native-build.log",
+  "status": "INSTALLATION_VERIFIED",
+  "simulation_executed": false,
+  "physics_scope": "normal-metal quasi-static; no kinetic inductance"
+}

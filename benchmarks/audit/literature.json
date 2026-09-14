@@ -1,0 +1,27 @@
+{
+  "squadds": {
+    "metric": "resonator frequency RMS error (%)",
+    "baseline": 3.8,
+    "url": "https://arxiv.org/html/2312.13483v3#S2.T1",
+    "blocker": "Matching xmon/claw/resonator geometry, material stack and fresh EM outputs are not available in this sweep.",
+    "frequency_seeds_ghz": [6.116, 6.353, 6.472, 6.568, 6.655, 6.704]
+  },
+  "ye": {
+    "metric": "maximum resonance APE (%)",
+    "baseline": "<0.3",
+    "url": "https://arxiv.org/pdf/2511.09041",
+    "blocker": "Table I does not specify full GDS coordinates/ports; no matching Palace run has been performed.",
+    "rows": [
+      {"id": "R1", "simulated_ghz": 7.1933, "measured_ghz": 7.1787, "simulated_coupling_mhz": 0.3600, "measured_coupling_mhz": 0.3130},
+      {"id": "R2", "simulated_ghz": 7.2861, "measured_ghz": 7.2684, "simulated_coupling_mhz": 0.0960, "measured_coupling_mhz": 0.0903},
+      {"id": "R3", "simulated_ghz": 7.5604, "measured_ghz": 7.5484, "simulated_coupling_mhz": 0.0916, "measured_coupling_mhz": 0.1082},
+      {"id": "R4", "simulated_ghz": 7.6551, "measured_ghz": 7.6447, "simulated_coupling_mhz": 0.1740, "measured_coupling_mhz": 0.2312}
+    ]
+  },
+  "sqdmetal_preprint": {
+    "metric": "single resonator AMR frequency (GHz)",
+    "baseline": 9.993,
+    "url": "https://arxiv.org/html/2511.01220v2#S3.T1",
+    "blocker": "Different half-wave topology and epsilon_r=11.45; the 69-million-DoF Palace model was not reproduced."
+  }
+}
