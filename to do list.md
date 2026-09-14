@@ -18,6 +18,9 @@ in the repository's generated evidence and retained solver artifacts.
   `docs/guidebook/README.md` current with each delivered capability. Guidebook
   steps need real screenshots, numbered pointers, CLI commands and AI/MCP
   examples before they can be marked complete.
+- Design/requirements brief and initial catalog/guidebook delivered in
+  `df9ff2b5dc37db8985207e7c7b839d42987c8991`; UI implementation and illustrated
+  release walkthroughs remain pending. See the design-requirements progress report.
 - Work top to bottom. Numerical/data correctness takes priority over features.
   If blocked, record the evidence and exact next action before continuing to
   the next actionable item. Split large milestones into verifiable increments.

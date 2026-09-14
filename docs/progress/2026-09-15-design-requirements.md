@@ -54,3 +54,18 @@ bounded UI/MCP/plugin slices using `Design.md`; capture and annotate the real
 screens and verify matching commands/tool examples as each feature becomes
 available. Do not substitute a wireframe or historical layout artifact for a
 current application screenshot.
+
+## Publication follow-up
+
+- Design/requirements documentation commit:
+  `df9ff2b5dc37db8985207e7c7b839d42987c8991`.
+- Push to `origin/main`: **succeeded**, advancing from `c0df0aa` to `df9ff2b`.
+  Staged whitespace check passed; only the eight documentation files changed.
+- Exact-SHA CI was **in progress** when inspected:
+  [CI 34870753331](https://github.com/JungluChen/Text-to-Layout/actions/runs/34870753331)
+  and [test 34870753274](https://github.com/JungluChen/Text-to-Layout/actions/runs/34870753274).
+  These results do not certify subsequent documentation commits.
+- Saved automation verification passed: active, daily at 01:00, attached to the
+  same conversation, and all four new contract documents present in its prompt.
+- Design specification is delivered; actual UI implementation, screenshot
+  chapters, host certification and scientific validation remain open backlog work.
