@@ -139,6 +139,13 @@ The Functions screen provides **Copy CLI Example**, **View MCP Inputs**, and **C
 
 AI-generated parameters and prose are visibly identified. Keep the repository boundary: AI proposes the typed DSL; deterministic generators, verification and solver-owned output establish the artifacts and evidence. Users can inspect, change and revert proposed inputs. A prompt cannot authorize a false claim of verification.
 
+The typed-goal CLI/API increment audited on 2026-09-15 supplies the future
+workbench with explicit quantity, units, process minima, footprint and target
+tolerance. Surface its final verification consistently in summaries and detail
+views. A prepared-input or analytical result must keep that label even when the
+target check passes. Its GUI controls, real screenshots and modern MCP adapter
+remain delivery work; the current command tutorial is in the guidebook.
+
 Plugin setup covers Codex and Claude Code separately: prerequisites, installation/configuration, credentials when relevant, tool discovery, a harmless capability call, one representative workflow, output locations, reconnect and removal. Preserve native client consent behavior. Remote processing shows what is sent and to which destination; do not silently publish local projects.
 
 ## Guidebook and screenshot acceptance

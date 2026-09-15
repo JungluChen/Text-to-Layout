@@ -24,6 +24,7 @@ from typing import Any, cast
 
 from langgraph.graph import END, START, StateGraph
 
+from textlayout.prompt import DesignIntent
 from textlayout.workflow.nodes import PromptPipeline, should_retune, summarize_state
 from textlayout.workflow.state import LayoutWorkflowState
 from textlayout.workflows.from_text import FromTextResult
@@ -154,6 +155,7 @@ def run_prompt_workflow(
     tolerance_percent: float = 5.0,
     execute_solver: bool = True,
     solver_executable: str | None = None,
+    design_intent: DesignIntent | None = None,
 ) -> FromTextResult:
     """Execute the full LangGraph pipeline and return the classic result object.
 
@@ -170,6 +172,7 @@ def run_prompt_workflow(
         tolerance_percent=tolerance_percent,
         execute_solver=execute_solver,
         solver_executable=solver_executable,
+        intent=design_intent,
     )
     try:
         final = app.invoke(initial, config={"recursion_limit": 200})

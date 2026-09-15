@@ -100,4 +100,10 @@ Existing CLI/API and legacy MCP paths are inventoried in
 6. A feature is not documentation-complete until its screenshot, CLI and AI/MCP
    tutorial evidence is recorded with the implementation commit.
 
+The 2026-09-15 numerical audit delivers a bounded typed-goal CLI/API path for
+capacitance, inductance, impedance and quarter-wave frequency. It validates
+explicit units, process minima, footprint and target error through the shared
+core. The catalog and guidebook document its defaults, outputs and recovery.
+This does not complete desktop/web, MCP/plugin parity or screenshot acceptance.
+
 No paid hosting, license purchase or commercial solver access is assumed.

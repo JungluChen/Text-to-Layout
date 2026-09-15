@@ -851,10 +851,46 @@ def _cmd_simulate_palace_diagnostic(args: argparse.Namespace) -> int:
     return 0 if result.status in {"OUTPUT_PARSED", "SKIPPED_SOLVER_ABSENT"} else 1
 
 
+def _cmd_design(args: argparse.Namespace) -> int:
+    from pydantic import ValidationError
+
+    from textlayout.evidence import EvidenceStatus
+    from textlayout.requirements import DesignRequirements, run_requirements
+
+    try:
+        requirements = DesignRequirements.model_validate_json(
+            Path(args.requirements).read_text(encoding="utf-8"))
+    except (OSError, ValidationError) as exc:
+        print(json.dumps({"error": "InvalidDesignRequirements", "message": str(exc)}),
+              file=sys.stderr)
+        return 1
+    result = run_requirements(requirements, args.out, workflow=build_default_workflow(),
+                              execute_solver=not args.no_solver,
+                              solver_executable=args.executable)
+    payload = result.to_dict()
+    payload["requirements"] = requirements.model_dump(mode="json")
+    payload["intent"] = result.intent.model_dump(mode="json")
+    payload["verification"] = result.generate.report.to_dict()
+    print(json.dumps(payload, indent=2))
+    if not result.ok:
+        return 1
+    if args.require_simulation and result.evidence.status != EvidenceStatus.PHYSICS_VERIFIED:
+        return 2
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="textlayout", description="Text-to-Layout CLI")
     parser.add_argument("--version", action="version", version=f"textlayout {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
+
+    p_design = sub.add_parser("design", help="Choose and build a device from a typed electrical goal.")
+    p_design.add_argument("requirements", help="JSON file matching DesignRequirements")
+    p_design.add_argument("--out", default="out/design", help="Artifact directory")
+    p_design.add_argument("--no-solver", action="store_true")
+    p_design.add_argument("--executable", default=None)
+    p_design.add_argument("--require-simulation", action="store_true")
+    p_design.set_defaults(func=_cmd_design)
 
     p_prompt = sub.add_parser(
         "prompt",

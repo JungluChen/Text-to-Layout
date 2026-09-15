@@ -58,7 +58,7 @@ class PromptPipeline:
     def parse_prompt(self, state: LayoutWorkflowState) -> dict[str, Any]:
         out = Path(state.output_dir)
         out.mkdir(parents=True, exist_ok=True)
-        intent = parse_prompt(state.prompt)
+        intent = state.intent if state.intent is not None else parse_prompt(state.prompt)
         files = dict(state.files)
         files["intent"] = write_json(out / "intent.json", intent.model_dump(mode="json"))
         return {"intent": intent, "files": files}
@@ -179,6 +179,17 @@ class PromptPipeline:
         checks.append(Check("independent_gds_readback",
                             CheckStatus.PASS if readback_ok else CheckStatus.FAIL,
                             "; ".join(failures)))
+        intent = _required(state.intent, "parsed intent")
+        bbox = result.geometry.bbox() if not result.geometry.is_empty else None
+        for name, dimension in (("max_bbox_width_um", bbox.width if bbox else None),
+                                ("max_bbox_height_um", bbox.height if bbox else None)):
+            limit = intent.constraints.get(name)
+            if limit is not None:
+                fits = dimension is not None and dimension <= limit
+                checks.append(Check(name, CheckStatus.PASS if fits else CheckStatus.FAIL,
+                                    "" if fits else
+                                    f"{name}: generated extent {dimension!r} um; limit {limit:g} um",
+                                    value=dimension, limit=limit))
         result = replace(result, report=VerificationReport.from_checks(
             result.report.component, checks))
         verification = result.report.to_dict()

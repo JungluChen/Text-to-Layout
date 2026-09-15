@@ -10,12 +10,21 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
+from textlayout.requirements import DesignRequirements
 from textlayout.schemas.dsl import LayoutSpec
 
 # Request bodies reuse the DSL directly.
 LayoutRequest = LayoutSpec
+
+
+class FromGoalRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    requirements: DesignRequirements
+    output_dir: str | None = None
+    execute_solver: bool = True
 
 
 class HealthResponse(BaseModel):

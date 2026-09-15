@@ -74,6 +74,46 @@ workbench tutorial, numbered pointers must identify **1: input/units**,
 **2: geometry/layer controls**, **3: run status**, and **4: evidence/export**
 in the actual application screenshot; pair each pointer with a written action.
 
+## Design from an electrical goal
+
+This CLI example executed successfully on the local Apple Silicon Mac with
+Python 3.12.14 on 2026-09-15. Other platform and GUI walkthroughs remain pending.
+
+1. Open `examples/requirements/50ohm_connection.json`. It requests 50 ohms,
+   a minimum 8 um gap, a 300 × 500 um footprint and 0.1% target tolerance.
+   The 6 GHz operating context does not establish operating bandwidth.
+2. Run from the repository root:
+
+   ```sh
+   uv run textlayout design examples/requirements/50ohm_connection.json --out out/guidebook/connection --no-solver
+   ```
+
+3. Open `out/guidebook/connection/output.png` and the GDS. Read
+   `requirements.json` and `intent.json` for requested limits, chosen CPW topology
+   and assumptions. Inspect `requirements_verification.json` for each measured
+   footprint/target check; do not judge the design from the preview alone.
+4. Read `design_review.json` and `report.md`. In the retained local run, the
+   analytical impedance error was approximately 0.002%, the layout checks
+   passed and the solver status was `SIMULATION_INPUT_PREPARED`. No solver ran.
+   The CLI, general verification, requirements verification and report now all
+   reflect a failed target consistently when it misses the specified tolerance.
+5. On exit 1, inspect the validation error, failed check or
+   `requirements_feasibility.json`. Correct the input or reassess its physical
+   feasibility; do not silently relax a scientific tolerance. For real extraction,
+   install the required solver, check its readiness, then run with
+   `--require-simulation` and retain its output and convergence evidence.
+
+**AI prompt example**
+
+> Use the typed electrical-goal workflow to prepare a 50 ohm CPW at a 6 GHz
+> operating context with at least 8 um gap, within 300 by 500 um, and 0.1%
+> target tolerance. Show the technology assumptions and chosen topology. Run
+> without a solver first, return the GDS and all verification/report paths,
+> and distinguish the analytical estimate from executed simulation evidence.
+
+This function is available through CLI/API. Its future GUI screenshots and
+modern MCP adapter are still pending; do not invent a tool name for this prompt.
+
 ## Local API walkthrough
 
 1. Start the service from the repository root:

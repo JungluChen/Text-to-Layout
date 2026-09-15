@@ -8,6 +8,48 @@ layout. The natural-language parser is a rules engine, not a trained LLM.
 
 ## A useful request
 
+An AI caller can now start with an electrical goal instead of choosing a device
+template. Put the following in `requirements.json`:
+
+```json
+{
+  "quantity": "impedance_ohm",
+  "value": 50,
+  "operating_frequency_ghz": 6,
+  "min_width_um": 2,
+  "min_gap_um": 8,
+  "max_bbox_width_um": 300,
+  "max_bbox_height_um": 500,
+  "tolerance_percent": 0.1
+}
+```
+
+```bash
+textlayout design requirements.json --out out/connection --no-solver
+python demo.py --requirements examples/requirements/50ohm_connection.json --no-solver
+```
+
+Supported quantities are `capacitance_pf`, `inductance_nh`, `impedance_ohm`, and
+`quarter_wave_frequency_ghz`. The workflow chooses IDC, square spiral, CPW, or
+quarter-wave resonator respectively and records its reasoning. This is a
+curated starting choice, not an optimization over every possible topology.
+The 50-ohm example produces a 13.372 um signal width, 8.001 um gap and 500 um
+length under the generic silicon model.
+
+Unknown fields, nonpositive/nonfinite numbers and contradictory frequencies
+are rejected. Requested minima cannot weaken the technology's rules. Targets
+outside the bounded IDC search fail before expensive geometry generation and
+leave `requirements_feasibility.json` with the best attainable estimate.
+Footprint violations fail verification; the workflow does not silently enlarge
+the requested envelope or relax the tolerance.
+
+Read `requirements_verification.json` and `design_review.json` for the complete
+goal verdict. `verification.json` records the graph's geometry checks; the
+requirements report adds the electrical target check and identifies whether
+it used an analytical estimate or actual solver extraction. Operating frequency
+is model context, not a verified bandwidth rating. Use `--require-simulation`
+when a model-only result is insufficient.
+
 State the device, physical target, operating conditions, and manufacturing
 constraints. For example:
 
@@ -77,6 +119,12 @@ paths. Keep the service local unless access controls have been configured.
 For detailed geometry, use the supported `LayoutSpec`/`GenerateWorkflow` API.
 The legacy MCP package remains frozen; new integrations should use `textlayout`.
 
+For goal-based design, call `POST /layout/from-goal` with
+`{"requirements": {"quantity": "impedance_ohm", "value": 50, "min_gap_um": 8},
+"execute_solver": false}`. Its OpenAPI schema exposes the supported fields and
+units. The response preserves the requirements, chosen intent, complete
+requirements verification, evidence status and artifact locations.
+
 ## What remains to replace a commercial verification flow
 
 Recent-paper parity needs matched device geometry, stack, boundary conditions,
@@ -86,3 +134,10 @@ It does not reproduce SQuADDS/PalaceForCQED device measurements, validate
 superconducting kinetic inductance, qualify a foundry PDK, or demonstrate
 arbitrary circuit placement/routing. Those are separate acceptance tests;
 their absence remains visible in the benchmark and design review.
+
+The original SQuADDS WM1 mask is now available as a pinned local reference:
+`python scripts/validate_squadds_reference.py`. All four published top variants
+are imported/exported with gdsfactory and compared independently on every layer
+using KLayout. Zero XOR area proves mask preservation; it does not establish
+electrical agreement. The report retains the six published measurements without
+assigning them to an unverified top variant or to this package's generic PDK.

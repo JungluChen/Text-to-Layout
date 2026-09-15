@@ -1,0 +1,10 @@
+{
+  "quantity": "impedance_ohm",
+  "value": 50,
+  "operating_frequency_ghz": 6,
+  "min_width_um": 2,
+  "min_gap_um": 8,
+  "max_bbox_width_um": 300,
+  "max_bbox_height_um": 500,
+  "tolerance_percent": 0.1
+}

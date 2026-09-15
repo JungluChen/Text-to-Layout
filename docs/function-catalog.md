@@ -20,13 +20,41 @@ Inventory is not execution certification. See [maturity evidence](function_matur
 | Reports and benchmarks | `POST /layout/report`; `POST /layout/benchmark` | Show provenance, comparison criteria and artifact access. |
 | Long jobs | `textlayout jobs start/status/cancel/collect/resume` | Reuse job IDs; web/MCP adapters and parity need validation. |
 | EPR, yield, chip, measurement | Existing CLI command families | Present only supported operations with their actual scientific limits. |
-| Typed electrical-goal design | Local uncommitted `textlayout design` and `/layout/from-goal` | Pending audit/publication; not part of the remote baseline above. |
+| Typed electrical-goal design | `textlayout design`; `POST /layout/from-goal` | CLI/API locally verified on 2026-09-15; GUI and modern MCP adapters pending. |
 
 The current product API and legacy MCP server are different adapters. This table
 is a capability mapping, not a claim that every HTTP route has an identical MCP
 method today. Modern MCP facade names/schemas must be specified and tested before
 being advertised. Do not add implementation to the frozen legacy tree merely to
 make feature counts match.
+
+## Typed electrical-goal function
+
+`textlayout design REQUIREMENTS.json --out DIRECTORY --no-solver` and
+`POST /layout/from-goal` use the shared deterministic graph. The API body is
+`{"requirements": {...}, "execute_solver": false}`; `output_dir` is optional.
+CLI/API default to attempting solver execution unless explicitly disabled.
+
+| Input | Contract |
+| --- | --- |
+| `quantity` | Required: `capacitance_pf`, `inductance_nh`, `impedance_ohm`, or `quarter_wave_frequency_ghz`. |
+| `value` | Required positive finite number in the units encoded by `quantity`. |
+| `technology` | Default `generic_2metal`; must name an available technology. |
+| `operating_frequency_ghz` | Optional positive context frequency; must equal a quarter-wave frequency target when both are supplied. It is not bandwidth qualification. |
+| `min_width_um`, `min_gap_um` | Optional positive limits; cannot weaken the technology rules. |
+| `max_bbox_width_um`, `max_bbox_height_um` | Optional positive footprint limits in micrometres. |
+| `tolerance_percent` | Positive target-error limit; default 5%. |
+
+Unknown fields and invalid numbers are rejected. Unreachable bounded searches
+fail with a feasibility record. The operation writes geometry, research,
+verification and review files to the output directory; optional extraction
+requires an installed solver. `requirements_verification.json`,
+`verification.json`, `design_review.json` and `report.md` share the final target
+verdict. Read `target_basis` and simulation status before interpreting a pass.
+CLI exit 1 indicates a rejected/failed design; `--require-simulation` returns
+2 when a passing design lacks the required physics evidence. See the
+[verified command and AI example](guidebook/README.md#design-from-an-electrical-goal).
+No MCP method for this modern function is advertised until its adapter exists.
 
 ## Current MCP source inventory
 
