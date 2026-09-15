@@ -1,0 +1,41 @@
+{
+  "run_id": 34824773767,
+  "artifact_id": 10342591878,
+  "retrieved_utc": "2026-09-15T04:22:27.455369+00:00",
+  "source": "https://github.com/JungluChen/Text-to-Layout/actions/runs/34824773767/artifacts/10342591878",
+  "scope": "Retained pre-existing Linux run; no new Palace execution in this local audit",
+  "files": [
+    {
+      "path": "out/toolchain/palace_install.json",
+      "sha256": "9baf78cde7f171e826356d70a012aacd3a0dcbc9199360d79719f76a54ca8551"
+    },
+    {
+      "path": "out/toolchain/palace_check.json",
+      "sha256": "4c5a18a8d1398f25f91125846ebaae0a89f56196ec2ccdd4535de42f53bf2271"
+    },
+    {
+      "path": "out/toolchain/palace_smoke/result.json",
+      "sha256": "8bc3061ee3d42f65766d673244ca9933b2d525a7b023d251fdd4963cffecc030"
+    },
+    {
+      "path": "out/toolchain/palace_smoke/command.json",
+      "sha256": "b0d9ea082c30804c19f1ee31540a09339669c1dc0cebb829079a880679262311"
+    },
+    {
+      "path": "out/palace_resonator_v017/canonical_evidence.json",
+      "sha256": "8390e63fe2a551523fc5d19c83bdc8a2846c136002925f9b94734460ae8bbe78"
+    },
+    {
+      "path": "out/palace_resonator_v017/toolchain.json",
+      "sha256": "3b047cf8f63edccf0703c4f6057e8ee0c0928ffae73f08fc6b6642ae3d1e9d1f"
+    },
+    {
+      "path": "out/palace_resonator_v017/report.md",
+      "sha256": "20f927a2d2b3c45cf82a3386727dab6e6703dc6226de9f04438c2cc88eb0a6f3"
+    },
+    {
+      "path": "failed-run.log.txt",
+      "sha256": "cb6aaee2cb8c7e2ca32205c2e74064d828786b8f507ad65bdc6fa83d66c3531d"
+    }
+  ]
+}

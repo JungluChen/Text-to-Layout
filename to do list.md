@@ -56,7 +56,7 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### 1. Audit current numerical and reference-validation work
 
-- **Status:** IMPLEMENTED LOCALLY; publication and exact-SHA CI confirmation pending.
+- **Status:** COMPLETE for the audited work at `99d8d06`; code and retained evidence published, exact-SHA CI passed.
 - **Acceptance:** Existing changes and unpublished commits reviewed in coherent
   groups; focused tests and full publication gates recorded; numerical and
   benchmark claims agree with regenerated evidence; only verified work pushed.
@@ -67,13 +67,15 @@ in the repository's generated evidence and retained solver artifacts.
   1,960 passed/11 skipped, repeated 64-case numerical grid, 16 real FastHenry
   cases and four reference masks. Requirements report consistency and OCI
   evidence classification were corrected with reproduced failure evidence.
-- **Next:** Publish the reviewed work and inspect CI on its exact commit;
-  do not mark completion while required jobs are pending. Actual unpublished
+- **Next:** Continue with item 2. Both CI workflows passed on
+  `99d8d06474b5c5e9e0dfd222c8fe1ba3f92d0a0b`, including all six platform/Python
+  matrix jobs. Inspect any later documentation-commit CI separately. Actual unpublished
   source commits reviewed were `f03918c`, `52ac988`, `c613767`; the setup's
   `0681852` pointer is absent from current local history.
 - **Implementation commits:** `d1061bce7827c55fe5083bf2d83adc37dab510a0`,
   `5f114b2039cdb1f2f37056d44eb0e4426891cb56`,
-  `fa6a31af51374bf2dc051061d261c527ce3a6268`. Completion awaits publication/CI.
+  `fa6a31af51374bf2dc051061d261c527ce3a6268`.
+  Evidence/report commit: `99d8d06474b5c5e9e0dfd222c8fe1ba3f92d0a0b`.
 
 ### 2. Restore Palace integration with valid scientific evidence
 
@@ -85,9 +87,12 @@ in the repository's generated evidence and retained solver artifacts.
   at `f4da3b5`: installation and smoke succeeded, but the reduced CPW command
   returned `SKIPPED_SOLVER_ABSENT` and exit 1. Solver discovery/invocation is a
   diagnostic lead, not an established root cause.
-- **Next:** Read the full run logs and compact artifact; compare smoke and
-  resonator discovery paths in the actual current history; reproduce
-  the smallest faithful case twice before editing, then verify the full case.
+- **Next:** Existing failure logs and artifact `10342591878` are retained under
+  `docs/progress/evidence/2026-09-15-051619/palace-existing-failure/`. The official
+  smoke command uses the native Spack executable from the install record, but
+  `detect_palace_capability` only consumes recorded paths with the `wsl:` prefix.
+  Reproduce the native-record/PATH mismatch twice before editing; then verify
+  the original solver-enabled workflow and all scientific acceptance gates.
 - **Completion commits:** Pending.
 
 ### 3. Audit scientific correctness across simulation tools
