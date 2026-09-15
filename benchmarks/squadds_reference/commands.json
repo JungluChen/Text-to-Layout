@@ -1,0 +1,67 @@
+[
+  {
+    "name": "squadds_reference_1",
+    "command": [
+      ".venv/bin/python",
+      "scripts/validate_squadds_reference.py",
+      "--out",
+      "out/squadds_reference/run_1"
+    ],
+    "exit_code": 0,
+    "runtime_s": 3.1413156986236572,
+    "git_sha": "c613767103178fe1437a34b70f1bec780ab89441",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "log_sha256": "f6305df0c91545c351562ca6e54c89d6919d758397e1a12f1aba6e47ebce6ad4"
+  },
+  {
+    "name": "squadds_reference_2",
+    "command": [
+      ".venv/bin/python",
+      "scripts/validate_squadds_reference.py",
+      "--out",
+      "out/squadds_reference/run_2",
+      "--offline"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.3446111679077148,
+    "git_sha": "c613767103178fe1437a34b70f1bec780ab89441",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "log_sha256": "075c5c3403c0c9e5a22b76d0f4a1dd3a634bf20116ae999592ffaa62c990275c"
+  },
+  {
+    "name": "reference_gds_tests_1",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/textlayout_suite/test_reference_gds.py",
+      "-q"
+    ],
+    "exit_code": 0,
+    "runtime_s": 1.6438910961151123,
+    "git_sha": "c613767103178fe1437a34b70f1bec780ab89441",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "log_sha256": "349608bc561720954b4695249d6be0c62fced44d08ffc726bb83563b6071de42"
+  },
+  {
+    "name": "reference_gds_tests_2",
+    "command": [
+      ".venv/bin/pytest",
+      "-q",
+      "tests/textlayout_suite/test_reference_gds.py"
+    ],
+    "exit_code": 0,
+    "runtime_s": 2.127798080444336,
+    "git_sha": "c613767103178fe1437a34b70f1bec780ab89441",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "log_sha256": "9a65ed4af51285f1ee235c73cf20d2a94f9b1cb0c04b80446499e3447ca9f1a0"
+  }
+]

@@ -29,9 +29,43 @@ pairs: anharmonicity 4.1%, linewidth 16.9%, coupling 10.4%, resonance 3.8%.
 The convergence setting is <0.05% between passes, with three converged passes.
 Figure 1's measured resonance frequencies are 6.116, 6.353, 6.472, 6.568,
 6.655, 6.704 GHz. Data: [SQuADDS database](https://huggingface.co/datasets/SQuADDS/SQuADDS_DB).
-Exact reproduction needs matching cross/claw and resonator geometry, materials,
-ports and measurement records; the supported prompt path lacks that xmon
-topology. These six frequencies serve only as scalar prompt-conditioning seeds.
+The original [WM1 design repository](https://github.com/LFL-Lab/design_schema_WM1)
+contains the actual GDS. The supported prompt path still lacks that xmon
+topology; the 64-case prompt population uses these frequencies only as scalar
+conditioning seeds. A separate reference-geometry population below now checks
+the published GDS directly. Electrical reproduction also needs materials,
+ports, measured-device mapping and converged extraction.
+
+### Original WM1 mask and measurement population
+
+`scripts/validate_squadds_reference.py` downloads two small, pinned assets and
+checks SHA-256 before parsing. `--offline` requires verified cached files.
+The GDS revision is `5329ff178980c16a299caa4804a2e5251e326833`; the measurement
+database revision is `0e25705f54c343fb96571ff15b6fd8375ca899aa`. Source URLs,
+hashes, tool versions and comparison-code hashes are retained in
+`benchmarks/squadds_reference/results.json`.
+
+The fixed geometry population is all four top cells: `TOP`, `TOP$1`, `TOP$2`,
+`TOP$3`. Each is imported/exported through gdsfactory and independently compared
+using KLayout, including recursive geometry, every layer in either file,
+database units, label content/placement and bounding box. Acceptance requires
+empty XOR on every layer, identical labels and bounding box, and matching DBU.
+All four 5 mm × 5 mm variants pass with zero XOR area on layers 5/0, 20/0,
+60/0 and 703/0 in repeated runs. The original file has oversized GDS records;
+KLayout's unsigned-record warnings are retained in execution logs.
+
+The six-device WM1 measurement population is preserved verbatim as published
+numeric fields, with attribution to the MIT-licensed SQuADDS database. The
+design repository has no license file at the pinned revision, so the GDS is
+fetched into ignored local storage rather than redistributed in this repository.
+No upstream notebook code is executed.
+
+The measured-to-top-variant mapping remains unknown. The database describes
+aluminium on silicon and marks the fabrication recipe confidential; its
+`sim_results` names datasets rather than providing the paired simulation values.
+Geometry parity is therefore reported separately from **electrical reproduction
+NOT_EVALUATED**, with null electrical errors. These measurements are not used to
+calibrate the generic process or to claim measurement-validated generated layouts.
 
 ## 2. PalaceForCQED
 

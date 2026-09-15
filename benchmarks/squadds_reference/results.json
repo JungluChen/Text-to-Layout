@@ -1,0 +1,318 @@
+{
+  "schema": "textlayout.squadds-reference.v1",
+  "sources": {
+    "measured_device_database.json": {
+      "url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "license": "MIT (SQuADDS_DB dataset card)"
+    },
+    "wm1.gds": {
+      "url": "https://raw.githubusercontent.com/LFL-Lab/design_schema_WM1/5329ff178980c16a299caa4804a2e5251e326833/assets/wm1.gds",
+      "sha256": "a327c3064e16864fb9ea8e19a766eaa2c852d57ac7e0b8d5fb97c7a3d4839a5f",
+      "revision": "5329ff178980c16a299caa4804a2e5251e326833",
+      "license": "No license file found in this pinned design repository; local reference only"
+    }
+  },
+  "paper": "https://doi.org/10.22331/q-2024-09-09-1465",
+  "script_sha256": "efef7ff85f32d98cbef131ad44335627ce71fac26f0b1d6cf619471e1c7dd2ab",
+  "comparison_code_sha256": "755e51dddbe86c2815549b9cdd752b2135ebffa05a7774c3cdcfe846c9c6b97e",
+  "mask_geometry_passed": true,
+  "variants_evaluated": 4,
+  "variants": [
+    {
+      "schema": "textlayout.reference-geometry.v1",
+      "geometry_equivalent": true,
+      "reference": ".tools/squadds_reference/wm1.gds",
+      "candidate": "out/squadds_reference/run_2/variant_0/output.gds",
+      "reference_sha256": "a327c3064e16864fb9ea8e19a766eaa2c852d57ac7e0b8d5fb97c7a3d4839a5f",
+      "candidate_sha256": "26dc905e4c667c9a573bcbec291ca85c83971a64a5c59f4947e2943c061b42f7",
+      "reference_cell": "TOP",
+      "candidate_cell": "TOP",
+      "reference_dbu_um": 0.001,
+      "candidate_dbu_um": 0.001,
+      "scope": "Selected mask geometry and label content/placement only; no EM or process validation",
+      "klayout_version": "0.30.9",
+      "layers": [
+        {
+          "layer": 5,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 24110168.970053,
+          "candidate_area_um2": 24110168.970053
+        },
+        {
+          "layer": 20,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 1203.98253,
+          "candidate_area_um2": 1203.98253
+        },
+        {
+          "layer": 60,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 4.77225,
+          "candidate_area_um2": 4.77225
+        },
+        {
+          "layer": 703,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 25000000.0,
+          "candidate_area_um2": 25000000.0
+        }
+      ],
+      "labels_equal": true,
+      "bbox_equal": true,
+      "reference_bbox_um": "(-2500,-2500;2500,2500)",
+      "candidate_bbox_um": "(-2500,-2500;2500,2500)",
+      "gdsfactory_version": "9.43.0"
+    },
+    {
+      "schema": "textlayout.reference-geometry.v1",
+      "geometry_equivalent": true,
+      "reference": ".tools/squadds_reference/wm1.gds",
+      "candidate": "out/squadds_reference/run_2/variant_1/output.gds",
+      "reference_sha256": "a327c3064e16864fb9ea8e19a766eaa2c852d57ac7e0b8d5fb97c7a3d4839a5f",
+      "candidate_sha256": "08ee567f957a042760c57ed31ac479dfcfd459a1f4935fe705ffc476cbb1cc84",
+      "reference_cell": "TOP$1",
+      "candidate_cell": "TOP$1",
+      "reference_dbu_um": 0.001,
+      "candidate_dbu_um": 0.001,
+      "scope": "Selected mask geometry and label content/placement only; no EM or process validation",
+      "klayout_version": "0.30.9",
+      "layers": [
+        {
+          "layer": 5,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 24098094.818471998,
+          "candidate_area_um2": 24098094.818471998
+        },
+        {
+          "layer": 20,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 1203.9751549999999,
+          "candidate_area_um2": 1203.9751549999999
+        },
+        {
+          "layer": 60,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 4.762875,
+          "candidate_area_um2": 4.762875
+        },
+        {
+          "layer": 703,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 25000000.0,
+          "candidate_area_um2": 25000000.0
+        }
+      ],
+      "labels_equal": true,
+      "bbox_equal": true,
+      "reference_bbox_um": "(-2500,-2500;2500,2500)",
+      "candidate_bbox_um": "(-2500,-2500;2500,2500)",
+      "gdsfactory_version": "9.43.0"
+    },
+    {
+      "schema": "textlayout.reference-geometry.v1",
+      "geometry_equivalent": true,
+      "reference": ".tools/squadds_reference/wm1.gds",
+      "candidate": "out/squadds_reference/run_2/variant_2/output.gds",
+      "reference_sha256": "a327c3064e16864fb9ea8e19a766eaa2c852d57ac7e0b8d5fb97c7a3d4839a5f",
+      "candidate_sha256": "40f94538372792fe479b9121c7ea8c97a1698f2ef72c1b369bffe34a4bc5a6f8",
+      "reference_cell": "TOP$2",
+      "candidate_cell": "TOP$2",
+      "reference_dbu_um": 0.001,
+      "candidate_dbu_um": 0.001,
+      "scope": "Selected mask geometry and label content/placement only; no EM or process validation",
+      "klayout_version": "0.30.9",
+      "layers": [
+        {
+          "layer": 5,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 24106706.667903,
+          "candidate_area_um2": 24106706.667903
+        },
+        {
+          "layer": 20,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 1203.9751549999999,
+          "candidate_area_um2": 1203.9751549999999
+        },
+        {
+          "layer": 60,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 4.762875,
+          "candidate_area_um2": 4.762875
+        },
+        {
+          "layer": 703,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 25000000.0,
+          "candidate_area_um2": 25000000.0
+        }
+      ],
+      "labels_equal": true,
+      "bbox_equal": true,
+      "reference_bbox_um": "(-2500,-2500;2500,2500)",
+      "candidate_bbox_um": "(-2500,-2500;2500,2500)",
+      "gdsfactory_version": "9.43.0"
+    },
+    {
+      "schema": "textlayout.reference-geometry.v1",
+      "geometry_equivalent": true,
+      "reference": ".tools/squadds_reference/wm1.gds",
+      "candidate": "out/squadds_reference/run_2/variant_3/output.gds",
+      "reference_sha256": "a327c3064e16864fb9ea8e19a766eaa2c852d57ac7e0b8d5fb97c7a3d4839a5f",
+      "candidate_sha256": "41347ef4851ebf62735efc676426ac99c193ded34004cfde4c795ab370423e4e",
+      "reference_cell": "TOP$3",
+      "candidate_cell": "TOP$3",
+      "reference_dbu_um": 0.001,
+      "candidate_dbu_um": 0.001,
+      "scope": "Selected mask geometry and label content/placement only; no EM or process validation",
+      "klayout_version": "0.30.9",
+      "layers": [
+        {
+          "layer": 5,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 24104588.792852998,
+          "candidate_area_um2": 24104588.792852998
+        },
+        {
+          "layer": 20,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 1203.9751549999999,
+          "candidate_area_um2": 1203.9751549999999
+        },
+        {
+          "layer": 60,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 4.762875,
+          "candidate_area_um2": 4.762875
+        },
+        {
+          "layer": 703,
+          "datatype": 0,
+          "equal": true,
+          "xor_area_um2": 0.0,
+          "reference_area_um2": 25000000.0,
+          "candidate_area_um2": 25000000.0
+        }
+      ],
+      "labels_equal": true,
+      "bbox_equal": true,
+      "reference_bbox_um": "(-2500,-2500;2500,2500)",
+      "candidate_bbox_um": "(-2500,-2500;2500,2500)",
+      "gdsfactory_version": "9.43.0"
+    }
+  ],
+  "measurement_source": "Published SQuADDS WM1 records, not measurements made by this project",
+  "measured_device_count": 6,
+  "published_measurements": {
+    "qubit_1": {
+      "F_res_GHz": 6.116,
+      "F_01_GHz": 4.216,
+      "Anharmocity_MHz": -153,
+      "punchout_shift_MHz": 1.6672,
+      "Extracted_g_MHz": 61,
+      "Estimated_Dispersive_shift_KHz": 303,
+      "L_j_nH": 9.686
+    },
+    "qubit_2": {
+      "F_res_GHz": 6.353,
+      "F_01_GHz": 3.896,
+      "Anharmocity_MHz": -154,
+      "Punchout_shift_MHz": 1.4,
+      "Extracted_g_MHz": 67,
+      "Estimated_Dispersive_shift_KHz": 230,
+      "L_j_nH": 11.268
+    },
+    "qubit_3": {
+      "F_res_GHz": 6.472,
+      "F_01_GHz": 4.451,
+      "Anharmocity_MHz": -189,
+      "Punchout_shift_MHz": 1.8,
+      "Extracted_g_MHz": 67,
+      "Estimated_Dispersive_shift_KHz": 392,
+      "L_j_nH": 10.471
+    },
+    "qubit_4": {
+      "F_res_GHz": 6.568,
+      "F_01_GHz": 3.586,
+      "Anharmocity_MHz": -164,
+      "Punchout_shift_MHz": 1.05,
+      "Extracted_g_MHz": 66,
+      "Estimated_Dispersive_shift_KHz": 170,
+      "L_j_nH": 13.816
+    },
+    "qubit_5": {
+      "F_res_GHz": 6.655,
+      "F_01_GHz": 4.101,
+      "Anharmocity_MHz": -210,
+      "Punchout_shift_MHz": 0.7,
+      "Extracted_g_MHz": 48,
+      "Estimated_Dispersive_shift_KHz": 150,
+      "L_j_nH": 13.235
+    },
+    "qubit_6": {
+      "F_res_GHz": 6.704,
+      "F_01_GHz": 3.881,
+      "Anharmocity_MHz": -176,
+      "Punchout_shift_MHz": 0.4,
+      "Extracted_g_MHz": 39,
+      "Estimated_Dispersive_shift_KHz": 70,
+      "L_j_nH": 12.679
+    }
+  },
+  "process": {
+    "foundry": "SQUILL",
+    "substrate": "Silicon",
+    "materials": "Aluminium",
+    "fabrication_recipe": "Confidential"
+  },
+  "device_to_top_variant_mapping": null,
+  "electrical_reproduction_status": "NOT_EVALUATED",
+  "electrical_error_percent": null,
+  "remaining_requirements": [
+    "Identify the fabricated top variant and match each measured device to its geometry",
+    "Specify the physical stack, ports, junction model and boundary conditions",
+    "Run converged open-source field extraction and pair every prediction with its measurement"
+  ],
+  "scope": "Original mask import/export equivalence for every published GDS top variant; no regenerated prompt geometry or electrical parity claim",
+  "repeatability": {
+    "runs": [
+      "squadds_reference_1",
+      "squadds_reference_2"
+    ],
+    "all_layer_and_label_comparisons_identical": true,
+    "numeric_measurement_records_identical": true,
+    "hash_note": "Export GDS timestamps may change file hashes without changing mask geometry"
+  }
+}
