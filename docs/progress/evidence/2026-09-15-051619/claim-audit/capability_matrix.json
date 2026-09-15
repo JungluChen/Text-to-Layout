@@ -1,0 +1,499 @@
+{
+  "capabilities": [
+    {
+      "blocked_gates": [],
+      "capability": "core wheel and CLI",
+      "computed_level": "UNIT_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": false,
+          "path": "out/audit/core_install.json",
+          "sha256": null
+        },
+        {
+          "exists": true,
+          "path": "pyproject.toml",
+          "sha256": "f5496108fe8b1479cbcb98c8c6e03e7baa79fdb89b558809fad51a9f535434ed"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_workflow_graph.py",
+          "sha256": "2fa452ad1b53da20447b0b41afc640eafb70090e51cd024cabf2243eaa576e49"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "fresh wheel install recorded",
+          "reason": null
+        }
+      ],
+      "first_failed_mandatory_gate": {
+        "blocked": false,
+        "gate": "fresh wheel install recorded",
+        "level": "FRESH_ENVIRONMENT_TESTED",
+        "reason": null
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "pyproject declares package",
+        "core tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "CanonicalEvidence semantics",
+      "computed_level": "UNIT_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/evidence/canonical.py",
+          "sha256": "c4e05d8e697f023f59389fb3ca52f3071f27f2d6e391801ed229b7f639d4d75b"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_canonical_evidence.py",
+          "sha256": "33375e03b93844407bdceda2b460550e2587f6c7784183d67b2ff8621f2b6155"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "schema implemented",
+        "schema unit tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [
+        {
+          "gate": "docker daemon available",
+          "reason": "Docker daemon unavailable"
+        },
+        {
+          "gate": "image build evidence with available runtime",
+          "reason": "Docker daemon unavailable; retained image evidence does not establish current integration"
+        }
+      ],
+      "capability": "OCI stack",
+      "computed_level": "IMPLEMENTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "compose.yaml",
+          "sha256": "26de69f62b950e78078716d0a2ae66387cdee8058e75c783674a587743d3b8a5"
+        },
+        {
+          "exists": true,
+          "path": "docker-bake.hcl",
+          "sha256": "712db5117d0cdf75328fc204acbde52e35d13e072d795f0a16de96673632b7d2"
+        },
+        {
+          "exists": true,
+          "path": "out/audit/klayout_image.json",
+          "sha256": "77a5bf6229a2b9bc4ee4c44d81a116c9217cd1ccea852d9d15e7ca6a396daeda"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": {
+        "blocked": true,
+        "gate": "docker daemon available",
+        "level": "UPSTREAM_SMOKE_PASSED",
+        "reason": "Docker daemon unavailable"
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "docker configuration exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "Palace parser/MAC",
+      "computed_level": "REAL_FIXTURE_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/palace/parser.py",
+          "sha256": "0e5279e19fb4187372843e3f1d9b5d07b33e5d8affb8177ac4bfe7dd422f8d2f"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_palace_higher_order_vtk.py",
+          "sha256": "0bf1c674da1b741e4c2ecea56f49628309f4bbdf6ae96a66ec2eed9d269cff2a"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "Palace parser implemented",
+        "Palace fixture tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "Palace real execution",
+      "computed_level": "IMPLEMENTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "external_tools/registry.toml",
+          "sha256": "607ed36adfc9a332189aa45d9645d48483b3b38d59bef1913d6d7f3b4238a836"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "Palace upstream smoke passed",
+          "reason": null
+        },
+        {
+          "gate": "Palace benchmark evidence exists",
+          "reason": null
+        }
+      ],
+      "first_failed_mandatory_gate": {
+        "blocked": false,
+        "gate": "Palace upstream smoke passed",
+        "level": "UPSTREAM_SMOKE_PASSED",
+        "reason": null
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "Palace registered"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "critical-region coverage",
+      "computed_level": "UNIT_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/palace/models.py",
+          "sha256": "12bd0d7283d299c28abe5275cc01d21cb038e8fc3a59282aa6e58d742425ff3c"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_palace_benchmark_v017.py",
+          "sha256": "84ade783795f5e973a7007b802f95992d50956b17beb08d1472ae400d2aa301b"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "typed models implemented",
+        "coverage tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "KLayout installation smoke",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_image.json",
+          "sha256": "77a5bf6229a2b9bc4ee4c44d81a116c9217cd1ccea852d9d15e7ca6a396daeda"
+        },
+        {
+          "exists": true,
+          "path": "out/audit/klayout_installation_drc_smoke.json",
+          "sha256": "bf0051bf970d1185fa242017ce45bf5ac2964b60eed82f1acd38c02412f68b32"
+        },
+        {
+          "exists": true,
+          "path": "src/textlayout/verification/klayout.py",
+          "sha256": "d59f101430f4008110f1a586b79cdbafa3a648fdf087cef1e1bf8cd6ee3fa9f7"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "KLayout adapter implemented",
+        "KLayout identity verified",
+        "minimum-size smoke evidence exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "Typed PDK DRC",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_containerized_drc.json",
+          "sha256": "e5136b9d47507bcf46f4689e61870bf60ba979c7a444ad4c3734b9ee65b7412e"
+        },
+        {
+          "exists": true,
+          "path": "src/textlayout/pdk/klayout_drc.py",
+          "sha256": "2bd06fc7cb7c3c8ae7d16f963d57c8a9b43914a9195855ac3c6a84501fd22ab2"
+        },
+        {
+          "exists": true,
+          "path": "tests/fixtures/klayout_drc/expectations.json",
+          "sha256": "474dbd7798577b3eba347716b0de598dc1c6ced5c7b844115f7f1a9e996298f1"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_klayout_drc.py",
+          "sha256": "41249c1b006205eb347897c46d2e23639c9d8d38f60e922bf199ae76f9470d96"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "typed PDK DRC implemented",
+        "typed PDK DRC tests exist",
+        "positive and negative DRC fixtures exist",
+        "containerized .lyrdb DRC fixtures validated"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "KLayout layer-population smoke",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_layer_population_smoke.json",
+          "sha256": "67952616460eb9209181780c1036663b852dd77d73b01db07b6d8766acec6a65"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "layer-population readback evidence exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "KLayout partial electrical LVS",
+      "computed_level": "INTEGRATION_TEST_PASSED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "out/audit/klayout_partial_electrical_lvs.json",
+          "sha256": "3163d9fd7e576d4d4d26444fc42b8dd3fb77ff0d4896ae85d863bc7327199c8f"
+        },
+        {
+          "exists": true,
+          "path": "src/textlayout/pdk/lvs.py",
+          "sha256": "803c08af225c16dc6965cad1f2637b10c44db79becc7991f25534e23c2c81998"
+        },
+        {
+          "exists": true,
+          "path": "tests/fixtures/klayout_lvs/expectations.json",
+          "sha256": "318c991c00fc76ddfba554265aeecc1f0e24cf24771686b702cb1a159c807634"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_partial_lvs.py",
+          "sha256": "9f21989c8c82bae5dedb97efa6b61724f07bb30bb668fc2d3c8c80aa080532d2"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "LVS report schema implemented",
+        "partial LVS tests exist",
+        "positive and negative partial LVS fixtures exist",
+        "native KLayout extraction evidence exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "JosephsonCircuits",
+      "computed_level": "IMPLEMENTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/solvers/josephsoncircuits.py",
+          "sha256": "63fdef7964d7f16dbf45a2b659117f30dbd83ab8173756809494829454b21e07"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "package identity verified",
+          "reason": null
+        },
+        {
+          "gate": "linear LC benchmark evidence",
+          "reason": null
+        }
+      ],
+      "first_failed_mandatory_gate": {
+        "blocked": false,
+        "gate": "package identity verified",
+        "level": "IDENTITY_VERIFIED",
+        "reason": null
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "adapter implemented"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "openEMS",
+      "computed_level": "REAL_FIXTURE_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/simulation/openems_evidence.py",
+          "sha256": "813cf952a1f9728947ba32f3498baffa4da6e4b0f02589535169fdac10248940"
+        },
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_openems_evidence.py",
+          "sha256": "4428b62fe690c917ce5407f51c9721a05632663e861007abcb60895285a05d05"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "openEMS evidence parser implemented",
+        "openEMS fixture tests exist"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "FasterCap",
+      "computed_level": "IMPLEMENTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "src/textlayout/simulation/fastercap.py",
+          "sha256": "3cc32acf47caf09576cdb15f0ac39164bd93988c207d5d18dbc5c50455ebbf89"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "FasterCap real convergence evidence",
+          "reason": null
+        }
+      ],
+      "first_failed_mandatory_gate": {
+        "blocked": false,
+        "gate": "FasterCap real convergence evidence",
+        "level": "BENCHMARK_EXECUTED",
+        "reason": null
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "FasterCap adapter implemented"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "FastHenry",
+      "computed_level": "IMPLEMENTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "simulation/spiral_fasthenry/README.md",
+          "sha256": "749f716e47c9f71a32e74c1f0649d71910d1f7a889c2d79a943aab07e82ee237"
+        }
+      ],
+      "failed_gates": [
+        {
+          "gate": "FastHenry convergence evidence",
+          "reason": null
+        }
+      ],
+      "first_failed_mandatory_gate": {
+        "blocked": false,
+        "gate": "FastHenry convergence evidence",
+        "level": "BENCHMARK_EXECUTED",
+        "reason": null
+      },
+      "optional_gates": [],
+      "passed_gates": [
+        "FastHenry handoff exists"
+      ]
+    },
+    {
+      "blocked_gates": [],
+      "capability": "showcase evidence",
+      "computed_level": "UNIT_TESTED",
+      "consistency_errors": [],
+      "evaluated_source_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_generated_commit": "8ab951a998ff6a30de683c24e7a8d73382dc0cdc",
+      "evidence_hashes": [
+        {
+          "exists": true,
+          "path": "tests/textlayout_suite/test_showcase_examples.py",
+          "sha256": "bad4c9bad6bf5fee3d63b90886865e6f1fc5307c9215efb5cf5f2f9f88a7fb7a"
+        }
+      ],
+      "failed_gates": [],
+      "first_failed_mandatory_gate": null,
+      "optional_gates": [],
+      "passed_gates": [
+        "canonical showcase evidence exists",
+        "showcase consistency tests exist"
+      ]
+    }
+  ],
+  "capability_levels": [
+    "NOT_IMPLEMENTED",
+    "IMPLEMENTED",
+    "UNIT_TESTED",
+    "REAL_FIXTURE_TESTED",
+    "FRESH_ENVIRONMENT_TESTED",
+    "IDENTITY_VERIFIED",
+    "UPSTREAM_SMOKE_PASSED",
+    "INTEGRATION_TEST_PASSED",
+    "BENCHMARK_EXECUTED",
+    "NUMERICALLY_VALIDATED",
+    "SCIENTIFICALLY_VALIDATED"
+  ],
+  "schema": "textlayout.audit.capability-matrix.v2"
+}

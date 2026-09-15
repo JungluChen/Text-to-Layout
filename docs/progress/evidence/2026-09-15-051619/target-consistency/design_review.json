@@ -1,0 +1,288 @@
+{
+  "schema": "textlayout.design-review.v1",
+  "requirements": {
+    "quantity": "quarter_wave_frequency_ghz",
+    "value": 6.0,
+    "technology": "generic_2metal",
+    "operating_frequency_ghz": null,
+    "min_width_um": null,
+    "min_gap_um": null,
+    "max_bbox_width_um": null,
+    "max_bbox_height_um": null,
+    "tolerance_percent": 1e-12
+  },
+  "intent": {
+    "schema_version": "textlayout.design-intent.v1",
+    "prompt": "Design for 6 quarter_wave_frequency_ghz with typed requirements",
+    "component": "QuarterWaveResonator",
+    "technology": "generic_2metal",
+    "substrate": null,
+    "target": {
+      "frequency_ghz": 6.0
+    },
+    "constraints": {
+      "min_width_um": 2.0,
+      "min_gap_um": 2.0
+    },
+    "parameters": {},
+    "notes": [
+      "The requested quarter-wave topology sets an initial electrical length from phase velocity.",
+      "Topology selected from supported templates; no global optimum is claimed."
+    ],
+    "topology": null,
+    "capacitor_type": null,
+    "inductance_assumption": null,
+    "simulator_requests": [],
+    "evidence_status": [
+      "INTENT_PARSED"
+    ]
+  },
+  "layout_requirements_passed": false,
+  "target_basis": "analytical estimate",
+  "verification": {
+    "status": "fail",
+    "component": "QuarterWaveResonator",
+    "checks": [
+      {
+        "name": "component_generated",
+        "status": "pass"
+      },
+      {
+        "name": "positive_dimensions",
+        "status": "pass"
+      },
+      {
+        "name": "minimum_width",
+        "status": "pass",
+        "value_um": 10.0,
+        "limit_um": 2.0
+      },
+      {
+        "name": "minimum_gap",
+        "status": "pass",
+        "value_um": 4.0,
+        "limit_um": 2.0
+      },
+      {
+        "name": "layer_exists",
+        "status": "pass"
+      },
+      {
+        "name": "bounding_box",
+        "status": "pass",
+        "value_um2": 2494232.6
+      },
+      {
+        "name": "ports_exist",
+        "status": "pass",
+        "value_count": 6.0,
+        "limit_count": 6.0
+      },
+      {
+        "name": "explicit_rf_ground_ports",
+        "status": "pass"
+      },
+      {
+        "name": "resonator_open_short_boundaries",
+        "status": "pass"
+      },
+      {
+        "name": "geometry_min_spacing",
+        "status": "pass"
+      },
+      {
+        "name": "analytical_estimate",
+        "status": "warn",
+        "message": "Resonance frequency is an analytical estimate only. EM extraction is required before fabrication."
+      },
+      {
+        "name": "research_evidence",
+        "status": "pass"
+      },
+      {
+        "name": "simulation_workflow_documented",
+        "status": "pass"
+      },
+      {
+        "name": "gdsfactory_component_sanity",
+        "status": "pass"
+      },
+      {
+        "name": "output_gds_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_svg_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_png_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_layout_dsl_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_verification_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_evidence_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_analytical_estimate_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_simulation_plan_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_report_exists",
+        "status": "pass"
+      },
+      {
+        "name": "klayout_gds_readback",
+        "status": "pass"
+      },
+      {
+        "name": "independent_gds_readback",
+        "status": "pass"
+      },
+      {
+        "name": "requirements_target",
+        "status": "fail",
+        "value_percent": 0.0,
+        "limit_percent": 0.0,
+        "message": "analytical estimate: error=2.2112920383676737e-07%, tolerance=1e-12%"
+      }
+    ],
+    "warnings": [
+      "Resonance frequency is an analytical estimate only. EM extraction is required before fabrication."
+    ],
+    "errors": [
+      "analytical estimate: error=2.2112920383676737e-07%, tolerance=1e-12%"
+    ],
+    "target_basis": "analytical estimate"
+  },
+  "acceptance_scope": "Primary electrical target under the stated model, plus width/gap and footprint checks; not a process or operating-bandwidth qualification",
+  "operating_bandwidth_verified": false,
+  "chosen_parameters": {
+    "center_width_um": 10.0,
+    "gap_um": 6.0,
+    "length_um": 4918.4652,
+    "coupling_gap_um": 4.0
+  },
+  "first_principles": {
+    "component": "QuarterWaveResonator",
+    "model_name": "Quarter-wave CPW hanger (Simons/Pozar initial model)",
+    "physical_target": {
+      "frequency_ghz": 6.0
+    },
+    "equations": [
+      {
+        "name": "CPW impedance",
+        "expression": "Z0 = (30*pi / sqrt(eps_eff)) * K(k')/K(k)",
+        "description": "k = w/(w+2g), k'=sqrt(1-k^2)."
+      },
+      {
+        "name": "Effective permittivity",
+        "expression": "eps_eff = (1 + eps_r) / 2",
+        "description": "Thick-substrate quasi-static CPW."
+      },
+      {
+        "name": "Phase velocity",
+        "expression": "v_p = c / sqrt(eps_eff)",
+        "description": ""
+      },
+      {
+        "name": "Quarter-wave length",
+        "expression": "L = v_p / (4 f)",
+        "description": "Physical length of a \u03bb/4 resonator at f."
+      }
+    ],
+    "assumptions": [
+      "Substrate eps_r = 11.9 (from technology 'generic_2metal'); eps_eff = (1+eps_r)/2.",
+      "Symmetric CPW, thick substrate, zero metal thickness, lossless."
+    ],
+    "references": [
+      {
+        "citation": "R. N. Simons, 'Coplanar Waveguide Circuits, Components, and Systems', Wiley, 2001.",
+        "note": "Conformal-mapping CPW impedance model."
+      },
+      {
+        "citation": "W. Hilberg, 'From approximations to exact relations for characteristic impedances', IEEE Trans. MTT-17 (1969) 259.",
+        "note": "Closed-form K(k)/K(k') used here (error < 8e-6)."
+      },
+      {
+        "citation": "G. Ghione and C. Naldi, 'Analytical Formulas for Coplanar Lines in Hybrid and Monolithic MICs', Electronics Letters 20(4), 1984, 179-181.",
+        "note": "Finite-substrate quasi-static model implemented by optional scikit-rf CPW."
+      },
+      {
+        "citation": "A. Arsenovic et al., 'scikit-rf: An Open Source Python Package for Microwave Network Creation, Analysis, and Calibration', IEEE Microwave Magazine 23(1), 2022, 98-105, doi:10.1109/MMM.2021.3117139.",
+        "note": "Optional BSD-3 analytical and Touchstone implementation."
+      },
+      {
+        "citation": "D. M. Pozar, 'Microwave Engineering', 4th ed., Wiley, 2012.",
+        "note": "Transmission-line and \u03bb/4 theory."
+      }
+    ],
+    "analytical_estimates": {
+      "substrate_eps_r": 11.9,
+      "eps_eff": 6.45,
+      "estimated_z0_ohm": 50.04,
+      "analytical_backend": "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)",
+      "target_frequency_ghz": 6.0,
+      "quarter_wave_length_um": 4918.4652
+    },
+    "design_notes": [
+      "The impedance depends only on the ratio k = w/(w+2g), not absolute size \u2014 so geometry can be scaled to satisfy the minimum-gap rule while holding Z0 fixed.",
+      "On high-permittivity silicon, eps_eff is large, so a given Z0 needs a relatively narrow gap compared to a low-eps substrate.",
+      "Ground-plane width and any top cover shift Z0 slightly; the thick-substrate model ignores them.",
+      "For a \u03bb/4 resonator, the open/short boundary and coupling capacitor pull the resonance down from the ideal v_p/4f \u2014 EM is needed for the exact f0 and Q."
+    ],
+    "limitations": [
+      "Quasi-static, infinitely thick substrate, zero metal thickness, lossless.",
+      "No dispersion, radiation, or coupling effects \u2014 Z0 accurate to a few percent, f0 needs EM."
+    ],
+    "simulation_recommendation": {
+      "resonance_and_Q": "openEMS plus scikit-rf; retain Touchstone and mesh-convergence evidence."
+    },
+    "proposed_parameters": {
+      "center_width_um": 10.0,
+      "gap_um": 6.0,
+      "length_um": 4918.4652,
+      "coupling_gap_um": 4.0
+    }
+  },
+  "engineering_rules": [
+    {
+      "id": "process-before-signoff",
+      "rationale": "Fabrication rules and material properties depend on the process.",
+      "action": "Supply a versioned PDK, metal thickness, substrate and operating temperature.",
+      "evidence": "Generic technology parameters are assumptions; geometry DRC is not foundry signoff."
+    },
+    {
+      "id": "independent-export-check",
+      "rationale": "The exported mask must preserve conductor connectivity and clearances.",
+      "action": "Require independent GDS readback, width checks and net-aware spacing checks.",
+      "evidence": "KLayout checks the generated GDS; design_review.geometry_passed reports the verdict."
+    },
+    {
+      "id": "measurement-learning",
+      "rationale": "A process correction needs measurements paired with the exact design.",
+      "action": "Use design hashes to pair simulation and measurement, preserve provenance, then assess corrections on devices held out from fitting.",
+      "evidence": "textlayout measurement calibrate; generated predictions are not measured data."
+    },
+    {
+      "id": "resonator-electrical-length",
+      "rationale": "A quarter-wave length is only the initial resonance estimate.",
+      "action": "Model termination, coupling, bends, dielectric and metal effects in a field solver.",
+      "evidence": "Paper parity requires the paper's exact geometry, stack and boundary conditions."
+    }
+  ],
+  "simulation_status": "SIMULATION_INPUT_PREPARED",
+  "fabrication_ready": false
+}

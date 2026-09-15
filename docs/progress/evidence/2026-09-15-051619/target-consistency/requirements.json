@@ -1,0 +1,11 @@
+{
+  "quantity": "quarter_wave_frequency_ghz",
+  "value": 6.0,
+  "technology": "generic_2metal",
+  "operating_frequency_ghz": null,
+  "min_width_um": null,
+  "min_gap_um": null,
+  "max_bbox_width_um": null,
+  "max_bbox_height_um": null,
+  "tolerance_percent": 1e-12
+}

@@ -1,0 +1,8 @@
+..                                                                       [100%]
+=============================== warnings summary ===============================
+tests/test_smoke.py:15
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_smoke.py:15: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.adapters import resolve_josephsoncircuits_analysis_mode
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 1 warning in 2.39s

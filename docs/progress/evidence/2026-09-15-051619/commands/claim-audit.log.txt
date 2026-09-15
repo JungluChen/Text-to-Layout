@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py", line 1329, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py", line 1298, in main
+    run_payload = run_record(repository)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py", line 493, in run_record
+    "active_solver_processes": active_solver_processes(),
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py", line 434, in active_solver_processes
+    result = run_command(["ps", "-eo", "pid,comm,args"], timeout=30)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py", line 250, in run_command
+    completed = subprocess.run(
+                ^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 1] Operation not permitted: 'ps'

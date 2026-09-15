@@ -1,0 +1,211 @@
+/Users/ludko/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/matplotlib-kx79b6wv because there was an issue with the default path (/Users/ludko/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+{
+  "schema": "textlayout.from-text.v1",
+  "status": "ok",
+  "component": "CPW",
+  "layout_component": "CPW",
+  "target": {
+    "impedance_ohm": 50.0,
+    "frequency_ghz": 6.0
+  },
+  "simulation_status": "SIMULATION_INPUT_PREPARED",
+  "simulation_summary": "characteristic_impedance: SIMULATION_INPUT_PREPARED \u2014 solver input files exist; no physics verification was performed",
+  "circuit_simulators": {},
+  "artifacts": {
+    "intent": "intent.json",
+    "layout": "layout.json",
+    "optimization": "optimization.json",
+    "gds": "output.gds",
+    "svg": "output.svg",
+    "png": "output.png",
+    "klayout_readback": "klayout_readback.json",
+    "verification": "verification.json",
+    "capacitance_result": "extraction/capacitance_result.json",
+    "openems_result": "openems_result.json",
+    "simulation": "simulation/simulation.json",
+    "simulation_legacy": "simulation.json",
+    "report": "report.md",
+    "workflow_trace": "workflow_trace.json",
+    "requirements": "requirements.json",
+    "requirements_verification": "requirements_verification.json",
+    "design_review": "design_review.json"
+  },
+  "output_dir": "out/guidebook/connection",
+  "requirements": {
+    "quantity": "impedance_ohm",
+    "value": 50.0,
+    "technology": "generic_2metal",
+    "operating_frequency_ghz": 6.0,
+    "min_width_um": 2.0,
+    "min_gap_um": 8.0,
+    "max_bbox_width_um": 300.0,
+    "max_bbox_height_um": 500.0,
+    "tolerance_percent": 0.1
+  },
+  "intent": {
+    "schema_version": "textlayout.design-intent.v1",
+    "prompt": "Design for 50 impedance_ohm with typed requirements",
+    "component": "CPW",
+    "technology": "generic_2metal",
+    "substrate": null,
+    "target": {
+      "impedance_ohm": 50.0,
+      "frequency_ghz": 6.0
+    },
+    "constraints": {
+      "min_width_um": 2.0,
+      "min_gap_um": 8.0,
+      "max_bbox_width_um": 300.0,
+      "max_bbox_height_um": 500.0
+    },
+    "parameters": {
+      "length_um": 500.0
+    },
+    "notes": [
+      "A coplanar waveguide keeps signal and ground on one layer and allows impedance synthesis under width and gap constraints.",
+      "Topology selected from supported templates; no global optimum is claimed."
+    ],
+    "topology": null,
+    "capacitor_type": null,
+    "inductance_assumption": null,
+    "simulator_requests": [],
+    "evidence_status": [
+      "INTENT_PARSED"
+    ]
+  },
+  "verification": {
+    "status": "pass",
+    "component": "CPW",
+    "checks": [
+      {
+        "name": "component_generated",
+        "status": "pass"
+      },
+      {
+        "name": "positive_dimensions",
+        "status": "pass"
+      },
+      {
+        "name": "minimum_width",
+        "status": "pass",
+        "value_um": 13.372,
+        "limit_um": 2.0
+      },
+      {
+        "name": "minimum_gap",
+        "status": "pass",
+        "value_um": 8.001,
+        "limit_um": 8.0
+      },
+      {
+        "name": "layer_exists",
+        "status": "pass"
+      },
+      {
+        "name": "bounding_box",
+        "status": "pass",
+        "value_um2": 64687.0
+      },
+      {
+        "name": "ports_exist",
+        "status": "pass",
+        "value_count": 6.0,
+        "limit_count": 6.0
+      },
+      {
+        "name": "explicit_rf_ground_ports",
+        "status": "pass"
+      },
+      {
+        "name": "geometry_min_spacing",
+        "status": "pass"
+      },
+      {
+        "name": "analytical_estimate",
+        "status": "warn",
+        "message": "Characteristic impedance is an analytical estimate only. EM extraction is required before fabrication."
+      },
+      {
+        "name": "research_evidence",
+        "status": "pass"
+      },
+      {
+        "name": "simulation_workflow_documented",
+        "status": "pass"
+      },
+      {
+        "name": "gdsfactory_component_sanity",
+        "status": "pass"
+      },
+      {
+        "name": "output_gds_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_svg_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_png_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_layout_dsl_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_verification_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_evidence_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_analytical_estimate_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_simulation_plan_exists",
+        "status": "pass"
+      },
+      {
+        "name": "output_report_exists",
+        "status": "pass"
+      },
+      {
+        "name": "klayout_gds_readback",
+        "status": "pass"
+      },
+      {
+        "name": "independent_gds_readback",
+        "status": "pass"
+      },
+      {
+        "name": "max_bbox_width_um",
+        "status": "pass",
+        "value_um": 129.374,
+        "limit_um": 300.0
+      },
+      {
+        "name": "max_bbox_height_um",
+        "status": "pass",
+        "value_um": 500.0,
+        "limit_um": 500.0
+      },
+      {
+        "name": "requirements_target",
+        "status": "pass",
+        "value_percent": 0.002,
+        "limit_percent": 0.1,
+        "message": "analytical estimate: error=0.001999999999995339%, tolerance=0.1%"
+      }
+    ],
+    "warnings": [
+      "Characteristic impedance is an analytical estimate only. EM extraction is required before fabrication."
+    ],
+    "errors": []
+  }
+}

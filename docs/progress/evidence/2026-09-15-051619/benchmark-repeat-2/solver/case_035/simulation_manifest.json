@@ -1,0 +1,16 @@
+{
+  "status": "input_files_prepared",
+  "solver": "FastHenry",
+  "component": "SpiralInductor",
+  "readiness_level": 2,
+  "expected_outputs": [
+    "inductance",
+    "resistance",
+    "Q"
+  ],
+  "warnings": [
+    "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
+    "Normal-metal conductivity=58000000 S/m and thickness=0.2 um; replace these assumptions with process data. Kinetic inductance is not modeled."
+  ],
+  "solver_executed": false
+}

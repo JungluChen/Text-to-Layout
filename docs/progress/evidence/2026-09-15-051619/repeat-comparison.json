@@ -1,0 +1,7 @@
+{
+  "analytical_numeric_and_verdict_fields_identical": true,
+  "solver_numeric_and_verdict_fields_identical": true,
+  "families_identical": true,
+  "paper_model_identical": true,
+  "excluded_from_value_comparison": "Output directories, runtime, and artifact hashes with path-dependent metadata are retained but are not numeric comparisons."
+}

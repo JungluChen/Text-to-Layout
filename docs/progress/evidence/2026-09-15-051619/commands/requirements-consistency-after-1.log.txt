@@ -1,0 +1,18 @@
+/Users/ludko/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/matplotlib-mktruxv7 because there was an issue with the default path (/Users/ludko/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+{
+  "returned_ok": false,
+  "verification_status": "fail",
+  "requirements_status": "fail",
+  "requirements_target": [
+    {
+      "name": "requirements_target",
+      "status": "fail",
+      "value_percent": 0.0,
+      "limit_percent": 0.0,
+      "message": "analytical estimate: error=2.2112920383676737e-07%, tolerance=1e-12%"
+    }
+  ],
+  "evidence_status": "SIMULATION_INPUT_PREPARED"
+}

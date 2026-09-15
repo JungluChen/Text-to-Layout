@@ -1,0 +1,451 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/ludko/Desktop/text2layout/Text-to-Layout
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0, langsmith-0.9.7, anyio-4.13.0
+collected 1971 items
+
+tests/test_ai_copilot.py ...........                                     [  0%]
+tests/test_backend_orchestration.py .....                                [  0%]
+tests/test_candidate_loop.py ............                                [  1%]
+tests/test_closed_loop.py .......                                        [  1%]
+tests/test_cpw_boolean_gap.py ....                                       [  1%]
+tests/test_cpw_matches_reference.py ..                                   [  2%]
+tests/test_device_views.py ...                                           [  2%]
+tests/test_eda_framework_architecture.py .......                         [  2%]
+tests/test_em_solvers.py ...                                             [  2%]
+tests/test_fitting.py ...                                                [  2%]
+tests/test_fourth_wave.py ........................                       [  4%]
+tests/test_improvements.py ......                                        [  4%]
+tests/test_jj_boolean_overlap.py ...                                     [  4%]
+tests/test_jj_stack_matches_reference.py ..                              [  4%]
+tests/test_jpa_matches_literature.py ..                                  [  4%]
+tests/test_jpa_topology.py ......                                        [  5%]
+tests/test_layout_backend.py ......                                      [  5%]
+tests/test_layout_quality_modes.py .......                               [  5%]
+tests/test_layout_validator.py ......................................... [  7%]
+...                                                                      [  7%]
+tests/test_new_modules.py ...................................            [  9%]
+tests/test_next_improvements.py .......                                  [ 10%]
+tests/test_no_fake_gain.py .......                                       [ 10%]
+tests/test_no_toy_layouts.py .....                                       [ 10%]
+tests/test_open_solver.py ...........                                    [ 11%]
+tests/test_openems_real_s2p.py .......                                   [ 11%]
+tests/test_opensource_em.py ....                                         [ 11%]
+tests/test_packaging.py ....                                             [ 12%]
+tests/test_paper_benchmarks.py .                                         [ 12%]
+tests/test_pdk.py .....                                                  [ 12%]
+tests/test_phase1_phase2.py ............                                 [ 12%]
+tests/test_phase456.py ..........                                        [ 13%]
+tests/test_phase8_foundations.py ....                                    [ 13%]
+tests/test_phase8_operations.py ..                                       [ 13%]
+tests/test_phases_1_10.py ...............................                [ 15%]
+tests/test_physics_benchmark.py .......................                  [ 16%]
+tests/test_physics_compiler.py ....................                      [ 17%]
+tests/test_physics_compiler_loop.py ......                               [ 17%]
+tests/test_physics_engine.py ........................................... [ 19%]
+.........s..                                                             [ 20%]
+tests/test_physics_first_pipeline.py .................................   [ 22%]
+tests/test_physics_grounded_compiler_contract.py .....                   [ 22%]
+tests/test_physics_provenance.py ...                                     [ 22%]
+tests/test_pyaedt_bridge.py ...                                          [ 22%]
+tests/test_quantum_eda_platform.py ..................................... [ 24%]
+.                                                                        [ 24%]
+tests/test_readiness.py ..                                               [ 24%]
+tests/test_report_visual_quality.py ...                                  [ 25%]
+tests/test_research_execution.py sssss.ss                                [ 25%]
+tests/test_research_quality_goal.py .......                              [ 25%]
+tests/test_review_committee.py .............                             [ 26%]
+tests/test_review_coverage.py ........                                   [ 26%]
+tests/test_signoff.py ......                                             [ 27%]
+tests/test_signoff_contract.py .......                                   [ 27%]
+tests/test_smoke.py ................                                     [ 28%]
+tests/test_solver_adapters.py ....                                       [ 28%]
+tests/test_solver_artifacts_required.py .......                          [ 28%]
+tests/test_solver_evidence.py .......                                    [ 29%]
+tests/test_solver_truthfulness.py ....                                   [ 29%]
+tests/test_sop_qa.py ................................................    [ 31%]
+tests/test_superconducting_eda_compiler.py .......                       [ 32%]
+tests/test_superconductivity.py ....                                     [ 32%]
+tests/test_third_wave.py ......                                          [ 32%]
+tests/test_transmon_matches_literature.py ..                             [ 32%]
+tests/test_transmon_topology.py .....                                    [ 33%]
+tests/test_visual_credibility.py .......                                 [ 33%]
+tests/textlayout_suite/test_acceptance.py ..............                 [ 34%]
+tests/textlayout_suite/test_acceptance_physics.py ............           [ 34%]
+tests/textlayout_suite/test_api.py ............                          [ 35%]
+tests/textlayout_suite/test_api_from_text.py ..                          [ 35%]
+tests/textlayout_suite/test_audit_artifacts.py ......................FFF [ 36%]
+F.........                                                               [ 37%]
+tests/textlayout_suite/test_benchmark_structure.py ....                  [ 37%]
+tests/textlayout_suite/test_canonical_evidence.py ...................... [ 38%]
+.....................                                                    [ 39%]
+tests/textlayout_suite/test_chip_40q_showcase.py ........                [ 40%]
+tests/textlayout_suite/test_chip_lattice.py ..........................   [ 41%]
+tests/textlayout_suite/test_ci_platform_matrix.py ....                   [ 41%]
+tests/textlayout_suite/test_convergence_order.py ....................... [ 42%]
+..............                                                           [ 43%]
+tests/textlayout_suite/test_cpw_generator.py ....                        [ 43%]
+tests/textlayout_suite/test_doctor_and_dependencies.py .........         [ 44%]
+tests/textlayout_suite/test_document_authority.py ...                    [ 44%]
+tests/textlayout_suite/test_dsl.py .....                                 [ 44%]
+tests/textlayout_suite/test_epr_coherence.py ......................      [ 45%]
+tests/textlayout_suite/test_epr_pdk_provenance.py ............           [ 46%]
+tests/textlayout_suite/test_evidence_consistency.py .................... [ 47%]
+.............                                                            [ 47%]
+tests/textlayout_suite/test_evidence_contract.py ..................      [ 48%]
+tests/textlayout_suite/test_evidence_transitions.py .................... [ 49%]
+........................................................................ [ 53%]
+..............................................                           [ 55%]
+tests/textlayout_suite/test_exporters.py ....                            [ 56%]
+tests/textlayout_suite/test_extended_generators.py ........              [ 56%]
+tests/textlayout_suite/test_external_tool_registry.py ......             [ 56%]
+tests/textlayout_suite/test_fabrication_gate.py ..........               [ 57%]
+tests/textlayout_suite/test_fastercap_execution.py ........              [ 57%]
+tests/textlayout_suite/test_fasthenry_units.py ..                        [ 57%]
+tests/textlayout_suite/test_fem_model.py ............................    [ 59%]
+tests/textlayout_suite/test_from_text_workflow.py ......                 [ 59%]
+tests/textlayout_suite/test_gds_export.py ...                            [ 59%]
+tests/textlayout_suite/test_generate_workflow.py ......                  [ 59%]
+tests/textlayout_suite/test_geometry_engine.py ....                      [ 60%]
+tests/textlayout_suite/test_gmsh_runtime.py .                            [ 60%]
+tests/textlayout_suite/test_golden_cpw.py .                              [ 60%]
+tests/textlayout_suite/test_idc_generator.py .....                       [ 60%]
+tests/textlayout_suite/test_idc_optimization.py ........                 [ 60%]
+tests/textlayout_suite/test_jobs.py ......                               [ 61%]
+tests/textlayout_suite/test_josim_adapter.py .........                   [ 61%]
+tests/textlayout_suite/test_josim_idc.py ....                            [ 61%]
+tests/textlayout_suite/test_jpa_mvp.py ...                               [ 61%]
+tests/textlayout_suite/test_klayout_drc.py ............................. [ 63%]
+.......                                                                  [ 63%]
+tests/textlayout_suite/test_measurement.py ............................. [ 65%]
+..                                                                       [ 65%]
+tests/textlayout_suite/test_mesh_convergence.py ........................ [ 66%]
+....                                                                     [ 66%]
+tests/textlayout_suite/test_mode_tracking.py ........................... [ 68%]
+..                                                                       [ 68%]
+tests/textlayout_suite/test_multi_device_generators.py .......           [ 68%]
+tests/textlayout_suite/test_multi_sim_prompt.py ..                       [ 68%]
+tests/textlayout_suite/test_namespace_boundary.py ...............        [ 69%]
+tests/textlayout_suite/test_oci_stack.py ...                             [ 69%]
+tests/textlayout_suite/test_open_source_simulation.py .....              [ 69%]
+tests/textlayout_suite/test_openems_evidence.py ........                 [ 70%]
+tests/textlayout_suite/test_palace_amr_verification.py .........         [ 70%]
+tests/textlayout_suite/test_palace_artifact_contracts.py ...             [ 70%]
+tests/textlayout_suite/test_palace_atomic_stages.py ...                  [ 71%]
+tests/textlayout_suite/test_palace_backend.py .......................... [ 72%]
+.....                                                                    [ 72%]
+tests/textlayout_suite/test_palace_benchmark_evidence.py ............... [ 73%]
+........                                                                 [ 73%]
+tests/textlayout_suite/test_palace_benchmark_v017.py .................   [ 74%]
+tests/textlayout_suite/test_palace_bounded_amr_policy.py .........       [ 75%]
+tests/textlayout_suite/test_palace_cross_amr_fixture.py ..               [ 75%]
+tests/textlayout_suite/test_palace_diagnostic.py ....                    [ 75%]
+tests/textlayout_suite/test_palace_energy_weighted_mac.py .......        [ 75%]
+tests/textlayout_suite/test_palace_field_mac.py ..                       [ 75%]
+tests/textlayout_suite/test_palace_field_retention.py .........          [ 76%]
+tests/textlayout_suite/test_palace_global_assignment.py ....             [ 76%]
+tests/textlayout_suite/test_palace_higher_order_vtk.py ..                [ 76%]
+tests/textlayout_suite/test_palace_installation.py ..s..                 [ 76%]
+tests/textlayout_suite/test_palace_mac_applicability.py ......           [ 77%]
+tests/textlayout_suite/test_palace_material_overlap.py ...               [ 77%]
+tests/textlayout_suite/test_palace_mode_classification.py .....          [ 77%]
+tests/textlayout_suite/test_palace_model_audit.py ...                    [ 77%]
+tests/textlayout_suite/test_palace_mpi_integration.py ..                 [ 77%]
+tests/textlayout_suite/test_palace_p2_manufactured.py ......             [ 78%]
+tests/textlayout_suite/test_palace_preparation.py .                      [ 78%]
+tests/textlayout_suite/test_palace_process_ownership.py ..s...           [ 78%]
+tests/textlayout_suite/test_palace_quarter_wave_sanity.py ............   [ 79%]
+tests/textlayout_suite/test_palace_resource_limits.py ..                 [ 79%]
+tests/textlayout_suite/test_palace_targeted_mesh.py ..                   [ 79%]
+tests/textlayout_suite/test_palace_toolchain.py .....                    [ 79%]
+tests/textlayout_suite/test_palace_toolchain_pins.py ............        [ 80%]
+tests/textlayout_suite/test_palace_vertical_slice.py .............       [ 80%]
+tests/textlayout_suite/test_paraview_toolchain.py .s                     [ 80%]
+tests/textlayout_suite/test_partial_lvs.py ....                          [ 81%]
+tests/textlayout_suite/test_pdk.py ........................              [ 82%]
+tests/textlayout_suite/test_pdk_provenance.py .......................... [ 83%]
+                                                                         [ 83%]
+tests/textlayout_suite/test_platform_certification.py .....              [ 83%]
+tests/textlayout_suite/test_plugin_thin_bundle.py ..............         [ 84%]
+tests/textlayout_suite/test_polygon_drc.py ..                            [ 84%]
+tests/textlayout_suite/test_product_docs.py ............                 [ 85%]
+tests/textlayout_suite/test_project_claims.py ....................       [ 86%]
+tests/textlayout_suite/test_project_status.py .............F........     [ 87%]
+tests/textlayout_suite/test_prompt_numeric_conditioning.py ............  [ 88%]
+tests/textlayout_suite/test_prompt_parsing.py .............              [ 88%]
+tests/textlayout_suite/test_pscan2_adapter.py ......                     [ 89%]
+tests/textlayout_suite/test_readme_claims.py .................           [ 89%]
+tests/textlayout_suite/test_real_cqed_loop_demo.py .......               [ 90%]
+tests/textlayout_suite/test_reference_gds.py ......                      [ 90%]
+tests/textlayout_suite/test_reproduce_policy.py ..                       [ 90%]
+tests/textlayout_suite/test_requirements_workflow.py ................... [ 91%]
+..                                                                       [ 91%]
+tests/textlayout_suite/test_resource_sampler.py ........                 [ 92%]
+tests/textlayout_suite/test_showcase_examples.py ....................... [ 93%]
+............                                                             [ 93%]
+tests/textlayout_suite/test_simulation_postprocess.py .....              [ 94%]
+tests/textlayout_suite/test_simulator_bootstrap.py ....................  [ 95%]
+tests/textlayout_suite/test_solver_execution.py ..................       [ 96%]
+tests/textlayout_suite/test_solver_path_resolution.py ..                 [ 96%]
+tests/textlayout_suite/test_sparameters.py ...                           [ 96%]
+tests/textlayout_suite/test_synthesis_constraints.py ................... [ 97%]
+...                                                                      [ 97%]
+tests/textlayout_suite/test_touchstone_honesty.py ......                 [ 97%]
+tests/textlayout_suite/test_verification.py ......                       [ 98%]
+tests/textlayout_suite/test_workflow_graph.py .....                      [ 98%]
+tests/textlayout_suite/test_wrspice_adapter.py .....                     [ 98%]
+tests/textlayout_suite/test_wsl_bootstrap.py ..                          [ 98%]
+tests/textlayout_suite/test_yield_model.py .........................     [100%]
+
+=================================== FAILURES ===================================
+__ test_oci_integration_requires_current_runtime[False-True-IMPLEMENTED-True] __
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x133836ae0>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-35/test_oci_integration_requires_0')
+docker_available = False, image_exists = True, expected_level = 'IMPLEMENTED'
+blocked = True
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+>       matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=128, stdout='', stderr='fatal: not a git repository (or any of the parent directories): .git', timed_out=False, duration_seconds=0.012202041980344802)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: fatal: not a git repository (or any of the parent directories): .git
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_ test_oci_integration_requires_current_runtime[False-False-IMPLEMENTED-True] __
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1339bfa40>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-35/test_oci_integration_requires_1')
+docker_available = False, image_exists = False, expected_level = 'IMPLEMENTED'
+blocked = True
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+>       matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=128, stdout='', stderr='fatal: not a git repository (or any of the parent directories): .git', timed_out=False, duration_seconds=0.013781666988506913)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: fatal: not a git repository (or any of the parent directories): .git
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_ test_oci_integration_requires_current_runtime[True-False-UPSTREAM_SMOKE_PASSED-False] _
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1339bcb30>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-35/test_oci_integration_requires_2')
+docker_available = True, image_exists = False
+expected_level = 'UPSTREAM_SMOKE_PASSED', blocked = False
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+>       matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=128, stdout='', stderr='fatal: not a git repository (or any of the parent directories): .git', timed_out=False, duration_seconds=0.013159165973775089)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: fatal: not a git repository (or any of the parent directories): .git
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_ test_oci_integration_requires_current_runtime[True-True-INTEGRATION_TEST_PASSED-False] _
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x133a54680>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-35/test_oci_integration_requires_3')
+docker_available = True, image_exists = True
+expected_level = 'INTEGRATION_TEST_PASSED', blocked = False
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+>       matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=128, stdout='', stderr='fatal: not a git repository (or any of the parent directories): .git', timed_out=False, duration_seconds=0.012374958023428917)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: fatal: not a git repository (or any of the parent directories): .git
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_ TestPublishedTestCountProvenance.test_published_count_matches_the_junit_report _
+
+self = <textlayout_suite.test_project_status.TestPublishedTestCountProvenance object at 0x132426810>
+status_module = <module 'generate_project_status_v2' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_project_status.py'>
+
+    def test_published_count_matches_the_junit_report(self, status_module) -> None:
+        report = status_module._read_junit_report()
+        if report is None:
+            pytest.skip("no out/evidence/test_report.xml in this working tree")
+        published = (REPO_ROOT / "PROJECT_STATUS.md").read_text(encoding="utf-8")
+        expected = (
+            f"**{report['passed']} passed, {report['failed']} failed, {report['skipped']} skipped**"
+        )
+>       assert expected in published
+E       AssertionError: assert '**1955 passed, 5 failed, 11 skipped**' in '# Project Status\n\n<!-- GENERATED_CURRENT_STATUS: scripts/generate_project_status.py; do not hand-edit. -->\n\nGener...ATION READY** — every layout requires process-specific DRC, EM cross-check, measurement planning, and expert review.\n'
+
+tests/textlayout_suite/test_project_status.py:233: AssertionError
+=============================== warnings summary ===============================
+tests/test_ai_copilot.py:3
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.ai import DesignIntent, DesignIntentParser
+
+src/textlayout/_legacy/device_optimizer.py:24
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+    class OptimizationReport(BaseModel):
+
+src/textlayout/_legacy/extracted_device.py:39
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+    class ExtractedDevice(BaseModel):
+
+src/textlayout/_legacy/microwave_validator.py:12
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+    class MicrowaveReport(BaseModel):
+
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/pydantic/main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/ludko/Desktop/text2layout/Text-to-Layout/out/evidence/test_report.xml -
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[False-True-IMPLEMENTED-True]
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[False-False-IMPLEMENTED-True]
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[True-False-UPSTREAM_SMOKE_PASSED-False]
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[True-True-INTEGRATION_TEST_PASSED-False]
+FAILED tests/textlayout_suite/test_project_status.py::TestPublishedTestCountProvenance::test_published_count_matches_the_junit_report
+========= 5 failed, 1955 passed, 11 skipped, 518005 warnings in 45.74s =========

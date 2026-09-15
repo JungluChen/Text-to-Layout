@@ -1,0 +1,7 @@
+SKIP  01_idc_0p6pf (artifacts current)
+SKIP  02_cpw_50ohm (artifacts current)
+SKIP  03_spiral_inductor (artifacts current)
+SKIP  04_quarter_wave_resonator (artifacts current)
+TODO  05_squid_loop
+TODO  06_lc_5mhz_resonator
+Generated 0 benchmark(s); skipped 4 up-to-date.

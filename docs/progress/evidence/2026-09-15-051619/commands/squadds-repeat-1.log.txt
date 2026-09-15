@@ -1,0 +1,64 @@
+Warning: In file .tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+/Users/ludko/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/matplotlib-mk6h80xd because there was an issue with the default path (/Users/ludko/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-051619/squadds-repeat-1/variant_0/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=52944, record number=171, cell=TOP)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-051619/squadds-repeat-1/variant_1/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=31874, record number=126, cell=TOP$1)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-051619/squadds-repeat-1/variant_2/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=2882, record number=121, cell=TOP$2)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-051619/squadds-repeat-1/variant_3/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=53034, record number=171, cell=TOP$3)
+{
+  "mask_geometry_passed": true,
+  "variants_evaluated": 4,
+  "measured_device_count": 6,
+  "electrical_reproduction_status": "NOT_EVALUATED",
+  "error": null
+}
+Full evidence: out/daily/2026-09-15-051619/squadds-repeat-1/results.json

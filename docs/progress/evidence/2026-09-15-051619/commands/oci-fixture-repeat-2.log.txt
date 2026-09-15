@@ -1,0 +1,88 @@
+F..F                                                                     [100%]
+=================================== FAILURES ===================================
+__ test_oci_integration_requires_current_runtime[False-True-IMPLEMENTED-True] __
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108460980>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-38/test_oci_integration_requires_0')
+docker_available = False, image_exists = True, expected_level = 'IMPLEMENTED'
+blocked = True
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        monkeypatch.setattr(audit_module, "git_stdout", lambda *args: "a" * 40)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+        matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+        oci = next(row for row in matrix["capabilities"] if row["capability"] == "OCI stack")
+        assert oci["computed_level"] == expected_level
+        assert not oci["consistency_errors"]
+        assert bool(oci["blocked_gates"]) is blocked
+        if image_exists:
+>           assert "out/audit/klayout_image.json" in oci["evidence_hashes"]
+E           AssertionError: assert 'out/audit/klayout_image.json' in [{'exists': True, 'path': 'compose.yaml', 'sha256': 'fa6ccea1ca4e3a031d9e99f25cc05db803aa9bac642c000ddab14f6d9da54b52'... 'path': 'out/audit/klayout_image.json', 'sha256': '2e29c8ad64148e5441139d48fb09a49af17c2d35c92e9bf444839e1dfe5b439f'}]
+
+tests/textlayout_suite/test_audit_artifacts.py:353: AssertionError
+_ test_oci_integration_requires_current_runtime[True-True-INTEGRATION_TEST_PASSED-False] _
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108496510>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-38/test_oci_integration_requires_3')
+docker_available = True, image_exists = True
+expected_level = 'INTEGRATION_TEST_PASSED', blocked = False
+
+    @pytest.mark.parametrize(
+        ("docker_available", "image_exists", "expected_level", "blocked"),
+        [
+            (False, True, "IMPLEMENTED", True),
+            (False, False, "IMPLEMENTED", True),
+            (True, False, "UPSTREAM_SMOKE_PASSED", False),
+            (True, True, "INTEGRATION_TEST_PASSED", False),
+        ],
+    )
+    def test_oci_integration_requires_current_runtime(
+        audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+    ) -> None:
+        monkeypatch.setattr(audit_module, "REPO", tmp_path)
+        monkeypatch.setattr(audit_module, "git_stdout", lambda *args: "a" * 40)
+        (tmp_path / "compose.yaml").write_text("services: {}\n")
+        (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+        image = tmp_path / "out/audit/klayout_image.json"
+        if image_exists:
+            image.parent.mkdir(parents=True)
+            image.write_text('{"historical": true}\n')
+        matrix = audit_module.capability_matrix(
+            {"tools": []},
+            {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+        )
+        oci = next(row for row in matrix["capabilities"] if row["capability"] == "OCI stack")
+        assert oci["computed_level"] == expected_level
+        assert not oci["consistency_errors"]
+        assert bool(oci["blocked_gates"]) is blocked
+        if image_exists:
+>           assert "out/audit/klayout_image.json" in oci["evidence_hashes"]
+E           AssertionError: assert 'out/audit/klayout_image.json' in [{'exists': True, 'path': 'compose.yaml', 'sha256': 'fa6ccea1ca4e3a031d9e99f25cc05db803aa9bac642c000ddab14f6d9da54b52'... 'path': 'out/audit/klayout_image.json', 'sha256': '2e29c8ad64148e5441139d48fb09a49af17c2d35c92e9bf444839e1dfe5b439f'}]
+
+tests/textlayout_suite/test_audit_artifacts.py:353: AssertionError
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[False-True-IMPLEMENTED-True]
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_oci_integration_requires_current_runtime[True-True-INTEGRATION_TEST_PASSED-False]
+2 failed, 2 passed in 0.05s

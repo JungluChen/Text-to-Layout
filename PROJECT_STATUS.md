@@ -9,6 +9,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 ## CLI commands (introspected from the real parser)
 
 - `textlayout chip` — subcommands: `analyze`, `optimize`
+- `textlayout design`
 - `textlayout doctor`
 - `textlayout epr`
 - `textlayout evidence` — subcommands: `check`
@@ -33,7 +34,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 
 ## Tests
 
-- **1891 passed, 0 failed, 11 skipped** (source: out/evidence/test_report.xml (pytest JUnit report))
+- **1960 passed, 0 failed, 11 skipped** (source: out/evidence/test_report.xml (pytest JUnit report))
 
 ## Platform support
 

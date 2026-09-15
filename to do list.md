@@ -10,7 +10,9 @@ in the repository's generated evidence and retained solver artifacts.
   Codex conversation. Keep the Mac on and Codex running. Automation ID:
   `improve-text-to-layout-accuracy-first`; activated on 2026-09-15.
 - Setup documentation commit: `4f87e766fc06bf8a46cdb10d7979cdbfddd0d414`.
-  First scheduled-run verification remains pending; see the setup report.
+  First attempt was usage-blocked; resumed audit/reporting is recorded in
+  `docs/progress/2026-09-15-051619.md`. The schedule was verified and restored
+  to 01:00 Taipei during that continuation.
 - Read `AGENTS.md`, `docs/development/reproduce_before_edit.md`, this list,
   previous `docs/progress/` reports, and current Git/CI state before working.
 - Read `REQUIREMENTS.md` and `Design.md` for the approved product surfaces and
@@ -54,19 +56,24 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### 1. Audit current numerical and reference-validation work
 
-- **Status:** TODO; first scheduled run.
+- **Status:** IMPLEMENTED LOCALLY; publication and exact-SHA CI confirmation pending.
 - **Acceptance:** Existing changes and unpublished commits reviewed in coherent
   groups; focused tests and full publication gates recorded; numerical and
   benchmark claims agree with regenerated evidence; only verified work pushed.
 - **Evidence:** Initial local HEAD `c613767103178fe1437a34b70f1bec780ab89441`;
   initial remote HEAD `f4da3b5e2d1a0093fde132e8dc46c52b508376ee`;
   see `docs/progress/2026-09-15-setup.md`.
-- **Next:** Inspect current status and the four initially unpublished commits
-  (`0681852`, `f03918c`, `52ac988`, `c613767`), audit requirements/reference-GDS
-  changes, establish a fresh test baseline, and follow reproduction policy for
-  failures before editing. Recheck current SHAs; setup documentation may advance
-  remote and local history before the first scheduled run.
-- **Completion commits:** Pending.
+- **Current evidence:** `docs/progress/2026-09-15-051619.md`; fresh full suite
+  1,960 passed/11 skipped, repeated 64-case numerical grid, 16 real FastHenry
+  cases and four reference masks. Requirements report consistency and OCI
+  evidence classification were corrected with reproduced failure evidence.
+- **Next:** Publish the reviewed work and inspect CI on its exact commit;
+  do not mark completion while required jobs are pending. Actual unpublished
+  source commits reviewed were `f03918c`, `52ac988`, `c613767`; the setup's
+  `0681852` pointer is absent from current local history.
+- **Implementation commits:** `d1061bce7827c55fe5083bf2d83adc37dab510a0`,
+  `5f114b2039cdb1f2f37056d44eb0e4426891cb56`,
+  `fa6a31af51374bf2dc051061d261c527ce3a6268`. Completion awaits publication/CI.
 
 ### 2. Restore Palace integration with valid scientific evidence
 
@@ -79,7 +86,7 @@ in the repository's generated evidence and retained solver artifacts.
   returned `SKIPPED_SOLVER_ABSENT` and exit 1. Solver discovery/invocation is a
   diagnostic lead, not an established root cause.
 - **Next:** Read the full run logs and compact artifact; compare smoke and
-  resonator discovery paths, including unpublished commit `0681852`; reproduce
+  resonator discovery paths in the actual current history; reproduce
   the smallest faithful case twice before editing, then verify the full case.
 - **Completion commits:** Pending.
 

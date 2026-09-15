@@ -1,0 +1,23 @@
+* Text-to-Layout square spiral
+.units um
+.default sigma=58
+N1 x=2 y=2 z=0
+N2 x=121.6161 y=2 z=0
+N3 x=121.6161 y=121.6161 z=0
+N4 x=2 y=121.6161 z=0
+N5 x=2 y=8 z=0
+N6 x=8 y=8 z=0
+N7 x=115.6161 y=8 z=0
+N8 x=115.6161 y=115.6161 z=0
+N9 x=8 y=115.6161 z=0
+E1 N1 N2 w=4 h=0.2
+E2 N2 N3 w=4 h=0.2
+E3 N3 N4 w=4 h=0.2
+E4 N4 N5 w=4 h=0.2
+E5 N5 N6 w=4 h=0.2
+E6 N6 N7 w=4 h=0.2
+E7 N7 N8 w=4 h=0.2
+E8 N8 N9 w=4 h=0.2
+.external N1 N9
+.freq fmin=1e6 fmax=1e10 ndec=20
+.end

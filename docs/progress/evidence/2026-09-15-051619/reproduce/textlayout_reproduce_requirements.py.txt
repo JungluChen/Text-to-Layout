@@ -1,0 +1,16 @@
+import json
+from pathlib import Path
+from textlayout import build_default_workflow
+from textlayout.requirements import DesignRequirements, run_requirements
+
+out=Path('/Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-051619/target-consistency')
+request=DesignRequirements(quantity='quarter_wave_frequency_ghz',value=6,tolerance_percent=1e-12)
+result=run_requirements(request,out,workflow=build_default_workflow(),execute_solver=False)
+verification=json.loads((out/'verification.json').read_text())
+requirements=json.loads((out/'requirements_verification.json').read_text())
+summary={'returned_ok':result.ok,'verification_status':verification['status'],
+         'requirements_status':requirements['status'],
+         'requirements_target':[c for c in requirements['checks'] if c['name']=='requirements_target'],
+         'evidence_status':result.evidence.status.value}
+print(json.dumps(summary,indent=2))
+assert verification['status']==requirements['status'], 'Exported verification disagrees with requirements verdict'

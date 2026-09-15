@@ -205,3 +205,58 @@ are expected to differ. No commercial solver, API key, GPU or pretrained model
 was used. Native Linux execution, full-wave paper parity, kinetic inductance,
 mesh convergence and fabrication qualification remain outside the evidence
 produced by this local Mac audit.
+
+## Follow-up — electrical goals and original paper layouts
+
+The user requested continued improvement of the whole project. Added strict
+`DesignRequirements`, `textlayout design`, `demo.py --requirements`, and
+`POST /layout/from-goal`. One typed electrical goal selects a supported topology
+and runs the existing graph. Width/gap minima respect both user limits and PDK
+rules; footprint and electrical-target failures affect the returned verdict.
+The review distinguishes the analytical target check from actual extraction
+and from process/bandwidth qualification.
+
+A stress case exposed expensive geometry generation for an unreachable
+10,000 pF target. The faithful bounded sizing probe was repeated unchanged:
+the best estimate was 530.19117 pF at 2,000 finger pairs and 2,000 um overlap,
+with `converged=false`. Added a sizing preflight so this case fails promptly
+with `InvalidParametersError` and retained feasibility evidence. Tiny targets
+outside the same bounds also fail. The focused 19-test requirements population
+passed repeated runs; it covers all four topologies, impossible targets,
+footprint failures, strict numeric/unknown-field rejection, CLI and HTTP use.
+
+The first full follow-up suite exposed two stale generated CLI-manifest checks.
+Both failed identically on rerun. Regenerated the status through the prescribed
+`scripts/generate_project_status.py`; both original checks passed twice, then
+the complete suite passed **1,948 tests, 11 skipped**. The status report is
+refreshed from the final passing JUnit evidence rather than the intermediate
+failure report. Subsequent reference-geometry tests are recorded separately.
+
+Located actual SQuADDS WM1 GDS and six measured-device records from their
+primary repositories. Added hash-pinned local fetching and exact per-layer
+geometry comparison through independent KLayout readback after gdsfactory
+import/export. All four original top variants pass, including labels and
+bounding boxes, on repeated runs. Regression cases reject a 1-DBU shift,
+added layer, changed label, changed DBU and ambiguous top-cell selection.
+`benchmarks/squadds_reference/` retains the result matrix, six source-reported
+measurement records, source revisions/hashes and repeated execution metadata.
+No GDS is redistributed and no upstream notebook is executed.
+
+Published mask preservation is now demonstrated. Matched electrical extraction
+remains `NOT_EVALUATED`: the fabricated top variant is not yet identified, the
+fabrication recipe is confidential, and full ports/stack/junction/FEM setup
+and converged predictions are absent. The measurements are not relabeled as
+calibration of the generic PDK. The 64-case local grid and 16-case actual
+FastHenry population both pass again with the new goal workflow present
+(`goals_benchmark`).
+
+## Scheduled audit — 2026-09-15
+
+Fresh verification supersedes the historical follow-up counts above:
+**1,960 passed, 0 failed, 11 skipped** after resolving inconsistent requirements
+target reports and correcting historical Docker evidence classification.
+The 64-case grid, 16-case actual FastHenry population and four WM1 mask variants
+all passed repeated runs with unchanged numerical results. This does not add
+Palace convergence, matched paper electrical reproduction or platform certification.
+See `docs/progress/2026-09-15-051619.md` and its retained command/solver evidence
+for reproduced failures, fixes, generated status, publication and continuation.

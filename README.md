@@ -19,6 +19,7 @@ is recommended for the tested environment:
 ```bash
 uv sync --frozen --python 3.12
 uv run python demo.py --prompt "Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap" --no-solver
+uv run textlayout design examples/requirements/50ohm_connection.json --out out/connection --no-solver
 ```
 
 The output folder contains GDS, PNG/SVG previews, typed requirements, independent
@@ -26,6 +27,13 @@ KLayout checks, and `design_review.json`. The review records the chosen
 dimensions, physical equations, assumptions, engineering rules and solver
 status. With an activated virtual environment the command is simply
 `python demo.py --prompt "..."`.
+
+For AI callers, `textlayout design` and `POST /layout/from-goal` accept a strict
+electrical goal with process and footprint limits. The workflow chooses a
+supported device, sizes it from the stated model, checks the exported geometry,
+and records the target verdict in `requirements_verification.json`. Unknown
+requirements are rejected; unreachable bounded searches fail before generating
+large layouts. See the [goal schema and example](docs/ai_design_workflow.md).
 
 For real spiral-inductance extraction on macOS/Linux, install the pinned native
 FastHenry build (requires `git`, `make`, `clang`, and `bash`):
@@ -56,6 +64,7 @@ These are separate from the historical showcase evidence below.
 | Spiral independent GDS readback | 0/16 | 16/16 | Corrected reversed path segments and full-width joins |
 | Fresh FastHenry local spirals | Not installed | 16/16 | Solver executed and inductance within 5%; worst error 4.802% |
 | Mohan Table IV model reproduction | Not evaluated | 29/29 | All integer-turn square rows, ≤0.5 percentage-point deviation from printed model errors |
+| Original SQuADDS WM1 mask preservation | Not evaluated | 4/4 variants | Exact per-layer GDS geometry and label comparison after gdsfactory import/export |
 
 For the same 29 published devices, the paper model's RMS measurement error is
 8.9787%; this implementation gives 8.9369%. Maximum deviation from the printed
@@ -71,8 +80,15 @@ paper frequencies used as prompt seeds are never counted as reproduction.
 See [the source-linked specification](BENCHMARK_SPEC.md) for topology, material,
 port, and solver requirements.
 
-The complete audit test run passed **1,929 tests**, with **11 skipped**. The
-64-case grid and 16-case solver sweep also passed unchanged reruns. SciPy now
+Run `uv run python scripts/validate_squadds_reference.py` to fetch the pinned
+WM1 GDS and six published measurement records. Subsequent runs support
+`--offline`. [Retained mask comparison](benchmarks/squadds_reference/report.md)
+shows zero geometry differences for all original variants. Matching those masks
+does not reproduce their measured electrical performance.
+
+The earlier numerical audit test run passed **1,929 tests**, with **11 skipped**;
+the latest full-suite result is generated in [PROJECT_STATUS.md](PROJECT_STATUS.md).
+The 64-case grid and 16-case solver sweep also passed unchanged reruns. SciPy now
 solves constrained CPW dimensions, gdsfactory exports, KLayout checks the actual
 GDS, and FastHenry provides independent inductance extraction. No benchmark
 result establishes universal replacement of commercial EDA or foundry signoff.

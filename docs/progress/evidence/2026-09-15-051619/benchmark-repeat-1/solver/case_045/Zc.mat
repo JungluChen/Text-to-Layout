@@ -1,0 +1,163 @@
+Row 1:  n1  to  n9
+Impedance matrix for frequency = 1e+06 1 x 1
+       55.2922    +0.0263395j 
+Impedance matrix for frequency = 1.12202e+06 1 x 1
+       55.2922    +0.0295534j 
+Impedance matrix for frequency = 1.25893e+06 1 x 1
+       55.2922    +0.0331595j 
+Impedance matrix for frequency = 1.41254e+06 1 x 1
+       55.2922    +0.0372055j 
+Impedance matrix for frequency = 1.58489e+06 1 x 1
+       55.2922    +0.0417453j 
+Impedance matrix for frequency = 1.77828e+06 1 x 1
+       55.2922     +0.046839j 
+Impedance matrix for frequency = 1.99526e+06 1 x 1
+       55.2922    +0.0525542j 
+Impedance matrix for frequency = 2.23872e+06 1 x 1
+       55.2922    +0.0589668j 
+Impedance matrix for frequency = 2.51189e+06 1 x 1
+       55.2922    +0.0661618j 
+Impedance matrix for frequency = 2.81838e+06 1 x 1
+       55.2922    +0.0742348j 
+Impedance matrix for frequency = 3.16228e+06 1 x 1
+       55.2922    +0.0832928j 
+Impedance matrix for frequency = 3.54813e+06 1 x 1
+       55.2922    +0.0934561j 
+Impedance matrix for frequency = 3.98107e+06 1 x 1
+       55.2922     +0.104859j 
+Impedance matrix for frequency = 4.46684e+06 1 x 1
+       55.2922     +0.117654j 
+Impedance matrix for frequency = 5.01187e+06 1 x 1
+       55.2922      +0.13201j 
+Impedance matrix for frequency = 5.62341e+06 1 x 1
+       55.2922     +0.148118j 
+Impedance matrix for frequency = 6.30957e+06 1 x 1
+       55.2922     +0.166191j 
+Impedance matrix for frequency = 7.07946e+06 1 x 1
+       55.2922     +0.186469j 
+Impedance matrix for frequency = 7.94328e+06 1 x 1
+       55.2922     +0.209222j 
+Impedance matrix for frequency = 8.91251e+06 1 x 1
+       55.2922     +0.234751j 
+Impedance matrix for frequency = 1e+07 1 x 1
+       55.2922     +0.263395j 
+Impedance matrix for frequency = 1.12202e+07 1 x 1
+       55.2922     +0.295534j 
+Impedance matrix for frequency = 1.25893e+07 1 x 1
+       55.2922     +0.331595j 
+Impedance matrix for frequency = 1.41254e+07 1 x 1
+       55.2922     +0.372055j 
+Impedance matrix for frequency = 1.58489e+07 1 x 1
+       55.2922     +0.417453j 
+Impedance matrix for frequency = 1.77828e+07 1 x 1
+       55.2922      +0.46839j 
+Impedance matrix for frequency = 1.99526e+07 1 x 1
+       55.2922     +0.525542j 
+Impedance matrix for frequency = 2.23872e+07 1 x 1
+       55.2922     +0.589668j 
+Impedance matrix for frequency = 2.51189e+07 1 x 1
+       55.2922     +0.661618j 
+Impedance matrix for frequency = 2.81838e+07 1 x 1
+       55.2922     +0.742348j 
+Impedance matrix for frequency = 3.16228e+07 1 x 1
+       55.2922     +0.832928j 
+Impedance matrix for frequency = 3.54813e+07 1 x 1
+       55.2922     +0.934561j 
+Impedance matrix for frequency = 3.98107e+07 1 x 1
+       55.2922      +1.04859j 
+Impedance matrix for frequency = 4.46684e+07 1 x 1
+       55.2922      +1.17654j 
+Impedance matrix for frequency = 5.01187e+07 1 x 1
+       55.2922       +1.3201j 
+Impedance matrix for frequency = 5.62341e+07 1 x 1
+       55.2922      +1.48118j 
+Impedance matrix for frequency = 6.30957e+07 1 x 1
+       55.2922      +1.66191j 
+Impedance matrix for frequency = 7.07946e+07 1 x 1
+       55.2922      +1.86469j 
+Impedance matrix for frequency = 7.94328e+07 1 x 1
+       55.2922      +2.09222j 
+Impedance matrix for frequency = 8.91251e+07 1 x 1
+       55.2922      +2.34751j 
+Impedance matrix for frequency = 1e+08 1 x 1
+       55.2922      +2.63395j 
+Impedance matrix for frequency = 1.12202e+08 1 x 1
+       55.2922      +2.95534j 
+Impedance matrix for frequency = 1.25893e+08 1 x 1
+       55.2922      +3.31595j 
+Impedance matrix for frequency = 1.41254e+08 1 x 1
+       55.2922      +3.72055j 
+Impedance matrix for frequency = 1.58489e+08 1 x 1
+       55.2922      +4.17453j 
+Impedance matrix for frequency = 1.77828e+08 1 x 1
+       55.2922       +4.6839j 
+Impedance matrix for frequency = 1.99526e+08 1 x 1
+       55.2922      +5.25542j 
+Impedance matrix for frequency = 2.23872e+08 1 x 1
+       55.2922      +5.89668j 
+Impedance matrix for frequency = 2.51189e+08 1 x 1
+       55.2922      +6.61618j 
+Impedance matrix for frequency = 2.81838e+08 1 x 1
+       55.2922      +7.42348j 
+Impedance matrix for frequency = 3.16228e+08 1 x 1
+       55.2922      +8.32928j 
+Impedance matrix for frequency = 3.54813e+08 1 x 1
+       55.2922      +9.34561j 
+Impedance matrix for frequency = 3.98107e+08 1 x 1
+       55.2922      +10.4859j 
+Impedance matrix for frequency = 4.46684e+08 1 x 1
+       55.2922      +11.7654j 
+Impedance matrix for frequency = 5.01187e+08 1 x 1
+       55.2922       +13.201j 
+Impedance matrix for frequency = 5.62341e+08 1 x 1
+       55.2922      +14.8118j 
+Impedance matrix for frequency = 6.30957e+08 1 x 1
+       55.2922      +16.6191j 
+Impedance matrix for frequency = 7.07946e+08 1 x 1
+       55.2922      +18.6469j 
+Impedance matrix for frequency = 7.94328e+08 1 x 1
+       55.2922      +20.9222j 
+Impedance matrix for frequency = 8.91251e+08 1 x 1
+       55.2922      +23.4751j 
+Impedance matrix for frequency = 1e+09 1 x 1
+       55.2922      +26.3395j 
+Impedance matrix for frequency = 1.12202e+09 1 x 1
+       55.2922      +29.5534j 
+Impedance matrix for frequency = 1.25893e+09 1 x 1
+       55.2922      +33.1595j 
+Impedance matrix for frequency = 1.41254e+09 1 x 1
+       55.2922      +37.2055j 
+Impedance matrix for frequency = 1.58489e+09 1 x 1
+       55.2922      +41.7453j 
+Impedance matrix for frequency = 1.77828e+09 1 x 1
+       55.2922       +46.839j 
+Impedance matrix for frequency = 1.99526e+09 1 x 1
+       55.2922      +52.5542j 
+Impedance matrix for frequency = 2.23872e+09 1 x 1
+       55.2922      +58.9668j 
+Impedance matrix for frequency = 2.51189e+09 1 x 1
+       55.2922      +66.1618j 
+Impedance matrix for frequency = 2.81838e+09 1 x 1
+       55.2922      +74.2348j 
+Impedance matrix for frequency = 3.16228e+09 1 x 1
+       55.2922      +83.2928j 
+Impedance matrix for frequency = 3.54813e+09 1 x 1
+       55.2922      +93.4561j 
+Impedance matrix for frequency = 3.98107e+09 1 x 1
+       55.2922      +104.859j 
+Impedance matrix for frequency = 4.46684e+09 1 x 1
+       55.2922      +117.654j 
+Impedance matrix for frequency = 5.01187e+09 1 x 1
+       55.2922       +132.01j 
+Impedance matrix for frequency = 5.62341e+09 1 x 1
+       55.2922      +148.118j 
+Impedance matrix for frequency = 6.30957e+09 1 x 1
+       55.2922      +166.191j 
+Impedance matrix for frequency = 7.07946e+09 1 x 1
+       55.2922      +186.469j 
+Impedance matrix for frequency = 7.94328e+09 1 x 1
+       55.2922      +209.222j 
+Impedance matrix for frequency = 8.91251e+09 1 x 1
+       55.2922      +234.751j 
+Impedance matrix for frequency = 1e+10 1 x 1
+       55.2922      +263.395j 
