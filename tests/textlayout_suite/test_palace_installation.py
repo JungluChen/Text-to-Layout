@@ -4,6 +4,8 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / "scripts" / "external"
 
@@ -133,3 +135,71 @@ def test_capability_can_use_verified_install_manifest(monkeypatch, tmp_path: Pat
     assert detected.available is True
     assert detected.version == "0.17.0"
     assert detected.executable_sha256 == "b" * 64
+
+
+@pytest.fixture
+def native_discovery(monkeypatch, tmp_path):
+    from textlayout.simulation import runners
+    from textlayout.solvers.palace import capability
+
+    record = tmp_path / "install.json"
+    executable = tmp_path / "spack-opt" / "palace" / "bin" / "palace"
+    executable.parent.mkdir(parents=True)
+    # Discovery only: this fixture is never executed or used as solver evidence.
+    executable.write_text("# Discovery fixture; not a solver.\n", encoding="utf-8")
+    executable.chmod(0o755)
+    monkeypatch.setattr(capability, "_INSTALL_RECORD", record)
+    monkeypatch.setattr(runners, "_ROOT", tmp_path)
+    monkeypatch.setenv("PATH", "")
+    for name in ("TEXTLAYOUT_PALACE", "TEXTLAYOUT_PALACE_SIF", "TEXTLAYOUT_PALACE_IMAGE"):
+        monkeypatch.delenv(name, raising=False)
+    return capability, record, executable
+
+
+def test_native_install_record_outside_path_is_discovered(native_discovery):
+    import hashlib
+    import json
+
+    capability, record, executable = native_discovery
+    record.write_text(json.dumps({"palace_executable": str(executable)}), encoding="utf-8")
+    detected = capability.detect_palace(probe_version=False)
+    assert detected.available and detected.executable == str(executable)
+    assert detected.executable_sha256 == hashlib.sha256(executable.read_bytes()).hexdigest()
+    assert detected.version is None  # No fixture process was launched.
+
+
+@pytest.mark.parametrize("override", ["explicit", "environment"])
+def test_native_record_does_not_override_caller_choice(native_discovery, monkeypatch, override):
+    import json
+
+    capability, record, executable = native_discovery
+    chosen = executable.with_name("chosen-palace")
+    chosen.write_bytes(executable.read_bytes())
+    chosen.chmod(0o755)
+    record.write_text(json.dumps({"palace_executable": str(executable)}), encoding="utf-8")
+    if override == "environment":
+        monkeypatch.setenv("TEXTLAYOUT_PALACE", str(chosen))
+    detected = capability.detect_palace(
+        explicit=str(chosen) if override == "explicit" else None, probe_version=False)
+    assert detected.executable == str(chosen)
+
+
+@pytest.mark.parametrize("record_text", [
+    "[]", "null", "{broken", '{"palace_executable": 42}',
+    '{"palace_executable": "/missing/spack/palace"}',
+    '{"palace_executable": "relative/palace"}',
+])
+def test_unusable_native_record_keeps_normal_discovery(native_discovery, monkeypatch, record_text):
+    capability, record, executable = native_discovery
+    record.write_text(record_text, encoding="utf-8")
+    # Spy on the existing resolver: unusable records must not become an explicit
+    # override, so PATH/local-tools discovery can still find another installation.
+    calls = []
+
+    def resolve(names, explicit=None, **kwargs):
+        calls.append((names, explicit))
+        return str(executable) if names[0] == "palace" and explicit is None else None
+
+    monkeypatch.setattr(capability, "find_executable", resolve)
+    assert capability.detect_palace(probe_version=False).executable == str(executable)
+    assert calls[0] == (("palace", "palace.exe"), None)
