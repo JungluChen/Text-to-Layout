@@ -845,7 +845,18 @@ def capability_matrix(tool_payload: dict[str, Any], run_payload: dict[str, Any] 
             [
                 Gate("docker configuration exists", "IMPLEMENTED", path_exists("compose.yaml") and path_exists("docker-bake.hcl"), ("compose.yaml", "docker-bake.hcl")),
                 Gate("docker daemon available", "UPSTREAM_SMOKE_PASSED", docker_ok, reason="Docker daemon unavailable", blocked=not docker_ok),
-                Gate("image build evidence exists", "INTEGRATION_TEST_PASSED", path_exists("out/audit/klayout_image.json"), ("out/audit/klayout_image.json",)),
+                Gate(
+                    "image build evidence with available runtime",
+                    "INTEGRATION_TEST_PASSED",
+                    docker_ok and path_exists("out/audit/klayout_image.json"),
+                    ("out/audit/klayout_image.json",),
+                    reason=(
+                        "Docker daemon unavailable; retained image evidence does not establish current integration"
+                        if not docker_ok
+                        else "Image build evidence missing"
+                    ),
+                    blocked=not docker_ok,
+                ),
             ],
             commit,
         ),

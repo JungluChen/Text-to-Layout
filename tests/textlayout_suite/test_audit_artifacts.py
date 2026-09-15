@@ -321,6 +321,40 @@ def test_capability_level_from_real_gate_files(audit_module) -> None:
     assert core["evidence_hashes"]
 
 
+@pytest.mark.parametrize(
+    ("docker_available", "image_exists", "expected_level", "blocked"),
+    [
+        (False, True, "IMPLEMENTED", True),
+        (False, False, "IMPLEMENTED", True),
+        (True, False, "UPSTREAM_SMOKE_PASSED", False),
+        (True, True, "INTEGRATION_TEST_PASSED", False),
+    ],
+)
+def test_oci_integration_requires_current_runtime(
+    audit_module, monkeypatch, tmp_path, docker_available, image_exists, expected_level, blocked
+) -> None:
+    monkeypatch.setattr(audit_module, "REPO", tmp_path)
+    monkeypatch.setattr(audit_module, "git_stdout", lambda *args: "a" * 40)
+    (tmp_path / "compose.yaml").write_text("services: {}\n")
+    (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+    image = tmp_path / "out/audit/klayout_image.json"
+    if image_exists:
+        image.parent.mkdir(parents=True)
+        image.write_text('{"historical": true}\n')
+    matrix = audit_module.capability_matrix(
+        {"tools": []},
+        {"container_runtime": {"docker_ps": {"return_code": 0 if docker_available else 1}}},
+    )
+    oci = next(row for row in matrix["capabilities"] if row["capability"] == "OCI stack")
+    assert oci["computed_level"] == expected_level
+    assert not oci["consistency_errors"]
+    assert bool(oci["blocked_gates"]) is blocked
+    if image_exists:
+        retained = next(row for row in oci["evidence_hashes"]
+                        if row["path"] == "out/audit/klayout_image.json")
+        assert retained["exists"] and retained["sha256"]
+
+
 def _capability(audit_module, gates):
     return audit_module.capability_result(
         "test capability",
