@@ -26,6 +26,17 @@
 
 ## Execution
 
+- **Smoke passes but the resonator says `SKIPPED_SOLVER_ABSENT`** — compare
+  `.tools/palace/install.json` with the benchmark's `toolchain.json`. A native
+  Spack executable can live outside PATH. The earlier discovery implementation
+  reads recorded WSL paths but ignores recorded native paths; this was reproduced
+  with a discovery-only fixture on 2026-09-15. Set `TEXTLAYOUT_PALACE` to the
+  exact verified `palace_executable` value for explicit discovery, or wait for
+  the native-discovery candidate's solver-enabled validation before adopting it.
+  Do not rerun installation or launch a duplicate solver just because discovery
+  failed. Inspect existing stage/job state first. See
+  [the candidate report](../progress/2026-09-15-132123.md) for current validation
+  status; installation/smoke success does not establish benchmark convergence.
 - **`check_palace.py` stays at `INSTALLED`** — the smoke test has not
   passed. Run `uv run python scripts/external/run_palace_smoke.py` and read
   `out/toolchain/palace_smoke/palace.stderr.txt` on failure.

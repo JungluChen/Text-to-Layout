@@ -79,7 +79,9 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### 2. Restore Palace integration with valid scientific evidence
 
-- **Status:** TODO; failure localized in remote logs, not reproduced or fixed.
+- **Status:** IN PROGRESS; native-record discovery defect reproduced twice and
+  fixed on an isolated candidate branch. Real solver validation pending;
+  no candidate code promoted to main yet.
 - **Acceptance:** Verified install, official smoke test, reduced CPW benchmark,
   real solver invocation, convergence and retained evidence all pass required
   checks; original failure is reproduced and repeated fix verification retained.
@@ -90,9 +92,15 @@ in the repository's generated evidence and retained solver artifacts.
 - **Next:** Existing failure logs and artifact `10342591878` are retained under
   `docs/progress/evidence/2026-09-15-051619/palace-existing-failure/`. The official
   smoke command uses the native Spack executable from the install record, but
-  `detect_palace_capability` only consumes recorded paths with the `wsl:` prefix.
-  Reproduce the native-record/PATH mismatch twice before editing; then verify
-  the original solver-enabled workflow and all scientific acceptance gates.
+  `detect_palace` only consumes recorded paths with the `wsl:` prefix in the
+  current main implementation. Candidate `8705804045700d4b2bd87bd1d8e4c79839fd955d`
+  on `codex/palace-native-discovery-20260915` passes both original discovery
+  reproductions, nine new regression cases and the full 1,969-test suite
+  (11 skipped). See `docs/progress/2026-09-15-132123.md`.
+  Inspect existing Palace run `34932740535` (job `104264198805`) and candidate
+  CI `34932724963` before starting anything. Download and review their retained
+  artifacts; require real reduced-benchmark execution, repeated verification,
+  convergence and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.
 
 ### 3. Audit scientific correctness across simulation tools

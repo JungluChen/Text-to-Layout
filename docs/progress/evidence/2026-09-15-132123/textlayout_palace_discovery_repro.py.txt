@@ -1,0 +1,22 @@
+"""Discovery-only fixture; does not execute or impersonate a scientific solver."""
+import hashlib
+import json
+import os
+from pathlib import Path
+from unittest.mock import patch
+from textlayout.solvers.palace import capability
+from textlayout.simulation import runners
+
+root=Path('/Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-132123/discovery-fixture')
+exe=root/'spack-opt/palace-0.17.0-fixture/bin/palace'
+exe.parent.mkdir(parents=True,exist_ok=True)
+exe.write_text('# Discovery fixture only. Never execute this file.\n')
+exe.chmod(0o755)
+record=root/'install.json'
+record.write_text(json.dumps({'palace_executable':str(exe)})+'\n')
+with patch.object(capability,'_INSTALL_RECORD',record), patch.object(runners,'_ROOT',root), patch.dict(os.environ,{'PATH':''},clear=True):
+    control=capability.detect_palace(explicit=str(exe),probe_version=False)
+    detected=capability.detect_palace(probe_version=False)
+print(json.dumps({'scope':'Discovery-only unit fixture; no solver executed','explicit_available':control.available,'record_available':detected.available,'record_executable':detected.executable,'expected_executable':str(exe),'record_sha256':hashlib.sha256(record.read_bytes()).hexdigest()},indent=2))
+assert control.available
+assert detected.available and detected.executable==str(exe), 'Native install-record path was ignored'

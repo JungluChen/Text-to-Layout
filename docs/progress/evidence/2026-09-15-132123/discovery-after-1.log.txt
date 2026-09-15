@@ -1,0 +1,8 @@
+{
+  "scope": "Discovery-only unit fixture; no solver executed",
+  "explicit_available": true,
+  "record_available": true,
+  "record_executable": "/Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-132123/discovery-fixture/spack-opt/palace-0.17.0-fixture/bin/palace",
+  "expected_executable": "/Users/ludko/Desktop/text2layout/Text-to-Layout/out/daily/2026-09-15-132123/discovery-fixture/spack-opt/palace-0.17.0-fixture/bin/palace",
+  "record_sha256": "f0392b81f1dbe78dddeebf4af01bbf9cd76d51074614efc1994fa18c53383a76"
+}
