@@ -97,10 +97,14 @@ in the repository's generated evidence and retained solver artifacts.
   on `codex/palace-native-discovery-20260915` passes both original discovery
   reproductions, nine new regression cases and the full 1,969-test suite
   (11 skipped). See `docs/progress/2026-09-15-132123.md`.
-  Inspect existing Palace run `34932740535` (job `104264198805`) and candidate
-  CI `34932724963` before starting anything. Download and review their retained
-  artifacts; require real reduced-benchmark execution, repeated verification,
-  convergence and valid evidence before promotion. Do not dispatch a duplicate.
+  Candidate CI `34932724963` passed. Palace attempt 1 (job `104264198805`)
+  passed install/smoke but the runner shut down during the reduced benchmark
+  (exit 143); no compact artifacts were uploaded. The cause is not established.
+  After account access recovered, the same job was rerun unchanged on September
+  20: run `34932740535`, **attempt 2**, job `105933606196`. Monitor this existing
+  attempt before starting anything. See `docs/progress/2026-09-20-010143.md`.
+  Require real reduced-benchmark execution, repeated verification, convergence
+  and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.
 
 ### 3. Audit scientific correctness across simulation tools

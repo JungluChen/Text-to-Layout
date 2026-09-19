@@ -1,0 +1,46 @@
+{
+  "retained_at": "2026-09-20T01:05:43+08:00",
+  "run_id": 34932740535,
+  "attempt": 1,
+  "scope": "Interrupted attempt 1 without benchmark artifacts; active attempt 2 metadata snapshot, not a simulation result",
+  "files": [
+    {
+      "source": "/private/tmp/palace-34932740535.log",
+      "retained": "attempt1-failed-job.log.txt",
+      "sha256": "0c670cdbf2921df8922bd63b1294091fb7be2ca968418767cf7a4193ec1ee3b4",
+      "bytes": 99039
+    },
+    {
+      "source": "/private/tmp/palace-34932740535-attempt1.json",
+      "retained": "attempt1-run.json",
+      "sha256": "9622a834f074e82d0c146047588efe018e42348a29cd4a56c65628f64aae4269",
+      "bytes": 13484
+    },
+    {
+      "source": "/private/tmp/palace-34932740535-attempt1-jobs.json",
+      "retained": "attempt1-jobs.json",
+      "sha256": "188f915683e35bcd1850f592c685c474b5745843031c2ea6740805279b74915a",
+      "bytes": 4467
+    },
+    {
+      "source": "/private/tmp/palace-34932740535-artifacts.json",
+      "retained": "artifacts-before-rerun.json",
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+      "bytes": 32
+    },
+    {
+      "source": "GitHub API actions/runs/34932740535/attempts/2",
+      "retained": "attempt2-run-snapshot.json",
+      "attempt": 2,
+      "sha256": "3e37218df9a0d1e10367c80eec25d551044fe5506da8a3cb679ddab8a09b2508",
+      "bytes": 13569
+    },
+    {
+      "source": "GitHub API actions/runs/34932740535/attempts/2/jobs",
+      "retained": "attempt2-jobs-snapshot.json",
+      "attempt": 2,
+      "sha256": "5e66b219bcf4c6aa0bde38ac7fa31b3d3991be45bc87015f56e0553ede4718b7",
+      "bytes": 3755
+    }
+  ]
+}
