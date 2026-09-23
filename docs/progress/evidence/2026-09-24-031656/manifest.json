@@ -136,6 +136,122 @@
       "path": "gate-13.log",
       "bytes": 43,
       "sha256": "20a065f4a71a1df232c9467cbb90b7d5642491582c4d8eeeffa7eb276ffef1ef"
+    },
+    {
+      "path": "35915634148-log.txt",
+      "bytes": 160034,
+      "sha256": "671b0eda2f22def768b81852eb1f5473c139107005b9ed46c8cb47dd59c0e4ee"
+    },
+    {
+      "path": "35915634148-jobs.txt",
+      "bytes": 30826,
+      "sha256": "97b0dd8ba5283360ba04a1544976d173cc475b17cad9ade48429618f5b8f367b"
+    },
+    {
+      "path": "35915634148-artifacts.txt",
+      "bytes": 32,
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c"
+    },
+    {
+      "path": "35915053169-log.txt",
+      "bytes": 105859,
+      "sha256": "52c7416b6ca37bd7ac69c35720c7e6325f513d514ad8b3ebe2317bd6e0b17246"
+    },
+    {
+      "path": "35915053169-jobs.txt",
+      "bytes": 4845,
+      "sha256": "3e4a0537aa9b11ad968090d01a075fe2700866aef3c9780450826b7910675db1"
+    },
+    {
+      "path": "35915053169-artifacts.txt",
+      "bytes": 765,
+      "sha256": "5f5648fd246a4661f9bdd582dd92974e38be09878c9e0879fbdb07d5bb85ceb2"
+    },
+    {
+      "path": "ci-rerun-attempt2.json",
+      "bytes": 13243,
+      "sha256": "8e6f50b34a30fb41f409afa381d1ef6b2beccf0dbd1057a43f0daceca65204d3"
+    },
+    {
+      "path": "checkpoint/out/toolchain/runner_resources.txt",
+      "bytes": 1248,
+      "sha256": "6c901f4c8f2bf1b10840a583c4ee4ceab93bc465924436fdee2f71a97f6d2b54"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.stderr.txt",
+      "bytes": 424,
+      "sha256": "8ca8c38a0c1d0fef2cc43fc03d7f9436afdad49372124c248e4e8df3020fe929"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.json",
+      "bytes": 2754,
+      "sha256": "3837083159abf6a69f06ea1508a73cf142e4038d7fc6d022de49ad75fca14a88"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.stdout.txt",
+      "bytes": 63345,
+      "sha256": "69e035af424c5302edf43b78907ecd252013bd1344c30a3ba9a9d7364ea0933c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_check.json",
+      "bytes": 3619,
+      "sha256": "0ee2a15ff37dc9f3cca9e8ee1fdac304051b616ba71b845e37de7f4a11716c7c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/palace.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/result.json",
+      "bytes": 1375,
+      "sha256": "dd27fbdca9297c1b66821d11ff2837be9909f85f0eb99d23d9198ca0961825e3"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/cavity2d.json",
+      "bytes": 912,
+      "sha256": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/palace.stdout.txt",
+      "bytes": 19382,
+      "sha256": "eaacc2aea3198da0bf5eeec128c8138014803ce0ece69f06037e1fbe47fa200e"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/command.json",
+      "bytes": 666,
+      "sha256": "0fc4fcef3d7893c716cdf250f6f6fe39db4e60de7e13c0f27f3c137ec677634c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/environment.json",
+      "bytes": 847,
+      "sha256": "034b2dac71613a332b1e2b5af507e879c1191467b2bd7fd61128a0ae88c302b0"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/canonical_evidence.json",
+      "bytes": 3088,
+      "sha256": "674e55e627cd3457961e20a70839f1746910f90f1a3fe13e77688e7e181c28ec"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/error-indicators.csv",
+      "bytes": 224,
+      "sha256": "07c38c17f31faa770d112f19b764c988dc3dce33e69ae7b4658681c8f7bc3473"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/domain-E.csv",
+      "bytes": 1404,
+      "sha256": "0a1d26850d410422e3e4d0a415782cb46738bfb5a4f02ca569a628393cdd324e"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/eig.csv",
+      "bytes": 900,
+      "sha256": "b29eefa4b90a21e38e28393f94de088124332ae56821fe3379b2d000318f2684"
+    },
+    {
+      "path": "checkpoint/.tools/palace/install.json",
+      "bytes": 2754,
+      "sha256": "3837083159abf6a69f06ea1508a73cf142e4038d7fc6d022de49ad75fca14a88"
     }
-  ]
+  ],
+  "completed_run_retained_at": "2026-09-24T07:21:58.717150+08:00"
 }

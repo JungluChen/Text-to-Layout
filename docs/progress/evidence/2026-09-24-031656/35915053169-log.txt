@@ -1,0 +1,1114 @@
+palace	UNKNOWN STEP	﻿2026-09-23T20:18:33.3384125Z Current runner version: '2.337.0'
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3418491Z ##[group]Runner Image Provisioner
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3420519Z Hosted Compute Agent
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3421609Z Version: 20260828.587
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3422703Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3423878Z Build Date: 2026-08-28T16:44:25Z
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3425670Z Worker ID: {778f5282-feb5-4336-bc6f-76ed237c1522}
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3426995Z Azure Region: eastus
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3427981Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3430570Z ##[group]Operating System
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3431599Z Ubuntu
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3432498Z 24.04.5
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3433391Z LTS
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3434449Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3435340Z ##[group]Runner Image
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3436274Z Image: ubuntu-24.04
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3437330Z Version: 20260920.314.1
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3439491Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3442578Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3444301Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3446451Z ##[group]GITHUB_TOKEN Permissions
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3449453Z Contents: read
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3450652Z Metadata: read
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3451570Z Packages: read
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3452610Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3455587Z Secret source: Actions
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3457147Z Cache mode: write
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3458532Z Prepare workflow directory
+palace	UNKNOWN STEP	2026-09-23T20:18:33.3934627Z Prepare all required actions
+palace	UNKNOWN STEP	2026-09-23T20:18:33.4005599Z Getting action download info
+palace	UNKNOWN STEP	2026-09-23T20:18:33.6369902Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+palace	UNKNOWN STEP	2026-09-23T20:18:33.7532139Z Download action repository 'astral-sh/setup-uv@v5' (SHA:d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86)
+palace	UNKNOWN STEP	2026-09-23T20:18:33.9712379Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+palace	UNKNOWN STEP	2026-09-23T20:18:34.1191224Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+palace	UNKNOWN STEP	2026-09-23T20:18:34.4214175Z Complete job name: palace
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5074613Z ##[group]Run actions/checkout@v4
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5075599Z with:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5076094Z   repository: JungluChen/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5080462Z   token: ***
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5080959Z   ssh-strict: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5081430Z   ssh-user: git
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5081909Z   persist-credentials: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5082431Z   clean: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5082923Z   sparse-checkout-cone-mode: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5083497Z   fetch-depth: 1
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5083974Z   fetch-tags: false
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5084449Z   show-progress: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5084940Z   lfs: false
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5085396Z   submodules: false
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5085884Z   set-safe-directory: true
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5086420Z   allow-unsafe-pr-checkout: false
+palace	UNKNOWN STEP	2026-09-23T20:18:34.5087257Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6212370Z Syncing repository: JungluChen/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6215125Z ##[group]Getting Git version info
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6216498Z Working directory is '/home/runner/work/Text-to-Layout/Text-to-Layout'
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6218394Z [command]/usr/bin/git version
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6219299Z git version 2.55.0
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6222239Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6227962Z Temporarily overriding HOME='/home/runner/work/_temp/aa5a0ce7-3c60-4870-92be-3504a70a89ec' before making global git config changes
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6230568Z Adding repository directory to the temporary git global config as a safe directory
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6232624Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Text-to-Layout/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6302671Z Deleting the contents of '/home/runner/work/Text-to-Layout/Text-to-Layout'
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6305025Z ##[group]Initializing the repository
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6307132Z [command]/usr/bin/git init /home/runner/work/Text-to-Layout/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6432903Z hint: Using 'master' as the name for the initial branch. This default branch name
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6434802Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6436460Z hint: to use in all of your new repositories, which will suppress this warning,
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6437732Z hint: call:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6438433Z hint:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6439343Z hint: 	git config --global init.defaultBranch <name>
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6440741Z hint:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6441757Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6443377Z hint: 'development'. The just-created branch can be renamed via this command:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6444709Z hint:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6445499Z hint: 	git branch -m <name>
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6446358Z hint:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6447668Z hint: Disable this message with "git config set advice.defaultBranchName false"
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6449636Z Initialized empty Git repository in /home/runner/work/Text-to-Layout/Text-to-Layout/.git/
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6453420Z [command]/usr/bin/git remote add origin https://github.com/JungluChen/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6504893Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6506318Z ##[group]Disabling automatic garbage collection
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6516023Z [command]/usr/bin/git config --local gc.auto 0
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6542157Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6543546Z ##[group]Setting up auth
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6549523Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+palace	UNKNOWN STEP	2026-09-23T20:18:34.6584677Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7006153Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7048520Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7273825Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7312268Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7537878Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7580828Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7582215Z ##[group]Fetching the repository
+palace	UNKNOWN STEP	2026-09-23T20:18:34.7591327Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +494a51a2d939d0acbe351aad9862d4c696eae35c:refs/remotes/origin/codex/palace-native-discovery-20260915
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3779734Z From https://github.com/JungluChen/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3784236Z  * [new ref]         494a51a2d939d0acbe351aad9862d4c696eae35c -> origin/codex/palace-native-discovery-20260915
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3793996Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3795695Z ##[group]Determining the checkout info
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3798137Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3800054Z [command]/usr/bin/git sparse-checkout disable
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3859884Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3897291Z ##[group]Checking out the ref
+palace	UNKNOWN STEP	2026-09-23T20:18:35.3903183Z [command]/usr/bin/git checkout --progress --force -B codex/palace-native-discovery-20260915 refs/remotes/origin/codex/palace-native-discovery-20260915
+palace	UNKNOWN STEP	2026-09-23T20:18:35.6582082Z Switched to a new branch 'codex/palace-native-discovery-20260915'
+palace	UNKNOWN STEP	2026-09-23T20:18:35.6592395Z branch 'codex/palace-native-discovery-20260915' set up to track 'origin/codex/palace-native-discovery-20260915'.
+palace	UNKNOWN STEP	2026-09-23T20:18:35.6606710Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:35.6654596Z [command]/usr/bin/git log -1 --format=%H
+palace	UNKNOWN STEP	2026-09-23T20:18:35.6682803Z 494a51a2d939d0acbe351aad9862d4c696eae35c
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7060828Z ##[group]Run astral-sh/setup-uv@v5
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7062006Z with:
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7073035Z   github-token: ***
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7073965Z   enable-cache: auto
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7075159Z   cache-dependency-glob: **/uv.lock
+palace	UNKNOWN STEP	**/requirements*.txt
+palace	UNKNOWN STEP	
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7076575Z   prune-cache: true
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7077590Z   ignore-nothing-to-cache: false
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7078743Z   ignore-empty-workdir: false
+palace	UNKNOWN STEP	2026-09-23T20:18:35.7079798Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:35.8885650Z (node:2249) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+palace	UNKNOWN STEP	2026-09-23T20:18:35.8890486Z (Use `node --trace-deprecation ...` to show where the warning was created)
+palace	UNKNOWN STEP	2026-09-23T20:18:36.1498572Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.12.18/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+palace	UNKNOWN STEP	2026-09-23T20:18:36.4790775Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/52dacaf5-2f44-4a47-88d9-3de9960fedd3 -f /home/runner/work/_temp/5bb77430-2cc3-4ba7-80b9-ba1544347613
+palace	UNKNOWN STEP	2026-09-23T20:18:36.8640626Z Added /home/runner/.local/bin to the path
+palace	UNKNOWN STEP	2026-09-23T20:18:36.8645468Z Added /opt/hostedtoolcache/uv/0.12.18/x86_64 to the path
+palace	UNKNOWN STEP	2026-09-23T20:18:36.8666915Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T20:18:36.8667573Z Successfully installed uv version 0.12.18
+palace	UNKNOWN STEP	2026-09-23T20:18:36.8668108Z Searching files using cache dependency glob: **/uv.lock,**/requirements*.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:36.9401028Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-after-1.log.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:36.9418170Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-after-2.log.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:36.9427426Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-before-1.log.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:36.9436791Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-before-2.log.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:37.0243692Z /home/runner/work/Text-to-Layout/Text-to-Layout/requirements.txt
+palace	UNKNOWN STEP	2026-09-23T20:18:37.1074551Z /home/runner/work/Text-to-Layout/Text-to-Layout/uv.lock
+palace	UNKNOWN STEP	2026-09-23T20:18:37.1106919Z Found 6 files to hash.
+palace	UNKNOWN STEP	2026-09-23T20:18:37.1785525Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+palace	UNKNOWN STEP	2026-09-23T20:18:37.2323604Z Cache hit for: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+palace	UNKNOWN STEP	2026-09-23T20:18:37.2434731Z (node:2249) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+palace	UNKNOWN STEP	2026-09-23T20:18:37.3703969Z Received 316336 of 316336 (100.0%), 3.5 MBs/sec
+palace	UNKNOWN STEP	2026-09-23T20:18:37.3704768Z Cache Size: ~0 MB (316336 B)
+palace	UNKNOWN STEP	2026-09-23T20:18:37.3731725Z [command]/usr/bin/tar -xf /home/runner/work/_temp/4ef59b74-92ee-465b-89b5-2b71240f8be7/cache.tzst -P -C /home/runner/work/Text-to-Layout/Text-to-Layout --use-compress-program unzstd
+palace	UNKNOWN STEP	2026-09-23T20:18:37.3837218Z Cache restored successfully
+palace	UNKNOWN STEP	2026-09-23T20:18:37.3843927Z uv cache restored from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4009628Z ##[group]Run sudo apt-get update
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4010052Z ^[[36;1msudo apt-get update^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4010761Z ^[[36;1msudo apt-get install -y --no-install-recommends \^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4011246Z ^[[36;1m  build-essential gfortran git openmpi-bin libopenmpi-dev \^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4011947Z ^[[36;1m  libglu1-mesa libxrender1 libxcursor1 libxft2 libxinerama1^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4361167Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4361549Z env:
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4361917Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T20:18:37.4362388Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.5750682Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.5899407Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.6113949Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+palace	UNKNOWN STEP	2026-09-23T20:18:37.6131124Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.6173475Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.6253344Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.7180024Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [482 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.7411490Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [431 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8504606Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1309 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8591522Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [298 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8621282Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8622499Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1697 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8721096Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [340 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8739837Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8767408Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1635 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8861325Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [372 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.8881282Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9134100Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [40.6 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9598170Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5740 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9606573Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9615002Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.6 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9623707Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9676933Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1053 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9729195Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [219 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9744413Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9755566Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1218 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9813006Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [244 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9829542Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.4 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9840549Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1535 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:37.9911001Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [353 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:45.1443947Z Fetched 12.4 MB in 1s (8716 kB/s)
+palace	UNKNOWN STEP	2026-09-23T20:18:45.9479511Z Reading package lists...
+palace	UNKNOWN STEP	2026-09-23T20:18:45.9789024Z Reading package lists...
+palace	UNKNOWN STEP	2026-09-23T20:18:46.1611384Z Building dependency tree...
+palace	UNKNOWN STEP	2026-09-23T20:18:46.1619185Z Reading state information...
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3024025Z gfortran is already the newest version (4:13.2.0-7ubuntu1).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3024971Z git is already the newest version (1:2.55.0-0ppa1~ubuntu24.04.2).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3025831Z git set to manually installed.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3026539Z libxrender1 is already the newest version (1:0.9.10-1.1build1).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3027339Z libxrender1 set to manually installed.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3028072Z libxcursor1 is already the newest version (1:1.2.1-1build1).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3028966Z libxcursor1 set to manually installed.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3029887Z libxft2 is already the newest version (2.3.6-1build1).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3031173Z libxft2 set to manually installed.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3032310Z libxinerama1 is already the newest version (2:1.1.4-3build1).
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3033294Z libxinerama1 set to manually installed.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3034219Z The following additional packages will be installed:
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3035388Z   libamd-comgr2 libamdhip64-5 libevent-2.1-7t64 libevent-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3036583Z   libevent-extra-2.1-7t64 libevent-openssl-2.1-7t64 libfabric1
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3037929Z   libhsa-runtime64-1 libhsakmt1 libhwloc-dev libhwloc-plugins libhwloc15
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3039353Z   libibverbs-dev libjs-jquery-ui libltdl-dev libmunge2 libnl-3-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3040946Z   libnl-route-3-dev libnuma-dev libopengl0 libopenmpi3t64 libpmix-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3047080Z   libpmix2t64 libpsm-infinipath1 libpsm2-2 librdmacm1t64 libucx0 libxnvctrl0
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3047653Z   ocl-icd-libopencl1 openmpi-common
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3047952Z Suggested packages:
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3048329Z   libhwloc-contrib-plugins libjs-jquery-ui-docs libtool-doc openmpi-doc
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3048733Z   opencl-icd
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3048941Z Recommended packages:
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3049191Z   libcoarrays-openmpi-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3455287Z The following NEW packages will be installed:
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3457372Z   build-essential libamd-comgr2 libamdhip64-5 libevent-2.1-7t64 libevent-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3458659Z   libevent-extra-2.1-7t64 libevent-openssl-2.1-7t64 libfabric1 libglu1-mesa
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3459958Z   libhsa-runtime64-1 libhsakmt1 libhwloc-dev libhwloc-plugins libhwloc15
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3461520Z   libibverbs-dev libjs-jquery-ui libltdl-dev libmunge2 libnl-3-dev
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3462897Z   libnl-route-3-dev libnuma-dev libopengl0 libopenmpi-dev libopenmpi3t64
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3464402Z   libpmix-dev libpmix2t64 libpsm-infinipath1 libpsm2-2 librdmacm1t64 libucx0
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3465585Z   libxnvctrl0 ocl-icd-libopencl1 openmpi-bin openmpi-common
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3652004Z 0 upgraded, 34 newly installed, 0 to remove and 21 not upgraded.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3652683Z Need to get 37.9 MB of archives.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3653080Z After this operation, 142 MB of additional disk space will be used.
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3653509Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.3948242Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 build-essential amd64 12.10ubuntu1 [4928 B]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.4018109Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libamd-comgr2 amd64 6.0+git20231212.4510c28+dfsg-3build2 [14.4 MB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.6006759Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhsakmt1 amd64 5.7.0-1build1 [62.9 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.6087238Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhsa-runtime64-1 amd64 5.7.1-2build1 [491 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.6254279Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libamdhip64-5 amd64 5.7.1-3 [9621 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.7783841Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libevent-2.1-7t64 amd64 2.1.12-stable-9ubuntu2.1 [146 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.7882742Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libevent-extra-2.1-7t64 amd64 2.1.12-stable-9ubuntu2.1 [64.6 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.7968079Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libevent-openssl-2.1-7t64 amd64 2.1.12-stable-9ubuntu2.1 [15.7 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8043479Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libevent-dev amd64 2.1.12-stable-9ubuntu2.1 [274 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8187295Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpsm-infinipath1 amd64 3.3+20.604758e7-6.3build1 [178 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8300340Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpsm2-2 amd64 11.2.185-2build1 [194 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8388479Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 librdmacm1t64 amd64 50.0-2ubuntu0.2 [70.7 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8463389Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libfabric1 amd64 1.17.0-3build2 [657 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8595365Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhwloc15 amd64 2.10.0-1build1 [172 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8716422Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libjs-jquery-ui all 1.13.2+dfsg-1 [252 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8890001Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libltdl-dev amd64 2.4.7-7build1 [168 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.8968757Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libnl-3-dev amd64 3.7.0-0.3build1.1 [99.5 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9055710Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libnl-route-3-dev amd64 3.7.0-0.3build1.1 [216 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9641409Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libmunge2 amd64 0.5.15-4ubuntu0.1 [14.8 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9710713Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libxnvctrl0 amd64 510.47.03-0ubuntu4.24.04.1 [12.7 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9778136Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 ocl-icd-libopencl1 amd64 2.3.2-1build1 [38.5 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9849836Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhwloc-plugins amd64 2.10.0-1build1 [15.7 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:46.9938357Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpmix2t64 amd64 5.0.1-4.1build1 [697 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.0394997Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libucx0 amd64 1.16.0+ds-5ubuntu1 [1140 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.0914013Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopenmpi3t64 amd64 4.1.6-7ubuntu2 [2563 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.1534673Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libnuma-dev amd64 2.0.18-1ubuntu0.24.04.1 [37.0 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.1608605Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhwloc-dev amd64 2.10.0-1build1 [268 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.1729548Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpmix-dev amd64 5.0.1-4.1build1 [4018 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.2617204Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 openmpi-common all 4.1.6-7ubuntu2 [170 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.2712714Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 openmpi-bin amd64 4.1.6-7ubuntu2 [114 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.2804993Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libopengl0 amd64 1.7.0-1build1 [32.8 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.2880735Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libglu1-mesa amd64 9.0.2-1.1build1 [152 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.2975994Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libibverbs-dev amd64 50.0-2ubuntu0.2 [686 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.3131717Z Get:35 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopenmpi-dev amd64 4.1.6-7ubuntu2 [864 kB]
+palace	UNKNOWN STEP	2026-09-23T20:18:47.6158801Z Fetched 37.9 MB in 1s (39.0 MB/s)
+palace	UNKNOWN STEP	2026-09-23T20:18:47.6557661Z Selecting previously unselected package build-essential.
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7431909Z (Reading database ... 
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7432910Z (Reading database ... 5%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7433483Z (Reading database ... 10%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7434037Z (Reading database ... 15%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7434477Z (Reading database ... 20%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7434905Z (Reading database ... 25%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7435311Z (Reading database ... 30%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7435592Z (Reading database ... 35%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7435941Z (Reading database ... 40%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7436443Z (Reading database ... 45%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7437079Z (Reading database ... 50%
+palace	UNKNOWN STEP	2026-09-23T20:18:47.7549611Z (Reading database ... 55%
+palace	UNKNOWN STEP	2026-09-23T20:18:48.0889373Z (Reading database ... 60%
+palace	UNKNOWN STEP	2026-09-23T20:18:48.3354904Z (Reading database ... 65%
+palace	UNKNOWN STEP	2026-09-23T20:18:48.6095053Z (Reading database ... 70%
+palace	UNKNOWN STEP	2026-09-23T20:18:48.8720477Z (Reading database ... 75%
+palace	UNKNOWN STEP	2026-09-23T20:18:49.1855183Z (Reading database ... 80%
+palace	UNKNOWN STEP	2026-09-23T20:18:49.7406002Z (Reading database ... 85%
+palace	UNKNOWN STEP	2026-09-23T20:18:50.3846656Z (Reading database ... 90%
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0409423Z (Reading database ... 95%
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0410570Z (Reading database ... 100%
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0411533Z (Reading database ... 202190 files and directories currently installed.)
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0454916Z Preparing to unpack .../00-build-essential_12.10ubuntu1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0493416Z Unpacking build-essential (12.10ubuntu1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0750672Z Selecting previously unselected package libamd-comgr2:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0877275Z Preparing to unpack .../01-libamd-comgr2_6.0+git20231212.4510c28+dfsg-3build2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.0925234Z Unpacking libamd-comgr2:amd64 (6.0+git20231212.4510c28+dfsg-3build2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3115222Z Selecting previously unselected package libhsakmt1:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3240533Z Preparing to unpack .../02-libhsakmt1_5.7.0-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3249180Z Unpacking libhsakmt1:amd64 (5.7.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3464651Z Selecting previously unselected package libhsa-runtime64-1.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3589961Z Preparing to unpack .../03-libhsa-runtime64-1_5.7.1-2build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3598140Z Unpacking libhsa-runtime64-1 (5.7.1-2build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.3893151Z Selecting previously unselected package libamdhip64-5.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.4016738Z Preparing to unpack .../04-libamdhip64-5_5.7.1-3_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.4024596Z Unpacking libamdhip64-5 (5.7.1-3) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5086063Z Selecting previously unselected package libevent-2.1-7t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5212734Z Preparing to unpack .../05-libevent-2.1-7t64_2.1.12-stable-9ubuntu2.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5236090Z Unpacking libevent-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5551854Z Selecting previously unselected package libevent-extra-2.1-7t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5677569Z Preparing to unpack .../06-libevent-extra-2.1-7t64_2.1.12-stable-9ubuntu2.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5689705Z Unpacking libevent-extra-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.5942197Z Selecting previously unselected package libevent-openssl-2.1-7t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6066487Z Preparing to unpack .../07-libevent-openssl-2.1-7t64_2.1.12-stable-9ubuntu2.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6074959Z Unpacking libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6268455Z Selecting previously unselected package libevent-dev.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6393615Z Preparing to unpack .../08-libevent-dev_2.1.12-stable-9ubuntu2.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6402627Z Unpacking libevent-dev (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6765085Z Selecting previously unselected package libpsm-infinipath1.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6890025Z Preparing to unpack .../09-libpsm-infinipath1_3.3+20.604758e7-6.3build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.6898309Z Unpacking libpsm-infinipath1 (3.3+20.604758e7-6.3build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7125180Z Selecting previously unselected package libpsm2-2.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7249085Z Preparing to unpack .../10-libpsm2-2_11.2.185-2build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7258926Z Unpacking libpsm2-2 (11.2.185-2build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7484769Z Selecting previously unselected package librdmacm1t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7609806Z Preparing to unpack .../11-librdmacm1t64_50.0-2ubuntu0.2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7618642Z Unpacking librdmacm1t64:amd64 (50.0-2ubuntu0.2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7832179Z Selecting previously unselected package libfabric1:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7954757Z Preparing to unpack .../12-libfabric1_1.17.0-3build2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.7963918Z Unpacking libfabric1:amd64 (1.17.0-3build2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8235328Z Selecting previously unselected package libhwloc15:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8359903Z Preparing to unpack .../13-libhwloc15_2.10.0-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8369456Z Unpacking libhwloc15:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8576513Z Selecting previously unselected package libjs-jquery-ui.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8700771Z Preparing to unpack .../14-libjs-jquery-ui_1.13.2+dfsg-1_all.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.8709112Z Unpacking libjs-jquery-ui (1.13.2+dfsg-1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.9504045Z Selecting previously unselected package libltdl-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:51.9629106Z Preparing to unpack .../15-libltdl-dev_2.4.7-7build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:51.9660927Z Unpacking libltdl-dev:amd64 (2.4.7-7build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0125118Z Selecting previously unselected package libnl-3-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0250383Z Preparing to unpack .../16-libnl-3-dev_3.7.0-0.3build1.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0258446Z Unpacking libnl-3-dev:amd64 (3.7.0-0.3build1.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0644865Z Selecting previously unselected package libnl-route-3-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0773139Z Preparing to unpack .../17-libnl-route-3-dev_3.7.0-0.3build1.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.0782514Z Unpacking libnl-route-3-dev:amd64 (3.7.0-0.3build1.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1028217Z Selecting previously unselected package libmunge2:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1153196Z Preparing to unpack .../18-libmunge2_0.5.15-4ubuntu0.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1162462Z Unpacking libmunge2:amd64 (0.5.15-4ubuntu0.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1362212Z Selecting previously unselected package libxnvctrl0:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1486151Z Preparing to unpack .../19-libxnvctrl0_510.47.03-0ubuntu4.24.04.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1494739Z Unpacking libxnvctrl0:amd64 (510.47.03-0ubuntu4.24.04.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1697508Z Selecting previously unselected package ocl-icd-libopencl1:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1821748Z Preparing to unpack .../20-ocl-icd-libopencl1_2.3.2-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.1853966Z Unpacking ocl-icd-libopencl1:amd64 (2.3.2-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2131419Z Selecting previously unselected package libhwloc-plugins:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2258000Z Preparing to unpack .../21-libhwloc-plugins_2.10.0-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2268535Z Unpacking libhwloc-plugins:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2494959Z Selecting previously unselected package libpmix2t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2622400Z Preparing to unpack .../22-libpmix2t64_5.0.1-4.1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2631667Z Unpacking libpmix2t64:amd64 (5.0.1-4.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.2986424Z Selecting previously unselected package libucx0:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.3113788Z Preparing to unpack .../23-libucx0_1.16.0+ds-5ubuntu1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.3122513Z Unpacking libucx0:amd64 (1.16.0+ds-5ubuntu1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.3460323Z Selecting previously unselected package libopenmpi3t64:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.3630901Z Preparing to unpack .../24-libopenmpi3t64_4.1.6-7ubuntu2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.3637892Z Unpacking libopenmpi3t64:amd64 (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4339003Z Selecting previously unselected package libnuma-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4467505Z Preparing to unpack .../25-libnuma-dev_2.0.18-1ubuntu0.24.04.1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4475485Z Unpacking libnuma-dev:amd64 (2.0.18-1ubuntu0.24.04.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4785788Z Selecting previously unselected package libhwloc-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4911181Z Preparing to unpack .../26-libhwloc-dev_2.10.0-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.4918041Z Unpacking libhwloc-dev:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.5180310Z Selecting previously unselected package libpmix-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.5305462Z Preparing to unpack .../27-libpmix-dev_5.0.1-4.1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.5312640Z Unpacking libpmix-dev:amd64 (5.0.1-4.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.6472442Z Selecting previously unselected package openmpi-common.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.6610613Z Preparing to unpack .../28-openmpi-common_4.1.6-7ubuntu2_all.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.6620872Z Unpacking openmpi-common (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7002986Z Selecting previously unselected package openmpi-bin.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7133949Z Preparing to unpack .../29-openmpi-bin_4.1.6-7ubuntu2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7142692Z Unpacking openmpi-bin (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7660970Z Selecting previously unselected package libopengl0:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7794146Z Preparing to unpack .../30-libopengl0_1.7.0-1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.7802862Z Unpacking libopengl0:amd64 (1.7.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8022447Z Selecting previously unselected package libglu1-mesa:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8153239Z Preparing to unpack .../31-libglu1-mesa_9.0.2-1.1build1_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8160893Z Unpacking libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8383521Z Selecting previously unselected package libibverbs-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8519744Z Preparing to unpack .../32-libibverbs-dev_50.0-2ubuntu0.2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.8527813Z Unpacking libibverbs-dev:amd64 (50.0-2ubuntu0.2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.9197973Z Selecting previously unselected package libopenmpi-dev:amd64.
+palace	UNKNOWN STEP	2026-09-23T20:18:52.9327401Z Preparing to unpack .../33-libopenmpi-dev_4.1.6-7ubuntu2_amd64.deb ...
+palace	UNKNOWN STEP	2026-09-23T20:18:52.9543495Z Unpacking libopenmpi-dev:amd64 (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2037122Z Setting up libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2061149Z Setting up libevent-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2079750Z Setting up libopengl0:amd64 (1.7.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2097500Z Setting up libnuma-dev:amd64 (2.0.18-1ubuntu0.24.04.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2114737Z Setting up libxnvctrl0:amd64 (510.47.03-0ubuntu4.24.04.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2132688Z Setting up libltdl-dev:amd64 (2.4.7-7build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2151078Z Setting up libjs-jquery-ui (1.13.2+dfsg-1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2171261Z Setting up libmunge2:amd64 (0.5.15-4ubuntu0.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2188374Z Setting up libhwloc15:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2207821Z Setting up libevent-extra-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2226474Z Setting up libnl-3-dev:amd64 (3.7.0-0.3build1.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2247077Z Setting up ocl-icd-libopencl1:amd64 (2.3.2-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2265859Z Setting up libpsm2-2 (11.2.185-2build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2285667Z Setting up openmpi-common (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2305027Z Setting up build-essential (12.10ubuntu1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2324073Z Setting up librdmacm1t64:amd64 (50.0-2ubuntu0.2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2343254Z Setting up libhwloc-dev:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2363582Z Setting up libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2384271Z Setting up libamd-comgr2:amd64 (6.0+git20231212.4510c28+dfsg-3build2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2403098Z Setting up libpsm-infinipath1 (3.3+20.604758e7-6.3build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2465175Z update-alternatives: using /usr/lib/libpsm1/libpsm_infinipath.so.1.16 to provide /usr/lib/x86_64-linux-gnu/libpsm_infinipath.so.1 (libpsm_infinipath.so.1) in auto mode
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2480806Z Setting up libhsakmt1:amd64 (5.7.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2502053Z Setting up libfabric1:amd64 (1.17.0-3build2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2526545Z Setting up libhwloc-plugins:amd64 (2.10.0-1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2543923Z Setting up libnl-route-3-dev:amd64 (3.7.0-0.3build1.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2562058Z Setting up libevent-dev (2.1.12-stable-9ubuntu2.1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2580397Z Setting up libpmix2t64:amd64 (5.0.1-4.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2597807Z Setting up libhsa-runtime64-1 (5.7.1-2build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2618184Z Setting up libpmix-dev:amd64 (5.0.1-4.1build1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2635847Z Setting up libibverbs-dev:amd64 (50.0-2ubuntu0.2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2654129Z Setting up libamdhip64-5 (5.7.1-3) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2672156Z Setting up libucx0:amd64 (1.16.0+ds-5ubuntu1) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2691083Z Setting up libopenmpi3t64:amd64 (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2709588Z Setting up openmpi-bin (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2790762Z update-alternatives: using /usr/bin/mpirun.openmpi to provide /usr/bin/mpirun (mpirun) in auto mode
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2842905Z update-alternatives: using /usr/bin/mpicc.openmpi to provide /usr/bin/mpicc (mpi) in auto mode
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2884883Z Setting up libopenmpi-dev:amd64 (4.1.6-7ubuntu2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2946664Z update-alternatives: using /usr/lib/x86_64-linux-gnu/openmpi/include to provide /usr/include/x86_64-linux-gnu/mpi (mpi-x86_64-linux-gnu) in auto mode
+palace	UNKNOWN STEP	2026-09-23T20:18:53.2976179Z Processing triggers for man-db (2.12.0-4build2) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:53.3000418Z Not building database; man-db/auto-update is not 'true'.
+palace	UNKNOWN STEP	2026-09-23T20:18:53.3014907Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5121178Z 
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5121862Z Running kernel seems to be up-to-date.
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5122456Z 
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5122628Z No services need to be restarted.
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5122901Z 
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5123050Z No containers need to be restarted.
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5123329Z 
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5123518Z No user sessions are running outdated binaries.
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5123837Z 
+palace	UNKNOWN STEP	2026-09-23T20:18:54.5124127Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3620982Z ##[group]Run uv sync --all-extras
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3621351Z ^[[36;1muv sync --all-extras^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3686564Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3686835Z env:
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3687101Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T20:18:55.3687460Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:18:55.4276060Z Using CPython 3.12.3 interpreter at: /usr/bin/python3
+palace	UNKNOWN STEP	2026-09-23T20:18:55.4276880Z Creating virtual environment at: .venv
+palace	UNKNOWN STEP	2026-09-23T20:18:55.4346451Z Resolved 230 packages in 1ms
+palace	UNKNOWN STEP	2026-09-23T20:18:55.4743586Z    Building text-to-gds @ file:///home/runner/work/Text-to-Layout/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5343559Z Downloading babel (9.7MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5344971Z Downloading fonttools (4.8MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5352695Z Downloading kiwisolver (1.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5353953Z Downloading pygments (1.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5442173Z Downloading networkx (2.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5443416Z Downloading ast-serialize (1.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5444692Z Downloading mypy (14.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5446227Z Downloading jedi (4.7MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5447448Z Downloading scikit-image (12.9MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5449121Z Downloading cryptography (4.5MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5450605Z Downloading sympy (6.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5452298Z Downloading shapely (3.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5453920Z Downloading pillow (6.8MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5455412Z Downloading pandas (10.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5457035Z Downloading pyarrow (46.6MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5458691Z Downloading sqlalchemy (3.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5460396Z Downloading widgetsnbextension (2.1MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5462295Z Downloading matplotlib (8.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5464040Z Downloading numpy (17.1MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5465584Z Downloading rapidfuzz (3.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5467516Z Downloading pyproj (9.1MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5468768Z Downloading pydantic-core (2.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5470855Z Downloading ipytree (1.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5472851Z Downloading debugpy (3.8MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5474657Z Downloading pyside2 (156.7MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5476401Z Downloading scipy (33.6MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5478015Z Downloading mkdocs-material (8.9MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5479776Z Downloading ruff (10.9MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5482733Z Downloading mkdocs (3.7MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5484443Z Downloading zstandard (5.3MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5486274Z Downloading h5py (5.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5489424Z Downloading qutip (27.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5514268Z Downloading scqubits (6.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5550444Z Downloading dask (1.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5552467Z Downloading klayout (26.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5567507Z Downloading xarray (1.3MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5575273Z Downloading pyogrio (31.0MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5580561Z Downloading pygit2 (5.5MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.5678091Z Downloading gmsh (38.2MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.7387191Z Downloading qiskit-metal (2.4MiB)
+palace	UNKNOWN STEP	2026-09-23T20:18:55.8878059Z  Downloaded ipytree
+palace	UNKNOWN STEP	2026-09-23T20:18:55.8880627Z  Downloaded ast-serialize
+palace	UNKNOWN STEP	2026-09-23T20:18:55.9192280Z  Downloaded kiwisolver
+palace	UNKNOWN STEP	2026-09-23T20:18:55.9455144Z  Downloaded xarray
+palace	UNKNOWN STEP	2026-09-23T20:18:55.9490976Z  Downloaded pygments
+palace	UNKNOWN STEP	2026-09-23T20:18:55.9688975Z  Downloaded dask
+palace	UNKNOWN STEP	2026-09-23T20:18:56.0806886Z  Downloaded pydantic-core
+palace	UNKNOWN STEP	2026-09-23T20:18:56.1093398Z  Downloaded widgetsnbextension
+palace	UNKNOWN STEP	2026-09-23T20:18:56.1104653Z  Downloaded networkx
+palace	UNKNOWN STEP	2026-09-23T20:18:56.3485684Z  Downloaded rapidfuzz
+palace	UNKNOWN STEP	2026-09-23T20:18:56.3950057Z  Downloaded shapely
+palace	UNKNOWN STEP	2026-09-23T20:18:56.4505191Z  Downloaded sqlalchemy
+palace	UNKNOWN STEP	2026-09-23T20:18:56.4521710Z  Downloaded qiskit-metal
+palace	UNKNOWN STEP	2026-09-23T20:18:56.5172297Z    Building gdspy==1.6.13
+palace	UNKNOWN STEP	2026-09-23T20:18:56.6576557Z  Downloaded mkdocs
+palace	UNKNOWN STEP	2026-09-23T20:18:56.6951982Z  Downloaded debugpy
+palace	UNKNOWN STEP	2026-09-23T20:18:56.8148688Z  Downloaded cryptography
+palace	UNKNOWN STEP	2026-09-23T20:18:56.8311126Z  Downloaded fonttools
+palace	UNKNOWN STEP	2026-09-23T20:18:56.8711258Z  Downloaded h5py
+palace	UNKNOWN STEP	2026-09-23T20:18:56.8712054Z  Downloaded zstandard
+palace	UNKNOWN STEP	2026-09-23T20:18:56.9021249Z  Downloaded jedi
+palace	UNKNOWN STEP	2026-09-23T20:18:56.9299033Z  Downloaded pygit2
+palace	UNKNOWN STEP	2026-09-23T20:18:56.9981231Z  Downloaded sympy
+palace	UNKNOWN STEP	2026-09-23T20:18:57.0050509Z  Downloaded scqubits
+palace	UNKNOWN STEP	2026-09-23T20:18:57.0611256Z  Downloaded pillow
+palace	UNKNOWN STEP	2026-09-23T20:18:57.1777090Z  Downloaded matplotlib
+palace	UNKNOWN STEP	2026-09-23T20:18:57.2439010Z  Downloaded pyproj
+palace	UNKNOWN STEP	2026-09-23T20:18:57.3101276Z  Downloaded babel
+palace	UNKNOWN STEP	2026-09-23T20:18:57.3663335Z  Downloaded ruff
+palace	UNKNOWN STEP	2026-09-23T20:18:57.4299670Z  Downloaded pandas
+palace	UNKNOWN STEP	2026-09-23T20:18:57.4501283Z  Downloaded scikit-image
+palace	UNKNOWN STEP	2026-09-23T20:18:57.7001578Z  Downloaded numpy
+palace	UNKNOWN STEP	2026-09-23T20:18:57.7172056Z       Built text-to-gds @ file:///home/runner/work/Text-to-Layout/Text-to-Layout
+palace	UNKNOWN STEP	2026-09-23T20:18:57.7228871Z  Downloaded mypy
+palace	UNKNOWN STEP	2026-09-23T20:18:58.0946513Z  Downloaded klayout
+palace	UNKNOWN STEP	2026-09-23T20:18:58.1261212Z  Downloaded qutip
+palace	UNKNOWN STEP	2026-09-23T20:18:58.2281277Z  Downloaded scipy
+palace	UNKNOWN STEP	2026-09-23T20:18:58.2687702Z  Downloaded mkdocs-material
+palace	UNKNOWN STEP	2026-09-23T20:18:58.2920828Z  Downloaded pyogrio
+palace	UNKNOWN STEP	2026-09-23T20:18:58.3411479Z  Downloaded gmsh
+palace	UNKNOWN STEP	2026-09-23T20:18:58.4213785Z  Downloaded pyarrow
+palace	UNKNOWN STEP	2026-09-23T20:18:59.9272963Z  Downloaded pyside2
+palace	UNKNOWN STEP	2026-09-23T20:19:04.6925584Z       Built gdspy==1.6.13
+palace	UNKNOWN STEP	2026-09-23T20:19:04.6977394Z Prepared 218 packages in 9.25s
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3083154Z Installed 218 packages in 610ms
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3104835Z  + addict==2.4.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3105313Z  + aenum==3.1.17
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3105967Z  + alembic==1.18.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3106714Z  + annotated-doc==0.0.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3107390Z  + annotated-types==0.7.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3107993Z  + anyio==4.13.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3108536Z  + ast-serialize==0.5.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3109120Z  + asttokens==3.0.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3109668Z  + attrs==26.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3110420Z  + babel==2.18.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3110988Z  + backrefs==7.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3111960Z  + broadbean==0.15.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3112342Z  + build==1.5.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3112697Z  + cachetools==7.1.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3113045Z  + certifi==2026.5.20
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3113401Z  + cf-xarray==0.11.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3113754Z  + cffi==2.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3114105Z  + charset-normalizer==3.4.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3114486Z  + click==8.4.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3114828Z  + cloudpickle==3.1.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3115184Z  + colorama==0.4.6
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3115530Z  + colorlog==6.10.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3115866Z  + comm==0.2.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3116194Z  + contourpy==1.3.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3116538Z  + coverage==7.14.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3116879Z  + cryptography==48.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3117229Z  + cycler==0.12.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3117557Z  + dask==2026.6.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3117890Z  + debugpy==1.8.21
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3118226Z  + decorator==5.3.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3118563Z  + descartes==1.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3118902Z  + dill==0.4.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3119239Z  + distro==1.9.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3119580Z  + executing==2.2.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3119916Z  + fastapi==0.138.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3120611Z  + flexcache==0.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3121132Z  + flexparser==0.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3121497Z  + fonttools==4.63.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3121935Z  + freetype-py==2.5.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3122312Z  + fsspec==2026.6.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3122666Z  + gdsfactory==9.43.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3123009Z  + gdspy==1.6.13
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3123355Z  + geopandas==1.1.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3123732Z  + ghp-import==2.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3124127Z  + gmsh==4.15.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3124498Z  + graphviz==0.21
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3124858Z  + greenlet==3.5.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3125207Z  + h11==0.16.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3125562Z  + h5netcdf==1.8.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3125901Z  + h5py==3.16.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3126248Z  + hatchling==1.31.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3126627Z  + httpcore==1.0.9
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3127000Z  + httpx==0.28.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3127378Z  + httpx-sse==0.4.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3127741Z  + idna==3.18
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3128080Z  + imageio==2.37.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3128454Z  + iniconfig==2.3.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3128835Z  + ipyevents==2.0.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3129455Z  + ipykernel==7.2.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3129844Z  + ipython==9.14.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3130447Z  + ipython-pygments-lexers==1.1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3130906Z  + ipytree==0.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3131253Z  + ipywidgets==8.1.8
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3131640Z  + jedi==0.20.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3132050Z  + jinja2==3.1.6
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3132426Z  + jsonpatch==1.33
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3132780Z  + jsonpointer==3.1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3133155Z  + jsonschema==4.26.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3133559Z  + jsonschema-specifications==2025.9.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3134037Z  + jupyter-client==8.8.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3134431Z  + jupyter-core==5.9.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3134834Z  + jupyterlab-widgets==3.0.16
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3135243Z  + kfactory==2.5.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3135599Z  + kiwisolver==1.5.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3135950Z  + klayout==0.30.9
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3136296Z  + kqcircuits==4.9.11
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3136673Z  + langchain-core==1.4.8
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3137074Z  + langchain-protocol==0.0.18
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3137497Z  + langgraph==1.2.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3137891Z  + langgraph-checkpoint==4.1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3138341Z  + langgraph-prebuilt==1.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3138756Z  + langgraph-sdk==0.4.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3139128Z  + langsmith==0.9.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3139474Z  + lazy-loader==0.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3139825Z  + librt==0.11.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3147895Z  + locket==1.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3148220Z  + loguru==0.7.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3148460Z  + mako==1.3.12
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3148703Z  + mapbox-earcut==2.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3148954Z  + markdown==3.10.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3149235Z  + markdown-it-py==4.2.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3149545Z  + markupsafe==3.0.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3149825Z  + matplotlib==3.10.9
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3150079Z  + matplotlib-inline==0.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3151016Z  + mcp==1.27.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3151355Z  + mdurl==0.1.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3151732Z  + mergedeep==1.3.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3152083Z  + meshio==5.3.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3152426Z  + mkdocs==1.6.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3152787Z  + mkdocs-get-deps==0.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3153232Z  + mkdocs-material==9.7.6
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3153851Z  + mkdocs-material-extensions==1.3.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3154498Z  + mpmath==1.3.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3154984Z  + multiprocess==0.70.19
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3155363Z  + mypy==2.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3155598Z  + mypy-extensions==1.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3155824Z  + natsort==8.4.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3156033Z  + nest-asyncio==1.6.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3156248Z  + networkx==3.6.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3156448Z  + numpy==1.26.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3156665Z  + opentelemetry-api==1.42.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3156917Z  + optuna==4.9.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3157122Z  + orjson==3.11.9
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3157331Z  + ormsgpack==1.12.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3157560Z  + packaging==26.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3157775Z  + paginate==0.5.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3157978Z  + pandas==3.0.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3158174Z  + parso==0.8.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3158370Z  + partd==1.4.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3158566Z  + pathos==0.3.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3158770Z  + pathspec==1.1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3158969Z  + pexpect==4.9.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3159165Z  + pillow==12.2.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3159368Z  + pint==0.25.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3159585Z  + platformdirs==4.10.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3159807Z  + pluggy==1.6.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3159999Z  + pox==0.3.7
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3160583Z  + ppft==1.7.8
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3160977Z  + prompt-toolkit==3.0.52
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3161388Z  + psutil==7.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3161746Z  + ptyprocess==0.7.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3162111Z  + pure-eval==0.2.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3162477Z  + pyarrow==24.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3162832Z  + pycparser==3.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3163177Z  + pydantic==2.12.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3163555Z  + pydantic-core==2.41.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3163969Z  + pydantic-extra-types==2.11.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3164424Z  + pydantic-settings==2.14.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3164845Z  + pyepr-quantum==0.9.6
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3165221Z  + pygit2==1.19.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3165772Z  + pyglet==2.1.14
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3166128Z  + pygments==2.20.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3166484Z  + pyjwt==2.13.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3166839Z  + pymdown-extensions==11.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3167088Z  + pyogrio==0.12.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3167292Z  + pyparsing==3.3.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3167506Z  + pyproj==3.7.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3167715Z  + pyproject-hooks==1.2.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3167949Z  + pyside2==5.15.2.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3168159Z  + pytest==9.0.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3168369Z  + pytest-cov==7.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3168592Z  + python-dateutil==2.9.0.post0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3168845Z  + python-dotenv==1.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3169081Z  + python-multipart==0.0.30
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3169333Z  + pyvisa==1.16.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3169542Z  + pyyaml==6.0.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3169754Z  + pyyaml-env-tag==1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3169969Z  + pyzmq==27.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3170418Z  + qcodes==0.58.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3170635Z  + qiskit-metal==0.1.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3170864Z  + qrcode==8.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3171066Z  + qutip==5.3.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3171269Z  + rapidfuzz==3.14.5
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3171497Z  + rectangle-packer==2.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3171733Z  + rectpack==0.2.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3171939Z  + referencing==0.37.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3172147Z  + requests==2.34.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3172366Z  + requests-toolbelt==1.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3172591Z  + rich==15.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3172785Z  + rpds-py==2026.5.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3172990Z  + ruamel-yaml==0.19.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3173219Z  + ruamel-yaml-string==0.1.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3173448Z  + ruff==0.15.15
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3173642Z  + schema==0.7.8
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3173841Z  + scikit-image==0.26.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3174056Z  + scikit-rf==1.12.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3174410Z  + scipy==1.17.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3174605Z  + scqubits==4.3.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3174804Z  + seaborn==0.13.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3175001Z  + semver==3.0.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3175207Z  + setuptools==82.0.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3175422Z  + shapely==2.1.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3175627Z  + shellingham==1.5.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3175841Z  + shiboken2==5.15.2.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3176045Z  + six==1.17.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3176242Z  + sniffio==1.3.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3176448Z  + sqlalchemy==2.0.51
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3176662Z  + sse-starlette==3.4.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3176876Z  + stack-data==0.6.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3177086Z  + starlette==1.2.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3177284Z  + sympy==1.14.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3177476Z  + tabulate==0.10.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3177695Z  + tenacity==9.1.4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3178036Z  + text-to-gds==0.3.0 (from file:///home/runner/work/Text-to-Layout/Text-to-Layout)
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3178434Z  + tifffile==2026.3.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3178646Z  + toolz==1.1.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3178843Z  + tornado==6.5.6
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3179035Z  + tqdm==4.68.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3179227Z  + traitlets==5.15.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3179438Z  + trimesh==4.12.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3179662Z  + trove-classifiers==2026.6.1.19
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3179907Z  + typer==0.24.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3180323Z  + types-pyyaml==6.0.12.20260518
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3180710Z  + typing-extensions==4.15.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3180967Z  + typing-inspection==0.4.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3181204Z  + uncertainties==3.2.3
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3181416Z  + urllib3==2.7.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3181616Z  + uuid-utils==0.16.2
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3181830Z  + uvicorn==0.48.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3182032Z  + versioningit==3.3.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3182243Z  + versiontag==1.2.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3182448Z  + watchdog==6.0.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3182651Z  + wcwidth==0.7.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3182850Z  + websockets==15.0.1
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3183070Z  + widgetsnbextension==4.0.15
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3183316Z  + xarray==2026.4.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3183513Z  + xxhash==3.8.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.3183719Z  + zstandard==0.25.0
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5165418Z ##[group]Run actions/cache@v4
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5165709Z with:
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5166053Z   path: ~/.cache/textlayout-palace
+palace	UNKNOWN STEP	.tools/palace
+palace	UNKNOWN STEP	.tools/external/sources
+palace	UNKNOWN STEP	
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5166625Z   key: palace-0.17.0-471a7a114734e5e34aa0336e76b6579e854d12020a9bf410ae4304052e38c143
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5167093Z   enableCrossOsArchive: false
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5167369Z   fail-on-cache-miss: false
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5167650Z   lookup-only: false
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5167883Z   save-always: false
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5168097Z env:
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5168354Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T20:19:05.5168682Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T20:19:05.6277613Z (node:3131) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+palace	UNKNOWN STEP	2026-09-23T20:19:05.6278400Z (Use `node --trace-deprecation ...` to show where the warning was created)
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7043590Z Cache not found for input keys: palace-0.17.0-471a7a114734e5e34aa0336e76b6579e854d12020a9bf410ae4304052e38c143
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7557402Z ##[group]Run uv run python scripts/external/install_palace.py
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7558061Z ^[[36;1muv run python scripts/external/install_palace.py^[[0m
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7621883Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7622208Z env:
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7622529Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T20:19:05.7622939Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2651976Z {
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2652351Z   "schema": "textlayout.palace-install.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2652707Z   "requested_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2652968Z   "gmsh": {
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2653171Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2653403Z     "version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2653644Z     "expected_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2654157Z     "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2656485Z     "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2657208Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2657518Z   "source_archive": {
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2657880Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2658785Z     "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2659791Z     "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2660591Z     "size_bytes": 47331791
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2660847Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2661052Z   "status": "INSTALLED",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2661307Z   "strategy": "pinned_spack_wsl",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2661588Z   "palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2661914Z   "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2662692Z   "palace_executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2663579Z   "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2664055Z   "spack_version": "1.1.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2664372Z   "spack_commit": "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2664802Z   "spack_packages_commit": "a2928a3376d286ddbf07da62847d5ba5b0fa3c67",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2665230Z   "spack_environment": "external_tools/palace/spack.yaml",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2665632Z   "spack_runtime_cache": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2666069Z   "install_tree": "/home/runner/.cache/textlayout-palace/spack-opt",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2666505Z   "build_stage": "/home/runner/.cache/textlayout-palace/build-stage",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2666869Z   "compiler_and_mpi_tail": [
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2667386Z     "[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2668059Z     "==> Installing palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3 [63/63]",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2668608Z     "==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2669063Z     "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2669367Z     "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2669693Z     "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2670028Z     "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2670730Z     ""
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2670916Z   ],
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2671142Z   "installed_at": "2026-09-23T21:36:16.158118+00:00",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2671429Z   "reused": false,
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2671641Z   "gmsh_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2671929Z   "native_root": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2672645Z   "source_archive_path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2673743Z   "source_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2674228Z   "mpi_version": "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2674511Z   "compiler_versions": {
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2674774Z     "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2675096Z     "gxx": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2675454Z     "gfortran": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2675779Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2676011Z   "git_commit": "494a51a2d939d0acbe351aad9862d4c696eae35c"
+palace	UNKNOWN STEP	2026-09-23T21:36:16.2676306Z }
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3285627Z ##[group]Run uv run python scripts/external/check_palace.py
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3286094Z ^[[36;1muv run python scripts/external/check_palace.py^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3350620Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3351070Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3351330Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:16.3351651Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0201587Z {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0219244Z   "schema": "textlayout.palace-check.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0240949Z   "state": "INSTALLED",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0271026Z   "required_palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0300901Z   "source_archive": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0330864Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0361732Z     "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0391295Z     "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0421162Z     "size_bytes": 47331791
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0438845Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0460979Z   "installation": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0480875Z     "schema": "textlayout.palace-install.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0511008Z     "requested_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0521218Z     "gmsh": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0521600Z       "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0522023Z       "version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0522570Z       "expected_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0535725Z       "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0536970Z       "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0537708Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0538045Z     "source_archive": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0538454Z       "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0539519Z       "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0541054Z       "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0541795Z       "size_bytes": 47331791
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0542194Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0542543Z     "status": "INSTALLED",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0542970Z     "strategy": "pinned_spack_wsl",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0543521Z     "palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0544075Z     "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0545375Z     "palace_executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0546889Z     "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0547731Z     "spack_version": "1.1.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0548278Z     "spack_commit": "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0549038Z     "spack_packages_commit": "a2928a3376d286ddbf07da62847d5ba5b0fa3c67",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0549803Z     "spack_environment": "external_tools/palace/spack.yaml",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0552234Z     "spack_runtime_cache": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0553039Z     "install_tree": "/home/runner/.cache/textlayout-palace/spack-opt",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0553834Z     "build_stage": "/home/runner/.cache/textlayout-palace/build-stage",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0554485Z     "compiler_and_mpi_tail": [
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0555422Z       "[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0556613Z       "==> Installing palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3 [63/63]",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0557592Z       "==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0558412Z       "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0559326Z       "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0559940Z       "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0560730Z       "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0561152Z       ""
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0561458Z     ],
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0562039Z     "installed_at": "2026-09-23T21:36:16.158118+00:00",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0562550Z     "reused": false,
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0562935Z     "gmsh_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0563451Z     "native_root": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0564728Z     "source_archive_path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0566236Z     "source_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0567087Z     "mpi_version": "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0567586Z     "compiler_versions": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0568069Z       "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0568648Z       "gxx": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0569303Z       "gfortran": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0569885Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0570486Z     "git_commit": "494a51a2d939d0acbe351aad9862d4c696eae35c"
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0571019Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0571327Z   "gmsh": {
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0571655Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0572038Z     "version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0572439Z     "expected_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0573272Z     "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0574389Z     "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0575100Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0575432Z   "gmsh_version_valid": true
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0575837Z }
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0912943Z ##[group]Run uv run python scripts/external/run_palace_smoke.py
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0913475Z ^[[36;1muv run python scripts/external/run_palace_smoke.py^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0978677Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0978942Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0979207Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:17.0979545Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6054898Z {
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6055409Z   "schema": "textlayout.palace-smoke-result.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6055950Z   "status": "SMOKE_TEST_PASSED",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6056356Z   "solver_output_parsed": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6056748Z   "palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6057243Z   "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6058113Z   "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6058893Z   "official_example": "examples/cavity2d",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6061276Z   "command": [
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6061670Z     "bash",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6061989Z     "-lc",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6063369Z     "cd /home/runner/work/Text-to-Layout/Text-to-Layout/out/toolchain/palace_smoke && /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace -np 2 cavity2d.json"
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6064866Z   ],
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6065134Z   "return_code": 0,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6065456Z   "runtime_seconds": 13.598779590999584,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6065862Z   "frequencies_ghz": [
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6066186Z     0.103934328377,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6066479Z     0.2078686586235,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6066772Z     0.2078686591775,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6067060Z     0.2324042265491,
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6067344Z     0.2939706870914
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6067624Z   ],
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6067899Z   "domain_energies_j": {
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6068233Z     "1": 1.667820475991e-09
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6068563Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6068845Z   "input_file_hashes": {
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6069437Z     "cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6070553Z     "mesh/cavity2d.msh": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1"
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6071246Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6071521Z   "output_file_hashes": {
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6072511Z     "postpro/eigenmode/eig.csv": "b29eefa4b90a21e38e28393f94de088124332ae56821fe3379b2d000318f2684",
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6073608Z     "postpro/eigenmode/domain-E.csv": "0a1d26850d410422e3e4d0a415782cb46738bfb5a4f02ca569a628393cdd324e"
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6074346Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6074669Z   "completed_at": "2026-09-23T21:36:31.604622+00:00"
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6075095Z }
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6632979Z ##[group]Run uv run python scripts/external/check_palace.py
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6633491Z ^[[36;1muv run python scripts/external/check_palace.py^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6633875Z ^[[36;1muv run python - <<'EOF'^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6634184Z ^[[36;1mimport json, pathlib, sys^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6634713Z ^[[36;1mstate = json.loads(pathlib.Path("out/toolchain/palace_check.json").read_text())["state"]^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6635290Z ^[[36;1mprint(f"palace check state: {state}")^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6635786Z ^[[36;1msys.exit(0 if state in {"SMOKE_TEST_PASSED", "BENCHMARK_EXECUTED"} else 1)^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6636251Z ^[[36;1mEOF^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6701156Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6701417Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6701692Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:31.6702031Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3512668Z {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3521427Z   "schema": "textlayout.palace-check.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3551037Z   "state": "SMOKE_TEST_PASSED",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3580822Z   "required_palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3610717Z   "source_archive": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3640740Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3671346Z     "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3700980Z     "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3730740Z     "size_bytes": 47331791
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3760713Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3790770Z   "installation": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3820824Z     "schema": "textlayout.palace-install.v1",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3850816Z     "requested_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3880713Z     "gmsh": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3910766Z       "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3940755Z       "version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.3970774Z       "expected_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4001184Z       "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4031139Z       "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4060870Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4088557Z     "source_archive": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4088994Z       "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4089645Z       "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4090760Z       "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4091223Z       "size_bytes": 47331791
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4091456Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4091661Z     "status": "INSTALLED",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4091912Z     "strategy": "pinned_spack_wsl",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4092185Z     "palace_version": "0.17.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4092505Z     "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4093265Z     "palace_executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4094120Z     "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4094599Z     "spack_version": "1.1.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4094911Z     "spack_commit": "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4095349Z     "spack_packages_commit": "a2928a3376d286ddbf07da62847d5ba5b0fa3c67",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4095782Z     "spack_environment": "external_tools/palace/spack.yaml",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4096571Z     "spack_runtime_cache": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4097052Z     "install_tree": "/home/runner/.cache/textlayout-palace/spack-opt",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4097507Z     "build_stage": "/home/runner/.cache/textlayout-palace/build-stage",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4097873Z     "compiler_and_mpi_tail": [
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4098612Z       "[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4099320Z       "==> Installing palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3 [63/63]",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4099880Z       "==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4100583Z       "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4100900Z       "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4101233Z       "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4101553Z       "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4101790Z       ""
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4101962Z     ],
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4102185Z     "installed_at": "2026-09-23T21:36:16.158118+00:00",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4102480Z     "reused": false,
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4102689Z     "gmsh_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4102991Z     "native_root": "/home/runner/.cache/textlayout-palace",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4103725Z     "source_archive_path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4104563Z     "source_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4105038Z     "mpi_version": "mpirun (Open MPI) 4.1.6",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4105323Z     "compiler_versions": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4105603Z       "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4105929Z       "gxx": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4106308Z       "gfortran": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4106634Z     },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4106879Z     "git_commit": "494a51a2d939d0acbe351aad9862d4c696eae35c"
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4107179Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4107350Z   "gmsh": {
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4107540Z     "available": true,
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4107766Z     "version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4107995Z     "expected_version": "4.15.2",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4108463Z     "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4109101Z     "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4109508Z   },
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4109696Z   "gmsh_version_valid": true
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4109923Z }
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4644897Z palace check state: SMOKE_TEST_PASSED
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4723898Z ##[group]Run mkdir -p out/toolchain
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4724267Z ^[[36;1mmkdir -p out/toolchain^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4724530Z ^[[36;1m{^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4724737Z ^[[36;1m  date -u +%FT%TZ^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4724977Z ^[[36;1m  uname -a^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4725190Z ^[[36;1m  free -m^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4725393Z ^[[36;1m  df -h .^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4725597Z ^[[36;1m  ulimit -a^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4725857Z ^[[36;1m} > out/toolchain/runner_resources.txt^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4726194Z ^[[36;1mcat out/toolchain/runner_resources.txt^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4791105Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4791378Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4791642Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:32.4791989Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5055867Z 2026-09-23T21:36:32Z
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5056825Z Linux runnervmtr4k5 6.17.0-1022-azure #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5057649Z                total        used        free      shared  buff/cache   available
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5058487Z Mem:           15989        1097        6563          51        8726       14892
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5059270Z Swap:           3071           0        3071
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5059813Z Filesystem      Size  Used Avail Use% Mounted on
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5060580Z /dev/root       145G   63G   82G  44% /
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5061024Z real-time non-blocking time  (microseconds, -R) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5061426Z core file size              (blocks, -c) 0
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5061784Z data seg size               (kbytes, -d) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5062151Z scheduling priority                 (-e) 0
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5062503Z file size                   (blocks, -f) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5062860Z pending signals                     (-i) 63838
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5063211Z max locked memory           (kbytes, -l) 8192
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5063582Z max memory size             (kbytes, -m) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5063939Z open files                          (-n) 65536
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5064281Z pipe size                (512 bytes, -p) 8
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5064727Z POSIX message queues         (bytes, -q) 819200
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5065122Z real-time priority                  (-r) 0
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5065454Z stack size                  (kbytes, -s) 16384
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5065797Z cpu time                   (seconds, -t) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5066150Z max user processes                  (-u) 63838
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5066518Z virtual memory              (kbytes, -v) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5066886Z file locks                          (-x) unlimited
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5109975Z ##[group]Run actions/upload-artifact@v4
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5110615Z with:
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5110846Z   name: palace-pre-benchmark-1
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5111713Z   path: .tools/palace/install.json
+palace	UNKNOWN STEP	out/toolchain/*.json
+palace	UNKNOWN STEP	out/toolchain/*.txt
+palace	UNKNOWN STEP	out/toolchain/*.log
+palace	UNKNOWN STEP	out/toolchain/palace_smoke/*.json
+palace	UNKNOWN STEP	out/toolchain/palace_smoke/*.txt
+palace	UNKNOWN STEP	out/toolchain/palace_smoke/postpro/eigenmode/*.csv
+palace	UNKNOWN STEP	
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5112604Z   include-hidden-files: true
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5112857Z   if-no-files-found: error
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5113091Z   retention-days: 30
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5113312Z   compression-level: 6
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5113533Z   overwrite: false
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5113739Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5113974Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:32.5114290Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6808424Z (node:679426) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6809443Z (Use `node --trace-deprecation ...` to show where the warning was created)
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6944036Z Multiple search paths detected. Calculating the least common ancestor of all paths
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6947639Z The least common ancestor is /home/runner/work/Text-to-Layout/Text-to-Layout. This will be the root directory of the artifact
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6948882Z With the provided path, there will be 16 files uploaded
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6955592Z Artifact name is valid!
+palace	UNKNOWN STEP	2026-09-23T21:36:32.6956210Z Root directory input is valid!
+palace	UNKNOWN STEP	2026-09-23T21:36:32.8908075Z Beginning upload of artifact content to blob storage
+palace	UNKNOWN STEP	2026-09-23T21:36:32.9336584Z (node:679426) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+palace	UNKNOWN STEP	2026-09-23T21:36:32.9576918Z Uploaded bytes 27678
+palace	UNKNOWN STEP	2026-09-23T21:36:32.9717985Z Finished uploading artifact content to blob storage!
+palace	UNKNOWN STEP	2026-09-23T21:36:32.9719111Z SHA256 digest of uploaded artifact zip is 5dfd9c1afbd12ef3fffe3a384cb4f7bb9c036ac8051406b4e93a5fb0d0eeed5d
+palace	UNKNOWN STEP	2026-09-23T21:36:32.9721484Z Finalizing artifact upload
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1608156Z Artifact palace-pre-benchmark-1.zip successfully finalized. Artifact ID 10778525629
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1609848Z Artifact palace-pre-benchmark-1 has been successfully uploaded! Final size is 27678 bytes. Artifact ID is 10778525629
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1615868Z Artifact download URL: https://github.com/JungluChen/Text-to-Layout/actions/runs/35915053169/artifacts/10778525629
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1783131Z ##[group]Run uv run textlayout simulate palace-resonator \
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1783606Z ^[[36;1muv run textlayout simulate palace-resonator \^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1783964Z ^[[36;1m  --out out/palace_resonator_v017 \^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1784271Z ^[[36;1m  --processes 2 \^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1784529Z ^[[36;1m  --mesh-scale 4.0 \^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1784786Z ^[[36;1m  --amr-iterations 4^[[0m
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1848989Z shell: /usr/bin/bash -e {0}
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1849257Z env:
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1849519Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+palace	UNKNOWN STEP	2026-09-23T21:36:33.1849851Z ##[endgroup]
+palace	UNKNOWN STEP	2026-09-23T21:54:01.0288623Z ##[error]The runner has received a shutdown signal. This can happen when the runner service is stopped, or a manually started runner is canceled.
+palace	UNKNOWN STEP	2026-09-23T21:54:01.0937585Z ##[error]Process completed with exit code 143.
+palace	UNKNOWN STEP	2026-09-23T21:54:01.2538195Z Cleaning up orphan processes
+palace	UNKNOWN STEP	2026-09-23T21:54:01.5042844Z Terminate orphan process: pid (679699) (mpirun)
+palace	UNKNOWN STEP	2026-09-23T21:54:01.5161054Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4, actions/upload-artifact@v4, astral-sh/setup-uv@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

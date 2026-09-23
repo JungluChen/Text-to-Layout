@@ -103,9 +103,12 @@ in the repository's generated evidence and retained solver artifacts.
   Unchanged attempt 2 also lost its runner during the reduced benchmark and
   retained zero artifacts. Collection fix `034fc15` now checkpoints installation
   and smoke evidence before the long step. Candidate `494a51a` combines that
-  collection fix with the still-isolated discovery fix. Monitor run `35915053169`,
-  job `107364317886`; hosted checkpoint behavior and numerical validation remain
-  pending. See `docs/progress/2026-09-24-031656.md` for evidence and exact resume steps.
+  collection fix with the still-isolated discovery fix. Run `35915053169` verified
+  the early checkpoint (artifact `10778525629`, retained smoke hashes verified),
+  then again lost the runner during the reduced benchmark. Do not repeat blindly:
+  add measured in-run resource/log diagnostics without changing numerical settings.
+  Also inspect unchanged Windows CI rerun `35915634148`, attempt 2, before editing
+  its timing-sensitive job-status failure. See `docs/progress/2026-09-24-031656.md`.
   Require real reduced-benchmark execution, repeated verification, convergence
   and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.

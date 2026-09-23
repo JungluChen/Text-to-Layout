@@ -61,9 +61,10 @@ steps may be skipped. Check the attempt-specific job log and artifact listing;
 a cancelled step does not establish an OOM, numerical failure or convergence.
 The workflow now uploads `palace-pre-benchmark-<attempt>` after smoke succeeds
 and before the reduced benchmark starts. It contains installation and smoke
-records, smoke CSVs/logs and starting runner resources. Real hosted execution of
-this new upload is pending; it cannot preserve later benchmark output if the
-runner disappears. The final `palace-integration-evidence` packet remains separate.
+records, smoke CSVs/logs and starting runner resources. Real Linux run
+`35915053169` verified this upload before a later runner shutdown; its smoke
+hashes were checked. It cannot preserve later benchmark output if the runner
+disappears. The final `palace-integration-evidence` packet remains separate.
 
 Inspect the existing run before retrying. Download a checkpoint, when present,
 with the actual run ID and attempt number (replace both example placeholders):
@@ -73,7 +74,7 @@ gh run view RUN_ID --repo JungluChen/Text-to-Layout --attempt ATTEMPT
 gh run download RUN_ID --repo JungluChen/Text-to-Layout --name palace-pre-benchmark-ATTEMPT --dir out/diagnostics/RUN_ID-ATTEMPT
 ```
 
-These are command templates; the upload itself still needs a real Linux run.
+These are command templates; use the artifact name from the selected attempt.
 A checkpoint proves only the stages represented by its records. It never
 substitutes for reduced-benchmark invocations, outputs or convergence evidence.
 
