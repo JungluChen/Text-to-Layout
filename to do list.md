@@ -100,9 +100,12 @@ in the repository's generated evidence and retained solver artifacts.
   Candidate CI `34932724963` passed. Palace attempt 1 (job `104264198805`)
   passed install/smoke but the runner shut down during the reduced benchmark
   (exit 143); no compact artifacts were uploaded. The cause is not established.
-  After account access recovered, the same job was rerun unchanged on September
-  20: run `34932740535`, **attempt 2**, job `105933606196`. Monitor this existing
-  attempt before starting anything. See `docs/progress/2026-09-20-010143.md`.
+  Unchanged attempt 2 also lost its runner during the reduced benchmark and
+  retained zero artifacts. Collection fix `034fc15` now checkpoints installation
+  and smoke evidence before the long step. Candidate `494a51a` combines that
+  collection fix with the still-isolated discovery fix. Monitor run `35915053169`,
+  job `107364317886`; hosted checkpoint behavior and numerical validation remain
+  pending. See `docs/progress/2026-09-24-031656.md` for evidence and exact resume steps.
   Require real reduced-benchmark execution, repeated verification, convergence
   and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.
