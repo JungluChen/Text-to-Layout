@@ -43,6 +43,29 @@
   Spack-installed Palace uses the environment's MPI. Reduce `--processes`
   to 1 to isolate MPI from solver issues.
 
+## CI runner shutdown and missing artifacts
+
+If the runner shuts down during a long benchmark, even `always()` collection
+steps may be skipped. Check the attempt-specific job log and artifact listing;
+a cancelled step does not establish an OOM, numerical failure or convergence.
+The workflow now uploads `palace-pre-benchmark-<attempt>` after smoke succeeds
+and before the reduced benchmark starts. It contains installation and smoke
+records, smoke CSVs/logs and starting runner resources. Real hosted execution of
+this new upload is pending; it cannot preserve later benchmark output if the
+runner disappears. The final `palace-integration-evidence` packet remains separate.
+
+Inspect the existing run before retrying. Download a checkpoint, when present,
+with the actual run ID and attempt number (replace both example placeholders):
+
+```sh
+gh run view RUN_ID --repo JungluChen/Text-to-Layout --attempt ATTEMPT
+gh run download RUN_ID --repo JungluChen/Text-to-Layout --name palace-pre-benchmark-ATTEMPT --dir out/diagnostics/RUN_ID-ATTEMPT
+```
+
+These are command templates; the upload itself still needs a real Linux run.
+A checkpoint proves only the stages represented by its records. It never
+substitutes for reduced-benchmark invocations, outputs or convergence evidence.
+
 ## Honesty rules
 
 A downloaded archive is not an installation; an installation is not solver

@@ -68,6 +68,36 @@ jobs:
           sys.exit(0 if state in {"SMOKE_TEST_PASSED", "BENCHMARK_EXECUTED"} else 1)
           EOF
 
+      # A runner shutdown can skip even always() cleanup. Upload the small
+      # installation/smoke packet before starting the expensive benchmark.
+      - name: Record pre-benchmark runner resources
+        run: |
+          mkdir -p out/toolchain
+          {
+            date -u +%FT%TZ
+            uname -a
+            free -m
+            df -h .
+            ulimit -a
+          } > out/toolchain/runner_resources.txt
+          cat out/toolchain/runner_resources.txt
+
+      - name: Preserve installation and smoke evidence before benchmark
+        uses: actions/upload-artifact@v4
+        with:
+          name: palace-pre-benchmark-${{ github.run_attempt }}
+          path: |
+            .tools/palace/install.json
+            out/toolchain/*.json
+            out/toolchain/*.txt
+            out/toolchain/*.log
+            out/toolchain/palace_smoke/*.json
+            out/toolchain/palace_smoke/*.txt
+            out/toolchain/palace_smoke/postpro/eigenmode/*.csv
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Run the reduced CPW quarter-wave benchmark
         if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
         run: |
