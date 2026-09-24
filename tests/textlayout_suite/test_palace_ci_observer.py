@@ -22,27 +22,28 @@ spec.loader.exec_module(observer)
 
 def test_tail_is_bounded_and_tolerates_partial_utf8(tmp_path: Path) -> None:
     path = tmp_path / "large.log"
-    path.write_bytes(b"x" * 5000 + b"\xff\nlast line")
+    path.write_bytes(b"x" * 5000 + b"\xff\r\nlast line")
     result = observer.read_tail(path, 32)
-    assert result["size_bytes"] == 5011
+    assert result["size_bytes"] == 5012
     assert result["truncated"] is True
     assert len(result["tail"]) <= 32
-    assert result["tail"].endswith("last line")
+    assert result["tail"].endswith("\r\nlast line")
     assert "unavailable" in observer.read_tail(tmp_path / "absent")
 
 
 def test_cgroup_membership_selects_own_group(tmp_path: Path) -> None:
     proc = tmp_path / "proc"
     (proc / "self").mkdir(parents=True)
-    (proc / "self/cgroup").write_text("0::/job\n")
+    # Model Linux procfs bytes, independent of the test host newline policy.
+    (proc / "self/cgroup").write_bytes(b"0::/job\n")
     groups = tmp_path / "groups"
     (groups / "job").mkdir(parents=True)
-    (groups / "job/memory.current").write_text("123\n")
-    (groups / "memory.current").write_text("999\n")
+    (groups / "job/memory.current").write_bytes(b"123\n")
+    (groups / "memory.current").write_bytes(b"999\n")
     sample = observer.snapshot(tmp_path / "missing-run", proc=proc, cgroups=groups)
     assert sample["cgroup_memory"]["memory.current"]["tail"] == "123\n"
     assert "unavailable" in sample["files"]["base_mesh/palace.stdout.txt"]
-    (proc / "self/cgroup").write_text("0::/../outside\n")
+    (proc / "self/cgroup").write_bytes(b"0::/../outside\n")
     assert "cgroup_unavailable" in observer.snapshot(tmp_path, proc=proc, cgroups=groups)
 
 
