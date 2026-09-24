@@ -107,8 +107,12 @@ in the repository's generated evidence and retained solver artifacts.
   the early checkpoint (artifact `10778525629`, retained smoke hashes verified),
   then again lost the runner during the reduced benchmark. Do not repeat blindly:
   add measured in-run resource/log diagnostics without changing numerical settings.
-  Also inspect unchanged Windows CI rerun `35915634148`, attempt 2, before editing
-  its timing-sensitive job-status failure. See `docs/progress/2026-09-24-031656.md`.
+  Runtime observer `4dfc1f2` now streams bounded memory/process/solver-log
+  diagnostics without changing solver behavior. Candidate `39daad4` is running
+  as `36032456522`, job `107744315010`; inspect it before any new dispatch.
+  Windows CI `35915634148` and `35933303913` both passed unchanged second
+  attempts; their first-attempt timing failures remain unexplained, not fixed by
+  relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
   Require real reduced-benchmark execution, repeated verification, convergence
   and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.

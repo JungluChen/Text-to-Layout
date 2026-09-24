@@ -1,0 +1,4 @@
+README claim validation FAILED (3 problem(s)):
+  - examples/showcase/06_research_test_chip/report.md: tile_simulation_map.json exists but the report does not mention full-tile status
+  - examples/showcase/06_research_test_chip/report.md: tile_simulation_map.json sub-blocks ['SpiralInductor', 'Resonator', 'AlignmentMarksAndLabels'] are not summarized in the report
+  - examples/showcase/06_research_test_chip/README.md: tile_simulation_map.json sub-blocks ['SpiralInductor', 'Resonator', 'AlignmentMarksAndLabels'] are not summarized in the report
