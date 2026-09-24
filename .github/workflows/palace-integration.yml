@@ -101,6 +101,13 @@ jobs:
       - name: Run the reduced CPW quarter-wave benchmark
         if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
         run: |
+          # Observe without owning or changing the solver command. On shell exit,
+          # stop only this observer; retain the benchmark's original exit status.
+          .venv/bin/python -u scripts/observe_palace_ci.py \
+            --run out/palace_resonator_v017 \
+            --output out/toolchain/palace_runtime.txt &
+          observer_pid=$!
+          trap 'kill "$observer_pid" 2>/dev/null || true; wait "$observer_pid" 2>/dev/null || true' EXIT
           uv run textlayout simulate palace-resonator \
             --out out/palace_resonator_v017 \
             --processes 2 \

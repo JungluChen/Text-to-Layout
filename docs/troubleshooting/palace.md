@@ -66,6 +66,35 @@ These are command templates; the upload itself still needs a real Linux run.
 A checkpoint proves only the stages represented by its records. It never
 substitutes for reduced-benchmark invocations, outputs or convergence evidence.
 
+## Live CI observations
+
+The reduced benchmark starts `scripts/observe_palace_ci.py` beside the unchanged
+solver command. Every 30 seconds it writes a bounded JSON observation to the
+Actions log and `out/toolchain/palace_runtime.txt`. It reads host memory, the
+observer's cgroup-v2 memory counters when available, the twelve processes with
+highest RSS, and short tails of selected benchmark records and solver logs.
+The shell stops only its observer on exit and preserves the benchmark exit code.
+The observer never starts, cancels or validates a solver. Real Linux diagnostic
+capture is pending the next candidate run; local tests check collection and
+shell lifecycle, not solver behavior.
+
+For a one-time local inspection from the repository root:
+
+```sh
+uv run python scripts/observe_palace_ci.py --run out/palace_resonator_v017 --output out/toolchain/palace_runtime.txt --once
+```
+
+Missing files/counters are explicitly unavailable. A truncated tail is not the
+full output, host RSS totals can include shared pages, and cgroup counters describe
+the named group rather than necessarily the solver alone. Compare timestamps,
+process ownership and counter changes before diagnosing a resource failure.
+Do not interpret diagnostics as numerical convergence. Use the full retained
+solver outputs, hashes and existing scientific gates for that assessment.
+
+If a CI job fails intermittently, retain its failure, rerun unchanged, and compare
+runner/environment details before editing tests. The existing Windows job-status
+wait is not increased or bypassed by this instrumentation.
+
 ## Honesty rules
 
 A downloaded archive is not an installation; an installation is not solver
