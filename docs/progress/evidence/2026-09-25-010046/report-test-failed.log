@@ -1,0 +1,270 @@
+test	Test	﻿2026-09-24T17:14:57.8376644Z ##[group]Run uv run pytest
+test	Test	2026-09-24T17:14:57.8376994Z ^[[36;1muv run pytest^[[0m
+test	Test	2026-09-24T17:14:57.8449070Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test	Test	2026-09-24T17:14:57.8449439Z env:
+test	Test	2026-09-24T17:14:57.8449650Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test	Test	2026-09-24T17:14:57.8449933Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test	Test	2026-09-24T17:14:57.8450192Z   UV_PYTHON: 3.12
+test	Test	2026-09-24T17:14:57.8450447Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test	Test	2026-09-24T17:14:57.8450764Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test	Test	2026-09-24T17:14:57.8451218Z ##[endgroup]
+test	Test	2026-09-24T17:15:19.7209548Z ============================= test session starts =============================
+test	Test	2026-09-24T17:15:19.7210315Z platform win32 -- Python 3.12.10, pytest-9.0.3, pluggy-1.6.0
+test	Test	2026-09-24T17:15:19.7210697Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test	Test	2026-09-24T17:15:19.7210991Z configfile: pyproject.toml
+test	Test	2026-09-24T17:15:19.7211221Z testpaths: tests
+test	Test	2026-09-24T17:15:19.7211453Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test	Test	2026-09-24T17:15:19.7212219Z collected 1977 items
+test	Test	2026-09-24T17:15:19.7212407Z 
+test	Test	2026-09-24T17:15:19.7321591Z tests\test_ai_copilot.py ...........                                     [  0%]
+test	Test	2026-09-24T17:15:19.8808082Z tests\test_backend_orchestration.py .....                                [  0%]
+test	Test	2026-09-24T17:15:19.9393428Z tests\test_candidate_loop.py ............                                [  1%]
+test	Test	2026-09-24T17:15:21.4487067Z tests\test_closed_loop.py .......                                        [  1%]
+test	Test	2026-09-24T17:15:21.5063179Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test	Test	2026-09-24T17:15:21.5359011Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test	Test	2026-09-24T17:15:22.5798258Z tests\test_device_views.py ...                                           [  2%]
+test	Test	2026-09-24T17:15:22.7218456Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test	Test	2026-09-24T17:15:22.9054020Z tests\test_em_solvers.py ...                                             [  2%]
+test	Test	2026-09-24T17:15:23.0572093Z tests\test_fitting.py ...                                                [  2%]
+test	Test	2026-09-24T17:15:23.7156114Z tests\test_fourth_wave.py ........................                       [  4%]
+test	Test	2026-09-24T17:15:24.2211907Z tests\test_improvements.py ......                                        [  4%]
+test	Test	2026-09-24T17:15:24.2405152Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test	Test	2026-09-24T17:15:24.2445009Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test	Test	2026-09-24T17:15:24.2554526Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test	Test	2026-09-24T17:15:24.3413606Z tests\test_jpa_topology.py ......                                        [  5%]
+test	Test	2026-09-24T17:15:24.3486791Z tests\test_layout_backend.py ......                                      [  5%]
+test	Test	2026-09-24T17:15:24.4084593Z tests\test_layout_quality_modes.py .......                               [  5%]
+test	Test	2026-09-24T17:15:24.8110844Z tests\test_layout_validator.py ......................................... [  7%]
+test	Test	2026-09-24T17:15:24.8511472Z ...                                                                      [  7%]
+test	Test	2026-09-24T17:15:24.9085799Z tests\test_new_modules.py ...................................            [  9%]
+test	Test	2026-09-24T17:15:25.5189740Z tests\test_next_improvements.py .......                                  [ 10%]
+test	Test	2026-09-24T17:15:25.5264547Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test	Test	2026-09-24T17:15:25.5572650Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test	Test	2026-09-24T17:15:25.6092875Z tests\test_open_solver.py ...........                                    [ 11%]
+test	Test	2026-09-24T17:15:25.6989045Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test	Test	2026-09-24T17:15:25.7914352Z tests\test_opensource_em.py ....                                         [ 11%]
+test	Test	2026-09-24T17:15:25.9675256Z tests\test_packaging.py ....                                             [ 11%]
+test	Test	2026-09-24T17:15:26.0327142Z tests\test_paper_benchmarks.py .                                         [ 12%]
+test	Test	2026-09-24T17:15:26.1384125Z tests\test_pdk.py .....                                                  [ 12%]
+test	Test	2026-09-24T17:15:26.2458088Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test	Test	2026-09-24T17:15:26.4172902Z tests\test_phase456.py ..........                                        [ 13%]
+test	Test	2026-09-24T17:15:26.4261094Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test	Test	2026-09-24T17:15:26.4286340Z tests\test_phase8_operations.py ..                                       [ 13%]
+test	Test	2026-09-24T17:15:26.4737581Z tests\test_phases_1_10.py ...............................                [ 15%]
+test	Test	2026-09-24T17:15:26.5675443Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test	Test	2026-09-24T17:15:26.5857631Z tests\test_physics_compiler.py ....................                      [ 17%]
+test	Test	2026-09-24T17:15:26.6585666Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test	Test	2026-09-24T17:15:26.7357322Z tests\test_physics_engine.py ........................................... [ 19%]
+test	Test	2026-09-24T17:15:26.8189732Z .........s..                                                             [ 20%]
+test	Test	2026-09-24T17:15:27.2822316Z tests\test_physics_first_pipeline.py .................................   [ 22%]
+test	Test	2026-09-24T17:15:27.3161497Z tests\test_physics_grounded_compiler_contract.py .....                   [ 22%]
+test	Test	2026-09-24T17:15:27.3193141Z tests\test_physics_provenance.py ...                                     [ 22%]
+test	Test	2026-09-24T17:15:27.3670609Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test	Test	2026-09-24T17:15:27.4075046Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test	Test	2026-09-24T17:15:27.4093158Z .                                                                        [ 24%]
+test	Test	2026-09-24T17:15:27.4173766Z tests\test_readiness.py ..                                               [ 24%]
+test	Test	2026-09-24T17:15:27.4568260Z tests\test_report_visual_quality.py ...                                  [ 24%]
+test	Test	2026-09-24T17:15:27.4931376Z tests\test_research_execution.py sssss.ss                                [ 25%]
+test	Test	2026-09-24T17:15:27.7581809Z tests\test_research_quality_goal.py .......                              [ 25%]
+test	Test	2026-09-24T17:15:27.7712110Z tests\test_review_committee.py .............                             [ 26%]
+test	Test	2026-09-24T17:15:27.8290117Z tests\test_review_coverage.py ........                                   [ 26%]
+test	Test	2026-09-24T17:15:28.1105076Z tests\test_signoff.py ......                                             [ 27%]
+test	Test	2026-09-24T17:15:28.1392091Z tests\test_signoff_contract.py .......                                   [ 27%]
+test	Test	2026-09-24T17:15:39.4026121Z tests\test_smoke.py ................                                     [ 28%]
+test	Test	2026-09-24T17:16:15.4974869Z tests\test_solver_adapters.py ....                                       [ 28%]
+test	Test	2026-09-24T17:16:16.1205670Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test	Test	2026-09-24T17:16:16.1306252Z tests\test_solver_evidence.py .......                                    [ 29%]
+test	Test	2026-09-24T17:16:16.1347576Z tests\test_solver_truthfulness.py ....                                   [ 29%]
+test	Test	2026-09-24T17:16:16.2120347Z tests\test_sop_qa.py ................................................    [ 31%]
+test	Test	2026-09-24T17:16:17.1457192Z tests\test_superconducting_eda_compiler.py .......                       [ 32%]
+test	Test	2026-09-24T17:16:17.2906955Z tests\test_superconductivity.py ....                                     [ 32%]
+test	Test	2026-09-24T17:16:17.3036818Z tests\test_third_wave.py ......                                          [ 32%]
+test	Test	2026-09-24T17:16:17.3147751Z tests\test_transmon_matches_literature.py ..                             [ 32%]
+test	Test	2026-09-24T17:16:17.3710410Z tests\test_transmon_topology.py .....                                    [ 32%]
+test	Test	2026-09-24T17:16:17.4224257Z tests\test_visual_credibility.py .......                                 [ 33%]
+test	Test	2026-09-24T17:16:17.8753833Z tests\textlayout_suite\test_acceptance.py ..............                 [ 34%]
+test	Test	2026-09-24T17:16:19.2798999Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 34%]
+test	Test	2026-09-24T17:16:20.3493212Z tests\textlayout_suite\test_api.py ............                          [ 35%]
+test	Test	2026-09-24T17:16:20.6790461Z tests\textlayout_suite\test_api_from_text.py ..                          [ 35%]
+test	Test	2026-09-24T17:16:31.3733043Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 36%]
+test	Test	2026-09-24T17:16:31.4780570Z ..........                                                               [ 37%]
+test	Test	2026-09-24T17:16:31.5693102Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 37%]
+test	Test	2026-09-24T17:16:31.6723542Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 38%]
+test	Test	2026-09-24T17:16:31.7660993Z .....................                                                    [ 39%]
+test	Test	2026-09-24T17:16:37.9143618Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 39%]
+test	Test	2026-09-24T17:16:40.5310962Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 41%]
+test	Test	2026-09-24T17:16:40.5593914Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 41%]
+test	Test	2026-09-24T17:16:40.5830378Z tests\textlayout_suite\test_convergence_order.py ....................... [ 42%]
+test	Test	2026-09-24T17:16:40.5981733Z ..............                                                           [ 43%]
+test	Test	2026-09-24T17:16:40.6026954Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 43%]
+test	Test	2026-09-24T17:16:45.5871058Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 43%]
+test	Test	2026-09-24T17:16:45.5918628Z tests\textlayout_suite\test_document_authority.py ...                    [ 44%]
+test	Test	2026-09-24T17:16:45.5972620Z tests\textlayout_suite\test_dsl.py .....                                 [ 44%]
+test	Test	2026-09-24T17:16:46.3236018Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 45%]
+test	Test	2026-09-24T17:16:46.5944680Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 46%]
+test	Test	2026-09-24T17:16:46.7467150Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 47%]
+test	Test	2026-09-24T17:16:48.9465183Z .............                                                            [ 47%]
+test	Test	2026-09-24T17:16:49.0247626Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 48%]
+test	Test	2026-09-24T17:16:49.0464739Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 49%]
+test	Test	2026-09-24T17:16:49.1280009Z ........................................................................ [ 53%]
+test	Test	2026-09-24T17:16:49.2498330Z ..............................................                           [ 55%]
+test	Test	2026-09-24T17:16:49.2549273Z tests\textlayout_suite\test_exporters.py ....                            [ 55%]
+test	Test	2026-09-24T17:16:50.1432522Z tests\textlayout_suite\test_extended_generators.py ........              [ 56%]
+test	Test	2026-09-24T17:16:50.9884235Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test	Test	2026-09-24T17:16:51.0670892Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 57%]
+test	Test	2026-09-24T17:16:52.9854537Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test	Test	2026-09-24T17:16:53.0811999Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test	Test	2026-09-24T17:16:53.1143811Z tests\textlayout_suite\test_fem_model.py ............................    [ 58%]
+test	Test	2026-09-24T17:16:55.1217101Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 59%]
+test	Test	2026-09-24T17:16:55.1556971Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test	Test	2026-09-24T17:16:55.4143580Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test	Test	2026-09-24T17:16:55.4655682Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 59%]
+test	Test	2026-09-24T17:16:55.4677509Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 59%]
+test	Test	2026-09-24T17:16:55.4991567Z tests\textlayout_suite\test_golden_cpw.py .                              [ 60%]
+test	Test	2026-09-24T17:16:55.5057478Z tests\textlayout_suite\test_idc_generator.py .....                       [ 60%]
+test	Test	2026-09-24T17:16:55.5153500Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test	Test	2026-09-24T17:17:08.4084770Z tests\textlayout_suite\test_jobs.py ......                               [ 61%]
+test	Test	2026-09-24T17:17:08.6417435Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test	Test	2026-09-24T17:17:08.8404962Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test	Test	2026-09-24T17:17:09.9111542Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test	Test	2026-09-24T17:17:10.1177678Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 63%]
+test	Test	2026-09-24T17:17:10.2060151Z .......                                                                  [ 63%]
+test	Test	2026-09-24T17:17:10.3590593Z tests\textlayout_suite\test_measurement.py ............................. [ 65%]
+test	Test	2026-09-24T17:17:10.3654590Z ..                                                                       [ 65%]
+test	Test	2026-09-24T17:17:10.5288137Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test	Test	2026-09-24T17:17:10.5726189Z ....                                                                     [ 66%]
+test	Test	2026-09-24T17:17:10.6167876Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 67%]
+test	Test	2026-09-24T17:17:10.6399838Z ..                                                                       [ 68%]
+test	Test	2026-09-24T17:17:10.8267558Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test	Test	2026-09-24T17:17:11.1092135Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test	Test	2026-09-24T17:17:12.4828643Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 69%]
+test	Test	2026-09-24T17:17:12.4928329Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test	Test	2026-09-24T17:17:13.6648054Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test	Test	2026-09-24T17:17:13.6889011Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 70%]
+test	Test	2026-09-24T17:17:14.3525546Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test	Test	2026-09-24T17:17:14.4154866Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test	Test	2026-09-24T17:17:14.4562164Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 70%]
+test	Test	2026-09-24T17:17:16.8494230Z tests\textlayout_suite\test_palace_backend.py .......................... [ 72%]
+test	Test	2026-09-24T17:17:16.8776620Z .....                                                                    [ 72%]
+test	Test	2026-09-24T17:17:17.6495789Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 73%]
+test	Test	2026-09-24T17:17:17.6617307Z ........                                                                 [ 73%]
+test	Test	2026-09-24T17:17:18.2933621Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 74%]
+test	Test	2026-09-24T17:17:18.3034706Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 74%]
+test	Test	2026-09-24T17:17:19.0788225Z tests\textlayout_suite\test_palace_ci_observer.py .F..ss                 [ 75%]
+test	Test	2026-09-24T17:17:19.1586560Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 75%]
+test	Test	2026-09-24T17:17:19.1798543Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 75%]
+test	Test	2026-09-24T17:17:19.2558447Z tests\textlayout_suite\test_palace_energy_weighted_mac.py .......        [ 75%]
+test	Test	2026-09-24T17:17:19.2754996Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test	Test	2026-09-24T17:17:19.5373973Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 76%]
+test	Test	2026-09-24T17:17:19.5428497Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test	Test	2026-09-24T17:17:20.8295158Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test	Test	2026-09-24T17:17:20.9730518Z tests\textlayout_suite\test_palace_installation.py ..s..                 [ 76%]
+test	Test	2026-09-24T17:17:20.9798230Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 77%]
+test	Test	2026-09-24T17:17:20.9868191Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 77%]
+test	Test	2026-09-24T17:17:21.0026750Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test	Test	2026-09-24T17:17:21.0584414Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test	Test	2026-09-24T17:17:21.0935868Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 77%]
+test	Test	2026-09-24T17:17:21.1041043Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 78%]
+test	Test	2026-09-24T17:17:21.1391947Z tests\textlayout_suite\test_palace_preparation.py .                      [ 78%]
+test	Test	2026-09-24T17:17:21.1966750Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 78%]
+test	Test	2026-09-24T17:17:21.2191684Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 79%]
+test	Test	2026-09-24T17:17:21.3435536Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 79%]
+test	Test	2026-09-24T17:17:21.3469904Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 79%]
+test	Test	2026-09-24T17:17:21.3640223Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test	Test	2026-09-24T17:17:21.3979874Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 80%]
+test	Test	2026-09-24T17:17:22.9350261Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 80%]
+test	Test	2026-09-24T17:17:22.9438628Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 81%]
+test	Test	2026-09-24T17:17:22.9973938Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 81%]
+test	Test	2026-09-24T17:17:23.0931266Z tests\textlayout_suite\test_pdk.py ........................              [ 82%]
+test	Test	2026-09-24T17:17:23.4337845Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test	Test	2026-09-24T17:17:23.4345842Z                                                                          [ 83%]
+test	Test	2026-09-24T17:17:23.4433236Z tests\textlayout_suite\test_platform_certification.py .....              [ 84%]
+test	Test	2026-09-24T17:17:23.6298290Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 84%]
+test	Test	2026-09-24T17:17:23.6322600Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test	Test	2026-09-24T17:17:23.7880561Z tests\textlayout_suite\test_product_docs.py ............                 [ 85%]
+test	Test	2026-09-24T17:17:24.1687808Z tests\textlayout_suite\test_project_claims.py ....................       [ 86%]
+test	Test	2026-09-24T17:17:25.0944229Z tests\textlayout_suite\test_project_status.py ......................     [ 87%]
+test	Test	2026-09-24T17:17:25.1104992Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 88%]
+test	Test	2026-09-24T17:17:25.1260630Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 88%]
+test	Test	2026-09-24T17:17:25.5441957Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 89%]
+test	Test	2026-09-24T17:17:39.6023916Z tests\textlayout_suite\test_readme_claims.py .................           [ 89%]
+test	Test	2026-09-24T17:17:40.5486719Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 90%]
+test	Test	2026-09-24T17:17:40.7000198Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test	Test	2026-09-24T17:17:40.7028713Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test	Test	2026-09-24T17:17:44.8507737Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test	Test	2026-09-24T17:17:45.8397898Z ..                                                                       [ 91%]
+test	Test	2026-09-24T17:17:45.8481608Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 92%]
+test	Test	2026-09-24T17:17:45.8783838Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test	Test	2026-09-24T17:17:46.7712080Z ............                                                             [ 93%]
+test	Test	2026-09-24T17:17:46.8042894Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 94%]
+test	Test	2026-09-24T17:17:47.0231665Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 95%]
+test	Test	2026-09-24T17:17:48.1451648Z tests\textlayout_suite\test_solver_execution.py ..................       [ 96%]
+test	Test	2026-09-24T17:17:48.1530302Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 96%]
+test	Test	2026-09-24T17:17:48.1768654Z tests\textlayout_suite\test_sparameters.py ...                           [ 96%]
+test	Test	2026-09-24T17:17:48.1996607Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test	Test	2026-09-24T17:17:48.5370824Z ...                                                                      [ 97%]
+test	Test	2026-09-24T17:17:48.5835647Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test	Test	2026-09-24T17:17:48.8500030Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test	Test	2026-09-24T17:17:50.8451010Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test	Test	2026-09-24T17:17:51.1832268Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test	Test	2026-09-24T17:17:51.1855350Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test	Test	2026-09-24T17:17:54.4371759Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test	Test	2026-09-24T17:17:54.4372271Z 
+test	Test	2026-09-24T17:17:54.4372442Z ================================== FAILURES ===================================
+test	Test	2026-09-24T17:17:54.4373024Z __________________ test_cgroup_membership_selects_own_group ___________________
+test	Test	2026-09-24T17:17:54.4373445Z 
+test	Test	2026-09-24T17:17:54.4373989Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_cgroup_membership_selects0')
+test	Test	2026-09-24T17:17:54.4374577Z 
+test	Test	2026-09-24T17:17:54.4374807Z     def test_cgroup_membership_selects_own_group(tmp_path: Path) -> None:
+test	Test	2026-09-24T17:17:54.4375236Z         proc = tmp_path / "proc"
+test	Test	2026-09-24T17:17:54.4375524Z         (proc / "self").mkdir(parents=True)
+test	Test	2026-09-24T17:17:54.4375916Z         (proc / "self/cgroup").write_text("0::/job\n")
+test	Test	2026-09-24T17:17:54.4376248Z         groups = tmp_path / "groups"
+test	Test	2026-09-24T17:17:54.4376543Z         (groups / "job").mkdir(parents=True)
+test	Test	2026-09-24T17:17:54.4376895Z         (groups / "job/memory.current").write_text("123\n")
+test	Test	2026-09-24T17:17:54.4377265Z         (groups / "memory.current").write_text("999\n")
+test	Test	2026-09-24T17:17:54.4377740Z         sample = observer.snapshot(tmp_path / "missing-run", proc=proc, cgroups=groups)
+test	Test	2026-09-24T17:17:54.4378316Z >       assert sample["cgroup_memory"]["memory.current"]["tail"] == "123\n"
+test	Test	2026-09-24T17:17:54.4378770Z E       AssertionError: assert '123\r\n' == '123\n'
+test	Test	2026-09-24T17:17:54.4379072Z E         
+test	Test	2026-09-24T17:17:54.4379262Z E         - 123
+test	Test	2026-09-24T17:17:54.4379457Z E         + 123
+test	Test	2026-09-24T17:17:54.4379657Z E         ?    +
+test	Test	2026-09-24T17:17:54.4379774Z 
+test	Test	2026-09-24T17:17:54.4379986Z tests\textlayout_suite\test_palace_ci_observer.py:43: AssertionError
+test	Test	2026-09-24T17:17:54.4380455Z ============================== warnings summary ===============================
+test	Test	2026-09-24T17:17:54.4380819Z tests\test_ai_copilot.py:3
+test	Test	2026-09-24T17:17:54.4381487Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test	Test	2026-09-24T17:17:54.4382268Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test	Test	2026-09-24T17:17:54.4382560Z 
+test	Test	2026-09-24T17:17:54.4382997Z src\textlayout\_legacy\device_optimizer.py:24
+test	Test	2026-09-24T17:17:54.4383881Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test	Test	2026-09-24T17:17:54.4384701Z     class OptimizationReport(BaseModel):
+test	Test	2026-09-24T17:17:54.4385005Z 
+test	Test	2026-09-24T17:17:54.4385191Z src\textlayout\_legacy\extracted_device.py:39
+test	Test	2026-09-24T17:17:54.4386402Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test	Test	2026-09-24T17:17:54.4388113Z     class ExtractedDevice(BaseModel):
+test	Test	2026-09-24T17:17:54.4388374Z 
+test	Test	2026-09-24T17:17:54.4388549Z src\textlayout\_legacy\microwave_validator.py:12
+test	Test	2026-09-24T17:17:54.4389687Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test	Test	2026-09-24T17:17:54.4390852Z     class MicrowaveReport(BaseModel):
+test	Test	2026-09-24T17:17:54.4391165Z 
+test	Test	2026-09-24T17:17:54.4391440Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test	Test	2026-09-24T17:17:54.4392538Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test	Test	2026-09-24T17:17:54.4393460Z     from starlette.testclient import TestClient as TestClient  # noqa
+test	Test	2026-09-24T17:17:54.4393751Z 
+test	Test	2026-09-24T17:17:54.4393927Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test	Test	2026-09-24T17:17:54.4394332Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test	Test	2026-09-24T17:17:54.4394736Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test	Test	2026-09-24T17:17:54.4395557Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test	Test	2026-09-24T17:17:54.4396445Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test	Test	2026-09-24T17:17:54.4396787Z 
+test	Test	2026-09-24T17:17:54.4396990Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test	Test	2026-09-24T17:17:54.4397465Z =========================== short test summary info ===========================
+test	Test	2026-09-24T17:17:54.4398153Z FAILED tests/textlayout_suite/test_palace_ci_observer.py::test_cgroup_membership_selects_own_group - AssertionError: assert '123\r\n' == '123\n'
+test	Test	2026-09-24T17:17:54.4398763Z   
+test	Test	2026-09-24T17:17:54.4398921Z   - 123
+test	Test	2026-09-24T17:17:54.4399085Z   + 123
+test	Test	2026-09-24T17:17:54.4399236Z   ?    +
+test	Test	2026-09-24T17:17:54.4399509Z === 1 failed, 1960 passed, 16 skipped, 518005 warnings in 169.91s (0:02:49) ===
+test	Test	2026-09-24T17:17:57.6904290Z ##[error]Process completed with exit code 1.

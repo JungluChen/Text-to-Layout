@@ -77,7 +77,7 @@
   },
   "test_report": {
     "source": "out/evidence/test_report.xml (pytest JUnit report)",
-    "generated_at": "2026-09-24T17:06:17+00:00",
+    "generated_at": "2026-09-24T17:16:15+00:00",
     "passed": 1966,
     "failed": 0,
     "skipped": 11,

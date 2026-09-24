@@ -1,0 +1,29 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "ruff",
+      "check",
+      "."
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "mypy"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "build"
+    ],
+    "exit_code": 0
+  }
+]

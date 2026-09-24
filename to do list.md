@@ -110,6 +110,9 @@ in the repository's generated evidence and retained solver artifacts.
   Runtime observer `4dfc1f2` now streams bounded memory/process/solver-log
   diagnostics without changing solver behavior. Candidate `39daad4` is running
   as `36032456522`, job `107744315010`; inspect it before any new dispatch.
+  New observer Windows fixture correction `6bd7e6f` is locally verified;
+  candidate head `303d909` carries the same test-only fix. Check its platform CI
+  while the existing solver run stays at `39daad4`.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
