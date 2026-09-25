@@ -1,0 +1,299 @@
+test (ubuntu-latest, 3.11)	Run uv run pytest	﻿2026-09-25T13:56:52.9633691Z ##[group]Run uv run pytest
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9634095Z ^[[36;1muv run pytest^[[0m
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9704562Z shell: /usr/bin/bash -e {0}
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9704805Z env:
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9704968Z   UV_PYTHON: 3.11
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9705241Z   VIRTUAL_ENV: /home/runner/work/Text-to-Layout/Text-to-Layout/.venv
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9705577Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:56:52.9705866Z ##[endgroup]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1431902Z ============================= test session starts ==============================
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1432364Z platform linux -- Python 3.11.16, pytest-9.0.3, pluggy-1.6.0
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1432704Z rootdir: /home/runner/work/Text-to-Layout/Text-to-Layout
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1432981Z configfile: pyproject.toml
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1433181Z testpaths: tests
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1433399Z plugins: anyio-4.13.0, cov-7.1.0, langsmith-0.9.7
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1433642Z collected 1977 items
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1433755Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1483923Z tests/test_ai_copilot.py ...........                                     [  0%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1570837Z tests/test_backend_orchestration.py .....                                [  0%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:00.1711729Z tests/test_candidate_loop.py ............                                [  1%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:01.1369627Z tests/test_closed_loop.py .......                                        [  1%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:01.1737422Z tests/test_cpw_boolean_gap.py ....                                       [  1%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:01.1961032Z tests/test_cpw_matches_reference.py ..                                   [  2%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.0445750Z tests/test_device_views.py ...                                           [  2%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.1622084Z tests/test_eda_framework_architecture.py .......                         [  2%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.1673530Z tests/test_em_solvers.py ...                                             [  2%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.3032204Z tests/test_fitting.py ...                                                [  2%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.4810346Z tests/test_fourth_wave.py ........................                       [  4%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.6646385Z tests/test_improvements.py ......                                        [  4%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.6740093Z tests/test_jj_boolean_overlap.py ...                                     [  4%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.6756482Z tests/test_jj_stack_matches_reference.py ..                              [  4%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.6816878Z tests/test_jpa_matches_literature.py ..                                  [  4%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.7150356Z tests/test_jpa_topology.py ......                                        [  5%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.7184339Z tests/test_layout_backend.py ......                                      [  5%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:02.7514034Z tests/test_layout_quality_modes.py .......                               [  5%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.0071103Z tests/test_layout_validator.py ......................................... [  7%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.0378956Z ...                                                                      [  7%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.1086256Z tests/test_new_modules.py ...................................            [  9%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.3921506Z tests/test_next_improvements.py .......                                  [ 10%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.3950275Z tests/test_no_fake_gain.py .......                                       [ 10%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.4054760Z tests/test_no_toy_layouts.py .....                                       [ 10%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.4111821Z tests/test_open_solver.py ...........                                    [ 11%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.4197569Z tests/test_openems_real_s2p.py .......                                   [ 11%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.4270797Z tests/test_opensource_em.py ....                                         [ 11%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.5814373Z tests/test_packaging.py ....                                             [ 11%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.6112888Z tests/test_paper_benchmarks.py .                                         [ 12%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.6916177Z tests/test_pdk.py .....                                                  [ 12%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.7244976Z tests/test_phase1_phase2.py ............                                 [ 12%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8165155Z tests/test_phase456.py ..........                                        [ 13%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8193590Z tests/test_phase8_foundations.py ....                                    [ 13%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8205590Z tests/test_phase8_operations.py ..                                       [ 13%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8475051Z tests/test_phases_1_10.py ...............................                [ 15%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8738530Z tests/test_physics_benchmark.py .......................                  [ 16%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.8819993Z tests/test_physics_compiler.py ....................                      [ 17%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.9001372Z tests/test_physics_compiler_loop.py ......                               [ 17%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.9303705Z tests/test_physics_engine.py ........................................... [ 19%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:03.9454091Z .........s..                                                             [ 20%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.1503151Z tests/test_physics_first_pipeline.py .................................   [ 22%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.1668139Z tests/test_physics_grounded_compiler_contract.py .....                   [ 22%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.1685341Z tests/test_physics_provenance.py ...                                     [ 22%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.1876958Z tests/test_pyaedt_bridge.py ...                                          [ 22%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.2045839Z tests/test_quantum_eda_platform.py ..................................... [ 24%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.2053909Z .                                                                        [ 24%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.2089364Z tests/test_readiness.py ..                                               [ 24%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.2297737Z tests/test_report_visual_quality.py ...                                  [ 24%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.2353721Z tests/test_research_execution.py sssss.ss                                [ 25%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.3234051Z tests/test_research_quality_goal.py .......                              [ 25%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.3292232Z tests/test_review_committee.py .............                             [ 26%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.3592796Z tests/test_review_coverage.py ........                                   [ 26%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.5127819Z tests/test_signoff.py ......                                             [ 27%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:04.5206744Z tests/test_signoff_contract.py .......                                   [ 27%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:12.2830886Z tests/test_smoke.py ................                                     [ 28%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:42.3351816Z tests/test_solver_adapters.py ....                                       [ 28%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:49.6499456Z tests/test_solver_artifacts_required.py .......                          [ 28%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:49.6537473Z tests/test_solver_evidence.py .......                                    [ 29%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:49.6555929Z tests/test_solver_truthfulness.py ....                                   [ 29%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:49.6793464Z tests/test_sop_qa.py ................................................    [ 31%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:50.8610207Z tests/test_superconducting_eda_compiler.py .......                       [ 32%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:50.9607140Z tests/test_superconductivity.py ....                                     [ 32%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:50.9673539Z tests/test_third_wave.py ......                                          [ 32%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:50.9742337Z tests/test_transmon_matches_literature.py ..                             [ 32%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:51.0057881Z tests/test_transmon_topology.py .....                                    [ 32%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:51.0433084Z tests/test_visual_credibility.py .......                                 [ 33%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:51.2730302Z tests/textlayout_suite/test_acceptance.py ..............                 [ 34%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:51.4951391Z tests/textlayout_suite/test_acceptance_physics.py ............           [ 34%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:51.8161084Z tests/textlayout_suite/test_api.py ............                          [ 35%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:52.0072872Z tests/textlayout_suite/test_api_from_text.py ..                          [ 35%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:54.4592546Z tests/textlayout_suite/test_audit_artifacts.py ......................... [ 36%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:54.4841155Z ..........                                                               [ 37%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:54.5167823Z tests/textlayout_suite/test_benchmark_structure.py ....                  [ 37%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:54.5431807Z tests/textlayout_suite/test_canonical_evidence.py ...................... [ 38%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:57:54.5658680Z .....................                                                    [ 39%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:00.6013391Z tests/textlayout_suite/test_chip_40q_showcase.py ........                [ 39%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.4203547Z tests/textlayout_suite/test_chip_lattice.py ..........................   [ 41%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.4363128Z tests/textlayout_suite/test_ci_platform_matrix.py ....                   [ 41%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.4464912Z tests/textlayout_suite/test_convergence_order.py ....................... [ 42%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.4529858Z ..............                                                           [ 43%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.4549651Z tests/textlayout_suite/test_cpw_generator.py ....                        [ 43%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.5090234Z tests/textlayout_suite/test_doctor_and_dependencies.py .........         [ 43%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.5109280Z tests/textlayout_suite/test_document_authority.py ...                    [ 44%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.5133088Z tests/textlayout_suite/test_dsl.py .....                                 [ 44%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:02.8847521Z tests/textlayout_suite/test_epr_coherence.py ......................      [ 45%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:03.0380142Z tests/textlayout_suite/test_epr_pdk_provenance.py ............           [ 46%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:03.0815749Z tests/textlayout_suite/test_evidence_consistency.py .................... [ 47%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:03.9948609Z .............                                                            [ 47%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.0156739Z tests/textlayout_suite/test_evidence_contract.py ..................      [ 48%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.0257981Z tests/textlayout_suite/test_evidence_transitions.py .................... [ 49%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.0628791Z ........................................................................ [ 53%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.1059020Z ..............................................                           [ 55%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.1084458Z tests/textlayout_suite/test_exporters.py ....                            [ 55%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.2010419Z tests/textlayout_suite/test_extended_generators.py ........              [ 56%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.6775230Z tests/textlayout_suite/test_external_tool_registry.py ......             [ 56%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:04.6976405Z tests/textlayout_suite/test_fabrication_gate.py ..........               [ 57%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:05.6257552Z tests/textlayout_suite/test_fastercap_execution.py ........              [ 57%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:05.6390022Z tests/textlayout_suite/test_fasthenry_units.py .s                        [ 57%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:05.6544875Z tests/textlayout_suite/test_fem_model.py ............................    [ 58%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.7082539Z tests/textlayout_suite/test_from_text_workflow.py ......                 [ 59%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.7219866Z tests/textlayout_suite/test_gds_export.py ...                            [ 59%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8317929Z tests/textlayout_suite/test_generate_workflow.py ......                  [ 59%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8591070Z tests/textlayout_suite/test_geometry_engine.py ....                      [ 59%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8599309Z tests/textlayout_suite/test_gmsh_runtime.py .                            [ 59%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8706364Z tests/textlayout_suite/test_golden_cpw.py .                              [ 60%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8737344Z tests/textlayout_suite/test_idc_generator.py .....                       [ 60%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:06.8779306Z tests/textlayout_suite/test_idc_optimization.py ........                 [ 60%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:11.5372265Z tests/textlayout_suite/test_jobs.py ......                               [ 61%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:11.5538567Z tests/textlayout_suite/test_josim_adapter.py .........                   [ 61%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:11.5988027Z tests/textlayout_suite/test_josim_idc.py ....                            [ 61%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.0993224Z tests/textlayout_suite/test_jpa_mvp.py ...                               [ 61%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.1566301Z tests/textlayout_suite/test_klayout_drc.py ............................. [ 63%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.1919599Z .......                                                                  [ 63%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2415653Z tests/textlayout_suite/test_measurement.py ............................. [ 65%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2430422Z ..                                                                       [ 65%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2705993Z tests/textlayout_suite/test_mesh_convergence.py ........................ [ 66%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2772681Z ....                                                                     [ 66%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2910429Z tests/textlayout_suite/test_mode_tracking.py ........................... [ 67%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.2943811Z ..                                                                       [ 68%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.3461937Z tests/textlayout_suite/test_multi_device_generators.py .......           [ 68%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:12.4708059Z tests/textlayout_suite/test_multi_sim_prompt.py ..                       [ 68%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:13.9141939Z tests/textlayout_suite/test_namespace_boundary.py ...............        [ 69%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:13.9190810Z tests/textlayout_suite/test_oci_stack.py ...                             [ 69%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:14.5274961Z tests/textlayout_suite/test_open_source_simulation.py .....              [ 69%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:14.5342689Z tests/textlayout_suite/test_openems_evidence.py ........                 [ 70%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:14.9417990Z tests/textlayout_suite/test_palace_amr_verification.py .........         [ 70%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:14.9495964Z tests/textlayout_suite/test_palace_artifact_contracts.py ...             [ 70%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:14.9552220Z tests/textlayout_suite/test_palace_atomic_stages.py ...                  [ 70%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.1009861Z tests/textlayout_suite/test_palace_backend.py .......................... [ 72%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.1077633Z .....                                                                    [ 72%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.5163032Z tests/textlayout_suite/test_palace_benchmark_evidence.py ............... [ 73%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.5201100Z ........                                                                 [ 73%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.7974771Z tests/textlayout_suite/test_palace_benchmark_v017.py .................   [ 74%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:17.8018279Z tests/textlayout_suite/test_palace_bounded_amr_policy.py .........       [ 74%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.0997192Z tests/textlayout_suite/test_palace_ci_observer.py ......                 [ 75%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.1295948Z tests/textlayout_suite/test_palace_cross_amr_fixture.py ..               [ 75%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.1353142Z tests/textlayout_suite/test_palace_diagnostic.py ....                    [ 75%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.3704444Z tests/textlayout_suite/test_palace_energy_weighted_mac.py ......F        [ 75%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.3767009Z tests/textlayout_suite/test_palace_field_mac.py ..                       [ 75%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.4069226Z tests/textlayout_suite/test_palace_field_retention.py .........          [ 76%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:18.4096008Z tests/textlayout_suite/test_palace_global_assignment.py ....             [ 76%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.0210136Z tests/textlayout_suite/test_palace_higher_order_vtk.py ..                [ 76%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6036435Z tests/textlayout_suite/test_palace_installation.py ..s..                 [ 76%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6065177Z tests/textlayout_suite/test_palace_mac_applicability.py ......           [ 77%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6102680Z tests/textlayout_suite/test_palace_material_overlap.py ...               [ 77%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6172110Z tests/textlayout_suite/test_palace_mode_classification.py .....          [ 77%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6450358Z tests/textlayout_suite/test_palace_model_audit.py ...                    [ 77%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6519518Z tests/textlayout_suite/test_palace_mpi_integration.py ..                 [ 77%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6569538Z tests/textlayout_suite/test_palace_p2_manufactured.py ......             [ 78%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6589939Z tests/textlayout_suite/test_palace_preparation.py .                      [ 78%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6665861Z tests/textlayout_suite/test_palace_process_ownership.py ..s...           [ 78%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.6781982Z tests/textlayout_suite/test_palace_quarter_wave_sanity.py ............   [ 79%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.8235482Z tests/textlayout_suite/test_palace_resource_limits.py ..                 [ 79%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.8252010Z tests/textlayout_suite/test_palace_targeted_mesh.py ..                   [ 79%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.8366448Z tests/textlayout_suite/test_palace_toolchain.py .....                    [ 79%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:19.8528404Z tests/textlayout_suite/test_palace_toolchain_pins.py ............        [ 80%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.1999090Z tests/textlayout_suite/test_palace_vertical_slice.py .............       [ 80%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.2045095Z tests/textlayout_suite/test_paraview_toolchain.py .s                     [ 81%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.2182696Z tests/textlayout_suite/test_partial_lvs.py ....                          [ 81%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.2563827Z tests/textlayout_suite/test_pdk.py ........................              [ 82%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.4028756Z tests/textlayout_suite/test_pdk_provenance.py .......................... [ 83%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.4031245Z                                                                          [ 83%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.4101760Z tests/textlayout_suite/test_platform_certification.py .....              [ 84%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.4336968Z tests/textlayout_suite/test_plugin_thin_bundle.py ..............         [ 84%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.4348202Z tests/textlayout_suite/test_polygon_drc.py ..                            [ 84%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.5112555Z tests/textlayout_suite/test_product_docs.py ............                 [ 85%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:20.5850248Z tests/textlayout_suite/test_project_claims.py ....................       [ 86%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:21.1233039Z tests/textlayout_suite/test_project_status.py ......................     [ 87%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:21.1301133Z tests/textlayout_suite/test_prompt_numeric_conditioning.py ............  [ 88%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:21.1368458Z tests/textlayout_suite/test_prompt_parsing.py .............              [ 88%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:21.1950054Z tests/textlayout_suite/test_pscan2_adapter.py ......                     [ 89%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:29.3575300Z tests/textlayout_suite/test_readme_claims.py .................           [ 89%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:29.8709738Z tests/textlayout_suite/test_real_cqed_loop_demo.py .......               [ 90%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:29.8985543Z tests/textlayout_suite/test_reference_gds.py ......                      [ 90%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:29.8997169Z tests/textlayout_suite/test_reproduce_policy.py ..                       [ 90%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:30.8114027Z tests/textlayout_suite/test_requirements_workflow.py ................... [ 91%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.0183252Z ..                                                                       [ 91%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.0226041Z tests/textlayout_suite/test_resource_sampler.py ........                 [ 92%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.0369806Z tests/textlayout_suite/test_showcase_examples.py ....................... [ 93%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.5748129Z ............                                                             [ 93%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.5934636Z tests/textlayout_suite/test_simulation_postprocess.py .....              [ 94%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.6299483Z tests/textlayout_suite/test_simulator_bootstrap.py ....................  [ 95%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.7327183Z tests/textlayout_suite/test_solver_execution.py ..................       [ 96%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.7358535Z tests/textlayout_suite/test_solver_path_resolution.py ..                 [ 96%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.7416254Z tests/textlayout_suite/test_sparameters.py ...                           [ 96%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.7514903Z tests/textlayout_suite/test_synthesis_constraints.py ................... [ 97%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.9250106Z ...                                                                      [ 97%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:31.9400662Z tests/textlayout_suite/test_touchstone_honesty.py ......                 [ 97%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:32.1221131Z tests/textlayout_suite/test_verification.py ......                       [ 98%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:33.3335351Z tests/textlayout_suite/test_workflow_graph.py .....                      [ 98%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:33.4688698Z tests/textlayout_suite/test_wrspice_adapter.py .....                     [ 98%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:33.4781150Z tests/textlayout_suite/test_wsl_bootstrap.py ..                          [ 98%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4262517Z tests/textlayout_suite/test_yield_model.py .........................     [100%]
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4262991Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4263172Z =================================== FAILURES ===================================
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4263718Z _______________ test_real_palace_0_17_compacted_parallel_fixture _______________
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4264074Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4264316Z     def test_real_palace_0_17_compacted_parallel_fixture() -> None:
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4264841Z         fixture = Path("tests/fixtures/palace_0_17_field/data.pvtu")
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4265382Z >       result = reference_interpolated_energy_mac(
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4265839Z             fixture, fixture, kind="electric", material_map=_material_map()
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4266297Z         )
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4266425Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4266939Z tests/textlayout_suite/test_palace_energy_weighted_mac.py:168: 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4267459Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4268032Z src/textlayout/solvers/palace/overlap.py:1016: in reference_interpolated_energy_mac
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4268567Z     reference, source = _mesh_pair(left, right, kind)
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4268918Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4269307Z src/textlayout/solvers/palace/overlap.py:644: in _mesh_pair
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4269902Z     left_mesh, right_mesh = _integration_mesh(left, kind), _integration_mesh(right, kind)
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4270425Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4270919Z src/textlayout/solvers/palace/overlap.py:274: in _integration_mesh
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4271381Z     root = ElementTree.parse(piece).getroot()
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4271706Z            ^^^^^^^^^^^^^^^^^^^^^^^^
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4272325Z ../../../.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/xml/etree/ElementTree.py:1219: in parse
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4272968Z     tree.parse(source, parser)
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4273309Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4273585Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4273793Z self = <xml.etree.ElementTree.ElementTree object at 0x7fc4612767d0>
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4274380Z source = <_io.BufferedReader name='tests/fixtures/palace_0_17_field/proc000000.vtu'>
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4274942Z parser = <xml.etree.ElementTree.XMLParser object at 0x7fc461064ee0>
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4275251Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4275363Z     def parse(self, source, parser=None):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4275717Z         """Load external XML document into element tree.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4276429Z     
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4276915Z         *source* is a file name or file object, *parser* is an optional parser
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4277356Z         instance that defaults to XMLParser.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4277659Z     
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4277971Z         ParseError is raised if the parser fails to parse the document.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4278363Z     
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4278636Z         Returns the root element of the given source document.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4278989Z     
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4279174Z         """
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4279384Z         close_source = False
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4279655Z         if not hasattr(source, "read"):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4279963Z             source = open(source, "rb")
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4280250Z             close_source = True
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4280499Z         try:
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4280713Z             if parser is None:
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4281061Z                 # If no parser was specified, create a default XMLParser
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4281447Z                 parser = XMLParser()
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4281748Z                 if hasattr(parser, '_parse_whole'):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4282147Z                     # The default XMLParser, when it comes from an accelerator,
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4282608Z                     # can define an internal _parse_whole API for efficiency.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4283241Z                     # It can be used to parse the whole source without feeding
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4283615Z                     # it with chunks.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4283934Z >                   self._root = parser._parse_whole(source)
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4284269Z                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4284771Z E                   xml.etree.ElementTree.ParseError: XML declaration not well-formed: line 1, column 15
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4285181Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4285569Z ../../../.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/xml/etree/ElementTree.py:581: ParseError
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4286219Z =============================== warnings summary ===============================
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4286736Z tests/test_ai_copilot.py:3
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4287468Z   /home/runner/work/Text-to-Layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4288299Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4288591Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4288727Z src/textlayout/_legacy/device_optimizer.py:24
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4289662Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4290578Z     class OptimizationReport(BaseModel):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4290789Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4290915Z src/textlayout/_legacy/extracted_device.py:39
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4291792Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4292676Z     class ExtractedDevice(BaseModel):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4292875Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4293009Z src/textlayout/_legacy/microwave_validator.py:12
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4293918Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4294802Z     class MicrowaveReport(BaseModel):
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4294996Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4295166Z .venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4296241Z   /home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4297666Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4297984Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4298178Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4298654Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4299122Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4300155Z   /home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.11/site-packages/pydantic/main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4301267Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4301651Z 
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4301894Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4302381Z =========================== short test summary info ============================
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4303445Z FAILED tests/textlayout_suite/test_palace_energy_weighted_mac.py::test_real_palace_0_17_compacted_parallel_fixture - xml.etree.ElementTree.ParseError: XML declaration not well-formed: line 1, column 15
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:37.4304518Z ==== 1 failed, 1964 passed, 12 skipped, 518005 warnings in 99.96s (0:01:39) ====
+test (ubuntu-latest, 3.11)	Run uv run pytest	2026-09-25T13:58:41.0871573Z ##[error]Process completed with exit code 1.

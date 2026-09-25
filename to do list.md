@@ -115,6 +115,12 @@ in the repository's generated evidence and retained solver artifacts.
   evidence only. See the September 25 report and hashed artifact packet.
   Observer Windows fixture correction `6bd7e6f` passed actual main Windows
   3.11/3.12 CI; candidate head `303d909` also passed full platform CI.
+  Documentation commit `2ca1c73` exposed an invalid XML 2.2 declaration in
+  the compacted real Palace field fixture on Ubuntu/Python 3.11; its failed
+  job reproduced unchanged. Correction `33bb90d` changes only the XML
+  declarations, repairs all fixture provenance hashes and passes full local
+  gates. Check exact-SHA CI `36145914485` and test `36145914291` before
+  confirming cross-platform success; see September 25 report.
   Next implement and verify independently uploaded CLI stage/resume checkpoints
   and a bounded solver diagnostic before one new candidate dispatch. Retain the
   original full benchmark and all scientific gates for final acceptance; do
