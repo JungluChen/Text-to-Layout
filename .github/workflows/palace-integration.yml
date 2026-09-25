@@ -98,6 +98,73 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Prepare the reduced CPW base mesh checkpoint
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        run: |
+          uv run textlayout simulate palace-resonator \
+            --out out/palace_resonator_v017 \
+            --processes 2 \
+            --mesh-scale 4.0 \
+            --amr-iterations 4 \
+            --stage base_mesh
+          uv run python - <<'EOF'
+          import hashlib, json, pathlib
+          root = pathlib.Path("out/palace_resonator_v017")
+          record = json.loads((root / "stages/base_mesh.json").read_text())
+          assert record["stage"] == "base_mesh" and record["status"] == "complete"
+          for relative, expected in record["output_hashes"].items():
+              actual = hashlib.sha256((root / relative).read_bytes()).hexdigest()
+              assert actual == expected, relative
+          print("BASE_MESH_CHECKPOINT_VERIFIED")
+          EOF
+
+      - name: Preserve the verified base mesh before the long solve
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: palace-base-mesh-${{ github.run_attempt }}
+          path: |
+            out/palace_resonator_v017/toolchain.json
+            out/palace_resonator_v017/environment.json
+            out/palace_resonator_v017/resource_decision.json
+            out/palace_resonator_v017/fem_model.json
+            out/palace_resonator_v017/base_mesh/mesh_metrics.json
+            out/palace_resonator_v017/base_mesh/*.msh
+            out/palace_resonator_v017/stages/*.json
+          if-no-files-found: error
+          retention-days: 7
+
+      # This separate coarse profile measures actual Palace execution within
+      # hard resource bounds. It is diagnostic evidence, not the release result.
+      - name: Run bounded Palace solver diagnostic
+        if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
+        run: |
+          .venv/bin/python -u scripts/observe_palace_ci.py \
+            --run out/palace_bounded_diagnostic \
+            --output out/toolchain/palace_bounded_runtime.txt &
+          observer_pid=$!
+          trap 'kill "$observer_pid" 2>/dev/null || true; wait "$observer_pid" 2>/dev/null || true' EXIT
+          uv run textlayout simulate palace-resonator \
+            --out out/palace_bounded_diagnostic \
+            --bounded-validation-profile \
+            --max-rss-gib 8 \
+            --max-runtime-seconds 1200
+
+      - name: Preserve bounded diagnostic outputs before the full benchmark
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.run_benchmark) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: palace-bounded-diagnostic-${{ github.run_attempt }}
+          path: |
+            out/toolchain/palace_bounded_runtime.txt
+            out/palace_bounded_diagnostic/*.json
+            out/palace_bounded_diagnostic/*.md
+            out/palace_bounded_diagnostic/**/*.json
+            out/palace_bounded_diagnostic/**/*.csv
+            out/palace_bounded_diagnostic/**/*.txt
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Run the reduced CPW quarter-wave benchmark
         if: ${{ github.event_name == 'schedule' || inputs.run_benchmark }}
         run: |
@@ -110,6 +177,7 @@ jobs:
           trap 'kill "$observer_pid" 2>/dev/null || true; wait "$observer_pid" 2>/dev/null || true' EXIT
           uv run textlayout simulate palace-resonator \
             --out out/palace_resonator_v017 \
+            --resume \
             --processes 2 \
             --mesh-scale 4.0 \
             --amr-iterations 4
@@ -148,7 +216,7 @@ jobs:
         if: always()
         run: |
           mkdir -p out/ci_artifacts
-          find out/toolchain out/palace_resonator_v017 \
+          find out/toolchain out/palace_bounded_diagnostic out/palace_resonator_v017 \
             \( -name '*.json' -o -name '*.csv' -o -name '*.md' -o -name '*.txt' \) \
             -size -2M ! -path '*/raw/*' -print0 2>/dev/null | \
             xargs -0 -I{} cp --parents {} out/ci_artifacts/ || true

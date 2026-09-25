@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+from textlayout.fem.gmsh_physical import GmshMeshResult
 from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
 from textlayout.solvers.palace.benchmark_v017 import (
     AMRSettings,
@@ -257,6 +258,92 @@ def test_status_reports_missing_stages_before_resume(tmp_path: Path) -> None:
     assert report["stages"][0]["stage"] == "preflight"
     assert {stage["status"] for stage in report["stages"]} == {"missing"}
     assert report["orphan_processes"]["checked"] in {True, False}
+
+
+def test_resume_after_base_mesh_starts_solver_without_remeshing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    mesh_calls = 0
+
+    def fake_mesh(_geometry, _params, _model, output_path, **_kwargs):
+        nonlocal mesh_calls
+        mesh_calls += 1
+        path = Path(output_path)
+        path.write_bytes(b"retained mesh\n")
+        return GmshMeshResult(path, 0.1, 1, 1.0, 1.0)
+
+    class SolverReached(Exception):
+        pass
+
+    def fake_solver(_capability, **kwargs):
+        assert kwargs["mesh"].path.read_bytes() == b"retained mesh\n"
+        raise SolverReached
+
+    monkeypatch.setattr("textlayout.solvers.palace.benchmark_v017.mesh_quarter_wave", fake_mesh)
+    monkeypatch.setattr("textlayout.solvers.palace.benchmark_v017._run_palace_once", fake_solver)
+    capability = PalaceCapability(executable="/bin/true", version="0.17.0")
+    output = tmp_path / "palace"
+    options = {
+        "layout_path": DEFAULT_LAYOUT,
+        "capability": capability,
+        "processes": 1,
+        "mesh_scale": 4.0,
+        "amr": AMRSettings(max_iterations=4),
+        "numerical_sweep_values": {},
+        "physical_sweep_values": {},
+    }
+    first = run_quarter_wave_benchmark_v017(output, stop_after_stage="base_mesh", **options)
+    assert first.status == "STAGE_COMPLETE"
+    with pytest.raises(SolverReached):
+        run_quarter_wave_benchmark_v017(
+            output, resume=True, stop_after_stage="base_amr", **options
+        )
+    assert mesh_calls == 1
+
+
+@pytest.mark.parametrize("damage", ["partial_amr", "changed_metrics"])
+def test_resume_after_base_mesh_rejects_partial_or_changed_evidence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, damage: str
+) -> None:
+    def fake_mesh(_geometry, _params, _model, output_path, **_kwargs):
+        path = Path(output_path)
+        path.write_bytes(b"retained mesh\n")
+        return GmshMeshResult(path, 0.1, 1, 1.0, 1.0)
+
+    monkeypatch.setattr("textlayout.solvers.palace.benchmark_v017.mesh_quarter_wave", fake_mesh)
+    monkeypatch.setattr(
+        "textlayout.solvers.palace.benchmark_v017._run_palace_once",
+        lambda *_args, **_kwargs: pytest.fail("partial or changed checkpoint launched a solver"),
+    )
+    output = tmp_path / "palace"
+    options = {
+        "layout_path": DEFAULT_LAYOUT,
+        "capability": PalaceCapability(executable="/bin/true", version="0.17.0"),
+        "processes": 1,
+        "mesh_scale": 4.0,
+        "amr": AMRSettings(max_iterations=4),
+        "numerical_sweep_values": {},
+        "physical_sweep_values": {},
+    }
+    assert (
+        run_quarter_wave_benchmark_v017(output, stop_after_stage="base_mesh", **options).status
+        == "STAGE_COMPLETE"
+    )
+    base = output / "base_mesh"
+    if damage == "partial_amr":
+        (base / "palace_amr.json").write_text("{}", encoding="utf-8")
+    else:
+        metrics = base / "mesh_metrics.json"
+        payload = json.loads(metrics.read_text(encoding="utf-8"))
+        payload["element_count"] = 2
+        metrics.write_text(json.dumps(payload), encoding="utf-8")
+    result = run_quarter_wave_benchmark_v017(
+        output, resume=True, stop_after_stage="base_amr", **options
+    )
+    assert result.status == "SIMULATION_INVALID"
+    assert (
+        "completed base AMR cannot be reused" if damage == "partial_amr" else "hash mismatch"
+    ) in (result.reason or "")
 
 
 def test_stage_record_can_reference_persistent_job_profile(tmp_path: Path) -> None:

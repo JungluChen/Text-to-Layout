@@ -122,6 +122,7 @@ from textlayout.solvers.palace.retention import (
 )
 from textlayout.solvers.palace.stages import (
     StageName,
+    StageRecord,
     relative_hashes,
     status_report,
     write_stage_record,
@@ -490,6 +491,37 @@ def _load_existing_base_mesh(base_dir: Path) -> GmshMeshResult | None:
         minimum_quality=float(metrics["minimum_quality"]),
         mean_quality=float(metrics["mean_quality"]),
     )
+
+
+def _resume_from_base_mesh_only(root: Path, base_dir: Path) -> bool:
+    """Start AMR from a verified mesh checkpoint only when no solve has begun."""
+    record_path = root / "stages" / "base_mesh.json"
+    if not record_path.is_file():
+        return False
+    solver_markers = (
+        base_dir / "palace_amr.json",
+        base_dir / "palace.stdout.txt",
+        base_dir / "palace.stderr.txt",
+        base_dir / "solver_process.json",
+        base_dir / "resource_summary.json",
+        base_dir / "peak_memory.json",
+        base_dir / "postpro",
+        root / "stages" / "base_amr.json",
+    )
+    if any(path.exists() for path in solver_markers):
+        return False
+    try:
+        record = StageRecord.model_validate_json(record_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise PalaceOutputError(f"invalid base mesh stage record: {exc}") from exc
+    if record.stage != "base_mesh" or record.status not in {"complete", "reused"}:
+        raise PalaceOutputError("base mesh stage is not complete")
+    for relative in ("base_mesh/quarter_wave_base.msh", "base_mesh/mesh_metrics.json"):
+        expected = record.output_hashes.get(relative)
+        actual = sha256_file(root / relative)
+        if expected is None or actual != expected:
+            raise PalaceOutputError(f"base mesh checkpoint hash mismatch: {relative}")
+    return True
 
 
 def _runtime_from_stdout(stdout_path: Path) -> float | None:
@@ -1610,6 +1642,11 @@ def run_quarter_wave_benchmark_v017(
         if atomic_two_state:
             start_atomic_stage(root, "mesh_generation", inputs=[root / "fem_model.json"])
         base_mesh = _load_existing_base_mesh(base_dir) if resume else None
+        resume_from_mesh = (
+            _resume_from_base_mesh_only(root, base_dir)
+            if resume and base_mesh is not None
+            else False
+        )
         if base_mesh is None:
             base_mesh = _mesh_for(base_extents, base_dir, "quarter_wave_base")
             write_json(
@@ -1650,7 +1687,7 @@ def run_quarter_wave_benchmark_v017(
         if stop_after_stage == "base_mesh":
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
 
-        if resume:
+        if resume and not resume_from_mesh:
             completed = validate_completed_base_amr(
                 root,
                 capability=detected,
