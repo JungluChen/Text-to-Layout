@@ -1,0 +1,257 @@
+{
+  "retained_at": "2026-09-24T04:21:32.397573+08:00",
+  "scope": "Workflow collection change verification; no new reduced Palace result or convergence claim",
+  "files": [
+    {
+      "path": "attempt2-run.json",
+      "bytes": 13550,
+      "sha256": "56923ecbd6943e28c8f458c3a45fc5d1de9534806ab27f37c5529bbf092d1174"
+    },
+    {
+      "path": "attempt2-jobs.json",
+      "bytes": 4469,
+      "sha256": "fdebdb6dd5cc4349971b6bc48406de6f41a3f870da9097305d1e08db8e55602f"
+    },
+    {
+      "path": "attempt2-failed-job.log.txt",
+      "bytes": 100788,
+      "sha256": "99db4b7dbe124660641b5af14f8aff726d57d3a3d0f4b513becf03f962d22184"
+    },
+    {
+      "path": "attempt2-artifacts.json",
+      "bytes": 32,
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c"
+    },
+    {
+      "path": "weekly-main-failed-job.log.txt",
+      "bytes": 107506,
+      "sha256": "20a66210eb0d18a9fbc4ae166400389ebfbee5a49dd7f947b9703d26737daca8"
+    },
+    {
+      "path": "prior-ci.json",
+      "bytes": 1542,
+      "sha256": "1ac2bb2ae226362e478547ee8206831b66bc7877868d99fe1e8bbae51a2b5af1"
+    },
+    {
+      "path": "new-runs.json",
+      "bytes": 2746,
+      "sha256": "e1cc69fa170fd746fdc79863f2f8ee81462d9e84bdf95140bdd61d792ba0e608"
+    },
+    {
+      "path": "active-jobs.json",
+      "bytes": 4047,
+      "sha256": "249e38cbff8d386970df4b609b894125e55100d5c46939569946d20ed5ee64ee"
+    },
+    {
+      "path": "pytest-initial.log.txt",
+      "bytes": 54734,
+      "sha256": "e33bb26cf01b9cc74742b9fd8b7785e76a9ace8be988482d59e77fccf24821b3"
+    },
+    {
+      "path": "license-repeat.log.txt",
+      "bytes": 2052,
+      "sha256": "9f8cf660e586a88d7ab3108caa67d833118a4bc92b6b252ca2ba0d04eddfecec"
+    },
+    {
+      "path": "pytest-corrected-1.log.txt",
+      "bytes": 17858,
+      "sha256": "10a3bf2b4770d451b47c31ad36258198c5ab817513fffce0e449b400d48c0daf"
+    },
+    {
+      "path": "pytest-corrected-2.log.txt",
+      "bytes": 17858,
+      "sha256": "42b43d5b41d856b2b4ac4a6b72ee3856ae765d3f9f83db367fb4b45fcb7959d7"
+    },
+    {
+      "path": "gates.json",
+      "bytes": 2832,
+      "sha256": "43afd44eed79f5be994314906b6d2529d433d24803f0a4301f199c60f8e20359"
+    },
+    {
+      "path": "gate-0.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "gate-1.log",
+      "bytes": 45,
+      "sha256": "41d7503aa9ea75954479c9967e6a52530d4d92309d65ff614859d1db5927ac5b"
+    },
+    {
+      "path": "gate-2.log",
+      "bytes": 183,
+      "sha256": "8671c0d9b1a9e135f3e84877c1330ce82dac98e34c4b7eab94fee3f2307f992e"
+    },
+    {
+      "path": "gate-3.log",
+      "bytes": 76,
+      "sha256": "d5fec22a01d06b913bcf34b2ac5b7f714317922f280b8e8bceef37f143ed6230"
+    },
+    {
+      "path": "gate-4.log",
+      "bytes": 81,
+      "sha256": "776a9921caa437c14c9f08eb9b50095a84f3b2e6443df62ea481a7eb35b4e210"
+    },
+    {
+      "path": "gate-5.log",
+      "bytes": 38,
+      "sha256": "ecf652db6d4a009242b28e79c40d6c326bee2837c1c383ad6a49373732a64a04"
+    },
+    {
+      "path": "gate-6.log",
+      "bytes": 24,
+      "sha256": "8b33f6683a910f3f7d18e650f9a7e6b2b3c461680e2b563fb823d498f1575d59"
+    },
+    {
+      "path": "gate-7.log",
+      "bytes": 83,
+      "sha256": "e2ef74aa3f09e705c8ac8880058ca1e894ee8603bdef85453023f044b7dd4201"
+    },
+    {
+      "path": "gate-8.log",
+      "bytes": 35,
+      "sha256": "f2ee4ea4105d6ce8320a0413a3eb64b3f56de87e1a2dc9d0ebb83548c8354f77"
+    },
+    {
+      "path": "gate-9.log",
+      "bytes": 394,
+      "sha256": "cafb8c1a550aef51f26304d74aa3a39bf5322b2c7f9062bee9e156318d173d3a"
+    },
+    {
+      "path": "gate-10.log",
+      "bytes": 44,
+      "sha256": "462fdad9331a79877677ae1e2e16a58241495942f456790b8a1a3206e47d5bf3"
+    },
+    {
+      "path": "gate-11.log",
+      "bytes": 197,
+      "sha256": "b9ad98746d175e423403b9b1c9ed3a1dba51454441ce11e33dc204a40e54b8fd"
+    },
+    {
+      "path": "gate-12.log",
+      "bytes": 42,
+      "sha256": "0124acd1d4ce3806f54d75365080e985a8178ab714a2860200ebc143bce43daa"
+    },
+    {
+      "path": "gate-13.log",
+      "bytes": 43,
+      "sha256": "20a065f4a71a1df232c9467cbb90b7d5642491582c4d8eeeffa7eb276ffef1ef"
+    },
+    {
+      "path": "35915634148-log.txt",
+      "bytes": 160034,
+      "sha256": "671b0eda2f22def768b81852eb1f5473c139107005b9ed46c8cb47dd59c0e4ee"
+    },
+    {
+      "path": "35915634148-jobs.txt",
+      "bytes": 30826,
+      "sha256": "97b0dd8ba5283360ba04a1544976d173cc475b17cad9ade48429618f5b8f367b"
+    },
+    {
+      "path": "35915634148-artifacts.txt",
+      "bytes": 32,
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c"
+    },
+    {
+      "path": "35915053169-log.txt",
+      "bytes": 105859,
+      "sha256": "52c7416b6ca37bd7ac69c35720c7e6325f513d514ad8b3ebe2317bd6e0b17246"
+    },
+    {
+      "path": "35915053169-jobs.txt",
+      "bytes": 4845,
+      "sha256": "3e4a0537aa9b11ad968090d01a075fe2700866aef3c9780450826b7910675db1"
+    },
+    {
+      "path": "35915053169-artifacts.txt",
+      "bytes": 765,
+      "sha256": "5f5648fd246a4661f9bdd582dd92974e38be09878c9e0879fbdb07d5bb85ceb2"
+    },
+    {
+      "path": "ci-rerun-attempt2.json",
+      "bytes": 13243,
+      "sha256": "8e6f50b34a30fb41f409afa381d1ef6b2beccf0dbd1057a43f0daceca65204d3"
+    },
+    {
+      "path": "checkpoint/out/toolchain/runner_resources.txt",
+      "bytes": 1248,
+      "sha256": "6c901f4c8f2bf1b10840a583c4ee4ceab93bc465924436fdee2f71a97f6d2b54"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.stderr.txt",
+      "bytes": 424,
+      "sha256": "8ca8c38a0c1d0fef2cc43fc03d7f9436afdad49372124c248e4e8df3020fe929"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.json",
+      "bytes": 2754,
+      "sha256": "3837083159abf6a69f06ea1508a73cf142e4038d7fc6d022de49ad75fca14a88"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_install.stdout.txt",
+      "bytes": 63345,
+      "sha256": "69e035af424c5302edf43b78907ecd252013bd1344c30a3ba9a9d7364ea0933c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_check.json",
+      "bytes": 3619,
+      "sha256": "0ee2a15ff37dc9f3cca9e8ee1fdac304051b616ba71b845e37de7f4a11716c7c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/palace.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/result.json",
+      "bytes": 1375,
+      "sha256": "dd27fbdca9297c1b66821d11ff2837be9909f85f0eb99d23d9198ca0961825e3"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/cavity2d.json",
+      "bytes": 912,
+      "sha256": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/palace.stdout.txt",
+      "bytes": 19382,
+      "sha256": "eaacc2aea3198da0bf5eeec128c8138014803ce0ece69f06037e1fbe47fa200e"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/command.json",
+      "bytes": 666,
+      "sha256": "0fc4fcef3d7893c716cdf250f6f6fe39db4e60de7e13c0f27f3c137ec677634c"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/environment.json",
+      "bytes": 847,
+      "sha256": "034b2dac71613a332b1e2b5af507e879c1191467b2bd7fd61128a0ae88c302b0"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/canonical_evidence.json",
+      "bytes": 3088,
+      "sha256": "674e55e627cd3457961e20a70839f1746910f90f1a3fe13e77688e7e181c28ec"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/error-indicators.csv",
+      "bytes": 224,
+      "sha256": "07c38c17f31faa770d112f19b764c988dc3dce33e69ae7b4658681c8f7bc3473"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/domain-E.csv",
+      "bytes": 1404,
+      "sha256": "0a1d26850d410422e3e4d0a415782cb46738bfb5a4f02ca569a628393cdd324e"
+    },
+    {
+      "path": "checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/eig.csv",
+      "bytes": 900,
+      "sha256": "b29eefa4b90a21e38e28393f94de088124332ae56821fe3379b2d000318f2684"
+    },
+    {
+      "path": "checkpoint/.tools/palace/install.json",
+      "bytes": 2754,
+      "sha256": "3837083159abf6a69f06ea1508a73cf142e4038d7fc6d022de49ad75fca14a88"
+    }
+  ],
+  "completed_run_retained_at": "2026-09-24T07:21:58.717150+08:00"
+}

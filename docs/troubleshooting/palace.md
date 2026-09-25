@@ -26,6 +26,17 @@
 
 ## Execution
 
+- **Smoke passes but the resonator says `SKIPPED_SOLVER_ABSENT`** — compare
+  `.tools/palace/install.json` with the benchmark's `toolchain.json`. A native
+  Spack executable can live outside PATH. The earlier discovery implementation
+  reads recorded WSL paths but ignores recorded native paths; this was reproduced
+  with a discovery-only fixture on 2026-09-15. Set `TEXTLAYOUT_PALACE` to the
+  exact verified `palace_executable` value for explicit discovery, or wait for
+  the native-discovery candidate's solver-enabled validation before adopting it.
+  Do not rerun installation or launch a duplicate solver just because discovery
+  failed. Inspect existing stage/job state first. See
+  [the candidate report](../progress/2026-09-15-132123.md) for current validation
+  status; installation/smoke success does not establish benchmark convergence.
 - **`check_palace.py` stays at `INSTALLED`** — the smoke test has not
   passed. Run `uv run python scripts/external/run_palace_smoke.py` and read
   `out/toolchain/palace_smoke/palace.stderr.txt` on failure.
@@ -50,9 +61,10 @@ steps may be skipped. Check the attempt-specific job log and artifact listing;
 a cancelled step does not establish an OOM, numerical failure or convergence.
 The workflow now uploads `palace-pre-benchmark-<attempt>` after smoke succeeds
 and before the reduced benchmark starts. It contains installation and smoke
-records, smoke CSVs/logs and starting runner resources. Real hosted execution of
-this new upload is pending; it cannot preserve later benchmark output if the
-runner disappears. The final `palace-integration-evidence` packet remains separate.
+records, smoke CSVs/logs and starting runner resources. Real Linux run
+`35915053169` verified this upload before a later runner shutdown; its smoke
+hashes were checked. It cannot preserve later benchmark output if the runner
+disappears. The final `palace-integration-evidence` packet remains separate.
 
 Inspect the existing run before retrying. Download a checkpoint, when present,
 with the actual run ID and attempt number (replace both example placeholders):
@@ -62,7 +74,7 @@ gh run view RUN_ID --repo JungluChen/Text-to-Layout --attempt ATTEMPT
 gh run download RUN_ID --repo JungluChen/Text-to-Layout --name palace-pre-benchmark-ATTEMPT --dir out/diagnostics/RUN_ID-ATTEMPT
 ```
 
-These are command templates; the upload itself still needs a real Linux run.
+These are command templates; use the artifact name from the selected attempt.
 A checkpoint proves only the stages represented by its records. It never
 substitutes for reduced-benchmark invocations, outputs or convergence evidence.
 
@@ -74,9 +86,14 @@ Actions log and `out/toolchain/palace_runtime.txt`. It reads host memory, the
 observer's cgroup-v2 memory counters when available, the twelve processes with
 highest RSS, and short tails of selected benchmark records and solver logs.
 The shell stops only its observer on exit and preserves the benchmark exit code.
-The observer never starts, cancels or validates a solver. Real Linux diagnostic
-capture is pending the next candidate run; local tests check collection and
-shell lifecycle, not solver behavior.
+The observer never starts, cancels or validates a solver. Candidate run
+`36032456522` reached this step, but the runner disappeared and GitHub returned
+`404 BlobNotFound` for its job log. No final artifact step ran, so neither the
+streamed lines nor the on-runner observer file were retained. Local tests check
+collection and shell lifecycle; actual Linux resource capture is still
+unverified. Preserve stage outputs in independently uploaded checkpoints before
+repeating a long benchmark. Missing logs cannot establish an OOM or solver
+result.
 
 For a one-time local inspection from the repository root:
 

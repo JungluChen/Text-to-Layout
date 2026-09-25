@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/ludko/Desktop/text2layout/Text-to-Layout
+configfile: pyproject.toml
+plugins: cov-7.1.0, langsmith-0.9.7, anyio-4.13.0
+collected 1 item
+
+tests/textlayout_suite/test_audit_artifacts.py F                         [100%]
+
+=================================== FAILURES ===================================
+__________________ test_actual_commit_discovery_accepts_head ___________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+
+    def test_actual_commit_discovery_accepts_head(audit_module) -> None:
+>       head = audit_module.git_stdout("rev-parse", "HEAD")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...indow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.06189837504643947)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_actual_commit_discovery_accepts_head
+============================== 1 failed in 0.11s ===============================

@@ -1,0 +1,1401 @@
+test (windows-latest, 3.11)	UNKNOWN STEP	﻿2026-09-23T20:23:42.4568357Z Current runner version: '2.337.0'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4591305Z ##[group]Runner Image Provisioner
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4591991Z Hosted Compute Agent
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4592451Z Version: 20260828.587
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4593056Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4593656Z Build Date: 2026-08-28T16:44:25Z
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4594224Z Worker ID: {c2e9ed10-3407-4dc0-b8df-b500a8fefd8c}
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4594767Z Azure Region: centralus
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4595257Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4596276Z ##[group]Operating System
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4596756Z Microsoft Windows Server 2025
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4597283Z 10.0.26100
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4597760Z Datacenter
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4598186Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4598694Z ##[group]Runner Image
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4599190Z Image: windows-2025-vs2026
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4599681Z Version: 20260907.229.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4600918Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260907.229/images/windows/Windows2025-VS2026-Readme.md
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4602243Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260907.229
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4602998Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4603898Z ##[group]GITHUB_TOKEN Permissions
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4605472Z Contents: read
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4605939Z Metadata: read
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4606364Z Packages: read
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4607318Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4609208Z Secret source: Actions
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4609900Z Cache mode: write
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4610445Z Prepare workflow directory
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4914124Z Prepare all required actions
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.4970647Z Getting action download info
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.8197027Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:42.9366920Z Download action repository 'astral-sh/setup-uv@v5' (SHA:d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.5544343Z Complete job name: test (windows-latest, 3.11)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6985704Z ##[group]Run actions/checkout@v4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6986979Z with:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6987466Z   repository: JungluChen/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6991103Z   token: ***
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6991727Z   ssh-strict: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6992159Z   ssh-user: git
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6992582Z   persist-credentials: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6993039Z   clean: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6993443Z   sparse-checkout-cone-mode: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6993942Z   fetch-depth: 1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6994356Z   fetch-tags: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6994764Z   show-progress: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6995193Z   lfs: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6995619Z   submodules: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6996013Z   set-safe-directory: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6996483Z   allow-unsafe-pr-checkout: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.6997254Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.8410403Z Syncing repository: JungluChen/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.8411968Z ##[group]Getting Git version info
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.8412685Z Working directory is 'D:\a\Text-to-Layout\Text-to-Layout'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:43.9916723Z [command]"C:\Program Files\Git\bin\git.exe" version
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.3509918Z git version 2.55.0.windows.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.3550407Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.3569888Z Temporarily overriding HOME='D:\a\_temp\71a61da2-0d44-4cd5-89bd-60a69c96880b' before making global git config changes
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.3570692Z Adding repository directory to the temporary git global config as a safe directory
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.3578362Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.4168065Z Deleting the contents of 'D:\a\Text-to-Layout\Text-to-Layout'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.4173466Z ##[group]Initializing the repository
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.4180255Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.5284976Z Initialized empty Git repository in D:/a/Text-to-Layout/Text-to-Layout/.git/
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.5324021Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/JungluChen/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.5882339Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.5882965Z ##[group]Disabling automatic garbage collection
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.5891066Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.6133321Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.6133844Z ##[group]Setting up auth
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.6143276Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:45.6378180Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:48.9103467Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:48.9345945Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.3451149Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.3683281Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.8050975Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.8283354Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.8283859Z ##[group]Fetching the repository
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:49.8294506Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +86425bc1dcde9181057de3e1f8515c830fcc1a39:refs/remotes/origin/main
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9512385Z From https://github.com/JungluChen/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9513370Z  * [new ref]         86425bc1dcde9181057de3e1f8515c830fcc1a39 -> origin/main
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9554534Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9555002Z ##[group]Determining the checkout info
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9555399Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:52.9565742Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.1757996Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.2001041Z ##[group]Checking out the ref
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.2008892Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.8463886Z Switched to a new branch 'main'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.8522215Z branch 'main' set up to track 'origin/main'.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:53.8586919Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.3308475Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.4726238Z 86425bc1dcde9181057de3e1f8515c830fcc1a39
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5121266Z ##[group]Run astral-sh/setup-uv@v5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5121625Z with:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5121901Z   python-version: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5123987Z   github-token: ***
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5124230Z   enable-cache: auto
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5124519Z   cache-dependency-glob: **/uv.lock
+test (windows-latest, 3.11)	UNKNOWN STEP	**/requirements*.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5124821Z   prune-cache: true
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5125143Z   ignore-nothing-to-cache: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5125457Z   ignore-empty-workdir: false
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.5125756Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.6727136Z (node:3444) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.6727766Z (Use `node --trace-deprecation ...` to show where the warning was created)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:54.9610689Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.12.18/uv-x86_64-pc-windows-msvc.zip" ...
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:55.4999920Z [command]"C:\Program Files\PowerShell\7\pwsh.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.ZipFile } catch { } ; try { [System.IO.Compression.ZipFile]::ExtractToDirectory('D:\a\_temp\147ca3e0-6cb7-4e15-a32a-c64c978cc0bf.zip', 'D:\a\_temp\ff832b69-9046-4372-9823-80b51e7ddf49', $true) } catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Expand-Archive -LiteralPath 'D:\a\_temp\147ca3e0-6cb7-4e15-a32a-c64c978cc0bf.zip' -DestinationPath 'D:\a\_temp\ff832b69-9046-4372-9823-80b51e7ddf49' -Force } else { throw $_ } } ;"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0743030Z Set UV_TOOL_BIN_DIR to D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0745372Z Added D:\a\_temp\uv-tool-bin-dir to the path
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0750110Z Added C:\hostedtoolcache\windows\uv\0.12.18\x86_64 to the path
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0752199Z Set UV_TOOL_DIR to D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0755022Z Set UV_PYTHON to 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:23:56.0755426Z Activating python venv...
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.6786972Z Set UV_CACHE_DIR to D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.6787532Z Successfully installed uv version 0.12.18
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.6788032Z Searching files using cache dependency glob: **/uv.lock,**/requirements*.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.7695342Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-after-1.log.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.7714820Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-after-2.log.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.7727219Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-before-1.log.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.7736632Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-before-2.log.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.8783555Z D:\a\Text-to-Layout\Text-to-Layout\requirements.txt
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.9866678Z D:\a\Text-to-Layout\Text-to-Layout\uv.lock
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.9903768Z Found 6 files to hash.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:03.9905778Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-pc-windows-msvc-3.11-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:04.2581641Z Cache hit for: setup-uv-1-x86_64-pc-windows-msvc-3.11-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:04.2678275Z (node:3444) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:04.5708122Z Received 314396 of 314396 (100.0%), 1.7 MBs/sec
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:04.5709512Z Cache Size: ~0 MB (314396 B)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:04.5737641Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/86e3e115-cc5a-4e27-b2d0-ed3ecb4d540d/cache.tzst -P -C D:/a/Text-to-Layout/Text-to-Layout --force-local --use-compress-program "zstd -d"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.2896057Z Cache restored successfully
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.2906579Z uv cache restored from GitHub Actions cache with key: setup-uv-1-x86_64-pc-windows-msvc-3.11-b956a78f0117b5345d5c6d61671a9e6faa2aed2e82daac627da17243584501f0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.3169452Z ##[group]Run uv sync --dev
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.3169906Z ^[[36;1muv sync --dev^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4847492Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4847861Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4848151Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4848469Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4848763Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4849303Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4849636Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.4849898Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.7513368Z Resolved 230 packages in 2ms
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.7828250Z    Building text-to-gds @ file:///D:/a/Text-to-Layout/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8588119Z Downloading scipy (34.9MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8589381Z Downloading networkx (2.0MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8592489Z Downloading widgetsnbextension (2.1MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8597300Z Downloading pygments (1.2MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8608072Z Downloading mypy (10.5MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8784845Z Downloading ipytree (1.2MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8789218Z Downloading pandas (9.4MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8794061Z Downloading numpy (15.1MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8799427Z Downloading jedi (4.7MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8803061Z Downloading rapidfuzz (1.5MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8807192Z Downloading matplotlib (7.8MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8816147Z Downloading ast-serialize (1.1MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8822089Z Downloading fonttools (2.2MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8825910Z Downloading pywin32 (9.1MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8831124Z Downloading pydantic-core (1.9MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8833779Z Downloading shapely (1.6MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8836337Z Downloading debugpy (5.0MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8840663Z Downloading ruff (11.3MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8842962Z Downloading pillow (6.8MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8845420Z Downloading cryptography (3.6MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.8851855Z Downloading scikit-image (11.3MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.9000833Z Downloading pygit2 (1.1MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:05.9004114Z Downloading klayout (13.2MiB)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:06.6677858Z  Downloaded ast-serialize
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:06.8169750Z  Downloaded pygments
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:06.8181933Z  Downloaded ipytree
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:06.8205191Z  Downloaded pygit2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.4866559Z  Downloaded rapidfuzz
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.4882249Z  Downloaded shapely
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.5678801Z  Downloaded widgetsnbextension
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.5713218Z  Downloaded pydantic-core
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.6707548Z  Downloaded fonttools
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.6910804Z  Downloaded networkx
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.8342553Z  Downloaded cryptography
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:07.9689096Z  Downloaded debugpy
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.1318966Z  Downloaded pillow
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.2518017Z  Downloaded matplotlib
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.3799734Z  Downloaded pandas
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.5021981Z  Downloaded ruff
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.5088691Z  Downloaded pywin32
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.5596438Z  Downloaded scikit-image
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.5813873Z  Downloaded numpy
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.6950406Z  Downloaded klayout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.7216897Z  Downloaded mypy
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.8393604Z  Downloaded scipy
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:08.9096623Z  Downloaded jedi
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:11.9269222Z       Built text-to-gds @ file:///D:/a/Text-to-Layout/Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:11.9308354Z Prepared 154 packages in 6.17s
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5193933Z Installed 154 packages in 1.58s
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5196590Z  + aenum==3.1.17
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5197016Z  + annotated-doc==0.0.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5198048Z  + annotated-types==0.7.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5199003Z  + anyio==4.13.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5199304Z  + ast-serialize==0.5.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5200101Z  + asttokens==3.0.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5200417Z  + attrs==26.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5201441Z  + build==1.5.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5202442Z  + cachetools==7.1.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5203004Z  + certifi==2026.5.20
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5205830Z  + cffi==2.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5206437Z  + charset-normalizer==3.4.7
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5206858Z  + click==8.4.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5207332Z  + colorama==0.4.6
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5207566Z  + comm==0.2.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5207899Z  + contourpy==1.3.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5208085Z  + coverage==7.14.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5208377Z  + cryptography==48.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5209020Z  + cycler==0.12.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5210051Z  + debugpy==1.8.21
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5210333Z  + decorator==5.3.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5211185Z  + distro==1.9.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5211473Z  + executing==2.2.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5212650Z  + fastapi==0.138.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5213544Z  + fonttools==4.63.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5213839Z  + freetype-py==2.5.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5214666Z  + gdsfactory==9.43.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5215601Z  + graphviz==0.21
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5216266Z  + h11==0.16.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5216858Z  + hatchling==1.31.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5217332Z  + httpcore==1.0.9
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5218578Z  + httpx==0.28.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5219521Z  + httpx-sse==0.4.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5219954Z  + idna==3.18
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5220231Z  + imageio==2.37.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5221222Z  + iniconfig==2.3.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5221887Z  + ipyevents==2.0.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5222241Z  + ipykernel==7.2.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5223765Z  + ipython==9.14.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5224769Z  + ipython-pygments-lexers==1.1.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5225192Z  + ipytree==0.2.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5226025Z  + ipywidgets==8.1.8
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5226300Z  + jedi==0.20.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5226594Z  + jinja2==3.1.6
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5228048Z  + jsonpatch==1.33
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5228925Z  + jsonpointer==3.1.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5229261Z  + jsonschema==4.26.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5230186Z  + jsonschema-specifications==2025.9.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5230618Z  + jupyter-client==8.8.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5231643Z  + jupyter-core==5.9.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5232346Z  + jupyterlab-widgets==3.0.16
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5232784Z  + kfactory==2.5.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5233667Z  + kiwisolver==1.5.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5234316Z  + klayout==0.30.9
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5234948Z  + langchain-core==1.4.8
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5235659Z  + langchain-protocol==0.0.18
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5236299Z  + langgraph==1.2.7
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5236958Z  + langgraph-checkpoint==4.1.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5237716Z  + langgraph-prebuilt==1.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5238369Z  + langgraph-sdk==0.4.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5239031Z  + langsmith==0.9.7
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5239379Z  + lazy-loader==0.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5240242Z  + librt==0.11.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5240923Z  + loguru==0.7.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5241596Z  + mapbox-earcut==2.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5242339Z  + markdown-it-py==4.2.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5242816Z  + markupsafe==3.0.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5243634Z  + matplotlib==3.10.9
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5243947Z  + matplotlib-inline==0.2.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5244285Z  + mcp==1.27.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5245213Z  + mdurl==0.1.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5245907Z  + meshio==5.3.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5246632Z  + mypy==2.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5247009Z  + mypy-extensions==1.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5248015Z  + natsort==8.4.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5248755Z  + nest-asyncio==1.6.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5249377Z  + networkx==3.6.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5250069Z  + numpy==1.26.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5250648Z  + orjson==3.11.9
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5251375Z  + ormsgpack==1.12.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5252037Z  + packaging==26.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5252676Z  + pandas==3.0.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5253433Z  + parso==0.8.7
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5254052Z  + pathspec==1.1.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5254435Z  + pillow==12.2.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5255342Z  + platformdirs==4.10.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5255996Z  + pluggy==1.6.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5256700Z  + prompt-toolkit==3.0.52
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5257040Z  + psutil==7.2.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5257980Z  + pure-eval==0.2.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5258343Z  + pycparser==3.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5260053Z  + pydantic==2.12.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5260803Z  + pydantic-core==2.41.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5261241Z  + pydantic-extra-types==2.11.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5261646Z  + pydantic-settings==2.14.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5262110Z  + pygit2==1.19.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5262618Z  + pyglet==2.1.14
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5263021Z  + pygments==2.20.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5264299Z  + pyjwt==2.13.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5265684Z  + pyparsing==3.3.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5265992Z  + pyproject-hooks==1.2.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5266315Z  + pytest==9.0.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5266796Z  + pytest-cov==7.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5268025Z  + python-dateutil==2.9.0.post0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5268426Z  + python-dotenv==1.2.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5269335Z  + python-multipart==0.0.30
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5269668Z  + pywin32==311
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5270456Z  + pyyaml==6.0.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5271286Z  + pyzmq==27.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5271696Z  + qrcode==8.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5272716Z  + rapidfuzz==3.14.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5273091Z  + rectangle-packer==2.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5274208Z  + rectpack==0.2.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5274563Z  + referencing==0.37.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5275446Z  + requests==2.34.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5276208Z  + requests-toolbelt==1.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5276588Z  + rich==15.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5277600Z  + rpds-py==2026.5.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5277835Z  + ruamel-yaml==0.19.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5278836Z  + ruamel-yaml-string==0.1.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5279171Z  + ruff==0.15.15
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5280297Z  + scikit-image==0.26.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5280590Z  + scipy==1.17.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5281470Z  + semver==3.0.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5282306Z  + shapely==2.1.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5282924Z  + shellingham==1.5.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5283350Z  + six==1.17.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5284330Z  + sniffio==1.3.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5284605Z  + sse-starlette==3.4.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5285624Z  + stack-data==0.6.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5286263Z  + starlette==1.2.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5286674Z  + tenacity==9.1.4
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5287775Z  + text-to-gds==0.3.0 (from file:///D:/a/Text-to-Layout/Text-to-Layout)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5288227Z  + tifffile==2026.3.3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5288555Z  + toolz==1.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5289159Z  + tornado==6.5.6
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5289908Z  + traitlets==5.15.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5290289Z  + trimesh==4.12.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5291095Z  + trove-classifiers==2026.6.1.19
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5291833Z  + typer==0.24.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5292313Z  + types-pyyaml==6.0.12.20260518
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5293093Z  + typing-extensions==4.15.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5293513Z  + typing-inspection==0.4.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5294331Z  + tzdata==2026.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5294736Z  + urllib3==2.7.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5295793Z  + uuid-utils==0.16.2
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5296070Z  + uvicorn==0.48.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5296777Z  + watchdog==6.0.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5297042Z  + wcwidth==0.7.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5297768Z  + websockets==15.0.1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5298278Z  + widgetsnbextension==4.0.15
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5298841Z  + win32-setctime==1.2.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5299537Z  + xxhash==3.8.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.5299838Z  + zstandard==0.25.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6496988Z ##[group]Run uv run textlayout --help
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6497410Z ^[[36;1muv run textlayout --help^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6552619Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6552999Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6553282Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6553601Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6553882Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6554154Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6554470Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:13.6554796Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5680655Z usage: textlayout [-h] [--version]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5681544Z                   {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5682441Z                   ...
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5682676Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5682882Z Text-to-Layout CLI
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5683382Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5683564Z positional arguments:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5684755Z   {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5686238Z     design              Choose and build a device from a typed electrical
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5686962Z                         goal.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5687535Z     prompt              Natural-language request -> intent, layout,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5688160Z                         verification, simulation, report.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5688819Z     generate            Generate verified artifacts from a DSL file.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5689484Z     verify              Verify a DSL file (no export).
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5690209Z     epr                 Loss-participation (EPR) and coherence estimate for a
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5690979Z                         DSL file. EPR_ANALYTICAL_ONLY by default; never a
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5691667Z                         field solution.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5692341Z     evidence            Inspect and validate evidence ledgers (the source of
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5693035Z                         truth for every physics claim).
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5693989Z     doctor              Check the environment (imports, solvers, write perms).
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5694813Z     jobs                Start, inspect, collect, cancel, and resume persistent
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5695440Z                         local solver jobs.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5695964Z     serve               Run the FastAPI plugin server.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5696616Z     simulate            Run supported external solver benchmarks.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5697330Z     yield               JJ critical-current variability / fabrication-yield
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5698048Z                         Monte Carlo. Drawing one SQUID loop proves geometry,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5698657Z                         not manufacturability.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5699348Z     chip                Multi-qubit chip-level frequency-collision analysis. A
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5700059Z                         single-device closed loop cannot answer whether a
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5700651Z                         processor works.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5701249Z     pdk                 Foundry PDK abstraction: list registered technologies
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5701973Z                         or inspect a PDK's full provenance and process
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5702530Z                         parameters.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5703139Z     measurement         Simulation-vs-measurement correlation: the path from
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5703881Z                         illustrative to fab-calibrated numbers.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5704249Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5704410Z options:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5704853Z   -h, --help            show this help message and exit
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.5705460Z   --version             show program's version number and exit
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7348923Z ##[group]Run uv run textlayout doctor --json
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7349312Z ^[[36;1muv run textlayout doctor --json^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7404043Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7404465Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7404736Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7405053Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7405337Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7405636Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7405969Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:16.7406238Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:26.2965788Z Matplotlib is building the font cache; this may take a moment.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6195647Z {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6196214Z   "schema": "textlayout.doctor.v2",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6196661Z   "status": "ok",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6196951Z   "host": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6197347Z     "os": "Windows",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6197769Z     "os_release": "10",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6198102Z     "architecture": "AMD64",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6198480Z     "filesystem": "D:\\a\\Text-to-Layout\\Text-to-Layout"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6198880Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6199191Z   "runtime": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6199450Z     "python": "3.11.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6200144Z     "textlayout": "0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6200507Z     "git_sha": "86425bc1dcde9181057de3e1f8515c830fcc1a39",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6200912Z     "support_state": "CORE_TESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6201289Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6201570Z   "wsl": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6201864Z     "detected": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6202186Z     "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6202499Z     "distro": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6203284Z     "filesystem_warning": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6203594Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6203871Z   "core_dependencies": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6204108Z     "Python": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6204359Z       "name": "Python",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6204621Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6204863Z       "detail": "3.11.9 (requires >= 3.11)",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6205231Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6205456Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6205719Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6205943Z       "version": "3.11.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6206241Z       "backend_type": "runtime",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6206500Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6206733Z       "smoke_test": "passed",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6207090Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6207563Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6207810Z     "textlayout": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6208057Z       "name": "textlayout",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6208299Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6208615Z       "detail": "textlayout 0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6208881Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6209133Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6209486Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6209875Z       "version": "0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6210159Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6210438Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6210682Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6210995Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6211235Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6211465Z     "gdsfactory": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6211697Z       "name": "gdsfactory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6211989Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6212233Z       "detail": "gdsfactory 9.43.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6212495Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6212751Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6213146Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\gdsfactory\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6213565Z       "version": "9.43.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6213823Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6216026Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6216414Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6216674Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6216943Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6217157Z     "klayout.db": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6217455Z       "name": "klayout.db",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6217701Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6217933Z       "detail": "klayout.db 0.30.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6218212Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6218490Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6218869Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\klayout\\db\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6219256Z       "version": "0.30.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6219491Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6219826Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6220070Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6220337Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6220571Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6220813Z     "langgraph.graph": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6221084Z       "name": "langgraph.graph",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6221332Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6221571Z       "detail": "langgraph.graph",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6221864Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6222231Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6222648Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\langgraph\\graph\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6223075Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6223370Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6223651Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6223885Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6224167Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6224438Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6224697Z     "output directory write permission": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6224996Z       "name": "output directory write permission",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6225273Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6225602Z       "detail": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6225893Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6226174Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6226449Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6226785Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6227074Z       "backend_type": "filesystem",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6227402Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6227956Z       "smoke_test": "passed: create/write/delete",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6228313Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6228575Z     }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6228790Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6228998Z   "external_solvers": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6229309Z     "FasterCap/FastCap": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6229575Z       "name": "FasterCap/FastCap",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6229846Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6230403Z       "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6231002Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6231257Z       "section": "Extraction",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6231547Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6231813Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6232086Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6232351Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6232613Z         "IDC electrostatics",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6232861Z         "capacitance matrix"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6233142Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6233377Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6233648Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6233912Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6234196Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6234453Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6234664Z     "FastHenry/FastHenry2": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6235468Z       "name": "FastHenry/FastHenry2",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6235799Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6236079Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6236423Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6236663Z       "section": "Extraction",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6236972Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6237189Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6237412Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6237784Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6238043Z         "Spiral PEEC",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6238272Z         "inductance matrix"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6238540Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6238767Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6239050Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6239296Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6239597Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6239836Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6240033Z     "openEMS": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6240262Z       "name": "openEMS",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6240507Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6240807Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6241102Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6241406Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6242129Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6242341Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6242592Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6242846Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6243118Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6243339Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6243555Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6243850Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6244146Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6244418Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6244657Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6244917Z     "CSXCAD": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6245510Z       "name": "CSXCAD",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6245755Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6246046Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6246345Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6246609Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6246862Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6247082Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6247318Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6247606Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6247833Z         "CPW FDTD geometry"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6248080Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6248473Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6248817Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6249077Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6249345Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6249581Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6249817Z     "Octave": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6250050Z       "name": "Octave",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6250275Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6250608Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6250942Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6251168Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6251435Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6251659Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6251935Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6252183Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6252410Z         "openEMS frontend"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6252621Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6252839Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6253111Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6253337Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6253574Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6253829Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6254009Z     "Octave openEMS path": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6254442Z       "name": "Octave openEMS path",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6254703Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6255742Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6256771Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6257003Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6257996Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6258937Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6259192Z       "backend_type": "interface-directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6259498Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6259715Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6260068Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6260329Z       "smoke_test": "passed: discovered interface directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6260680Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6260944Z       "evidence_stage": "PROBE_PASS",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6261200Z       "support_state": "SOLVER_PARTIAL"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6261460Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6261692Z     "Octave CSXCAD path": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6261956Z       "name": "Octave CSXCAD path",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6262210Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6263167Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6264187Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6264417Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6265681Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6266695Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6266995Z       "backend_type": "interface-directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6267347Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6267610Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6267802Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6268021Z       "smoke_test": "passed: discovered interface directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6268358Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6268611Z       "evidence_stage": "PROBE_PASS",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6268865Z       "support_state": "SOLVER_PARTIAL"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6269119Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6269298Z     "scikit-rf": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6269563Z       "name": "scikit-rf",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6269805Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6270048Z       "detail": "import skrf: No module named 'skrf'",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6270346Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6270594Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6270813Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6271004Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6271219Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6271607Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6271833Z       "smoke_test": "failed: module not found",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6272092Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6272319Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6272603Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6272816Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6272975Z     "Gmsh": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6273177Z       "name": "Gmsh",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6273399Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6273657Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6273927Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6274123Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6274384Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6274573Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6274785Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6275017Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6275242Z         "3D meshing"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6275446Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6275642Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6275902Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6276156Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6276383Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6276602Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6277082Z     "meshio": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6277422Z       "name": "meshio",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6277698Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6277966Z       "detail": "meshio 5.3.5",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6278207Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6278425Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6278795Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\meshio\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6279143Z       "version": "5.3.5",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6279356Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6279623Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6279851Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6280104Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6280335Z       "evidence_stage": "PROBE_PASS",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6280598Z       "support_state": "SOLVER_PARTIAL"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6280813Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6280972Z     "Palace": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6281177Z       "name": "Palace",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6281402Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6281978Z       "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6282544Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6282748Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6283007Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6283199Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6283432Z       "backend_type": "executable-or-container",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6283685Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6283911Z         "Eigenmode FEM"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6284108Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6284308Z       "smoke_test": "not run: backend missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6284561Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6284819Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6285046Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6285277Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6285781Z     "JoSIM": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6286009Z       "name": "JoSIM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6286220Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6286471Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6286762Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6286970Z       "section": "Circuit",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6287184Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6287400Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6287623Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6287875Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6288626Z         "Josephson transient"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6288911Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6289163Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6289562Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6289823Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6290061Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6290294Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6290541Z     "WRspice / ngspice": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6290762Z       "name": "WRspice / ngspice",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6290987Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6291230Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6291549Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6291762Z       "section": "Circuit",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6291977Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6292175Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6292400Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6292626Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6292847Z         "Josephson harmonic balance",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6293089Z         "SPICE transient"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6293309Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6293503Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6293764Z       "executable_sha256": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6293987Z       "evidence_stage": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6294355Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6294580Z     }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6294770Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6294949Z   "capabilities": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6295144Z     "Layout generation": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6295377Z       "state": "READY",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6295586Z       "support_state": "CORE_TESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6295824Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6296014Z     "KLayout verification": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6296265Z       "state": "READY",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6296503Z       "support_state": "CORE_TESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6296719Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6296911Z     "IDC analytical": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6297146Z       "state": "READY",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6297354Z       "support_state": "CORE_TESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6297580Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6297752Z     "IDC BEM": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6298002Z       "state": "BLOCKED_SOLVER_ABSENT",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6298244Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6298467Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6298680Z     "CPW full-wave": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6298932Z       "state": "BLOCKED_STACK_INCOMPLETE",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6299195Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6299404Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6299587Z     "Spiral PEEC": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6299876Z       "state": "BLOCKED_SOLVER_ABSENT",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6300135Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6300380Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6300580Z     "Resonator FEM": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6300852Z       "state": "BLOCKED_STACK_INCOMPLETE",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6301133Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6301373Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6301592Z     "JJ transient": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6301882Z       "state": "BLOCKED_SOLVER_ABSENT",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6302134Z       "support_state": "UNTESTED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6302372Z     }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6302574Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6302830Z   "system": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6303070Z     "os": "Windows",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6303291Z     "os_release": "10",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6303540Z     "architecture": "AMD64",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6303780Z     "python": "3.11.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6304089Z     "package_commit": "86425bc1dcde9181057de3e1f8515c830fcc1a39",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6304391Z     "package_version": "0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6304674Z     "filesystem": "D:\\a\\Text-to-Layout\\Text-to-Layout",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6305009Z     "wsl": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6305238Z       "detected": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6306049Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6306307Z       "distro": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6306724Z       "filesystem_warning": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6307013Z     }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6307224Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6307444Z   "physics_capabilities": {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6307680Z     "IDC electrostatics": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6307969Z     "CPW FDTD": "INCOMPLETE",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6308193Z     "Spiral PEEC": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6308439Z     "Eigenmode FEM": "INCOMPLETE",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6308713Z     "Josephson transient": "NOT_INSTALLED",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6309002Z     "Josephson harmonic balance": "NOT_INSTALLED"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6309268Z   },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6309440Z   "checks": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6309630Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6309851Z       "name": "Python",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6310044Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6310264Z       "detail": "3.11.9 (requires >= 3.11)",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6310607Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6310828Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6311027Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6311216Z       "version": "3.11.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6311446Z       "backend_type": "runtime",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6311690Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6311906Z       "smoke_test": "passed",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6312135Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6312430Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6312645Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6312825Z       "name": "textlayout",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6313048Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6313260Z       "detail": "textlayout 0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6313522Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6313734Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6314021Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6314340Z       "version": "0.3.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6314587Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6314818Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6315046Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6315305Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6315539Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6315710Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6315895Z       "name": "gdsfactory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6316109Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6316349Z       "detail": "gdsfactory 9.43.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6316708Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6316969Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6317308Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\gdsfactory\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6317698Z       "version": "9.43.0",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6317923Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6318169Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6318378Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6318657Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6318867Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6319043Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6319236Z       "name": "klayout.db",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6319490Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6319698Z       "detail": "klayout.db 0.30.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6319922Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6320113Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6320492Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\klayout\\db\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6320852Z       "version": "0.30.9",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6321079Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6321315Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6321565Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6321808Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6322004Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6322177Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6322393Z       "name": "langgraph.graph",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6322602Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6322822Z       "detail": "langgraph.graph",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6323048Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6323276Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6323714Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\langgraph\\graph\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6324077Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6324306Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6324562Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6324797Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6325030Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6325229Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6325431Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6325619Z       "name": "output directory write permission",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6326274Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6326559Z       "detail": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6326869Z       "required": true,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6327217Z       "section": "Core",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6327541Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6327923Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6328184Z       "backend_type": "filesystem",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6328423Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6328657Z       "smoke_test": "passed: create/write/delete",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6328948Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6329198Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6329494Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6329699Z       "name": "FasterCap/FastCap",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6329920Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6330510Z       "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6331053Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6331258Z       "section": "Extraction",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6331474Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6331690Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6331889Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6332130Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6332345Z         "IDC electrostatics",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6332593Z         "capacitance matrix"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6332808Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6333006Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6333263Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6333494Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6333680Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6333866Z       "name": "FastHenry/FastHenry2",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6334097Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6334394Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6334682Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6334903Z       "section": "Extraction",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6335112Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6335358Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6335575Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6335792Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6336008Z         "Spiral PEEC",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6336240Z         "inductance matrix"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6336453Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6336650Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6336890Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6337146Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6337312Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6337509Z       "name": "openEMS",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6337773Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6338116Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6338471Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6338682Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6338933Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6339181Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6339413Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6339676Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6339891Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6340102Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6340319Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6340557Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6340857Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6341025Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6341247Z       "name": "CSXCAD",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6341452Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6341696Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6341982Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6342199Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6342423Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6342605Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6342804Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6343065Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6343254Z         "CPW FDTD geometry"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6343464Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6343680Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6343960Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6344158Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6344328Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6344517Z       "name": "Octave",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6344759Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6345013Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6345278Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6345472Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6345864Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6346408Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6346780Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6347011Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6347243Z         "openEMS frontend"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6347474Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6347677Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6347961Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6348185Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6348356Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6348551Z       "name": "Octave openEMS path",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6348776Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6349769Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6350758Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6350961Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6351912Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6352838Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6353083Z       "backend_type": "interface-directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6353358Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6353564Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6353745Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6353959Z       "smoke_test": "passed: discovered interface directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6354279Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6354489Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6354665Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6354852Z       "name": "Octave CSXCAD path",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6355104Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6356024Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6356961Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6357705Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6358654Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6359573Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6359849Z       "backend_type": "interface-directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6360082Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6360296Z         "CPW FDTD"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6360500Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6360745Z       "smoke_test": "passed: discovered interface directory",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6361018Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6361257Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6361443Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6361675Z       "name": "scikit-rf",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6361884Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6362131Z       "detail": "import skrf: No module named 'skrf'",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6362370Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6362607Z       "section": "RF / EM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6362922Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6363116Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6363332Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6363608Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6363844Z       "smoke_test": "failed: module not found",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6364121Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6364330Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6364534Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6364703Z       "name": "Gmsh",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6364901Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6365171Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6365474Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6365702Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6365940Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6366140Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6366792Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6367070Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6367313Z         "3D meshing"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6367531Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6367813Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6368077Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6368353Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6368544Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6368731Z       "name": "meshio",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6369019Z       "status": "FOUND",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6369241Z       "detail": "meshio 5.3.5",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6369502Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6369747Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6370198Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\meshio\\__init__.py",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6370616Z       "version": "5.3.5",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6370840Z       "backend_type": "python-package",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6371110Z       "capabilities": [],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6371327Z       "smoke_test": "passed: imported",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6371602Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6371816Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6372009Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6372191Z       "name": "Palace",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6372410Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6372998Z       "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6373607Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6373810Z       "section": "3D FEM future",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6374032Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6374236Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6374530Z       "backend_type": "executable-or-container",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6374915Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6375130Z         "Eigenmode FEM"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6375353Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6375576Z       "smoke_test": "not run: backend missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6375838Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6376068Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6376240Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6376449Z       "name": "JoSIM",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6376655Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6376910Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6377185Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6377563Z       "section": "Circuit",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6377783Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6377974Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6378203Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6378431Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6378674Z         "Josephson transient"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6378882Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6379080Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6379348Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6379573Z     },
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6379745Z     {
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6379931Z       "name": "WRspice / ngspice",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6380147Z       "status": "MISSING",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6380903Z       "detail": "not found; execution will be skipped honestly",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6381243Z       "required": false,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6381545Z       "section": "Circuit",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6381790Z       "path": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6382018Z       "version": null,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6382251Z       "backend_type": "executable",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6382479Z       "capabilities": [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6382695Z         "Josephson harmonic balance",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6382968Z         "SPICE transient"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6383159Z       ],
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6383366Z       "smoke_test": "not run: executable missing",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6383616Z       "executable_sha256": null
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6383855Z     }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6384041Z   ]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:36.6384211Z }
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1269416Z ##[group]Run uv run python scripts/validate_readme_claims.py
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1270000Z ^[[36;1muv run python scripts/validate_readme_claims.py^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1322899Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1323267Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1323515Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1323817Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1324101Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1324400Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1324712Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:37.1325075Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.0881411Z README claim validation passed: every support claim is backed by artifacts.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2033922Z ##[group]Run uv run python scripts/check_namespace_boundary.py --check
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2034454Z ^[[36;1muv run python scripts/check_namespace_boundary.py --check^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2088988Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2089378Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2089651Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2090030Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2090301Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2090550Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2090928Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:38.2091202Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.3872244Z namespace boundary OK: textlayout imports no legacy code; legacy package frozen.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4862820Z ##[group]Run uv run ruff check .
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4863168Z ^[[36;1muv run ruff check .^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4918377Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4918761Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4919064Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4919369Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4919651Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4919921Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4920282Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.4920574Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.7807804Z All checks passed!
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8714250Z ##[group]Run uv run mypy
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8714697Z ^[[36;1muv run mypy^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8769352Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8769729Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8769981Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8770285Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8770601Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8770982Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8771350Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:39.8771678Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.4558779Z Success: no issues found in 182 source files
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6269442Z ##[group]Run uv run pytest
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6270020Z ^[[36;1muv run pytest^[[0m
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6333971Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6334380Z env:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6334891Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6335258Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6335595Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6335912Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6336261Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:24:58.6336552Z ##[endgroup]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3590324Z ============================= test session starts =============================
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3591008Z platform win32 -- Python 3.11.9, pytest-9.0.3, pluggy-1.6.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3591530Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3591961Z configfile: pyproject.toml
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3592350Z testpaths: tests
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3593023Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3593762Z collected 1971 items
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3593950Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.3670843Z tests\test_ai_copilot.py ...........                                     [  0%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.5540937Z tests\test_backend_orchestration.py .....                                [  0%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:07.7797015Z tests\test_candidate_loop.py ............                                [  1%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:08.6271668Z tests\test_closed_loop.py .......                                        [  1%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:08.6743145Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:08.6929820Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:09.3301995Z tests\test_device_views.py ...                                           [  2%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:09.4187916Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:09.5639945Z tests\test_em_solvers.py ...                                             [  2%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:09.6569841Z tests\test_fitting.py ...                                                [  2%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:11.0987600Z tests\test_fourth_wave.py ........................                       [  4%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4081093Z tests\test_improvements.py ......                                        [  4%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4235131Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4261482Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4339150Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4878269Z tests\test_jpa_topology.py ......                                        [  5%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.4935291Z tests\test_layout_backend.py ......                                      [  5%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.5798307Z tests\test_layout_quality_modes.py .......                               [  5%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.8991943Z tests\test_layout_validator.py ......................................... [  7%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:12.9262490Z ...                                                                      [  7%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:13.0679299Z tests\test_new_modules.py ...................................            [  9%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.1278800Z tests\test_next_improvements.py .......                                  [ 10%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.1323778Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.1945969Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.3327824Z tests\test_open_solver.py ...........                                    [ 11%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.4484818Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.5282909Z tests\test_opensource_em.py ....                                         [ 11%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.6360027Z tests\test_packaging.py ....                                             [ 12%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.7154013Z tests\test_paper_benchmarks.py .                                         [ 12%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:14.8676435Z tests\test_pdk.py .....                                                  [ 12%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.1032383Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.3250071Z tests\test_phase456.py ..........                                        [ 13%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.3326942Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.3345612Z tests\test_phase8_operations.py ..                                       [ 13%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.3667307Z tests\test_phases_1_10.py ...............................                [ 15%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.7546896Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.7667025Z tests\test_physics_compiler.py ....................                      [ 17%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.8365254Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:15.9137000Z tests\test_physics_engine.py ........................................... [ 19%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.0059188Z .........s..                                                             [ 20%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.7256743Z tests\test_physics_first_pipeline.py .................................   [ 22%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.7751943Z tests\test_physics_grounded_compiler_contract.py .....                   [ 22%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.7772380Z tests\test_physics_provenance.py ...                                     [ 22%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.8128234Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.8394593Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.8407320Z .                                                                        [ 24%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.8868296Z tests\test_readiness.py ..                                               [ 24%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.9207669Z tests\test_report_visual_quality.py ...                                  [ 25%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:16.9511413Z tests\test_research_execution.py sssss.ss                                [ 25%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:17.2315921Z tests\test_research_quality_goal.py .......                              [ 25%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:17.2398381Z tests\test_review_committee.py .............                             [ 26%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:17.4716372Z tests\test_review_coverage.py ........                                   [ 26%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:17.7927623Z tests\test_signoff.py ......                                             [ 27%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:17.9391876Z tests\test_signoff_contract.py .......                                   [ 27%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:25:27.1046655Z tests\test_smoke.py ................                                     [ 28%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:32.0463202Z tests\test_solver_adapters.py ....                                       [ 28%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:32.6577749Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:32.6654628Z tests\test_solver_evidence.py .......                                    [ 29%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:32.6683965Z tests\test_solver_truthfulness.py ....                                   [ 29%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:32.7190842Z tests\test_sop_qa.py ................................................    [ 31%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.4897343Z tests\test_superconducting_eda_compiler.py .......                       [ 32%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.5888532Z tests\test_superconductivity.py ....                                     [ 32%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.6138571Z tests\test_third_wave.py ......                                          [ 32%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.6227932Z tests\test_transmon_matches_literature.py ..                             [ 32%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.6639087Z tests\test_transmon_topology.py .....                                    [ 33%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:33.7015285Z tests\test_visual_credibility.py .......                                 [ 33%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:34.0215528Z tests\textlayout_suite\test_acceptance.py ..............                 [ 34%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:35.0858390Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 34%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:35.8402590Z tests\textlayout_suite\test_api.py ............                          [ 35%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:36.3531174Z tests\textlayout_suite\test_api_from_text.py ..                          [ 35%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:54.8755774Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 36%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:54.9581874Z ..........                                                               [ 37%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:55.0264980Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 37%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:55.1055158Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 38%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:27:55.1916624Z .....................                                                    [ 39%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:01.3192798Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 40%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:03.4006939Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 41%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:03.4190989Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 41%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:03.4342241Z tests\textlayout_suite\test_convergence_order.py ....................... [ 42%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:03.4437243Z ..............                                                           [ 43%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:03.4466261Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 43%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:06.7924138Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 44%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:06.7954470Z tests\textlayout_suite\test_document_authority.py ...                    [ 44%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:06.7989999Z tests\textlayout_suite\test_dsl.py .....                                 [ 44%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:07.3265902Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 45%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:07.5149379Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 46%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:07.6892054Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 47%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.3974208Z .............                                                            [ 47%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.4901107Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 48%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.5042830Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 49%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.5565764Z ........................................................................ [ 53%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.7986316Z ..............................................                           [ 55%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:09.8024834Z tests\textlayout_suite\test_exporters.py ....                            [ 56%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:10.4315791Z tests\textlayout_suite\test_extended_generators.py ........              [ 56%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:11.0878504Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:11.1698424Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 57%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:13.1987176Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:13.2924416Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:13.3161135Z tests\textlayout_suite\test_fem_model.py ............................    [ 59%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:21.8811597Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 59%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:21.9148346Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.1678340Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.1995516Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 60%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.2011811Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 60%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.2156718Z tests\textlayout_suite\test_golden_cpw.py .                              [ 60%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.2197774Z tests\textlayout_suite\test_idc_generator.py .....                       [ 60%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:28:22.2257727Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:08.7823089Z tests\textlayout_suite\test_jobs.py F.....                               [ 61%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:09.3359745Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:09.6209925Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:11.6011631Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:14.0240659Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 63%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:14.1112284Z .......                                                                  [ 63%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:14.8018770Z tests\textlayout_suite\test_measurement.py ............................. [ 65%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:14.8042757Z ..                                                                       [ 65%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:15.8884618Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:16.6410124Z ....                                                                     [ 66%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:16.7369256Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 68%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:17.2473386Z ..                                                                       [ 68%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:17.3184214Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:18.7693252Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:20.3945702Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 69%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:20.4006340Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:22.3479145Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:22.7005052Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 70%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:23.1977281Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:24.0453064Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:24.2987853Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 71%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:27.6744603Z tests\textlayout_suite\test_palace_backend.py .......................... [ 72%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:31.4910681Z .....                                                                    [ 72%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:32.0769884Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 73%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:32.0860675Z ........                                                                 [ 73%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:34.4855510Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 74%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:34.4941724Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 75%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:34.5640065Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 75%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:34.6809006Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 75%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:35.2163622Z tests\textlayout_suite\test_palace_energy_weighted_mac.py .......        [ 75%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:35.3533944Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:37.8558632Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 76%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:37.8602333Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.5626903Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.7630617Z tests\textlayout_suite\test_palace_installation.py ..s..                 [ 76%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.7681061Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 77%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.7737565Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 77%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.7849872Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.8407428Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.8890198Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 77%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.8970564Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 78%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.9266349Z tests\textlayout_suite\test_palace_preparation.py .                      [ 78%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.9551601Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 78%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:38.9722295Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 79%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:39.1482654Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 79%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:39.1511297Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 79%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:39.1632728Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:39.1877628Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 80%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:44.8954593Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 80%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:44.9012977Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 80%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:44.9637897Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 81%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:45.7134933Z tests\textlayout_suite\test_pdk.py ........................              [ 82%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.2525069Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.2529809Z                                                                          [ 83%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.2630352Z tests\textlayout_suite\test_platform_certification.py .....              [ 83%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.4779302Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 84%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.4794428Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:46.5833970Z tests\textlayout_suite\test_product_docs.py ............                 [ 85%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:47.0815512Z tests\textlayout_suite\test_project_claims.py ....................       [ 86%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:47.9582749Z tests\textlayout_suite\test_project_status.py ......................     [ 87%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:47.9683648Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 88%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:47.9785328Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 88%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:48.5379268Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 89%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:59.3078665Z tests\textlayout_suite\test_readme_claims.py .................           [ 89%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:29:59.9076323Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 90%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:00.3909968Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:00.3928207Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:02.9503711Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:03.7305722Z ..                                                                       [ 91%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:03.7364239Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 92%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:03.7581290Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:04.4206924Z ............                                                             [ 93%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:04.6317899Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 94%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:04.7765477Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 95%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:05.5683614Z tests\textlayout_suite\test_solver_execution.py ..................       [ 96%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:05.5746293Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 96%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:05.7449975Z tests\textlayout_suite\test_sparameters.py ...                           [ 96%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:05.7617304Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:06.3559285Z ...                                                                      [ 97%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:06.3942080Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:06.5626361Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:08.1396711Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:08.3919941Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:08.3935447Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9680131Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9680620Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9680756Z ================================== FAILURES ===================================
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9681373Z ___________ test_job_start_collect_records_return_code_and_outputs ____________
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9681673Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9682161Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_job_start_collect_records0')
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9682631Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9682866Z     def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> None:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9683515Z         work = tmp_path / "work"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9683842Z         jobs = tmp_path / "jobs"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9684123Z         work.mkdir()
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9684419Z         command = [
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9684697Z             sys.executable,
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9684944Z             "-c",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9685281Z             "from pathlib import Path; Path('solver.out').write_text('ok', encoding='utf-8')",
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9685620Z         ]
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9685885Z     
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9686182Z         started = start_job(command, cwd=work, job_root=jobs)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9686761Z         assert started.job_id.startswith("job-")
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9687082Z         assert started.manifest_path.is_file()
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9687408Z         assert started.environment_path.is_file()
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9687843Z         environment = json.loads(started.environment_path.read_text(encoding="utf-8"))
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9688300Z         assert environment["clear"]["TEXTLAYOUT_JOB_ID"] == started.job_id
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9688764Z         assert environment["clear"]["TEXTLAYOUT_JOB_DIR"] == str(started.job_dir)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9689177Z         assert environment["clear"]["TEXTLAYOUT_JOB_ROOT"] == str(jobs.resolve())
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9689494Z     
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9689784Z         terminal = _wait_for_terminal(started.job_id, jobs)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9690085Z >       assert terminal.status == "completed"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9690426Z E       AssertionError: assert 'running' == 'completed'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9690709Z E         
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9690968Z E         - completed
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9691529Z E         + running
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9691652Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9691809Z tests\textlayout_suite\test_jobs.py:51: AssertionError
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9692171Z ============================== warnings summary ===============================
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9692658Z tests\test_ai_copilot.py:3
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9693148Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9693693Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9693930Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9694071Z src\textlayout\_legacy\device_optimizer.py:24
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9694695Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9695290Z     class OptimizationReport(BaseModel):
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9695476Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9695603Z src\textlayout\_legacy\extracted_device.py:39
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9696201Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9696807Z     class ExtractedDevice(BaseModel):
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9697011Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9697127Z src\textlayout\_legacy\microwave_validator.py:12
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9697729Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9698325Z     class MicrowaveReport(BaseModel):
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9698511Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9698630Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9699329Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9700108Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9700389Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9700591Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9701076Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9701434Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9702076Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9702741Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9703030Z 
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9703402Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9703817Z =========================== short test summary info ===========================
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9704468Z FAILED tests/textlayout_suite/test_jobs.py::test_job_start_collect_records_return_code_and_outputs - AssertionError: assert 'running' == 'completed'
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9705029Z   
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9705240Z   - completed
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9705447Z   + running
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:11.9705748Z === 1 failed, 1956 passed, 14 skipped, 518005 warnings in 308.72s (0:05:08) ===
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.6576895Z ##[error]Process completed with exit code 1.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.7217305Z Post job cleanup.
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.8727280Z [command]"C:\Program Files\Git\bin\git.exe" version
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.8962457Z git version 2.55.0.windows.5
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.9032243Z Temporarily overriding HOME='D:\a\_temp\2b912623-fe3e-490c-89c4-045b9725c279' before making global git config changes
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.9033019Z Adding repository directory to the temporary git global config as a safe directory
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.9042587Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.9319408Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:15.9580941Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:16.5504551Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:16.5709424Z http.https://github.com/.extraheader
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:16.5750160Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:16.6001026Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:17.0406267Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:17.0637285Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:17.5021172Z Cleaning up orphan processes
+test (windows-latest, 3.11)	UNKNOWN STEP	2026-09-23T20:30:17.5263854Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, astral-sh/setup-uv@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

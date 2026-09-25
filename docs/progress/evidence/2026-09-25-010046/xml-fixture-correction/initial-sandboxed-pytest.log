@@ -1,0 +1,980 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/ludko/Desktop/text2layout/Text-to-Layout
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0, langsmith-0.9.7, anyio-4.13.0
+collected 1977 items
+
+tests/test_ai_copilot.py ...........                                     [  0%]
+tests/test_backend_orchestration.py .....                                [  0%]
+tests/test_candidate_loop.py ............                                [  1%]
+tests/test_closed_loop.py .......                                        [  1%]
+tests/test_cpw_boolean_gap.py ....                                       [  1%]
+tests/test_cpw_matches_reference.py ..                                   [  2%]
+tests/test_device_views.py ...                                           [  2%]
+tests/test_eda_framework_architecture.py .......                         [  2%]
+tests/test_em_solvers.py ...                                             [  2%]
+tests/test_fitting.py ...                                                [  2%]
+tests/test_fourth_wave.py ........................                       [  4%]
+tests/test_improvements.py ......                                        [  4%]
+tests/test_jj_boolean_overlap.py ...                                     [  4%]
+tests/test_jj_stack_matches_reference.py ..                              [  4%]
+tests/test_jpa_matches_literature.py ..                                  [  4%]
+tests/test_jpa_topology.py ......                                        [  5%]
+tests/test_layout_backend.py ......                                      [  5%]
+tests/test_layout_quality_modes.py .......                               [  5%]
+tests/test_layout_validator.py ......................................... [  7%]
+...                                                                      [  7%]
+tests/test_new_modules.py ...................................            [  9%]
+tests/test_next_improvements.py .......                                  [ 10%]
+tests/test_no_fake_gain.py .......                                       [ 10%]
+tests/test_no_toy_layouts.py .....                                       [ 10%]
+tests/test_open_solver.py ...........                                    [ 11%]
+tests/test_openems_real_s2p.py .......                                   [ 11%]
+tests/test_opensource_em.py ....                                         [ 11%]
+tests/test_packaging.py ....                                             [ 11%]
+tests/test_paper_benchmarks.py .                                         [ 12%]
+tests/test_pdk.py .....                                                  [ 12%]
+tests/test_phase1_phase2.py ............                                 [ 12%]
+tests/test_phase456.py ..........                                        [ 13%]
+tests/test_phase8_foundations.py ....                                    [ 13%]
+tests/test_phase8_operations.py ..                                       [ 13%]
+tests/test_phases_1_10.py ...............................                [ 15%]
+tests/test_physics_benchmark.py .......................                  [ 16%]
+tests/test_physics_compiler.py ....................                      [ 17%]
+tests/test_physics_compiler_loop.py ......                               [ 17%]
+tests/test_physics_engine.py ........................................... [ 19%]
+.........s..                                                             [ 20%]
+tests/test_physics_first_pipeline.py .................................   [ 22%]
+tests/test_physics_grounded_compiler_contract.py .....                   [ 22%]
+tests/test_physics_provenance.py ...                                     [ 22%]
+tests/test_pyaedt_bridge.py ...                                          [ 22%]
+tests/test_quantum_eda_platform.py ..................................... [ 24%]
+.                                                                        [ 24%]
+tests/test_readiness.py ..                                               [ 24%]
+tests/test_report_visual_quality.py ...                                  [ 24%]
+tests/test_research_execution.py sssss.ss                                [ 25%]
+tests/test_research_quality_goal.py .......                              [ 25%]
+tests/test_review_committee.py .............                             [ 26%]
+tests/test_review_coverage.py ........                                   [ 26%]
+tests/test_signoff.py ......                                             [ 27%]
+tests/test_signoff_contract.py .......                                   [ 27%]
+tests/test_smoke.py ...........F....                                     [ 28%]
+tests/test_solver_adapters.py ....                                       [ 28%]
+tests/test_solver_artifacts_required.py .......                          [ 28%]
+tests/test_solver_evidence.py .......                                    [ 29%]
+tests/test_solver_truthfulness.py ....                                   [ 29%]
+tests/test_sop_qa.py ................................................    [ 31%]
+tests/test_superconducting_eda_compiler.py .......                       [ 32%]
+tests/test_superconductivity.py ....                                     [ 32%]
+tests/test_third_wave.py ......                                          [ 32%]
+tests/test_transmon_matches_literature.py ..                             [ 32%]
+tests/test_transmon_topology.py .....                                    [ 32%]
+tests/test_visual_credibility.py .......                                 [ 33%]
+tests/textlayout_suite/test_acceptance.py ..............                 [ 34%]
+tests/textlayout_suite/test_acceptance_physics.py ............           [ 34%]
+tests/textlayout_suite/test_api.py ............                          [ 35%]
+tests/textlayout_suite/test_api_from_text.py ..                          [ 35%]
+tests/textlayout_suite/test_audit_artifacts.py FFFF..............F..F... [ 36%]
+........F.                                                               [ 37%]
+tests/textlayout_suite/test_benchmark_structure.py ....                  [ 37%]
+tests/textlayout_suite/test_canonical_evidence.py ...................... [ 38%]
+.....................                                                    [ 39%]
+tests/textlayout_suite/test_chip_40q_showcase.py ........                [ 39%]
+tests/textlayout_suite/test_chip_lattice.py ..........................   [ 41%]
+tests/textlayout_suite/test_ci_platform_matrix.py ....                   [ 41%]
+tests/textlayout_suite/test_convergence_order.py ....................... [ 42%]
+..............                                                           [ 43%]
+tests/textlayout_suite/test_cpw_generator.py ....                        [ 43%]
+tests/textlayout_suite/test_doctor_and_dependencies.py ......F..         [ 43%]
+tests/textlayout_suite/test_document_authority.py ...                    [ 44%]
+tests/textlayout_suite/test_dsl.py .....                                 [ 44%]
+tests/textlayout_suite/test_epr_coherence.py ......................      [ 45%]
+tests/textlayout_suite/test_epr_pdk_provenance.py ............           [ 46%]
+tests/textlayout_suite/test_evidence_consistency.py .................... [ 47%]
+.............                                                            [ 47%]
+tests/textlayout_suite/test_evidence_contract.py ..................      [ 48%]
+tests/textlayout_suite/test_evidence_transitions.py .................... [ 49%]
+........................................................................ [ 53%]
+..............................................                           [ 55%]
+tests/textlayout_suite/test_exporters.py ....                            [ 55%]
+tests/textlayout_suite/test_extended_generators.py ........              [ 56%]
+tests/textlayout_suite/test_external_tool_registry.py ......             [ 56%]
+tests/textlayout_suite/test_fabrication_gate.py ..........               [ 57%]
+tests/textlayout_suite/test_fastercap_execution.py ........              [ 57%]
+tests/textlayout_suite/test_fasthenry_units.py ..                        [ 57%]
+tests/textlayout_suite/test_fem_model.py ............................    [ 58%]
+tests/textlayout_suite/test_from_text_workflow.py ......                 [ 59%]
+tests/textlayout_suite/test_gds_export.py ...                            [ 59%]
+tests/textlayout_suite/test_generate_workflow.py ......                  [ 59%]
+tests/textlayout_suite/test_geometry_engine.py ....                      [ 59%]
+tests/textlayout_suite/test_gmsh_runtime.py .                            [ 59%]
+tests/textlayout_suite/test_golden_cpw.py .                              [ 60%]
+tests/textlayout_suite/test_idc_generator.py .....                       [ 60%]
+tests/textlayout_suite/test_idc_optimization.py ........                 [ 60%]
+tests/textlayout_suite/test_jobs.py ......                               [ 61%]
+tests/textlayout_suite/test_josim_adapter.py .........                   [ 61%]
+tests/textlayout_suite/test_josim_idc.py ....                            [ 61%]
+tests/textlayout_suite/test_jpa_mvp.py ...                               [ 61%]
+tests/textlayout_suite/test_klayout_drc.py ............................. [ 63%]
+.......                                                                  [ 63%]
+tests/textlayout_suite/test_measurement.py ............................. [ 65%]
+..                                                                       [ 65%]
+tests/textlayout_suite/test_mesh_convergence.py ........................ [ 66%]
+....                                                                     [ 66%]
+tests/textlayout_suite/test_mode_tracking.py ........................... [ 67%]
+..                                                                       [ 68%]
+tests/textlayout_suite/test_multi_device_generators.py .......           [ 68%]
+tests/textlayout_suite/test_multi_sim_prompt.py ..                       [ 68%]
+tests/textlayout_suite/test_namespace_boundary.py ...............        [ 69%]
+tests/textlayout_suite/test_oci_stack.py ...                             [ 69%]
+tests/textlayout_suite/test_open_source_simulation.py .....              [ 69%]
+tests/textlayout_suite/test_openems_evidence.py ........                 [ 70%]
+tests/textlayout_suite/test_palace_amr_verification.py .........         [ 70%]
+tests/textlayout_suite/test_palace_artifact_contracts.py ...             [ 70%]
+tests/textlayout_suite/test_palace_atomic_stages.py ...                  [ 70%]
+tests/textlayout_suite/test_palace_backend.py .......................... [ 72%]
+.....                                                                    [ 72%]
+tests/textlayout_suite/test_palace_benchmark_evidence.py ............... [ 73%]
+........                                                                 [ 73%]
+tests/textlayout_suite/test_palace_benchmark_v017.py .................   [ 74%]
+tests/textlayout_suite/test_palace_bounded_amr_policy.py .........       [ 74%]
+tests/textlayout_suite/test_palace_ci_observer.py ......                 [ 75%]
+tests/textlayout_suite/test_palace_cross_amr_fixture.py ..               [ 75%]
+tests/textlayout_suite/test_palace_diagnostic.py ....                    [ 75%]
+tests/textlayout_suite/test_palace_energy_weighted_mac.py .......        [ 75%]
+tests/textlayout_suite/test_palace_field_mac.py ..                       [ 75%]
+tests/textlayout_suite/test_palace_field_retention.py .........          [ 76%]
+tests/textlayout_suite/test_palace_global_assignment.py ....             [ 76%]
+tests/textlayout_suite/test_palace_higher_order_vtk.py ..                [ 76%]
+tests/textlayout_suite/test_palace_installation.py ..s..                 [ 76%]
+tests/textlayout_suite/test_palace_mac_applicability.py ......           [ 77%]
+tests/textlayout_suite/test_palace_material_overlap.py ...               [ 77%]
+tests/textlayout_suite/test_palace_mode_classification.py .....          [ 77%]
+tests/textlayout_suite/test_palace_model_audit.py ...                    [ 77%]
+tests/textlayout_suite/test_palace_mpi_integration.py ..                 [ 77%]
+tests/textlayout_suite/test_palace_p2_manufactured.py ......             [ 78%]
+tests/textlayout_suite/test_palace_preparation.py .                      [ 78%]
+tests/textlayout_suite/test_palace_process_ownership.py ..s...           [ 78%]
+tests/textlayout_suite/test_palace_quarter_wave_sanity.py ............   [ 79%]
+tests/textlayout_suite/test_palace_resource_limits.py .F                 [ 79%]
+tests/textlayout_suite/test_palace_targeted_mesh.py ..                   [ 79%]
+tests/textlayout_suite/test_palace_toolchain.py .....                    [ 79%]
+tests/textlayout_suite/test_palace_toolchain_pins.py ............        [ 80%]
+tests/textlayout_suite/test_palace_vertical_slice.py .............       [ 80%]
+tests/textlayout_suite/test_paraview_toolchain.py .s                     [ 81%]
+tests/textlayout_suite/test_partial_lvs.py ....                          [ 81%]
+tests/textlayout_suite/test_pdk.py ........................              [ 82%]
+tests/textlayout_suite/test_pdk_provenance.py .......................... [ 83%]
+                                                                         [ 83%]
+tests/textlayout_suite/test_platform_certification.py .....              [ 84%]
+tests/textlayout_suite/test_plugin_thin_bundle.py .FFFF.........         [ 84%]
+tests/textlayout_suite/test_polygon_drc.py ..                            [ 84%]
+tests/textlayout_suite/test_product_docs.py ............                 [ 85%]
+tests/textlayout_suite/test_project_claims.py ....................       [ 86%]
+tests/textlayout_suite/test_project_status.py ......................     [ 87%]
+tests/textlayout_suite/test_prompt_numeric_conditioning.py ............  [ 88%]
+tests/textlayout_suite/test_prompt_parsing.py .............              [ 88%]
+tests/textlayout_suite/test_pscan2_adapter.py ......                     [ 89%]
+tests/textlayout_suite/test_readme_claims.py .................           [ 89%]
+tests/textlayout_suite/test_real_cqed_loop_demo.py .......               [ 90%]
+tests/textlayout_suite/test_reference_gds.py ......                      [ 90%]
+tests/textlayout_suite/test_reproduce_policy.py ..                       [ 90%]
+tests/textlayout_suite/test_requirements_workflow.py ................... [ 91%]
+..                                                                       [ 91%]
+tests/textlayout_suite/test_resource_sampler.py ........                 [ 92%]
+tests/textlayout_suite/test_showcase_examples.py ....................... [ 93%]
+............                                                             [ 93%]
+tests/textlayout_suite/test_simulation_postprocess.py .....              [ 94%]
+tests/textlayout_suite/test_simulator_bootstrap.py ....................  [ 95%]
+tests/textlayout_suite/test_solver_execution.py ..................       [ 96%]
+tests/textlayout_suite/test_solver_path_resolution.py ..                 [ 96%]
+tests/textlayout_suite/test_sparameters.py ...                           [ 96%]
+tests/textlayout_suite/test_synthesis_constraints.py ................... [ 97%]
+...                                                                      [ 97%]
+tests/textlayout_suite/test_touchstone_honesty.py ......                 [ 97%]
+tests/textlayout_suite/test_verification.py ......                       [ 98%]
+tests/textlayout_suite/test_workflow_graph.py .....                      [ 98%]
+tests/textlayout_suite/test_wrspice_adapter.py .....                     [ 98%]
+tests/textlayout_suite/test_wsl_bootstrap.py ..                          [ 98%]
+tests/textlayout_suite/test_yield_model.py .........................     [100%]
+
+=================================== FAILURES ===================================
+__________________ test_optimized_design_workflow_and_live_ui __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x13165a510>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-57/test_optimized_design_workflow0')
+
+    def test_optimized_design_workflow_and_live_ui(monkeypatch, tmp_path):
+        monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
+        optimized = run_optimized_design_workflow(
+            "Design a 6 GHz LJPA with 700 MHz bandwidth",
+            output_name="optimized.gds",
+            max_iterations=3,
+            epsilon_r=11.45,
+            substrate_thickness_um=500.0,
+            ground_width_um=100.0,
+            package_clearance_um=500.0,
+            pump_frequency_ghz=12.0,
+            pump_power_dbm=-100.0,
+            pump_mode="reflection",
+        )
+        assert optimized["status"] == "optimized_with_local_surrogate"
+        assert optimized["optimization"]["final_parameters"]["cpw_length"] != 210.0
+        assert (tmp_path / "optimized.workbench.html").exists()
+    
+>       httpd = create_workbench_server(host="127.0.0.1", port=0)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_smoke.py:642: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/textlayout/_legacy/ui.py:578: in create_workbench_server
+    return ThreadingHTTPServer((host, port), make_workbench_handler())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py:457: in __init__
+    self.server_bind()
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py:140: in server_bind
+    socketserver.TCPServer.server_bind(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <http.server.ThreadingHTTPServer object at 0x1316599a0>
+
+    def server_bind(self):
+        """Called by constructor to bind the socket.
+    
+        May be overridden.
+    
+        """
+        if self.allow_reuse_address and hasattr(socket, "SO_REUSEADDR"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        # Since Linux 6.12.9, SO_REUSEPORT is not allowed
+        # on other address families than AF_INET/AF_INET6.
+        if (
+            self.allow_reuse_port and hasattr(socket, "SO_REUSEPORT")
+            and self.address_family in (socket.AF_INET, socket.AF_INET6)
+        ):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+>       self.socket.bind(self.server_address)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py:478: PermissionError
+__________________ test_actual_commit_discovery_accepts_head ___________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+
+    def test_actual_commit_discovery_accepts_head(audit_module) -> None:
+>       head = audit_module.git_stdout("rev-parse", "HEAD")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...indow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.15295675001107156)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+___________________ test_wrong_expected_commit_fails_clearly ___________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+
+    def test_wrong_expected_commit_fails_clearly(audit_module) -> None:
+>       observation = audit_module.repository_observation("0" * 40)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:288: in repository_observation
+    head = git_stdout("rev-parse", "HEAD")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...indow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.05978295800741762)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_________________ test_fail_on_claim_downgrade_returns_nonzero _________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-57/test_fail_on_claim_downgrade_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1309fa060>
+
+    def test_fail_on_claim_downgrade_returns_nonzero(audit_module, tmp_path, monkeypatch) -> None:
+        monkeypatch.setattr(audit_module, "tool_inventory", lambda: {"tools": []})
+        monkeypatch.setattr(audit_module, "run_record", lambda repository: {"repository": repository})
+        monkeypatch.setattr(
+            audit_module,
+            "capability_matrix",
+            lambda tools, run_payload: {"capabilities": [], "tools": tools},
+        )
+        monkeypatch.setattr(
+            audit_module,
+            "claim_audit",
+            lambda: {
+                "schema": "textlayout.audit.claim-audit.v2",
+                "claims": [{"downgrade_required": True}],
+            },
+        )
+    
+>       rc = audit_module.main(["--out", str(tmp_path), "--fail-on-claim-downgrade"])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:1303: in main
+    repository = repository_observation(args.expected_start_commit)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/generate_audit_artifacts.py:288: in repository_observation
+    head = git_stdout("rev-parse", "HEAD")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...ndow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.059699124889448285)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+________________ test_deterministic_manifest_has_no_run_fields _________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+
+    def test_deterministic_manifest_has_no_run_fields(audit_module) -> None:
+>       observation = audit_module.repository_observation()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:288: in repository_observation
+    head = git_stdout("rev-parse", "HEAD")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...indow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.05835141602437943)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+________ test_restoring_old_showcase_physics_verified_string_fails_gate ________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-57/test_restoring_old_showcase_ph0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x131052ab0>
+
+    def test_restoring_old_showcase_physics_verified_string_fails_gate(
+        audit_module, tmp_path, monkeypatch
+    ) -> None:
+        old_public_claim = (
+            "| 01_idc_0p6pf capacitance | 0.600000 pF | 0.598641 pF | 0.227% | `PHYSICS_VERIFIED` |"
+        )
+        computed, _passed, missing, _replacement = audit_module.evaluate_claim(old_public_claim)
+        assert computed == "NUMERICALLY_CONVERGED"
+        assert missing
+    
+        monkeypatch.setattr(audit_module, "tool_inventory", lambda: {"tools": []})
+        monkeypatch.setattr(audit_module, "run_record", lambda repository: {"repository": repository})
+        monkeypatch.setattr(
+            audit_module,
+            "capability_matrix",
+            lambda tools, run_payload: {"capabilities": [], "tools": tools},
+        )
+        monkeypatch.setattr(
+            audit_module,
+            "claim_audit",
+            lambda: {
+                "schema": "textlayout.audit.claim-audit.v2",
+                "claims": [{"claim_text": old_public_claim, "downgrade_required": True}],
+            },
+        )
+    
+>       assert audit_module.main(["--out", str(tmp_path), "--fail-on-claim-downgrade"]) == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_audit_artifacts.py:273: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:1303: in main
+    repository = repository_observation(args.expected_start_commit)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/generate_audit_artifacts.py:288: in repository_observation
+    head = git_stdout("rev-parse", "HEAD")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...indow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.05751983297523111)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+__________________ test_capability_level_from_real_gate_files __________________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+
+    def test_capability_level_from_real_gate_files(audit_module) -> None:
+        tools = {"tools": [{"id": "klayout", "current_state": "LICENSE_REVIEWED"}]}
+>       matrix = audit_module.capability_matrix(
+            tools, {"container_runtime": {"docker_ps": {"return_code": 1}}}
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:316: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...ndow to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.058393166051246226)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+_____________ test_klayout_smoke_does_not_satisfy_partial_lvs_gate _____________
+
+audit_module = <module 'generate_audit_artifacts_test' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_audit_artifacts.py'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x130cebc50>
+
+    def test_klayout_smoke_does_not_satisfy_partial_lvs_gate(audit_module, monkeypatch) -> None:
+        original_path_exists = audit_module.path_exists
+    
+        def path_exists_without_lvs_evidence(relative: str) -> bool:
+            if relative == "out/audit/klayout_partial_electrical_lvs.json":
+                return False
+            return original_path_exists(relative)
+    
+        monkeypatch.setattr(audit_module, "path_exists", path_exists_without_lvs_evidence)
+        tools = {"tools": [{"id": "klayout", "current_state": "IDENTITY_VERIFIED"}]}
+>       matrix = audit_module.capability_matrix(
+            tools, {"container_runtime": {"docker_ps": {"return_code": 0}}}
+        )
+
+tests/textlayout_suite/test_audit_artifacts.py:475: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/generate_audit_artifacts.py:810: in capability_matrix
+    commit = git_stdout("rev-parse", "HEAD")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('rev-parse', 'HEAD')
+result = CommandResult(command=['git', 'rev-parse', 'HEAD'], return_code=69, stdout='', stderr="You have not agreed to the Xcod...window to review and agree to the Xcode and Apple SDKs license.", timed_out=False, duration_seconds=0.0584321249043569)
+
+    def git_stdout(*args: str) -> str:
+        result = run_command(["git", *args], timeout=60)
+        if result.return_code != 0:
+>           raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
+E           RuntimeError: git rev-parse HEAD failed: You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.
+
+scripts/generate_audit_artifacts.py:283: RuntimeError
+______ test_doctor_v2_reports_system_solver_and_physics_capability_fields ______
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-57/test_doctor_v2_reports_system_0')
+
+    def test_doctor_v2_reports_system_solver_and_physics_capability_fields(tmp_path: Path) -> None:
+        payload = run_doctor(output_dir=tmp_path / "probe").to_dict()
+    
+        assert {"os", "architecture", "python", "package_commit", "filesystem"} <= set(
+            payload["system"]
+        )
+>       assert len(payload["system"]["package_commit"]) == 40
+E       AssertionError: assert 7 == 40
+E        +  where 7 = len('unknown')
+
+tests/textlayout_suite/test_doctor_and_dependencies.py:83: AssertionError
+_______________ test_resource_watcher_terminates_memory_consumer _______________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-57/test_resource_watcher_terminat0')
+
+    def test_resource_watcher_terminates_memory_consumer(tmp_path: Path) -> None:
+        process = subprocess.Popen(
+            [
+                sys.executable,
+                "-c",
+                "import time; payload=bytearray(64*1024*1024); time.sleep(30)",
+            ]
+        )
+        watcher = ProcessTreeResourceWatcher(
+            process.pid,
+            max_rss_bytes=16 * 1024**2,
+            event_path=tmp_path / "resource_limit_event.json",
+        )
+>       result = watcher.run_until_exit()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_palace_resource_limits.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/textlayout/simulation/resource_sampler.py:168: in run_until_exit
+    processes = [root, *root.children(recursive=True)]
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:978: in children
+    ppid_map = _ppid_map()
+               ^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:256: in _ppid_map
+    for pid in pids():
+               ^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:1485: in pids
+    ret = sorted(_psplatform.pids())
+                 ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def pids():
+>       ls = cext.pids()
+             ^^^^^^^^^^^
+E       PermissionError: [Errno 1] Operation not permitted (originated from sysctl() malloc 1/3)
+
+.venv/lib/python3.12/site-packages/psutil/_psosx.py:320: PermissionError
+__ TestNoCopiedImplementation.test_no_core_module_is_duplicated_in_the_bundle __
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestNoCopiedImplementation object at 0x12fd61fd0>
+
+    def test_no_core_module_is_duplicated_in_the_bundle(self) -> None:
+        """Not one file of the implementation may exist under two paths."""
+        duplicated = [
+>           relative for relative in _bundled_files() if (REPO_ROOT / "src" / relative).is_file()
+                                     ^^^^^^^^^^^^^^^^
+        ]
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/textlayout_suite/test_plugin_thin_bundle.py:50: in _bundled_files
+    listing = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds'],)
+kwargs = {'cwd': PosixPath('/Users/ludko/Desktop/text2layout/Text-to-Layout'), 'stderr': -1, 'stdout': -1, 'text': True}
+process = <Popen: returncode: 69 args: ['/usr/bin/git', 'ls-files', '--', 'plugins/tex...>
+stdout = ''
+stderr = "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.\n"
+retcode = 69
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds']' returned non-zero exit status 69.
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:571: CalledProcessError
+_ TestNoCopiedImplementation.test_the_only_python_in_the_bundle_belongs_to_a_skill _
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestNoCopiedImplementation object at 0x12fd62300>
+
+    def test_the_only_python_in_the_bundle_belongs_to_a_skill(self) -> None:
+        """Skills legitimately ship helper scripts; nothing else may ship .py."""
+        offenders = [
+            relative
+>           for relative in _bundled_files()
+                            ^^^^^^^^^^^^^^^^
+            if relative.suffix == ".py" and relative.parts[0] != "skills"
+        ]
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/textlayout_suite/test_plugin_thin_bundle.py:50: in _bundled_files
+    listing = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds'],)
+kwargs = {'cwd': PosixPath('/Users/ludko/Desktop/text2layout/Text-to-Layout'), 'stderr': -1, 'stdout': -1, 'text': True}
+process = <Popen: returncode: 69 args: ['/usr/bin/git', 'ls-files', '--', 'plugins/tex...>
+stdout = ''
+stderr = "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.\n"
+retcode = 69
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds']' returned non-zero exit status 69.
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:571: CalledProcessError
+_____ TestNoCopiedImplementation.test_every_committed_path_is_allowlisted ______
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestNoCopiedImplementation object at 0x12fd62630>
+bundler = <module 'bundle_plugin' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/bundle_plugin.py'>
+
+    def test_every_committed_path_is_allowlisted(self, bundler) -> None:
+        strays = [
+            str(relative)
+>           for relative in _bundled_files()
+                            ^^^^^^^^^^^^^^^^
+            if relative.parts[0] not in bundler.BUNDLE_ALLOWLIST
+        ]
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/textlayout_suite/test_plugin_thin_bundle.py:50: in _bundled_files
+    listing = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds'],)
+kwargs = {'cwd': PosixPath('/Users/ludko/Desktop/text2layout/Text-to-Layout'), 'stderr': -1, 'stdout': -1, 'text': True}
+process = <Popen: returncode: 69 args: ['/usr/bin/git', 'ls-files', '--', 'plugins/tex...>
+stdout = ''
+stderr = "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.\n"
+retcode = 69
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds']' returned non-zero exit status 69.
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:571: CalledProcessError
+____________ TestNoCopiedImplementation.test_the_bundle_stays_small ____________
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestNoCopiedImplementation object at 0x12fd62960>
+
+    def test_the_bundle_stays_small(self) -> None:
+        """A guard on intent: metadata is tens of files, an implementation is hundreds."""
+>       assert len(_bundled_files()) < 100
+                   ^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/textlayout_suite/test_plugin_thin_bundle.py:50: in _bundled_files
+    listing = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds'],)
+kwargs = {'cwd': PosixPath('/Users/ludko/Desktop/text2layout/Text-to-Layout'), 'stderr': -1, 'stdout': -1, 'text': True}
+process = <Popen: returncode: 69 args: ['/usr/bin/git', 'ls-files', '--', 'plugins/tex...>
+stdout = ''
+stderr = "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.\n"
+retcode = 69
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/usr/bin/git', 'ls-files', '--', 'plugins/text-to-gds']' returned non-zero exit status 69.
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:571: CalledProcessError
+=============================== warnings summary ===============================
+tests/test_ai_copilot.py:3
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.ai import DesignIntent, DesignIntentParser
+
+src/textlayout/_legacy/device_optimizer.py:24
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+    class OptimizationReport(BaseModel):
+
+src/textlayout/_legacy/extracted_device.py:39
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+    class ExtractedDevice(BaseModel):
+
+src/textlayout/_legacy/microwave_validator.py:12
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+    class MicrowaveReport(BaseModel):
+
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/pydantic/main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+------ generated xml file: /private/tmp/sep25-xml-fixture-test-report.xml ------
+=========================== short test summary info ============================
+FAILED tests/test_smoke.py::test_optimized_design_workflow_and_live_ui - Perm...
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_actual_commit_discovery_accepts_head
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_wrong_expected_commit_fails_clearly
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_fail_on_claim_downgrade_returns_nonzero
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_deterministic_manifest_has_no_run_fields
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_restoring_old_showcase_physics_verified_string_fails_gate
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_capability_level_from_real_gate_files
+FAILED tests/textlayout_suite/test_audit_artifacts.py::test_klayout_smoke_does_not_satisfy_partial_lvs_gate
+FAILED tests/textlayout_suite/test_doctor_and_dependencies.py::test_doctor_v2_reports_system_solver_and_physics_capability_fields
+FAILED tests/textlayout_suite/test_palace_resource_limits.py::test_resource_watcher_terminates_memory_consumer
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestNoCopiedImplementation::test_no_core_module_is_duplicated_in_the_bundle
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestNoCopiedImplementation::test_the_only_python_in_the_bundle_belongs_to_a_skill
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestNoCopiedImplementation::test_every_committed_path_is_allowlisted
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestNoCopiedImplementation::test_the_bundle_stays_small
+======== 14 failed, 1952 passed, 11 skipped, 518005 warnings in 51.25s =========

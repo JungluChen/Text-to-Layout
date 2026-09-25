@@ -1,0 +1,37 @@
+{
+  "command": [
+    "uv",
+    "run",
+    "python",
+    "/private/tmp/textlayout_palace_discovery_repro.py"
+  ],
+  "cwd": "/Users/ludko/Desktop/text2layout/Text-to-Layout",
+  "git_sha": "604f9bc9af6068e7afd1e8f7870d64a736b77502",
+  "git_status": "",
+  "changed_file_sha256": {},
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "versions": {
+    "pytest": "9.0.3",
+    "numpy": "1.26.4",
+    "scipy": "1.17.1",
+    "pydantic": "2.12.5",
+    "gdsfactory": "9.43.0",
+    "klayout": "0.30.9",
+    "gmsh": null,
+    "langgraph": "1.2.7",
+    "ruff": "0.15.15",
+    "mypy": "2.1.0"
+  },
+  "started_utc": "2026-09-15T05:22:11.184348+00:00",
+  "environment": {
+    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/ludko/.codex/tmp/arg0/codex-arg0KthlEo:/Users/ludko/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/opt/homebrew/sbin:/Users/ludko/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources",
+    "UV_CACHE_DIR": "/private/tmp/textlayout-uv-cache"
+  },
+  "pid": 69388,
+  "exit_code": 1,
+  "elapsed_seconds": 0.7093522080103867,
+  "completed_utc": "2026-09-15T05:22:11.893972+00:00",
+  "log_sha256": "5602309aae65d0a78f58d5da579da90f7fc603fad76adb0ce2f0b9418f00a6e7"
+}

@@ -1,0 +1,2 @@
+Run 1: FAIL; fixture bytes b'123\r\n', assertion expects LF
+Run 2: FAIL; fixture bytes b'123\r\n', assertion expects LF

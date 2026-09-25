@@ -1,0 +1,8 @@
+......................                                                   [100%]
+=============================== warnings summary ===============================
+tests/textlayout_suite/test_project_status.py::TestVersionSingleSourceOfTruth::test_both_packages_report_the_same_version
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/textlayout_suite/test_project_status.py:312: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    import text_to_gds
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+22 passed, 1 warning in 1.01s

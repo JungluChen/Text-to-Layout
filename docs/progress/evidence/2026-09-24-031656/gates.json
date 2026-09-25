@@ -1,0 +1,175 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "ruff",
+      "check",
+      "."
+    ],
+    "exit_code": 0,
+    "seconds": 0.24,
+    "log": "gate-0.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "mypy"
+    ],
+    "exit_code": 0,
+    "seconds": 0.87,
+    "log": "gate-1.log"
+  },
+  {
+    "command": [
+      "uv",
+      "build"
+    ],
+    "exit_code": 0,
+    "seconds": 9.81,
+    "log": "gate-2.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/validate_readme_claims.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6,
+    "log": "gate-3.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_namespace_boundary.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.75,
+    "log": "gate-4.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/generate_project_status.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.39,
+    "log": "gate-5.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_benchmarks.py",
+      "--strict"
+    ],
+    "exit_code": 0,
+    "seconds": 0.04,
+    "log": "gate-6.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/generate_audit_artifacts.py",
+      "--fail-on-claim-downgrade"
+    ],
+    "exit_code": 0,
+    "seconds": 8.31,
+    "log": "gate-7.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/build_canonical_evidence.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.36,
+    "log": "gate-8.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_palace_amr_benchmark.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.32,
+    "log": "gate-9.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/render_showcase_artifacts.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.29,
+    "log": "gate-10.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/audit_evidence_consistency.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.39,
+    "log": "gate-11.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/build_palace_benchmark_evidence.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.4,
+    "log": "gate-12.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/bundle_plugin.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.04,
+    "log": "gate-13.log"
+  }
+]

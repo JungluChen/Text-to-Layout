@@ -1,0 +1,45 @@
+import datetime
+import hashlib
+import importlib.metadata
+import json
+import os
+import pathlib
+import platform
+import subprocess
+import sys
+import time
+
+root = pathlib.Path('/Users/ludko/Desktop/text2layout/Text-to-Layout')
+evidence = root / 'out/daily/2026-09-15-132123'
+evidence.mkdir(parents=True, exist_ok=True)
+tag, *command = sys.argv[1:]
+def git(*args):
+    return subprocess.check_output(['/Library/Developer/CommandLineTools/usr/bin/git', *args], cwd=root, text=True).strip()
+versions = {}
+for name in ('pytest', 'numpy', 'scipy', 'pydantic', 'gdsfactory', 'klayout', 'gmsh', 'langgraph', 'ruff', 'mypy'):
+    try:
+        versions[name] = importlib.metadata.version(name)
+    except importlib.metadata.PackageNotFoundError:
+        versions[name] = None
+paths = git('diff', '--name-only').splitlines() + git('ls-files', '--others', '--exclude-standard').splitlines()
+hashes = {p: hashlib.sha256((root / p).read_bytes()).hexdigest() for p in paths if (root / p).is_file()}
+meta = {'command': command, 'cwd': str(root), 'git_sha': git('rev-parse','HEAD'),
+        'git_status': git('status','--short'), 'changed_file_sha256': hashes,
+        'platform': platform.platform(), 'machine': platform.machine(), 'python': sys.version,
+        'versions': versions, 'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        'environment': {k:os.environ[k] for k in ('PATH','PYTHONPATH','UV_CACHE_DIR','PYTHONHASHSEED','OMP_NUM_THREADS','OPENBLAS_NUM_THREADS') if k in os.environ}}
+path = evidence / (tag + '.json')
+path.write_text(json.dumps(meta, indent=2)+'\n')
+start = time.monotonic()
+with (evidence / (tag + '.log')).open('w') as log:
+    process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT)
+    meta['pid'] = process.pid
+    path.write_text(json.dumps(meta, indent=2)+'\n')
+    code = process.wait()
+meta.update(exit_code=code, elapsed_seconds=time.monotonic()-start,
+            completed_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            log_sha256=hashlib.sha256((evidence/(tag+'.log')).read_bytes()).hexdigest())
+path.write_text(json.dumps(meta,indent=2)+'\n')
+print(json.dumps({'tag':tag,'exit_code':code,'elapsed_seconds':round(meta['elapsed_seconds'],2),'log':str(evidence/(tag+'.log'))}))
+print('\n'.join((evidence/(tag+'.log')).read_text(errors='replace').splitlines()[-18:]))
+sys.exit(code)

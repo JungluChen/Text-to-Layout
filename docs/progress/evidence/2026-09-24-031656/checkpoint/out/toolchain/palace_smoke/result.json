@@ -1,0 +1,35 @@
+{
+  "schema": "textlayout.palace-smoke-result.v1",
+  "status": "SMOKE_TEST_PASSED",
+  "solver_output_parsed": true,
+  "palace_version": "0.17.0",
+  "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "official_example": "examples/cavity2d",
+  "command": [
+    "bash",
+    "-lc",
+    "cd /home/runner/work/Text-to-Layout/Text-to-Layout/out/toolchain/palace_smoke && /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace -np 2 cavity2d.json"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 13.598779590999584,
+  "frequencies_ghz": [
+    0.103934328377,
+    0.2078686586235,
+    0.2078686591775,
+    0.2324042265491,
+    0.2939706870914
+  ],
+  "domain_energies_j": {
+    "1": 1.667820475991e-09
+  },
+  "input_file_hashes": {
+    "cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+    "mesh/cavity2d.msh": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1"
+  },
+  "output_file_hashes": {
+    "postpro/eigenmode/eig.csv": "b29eefa4b90a21e38e28393f94de088124332ae56821fe3379b2d000318f2684",
+    "postpro/eigenmode/domain-E.csv": "0a1d26850d410422e3e4d0a415782cb46738bfb5a4f02ca569a628393cdd324e"
+  },
+  "completed_at": "2026-09-23T21:36:31.604622+00:00"
+}

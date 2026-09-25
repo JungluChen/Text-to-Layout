@@ -1,0 +1,736 @@
+==> Fetching https://ghcr.io/v2/spack/bootstrap-buildcache-v2.2/blobs/sha256:9cf62674ef82cfa5cbb156bae59f369346da800713d54336956371c80e71c6c3
+==> Fetching https://ghcr.io/v2/spack/bootstrap-buildcache-v2.2/blobs/sha256:cc238348fb1a3b70351d784ec61f7843d0cc9ca5de745ce98e6bea7cd00787ea
+==> Installing "clingo-bootstrap@=spack~apps~docs+ipo+optimized+python+static_libstdcpp build_system=cmake build_type=Release commit=2a025667090d71b2c9dce60fe924feb6bde8f667 generator=make patches:=bebb819,ec99431 platform=linux os=centos7 target=x86_64" from a buildcache
+==> Concretized 1 spec:
+ -   kdbabbk  palace@0.17.0+arpack~asan~coverage~cuda~gslib~int64~ipo~libxsmm~mumps~openmp~rocm+shared~slepc~strumpack~sundials+superlu-dist build_system=cmake build_type=Release commit=12d8069afb5aa9e169a17e303d735e120968e9f2 cxxstd=17 generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   nr2rzwu      ^arpack-ng@3.9.1+icb~ipo+mpi+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   cpfyupe      ^cmake@3.31.12~doc+ncurses+ownlibs~qtgui build_system=generic build_type=Release platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   4ytb6t5          ^curl@8.20.0~gssapi~ldap~libidn2~librtmp~libssh~libssh2+nghttp2 build_system=autotools libs:=shared,static tls:=openssl platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   zpoae6v              ^nghttp2@1.67.1 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   qiwm3ku                  ^diffutils@3.12 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   rompfy4              ^openssl@3.6.1~docs+shared build_system=generic certs=mozilla platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   dpkuefu                  ^ca-certificates-mozilla@2026-05-14 build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4
+ -   wjmdkhh          ^ncurses@6.6~symlinks+termlib abi=none build_system=autotools patches:=7a351bc platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   gy7tlao      ^compiler-wrapper@1.1.0 build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4
+ -   ngoeutx      ^eigen@5.0.1~blas~ipo~lapack~nightly~rocm build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   lnsamna      ^fmt@12.1.0~ipo+pic+shared build_system=cmake build_type=Release cxxstd=11 generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+[e]  4vphzkr      ^gcc@14.2.0+binutils+bootstrap~graphite+libsanitizer~mold~nvptx~piclibs~profiled~strip build_system=autotools build_type=RelWithDebInfo languages:='c,c++,fortran' platform=linux os=ubuntu24.04 target=x86_64
+ -   x7cvj4l      ^gcc-runtime@14.2.0 build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4
+[e]  4bfivdk      ^glibc@2.39 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64
+ -   f7iqbdo      ^gmake@4.4.1~guile build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   5vlhamv      ^hypre@3.1.0~caliper~complex~cuda~debug~fortran~gptune~gpu-aware-mpi~gpu-profiling~int64~ipo+lapack~magma~mixedint+mpi~openmp~rocm+shared~superlu-dist~sycl~umpire~unified-memory build_system=cmake build_type=Release cxxstd=17 generator=make patches:=cd0b67e precision=double platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   mpxdlyc      ^libceed@develop~cuda~debug~libxsmm~magma~occa~openmp~rocm+shared build_system=makefile commit=58fb7cf9cc988cc190de4beabbda3bf438bccae7 platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   qstthrc      ^metis@5.1.0~gdb~int64~ipo~no_warning~real64+shared build_system=cmake build_type=Release generator=make patches:=4991da9,93a7903,b1225da platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   j4qgaa6      ^mfem@4.9.0~amgx~conduit~cuda~debug~enzyme~examples+exceptions~fms~ginkgo~gnutls~gslib~hiop+lapack~libceed~libunwind+metis~miniapps~mpfr+mpi~mumps~netcdf~occa~openmp~petsc~pumi~raja~rocm+shared~slepc+static~strumpack~suite-sparse~sundials+superlu-dist~threadsafe~umpire+zlib build_system=generic cxxstd=auto patches:=bafb954,e2e8eff,ef25696 precision=double timer=auto platform=linux os=ubuntu24.04 target=x86_64_v4 %cxx=gcc@14.2.0
+ -   fhqr53e      ^nlohmann-json@3.12.0~ipo+multiple_headers build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   n7cjvbx      ^nlohmann-json-schema-validator@main~ipo build_system=cmake build_type=Release commit=0a5c207a8a02dae8c781a205b7746395fbee1f56 generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %cxx=gcc@14.2.0
+ -   gg2x6tr      ^openblas@0.3.33~bignuma~consistent_fpcsr~dynamic_dispatch+fortran~ilp64+locking+pic+shared~static build_system=makefile patches:=723ddc1 symbol_suffix=none threads=none platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   3ol4or7      ^openmpi@5.0.10+atomics~cuda~debug+fortran~gpfs~internal-hwloc~internal-libevent~internal-pmix~ipv6~java~lustre~memchecker~openshmem~rocm~romio+rsh~static~two_level_namespace+vt+wrapper-rpath build_system=autotools fabrics:=none patches:=646eb1a,caecbd6 romio-filesystem:=none schedulers:=none platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   lp7ztli          ^autoconf@2.72 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4
+ -   fx5bt27              ^m4@1.4.21+sigsegv build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   3vzqrrv                  ^libsigsegv@2.15 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   5awr4oc          ^automake@1.18.1 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   fv7jfrz          ^hwloc@2.13.0~cairo~cuda~gl~level_zero~libudev+libxml2~nvml~opencl+pci~rocm build_system=autotools libs:=shared,static patches:=b4db98b platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   ycfrl5f              ^libpciaccess@0.17 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   6kz5wtr                  ^util-macros@1.20.2 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4
+ -   xfljh4r              ^libxml2@2.15.3+pic~python+shared build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   iy677tf                  ^libiconv@1.18 build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   ucxy3p5                  ^xz@5.8.3~pic build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   fffo7qi          ^libevent@2.1.12+openssl build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   47vcazb          ^libtool@2.5.4 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   o327yv3              ^file@5.46+static build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   uw7lxly                  ^zstd@1.5.7+programs build_system=makefile compression:=none libs:=shared,static platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   yd33bub              ^findutils@4.10.0 build_system=autotools patches:=440b954 platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   y67grig                  ^gettext@1.0+bzip2+curses+git~libunistring+libxml2+pic+shared+tar+xz build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   yhjwqrg                      ^tar@1.35 build_system=autotools zip=pigz platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   tymu25d                          ^pigz@2.8 build_system=makefile platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   jrvm7xn          ^numactl@2.0.19 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   4zgiqtc          ^openssh@10.3p1+gssapi build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   gzvtuqs              ^krb5@1.22.2+shared build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   y3nb242                  ^bison@3.8.2~color build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   g2jxtsv              ^libedit@3.1-20251016 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   cdvngwa              ^libxcrypt@4.5.2~obsolete_api build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   ppqmaq2          ^perl@5.42.2+cpanm+opcode+open+shared+threads build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   dgy6ssq              ^berkeley-db@18.1.40+cxx~docs+stl build_system=autotools patches:=26090f4,b231fcc platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   y2wz5ho              ^bzip2@1.0.8~debug~pic+shared build_system=generic platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   627jj5q              ^gdbm@1.26 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   iqpple4                  ^readline@8.3 build_system=autotools patches:=21f0a03,72dee13,e273643 platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   j6zyikt              ^less@692 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   gdgcgd5          ^pmix@6.1.0~munge~python build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   yuxpyf2          ^prrte@4.1.0 build_system=autotools patches:=64faa1a,91b28f5 schedulers:=none platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   jvlo5jj              ^flex@2.6.3+lex~nls build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   uqu5smf      ^pkgconf@2.5.1 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c=gcc@14.2.0
+ -   6gdvu6n      ^scnlib@4.0.1~ipo+shared build_system=cmake build_type=Release generator=make regex-backend=std platform=linux os=ubuntu24.04 target=x86_64_v4 %cxx=gcc@14.2.0
+ -   ss3v6gy          ^fast-float@6.1.6~ipo build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %cxx=gcc@14.2.0
+ -   zjk4635      ^superlu-dist@9.2.1~cuda~int64~ipo~openmp+parmetis~rocm+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx,fortran=gcc@14.2.0
+ -   ytkh4gd          ^parmetis@4.0.3~gdb~int64~ipo+shared build_system=cmake build_type=Release generator=make patches:=4f89253,50ed208,704b84f platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+ -   oav3wwu      ^zlib-ng@2.3.3+compat+new_strategies+opt+pic+shared build_system=autotools platform=linux os=ubuntu24.04 target=x86_64_v4 %c,cxx=gcc@14.2.0
+
+==> No binary for compiler-wrapper-1.1.0-gy7tlaoliz6borna6pp3uq7wa7x4uaqt found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/a0/a07b35081d14b0729090bc1e5790a5dda2d5b997e064c62da39a1224ee249b2a.tar.gz
+==> No patches needed for compiler-wrapper
+==> compiler-wrapper: Executing phase: 'install'
+==> compiler-wrapper: Successfully installed compiler-wrapper-1.1.0-gy7tlaoliz6borna6pp3uq7wa7x4uaqt
+  Stage: 0.28s.  Install: 0.00s.  Post-install: 0.02s.  Total: 0.34s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/compiler-wrapper-1.1.0-gy7tlaoliz6borna6pp3uq7wa7x4uaqt
+==> Installing compiler-wrapper-1.1.0-gy7tlaoliz6borna6pp3uq7wa7x4uaqt [1/63]
+[+] /usr (external gcc-14.2.0-4vphzkrm7yciztewqtuplyiwunfmo5mh)
+[+] /usr (external glibc-2.39-4bfivdkeg4jj64esmnemhojxf5wlw2km)
+==> No binary for ca-certificates-mozilla-2026-05-14-dpkuefu34hpc2ey5o4ilkycal22m26w2 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/86/86a1f3366afac7c6f8ae9f3c779ac221129328c43f0ab2b8817eb2f362a5025c
+==> No patches needed for ca-certificates-mozilla
+==> ca-certificates-mozilla: Executing phase: 'install'
+==> ca-certificates-mozilla: Successfully installed ca-certificates-mozilla-2026-05-14-dpkuefu34hpc2ey5o4ilkycal22m26w2
+  Stage: 0.26s.  Install: 0.00s.  Post-install: 0.01s.  Total: 0.28s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/ca-certificates-mozilla-2026-05-14-dpkuefu34hpc2ey5o4ilkycal22m26w2
+==> Installing ca-certificates-mozilla-2026-05-14-dpkuefu34hpc2ey5o4ilkycal22m26w2 [4/63]
+==> No binary for gcc-runtime-14.2.0-x7cvj4lwwqefrssy3qwskl6kdltocbko found: installing from source
+==> No patches needed for gcc-runtime
+==> gcc-runtime: Executing phase: 'install'
+==> gcc-runtime: Successfully installed gcc-runtime-14.2.0-x7cvj4lwwqefrssy3qwskl6kdltocbko
+  Stage: 0.00s.  Install: 3.58s.  Post-install: 0.04s.  Total: 3.63s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/gcc-runtime-14.2.0-x7cvj4lwwqefrssy3qwskl6kdltocbko
+==> Installing gcc-runtime-14.2.0-x7cvj4lwwqefrssy3qwskl6kdltocbko [5/63]
+==> No binary for gmake-4.4.1-f7iqbdonmx4dplk4nrikaco6o3mzkong found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/dd/dd16fb1d67bfab79a72f5e8390735c49e3e8e70b4945a15ab1f81ddb78658fb3.tar.gz
+==> No patches needed for gmake
+==> gmake: Executing phase: 'install'
+==> gmake: Successfully installed gmake-4.4.1-f7iqbdonmx4dplk4nrikaco6o3mzkong
+  Stage: 0.37s.  Install: 11.42s.  Post-install: 0.01s.  Total: 11.81s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/gmake-4.4.1-f7iqbdonmx4dplk4nrikaco6o3mzkong
+==> Installing gmake-4.4.1-f7iqbdonmx4dplk4nrikaco6o3mzkong [6/63]
+==> No binary for pkgconf-2.5.1-uqu5smf6zrcx6joppvquogu2azlwvnwz found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/cd/cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243.tar.xz
+==> No patches needed for pkgconf
+==> pkgconf: Executing phase: 'autoreconf'
+==> pkgconf: Executing phase: 'configure'
+==> pkgconf: Executing phase: 'build'
+==> pkgconf: Executing phase: 'install'
+==> pkgconf: Successfully installed pkgconf-2.5.1-uqu5smf6zrcx6joppvquogu2azlwvnwz
+  Stage: 0.28s.  Autoreconf: 0.00s.  Configure: 2.29s.  Build: 1.85s.  Install: 0.16s.  Post-install: 0.02s.  Total: 4.63s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/pkgconf-2.5.1-uqu5smf6zrcx6joppvquogu2azlwvnwz
+==> Installing pkgconf-2.5.1-uqu5smf6zrcx6joppvquogu2azlwvnwz [7/63]
+==> No binary for xz-5.8.3-ucxy3p5m227qdpo7ccefhmunq2jp6n6q found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/33/33bf69c0d6c698e83a68f77e6c1f465778e418ca0b3d59860d3ab446f4ac99a6.tar.bz2
+==> No patches needed for xz
+==> xz: Executing phase: 'autoreconf'
+==> xz: Executing phase: 'configure'
+==> xz: Executing phase: 'build'
+==> xz: Executing phase: 'install'
+==> xz: Successfully installed xz-5.8.3-ucxy3p5m227qdpo7ccefhmunq2jp6n6q
+  Stage: 0.66s.  Autoreconf: 0.00s.  Configure: 7.62s.  Build: 9.22s.  Install: 1.27s.  Post-install: 0.04s.  Total: 18.85s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/xz-5.8.3-ucxy3p5m227qdpo7ccefhmunq2jp6n6q
+==> Installing xz-5.8.3-ucxy3p5m227qdpo7ccefhmunq2jp6n6q [8/63]
+==> No binary for libceed-develop-mpxdlyckgou47t4zsxcw3ngm5zgcsvoj found: installing from source
+==> No patches needed for libceed
+==> libceed: Executing phase: 'edit'
+==> libceed: Executing phase: 'build'
+==> libceed: Executing phase: 'install'
+==> libceed: Successfully installed libceed-develop-mpxdlyckgou47t4zsxcw3ngm5zgcsvoj
+  Stage: 4.94s.  Edit: 0.14s.  Build: 8.95s.  Install: 0.18s.  Post-install: 0.03s.  Total: 14.25s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libceed-develop-mpxdlyckgou47t4zsxcw3ngm5zgcsvoj
+==> Installing libceed-develop-mpxdlyckgou47t4zsxcw3ngm5zgcsvoj [9/63]
+==> No binary for libsigsegv-2.15-3vzqrrvpmpxrrbr4jo2nrouyeil4jsag found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/03/036855660225cb3817a190fc00e6764ce7836051bacb48d35e26444b8c1729d9.tar.gz
+==> No patches needed for libsigsegv
+==> libsigsegv: Executing phase: 'autoreconf'
+==> libsigsegv: Executing phase: 'configure'
+==> libsigsegv: Executing phase: 'build'
+==> libsigsegv: Executing phase: 'install'
+==> libsigsegv: Successfully installed libsigsegv-2.15-3vzqrrvpmpxrrbr4jo2nrouyeil4jsag
+  Stage: 0.36s.  Autoreconf: 0.00s.  Configure: 4.17s.  Build: 0.66s.  Install: 0.11s.  Post-install: 0.02s.  Total: 5.34s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libsigsegv-2.15-3vzqrrvpmpxrrbr4jo2nrouyeil4jsag
+==> Installing libsigsegv-2.15-3vzqrrvpmpxrrbr4jo2nrouyeil4jsag [10/63]
+==> No binary for openblas-0.3.33-gg2x6trmwa74bjqnziwl7xzkvw5xy7s3 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/67/6761af1d9f5d353ab4f0b7497be2643313b36c8f31caec0144bfef198e71e6ab.tar.gz
+==> Fetching https://mirror.spack.io/_source-cache/archive/72/723ddc1553b6d27ff89d96985f7732695935c0d4d8df766987702689bdb750ac
+==> Applied patch https://github.com/OpenMathLib/OpenBLAS/commit/88705a932831c0de1ed136b461c6c239802828b2.diff?full_index=1
+==> openblas: Executing phase: 'edit'
+==> openblas: Executing phase: 'build'
+==> openblas: Executing phase: 'install'
+==> openblas: Successfully installed openblas-0.3.33-gg2x6trmwa74bjqnziwl7xzkvw5xy7s3
+  Stage: 1.54s.  Edit: 0.00s.  Build: 12m 42.67s.  Install: 1.97s.  Post-install: 0.09s.  Total: 12m 46.30s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/openblas-0.3.33-gg2x6trmwa74bjqnziwl7xzkvw5xy7s3
+==> Installing openblas-0.3.33-gg2x6trmwa74bjqnziwl7xzkvw5xy7s3 [11/63]
+==> No binary for zlib-ng-2.3.3-oav3wwurfhekdxtuv57vqf6cuh4u7bjs found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/f9/f9c65aa9c852eb8255b636fd9f07ce1c406f061ec19a2e7d508b318ca0c907d1.tar.gz
+==> No patches needed for zlib-ng
+==> zlib-ng: Executing phase: 'autoreconf'
+==> zlib-ng: Executing phase: 'configure'
+==> zlib-ng: Executing phase: 'build'
+==> zlib-ng: Executing phase: 'install'
+==> zlib-ng: Successfully installed zlib-ng-2.3.3-oav3wwurfhekdxtuv57vqf6cuh4u7bjs
+  Stage: 0.38s.  Autoreconf: 0.00s.  Configure: 3.23s.  Build: 6.37s.  Install: 0.05s.  Post-install: 0.01s.  Total: 10.08s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/zlib-ng-2.3.3-oav3wwurfhekdxtuv57vqf6cuh4u7bjs
+==> Installing zlib-ng-2.3.3-oav3wwurfhekdxtuv57vqf6cuh4u7bjs [12/63]
+==> No binary for zstd-1.5.7-uw7lxlyim7fmylxjjakqpy4u76iapnfm found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/37/37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3.tar.gz
+==> No patches needed for zstd
+==> zstd: Executing phase: 'edit'
+==> zstd: Executing phase: 'build'
+==> zstd: Executing phase: 'install'
+==> zstd: Successfully installed zstd-1.5.7-uw7lxlyim7fmylxjjakqpy4u76iapnfm
+  Stage: 0.43s.  Edit: 0.00s.  Build: 0.00s.  Install: 35.68s.  Post-install: 0.02s.  Total: 36.15s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/zstd-1.5.7-uw7lxlyim7fmylxjjakqpy4u76iapnfm
+==> Installing zstd-1.5.7-uw7lxlyim7fmylxjjakqpy4u76iapnfm [13/63]
+==> No binary for libiconv-1.18-iy677tfv3kz5nr3zzchzdw6u2a4veyog found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/3b/3b08f5f4f9b4eb82f151a7040bfd6fe6c6fb922efe4b1659c66ea933276965e8.tar.gz
+==> No patches needed for libiconv
+==> libiconv: Executing phase: 'autoreconf'
+==> libiconv: Executing phase: 'configure'
+==> libiconv: Executing phase: 'build'
+==> libiconv: Executing phase: 'install'
+==> libiconv: Successfully installed libiconv-1.18-iy677tfv3kz5nr3zzchzdw6u2a4veyog
+  Stage: 0.53s.  Autoreconf: 0.00s.  Configure: 11.44s.  Build: 10.08s.  Install: 0.50s.  Post-install: 0.13s.  Total: 22.71s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libiconv-1.18-iy677tfv3kz5nr3zzchzdw6u2a4veyog
+==> Installing libiconv-1.18-iy677tfv3kz5nr3zzchzdw6u2a4veyog [14/63]
+==> No binary for util-macros-1.20.2-6kz5wtrkbie7rferxykoltp24vyep5pw found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/9a/9ac269eba24f672d7d7b3574e4be5f333d13f04a7712303b1821b2a51ac82e8e.tar.xz
+==> No patches needed for util-macros
+==> util-macros: Executing phase: 'autoreconf'
+==> util-macros: Executing phase: 'configure'
+==> util-macros: Executing phase: 'build'
+==> util-macros: Executing phase: 'install'
+==> util-macros: Successfully installed util-macros-1.20.2-6kz5wtrkbie7rferxykoltp24vyep5pw
+  Stage: 0.48s.  Autoreconf: 0.00s.  Configure: 1.18s.  Build: 0.00s.  Install: 0.01s.  Post-install: 0.01s.  Total: 1.71s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/util-macros-1.20.2-6kz5wtrkbie7rferxykoltp24vyep5pw
+==> Installing util-macros-1.20.2-6kz5wtrkbie7rferxykoltp24vyep5pw [15/63]
+==> No binary for berkeley-db-18.1.40-dgy6ssqhrva7nghoqu6lkrsjrfdee4jo found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/0c/0cecb2ef0c67b166de93732769abdeba0555086d51de1090df325e18ee8da9c8.tar.gz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/berkeley_db/drop-docs.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/berkeley_db/tls.patch
+==> Ran patch() for berkeley-db
+==> berkeley-db: Executing phase: 'autoreconf'
+==> berkeley-db: Executing phase: 'configure'
+==> berkeley-db: Executing phase: 'build'
+==> berkeley-db: Executing phase: 'install'
+==> berkeley-db: Successfully installed berkeley-db-18.1.40-dgy6ssqhrva7nghoqu6lkrsjrfdee4jo
+  Stage: 0.99s.  Autoreconf: 0.00s.  Configure: 11.77s.  Build: 23.15s.  Install: 0.28s.  Post-install: 0.03s.  Total: 36.24s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/berkeley-db-18.1.40-dgy6ssqhrva7nghoqu6lkrsjrfdee4jo
+==> Installing berkeley-db-18.1.40-dgy6ssqhrva7nghoqu6lkrsjrfdee4jo [16/63]
+==> No binary for ncurses-6.6-wjmdkhhtkpcbnkzpqrnmnku3lwycv6hn found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/35/355b4cbbed880b0381a04c46617b7656e362585d52e9cf84a67e2009b749ff11.tar.gz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/ncurses/rxvt_unicode_6_4.patch
+==> ncurses: Executing phase: 'autoreconf'
+==> ncurses: Executing phase: 'configure'
+==> ncurses: Executing phase: 'build'
+==> ncurses: Executing phase: 'install'
+==> ncurses: Successfully installed ncurses-6.6-wjmdkhhtkpcbnkzpqrnmnku3lwycv6hn
+  Stage: 0.45s.  Autoreconf: 0.00s.  Configure: 24.76s.  Build: 49.71s.  Install: 3.74s.  Post-install: 0.32s.  Total: 1m 19.01s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/ncurses-6.6-wjmdkhhtkpcbnkzpqrnmnku3lwycv6hn
+==> Installing ncurses-6.6-wjmdkhhtkpcbnkzpqrnmnku3lwycv6hn [17/63]
+==> No binary for pigz-2.8-tymu25dfuexpdfqjmmcawxh46n5l4p35 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/2f/2f7f6a6986996d21cb8658535fff95f1c7107ddce22b5324f4b41890e2904706.tar.gz
+==> No patches needed for pigz
+==> pigz: Executing phase: 'edit'
+==> pigz: Executing phase: 'build'
+==> pigz: Executing phase: 'install'
+==> pigz: Successfully installed pigz-2.8-tymu25dfuexpdfqjmmcawxh46n5l4p35
+  Stage: 0.28s.  Edit: 0.00s.  Build: 1.46s.  Install: 0.00s.  Post-install: 0.10s.  Total: 1.87s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/pigz-2.8-tymu25dfuexpdfqjmmcawxh46n5l4p35
+==> Installing pigz-2.8-tymu25dfuexpdfqjmmcawxh46n5l4p35 [18/63]
+==> No binary for libxml2-2.15.3-xfljh4rjyqvdppx5gw6st26x5cl5clq7 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/78/78262a6e7ac170d6528ebfe2efccdf220191a5af6a6cd61ea4a9a9a5042c7a07.tar.xz
+==> Fetching https://mirror.spack.io/_source-cache/archive/96/96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7.tar.gz
+==> Moving resource stage
+	source: /home/runner/.cache/textlayout-palace/build-stage/resource-xmlts-xfljh4rjyqvdppx5gw6st26x5cl5clq7/spack-src/
+	destination: /home/runner/.cache/textlayout-palace/build-stage/spack-stage-libxml2-2.15.3-xfljh4rjyqvdppx5gw6st26x5cl5clq7/spack-src/xmlconf
+==> Ran patch() for libxml2
+==> libxml2: Executing phase: 'autoreconf'
+==> libxml2: Executing phase: 'configure'
+==> libxml2: Executing phase: 'build'
+==> libxml2: Executing phase: 'install'
+==> libxml2: Successfully installed libxml2-2.15.3-xfljh4rjyqvdppx5gw6st26x5cl5clq7
+  Stage: 0.94s.  Autoreconf: 0.00s.  Configure: 2.39s.  Build: 10.78s.  Install: 0.17s.  Post-install: 0.02s.  Total: 14.33s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libxml2-2.15.3-xfljh4rjyqvdppx5gw6st26x5cl5clq7
+==> Installing libxml2-2.15.3-xfljh4rjyqvdppx5gw6st26x5cl5clq7 [19/63]
+==> No binary for diffutils-3.12-qiwm3ku42ntsrejkoqmepbuzna65du3o found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/7c/7c8b7f9fc8609141fdea9cece85249d308624391ff61dedaf528fcb337727dfd.tar.xz
+==> No patches needed for diffutils
+==> diffutils: Executing phase: 'autoreconf'
+==> diffutils: Executing phase: 'configure'
+==> diffutils: Executing phase: 'build'
+==> diffutils: Executing phase: 'install'
+==> diffutils: Successfully installed diffutils-3.12-qiwm3ku42ntsrejkoqmepbuzna65du3o
+  Stage: 0.38s.  Autoreconf: 0.00s.  Configure: 31.59s.  Build: 4.56s.  Install: 0.37s.  Post-install: 0.03s.  Total: 36.96s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/diffutils-3.12-qiwm3ku42ntsrejkoqmepbuzna65du3o
+==> Installing diffutils-3.12-qiwm3ku42ntsrejkoqmepbuzna65du3o [20/63]
+==> No binary for libpciaccess-0.17-ycfrl5fh2c73egrof5uzwvsyjjd4r2wj found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/bf/bf6985a77d2ecb00e2c79da3edfb26b909178ffca3f2e9d14ed0620259ab733b.tar.gz
+==> No patches needed for libpciaccess
+==> libpciaccess: Executing phase: 'autoreconf'
+==> libpciaccess: Executing phase: 'configure'
+==> libpciaccess: Executing phase: 'build'
+==> libpciaccess: Executing phase: 'install'
+==> libpciaccess: Successfully installed libpciaccess-0.17-ycfrl5fh2c73egrof5uzwvsyjjd4r2wj
+  Stage: 0.35s.  Autoreconf: 0.00s.  Configure: 3.15s.  Build: 1.12s.  Install: 0.13s.  Post-install: 0.01s.  Total: 4.78s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libpciaccess-0.17-ycfrl5fh2c73egrof5uzwvsyjjd4r2wj
+==> Installing libpciaccess-0.17-ycfrl5fh2c73egrof5uzwvsyjjd4r2wj [21/63]
+==> No binary for readline-8.3-iqpple4ptmt5iudjttuzt5oxlaiaj72j found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/fe/fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc.tar.gz
+==> Fetching https://mirror.spack.io/_source-cache/archive/21/21f0a03106dbe697337cd25c70eb0edbaa2bdb6d595b45f83285cdd35bac84de
+==> Fetching https://mirror.spack.io/_source-cache/archive/e2/e27364396ba9f6debf7cbaaf1a669e2b2854241ae07f7eca74ca8a8ba0c97472
+==> Fetching https://mirror.spack.io/_source-cache/archive/72/72dee13601ce38f6746eb15239999a7c56f8e1ff5eb1ec8153a1f213e4acdb29
+==> Applied patch https://ftpmirror.gnu.org/readline/readline-8.3-patches/readline83-001
+==> Applied patch https://ftpmirror.gnu.org/readline/readline-8.3-patches/readline83-002
+==> Applied patch https://ftpmirror.gnu.org/readline/readline-8.3-patches/readline83-003
+==> readline: Executing phase: 'autoreconf'
+==> readline: Executing phase: 'configure'
+==> readline: Executing phase: 'build'
+==> readline: Executing phase: 'install'
+==> readline: Successfully installed readline-8.3-iqpple4ptmt5iudjttuzt5oxlaiaj72j
+  Stage: 1.32s.  Autoreconf: 0.00s.  Configure: 3.87s.  Build: 4.49s.  Install: 0.12s.  Post-install: 0.02s.  Total: 9.86s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/readline-8.3-iqpple4ptmt5iudjttuzt5oxlaiaj72j
+==> Installing readline-8.3-iqpple4ptmt5iudjttuzt5oxlaiaj72j [22/63]
+==> No binary for libedit-3.1-20251016-g2jxtsvwvueu6nnnfopis3ijryx3l2q5 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/21/21362b00653bbfc1c71f71a7578da66b5b5203559d43134d2dd7719e313ce041.tar.gz
+==> No patches needed for libedit
+==> libedit: Executing phase: 'autoreconf'
+==> libedit: Executing phase: 'configure'
+==> libedit: Executing phase: 'build'
+==> libedit: Executing phase: 'install'
+==> libedit: Successfully installed libedit-3.1-20251016-g2jxtsvwvueu6nnnfopis3ijryx3l2q5
+  Stage: 0.45s.  Autoreconf: 0.00s.  Configure: 5.78s.  Build: 3.98s.  Install: 0.18s.  Post-install: 0.11s.  Total: 10.52s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libedit-3.1-20251016-g2jxtsvwvueu6nnnfopis3ijryx3l2q5
+==> Installing libedit-3.1-20251016-g2jxtsvwvueu6nnnfopis3ijryx3l2q5 [23/63]
+==> No binary for less-692-j6zyiktrq7ype47pn4uaivvsauuzt2mk found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/61/61300f603798ecf1d7786570789f0ff3f5a1acf075a6fb9f756837d166e37d14.tar.gz
+==> No patches needed for less
+==> less: Executing phase: 'autoreconf'
+==> less: Executing phase: 'configure'
+==> less: Executing phase: 'build'
+==> less: Executing phase: 'install'
+==> less: Successfully installed less-692-j6zyiktrq7ype47pn4uaivvsauuzt2mk
+  Stage: 0.35s.  Autoreconf: 0.00s.  Configure: 2.95s.  Build: 1.89s.  Install: 0.02s.  Post-install: 0.11s.  Total: 5.34s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/less-692-j6zyiktrq7ype47pn4uaivvsauuzt2mk
+==> Installing less-692-j6zyiktrq7ype47pn4uaivvsauuzt2mk [24/63]
+==> No binary for nghttp2-1.67.1-zpoae6viymcknwaute2b4f5ttlfdmrfq found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/da/da8d640f55036b1f5c9cd950083248ec956256959dc74584e12c43550d6ec0ef.tar.gz
+==> No patches needed for nghttp2
+==> nghttp2: Executing phase: 'autoreconf'
+==> nghttp2: Executing phase: 'configure'
+==> nghttp2: Executing phase: 'build'
+==> nghttp2: Executing phase: 'install'
+==> nghttp2: Successfully installed nghttp2-1.67.1-zpoae6viymcknwaute2b4f5ttlfdmrfq
+  Stage: 0.36s.  Autoreconf: 0.00s.  Configure: 9.47s.  Build: 3.51s.  Install: 0.20s.  Post-install: 0.02s.  Total: 13.59s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/nghttp2-1.67.1-zpoae6viymcknwaute2b4f5ttlfdmrfq
+==> Installing nghttp2-1.67.1-zpoae6viymcknwaute2b4f5ttlfdmrfq [25/63]
+==> No binary for bzip2-1.0.8-y2wz5hogqwlstxsybydrhzftzjwyzlxj found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/ab/ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269.tar.gz
+==> Ran patch() for bzip2
+==> bzip2: Executing phase: 'install'
+==> bzip2: Successfully installed bzip2-1.0.8-y2wz5hogqwlstxsybydrhzftzjwyzlxj
+  Stage: 0.26s.  Install: 2.04s.  Post-install: 0.11s.  Total: 2.42s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/bzip2-1.0.8-y2wz5hogqwlstxsybydrhzftzjwyzlxj
+==> Installing bzip2-1.0.8-y2wz5hogqwlstxsybydrhzftzjwyzlxj [26/63]
+==> No binary for m4-1.4.21-fx5bt27j7o6jgrb3a7nwvaizf2p2hvko found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/38/38ae59f7a30bf9c108193cc5c25fbb06014f21e230c7ede2eff614f7b7c37ed8.tar.gz
+==> No patches needed for m4
+==> m4: Executing phase: 'autoreconf'
+==> m4: Executing phase: 'configure'
+==> m4: Executing phase: 'build'
+==> m4: Executing phase: 'install'
+==> m4: Successfully installed m4-1.4.21-fx5bt27j7o6jgrb3a7nwvaizf2p2hvko
+  Stage: 0.44s.  Autoreconf: 0.00s.  Configure: 35.24s.  Build: 4.92s.  Install: 0.38s.  Post-install: 0.02s.  Total: 41.03s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/m4-1.4.21-fx5bt27j7o6jgrb3a7nwvaizf2p2hvko
+==> Installing m4-1.4.21-fx5bt27j7o6jgrb3a7nwvaizf2p2hvko [27/63]
+==> No binary for hwloc-2.13.0-fv7jfrzr2w7iy42weox36tf7khzjiw3t found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/15/1514a5253f0a5c23bc006d3bdd30a6f6125c9a8dc9b5fa4984913d1fff45315d.tar.gz
+==> Fetching https://mirror.spack.io/_source-cache/archive/b4/b4db98b39733435273e57b8229ee834ce50d2785641d1587d8039598752b1a3d
+==> Applied patch https://github.com/open-mpi/hwloc/commit/f7f1f76573ce505dae73568c912d2b2efdbf0f71.patch?full_index=1
+==> hwloc: Executing phase: 'autoreconf'
+==> hwloc: Executing phase: 'configure'
+==> hwloc: Executing phase: 'build'
+==> hwloc: Executing phase: 'install'
+==> hwloc: Successfully installed hwloc-2.13.0-fv7jfrzr2w7iy42weox36tf7khzjiw3t
+  Stage: 0.67s.  Autoreconf: 0.00s.  Configure: 10.85s.  Build: 10.62s.  Install: 0.54s.  Post-install: 0.08s.  Total: 22.80s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/hwloc-2.13.0-fv7jfrzr2w7iy42weox36tf7khzjiw3t
+==> Installing hwloc-2.13.0-fv7jfrzr2w7iy42weox36tf7khzjiw3t [28/63]
+==> No binary for gdbm-1.26-627jj5qop5wvrumgyzlno4wfl3snj7ja found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/6a/6a24504a14de4a744103dcb936be976df6fbe88ccff26065e54c1c47946f4a5e.tar.gz
+==> No patches needed for gdbm
+==> gdbm: Executing phase: 'autoreconf'
+==> gdbm: Executing phase: 'configure'
+==> gdbm: Executing phase: 'build'
+==> gdbm: Executing phase: 'install'
+==> gdbm: Successfully installed gdbm-1.26-627jj5qop5wvrumgyzlno4wfl3snj7ja
+  Stage: 0.28s.  Autoreconf: 0.00s.  Configure: 3.31s.  Build: 3.99s.  Install: 0.46s.  Post-install: 0.11s.  Total: 8.19s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/gdbm-1.26-627jj5qop5wvrumgyzlno4wfl3snj7ja
+==> Installing gdbm-1.26-627jj5qop5wvrumgyzlno4wfl3snj7ja [29/63]
+==> No binary for file-5.46-o327yv3oh3esflfjaivusrycpein445x found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/c9/c9cc77c7c560c543135edc555af609d5619dbef011997e988ce40a3d75d86088.tar.gz
+==> No patches needed for file
+==> file: Executing phase: 'autoreconf'
+==> file: Executing phase: 'configure'
+==> file: Executing phase: 'build'
+==> file: Executing phase: 'install'
+==> file: Successfully installed file-5.46-o327yv3oh3esflfjaivusrycpein445x
+  Stage: 0.34s.  Autoreconf: 0.00s.  Configure: 5.38s.  Build: 4.02s.  Install: 0.18s.  Post-install: 0.11s.  Total: 10.07s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/file-5.46-o327yv3oh3esflfjaivusrycpein445x
+==> Installing file-5.46-o327yv3oh3esflfjaivusrycpein445x [30/63]
+==> No binary for tar-1.35-yhjwqrgnjawnpbkbuor24kx3ir3ed6mx found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/14/14d55e32063ea9526e057fbf35fcabd53378e769787eff7919c3755b02d2b57e.tar.gz
+==> No patches needed for tar
+==> tar: Executing phase: 'autoreconf'
+==> tar: Executing phase: 'configure'
+==> tar: Executing phase: 'build'
+==> tar: Executing phase: 'install'
+==> tar: Successfully installed tar-1.35-yhjwqrgnjawnpbkbuor24kx3ir3ed6mx
+  Stage: 0.40s.  Autoreconf: 0.00s.  Configure: 24.29s.  Build: 6.36s.  Install: 0.29s.  Post-install: 0.11s.  Total: 31.48s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/tar-1.35-yhjwqrgnjawnpbkbuor24kx3ir3ed6mx
+==> Installing tar-1.35-yhjwqrgnjawnpbkbuor24kx3ir3ed6mx [31/63]
+==> No binary for bison-3.8.2-y3nb24226vmgjuyuebth55czmi6vnltc found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/06/06c9e13bdf7eb24d4ceb6b59205a4f67c2c7e7213119644430fe82fbd14a0abb.tar.gz
+==> No patches needed for bison
+==> bison: Executing phase: 'autoreconf'
+==> bison: Executing phase: 'configure'
+==> bison: Executing phase: 'build'
+==> bison: Executing phase: 'install'
+==> bison: Successfully installed bison-3.8.2-y3nb24226vmgjuyuebth55czmi6vnltc
+  Stage: 0.55s.  Autoreconf: 0.00s.  Configure: 23.48s.  Build: 6.25s.  Install: 0.76s.  Post-install: 0.05s.  Total: 31.12s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/bison-3.8.2-y3nb24226vmgjuyuebth55czmi6vnltc
+==> Installing bison-3.8.2-y3nb24226vmgjuyuebth55czmi6vnltc [32/63]
+==> No binary for perl-5.42.2-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/93/9384e8deb75b7b1695e5637971b752281aaecd025a3d5d4734d33c1d0adfee47.tar.gz
+==> Fetching https://mirror.spack.io/_source-cache/archive/9d/9da50e155df72bce55cb69f51f1dbb4b62d23740fb99f6178bb27f22ebdf8a46.tar.gz
+==> Moving resource stage
+	source: /home/runner/.cache/textlayout-palace/build-stage/resource-cpanm-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v/spack-src/
+	destination: /home/runner/.cache/textlayout-palace/build-stage/spack-stage-perl-5.42.2-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v/spack-src/cpanm/cpanm
+==> Ran patch() for perl
+==> perl: Executing phase: 'configure'
+==> perl: Executing phase: 'build'
+==> perl: Executing phase: 'install'
+==> perl: Successfully installed perl-5.42.2-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v
+  Stage: 1.16s.  Configure: 33.00s.  Build: 59.26s.  Install: 15.78s.  Post-install: 0.39s.  Total: 1m 49.62s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/perl-5.42.2-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v
+==> Installing perl-5.42.2-ppqmaq2fwb4jvpjnsvfptnqaoxc5fm5v [33/63]
+==> No binary for gettext-1.0-y67grigajwrupeq7fvipttzyk6l6gbkk found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/71/71132a3fb71e68245b8f2ac4e9e97137d3e5c02f415636eb508ae607bc01add7.tar.xz
+==> Ran patch() for gettext
+==> gettext: Executing phase: 'autoreconf'
+==> gettext: Executing phase: 'configure'
+==> gettext: Executing phase: 'build'
+==> gettext: Executing phase: 'install'
+==> gettext: Successfully installed gettext-1.0-y67grigajwrupeq7fvipttzyk6l6gbkk
+  Stage: 1.26s.  Autoreconf: 0.00s.  Configure: 1m 40.08s.  Build: 2m 18.65s.  Install: 12.01s.  Post-install: 0.34s.  Total: 4m 12.40s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/gettext-1.0-y67grigajwrupeq7fvipttzyk6l6gbkk
+==> Installing gettext-1.0-y67grigajwrupeq7fvipttzyk6l6gbkk [34/63]
+==> No binary for openssl-3.6.1-rompfy4cjkriy5ospvmklgvq3dvv4hcj found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/b1/b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e.tar.gz
+==> Ran patch() for openssl
+==> openssl: Executing phase: 'install'
+==> openssl: Successfully installed openssl-3.6.1-rompfy4cjkriy5ospvmklgvq3dvv4hcj
+  Stage: 1.61s.  Install: 2m 22.60s.  Post-install: 0.05s.  Total: 2m 24.38s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/openssl-3.6.1-rompfy4cjkriy5ospvmklgvq3dvv4hcj
+==> Installing openssl-3.6.1-rompfy4cjkriy5ospvmklgvq3dvv4hcj [35/63]
+==> No binary for autoconf-2.72-lp7ztli2y3xfrswgspxtsmwy6ui23fwc found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/af/afb181a76e1ee72832f6581c0eddf8df032b83e2e0239ef79ebedc4467d92d6e.tar.gz
+==> Ran patch() for autoconf
+==> autoconf: Executing phase: 'autoreconf'
+==> autoconf: Executing phase: 'configure'
+==> autoconf: Executing phase: 'build'
+==> autoconf: Executing phase: 'install'
+==> autoconf: Successfully installed autoconf-2.72-lp7ztli2y3xfrswgspxtsmwy6ui23fwc
+  Stage: 0.59s.  Autoreconf: 0.00s.  Configure: 1.18s.  Build: 0.24s.  Install: 0.09s.  Post-install: 0.11s.  Total: 2.24s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/autoconf-2.72-lp7ztli2y3xfrswgspxtsmwy6ui23fwc
+==> Installing autoconf-2.72-lp7ztli2y3xfrswgspxtsmwy6ui23fwc [36/63]
+==> No binary for libxcrypt-4.5.2-cdvngwavyuuvkbhqbf4zrm254eivabcw found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/71/71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071.tar.xz
+==> No patches needed for libxcrypt
+==> libxcrypt: Executing phase: 'autoreconf'
+==> libxcrypt: Executing phase: 'configure'
+==> libxcrypt: Executing phase: 'build'
+==> libxcrypt: Executing phase: 'install'
+==> libxcrypt: Successfully installed libxcrypt-4.5.2-cdvngwavyuuvkbhqbf4zrm254eivabcw
+  Stage: 0.31s.  Autoreconf: 0.00s.  Configure: 3.86s.  Build: 3.79s.  Install: 0.14s.  Post-install: 0.02s.  Total: 8.16s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libxcrypt-4.5.2-cdvngwavyuuvkbhqbf4zrm254eivabcw
+==> Installing libxcrypt-4.5.2-cdvngwavyuuvkbhqbf4zrm254eivabcw [37/63]
+==> No binary for findutils-4.10.0-yd33bubj7qzqdia3cbbgeibu6vexsyvv found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/13/1387e0b67ff247d2abde998f90dfbf70c1491391a59ddfecb8ae698789f0a4f5.tar.xz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/findutils/nonnull.patch
+==> findutils: Executing phase: 'autoreconf'
+==> findutils: Executing phase: 'configure'
+==> findutils: Executing phase: 'build'
+==> findutils: Executing phase: 'install'
+==> findutils: Successfully installed findutils-4.10.0-yd33bubj7qzqdia3cbbgeibu6vexsyvv
+  Stage: 0.45s.  Autoreconf: 0.00s.  Configure: 29.88s.  Build: 5.97s.  Install: 0.86s.  Post-install: 0.03s.  Total: 37.22s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/findutils-4.10.0-yd33bubj7qzqdia3cbbgeibu6vexsyvv
+==> Installing findutils-4.10.0-yd33bubj7qzqdia3cbbgeibu6vexsyvv [38/63]
+==> No binary for curl-8.20.0-4ytb6t5x45su7ig2mweehxw4wqy3bu3t found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/4b/4be48e69cf467246cb97d369b85d78a08528f2b37cffef2418ee16e6a4eb596e.tar.bz2
+==> No patches needed for curl
+==> curl: Executing phase: 'autoreconf'
+==> curl: Executing phase: 'configure'
+==> curl: Executing phase: 'build'
+==> curl: Executing phase: 'install'
+==> curl: Successfully installed curl-8.20.0-4ytb6t5x45su7ig2mweehxw4wqy3bu3t
+  Stage: 0.96s.  Autoreconf: 0.00s.  Configure: 11.58s.  Build: 41.64s.  Install: 0.54s.  Post-install: 0.02s.  Total: 54.78s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/curl-8.20.0-4ytb6t5x45su7ig2mweehxw4wqy3bu3t
+==> Installing curl-8.20.0-4ytb6t5x45su7ig2mweehxw4wqy3bu3t [39/63]
+==> No binary for libevent-2.1.12-fffo7qiedhyurmi4bz2zjd7z4fvfuuop found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/92/92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb.tar.gz
+==> Ran patch() for libevent
+==> libevent: Executing phase: 'autoreconf'
+==> libevent: Executing phase: 'configure'
+==> libevent: Executing phase: 'build'
+==> libevent: Executing phase: 'install'
+==> libevent: Successfully installed libevent-2.1.12-fffo7qiedhyurmi4bz2zjd7z4fvfuuop
+  Stage: 0.54s.  Autoreconf: 0.00s.  Configure: 7.03s.  Build: 10.12s.  Install: 0.36s.  Post-install: 0.03s.  Total: 18.11s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libevent-2.1.12-fffo7qiedhyurmi4bz2zjd7z4fvfuuop
+==> Installing libevent-2.1.12-fffo7qiedhyurmi4bz2zjd7z4fvfuuop [40/63]
+==> No binary for automake-1.18.1-5awr4ockyfzuspqngrsahc6wsnw6fcyi found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/63/63e585246d0fc8772dffdee0724f2f988146d1a3f1c756a3dc5cfbefa3c01915.tar.gz
+==> Ran patch() for automake
+==> automake: Executing phase: 'autoreconf'
+==> automake: Executing phase: 'configure'
+==> automake: Executing phase: 'build'
+==> automake: Executing phase: 'install'
+==> automake: Successfully installed automake-1.18.1-5awr4ockyfzuspqngrsahc6wsnw6fcyi
+  Stage: 0.41s.  Autoreconf: 0.00s.  Configure: 0.87s.  Build: 0.29s.  Install: 0.12s.  Post-install: 0.03s.  Total: 1.75s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/automake-1.18.1-5awr4ockyfzuspqngrsahc6wsnw6fcyi
+==> Installing automake-1.18.1-5awr4ockyfzuspqngrsahc6wsnw6fcyi [41/63]
+==> No binary for krb5-1.22.2-gzvtuqs665xeqrzlt5nvavrp4giy4vle found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/32/3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13.tar.gz
+==> Ran patch() for krb5
+==> krb5: Executing phase: 'autoreconf'
+==> krb5: Executing phase: 'configure'
+==> krb5: Executing phase: 'build'
+==> krb5: Executing phase: 'install'
+==> krb5: Successfully installed krb5-1.22.2-gzvtuqs665xeqrzlt5nvavrp4giy4vle
+  Stage: 0.57s.  Autoreconf: 0.00s.  Configure: 9.88s.  Build: 19.55s.  Install: 0.75s.  Post-install: 0.04s.  Total: 30.82s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/krb5-1.22.2-gzvtuqs665xeqrzlt5nvavrp4giy4vle
+==> Installing krb5-1.22.2-gzvtuqs665xeqrzlt5nvavrp4giy4vle [42/63]
+==> No binary for libtool-2.5.4-47vcazb4mlnuttzi4kygsqs3pm7rw2ex found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/da/da8ebb2ce4dcf46b90098daf962cffa68f4b4f62ea60f798d0ef12929ede6adf.tar.gz
+==> Ran patch() for libtool
+==> libtool: Executing phase: 'autoreconf'
+==> libtool: Executing phase: 'configure'
+==> libtool: Executing phase: 'build'
+==> libtool: Executing phase: 'install'
+==> libtool: Successfully installed libtool-2.5.4-47vcazb4mlnuttzi4kygsqs3pm7rw2ex
+  Stage: 0.33s.  Autoreconf: 0.00s.  Configure: 3.49s.  Build: 1.25s.  Install: 0.29s.  Post-install: 0.02s.  Total: 5.42s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/libtool-2.5.4-47vcazb4mlnuttzi4kygsqs3pm7rw2ex
+==> Installing libtool-2.5.4-47vcazb4mlnuttzi4kygsqs3pm7rw2ex [43/63]
+==> No binary for flex-2.6.3-jvlo5jjcxj6antznbzmvc7yp7fxazqho found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/68/68b2742233e747c462f781462a2a1e299dc6207401dac8f0bbb316f48565c2aa.tar.gz
+==> No patches needed for flex
+==> flex: Executing phase: 'autoreconf'
+==> flex: Executing phase: 'configure'
+==> flex: Executing phase: 'build'
+==> flex: Executing phase: 'install'
+==> flex: Successfully installed flex-2.6.3-jvlo5jjcxj6antznbzmvc7yp7fxazqho
+  Stage: 0.45s.  Autoreconf: 0.00s.  Configure: 5.11s.  Build: 3.50s.  Install: 0.19s.  Post-install: 0.02s.  Total: 9.31s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/flex-2.6.3-jvlo5jjcxj6antznbzmvc7yp7fxazqho
+==> Installing flex-2.6.3-jvlo5jjcxj6antznbzmvc7yp7fxazqho [44/63]
+==> No binary for cmake-3.31.12-cpfyupeqbhqjoko3sfqn3gb76iuld4ky found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/5f/5f3fd5a54dfa65602bdbed64f981a72673cc19f2d304cc2955cf0dfa0cfd8272.tar.gz
+==> Ran patch() for cmake
+==> cmake: Executing phase: 'bootstrap'
+==> cmake: Executing phase: 'build'
+==> cmake: Executing phase: 'install'
+==> cmake: Successfully installed cmake-3.31.12-cpfyupeqbhqjoko3sfqn3gb76iuld4ky
+  Stage: 0.82s.  Bootstrap: 1m 46.17s.  Build: 4m 54.92s.  Install: 1.64s.  Post-install: 0.45s.  Total: 6m 44.03s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/cmake-3.31.12-cpfyupeqbhqjoko3sfqn3gb76iuld4ky
+==> Installing cmake-3.31.12-cpfyupeqbhqjoko3sfqn3gb76iuld4ky [45/63]
+==> No binary for openssh-10.3p1-4zgiqtcgfccbmcgv4lxihpnfrbdrph4v found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/56/56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4.tar.gz
+==> Ran patch() for openssh
+==> openssh: Executing phase: 'autoreconf'
+==> openssh: Executing phase: 'configure'
+==> openssh: Executing phase: 'build'
+==> openssh: Executing phase: 'install'
+==> openssh: Successfully installed openssh-10.3p1-4zgiqtcgfccbmcgv4lxihpnfrbdrph4v
+  Stage: 0.40s.  Autoreconf: 0.00s.  Configure: 23.84s.  Build: 14.10s.  Install: 0.28s.  Post-install: 0.03s.  Total: 38.68s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/openssh-10.3p1-4zgiqtcgfccbmcgv4lxihpnfrbdrph4v
+==> Installing openssh-10.3p1-4zgiqtcgfccbmcgv4lxihpnfrbdrph4v [46/63]
+==> No binary for numactl-2.0.19-jrvm7xnxde5iw3d7jhex7hmpixa2rpfb found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/8b/8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4.tar.gz
+==> No patches needed for numactl
+==> numactl: Executing phase: 'autoreconf'
+==> numactl: Executing phase: 'configure'
+==> numactl: Executing phase: 'build'
+==> numactl: Executing phase: 'install'
+==> numactl: Successfully installed numactl-2.0.19-jrvm7xnxde5iw3d7jhex7hmpixa2rpfb
+  Stage: 0.32s.  Autoreconf: 2.95s.  Configure: 2.04s.  Build: 1.78s.  Install: 0.20s.  Post-install: 0.02s.  Total: 7.33s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/numactl-2.0.19-jrvm7xnxde5iw3d7jhex7hmpixa2rpfb
+==> Installing numactl-2.0.19-jrvm7xnxde5iw3d7jhex7hmpixa2rpfb [47/63]
+==> No binary for pmix-6.1.0-gdgcgd53bclb52nnaad6wmnpx6qi47kb found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/bb/bb9021c8e100a376f5070ecca727f83a29b5f652dfe381793b88daa79a3b98a2.tar.bz2
+==> No patches needed for pmix
+==> pmix: Executing phase: 'autoreconf'
+==> pmix: Executing phase: 'configure'
+==> pmix: Executing phase: 'build'
+==> pmix: Executing phase: 'install'
+==> pmix: Successfully installed pmix-6.1.0-gdgcgd53bclb52nnaad6wmnpx6qi47kb
+  Stage: 1.32s.  Autoreconf: 0.00s.  Configure: 15.52s.  Build: 1m 6.93s.  Install: 2.10s.  Post-install: 0.08s.  Total: 1m 25.99s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/pmix-6.1.0-gdgcgd53bclb52nnaad6wmnpx6qi47kb
+==> Installing pmix-6.1.0-gdgcgd53bclb52nnaad6wmnpx6qi47kb [48/63]
+==> No binary for metis-5.1.0-qstthrcbn5bctwyx7vck2wvcqjq5sgmn found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/76/76faebe03f6c963127dbb73c13eab58c9a3faeae48779f049066a21c087c5db2.tar.gz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/metis/gklib_path.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/metis/install_gklib_defs_rename.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/metis/gklib_nomisleadingindentation_warning.patch
+==> Ran patch() for metis
+==> metis: Executing phase: 'cmake'
+==> metis: Executing phase: 'build'
+==> metis: Executing phase: 'install'
+==> metis: Successfully installed metis-5.1.0-qstthrcbn5bctwyx7vck2wvcqjq5sgmn
+  Stage: 0.49s.  Cmake: 0.40s.  Build: 4.99s.  Install: 0.08s.  Post-install: 0.02s.  Total: 6.01s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/metis-5.1.0-qstthrcbn5bctwyx7vck2wvcqjq5sgmn
+==> Installing metis-5.1.0-qstthrcbn5bctwyx7vck2wvcqjq5sgmn [49/63]
+==> No binary for eigen-5.0.1-ngoeutxhun7po6zwwnmgdgewdncybiib found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/e9/e9c326dc8c05cd1e044c71f30f1b2e34a6161a3b6ecf445d56b53ff1669e3dec.tar.gz
+==> No patches needed for eigen
+==> eigen: Executing phase: 'cmake'
+==> eigen: Executing phase: 'build'
+==> eigen: Executing phase: 'install'
+==> eigen: Successfully installed eigen-5.0.1-ngoeutxhun7po6zwwnmgdgewdncybiib
+  Stage: 0.45s.  Cmake: 0.71s.  Build: 0.03s.  Install: 0.10s.  Post-install: 0.09s.  Total: 1.41s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/eigen-5.0.1-ngoeutxhun7po6zwwnmgdgewdncybiib
+==> Installing eigen-5.0.1-ngoeutxhun7po6zwwnmgdgewdncybiib [50/63]
+==> No binary for fmt-12.1.0-lnsamnaipiytb72skyevuusmedij7lc5 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/69/695fd197fa5aff8fc67b5f2bbc110490a875cdf7a41686ac8512fb480fa8ada7.zip
+==> No patches needed for fmt
+==> fmt: Executing phase: 'cmake'
+==> fmt: Executing phase: 'build'
+==> fmt: Executing phase: 'install'
+==> fmt: Successfully installed fmt-12.1.0-lnsamnaipiytb72skyevuusmedij7lc5
+  Stage: 0.32s.  Cmake: 0.15s.  Build: 3.11s.  Install: 0.03s.  Post-install: 0.02s.  Total: 3.65s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/fmt-12.1.0-lnsamnaipiytb72skyevuusmedij7lc5
+==> Installing fmt-12.1.0-lnsamnaipiytb72skyevuusmedij7lc5 [51/63]
+==> No binary for fast-float-6.1.6-ss3v6gync4ovzfuc3tpy56mbrh74b7q6 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/44/4458aae4b0eb55717968edda42987cabf5f7fc737aee8fede87a70035dba9ab0.tar.gz
+==> No patches needed for fast-float
+==> fast-float: Executing phase: 'cmake'
+==> fast-float: Executing phase: 'build'
+==> fast-float: Executing phase: 'install'
+==> fast-float: Successfully installed fast-float-6.1.6-ss3v6gync4ovzfuc3tpy56mbrh74b7q6
+  Stage: 0.31s.  Cmake: 0.14s.  Build: 0.01s.  Install: 0.02s.  Post-install: 0.02s.  Total: 0.52s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/fast-float-6.1.6-ss3v6gync4ovzfuc3tpy56mbrh74b7q6
+==> Installing fast-float-6.1.6-ss3v6gync4ovzfuc3tpy56mbrh74b7q6 [52/63]
+==> No binary for nlohmann-json-3.12.0-fhqr53e62eyc5vfsojw2fd3rtul4rlpm found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/4b/4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187.tar.gz
+==> Ran patch() for nlohmann-json
+==> nlohmann-json: Executing phase: 'cmake'
+==> nlohmann-json: Executing phase: 'build'
+==> nlohmann-json: Executing phase: 'install'
+==> nlohmann-json: Successfully installed nlohmann-json-3.12.0-fhqr53e62eyc5vfsojw2fd3rtul4rlpm
+  Stage: 0.53s.  Cmake: 0.15s.  Build: 0.01s.  Install: 0.02s.  Post-install: 0.02s.  Total: 0.75s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/nlohmann-json-3.12.0-fhqr53e62eyc5vfsojw2fd3rtul4rlpm
+==> Installing nlohmann-json-3.12.0-fhqr53e62eyc5vfsojw2fd3rtul4rlpm [53/63]
+==> No binary for prrte-4.1.0-yuxpyf2xoqftej7ffvsnq2mztlzw5tys found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/28/285ad62b670075708b9fcfe14c54baa599733bc274d10502a82e8eebba0b7c70.tar.bz2
+==> Fetching https://mirror.spack.io/_source-cache/archive/64/64faa1acb89eddea096307a2658b11ccdaf85dc8c870fed4b3f8670329706a4f
+==> Fetching https://mirror.spack.io/_source-cache/archive/91/91b28f5c701c8543b4807a29e9b5154b9d7e62f5d3a1e3036dadf1a9b5b0ca65
+==> Applied patch https://github.com/openpmix/prrte/commit/378c61c1d8eff9858a7774c869fbd332c48711a8.patch?full_index=1
+==> Applied patch https://github.com/openpmix/prrte/commit/a6b09c9c3fb84838b056c31e802b5f79ac4e8d6b.patch?full_index=1
+==> prrte: Executing phase: 'autoreconf'
+==> prrte: Executing phase: 'configure'
+==> prrte: Executing phase: 'build'
+==> prrte: Executing phase: 'install'
+==> prrte: Successfully installed prrte-4.1.0-yuxpyf2xoqftej7ffvsnq2mztlzw5tys
+  Stage: 1.49s.  Autoreconf: 9.88s.  Configure: 11.73s.  Build: 41.34s.  Install: 1.52s.  Post-install: 0.07s.  Total: 1m 6.07s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/prrte-4.1.0-yuxpyf2xoqftej7ffvsnq2mztlzw5tys
+==> Installing prrte-4.1.0-yuxpyf2xoqftej7ffvsnq2mztlzw5tys [54/63]
+==> No binary for scnlib-4.0.1-6gdvu6nhedqljd4n56pq2k7slqyh7d7n found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/ec/ece17b26840894cc57a7127138fe4540929adcb297524dec02c490c233ff46a7.tar.gz
+==> No patches needed for scnlib
+==> scnlib: Executing phase: 'cmake'
+==> scnlib: Executing phase: 'build'
+==> scnlib: Executing phase: 'install'
+==> scnlib: Successfully installed scnlib-4.0.1-6gdvu6nhedqljd4n56pq2k7slqyh7d7n
+  Stage: 0.31s.  Cmake: 0.19s.  Build: 42.18s.  Install: 0.06s.  Post-install: 0.02s.  Total: 42.78s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/scnlib-4.0.1-6gdvu6nhedqljd4n56pq2k7slqyh7d7n
+==> Installing scnlib-4.0.1-6gdvu6nhedqljd4n56pq2k7slqyh7d7n [55/63]
+==> No binary for nlohmann-json-schema-validator-main-n7cjvbx7angs76tvm52t6sqxajl23e4p found: installing from source
+==> No patches needed for nlohmann-json-schema-validator
+==> nlohmann-json-schema-validator: Executing phase: 'cmake'
+==> nlohmann-json-schema-validator: Executing phase: 'build'
+==> nlohmann-json-schema-validator: Executing phase: 'install'
+==> nlohmann-json-schema-validator: Successfully installed nlohmann-json-schema-validator-main-n7cjvbx7angs76tvm52t6sqxajl23e4p
+  Stage: 1.09s.  Cmake: 0.18s.  Build: 33.86s.  Install: 0.12s.  Post-install: 0.02s.  Total: 35.28s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/nlohmann-json-schema-validator-main-n7cjvbx7angs76tvm52t6sqxajl23e4p
+==> Installing nlohmann-json-schema-validator-main-n7cjvbx7angs76tvm52t6sqxajl23e4p [56/63]
+==> No binary for openmpi-5.0.10-3ol4or7cfl4zmc3lu3yxfrch2ktkqubf found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/0a/0acecc4fc218e5debdbcb8a41d182c6b0f1d29393015ed763b2a91d5d7374cc6.tar.bz2
+==> Fetching https://mirror.spack.io/_source-cache/archive/64/646eb1a7382d628eb821715ca69fc5467a9a25aaddfe8290dbce008536dbfaa0
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/openmpi/fix-integer-kind-8.patch
+==> Applied patch https://github.com/open-mpi/ompi/commit/aa024ac73d624611cfe3af6f541b5d28dedf07bb.patch?full_index=1
+==> openmpi: Executing phase: 'autoreconf'
+==> openmpi: Executing phase: 'configure'
+==> openmpi: Executing phase: 'build'
+==> openmpi: Executing phase: 'install'
+==> openmpi: Successfully installed openmpi-5.0.10-3ol4or7cfl4zmc3lu3yxfrch2ktkqubf
+  Stage: 5.55s.  Autoreconf: 0.00s.  Configure: 45.14s.  Build: 2m 39.49s.  Install: 6.61s.  Post-install: 0.31s.  Total: 3m 37.18s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/openmpi-5.0.10-3ol4or7cfl4zmc3lu3yxfrch2ktkqubf
+==> Installing openmpi-5.0.10-3ol4or7cfl4zmc3lu3yxfrch2ktkqubf [57/63]
+==> No binary for arpack-ng-3.9.1-nr2rzwuuoxneol5zoerbhtjkwptbcyly found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/f6/f6641deb07fa69165b7815de9008af3ea47eb39b2bb97521fbf74c97aba6e844.tar.gz
+==> No patches needed for arpack-ng
+==> arpack-ng: Executing phase: 'cmake'
+==> arpack-ng: Executing phase: 'build'
+==> arpack-ng: Executing phase: 'install'
+==> arpack-ng: Successfully installed arpack-ng-3.9.1-nr2rzwuuoxneol5zoerbhtjkwptbcyly
+  Stage: 0.30s.  Cmake: 2.23s.  Build: 16.90s.  Install: 0.29s.  Post-install: 0.02s.  Total: 19.77s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/arpack-ng-3.9.1-nr2rzwuuoxneol5zoerbhtjkwptbcyly
+==> Installing arpack-ng-3.9.1-nr2rzwuuoxneol5zoerbhtjkwptbcyly [58/63]
+==> No binary for hypre-3.1.0-5vlhamvxr3gldym5z52ksv6qe2h4vipx found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/a6/a6879ae9375d95c26afd97141d61e7a8092807333bf40cd180b385aed7351b2d.tar.gz
+==> Fetching https://mirror.spack.io/_source-cache/archive/cd/cd0b67e0c03f9392a305c2263099929898ea7f49bd5006ad69209508e947903b
+==> Applied patch https://github.com/hypre-space/hypre/pull/1463.patch?full_index=1
+==> hypre: Executing phase: 'cmake'
+==> hypre: Executing phase: 'build'
+==> hypre: Executing phase: 'install'
+==> hypre: Successfully installed hypre-3.1.0-5vlhamvxr3gldym5z52ksv6qe2h4vipx
+  Stage: 0.72s.  Cmake: 0.39s.  Build: 1m 10.97s.  Install: 0.24s.  Post-install: 0.03s.  Total: 1m 12.38s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/hypre-3.1.0-5vlhamvxr3gldym5z52ksv6qe2h4vipx
+==> Installing hypre-3.1.0-5vlhamvxr3gldym5z52ksv6qe2h4vipx [59/63]
+==> No binary for parmetis-4.0.3-ytkh4gdztxuzez63hpktehaw4sdx2hnv found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/f2/f2d9a231b7cf97f1fee6e8c9663113ebf6c240d407d3c118c55b3633d6be6e5f.tar.gz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/parmetis/enable_external_metis.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/parmetis/pkg-parmetis-1c1a9fd0f408dc4d42c57f5c3ee6ace411eb222b.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/parmetis/pkg-parmetis-82409d68aa1d6cbc70740d0f35024aae17f7d5cb.patch
+==> parmetis: Executing phase: 'cmake'
+==> parmetis: Executing phase: 'build'
+==> parmetis: Executing phase: 'install'
+==> parmetis: Successfully installed parmetis-4.0.3-ytkh4gdztxuzez63hpktehaw4sdx2hnv
+  Stage: 0.42s.  Cmake: 0.30s.  Build: 4.10s.  Install: 0.06s.  Post-install: 0.02s.  Total: 4.92s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/parmetis-4.0.3-ytkh4gdztxuzez63hpktehaw4sdx2hnv
+==> Installing parmetis-4.0.3-ytkh4gdztxuzez63hpktehaw4sdx2hnv [60/63]
+==> No binary for superlu-dist-9.2.1-zjk46354z6oop4kmlq3wfebdedta6wyq found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/c8/c80a1c2edaaa451ee9a54e005e5f3f56dc55cabe2b0a8d7acf5a1447a648157a.tar.gz
+==> No patches needed for superlu-dist
+==> superlu-dist: Executing phase: 'cmake'
+==> superlu-dist: Executing phase: 'build'
+==> superlu-dist: Executing phase: 'install'
+==> superlu-dist: Successfully installed superlu-dist-9.2.1-zjk46354z6oop4kmlq3wfebdedta6wyq
+  Stage: 0.59s.  Cmake: 7.04s.  Build: 48.88s.  Install: 0.28s.  Post-install: 0.04s.  Total: 56.88s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/superlu-dist-9.2.1-zjk46354z6oop4kmlq3wfebdedta6wyq
+==> Installing superlu-dist-9.2.1-zjk46354z6oop4kmlq3wfebdedta6wyq [61/63]
+==> No binary for mfem-4.9.0-j4qgaa6nv4b3a3ly5ntommbneibvim25 found: installing from source
+==> Fetching https://mirror.spack.io/_source-cache/archive/69/6904974c8d5a6bcd127419c7b7adff873170d397ed2f0bccdf438e940e713af2.tar.gz
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/mfem/mfem-4.9.patch
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/palace/patch_par_tet_mesh_fix_dev.diff
+==> Applied patch /home/runner/.cache/textlayout-palace/spack-packages/repos/spack_repo/builtin/packages/palace/patch_gmsh_parser_performance.diff
+==> mfem: Executing phase: 'configure'
+==> mfem: Executing phase: 'build'
+==> mfem: Executing phase: 'install'
+==> mfem: Successfully installed mfem-4.9.0-j4qgaa6nv4b3a3ly5ntommbneibvim25
+  Stage: 0.35s.  Configure: 0.14s.  Build: 7m 4.33s.  Install: 0.53s.  Post-install: 0.14s.  Total: 7m 5.51s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/mfem-4.9.0-j4qgaa6nv4b3a3ly5ntommbneibvim25
+==> Installing mfem-4.9.0-j4qgaa6nv4b3a3ly5ntommbneibvim25 [62/63]
+==> No binary for palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45 found: installing from source
+==> No patches needed for palace
+==> palace: Executing phase: 'cmake'
+==> palace: Executing phase: 'build'
+==> palace: Executing phase: 'install'
+==> palace: Successfully installed palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45
+  Stage: 36.04s.  Cmake: 1.59s.  Build: 2m 38.40s.  Install: 0.00s.  Post-install: 0.03s.  Total: 3m 16.09s
+[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45
+==> Installing palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45 [63/63]
+==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+mpirun (Open MPI) 4.1.6
+

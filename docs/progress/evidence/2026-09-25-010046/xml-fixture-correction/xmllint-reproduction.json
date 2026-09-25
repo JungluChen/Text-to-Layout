@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "before",
+    "attempt": 1,
+    "exit_code": 1,
+    "output": "/private/tmp/palace-original-invalid-xml.vtu:1: parser error : Unsupported version '2.2'\n<?xml version=\"2.2\"?>\n                   ^\n"
+  },
+  {
+    "phase": "before",
+    "attempt": 2,
+    "exit_code": 1,
+    "output": "/private/tmp/palace-original-invalid-xml.vtu:1: parser error : Unsupported version '2.2'\n<?xml version=\"2.2\"?>\n                   ^\n"
+  },
+  {
+    "phase": "after",
+    "attempt": 1,
+    "exit_code": 0,
+    "output": ""
+  },
+  {
+    "phase": "after",
+    "attempt": 2,
+    "exit_code": 0,
+    "output": ""
+  }
+]

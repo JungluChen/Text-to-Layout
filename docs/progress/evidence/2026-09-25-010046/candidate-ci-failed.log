@@ -1,0 +1,540 @@
+test (windows-latest, 3.11)	Run uv run pytest	﻿2026-09-24T17:11:30.0533486Z ##[group]Run uv run pytest
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0534008Z ^[[36;1muv run pytest^[[0m
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0614943Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0615323Z env:
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0615535Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0615866Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0616113Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0616370Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0616685Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:30.0616938Z ##[endgroup]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6956245Z ============================= test session starts =============================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6957168Z platform win32 -- Python 3.11.9, pytest-9.0.3, pluggy-1.6.0
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6957625Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6957973Z configfile: pyproject.toml
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6958248Z testpaths: tests
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6958526Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6958973Z collected 1986 items
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.6959128Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.7070175Z tests\test_ai_copilot.py ...........                                     [  0%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:41.9282808Z tests\test_backend_orchestration.py .....                                [  0%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:42.0130842Z tests\test_candidate_loop.py ............                                [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:43.0220583Z tests\test_closed_loop.py .......                                        [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:43.0817918Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:43.1113518Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:44.1059741Z tests\test_device_views.py ...                                           [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:44.2445417Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:44.5283704Z tests\test_em_solvers.py ...                                             [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:44.6673948Z tests\test_fitting.py ...                                                [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.2595906Z tests\test_fourth_wave.py ........................                       [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.6396881Z tests\test_improvements.py ......                                        [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.6618223Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.6657833Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.6770044Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.7518386Z tests\test_jpa_topology.py ......                                        [  5%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.7603406Z tests\test_layout_backend.py ......                                      [  5%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:45.8101453Z tests\test_layout_quality_modes.py .......                               [  5%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.2215009Z tests\test_layout_validator.py ......................................... [  7%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.2755767Z ...                                                                      [  7%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.3298061Z tests\test_new_modules.py ...................................            [  9%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.8964662Z tests\test_next_improvements.py .......                                  [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.9035443Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:46.9348341Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.0084871Z tests\test_open_solver.py ...........                                    [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.1039353Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.1728205Z tests\test_opensource_em.py ....                                         [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.3523214Z tests\test_packaging.py ....                                             [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.4161196Z tests\test_paper_benchmarks.py .                                         [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.5233099Z tests\test_pdk.py .....                                                  [ 12%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.6627628Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.8331898Z tests\test_phase456.py ..........                                        [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.8419013Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.8444834Z tests\test_phase8_operations.py ..                                       [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.8935019Z tests\test_phases_1_10.py ...............................                [ 15%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:47.9852600Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:48.0042306Z tests\test_physics_compiler.py ....................                      [ 17%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:48.0806139Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:48.1819477Z tests\test_physics_engine.py ........................................... [ 19%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:48.3012757Z .........s..                                                             [ 20%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.0014634Z tests\test_physics_first_pipeline.py .................................   [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.0393125Z tests\test_physics_grounded_compiler_contract.py .....                   [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.0426482Z tests\test_physics_provenance.py ...                                     [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.1004835Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.1446560Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.1465509Z .                                                                        [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.1573346Z tests\test_readiness.py ..                                               [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.2081715Z tests\test_report_visual_quality.py ...                                  [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.2703641Z tests\test_research_execution.py sssss.ss                                [ 25%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.5858444Z tests\test_research_quality_goal.py .......                              [ 25%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.5992046Z tests\test_review_committee.py .............                             [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.6538751Z tests\test_review_coverage.py ........                                   [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.9275647Z tests\test_signoff.py ......                                             [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:11:49.9599482Z tests\test_signoff_contract.py .......                                   [ 27%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:01.8572562Z tests\test_smoke.py ................                                     [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:36.8309105Z tests\test_solver_adapters.py ....                                       [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:37.4865441Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:37.4989046Z tests\test_solver_evidence.py .......                                    [ 29%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:37.5035843Z tests\test_solver_truthfulness.py ....                                   [ 29%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:37.5772079Z tests\test_sop_qa.py ................................................    [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.5798473Z tests\test_superconducting_eda_compiler.py .......                       [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.7301094Z tests\test_superconductivity.py ....                                     [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.7437344Z tests\test_third_wave.py ......                                          [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.7576147Z tests\test_transmon_matches_literature.py ..                             [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.8244179Z tests\test_transmon_topology.py .....                                    [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:38.8834629Z tests\test_visual_credibility.py .......                                 [ 33%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:39.3408203Z tests\textlayout_suite\test_acceptance.py ..............                 [ 33%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:40.7625360Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 34%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:41.8642307Z tests\textlayout_suite\test_api.py ............                          [ 35%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:42.2280063Z tests\textlayout_suite\test_api_from_text.py ..                          [ 35%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:53.0757744Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 36%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:53.1851822Z ..........                                                               [ 36%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:53.2883670Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 37%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:53.4130210Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 38%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:12:53.5210511Z .....................                                                    [ 39%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:01.0302483Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 39%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:03.5499925Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 41%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:03.5816358Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 41%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:03.6070077Z tests\textlayout_suite\test_convergence_order.py ....................... [ 42%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:03.6226346Z ..............                                                           [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:03.6273870Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:08.9368599Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:08.9417775Z tests\textlayout_suite\test_document_authority.py ...                    [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:08.9479802Z tests\textlayout_suite\test_dsl.py .....                                 [ 44%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:09.6667217Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 45%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:09.9493585Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 45%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:10.1175676Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 46%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.6321832Z .............                                                            [ 47%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.7250213Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 48%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.7482128Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 49%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.8308962Z ........................................................................ [ 53%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.9645665Z ..............................................                           [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:12.9706565Z tests\textlayout_suite\test_exporters.py ....                            [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:13.9003259Z tests\textlayout_suite\test_extended_generators.py ........              [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:14.8750613Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:14.9643647Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 56%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:17.0310850Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:17.1409858Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:17.1753369Z tests\textlayout_suite\test_fem_model.py ............................    [ 58%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.1998818Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.2424892Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.4939604Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.5484333Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.5512621Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.5806975Z tests\textlayout_suite\test_golden_cpw.py .                              [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.5875661Z tests\textlayout_suite\test_idc_generator.py .....                       [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:19.5972160Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:33.0836283Z tests\textlayout_suite\test_jobs.py ......                               [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:33.2370727Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:33.4435964Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:34.5563231Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:34.7918928Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 62%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:34.8924228Z .......                                                                  [ 63%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.0546926Z tests\textlayout_suite\test_measurement.py ............................. [ 64%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.0591182Z ..                                                                       [ 64%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.2698487Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.3236625Z ....                                                                     [ 66%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.3714722Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 67%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.3973743Z ..                                                                       [ 67%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.5745346Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:35.9062294Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:38.3622954Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:38.3732288Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:39.8367342Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:39.8701967Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:40.6764555Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:40.7847674Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:40.9056718Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:43.6172841Z tests\textlayout_suite\test_palace_backend.py .......................... [ 71%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:43.7647517Z .....                                                                    [ 72%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:44.6325676Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 72%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:44.6450095Z ........                                                                 [ 73%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:45.4190931Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:45.4299377Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:46.3551252Z tests\textlayout_suite\test_palace_ci_observer.py .F..ss                 [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:46.4389811Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:46.4701622Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:46.5836142Z tests\textlayout_suite\test_palace_energy_weighted_mac.py .......        [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:46.6158674Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:47.0756742Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:47.0816809Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.3156144Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.7506536Z tests\textlayout_suite\test_palace_installation.py ..s...........        [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.7580378Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.7649726Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.7814641Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.8415193Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.9189700Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.9294302Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:48.9863605Z tests\textlayout_suite\test_palace_preparation.py .                      [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.0620467Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.0875444Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.2323564Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.2357699Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.2540756Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:49.2905270Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 80%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:50.7632367Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 81%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:50.7726426Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 81%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:50.8201670Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 81%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:50.9941346Z tests\textlayout_suite\test_pdk.py ........................              [ 82%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.3130621Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.3137566Z                                                                          [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.3285381Z tests\textlayout_suite\test_platform_certification.py .....              [ 84%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.5264705Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 84%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.5291373Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:51.6867733Z tests\textlayout_suite\test_product_docs.py ............                 [ 85%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:52.4231345Z tests\textlayout_suite\test_project_claims.py ....................       [ 86%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:53.9339187Z tests\textlayout_suite\test_project_status.py ......................     [ 87%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:53.9498657Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 88%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:53.9659183Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 88%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:13:54.7834749Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 89%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:10.9182415Z tests\textlayout_suite\test_readme_claims.py .................           [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:12.0393259Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:12.2640984Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:12.2675323Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:17.3984362Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:18.6001236Z ..                                                                       [ 91%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:18.6093175Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 92%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:18.6442262Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:19.7327026Z ............                                                             [ 94%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:19.7939500Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 94%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:20.5897704Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 95%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:21.8980129Z tests\textlayout_suite\test_solver_execution.py ..................       [ 96%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:21.9086341Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 96%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:21.9428763Z tests\textlayout_suite\test_sparameters.py ...                           [ 96%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:21.9713169Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:22.3305594Z ...                                                                      [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:22.3924767Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:22.6590042Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:24.7766067Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:25.1302876Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:25.1325895Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3810754Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3811620Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3811973Z ================================== FAILURES ===================================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3812919Z __________________ test_cgroup_membership_selects_own_group ___________________
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3813993Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3814853Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_cgroup_membership_selects0')
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3815874Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3816337Z     def test_cgroup_membership_selects_own_group(tmp_path: Path) -> None:
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3817161Z         proc = tmp_path / "proc"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3817776Z         (proc / "self").mkdir(parents=True)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3818552Z         (proc / "self/cgroup").write_text("0::/job\n")
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3819274Z         groups = tmp_path / "groups"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3819908Z         (groups / "job").mkdir(parents=True)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3820612Z         (groups / "job/memory.current").write_text("123\n")
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3821495Z         (groups / "memory.current").write_text("999\n")
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3822388Z         sample = observer.snapshot(tmp_path / "missing-run", proc=proc, cgroups=groups)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3823439Z >       assert sample["cgroup_memory"]["memory.current"]["tail"] == "123\n"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3824260Z E       AssertionError: assert '123\r\n' == '123\n'
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3824885Z E         
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3825320Z E         - 123
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3825727Z E         + 123
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3826130Z E         ?    +
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3826383Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3826735Z tests\textlayout_suite\test_palace_ci_observer.py:43: AssertionError
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3827645Z ============================== warnings summary ===============================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3828274Z tests\test_ai_copilot.py:3
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3829345Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3830402Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3830687Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3831166Z src\textlayout\_legacy\device_optimizer.py:24
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3832182Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3833006Z     class OptimizationReport(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3833600Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3833801Z src\textlayout\_legacy\extracted_device.py:39
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3834619Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3835423Z     class ExtractedDevice(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3835694Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3835968Z src\textlayout\_legacy\microwave_validator.py:12
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3837037Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3837881Z     class MicrowaveReport(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3838108Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3838252Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3839183Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3840136Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3840458Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3840642Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3841159Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3841624Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3842502Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3843492Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3843853Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3844113Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3844613Z =========================== short test summary info ===========================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3845444Z FAILED tests/textlayout_suite/test_palace_ci_observer.py::test_cgroup_membership_selects_own_group - AssertionError: assert '123\r\n' == '123\n'
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3846194Z   
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3846414Z   - 123
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3846637Z   + 123
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3846850Z   ?    +
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:29.3847217Z === 1 failed, 1969 passed, 16 skipped, 518005 warnings in 173.81s (0:02:53) ===
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-24T17:14:33.1454617Z ##[error]Process completed with exit code 1.
+test (windows-latest, 3.12)	Run uv run pytest	﻿2026-09-24T17:11:20.5437023Z ##[group]Run uv run pytest
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5437619Z ^[[36;1muv run pytest^[[0m
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5505110Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5505482Z env:
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5506062Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5506450Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5506712Z   UV_PYTHON: 3.12
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5506973Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5507292Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:20.5507558Z ##[endgroup]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5650663Z ============================= test session starts =============================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5651457Z platform win32 -- Python 3.12.10, pytest-9.0.3, pluggy-1.6.0
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5652035Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5652516Z configfile: pyproject.toml
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5652884Z testpaths: tests
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5653247Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5653848Z collected 1986 items
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5654040Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.5746559Z tests\test_ai_copilot.py ...........                                     [  0%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.7147827Z tests\test_backend_orchestration.py .....                                [  0%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:32.7702393Z tests\test_candidate_loop.py ............                                [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:33.7610958Z tests\test_closed_loop.py .......                                        [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:33.8144610Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:33.8429093Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:34.7955043Z tests\test_device_views.py ...                                           [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:34.9267338Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:35.0935282Z tests\test_em_solvers.py ...                                             [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:35.2299543Z tests\test_fitting.py ...                                                [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:35.8988666Z tests\test_fourth_wave.py ........................                       [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.3363076Z tests\test_improvements.py ......                                        [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.3561887Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.3596117Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.3697437Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.4540910Z tests\test_jpa_topology.py ......                                        [  5%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.4616011Z tests\test_layout_backend.py ......                                      [  5%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.5115835Z tests\test_layout_quality_modes.py .......                               [  5%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.9189120Z tests\test_layout_validator.py ......................................... [  7%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:36.9568917Z ...                                                                      [  7%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.0111209Z tests\test_new_modules.py ...................................            [  9%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.6168737Z tests\test_next_improvements.py .......                                  [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.6228588Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.6609367Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.7091774Z tests\test_open_solver.py ...........                                    [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.8000858Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:37.8574512Z tests\test_opensource_em.py ....                                         [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.0175627Z tests\test_packaging.py ....                                             [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.1022313Z tests\test_paper_benchmarks.py .                                         [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.1952462Z tests\test_pdk.py .....                                                  [ 12%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.3008845Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.4639040Z tests\test_phase456.py ..........                                        [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.4720643Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.4744117Z tests\test_phase8_operations.py ..                                       [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.5189770Z tests\test_phases_1_10.py ...............................                [ 15%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.6073422Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.6225218Z tests\test_physics_compiler.py ....................                      [ 17%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.6978714Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.7793168Z tests\test_physics_engine.py ........................................... [ 19%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:38.8947968Z .........s..                                                             [ 20%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.2864999Z tests\test_physics_first_pipeline.py .................................   [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.3256628Z tests\test_physics_grounded_compiler_contract.py .....                   [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.3286562Z tests\test_physics_provenance.py ...                                     [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.3717083Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.4059174Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.4078361Z .                                                                        [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.4204877Z tests\test_readiness.py ..                                               [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.4588031Z tests\test_report_visual_quality.py ...                                  [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.4936664Z tests\test_research_execution.py sssss.ss                                [ 25%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.7566960Z tests\test_research_quality_goal.py .......                              [ 25%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.7672246Z tests\test_review_committee.py .............                             [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:39.8155170Z tests\test_review_coverage.py ........                                   [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:40.0611187Z tests\test_signoff.py ......                                             [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:40.0871914Z tests\test_signoff_contract.py .......                                   [ 27%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:11:50.8111900Z tests\test_smoke.py ................                                     [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:27.6283331Z tests\test_solver_adapters.py ....                                       [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:28.2657596Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:28.2761147Z tests\test_solver_evidence.py .......                                    [ 29%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:28.2824399Z tests\test_solver_truthfulness.py ....                                   [ 29%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:28.3490282Z tests\test_sop_qa.py ................................................    [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.2341325Z tests\test_superconducting_eda_compiler.py .......                       [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.3660880Z tests\test_superconductivity.py ....                                     [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.3790156Z tests\test_third_wave.py ......                                          [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.3888365Z tests\test_transmon_matches_literature.py ..                             [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.4438486Z tests\test_transmon_topology.py .....                                    [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.4935124Z tests\test_visual_credibility.py .......                                 [ 33%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:29.8917939Z tests\textlayout_suite\test_acceptance.py ..............                 [ 33%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:31.2058853Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 34%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:32.2088251Z tests\textlayout_suite\test_api.py ............                          [ 35%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:32.5041612Z tests\textlayout_suite\test_api_from_text.py ..                          [ 35%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:43.7537558Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 36%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:43.8793209Z ..........                                                               [ 36%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:43.9683801Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 37%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:44.0808082Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 38%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:44.1821405Z .....................                                                    [ 39%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:50.4574141Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 39%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:52.5516372Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 41%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:52.5774199Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 41%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:52.5977427Z tests\textlayout_suite\test_convergence_order.py ....................... [ 42%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:52.6106373Z ..............                                                           [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:52.6146470Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:57.5576048Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:57.5617251Z tests\textlayout_suite\test_document_authority.py ...                    [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:57.5666601Z tests\textlayout_suite\test_dsl.py .....                                 [ 44%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:58.2353257Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 45%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:58.4750302Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 45%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:12:58.6243257Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 46%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:00.8453797Z .............                                                            [ 47%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:00.9353620Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 48%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:00.9563665Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 49%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:01.0359742Z ........................................................................ [ 53%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:01.1541372Z ..............................................                           [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:01.1590550Z tests\textlayout_suite\test_exporters.py ....                            [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:02.0397664Z tests\textlayout_suite\test_extended_generators.py ........              [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:02.9128349Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:02.9965003Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 56%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:04.8548913Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:04.9437602Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:04.9730584Z tests\textlayout_suite\test_fem_model.py ............................    [ 58%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:06.8220642Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:06.8538867Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.0822520Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.1276522Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.1295896Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.1545335Z tests\textlayout_suite\test_golden_cpw.py .                              [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.1601047Z tests\textlayout_suite\test_idc_generator.py .....                       [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:07.1682565Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:19.3146108Z tests\textlayout_suite\test_jobs.py ......                               [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:19.5325458Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:19.7227516Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:20.7506397Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:20.9302119Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 62%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.0248412Z .......                                                                  [ 63%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.1422201Z tests\textlayout_suite\test_measurement.py ............................. [ 64%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.1454492Z ..                                                                       [ 64%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.2928554Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.3552278Z ....                                                                     [ 66%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.3974640Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 67%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.4150924Z ..                                                                       [ 67%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.5492679Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:21.8503438Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:23.2932388Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:23.3018023Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:24.5392373Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:24.5972427Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:25.2468339Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:25.3098851Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:25.4280861Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:28.1943331Z tests\textlayout_suite\test_palace_backend.py .......................... [ 71%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:28.2704102Z .....                                                                    [ 72%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:29.0671223Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 72%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:29.0790517Z ........                                                                 [ 73%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:29.8432916Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:29.8521080Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:30.5934127Z tests\textlayout_suite\test_palace_ci_observer.py .F..ss                 [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:30.6781206Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:30.7047105Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:30.8283225Z tests\textlayout_suite\test_palace_energy_weighted_mac.py .......        [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:30.8578274Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:31.2799346Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:31.2854187Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.4091691Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.8427140Z tests\textlayout_suite\test_palace_installation.py ..s...........        [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.8490084Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.8551677Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.8700731Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.9237184Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.9564270Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.9653339Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:32.9990483Z tests\textlayout_suite\test_palace_preparation.py .                      [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.1004130Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.1263004Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.2639248Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.2670160Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.2816536Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:33.3115953Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 80%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.0684241Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 81%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.0765175Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 81%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.1212185Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 81%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.1984850Z tests\textlayout_suite\test_pdk.py ........................              [ 82%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.4826341Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.4833304Z                                                                          [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.4977731Z tests\textlayout_suite\test_platform_certification.py .....              [ 84%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.6831655Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 84%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.6853760Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:35.8207820Z tests\textlayout_suite\test_product_docs.py ............                 [ 85%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:36.0174239Z tests\textlayout_suite\test_project_claims.py ....................       [ 86%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:37.0332149Z tests\textlayout_suite\test_project_status.py ......................     [ 87%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:37.0463126Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 88%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:37.0598755Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 88%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:37.3203789Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 89%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:50.6255777Z tests\textlayout_suite\test_readme_claims.py .................           [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:51.9849141Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:52.0818304Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:52.0843782Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:55.1561681Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:56.0960031Z ..                                                                       [ 91%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:56.1030218Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 92%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:56.1293019Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:56.9610456Z ............                                                             [ 94%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:56.9939612Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 94%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:57.6500055Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 95%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:58.7187874Z tests\textlayout_suite\test_solver_execution.py ..................       [ 96%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:58.7270805Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 96%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:58.7503048Z tests\textlayout_suite\test_sparameters.py ...                           [ 96%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:58.7698181Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:59.0770954Z ...                                                                      [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:59.1235103Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:13:59.3750756Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:01.2694054Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:01.5980532Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:01.6001450Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9854667Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9855226Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9855475Z ================================== FAILURES ===================================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9856182Z __________________ test_cgroup_membership_selects_own_group ___________________
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9856627Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9857276Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_cgroup_membership_selects0')
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9858072Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9858384Z     def test_cgroup_membership_selects_own_group(tmp_path: Path) -> None:
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9859193Z         proc = tmp_path / "proc"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9859633Z         (proc / "self").mkdir(parents=True)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9860170Z         (proc / "self/cgroup").write_text("0::/job\n")
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9861071Z         groups = tmp_path / "groups"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9861544Z         (groups / "job").mkdir(parents=True)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9862045Z         (groups / "job/memory.current").write_text("123\n")
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9862593Z         (groups / "memory.current").write_text("999\n")
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9863262Z         sample = observer.snapshot(tmp_path / "missing-run", proc=proc, cgroups=groups)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9864090Z >       assert sample["cgroup_memory"]["memory.current"]["tail"] == "123\n"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9864657Z E       AssertionError: assert '123\r\n' == '123\n'
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9865093Z E         
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9865393Z E         - 123
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9865723Z E         + 123
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9865989Z E         ?    +
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9866164Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9866473Z tests\textlayout_suite\test_palace_ci_observer.py:43: AssertionError
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9867121Z ============================== warnings summary ===============================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9867643Z tests\test_ai_copilot.py:3
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9868518Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9869518Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9869899Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9870442Z src\textlayout\_legacy\device_optimizer.py:24
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9871642Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9872778Z     class OptimizationReport(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9873098Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9873267Z src\textlayout\_legacy\extracted_device.py:39
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9875372Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9878349Z     class ExtractedDevice(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9878750Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9878983Z src\textlayout\_legacy\microwave_validator.py:12
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9880485Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9881960Z     class MicrowaveReport(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9882303Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9882527Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9884140Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9885910Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9886443Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9886775Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9887573Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9888379Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9889959Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9891696Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9892367Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9892750Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9893555Z =========================== short test summary info ===========================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9894903Z FAILED tests/textlayout_suite/test_palace_ci_observer.py::test_cgroup_membership_selects_own_group - AssertionError: assert '123\r\n' == '123\n'
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9896175Z   
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9896499Z   - 123
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9896814Z   + 123
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9897139Z   ?    +
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:04.9897627Z === 1 failed, 1969 passed, 16 skipped, 518005 warnings in 159.54s (0:02:39) ===
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-24T17:14:08.7627866Z ##[error]Process completed with exit code 1.

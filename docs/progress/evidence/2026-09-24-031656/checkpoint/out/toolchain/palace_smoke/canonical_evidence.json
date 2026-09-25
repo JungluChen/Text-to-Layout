@@ -1,0 +1,85 @@
+{
+  "schema_version": "textlayout.canonical-evidence.v3",
+  "evidence_id": "cae53b553c728fb2a393f3e9ad3f7e74",
+  "design_id": "palace_official_cavity2d",
+  "design_hash": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+  "geometry_hash": null,
+  "component": "OfficialPalaceCavity2D",
+  "analysis_scope": "official_palace_smoke_eigenmode",
+  "target_quantity": "eigenfrequency",
+  "target_value": null,
+  "target_unit": null,
+  "extracted_quantity": "lowest_positive_eigenfrequency",
+  "extracted_value": 0.103934328377,
+  "extracted_unit": "GHz",
+  "analytical_value": null,
+  "analytical_model": null,
+  "tolerance_percent": 5.0,
+  "error_percent": null,
+  "target_tolerance_passed": null,
+  "scientific_validation_level": null,
+  "missing_scientific_validation_gates": [],
+  "status": "SIMULATION_EXECUTED",
+  "solver_name": "Palace",
+  "solver_version": "0.17.0",
+  "solver_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "container_digest": null,
+  "solver_container_digest": null,
+  "command": [
+    "bash",
+    "-lc",
+    "cd /home/runner/work/Text-to-Layout/Text-to-Layout/out/toolchain/palace_smoke && /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-aisywyrn3lygxjbn6xrpgirvoqyihge3/bin/palace -np 2 cavity2d.json"
+  ],
+  "return_code": 0,
+  "runtime_seconds": 13.598779590999584,
+  "input_file_hashes": {
+    "cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+    "mesh/cavity2d.msh": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1"
+  },
+  "output_file_hashes": {
+    "postpro/eigenmode/eig.csv": "b29eefa4b90a21e38e28393f94de088124332ae56821fe3379b2d000318f2684",
+    "postpro/eigenmode/domain-E.csv": "0a1d26850d410422e3e4d0a415782cb46738bfb5a4f02ca569a628393cdd324e"
+  },
+  "parser": "textlayout.solvers.palace.parser.parse_eigenmodes",
+  "parser_version": "1",
+  "extraction_config": {
+    "parser": "textlayout.solvers.palace.parser.parse_eigenmodes",
+    "mode": 1
+  },
+  "extraction_config_hash": "d22940b6ada239fad3621689093c2d638b663e87b5c25f4298d812cfa57ef3fe",
+  "convergence": null,
+  "sanity_checks": [
+    {
+      "name": "finite_positive_eigenfrequency",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "finite_positive_domain_energy",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "measurement": null,
+  "depends_on": [],
+  "blocking_reason": null,
+  "git_commit": null,
+  "environment_hash": null,
+  "timestamp": "2026-09-23T21:36:31.604622+00:00",
+  "solver_execution_environment_hash": null,
+  "solver_execution_git_commit": null,
+  "solver_executed_at": null,
+  "evidence_generation_environment_hash": null,
+  "evidence_generation_git_commit": null,
+  "evidence_generated_at": null,
+  "warnings": [
+    "Installation smoke test is solver-backed but is not physics verification."
+  ],
+  "invalidation_reason": null,
+  "skip_reason": null,
+  "failure_reason": null,
+  "provenance_gaps": [],
+  "superseded": null,
+  "supersedes_evidence_id": null,
+  "confidence_class": "SIMULATED"
+}

@@ -79,7 +79,9 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### 2. Restore Palace integration with valid scientific evidence
 
-- **Status:** TODO; failure localized in remote logs, not reproduced or fixed.
+- **Status:** IN PROGRESS; native-record discovery defect reproduced twice and
+  fixed on an isolated candidate branch. Real solver validation pending;
+  no candidate code promoted to main yet.
 - **Acceptance:** Verified install, official smoke test, reduced CPW benchmark,
   real solver invocation, convergence and retained evidence all pass required
   checks; original failure is reproduced and repeated fix verification retained.
@@ -90,9 +92,44 @@ in the repository's generated evidence and retained solver artifacts.
 - **Next:** Existing failure logs and artifact `10342591878` are retained under
   `docs/progress/evidence/2026-09-15-051619/palace-existing-failure/`. The official
   smoke command uses the native Spack executable from the install record, but
-  `detect_palace_capability` only consumes recorded paths with the `wsl:` prefix.
-  Reproduce the native-record/PATH mismatch twice before editing; then verify
-  the original solver-enabled workflow and all scientific acceptance gates.
+  `detect_palace` only consumes recorded paths with the `wsl:` prefix in the
+  current main implementation. Candidate `8705804045700d4b2bd87bd1d8e4c79839fd955d`
+  on `codex/palace-native-discovery-20260915` passes both original discovery
+  reproductions, nine new regression cases and the full 1,969-test suite
+  (11 skipped). See `docs/progress/2026-09-15-132123.md`.
+  Candidate CI `34932724963` passed. Palace attempt 1 (job `104264198805`)
+  passed install/smoke but the runner shut down during the reduced benchmark
+  (exit 143); no compact artifacts were uploaded. The cause is not established.
+  Unchanged attempt 2 also lost its runner during the reduced benchmark and
+  retained zero artifacts. Collection fix `034fc15` now checkpoints installation
+  and smoke evidence before the long step. Candidate `494a51a` combines that
+  collection fix with the still-isolated discovery fix. Run `35915053169` verified
+  the early checkpoint (artifact `10778525629`, retained smoke hashes verified),
+  then again lost the runner during the reduced benchmark. Do not repeat blindly:
+  add measured in-run resource/log diagnostics without changing numerical settings.
+  Runtime observer `4dfc1f2` samples bounded memory/process/solver-log
+  diagnostics without changing solver behavior. Candidate run `36032456522`,
+  job `107744315010`, again lost its runner during the reduced benchmark;
+  GitHub returned `404 BlobNotFound` for its log, so the stream is unavailable.
+  Its pre-benchmark artifact `10826536844` retains verified install/smoke
+  evidence only. See the September 25 report and hashed artifact packet.
+  Observer Windows fixture correction `6bd7e6f` passed actual main Windows
+  3.11/3.12 CI; candidate head `303d909` also passed full platform CI.
+  Documentation commit `2ca1c73` exposed an invalid XML 2.2 declaration in
+  the compacted real Palace field fixture on Ubuntu/Python 3.11; its failed
+  job reproduced unchanged. Correction `33bb90d` changes only the XML
+  declarations, repairs all fixture provenance hashes and passes full local
+  gates. Check exact-SHA CI `36145914485` and test `36145914291` before
+  confirming cross-platform success; see September 25 report.
+  Next implement and verify independently uploaded CLI stage/resume checkpoints
+  and a bounded solver diagnostic before one new candidate dispatch. Retain the
+  original full benchmark and all scientific gates for final acceptance; do
+  not repeat the monolithic attempt without a new evidence path.
+  Windows CI `35915634148` and `35933303913` both passed unchanged second
+  attempts; their first-attempt timing failures remain unexplained, not fixed by
+  relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
+  Require real reduced-benchmark execution, repeated verification, convergence
+  and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.
 
 ### 3. Audit scientific correctness across simulation tools

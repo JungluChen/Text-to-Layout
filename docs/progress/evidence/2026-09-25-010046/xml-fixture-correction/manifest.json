@@ -1,0 +1,89 @@
+{
+  "scope": "XML fixture correction, unchanged failed CI attempts and local gate evidence",
+  "files": {
+    "ci-attempt1-failed.log": {
+      "sha256": "e76ef4310e2789d1a6429c445be4db6051710dd1befbad9b5c78b7d2fdb28998",
+      "bytes": 43585
+    },
+    "ci-attempt2-failed.log": {
+      "sha256": "f92d16c312725118306a0353fdbc61b424b29532ba8054e4da5d3f72fa740b26",
+      "bytes": 43585
+    },
+    "final-full-pytest-passed.log": {
+      "sha256": "c27403a57f74cf2fd898cb9402329d1d66ff3636c97c585a1675941ab9e1872e",
+      "bytes": 18019
+    },
+    "first-full-pytest-passed.log": {
+      "sha256": "059859f7b0eb08f4499058fbb353d17321d2b40ba3332389a9bcc2591cb55a99",
+      "bytes": 18019
+    },
+    "gate-00.log": {
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    "gate-01.log": {
+      "sha256": "41d7503aa9ea75954479c9967e6a52530d4d92309d65ff614859d1db5927ac5b",
+      "bytes": 45
+    },
+    "gate-02.log": {
+      "sha256": "8671c0d9b1a9e135f3e84877c1330ce82dac98e34c4b7eab94fee3f2307f992e",
+      "bytes": 183
+    },
+    "gate-03.log": {
+      "sha256": "d5fec22a01d06b913bcf34b2ac5b7f714317922f280b8e8bceef37f143ed6230",
+      "bytes": 76
+    },
+    "gate-04.log": {
+      "sha256": "776a9921caa437c14c9f08eb9b50095a84f3b2e6443df62ea481a7eb35b4e210",
+      "bytes": 81
+    },
+    "gate-05.log": {
+      "sha256": "ecf652db6d4a009242b28e79c40d6c326bee2837c1c383ad6a49373732a64a04",
+      "bytes": 38
+    },
+    "gate-06.log": {
+      "sha256": "8b33f6683a910f3f7d18e650f9a7e6b2b3c461680e2b563fb823d498f1575d59",
+      "bytes": 24
+    },
+    "gate-07.log": {
+      "sha256": "f2ee4ea4105d6ce8320a0413a3eb64b3f56de87e1a2dc9d0ebb83548c8354f77",
+      "bytes": 35
+    },
+    "gate-08.log": {
+      "sha256": "cafb8c1a550aef51f26304d74aa3a39bf5322b2c7f9062bee9e156318d173d3a",
+      "bytes": 394
+    },
+    "gate-09.log": {
+      "sha256": "462fdad9331a79877677ae1e2e16a58241495942f456790b8a1a3206e47d5bf3",
+      "bytes": 44
+    },
+    "gate-10.log": {
+      "sha256": "b9ad98746d175e423403b9b1c9ed3a1dba51454441ce11e33dc204a40e54b8fd",
+      "bytes": 197
+    },
+    "gate-11.log": {
+      "sha256": "0124acd1d4ce3806f54d75365080e985a8178ab714a2860200ebc143bce43daa",
+      "bytes": 42
+    },
+    "gate-12.log": {
+      "sha256": "20a065f4a71a1df232c9467cbb90b7d5642491582c4d8eeeffa7eb276ffef1ef",
+      "bytes": 43
+    },
+    "gate-13.log": {
+      "sha256": "adbddedea895da75567d467dfc21716651e33ed35f83453f7cf59e9df8f64886",
+      "bytes": 60
+    },
+    "initial-sandboxed-pytest.log": {
+      "sha256": "856744e5ea2aaff29664fc6083e8ce8444f4a290c19051a515658a36a73228f9",
+      "bytes": 59801
+    },
+    "results.json": {
+      "sha256": "ebee40b4469bb900b114bac5a8f8ec6d5367e959bc8c7892266a253975a05e4a",
+      "bytes": 2609
+    },
+    "xmllint-reproduction.json": {
+      "sha256": "6a2bb625adc8926b78f97bc09f3d71c1ed5d431a151f2a9ad87412d89923c46d",
+      "bytes": 623
+    }
+  }
+}

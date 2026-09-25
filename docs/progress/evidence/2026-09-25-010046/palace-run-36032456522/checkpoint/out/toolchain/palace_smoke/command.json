@@ -1,0 +1,14 @@
+{
+  "command": [
+    "bash",
+    "-lc",
+    "cd /home/runner/work/Text-to-Layout/Text-to-Layout/out/toolchain/palace_smoke && /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45/bin/palace -np 2 cavity2d.json"
+  ],
+  "cwd": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/toolchain/palace_smoke",
+  "palace_version": "0.17.0",
+  "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+  "input_file_hashes": {
+    "cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+    "mesh/cavity2d.msh": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1"
+  }
+}

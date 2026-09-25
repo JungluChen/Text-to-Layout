@@ -1,0 +1,53 @@
+{
+  "schema": "textlayout.palace-install.v1",
+  "requested_version": "0.17.0",
+  "gmsh": {
+    "available": true,
+    "version": "4.15.2",
+    "expected_version": "4.15.2",
+    "module": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py",
+    "module_sha256": "f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3"
+  },
+  "source_archive": {
+    "available": true,
+    "path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+    "sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+    "size_bytes": 47331791
+  },
+  "status": "INSTALLED",
+  "strategy": "pinned_spack_wsl",
+  "palace_version": "0.17.0",
+  "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+  "palace_executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45/bin/palace",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "spack_version": "1.1.0",
+  "spack_commit": "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87",
+  "spack_packages_commit": "a2928a3376d286ddbf07da62847d5ba5b0fa3c67",
+  "spack_environment": "external_tools/palace/spack.yaml",
+  "spack_runtime_cache": "/home/runner/.cache/textlayout-palace",
+  "install_tree": "/home/runner/.cache/textlayout-palace/spack-opt",
+  "build_stage": "/home/runner/.cache/textlayout-palace/build-stage",
+  "compiler_and_mpi_tail": [
+    "[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45",
+    "==> Installing palace-0.17.0-kdbabbkgkevqhy4az7ib6kqfp2yvvs45 [63/63]",
+    "==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view",
+    "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "mpirun (Open MPI) 4.1.6",
+    ""
+  ],
+  "installed_at": "2026-09-24T18:15:26.403808+00:00",
+  "reused": false,
+  "gmsh_version": "4.15.2",
+  "native_root": "/home/runner/.cache/textlayout-palace",
+  "source_archive_path": "/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz",
+  "source_archive_sha256": "169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d",
+  "mpi_version": "mpirun (Open MPI) 4.1.6",
+  "compiler_versions": {
+    "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "gxx": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "gfortran": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  },
+  "git_commit": "39daad425e3437a774d4a72c898b44773653e58e"
+}
