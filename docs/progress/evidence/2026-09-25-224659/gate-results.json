@@ -1,0 +1,100 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/validate_readme_claims.py"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-00.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/check_namespace_boundary.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-01.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/generate_project_status.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-02.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/check_benchmarks.py",
+      "--strict"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-03.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/build_canonical_evidence.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-04.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/check_palace_amr_benchmark.py"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-05.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/render_showcase_artifacts.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-06.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/audit_evidence_consistency.py"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-07.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/build_palace_benchmark_evidence.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-08.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/bundle_plugin.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "/private/tmp/sep25-sparam-gates/gate-09.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "scripts/generate_audit_artifacts.py",
+      "--out",
+      "/private/tmp/sep25-sparam-audit",
+      "--fail-on-claim-downgrade"
+    ],
+    "exit_code": 1,
+    "log": "/private/tmp/sep25-sparam-gates/gate-10.log"
+  }
+]

@@ -54,6 +54,68 @@ in the repository's generated evidence and retained solver artifacts.
 
 ## Ordered queue
 
+### Priority 0. Whole-project Quantum/RF EDA integration architecture
+
+- **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
+  The pasted 50-target mission is a roadmap, not evidence that these tools are
+  installed, open source, supported or numerically validated. Existing item
+  numbers are retained so historical reports and commit references remain
+  intelligible. Keep active Palace run `36148860525` under item 2 monitoring
+  while advancing this architecture in bounded increments.
+- **Objective:** Evolve the deterministic `textlayout` core into a modular
+  Quantum/RF EDA compilation and simulation platform. Parsers/LLMs emit typed
+  Pydantic v2 DSL; pure Python and supported geometry libraries generate
+  reproducible geometry. Adapters consume that core rather than embedding
+  loose external scripts under `src/`. Native solvers stay outside Git under
+  `.tools/` or a user cache, with idempotent pinned/hash-verified setup and
+  `textlayout doctor` probes. Preserve the existing evidence contract:
+  prepared inputs, actual execution, parsed outputs, convergence and
+  fabrication readiness remain distinct; reconcile the pasted status names
+  with `src/textlayout/evidence/contract.py` before changing any schema.
+- **Seven integration pillars / candidate targets:**
+
+  | Pillar | Candidate projects and bounded purpose |
+  | --- | --- |
+  | 3D/2.5D EM and multiphysics | Palace, openEMS, FasterCap, FastHenry2, gprMax, Elmer, MFEM, Meep, scuff-em, SonnetLab/PyEM; common EM adapter, tagged GDS-to-mesh, headless configuration and execution. |
+  | Quantum microwave and superconducting circuits | Quantum Metal/Qiskit Metal qlibrary, pyEPR, JoSIM, EDA-Q, PSCAN2, WRspice, KQCircuits, QEDA, SQcircuit, scqubits; parametric devices and field-to-Hamiltonian evidence. |
+  | RF network analysis and synthesis | scikit-rf, Qucs-S, Schematic-to-Layout, rfplot, TxLine CLI; Touchstone S2P/S4P, de-embedding and impedance synthesis. |
+  | Geometry, mesh and verification | gdsfactory, KLayout DRC/LVS, Gmsh, Gdspy, Trimesh, PyVista, Shapely, OpenCascade/pythonOCC, Clipper2; tagged 2D-to-3D conversion and geometry sanity. |
+  | Physical design and VLSI signoff | OpenROAD, OpenLane, Magic, Netgen, KLayout DRC, ALIGN, SiliconCompiler; bounded DRC/LVS and mixed quantum/CMOS routing bridges. |
+  | Analog and SPICE | ngspice, Xyce, PySpice, OpenVAF, Xschem; netlist export and verified transient/analog execution. |
+  | Agents, optimization and commercial bridges | Ansys PyAEDT, LangGraph, PDKMaster, AutoCkt; optional licensed export and measured iterative optimization. |
+
+- **Acceptance criteria:** Inventory each target's canonical source, license,
+  maintenance state, platform, version/hash, dependency cost, existing code,
+  physical quantities, units, input/output contract, numerical limitations and
+  test evidence. Resolve duplicate/ambiguous target names before treating the
+  “50” as 50 distinct installable open-source tools. Specify a typed adapter
+  protocol and registry under `src/textlayout/integrations/` and, where useful,
+  `src/textlayout/simulation/backends/`; avoid duplicating current adapters.
+  Add optional `quantum`, `mesh`, `rf`, `spice`, `fem`, `all` groups only with
+  compatible pinned dependencies and a lean passing base install. Extend
+  `textlayout doctor` with truthful FOUND/MISSING/BROKEN and version/path/hash
+  checks. Every runner records solver provenance, inputs, outputs and
+  convergence in the existing canonical evidence schema before promotion.
+  Deliver one solver/CLI/benchmark slice at a time, with real fallback tests,
+  platform checks, guidebook examples and accepted scientific references.
+- **Current evidence:** `pyproject.toml` already defines `quantum`, `mesh` and
+  `rf`; it lacks the proposed `spice`, `fem` and `all` groups. Generator entry
+  points, `doctor.py`, Palace/openEMS/FasterCap/FastHenry/JoSIM adapters and a
+  Palace CLI are present. The proposed integration directories and generic EM
+  plugin registry are not yet present. This is a source inventory, not an
+  installation or solver-run claim. The Touchstone parser correction under
+  item 3 is the first bounded RF accuracy increment.
+- **Next:** (1) Audit and deduplicate all 50 target slots, including license
+  and commercial dependencies; rank by scientific impact and feasibility.
+  (2) Map existing adapters/evidence schemas to a minimal plugin contract and
+  write an architecture decision before new scaffolding. (3) Add an optional
+  dependency/doctor/adapter slice with full tests and actual solver evidence.
+  (4) Expand `textlayout simulate` and later `textlayout quantum characterize`
+  only for implemented, validated backends. Keep existing item 2's Palace job
+  and item 3's numerical audit active rather than replacing them with claims.
+- **Completion commits:** Pending; record implementation hashes in a later
+  documentation commit.
+
 ### 1. Audit current numerical and reference-validation work
 
 - **Status:** COMPLETE for the audited work at `99d8d06`; code and retained evidence published, exact-SHA CI passed.

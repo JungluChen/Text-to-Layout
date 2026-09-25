@@ -1,0 +1,25 @@
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+______________ test_touchstone_default_option_values_are_ghz_s_ma ______________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-74/test_touchstone_default_option0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x121694290>
+
+    def test_touchstone_default_option_values_are_ghz_s_ma(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        # IBIS Touchstone 2.1 option-line defaults apply to a bare '#'.
+        monkeypatch.setitem(sys.modules, "skrf", None)
+        path = tmp_path / "default.s1p"
+        path.write_text("#\n5 0.5 90\n", encoding="ascii")
+        data = read_sparameters(path)
+>       assert data.frequencies_hz == (5e9,)
+E       assert (5.0,) == (5000000000.0,)
+E         
+E         At index 0 diff: 5.0 != 5000000000.0
+E         Use -v to get more diff
+
+tests/textlayout_suite/test_sparameters.py:83: AssertionError
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_sparameters.py::test_touchstone_default_option_values_are_ghz_s_ma
+1 failed, 6 passed in 0.27s

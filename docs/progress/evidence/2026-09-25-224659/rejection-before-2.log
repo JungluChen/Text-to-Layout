@@ -1,0 +1,90 @@
+...FFF                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_touchstone_fallback_rejects_invalid_network_data[# GHz S RI R 50\n5 0.1 0 0.7 0\n-9 values] _
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-70/test_touchstone_fallback_rejec0')
+contents = '# GHz S RI R 50\n5 0.1 0 0.7 0\n', message = '9 values'
+
+    @pytest.mark.parametrize(
+        ("contents", "message"),
+        [
+            ("# GHz S RI R 50\n5 0.1 0 0.7 0\n", "9 values"),
+            ("# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n", "S-parameters"),
+            (
+                "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n"
+                "5 0.1 0 0.7 0 0.7 0 0.1 0\n",
+                "increasing",
+            ),
+        ],
+    )
+    def test_touchstone_fallback_rejects_invalid_network_data(
+        tmp_path: Path, contents: str, message: str
+    ) -> None:
+        path = tmp_path / "invalid.s2p"
+        path.write_text(contents, encoding="ascii")
+>       with pytest.raises(ValueError, match=message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/textlayout_suite/test_sparameters.py:66: Failed
+_ test_touchstone_fallback_rejects_invalid_network_data[# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n-S-parameters] _
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-70/test_touchstone_fallback_rejec1')
+contents = '# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n'
+message = 'S-parameters'
+
+    @pytest.mark.parametrize(
+        ("contents", "message"),
+        [
+            ("# GHz S RI R 50\n5 0.1 0 0.7 0\n", "9 values"),
+            ("# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n", "S-parameters"),
+            (
+                "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n"
+                "5 0.1 0 0.7 0 0.7 0 0.1 0\n",
+                "increasing",
+            ),
+        ],
+    )
+    def test_touchstone_fallback_rejects_invalid_network_data(
+        tmp_path: Path, contents: str, message: str
+    ) -> None:
+        path = tmp_path / "invalid.s2p"
+        path.write_text(contents, encoding="ascii")
+>       with pytest.raises(ValueError, match=message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/textlayout_suite/test_sparameters.py:66: Failed
+_ test_touchstone_fallback_rejects_invalid_network_data[# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n5 0.1 0 0.7 0 0.7 0 0.1 0\n-increasing] _
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-70/test_touchstone_fallback_rejec2')
+contents = '# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n5 0.1 0 0.7 0 0.7 0 0.1 0\n'
+message = 'increasing'
+
+    @pytest.mark.parametrize(
+        ("contents", "message"),
+        [
+            ("# GHz S RI R 50\n5 0.1 0 0.7 0\n", "9 values"),
+            ("# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n", "S-parameters"),
+            (
+                "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n"
+                "5 0.1 0 0.7 0 0.7 0 0.1 0\n",
+                "increasing",
+            ),
+        ],
+    )
+    def test_touchstone_fallback_rejects_invalid_network_data(
+        tmp_path: Path, contents: str, message: str
+    ) -> None:
+        path = tmp_path / "invalid.s2p"
+        path.write_text(contents, encoding="ascii")
+>       with pytest.raises(ValueError, match=message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/textlayout_suite/test_sparameters.py:66: Failed
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_sparameters.py::test_touchstone_fallback_rejects_invalid_network_data[# GHz S RI R 50\n5 0.1 0 0.7 0\n-9 values]
+FAILED tests/textlayout_suite/test_sparameters.py::test_touchstone_fallback_rejects_invalid_network_data[# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n-S-parameters]
+FAILED tests/textlayout_suite/test_sparameters.py::test_touchstone_fallback_rejects_invalid_network_data[# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n5 0.1 0 0.7 0 0.7 0 0.1 0\n-increasing]
+3 failed, 3 passed in 0.28s
