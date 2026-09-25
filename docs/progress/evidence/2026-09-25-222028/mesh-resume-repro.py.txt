@@ -1,0 +1,22 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+from textlayout.fem.gmsh_physical import GmshMeshResult
+from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
+from textlayout.solvers.palace.benchmark_v017 import AMRSettings, run_quarter_wave_benchmark_v017
+from textlayout.solvers.palace.models import PalaceCapability, PalaceOutputError
+
+def fake_mesh(_geometry, _params, _model, output_path, **_kwargs):
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(b'Gmsh deterministic mesh placeholder\n')
+    return GmshMeshResult(path=path, runtime_seconds=0.1, element_count=1, minimum_quality=1.0, mean_quality=1.0)
+
+capability = PalaceCapability(executable='/bin/true', version='0.17.0', executable_sha256='a' * 64)
+with TemporaryDirectory(prefix='palace-resume-repro-') as directory, patch('textlayout.solvers.palace.benchmark_v017.mesh_quarter_wave', fake_mesh):
+    root = Path(directory)
+    first = run_quarter_wave_benchmark_v017(root, layout_path=DEFAULT_LAYOUT, capability=capability, processes=1, mesh_scale=4.0, amr=AMRSettings(max_iterations=4), stop_after_stage='base_mesh', numerical_sweep_values={}, physical_sweep_values={})
+    assert first.status == 'STAGE_COMPLETE'
+    result = run_quarter_wave_benchmark_v017(root, layout_path=DEFAULT_LAYOUT, capability=capability, processes=1, mesh_scale=4.0, amr=AMRSettings(max_iterations=4), resume=True, stop_after_stage='base_amr', numerical_sweep_values={}, physical_sweep_values={})
+    print(result.status, result.reason)
+    raise SystemExit(0 if result.status == 'SIMULATION_INVALID' and 'completed base AMR cannot be reused; missing artifact(s)' in (result.reason or '') else 1)

@@ -119,12 +119,18 @@ in the repository's generated evidence and retained solver artifacts.
   the compacted real Palace field fixture on Ubuntu/Python 3.11; its failed
   job reproduced unchanged. Correction `33bb90d` changes only the XML
   declarations, repairs all fixture provenance hashes and passes full local
-  gates. Check exact-SHA CI `36145914485` and test `36145914291` before
-  confirming cross-platform success; see September 25 report.
-  Next implement and verify independently uploaded CLI stage/resume checkpoints
-  and a bounded solver diagnostic before one new candidate dispatch. Retain the
-  original full benchmark and all scientific gates for final acceptance; do
-  not repeat the monolithic attempt without a new evidence path.
+  gates. Exact-SHA CI `36145914485` and test `36145914291` subsequently
+  passed, including Ubuntu/Python 3.11; see September 25 report.
+  Candidate work after `64c9abe` adds hash-checked base-mesh resume and a
+  separate bounded diagnostic before the full AMR solve, preserving the final
+  benchmark's numerical settings. Three focused resume safety cases and the
+  1,979-pass candidate suite passed locally; exact-SHA CI `36148281544` passed
+  the six-platform-version matrix and quality jobs. Palace run `36148860525`
+  (job `108116750266`) is active on candidate SHA `2b88360`. Real Linux
+  checkpoint uploads, bounded solver execution, full benchmark, convergence
+  and reference error remain pending. Monitor this job; do not launch a
+  duplicate or promote discovery/resume to main until
+  those are assessed. See `docs/progress/2026-09-25-222028.md`.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
