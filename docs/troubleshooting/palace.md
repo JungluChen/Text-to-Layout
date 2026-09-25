@@ -86,9 +86,14 @@ Actions log and `out/toolchain/palace_runtime.txt`. It reads host memory, the
 observer's cgroup-v2 memory counters when available, the twelve processes with
 highest RSS, and short tails of selected benchmark records and solver logs.
 The shell stops only its observer on exit and preserves the benchmark exit code.
-The observer never starts, cancels or validates a solver. Real Linux diagnostic
-capture is pending the next candidate run; local tests check collection and
-shell lifecycle, not solver behavior.
+The observer never starts, cancels or validates a solver. Candidate run
+`36032456522` reached this step, but the runner disappeared and GitHub returned
+`404 BlobNotFound` for its job log. No final artifact step ran, so neither the
+streamed lines nor the on-runner observer file were retained. Local tests check
+collection and shell lifecycle; actual Linux resource capture is still
+unverified. Preserve stage outputs in independently uploaded checkpoints before
+repeating a long benchmark. Missing logs cannot establish an OOM or solver
+result.
 
 For a one-time local inspection from the repository root:
 

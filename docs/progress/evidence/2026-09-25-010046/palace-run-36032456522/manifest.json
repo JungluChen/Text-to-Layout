@@ -1,0 +1,49 @@
+{
+  "source_run": 36032456522,
+  "source_job": 107744315010,
+  "source_sha": "39daad425e3437a774d4a72c898b44773653e58e",
+  "smoke_hash_checks": {
+    "postpro/eigenmode/eig.csv": {
+      "expected": "1b62a763df4f64b585e58304396e67fc1005c657ee395bfa3686a06ec21811aa",
+      "actual": "1b62a763df4f64b585e58304396e67fc1005c657ee395bfa3686a06ec21811aa",
+      "match": true
+    },
+    "postpro/eigenmode/domain-E.csv": {
+      "expected": "e8add3ae8857ef006be55020772397e073df2e3f1fce26bb27dc79f737598bb3",
+      "actual": "e8add3ae8857ef006be55020772397e073df2e3f1fce26bb27dc79f737598bb3",
+      "match": true
+    },
+    "cavity2d.json": {
+      "expected": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+      "actual": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+      "retained": true
+    },
+    "mesh/cavity2d.msh": {
+      "expected": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1",
+      "actual": null,
+      "retained": false
+    }
+  },
+  "files": {
+    "palace-run-36032456522/checkpoint/.tools/palace/install.json": "0afc663292dc84c52bffdccf4a9c92cd809dd81cddb5ad96d9dca5b61f6b77b2",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_check.json": "3494364d912ea3c2f6f65ae30600f03bca0fbaef098e0d0b0934aeb0629573b1",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_install.json": "0afc663292dc84c52bffdccf4a9c92cd809dd81cddb5ad96d9dca5b61f6b77b2",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_install.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_install.stdout.txt": "83e475828ae4d6c3d703b9683fdbb126d1dd46d59136cd87041c18b22de62fde",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/canonical_evidence.json": "0d38010ff6c10d531fbbba1f26c7f7d64623943a857b39c34f66c866b140ceef",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/command.json": "4c7d566b1d9fb7ed693c6a3ad8f5c3904e16b80f1622caf68ad956e2d073a439",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/environment.json": "2586d6199087394c6c418ba4a42b1eb5931b994da81876c815bc233ecfc872d2",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/palace.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/palace.stdout.txt": "563b5b6360e8d4afdad70fa7c49f169e2e28ba6b25b22dd92f4bcbb28c5c40c1",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/domain-E.csv": "e8add3ae8857ef006be55020772397e073df2e3f1fce26bb27dc79f737598bb3",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/eig.csv": "1b62a763df4f64b585e58304396e67fc1005c657ee395bfa3686a06ec21811aa",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/postpro/eigenmode/error-indicators.csv": "5da5318f3211760f12a6d24d474a12adedebbe3b0f9256827816f69e1f5b6e6a",
+    "palace-run-36032456522/checkpoint/out/toolchain/palace_smoke/result.json": "598ba389c9bbd9cc7279e1b6e0fd44eadfa828049139a244bba42d68f3f7e5ae",
+    "palace-run-36032456522/checkpoint/out/toolchain/runner_resources.txt": "c617bb9db0922fad8c90184d8d7fad8aa622bbf46a54316327e3bc65dcae0bce",
+    "palace-run-36032456522/palace-artifacts-36032456522.json": "6e14d6c2f5e177e23f37cdbca5dd570b1c1e71503c45cd7cb858f83bfc1a1a5d",
+    "palace-run-36032456522/palace-job-107744315010.json": "49967c117e96a99079ba86eedce59aef1f1d8de957d470c2ed4f21ac085cc0e1",
+    "palace-run-36032456522/palace-job-logs-response.txt": "9ac8fea0c546fc49a064254fbc0e4ebfa1365520ac14eff29347b915c9662342",
+    "palace-run-36032456522/palace-run-36032456522.json": "d653f7c1c897732918238b693b58844bd8ddc56c688c079151c3aa03e35b11cd"
+  }
+}

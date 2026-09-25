@@ -107,12 +107,18 @@ in the repository's generated evidence and retained solver artifacts.
   the early checkpoint (artifact `10778525629`, retained smoke hashes verified),
   then again lost the runner during the reduced benchmark. Do not repeat blindly:
   add measured in-run resource/log diagnostics without changing numerical settings.
-  Runtime observer `4dfc1f2` now streams bounded memory/process/solver-log
-  diagnostics without changing solver behavior. Candidate `39daad4` is running
-  as `36032456522`, job `107744315010`; inspect it before any new dispatch.
-  New observer Windows fixture correction `6bd7e6f` is locally verified;
-  candidate head `303d909` carries the same test-only fix. Check its platform CI
-  while the existing solver run stays at `39daad4`.
+  Runtime observer `4dfc1f2` samples bounded memory/process/solver-log
+  diagnostics without changing solver behavior. Candidate run `36032456522`,
+  job `107744315010`, again lost its runner during the reduced benchmark;
+  GitHub returned `404 BlobNotFound` for its log, so the stream is unavailable.
+  Its pre-benchmark artifact `10826536844` retains verified install/smoke
+  evidence only. See the September 25 report and hashed artifact packet.
+  Observer Windows fixture correction `6bd7e6f` passed actual main Windows
+  3.11/3.12 CI; candidate head `303d909` also passed full platform CI.
+  Next implement and verify independently uploaded CLI stage/resume checkpoints
+  and a bounded solver diagnostic before one new candidate dispatch. Retain the
+  original full benchmark and all scientific gates for final acceptance; do
+  not repeat the monolithic attempt without a new evidence path.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
