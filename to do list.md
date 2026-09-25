@@ -140,13 +140,23 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### 3. Audit scientific correctness across simulation tools
 
-- **Status:** TODO.
+- **Status:** IN PROGRESS. The first bounded audit corrected the optional
+  Touchstone fallback parser used for openEMS S-parameter results; the broader
+  cross-solver audit remains open.
 - **Acceptance:** Each supported path has traceable equations/data, unit and
   material checks, geometry/readback checks, parser regression cases, convergence
   evidence and justified accuracy criteria, with limitations explicitly recorded.
-- **Evidence:** Collect from actual solver executions and primary references.
-- **Next:** Inventory existing backends and rank gaps by their effect on numerical
-  correctness; validate one bounded path at a time.
+- **Evidence:** IBIS Touchstone 2.1 specifies complete 1-/2-port Version 1.x
+  rows, strictly increasing frequency and GHz/S/MA/50-ohm defaults. Repeated
+  unchanged tests showed the prior fallback accepted a truncated `.s2p`, read
+  Z-parameters as S-parameters, accepted reversed sweeps and treated a bare `#`
+  as Hz/RI. The correction and retained test/gate record are in the September
+  25 parser progress report. Example openEMS files were classified; no new
+  solver execution or reference accuracy result is claimed.
+- **Next:** Verify the parser correction on the Windows/macOS/Linux CI matrix,
+  then inventory remaining backend equations, units, materials, geometry,
+  parser and convergence gaps by potential numerical impact. Keep Palace run
+  `36148860525` under item 2 monitoring; do not duplicate it.
 - **Completion commits:** Pending.
 
 ### 4. Expand independent reproducible comparisons

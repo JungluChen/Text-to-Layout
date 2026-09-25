@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import sys
 from pathlib import Path
 
 import pytest
@@ -11,6 +12,7 @@ from textlayout.simulation.sparameters import (
     extract_s11_at_frequency,
     extract_s21_at_frequency,
     find_resonance_frequency,
+    read_sparameters,
 )
 
 
@@ -43,3 +45,40 @@ def test_csv_fallback_and_resonance_dip(tmp_path: Path) -> None:
     path.write_text("\n".join(rows) + "\n", encoding="utf-8")
     assert find_resonance_frequency(path) == pytest.approx(6e9)
     assert math.isclose(abs(extract_s21_at_frequency(path, 6e9)), 0.1)
+
+
+@pytest.mark.parametrize(
+    ("contents", "message"),
+    [
+        ("# GHz S RI R 50\n5 0.1 0 0.7 0\n", "9 values"),
+        ("# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n", "S-parameters"),
+        (
+            "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n"
+            "5 0.1 0 0.7 0 0.7 0 0.1 0\n",
+            "increasing",
+        ),
+    ],
+)
+def test_touchstone_fallback_rejects_invalid_network_data(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, contents: str, message: str
+) -> None:
+    # IBIS Touchstone 2.1, network data rules: a Version 1.x full two-port
+    # frequency row has four pairs and rows increase in frequency.
+    # https://ibis.org/touchstone_ver2.1/touchstone_ver2_1.pdf
+    monkeypatch.setitem(sys.modules, "skrf", None)
+    path = tmp_path / "invalid.s2p"
+    path.write_text(contents, encoding="ascii")
+    with pytest.raises(ValueError, match=message):
+        read_sparameters(path)
+
+
+def test_touchstone_default_option_values_are_ghz_s_ma(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # IBIS Touchstone 2.1 option-line defaults apply to a bare '#'.
+    monkeypatch.setitem(sys.modules, "skrf", None)
+    path = tmp_path / "default.s1p"
+    path.write_text("#\n5 0.5 90\n", encoding="ascii")
+    data = read_sparameters(path)
+    assert data.frequencies_hz == (5e9,)
+    assert data.s11[0] == pytest.approx(0.5j)

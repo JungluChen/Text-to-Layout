@@ -50,6 +50,12 @@ def _validated(data: SParameterData, source: Path) -> SParameterData:
     def _finite(value: complex) -> bool:
         return math.isfinite(value.real) and math.isfinite(value.imag)
 
+    if not data.frequencies_hz or not (
+        len(data.frequencies_hz) == len(data.s11) == len(data.s21)
+    ):
+        raise ValueError(f"{source.name}: incomplete S-parameter sweep")
+    if not math.isfinite(data.reference_ohm) or data.reference_ohm <= 0:
+        raise ValueError(f"{source.name}: invalid reference impedance")
     bad = sum(
         1
         for freq, a, b in zip(data.frequencies_hz, data.s11, data.s21)
@@ -62,6 +68,11 @@ def _validated(data: SParameterData, source: Path) -> SParameterData:
             "(typically zero injected port energy); refusing to extract numbers "
             "from it"
         )
+    if any(
+        current <= previous
+        for previous, current in zip(data.frequencies_hz, data.frequencies_hz[1:])
+    ):
+        raise ValueError(f"{source.name}: frequencies must be strictly increasing")
     return data
 
 
@@ -160,29 +171,49 @@ def _read_csv(path: Path) -> SParameterData:
 
 
 def _read_touchstone(path: Path) -> SParameterData:
-    scale = 1.0
-    form = "ri"
+    port_count = {".s1p": 1, ".s2p": 2}.get(path.suffix.lower())
+    if port_count is None:
+        raise ValueError(f"{path.name}: fallback parser supports .s1p and .s2p only")
+    expected_values = 1 + 2 * port_count * port_count
+    scale = 1e9
+    form = "ma"
     reference = 50.0
     frequencies: list[float] = []
     s11: list[complex] = []
     s21: list[complex] = []
     for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("!"):
+        line = raw.split("!", 1)[0].strip()
+        if not line:
             continue
+        if line.startswith("["):
+            raise ValueError(f"{path.name}: Touchstone 2.x requires scikit-rf")
         if line.startswith("#"):
             tokens = line.casefold().split()
-            scale = 1e9 if "ghz" in tokens else 1e6 if "mhz" in tokens else 1e3 if "khz" in tokens else 1.0
-            form = next((token for token in tokens if token in {"ri", "ma", "db"}), "ri")
+            parameters = set(tokens) & {"s", "y", "z", "h", "g"}
+            if parameters and parameters != {"s"}:
+                raise ValueError(f"{path.name}: fallback parser supports S-parameters only")
+            units = set(tokens) & {"hz", "khz", "mhz", "ghz"}
+            formats = set(tokens) & {"ri", "ma", "db"}
+            if len(units) > 1 or len(formats) > 1:
+                raise ValueError(f"{path.name}: conflicting Touchstone options")
+            unit = next(iter(units), "ghz")
+            scale = {"hz": 1.0, "khz": 1e3, "mhz": 1e6, "ghz": 1e9}[unit]
+            form = next(iter(formats), "ma")
             if "r" in tokens:
-                reference = float(tokens[tokens.index("r") + 1])
+                position = tokens.index("r") + 1
+                if position >= len(tokens):
+                    raise ValueError(f"{path.name}: missing reference impedance")
+                reference = float(tokens[position])
             continue
         values = [float(token) for token in line.split()]
-        if len(values) < 3:
-            continue
+        if len(values) != expected_values:
+            raise ValueError(
+                f"{path.name}: {port_count}-port Touchstone row requires "
+                f"{expected_values} values, found {len(values)}"
+            )
         frequencies.append(values[0] * scale)
         s11.append(_pair(values[1], values[2], form))
-        s21.append(_pair(values[3], values[4], form) if len(values) >= 5 else 0j)
+        s21.append(_pair(values[3], values[4], form) if port_count == 2 else 0j)
     return SParameterData(tuple(frequencies), tuple(s11), tuple(s21), reference)
 
 

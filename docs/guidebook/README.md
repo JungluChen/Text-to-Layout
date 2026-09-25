@@ -114,6 +114,33 @@ Python 3.12.14 on 2026-09-15. Other platform and GUI walkthroughs remain pending
 This function is available through CLI/API. Its future GUI screenshots and
 modern MCP adapter are still pending; do not invent a tool name for this prompt.
 
+## Inspect an S-parameter result before quoting a frequency
+
+1. From the repository root, read a committed two-port example through the
+   product parser:
+
+   ```sh
+   uv run python -c 'from textlayout.simulation.sparameters import read_sparameters; data = read_sparameters("examples/showcase/02_cpw_50ohm/extraction/capacitance_input/openems_result.s2p"); print(len(data.frequencies_hz), data.frequencies_hz[0], data.frequencies_hz[-1], data.reference_ohm)'
+   ```
+
+   The checked local command printed `401 1500000000.0 12000000000.0 50.0`:
+   401 samples, a 1.5–12 GHz sweep, and a 50 ohm reference. The file is an
+   existing example, not evidence of a new solver run.
+2. If parsing raises an error, keep the original file and solver log. Check
+   whether the sweep is finite and ordered, whether each `.s2p` row has four
+   complex parameter pairs, and whether its option line describes S-parameters.
+   Do not quote a resonance or impedance from a rejected or incomplete file.
+3. A reported number still needs the solver identity, model inputs, geometry,
+   materials, convergence and an independent reference before an accuracy claim.
+   The parser only establishes that the data file is structurally usable.
+
+**AI prompt example**
+
+> Read this Touchstone result, report the sweep range, units and reference
+> impedance, then check for incomplete rows, non-finite samples and frequency
+> ordering. If it fails, show the exact error and retain the original file;
+> do not invent a resonance or treat parse success as solver validation.
+
 ## Local API walkthrough
 
 1. Start the service from the repository root:
