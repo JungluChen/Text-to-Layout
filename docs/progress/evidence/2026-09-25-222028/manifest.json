@@ -1,0 +1,98 @@
+{
+  "source_branch": "codex/palace-native-discovery-20260915",
+  "implementation_commit": "2b883601bd96439309fe6414c813d0eefa909ec5",
+  "files": {
+    "full-pytest.log": {
+      "bytes": 18099,
+      "sha256": "5c9ada3e79cbe64d3a7407cb7251d23afbedf6345e8a2f0f3662dbbe7c1863bc"
+    },
+    "gate-00.log": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "gate-01.log": {
+      "bytes": 45,
+      "sha256": "41d7503aa9ea75954479c9967e6a52530d4d92309d65ff614859d1db5927ac5b"
+    },
+    "gate-02.log": {
+      "bytes": 183,
+      "sha256": "8671c0d9b1a9e135f3e84877c1330ce82dac98e34c4b7eab94fee3f2307f992e"
+    },
+    "gate-03.log": {
+      "bytes": 76,
+      "sha256": "d5fec22a01d06b913bcf34b2ac5b7f714317922f280b8e8bceef37f143ed6230"
+    },
+    "gate-04.log": {
+      "bytes": 81,
+      "sha256": "776a9921caa437c14c9f08eb9b50095a84f3b2e6443df62ea481a7eb35b4e210"
+    },
+    "gate-05.log": {
+      "bytes": 38,
+      "sha256": "ecf652db6d4a009242b28e79c40d6c326bee2837c1c383ad6a49373732a64a04"
+    },
+    "gate-06.log": {
+      "bytes": 24,
+      "sha256": "8b33f6683a910f3f7d18e650f9a7e6b2b3c461680e2b563fb823d498f1575d59"
+    },
+    "gate-07.log": {
+      "bytes": 35,
+      "sha256": "f2ee4ea4105d6ce8320a0413a3eb64b3f56de87e1a2dc9d0ebb83548c8354f77"
+    },
+    "gate-08.log": {
+      "bytes": 394,
+      "sha256": "cafb8c1a550aef51f26304d74aa3a39bf5322b2c7f9062bee9e156318d173d3a"
+    },
+    "gate-09.log": {
+      "bytes": 44,
+      "sha256": "462fdad9331a79877677ae1e2e16a58241495942f456790b8a1a3206e47d5bf3"
+    },
+    "gate-10.log": {
+      "bytes": 197,
+      "sha256": "b9ad98746d175e423403b9b1c9ed3a1dba51454441ce11e33dc204a40e54b8fd"
+    },
+    "gate-11.log": {
+      "bytes": 42,
+      "sha256": "0124acd1d4ce3806f54d75365080e985a8178ab714a2860200ebc143bce43daa"
+    },
+    "gate-12.log": {
+      "bytes": 43,
+      "sha256": "20a065f4a71a1df232c9467cbb90b7d5642491582c4d8eeeffa7eb276ffef1ef"
+    },
+    "gate-13.log": {
+      "bytes": 63,
+      "sha256": "9206b692d732c6ccf71d7a7cf4bcbbb826d85601daefba640165e4ad05cbfcfb"
+    },
+    "local-mesh-unavailable.md": {
+      "bytes": 160,
+      "sha256": "d563fd0306a66a7edef07f46c64fb03fb99bf70305ea2cd95aa06da44f4eb2ee"
+    },
+    "mesh-resume-repro.py.txt": {
+      "bytes": 1748,
+      "sha256": "1a871c578b94d7d2670ffbf3aea7cad2f9ee85844332b20e5883b02f6474effe"
+    },
+    "results.json": {
+      "bytes": 2612,
+      "sha256": "6978fb2292840db67fc61e68da153f6d168fe43c2852e3f0fba963e3c1733515"
+    },
+    "resume-after-1.log": {
+      "bytes": 113,
+      "sha256": "ead507402de94180788cc215089546f13899fee2e783930c8c69886c905cf277"
+    },
+    "resume-after-2.log": {
+      "bytes": 113,
+      "sha256": "ead507402de94180788cc215089546f13899fee2e783930c8c69886c905cf277"
+    },
+    "resume-before-1.log": {
+      "bytes": 686,
+      "sha256": "45386c9ceed6f365ccbd2091063a319edac707eb5c2dbe5e87717812d27fb024"
+    },
+    "resume-before-2.log": {
+      "bytes": 686,
+      "sha256": "9a3071a343a8f844d717e0bc4a4620ed0735c6e24ca1cd03e7f11b84b5257ddf"
+    },
+    "workflow-check.log": {
+      "bytes": 187,
+      "sha256": "ee8c4fe43d3d4c6a56e494fc7e4bee4881839140903cd418f50d2b1a459186d6"
+    }
+  }
+}

@@ -95,6 +95,18 @@ unverified. Preserve stage outputs in independently uploaded checkpoints before
 repeating a long benchmark. Missing logs cannot establish an OOM or solver
 result.
 
+The isolated Palace candidate now prepares `--stage base_mesh`, checks the
+stage's output hashes, and uploads an expiring `palace-base-mesh-<attempt>`
+artifact before any reduced solve. The full command uses `--resume` with the
+same process count, mesh scale and AMR budget; resume starts AMR from that mesh
+only when no solver output has begun. Partial AMR records and changed mesh
+hashes remain invalid rather than being silently overwritten. A separately
+labeled one-rank, two-state bounded diagnostic runs before the full benchmark
+and uploads compact outputs. It has different geometry/solver limits and cannot
+prove full-benchmark convergence or reference agreement. These new candidate
+steps require an actual Linux Actions run before their artifact behavior can
+be called verified.
+
 For a one-time local inspection from the repository root:
 
 ```sh

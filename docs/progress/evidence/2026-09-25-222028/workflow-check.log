@@ -1,0 +1,3 @@
+PASS: all workflow run blocks parse as Bash
+PASS: checkpoint and diagnostic precede the full benchmark
+PASS: full benchmark retains two processes, mesh scale 4.0, and four AMR iterations
