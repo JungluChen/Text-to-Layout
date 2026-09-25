@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 
 import meshio
@@ -171,3 +173,10 @@ def test_real_palace_0_17_compacted_parallel_fixture() -> None:
     assert result.total_mac == pytest.approx(1.0)
     assert result.integration_cell_count == 2
     assert result.mapped_volume_coverage == pytest.approx(1.0)
+
+
+def test_real_palace_field_fixture_matches_provenance() -> None:
+    fixture_dir = Path("tests/fixtures/palace_0_17_field")
+    provenance = json.loads((fixture_dir / "provenance.json").read_text(encoding="utf-8"))
+    for name, expected_hash in provenance["fixture_hashes"].items():
+        assert hashlib.sha256((fixture_dir / name).read_bytes()).hexdigest() == expected_hash
