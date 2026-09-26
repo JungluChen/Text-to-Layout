@@ -1,0 +1,9 @@
+{
+  "baseline_used_mb": 1216,
+  "measured_vs_palace_percent": 1.356907894736847,
+  "palace_reported_peak_memory_mb": 1945.6,
+  "peak_solver_growth_mb": 1917,
+  "peak_solver_rss_mb": 1972,
+  "peak_used_mb": 3133,
+  "samples": 105
+}

@@ -247,6 +247,17 @@ in the repository's generated evidence and retained solver artifacts.
   Preserve the physical gates; diagnose the actual profile values and field
   sampling instead of guessing or weakening thresholds. Full benchmark,
   convergence and reference comparison remain unexecuted, so do not merge.
+  [Palace attempt 2](https://github.com/JungluChen/Text-to-Layout/actions/runs/36223218053)
+  at `f407c63` reproduced the same `TARGET_MODE_NOT_FOUND` verdict with
+  byte-identical solved-state, mode-tracking, eigenvalue and regional-energy
+  hashes. The 114,276-element adapted state remained under the guard.
+  Attempt-2 compact evidence and comparison are in
+  `docs/progress/2026-09-27-013856.md`. Diagnostic-only branch commit
+  `e4f52cc` now retains mode signatures and measured longitudinal profiles
+  on rejection; real Palace run `36259710684` is active at that SHA. Inspect
+  its physical profile artifact, then repeat unchanged before changing the
+  model or classifier. Full scientific acceptance and branch merge remain
+  pending.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.

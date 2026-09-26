@@ -1,0 +1,39 @@
+{
+  "classification_selection": {
+    "confidence": null,
+    "rejection_reasons_by_mode": {
+      "1": [
+        "quarter-wave profile failed"
+      ],
+      "2": [
+        "electric open-end antinode failed",
+        "electric grounded-end node failed",
+        "magnetic grounded-end antinode failed",
+        "magnetic open-end node failed",
+        "quarter-wave profile failed",
+        "resonator localization below 0.5",
+        "package energy fraction above 0.5"
+      ]
+    },
+    "status": "TARGET_MODE_NOT_FOUND",
+    "target_frequency_ghz": null,
+    "target_mode": null
+  },
+  "classifications_by_iteration": {
+    "iteration_00": {
+      "1": "UNKNOWN",
+      "2": "SUBSTRATE_MODE"
+    }
+  },
+  "classified_seed_mode": null,
+  "error": "physical target classification failed: TARGET_MODE_NOT_FOUND",
+  "matches": [],
+  "method": "frequency continuity + regional electric/magnetic energy similarity + electric/magnetic field MAC + resonator localization",
+  "minimum_electric_field_mac": 0.95,
+  "minimum_magnetic_field_mac": 0.9,
+  "minimum_margin": 0.05,
+  "minimum_regional_energy_similarity": 0.98,
+  "schema": "textlayout.palace-mode-tracking.v3",
+  "seed_frequency_ghz": 6.0,
+  "tracked_mode_indices": []
+}
