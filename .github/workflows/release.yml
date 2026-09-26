@@ -1,14 +1,93 @@
 name: Release
+
 on:
-  push: {tags: ['v*.*.*']}
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    permissions: {id-token: write, contents: write}
+  verify-platforms:
+    name: Verify wheel and CLI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
+        with: {python-version: '3.12'}
+      - run: uv sync --frozen --dev
+      - run: uv run pytest
+      - run: uv run ruff check .
+      - run: uv run mypy
       - run: uv build
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - run: uv run textlayout --help
+      - run: uv run textlayout doctor --json
+      - run: uv run python scripts/validate_readme_claims.py
+      - run: uv run python scripts/check_namespace_boundary.py --check
+      - run: uv run python scripts/generate_project_status.py --check
+      - run: uv run python scripts/generate_integration_checklist.py --check
+
+  verify-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: {python-version: '3.12'}
+      - run: uv sync --frozen --dev
+      - run: uv run python scripts/check_benchmarks.py --strict
+      - run: uv run python scripts/build_canonical_evidence.py --check
+      - run: uv run python scripts/check_palace_amr_benchmark.py
+      - run: uv run python scripts/render_showcase_artifacts.py --check
+      - run: uv run python scripts/audit_evidence_consistency.py
+
+  build:
+    needs: [verify-platforms, verify-evidence]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: astral-sh/setup-uv@v5
+        with: {python-version: '3.12'}
+      - name: Require version-matched tag from main
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          uv run --no-project python scripts/verify_release_tag.py "$GITHUB_REF_NAME"
+      - run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/*
+          if-no-files-found: error
+
+  publish-pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist
+      - name: Publish with PyPI trusted publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    needs: publish-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist
       - uses: softprops/action-gh-release@v2
-        with: {files: 'dist/*'}
+        with:
+          files: dist/*

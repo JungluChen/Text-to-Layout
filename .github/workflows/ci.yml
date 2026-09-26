@@ -30,6 +30,7 @@ jobs:
       # committed canonical JUnit evidence with host-specific skip counts.
       - run: uv run pytest
       - run: uv run python scripts/generate_project_status.py --check
+      - run: uv run python scripts/generate_integration_checklist.py --check
       - run: uv build
       - name: API smoke
         run: uv run pytest tests/textlayout_suite/test_api.py -q

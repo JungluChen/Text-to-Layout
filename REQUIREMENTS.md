@@ -66,6 +66,24 @@ Existing CLI/API and legacy MCP paths are inventoried in
   tool is not an executed, converged or validated solver. Keep this inventory
   separate from callable MCP functions and the canonical evidence contract.
   See [integration boundary](docs/architecture/integrations.md).
+- **INT-07:** Publish an explicit 100-slot completion checklist. A completed
+  integration links its implementation commit, audited source/license, real
+  execution, independent reference/convergence evidence and verified platforms;
+  an existing adapter or discovery probe alone is not a completed merge.
+
+## Distribution and updates
+
+- **REL-01:** Python releases use exact version-matched tags on `main`, the
+  three-platform test/build matrix and claim/evidence gates before PyPI
+  publication. Use PyPI trusted publishing; verify installation from the
+  published index before calling a release available.
+- **REL-02:** Deliver separate Windows, macOS and Linux installed-app tests,
+  package/signing evidence and verified update/rollback behavior before
+  claiming desktop availability or automatic upgrades.
+- **REL-03:** Publish to npm only after a real JavaScript/browser or CLI client
+  is specified and tested against the shared core/service, with package name,
+  ownership and trusted-publishing provenance recorded. See
+  [release status](docs/releases/README.md).
 
 ## Illustrated guidebook is a release requirement
 

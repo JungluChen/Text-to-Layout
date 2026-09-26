@@ -7,6 +7,12 @@ New desktop/web screenshots are pending implementation, not fabricated here.
 
 Read [product requirements](../../REQUIREMENTS.md), [Design.md](../../Design.md)
 and the [function/MCP catalog](../function-catalog.md) for coverage and status.
+See [release status](../releases/README.md) for Python, desktop and npm delivery
+and the [100-target completion checklist](../integrations/checklist.md) before
+assuming a candidate solver is available.
+For a paper-based accuracy workflow, follow the
+[resonator result-check tutorial](scientific-result-check.md); it demonstrates
+why the current bounded Palace run is invalid and what a valid comparison needs.
 
 ## Choose an interface
 

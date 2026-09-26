@@ -123,6 +123,10 @@ in the repository's generated evidence and retained solver artifacts.
   accuracy increment. This inventory slice was implemented in
   `10fc549f44e201165e278c6d50a2c0395955e5a9`; its exact-SHA CI is
   recorded in `docs/progress/2026-09-26-085000.md`.
+  `docs/integrations/checklist.md` now shows all 100 slots with completion
+  evidence requirements; it currently claims **0/100 accepted integrations**,
+  not 0 existing adapters. The generator rejects missing evidence and unknown
+  IDs. Audit and accept each independently before checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
   The first four source/scope reviews are recorded in
@@ -283,7 +287,14 @@ in the repository's generated evidence and retained solver artifacts.
   matching illustrated setup and first-design walkthroughs.
 - **Evidence:** Existing GitHub Actions platform matrix plus actual platform runs.
 - **Next:** Inventory current packaging and platform evidence, then specify and
-  validate the smallest missing delivery milestone.
+  validate the smallest missing delivery milestone. The Python tag workflow
+  now gates PyPI on Windows/macOS/Linux source tests, build, CLI and evidence
+  checks, but no native desktop installer or auto-update channel exists.
+  Build and verify one installed app per platform with signing, update/rollback
+  and versioned tutorial captures before a desktop release. The npm package
+  remains pending a tested JS client and package identity. See
+  `docs/releases/README.md`; do not tag a release until publication readiness
+  and the trusted publisher are verified.
 - **Completion commits:** Pending.
 
 ### 6. Develop browser access with local and hosted solver options
