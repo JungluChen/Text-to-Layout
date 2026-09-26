@@ -147,6 +147,7 @@ jobs:
           uv run textlayout simulate palace-resonator \
             --out out/palace_bounded_diagnostic \
             --bounded-validation-profile \
+            --amr-update-fraction 0.1 \
             --max-rss-gib 8 \
             --max-runtime-seconds 1200
 
