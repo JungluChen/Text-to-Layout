@@ -126,7 +126,9 @@ in the repository's generated evidence and retained solver artifacts.
   `docs/integrations/checklist.md` now shows all 100 slots with completion
   evidence requirements; it currently claims **0/100 accepted integrations**,
   not 0 existing adapters. The generator rejects missing evidence and unknown
-  IDs. Audit and accept each independently before checking it.
+  IDs. This checklist/release preparation was implemented in `8833ec9`; its
+  exact-SHA CI passed. Audit and accept each target independently before
+  checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
   The first four source/scope reviews are recorded in
