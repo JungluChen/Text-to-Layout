@@ -125,6 +125,12 @@ in the repository's generated evidence and retained solver artifacts.
   recorded in `docs/progress/2026-09-26-085000.md`.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
+  The first four source/scope reviews are recorded in
+  `docs/architecture/integration-source-audit.md`: SQcircuit's hint points
+  away from its maintainer repository, QEDA's hint resolves to a PCB tool,
+  and current Quantum Metal packaging differs from the locked legacy name.
+  Do not migrate the optional package until import/platform compatibility is
+  tested.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and
   write an architecture decision before new scaffolding. (3) Add an optional
   dependency/doctor/adapter slice with full tests and actual solver evidence.

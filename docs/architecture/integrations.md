@@ -30,6 +30,10 @@ version or import probes. The other 92 say `NOT_PROBED`. Every entry says
 not a license, platform, convergence or scientific validation claim. The
 catalog is not exposed as 100 callable MCP tools.
 
+Selected upstream and license findings are recorded in the
+[source audit](integration-source-audit.md). Those reviews do not change the
+conservative doctor flags for the full candidate inventory.
+
 The added optional groups in `pyproject.toml` cover only currently declared
 Python dependencies. Empty `spice`, `vlsi`, `commercial` and `ai` groups do not
 install native tools or grant commercial licenses. The `all` group describes
