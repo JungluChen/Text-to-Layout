@@ -99,7 +99,8 @@ from textlayout.solvers.palace.models import (
     MaterialOverlapMap,
     PalaceBoundedAMRPolicy,
 )
-from textlayout.solvers.palace.mode_classification import select_target_mode
+from textlayout.solvers.palace.mode_classification import ModeSignature, select_target_mode
+from textlayout.solvers.palace.mode_sanity import QuarterWaveSanityResult
 from textlayout.solvers.palace.overlap import (
     build_material_overlap_map,
     centroid_projected_energy_mac,
@@ -1442,6 +1443,23 @@ def _select_sweep_mode(
     return scored[0][1], scored[0][2]
 
 
+def _classification_diagnostics(
+    signatures: list[ModeSignature],
+    sanity_by_mode: dict[int, QuarterWaveSanityResult],
+) -> dict[int, dict[str, Any]]:
+    """Retain measured field profiles and gate scores even when no target mode exists."""
+    indices = {signature.mode_index for signature in signatures}
+    if indices != set(sanity_by_mode) or len(indices) != len(signatures):
+        raise PalaceOutputError("classification diagnostics do not match retained modes")
+    return {
+        signature.mode_index: {
+            "signature": signature.model_dump(mode="json"),
+            "sanity": sanity_by_mode[signature.mode_index].model_dump(mode="json"),
+        }
+        for signature in signatures
+    }
+
+
 def run_quarter_wave_benchmark_v017(
     output_dir: str | Path,
     *,
@@ -1931,6 +1949,7 @@ def run_quarter_wave_benchmark_v017(
         tracked: list[int] = []
         matches: list[ModeMatch] = []
         classifications_by_iteration: dict[str, dict[int, str]] = {}
+        mode_diagnostics_by_iteration: dict[str, dict[int, dict[str, Any]]] = {}
         classified_seed_mode: int | None = None
         classification_selection: dict[str, Any] | None = None
         mode_tracking_evidence_id: str | None = None
@@ -1957,13 +1976,16 @@ def run_quarter_wave_benchmark_v017(
                 max(maximum_candidate_frequency * 1.1, target_frequency * 1.5),
             )
             for iteration in parsed_iterations:
-                signatures, _ = classify_retained_modes(
+                signatures, sanity_by_mode = classify_retained_modes(
                     iteration.modes,
                     iteration.fields,
                     model=model,
                     material_map=material_map,
                     params=params,
                     search_window_ghz=classifier_window,
+                )
+                mode_diagnostics_by_iteration[iteration.tag] = _classification_diagnostics(
+                    signatures, sanity_by_mode
                 )
                 classifications_by_iteration[iteration.tag] = {
                     signature.mode_index: str(signature.mode_class) for signature in signatures
@@ -2008,6 +2030,7 @@ def run_quarter_wave_benchmark_v017(
                     "classified_seed_mode": classified_seed_mode,
                     "classification_selection": classification_selection,
                     "classifications_by_iteration": classifications_by_iteration,
+                    "mode_diagnostics_by_iteration": mode_diagnostics_by_iteration,
                     "tracked_mode_indices": tracked,
                     "matches": [match.model_dump(mode="json") for match in matches],
                     "minimum_regional_energy_similarity": 0.98,

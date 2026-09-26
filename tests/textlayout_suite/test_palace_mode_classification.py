@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from textlayout.solvers.palace.benchmark_v017 import _classification_diagnostics
 from textlayout.solvers.palace.mode_classification import (
     classify_mode,
     ModeClass,
@@ -102,6 +103,26 @@ def test_no_physical_candidate_returns_target_not_found() -> None:
     selection = select_target_mode([signature])
     assert selection.status == "TARGET_MODE_NOT_FOUND"
     assert selection.target_mode is None
+
+
+def test_rejected_mode_retains_physical_profile_diagnostics() -> None:
+    sanity = _sanity(reverse=True)
+    signature = classify_mode(
+        mode_index=1,
+        frequency_ghz=6.0,
+        search_window_ghz=(4.0, 8.0),
+        sanity=sanity,
+        resonator_localization=0.4,
+        spatial=_spatial(),
+    )
+    assert select_target_mode([signature]).status == "TARGET_MODE_NOT_FOUND"
+    details = _classification_diagnostics([signature], {1: sanity})[1]
+    assert details["signature"]["rejection_reasons"] == signature.rejection_reasons
+    assert details["sanity"]["electric_profile"] == sanity.electric_profile
+    assert details["sanity"]["magnetic_profile"] == sanity.magnetic_profile
+    assert details["sanity"]["quarter_wave_profile_correlation"] == (
+        sanity.quarter_wave_profile_correlation
+    )
 
 
 def test_supported_non_target_classes_are_explainable() -> None:
