@@ -1,0 +1,15 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "solve_state_0",
+  "state": "FAILED",
+  "timestamp": "2026-09-26T02:12:24.006811+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {},
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": "bounded AMR element limit exceeded: 434227 > 200000",
+  "evidence_id": "eb993eb63c89424cc7a5d7da6cfe056d3e9369d4886f3e47fc85dfaeef481d83"
+}

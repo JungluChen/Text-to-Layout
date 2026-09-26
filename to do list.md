@@ -223,6 +223,16 @@ in the repository's generated evidence and retained solver artifacts.
   these solver-owned outputs. Reproduce an appropriately bounded case twice
   before a focused candidate change; do not promote discovery/resume to main
   on this failure. See the next dated progress report.
+  The unchanged [attempt 2](https://github.com/JungluChen/Text-to-Layout/actions/runs/36148860525)
+  at the same SHA and Palace executable hash reproduced the same 434,227 / 200,000
+  invalid verdict, identical base mesh and eigenvalue hashes; its compact
+  evidence is in `docs/progress/evidence/2026-09-26-141550/palace-attempt2/`.
+  Candidate `f407c63` changes only the bounded diagnostic AMR marking fraction
+  from 0.7 to 0.1 while preserving the guard and full benchmark settings.
+  This is an unverified resource experiment. Real Palace run `36223218053`,
+  job `108352252265`, is active at that SHA; inspect its actual artifacts,
+  rerun unchanged if it passes, then require full benchmark/convergence/reference
+  evidence before merging. See `docs/progress/2026-09-26-141550.md`.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
