@@ -235,10 +235,18 @@ in the repository's generated evidence and retained solver artifacts.
   evidence is in `docs/progress/evidence/2026-09-26-141550/palace-attempt2/`.
   Candidate `f407c63` changes only the bounded diagnostic AMR marking fraction
   from 0.7 to 0.1 while preserving the guard and full benchmark settings.
-  This is an unverified resource experiment. Real Palace run `36223218053`,
-  job `108352252265`, is active at that SHA; inspect its actual artifacts,
-  rerun unchanged if it passes, then require full benchmark/convergence/reference
-  evidence before merging. See `docs/progress/2026-09-26-141550.md`.
+  Real Palace run `36223218053`, attempt 1/job `108352252265`, executed the
+  bounded solver at that SHA: 106,614 then 114,276 elements stayed below the
+  200,000 guard, but physical classification rejected both modes with
+  `TARGET_MODE_NOT_FOUND` (mode 1 failed the quarter-wave profile gate).
+  This is `SIMULATION_INVALID`, not a Palace benchmark pass. Compact solver
+  outputs are retained in `docs/progress/evidence/2026-09-26-154000/` and
+  analyzed in `docs/progress/2026-09-26-154000.md`. Attempt 2 of the same
+  workflow was dispatched unchanged at `f407c63`; inspect that result and
+  compare its hashes, mode identities and resource records before editing.
+  Preserve the physical gates; diagnose the actual profile values and field
+  sampling instead of guessing or weakening thresholds. Full benchmark,
+  convergence and reference comparison remain unexecuted, so do not merge.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.

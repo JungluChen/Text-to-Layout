@@ -1,0 +1,14 @@
+{
+  "element_count": 106439,
+  "extents": {
+    "lateral_margin_um": 50.0,
+    "lid_height_um": 200.0,
+    "substrate_thickness_um": 150.0,
+    "vacuum_height_um": 150.0
+  },
+  "mean_quality": 0.6375292773677557,
+  "mesh_scale": 4.0,
+  "mesh_sha256": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069",
+  "minimum_quality": 0.04590793504405447,
+  "runtime_seconds": 56.416208457999346
+}

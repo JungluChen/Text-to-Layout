@@ -1,0 +1,15 @@
+{
+  "allowed": true,
+  "available_ram_bytes": 15508439040,
+  "blockers": [],
+  "configured_max_rss_bytes": 8589934592,
+  "estimated_field_output_bytes": 262144000,
+  "estimated_mesh_output_bytes": 67108864,
+  "free_disk_bytes": 87465848832,
+  "maximum_allowed_rss_bytes": 11735977164,
+  "minimum_free_disk_bytes": 21474836480,
+  "minimum_headroom_bytes": 3353136332,
+  "projected_free_disk_bytes": 87136595968,
+  "schema_version": "textlayout.palace-resource-budget.v1",
+  "total_ram_bytes": 16765681664
+}
