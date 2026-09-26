@@ -120,7 +120,9 @@ in the repository's generated evidence and retained solver artifacts.
   The existing `SolverAdapter` protocol is the starting boundary, as recorded
   in `docs/architecture/integrations.md`; a new registry and `simulation.json`
   parity remain pending. The Touchstone parser correction under item 3 is a bounded RF
-  accuracy increment.
+  accuracy increment. This inventory slice was implemented in
+  `10fc549f44e201165e278c6d50a2c0395955e5a9`; its exact-SHA CI is
+  recorded in `docs/progress/2026-09-26-085000.md`.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and

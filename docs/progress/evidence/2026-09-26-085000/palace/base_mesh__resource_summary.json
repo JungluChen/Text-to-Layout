@@ -1,0 +1,11 @@
+{
+  "schema": "textlayout.palace-process-resource-summary.v1",
+  "job_id": "palace-65948789b22349119105caca10653f91",
+  "sample_count": 0,
+  "palace_reported_peak_memory_bytes": 7945689497,
+  "observed_process_peak_rss_bytes": 0,
+  "observed_process_group_peak_rss_bytes": 0,
+  "configured_max_rss_bytes": 8589934592,
+  "termination_reason": null,
+  "orphan_processes_remaining": false
+}
