@@ -19,6 +19,33 @@ and the [function/MCP catalog](../function-catalog.md) for coverage and status.
 | MCP | Installed `text-to-gds` stdio server | Existing legacy tool surface; discover schemas before calling tools. |
 | Codex / Claude Code | Thin plugin under `plugins/text-to-gds` | Manifests exist; verify each host installation/workflow before claiming support. |
 
+## Inspect the 100 requested integration candidates
+
+Run the environment check from the repository root:
+
+```sh
+uv run textlayout doctor --json
+```
+
+In its JSON, `external_solvers` contains existing tool-specific checks;
+`integration_targets` is the separate list of 100 user-requested candidates.
+Read each candidate's `probe_status`, `probe_scope`, `source_verified`,
+`license_verified` and `execution_verified` before deciding what can run.
+`NOT_PROBED` calls for source/license and detector work. `FOUND` on an import
+or version probe does not establish a successful simulation, numerical
+convergence, platform support or access to a commercial license. Discovery
+does not start a solver. If a tool is absent, use the current verified product
+path or prepare inputs and report `SKIPPED_SOLVER_ABSENT`; do not silently
+promote an analytical estimate to solver evidence.
+
+**AI prompt example**
+
+> Run `textlayout doctor --json` and list the integration candidates relevant
+> to my design. Show which have source and license verification, which have an
+> actual local probe, and which have retained solver results. Recommend only
+> available, scientifically suitable next steps; do not run a solver during
+> discovery or claim all 100 candidates are installed.
+
 ## First CLI design: explicit geometry without simulation
 
 Run from the repository root in a terminal with Python and `uv` installed.

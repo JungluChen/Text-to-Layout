@@ -10,7 +10,7 @@ Inventory is not execution certification. See [maturity evidence](function_matur
 
 | Capability | Existing product entry point | MCP / GUI delivery requirement |
 | --- | --- | --- |
-| Environment and solvers | `textlayout doctor --json`; `GET /health` | Keep environment health distinct from per-solver readiness. |
+| Environment and solvers | `textlayout doctor --json`; `GET /health` | Keep environment health distinct from per-solver readiness. `integration_targets` lists requested candidate slots, not callable MCP tools or working solvers. |
 | Prompt to design | `textlayout prompt`; `POST /layout/from-text` | Shared deterministic workflow behind future UI and modern MCP adapter. |
 | Typed DSL generation | `textlayout generate`; `POST /layout/generate` | Same units, verification and artifacts across clients. |
 | Research and assumptions | `POST /layout/research` | Display sources and model limits before executing a run. |
@@ -27,6 +27,13 @@ is a capability mapping, not a claim that every HTTP route has an identical MCP
 method today. Modern MCP facade names/schemas must be specified and tested before
 being advertised. Do not add implementation to the frozen legacy tree merely to
 make feature counts match.
+
+The 100-slot integration catalog is a roadmap and appears separately from
+`external_solvers` in doctor JSON. Only eight slots map to a specific existing
+import or executable probe; every catalog source/license remains unverified and
+every slot has `execution_verified: false`. `NOT_PROBED` means there is no
+target-specific check yet, not that the tool is missing. The existing legacy
+MCP function list below is unchanged by this catalog.
 
 ## Typed electrical-goal function
 

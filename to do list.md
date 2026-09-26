@@ -57,11 +57,12 @@ in the repository's generated evidence and retained solver artifacts.
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
-  The pasted 50-target mission is a roadmap, not evidence that these tools are
+  The revised 100-target mission supersedes the 50-target list as a roadmap,
+  not evidence that these tools are
   installed, open source, supported or numerically validated. Existing item
   numbers are retained so historical reports and commit references remain
-  intelligible. Keep active Palace run `36148860525` under item 2 monitoring
-  while advancing this architecture in bounded increments.
+  intelligible. Palace run `36148860525` has now failed at the bounded AMR
+  element guard; retain its uploaded diagnostic evidence under item 2.
 - **Objective:** Evolve the deterministic `textlayout` core into a modular
   Quantum/RF EDA compilation and simulation platform. Parsers/LLMs emit typed
   Pydantic v2 DSL; pure Python and supported geometry libraries generate
@@ -72,40 +73,55 @@ in the repository's generated evidence and retained solver artifacts.
   prepared inputs, actual execution, parsed outputs, convergence and
   fabrication readiness remain distinct; reconcile the pasted status names
   with `src/textlayout/evidence/contract.py` before changing any schema.
-- **Seven integration pillars / candidate targets:**
+- **Ten integration pillars / candidate target slots:** The exact numbered
+  names and user-supplied source hints are retained in
+  `src/textlayout/integrations/targets.json`; none is a verified upstream or
+  license claim yet.
 
   | Pillar | Candidate projects and bounded purpose |
   | --- | --- |
-  | 3D/2.5D EM and multiphysics | Palace, openEMS, FasterCap, FastHenry2, gprMax, Elmer, MFEM, Meep, scuff-em, SonnetLab/PyEM; common EM adapter, tagged GDS-to-mesh, headless configuration and execution. |
-  | Quantum microwave and superconducting circuits | Quantum Metal/Qiskit Metal qlibrary, pyEPR, JoSIM, EDA-Q, PSCAN2, WRspice, KQCircuits, QEDA, SQcircuit, scqubits; parametric devices and field-to-Hamiltonian evidence. |
-  | RF network analysis and synthesis | scikit-rf, Qucs-S, Schematic-to-Layout, rfplot, TxLine CLI; Touchstone S2P/S4P, de-embedding and impedance synthesis. |
-  | Geometry, mesh and verification | gdsfactory, KLayout DRC/LVS, Gmsh, Gdspy, Trimesh, PyVista, Shapely, OpenCascade/pythonOCC, Clipper2; tagged 2D-to-3D conversion and geometry sanity. |
-  | Physical design and VLSI signoff | OpenROAD, OpenLane, Magic, Netgen, KLayout DRC, ALIGN, SiliconCompiler; bounded DRC/LVS and mixed quantum/CMOS routing bridges. |
-  | Analog and SPICE | ngspice, Xyce, PySpice, OpenVAF, Xschem; netlist export and verified transient/analog execution. |
-  | Agents, optimization and commercial bridges | Ansys PyAEDT, LangGraph, PDKMaster, AutoCkt; optional licensed export and measured iterative optimization. |
+  | Quantum chip EDA and layout | 1–10: device libraries, circuit quantization, field-to-Hamiltonian and calibration bridges. |
+  | 2.5D/3D EM and multiphysics | 11–20: FEM, FDTD, BEM and PDE solvers with tagged geometry and convergence. |
+  | RF analysis and synthesis | 21–30: Touchstone, de-embedding, transmission lines and matching. |
+  | Geometry and meshing | 31–40: deterministic GDS, polygons, CAD, mesh and DRC. |
+  | Superconducting/SPICE | 41–50: Josephson/RSFQ netlists, transient solvers and cryogenic models. |
+  | Analog and mixed-signal | 51–60: general SPICE, Verilog-A and schematic interfaces. |
+  | Physical design and signoff | 61–70: routing, DRC/LVS and mixed quantum/CMOS integration. |
+  | AI placement and automation | 71–80: placement, routing and optimization with deterministic checks. |
+  | Commercial interoperability | 81–90: optional licensed export and execution bridges, never assumed present. |
+  | Visualization and audit | 91–100: 3D fields, mesh formats, charts, terminal reports and workflow traces. |
 
 - **Acceptance criteria:** Inventory each target's canonical source, license,
   maintenance state, platform, version/hash, dependency cost, existing code,
   physical quantities, units, input/output contract, numerical limitations and
   test evidence. Resolve duplicate/ambiguous target names before treating the
-  “50” as 50 distinct installable open-source tools. Specify a typed adapter
+  “100” as 100 distinct installable open-source tools. In particular, the
+  commercial bridge pillar cannot be treated as open-source solver access.
+  Specify a typed adapter
   protocol and registry under `src/textlayout/integrations/` and, where useful,
   `src/textlayout/simulation/backends/`; avoid duplicating current adapters.
-  Add optional `quantum`, `mesh`, `rf`, `spice`, `fem`, `all` groups only with
+  Add optional `quantum`, `mesh`, `rf`, `spice`, `fem`, `vlsi`, `commercial`,
+  `ai` and `all` groups only with
   compatible pinned dependencies and a lean passing base install. Extend
   `textlayout doctor` with truthful FOUND/MISSING/BROKEN and version/path/hash
   checks. Every runner records solver provenance, inputs, outputs and
   convergence in the existing canonical evidence schema before promotion.
   Deliver one solver/CLI/benchmark slice at a time, with real fallback tests,
   platform checks, guidebook examples and accepted scientific references.
-- **Current evidence:** `pyproject.toml` already defines `quantum`, `mesh` and
-  `rf`; it lacks the proposed `spice`, `fem` and `all` groups. Generator entry
-  points, `doctor.py`, Palace/openEMS/FasterCap/FastHenry/JoSIM adapters and a
-  Palace CLI are present. The proposed integration directories and generic EM
-  plugin registry are not yet present. This is a source inventory, not an
-  installation or solver-run claim. The Touchstone parser correction under
-  item 3 is the first bounded RF accuracy increment.
-- **Next:** (1) Audit and deduplicate all 50 target slots, including license
+- **Current evidence:** The first scaffold retains exactly 100 requested
+  candidate slots across ten pillars (60 supplied source hints, 40 without),
+  and `doctor --json` attaches only eight one-to-one pre-existing probes.
+  It marks the other 92 NOT_PROBED and every source/license unverified.
+  Proposed optional groups now cover existing, already locked Python packages;
+  empty native/commercial groups explicitly install no solver. The base
+  dependency set is unchanged, but making it genuinely lean/headless needs a
+  separate compatibility migration. Existing Palace/openEMS/FasterCap/
+  FastHenry/JoSIM adapters have not been moved or certified by this scaffold.
+  The existing `SolverAdapter` protocol is the starting boundary, as recorded
+  in `docs/architecture/integrations.md`; a new registry and `simulation.json`
+  parity remain pending. The Touchstone parser correction under item 3 is a bounded RF
+  accuracy increment.
+- **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and
   write an architecture decision before new scaffolding. (3) Add an optional
@@ -188,11 +204,17 @@ in the repository's generated evidence and retained solver artifacts.
   benchmark's numerical settings. Three focused resume safety cases and the
   1,979-pass candidate suite passed locally; exact-SHA CI `36148281544` passed
   the six-platform-version matrix and quality jobs. Palace run `36148860525`
-  (job `108116750266`) is active on candidate SHA `2b88360`. Real Linux
-  checkpoint uploads, bounded solver execution, full benchmark, convergence
-  and reference error remain pending. Monitor this job; do not launch a
-  duplicate or promote discovery/resume to main until
-  those are assessed. See `docs/progress/2026-09-25-222028.md`.
+  (job `108116750266`) completed **failed** on candidate SHA `2b88360`.
+  Install, official smoke, base mesh and the bounded Palace process completed.
+  Its base mesh had 106,439 elements and the real AMR output reached 434,227,
+  exceeding the predeclared 200,000-element guard. The artifact reports
+  `SIMULATION_INVALID`; full benchmark, convergence and reference error were
+  skipped. The diagnostic artifact is `10873339434`; installation/smoke and
+  mesh artifacts are `10873587680`, `10874010399` and `10873636070`. Retain
+  the 200,000 guard while diagnosing mesh sizing/refinement and memory from
+  these solver-owned outputs. Reproduce an appropriately bounded case twice
+  before a focused candidate change; do not promote discovery/resume to main
+  on this failure. See the next dated progress report.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.
@@ -217,8 +239,8 @@ in the repository's generated evidence and retained solver artifacts.
   solver execution or reference accuracy result is claimed.
 - **Next:** Verify the parser correction on the Windows/macOS/Linux CI matrix,
   then inventory remaining backend equations, units, materials, geometry,
-  parser and convergence gaps by potential numerical impact. Keep Palace run
-  `36148860525` under item 2 monitoring; do not duplicate it.
+  parser and convergence gaps by potential numerical impact. Diagnose Palace
+  run `36148860525` under item 2 from its uploaded artifacts before any rerun.
 - **Completion commits:** Pending.
 
 ### 4. Expand independent reproducible comparisons

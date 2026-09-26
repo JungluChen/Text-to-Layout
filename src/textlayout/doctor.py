@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from textlayout.integrations import load_targets
 from textlayout.platform_support import PlatformSupportState, SolverEvidenceStage
 
 DOCTOR_SCHEMA = "textlayout.doctor.v2"
@@ -118,6 +119,7 @@ class DoctorReport:
             "wsl": self.system["wsl"],
             "core_dependencies": core,
             "external_solvers": external,
+            "integration_targets": _integration_target_inventory(self.checks),
             "capabilities": _capability_report(self.checks, core_ok=self.ok),
             # Compatibility views retained for existing consumers.
             "system": self.system,
@@ -140,6 +142,46 @@ def _solver_support_state(check: DoctorCheck) -> PlatformSupportState:
     if _solver_evidence_stage(check) is SolverEvidenceStage.PROBE_PASS:
         return PlatformSupportState.SOLVER_PARTIAL
     return PlatformSupportState.UNTESTED
+
+
+# Only one-to-one matches to an existing doctor check are mapped. Family checks
+# such as FasterCap/FastCap and WRspice/ngspice cannot certify either named tool.
+_TARGET_PROBES: dict[int, tuple[str, str]] = {
+    11: ("Palace", "solver identity/version probe"),
+    12: ("openEMS", "executable version/help probe"),
+    21: ("scikit-rf", "Python import probe"),
+    31: ("gdsfactory", "Python import probe"),
+    33: ("klayout.db", "Python binding import probe; CLI untested"),
+    39: ("Gmsh", "executable version/help probe; Python binding untested"),
+    41: ("JoSIM", "executable version/help probe"),
+    97: ("langgraph.graph", "Python import probe"),
+}
+
+
+def _integration_target_inventory(checks: list[DoctorCheck]) -> list[dict[str, Any]]:
+    """Attach existing probe evidence to candidates without inferring support."""
+    by_name = {check.name: check for check in checks}
+    inventory: list[dict[str, Any]] = []
+    for target in load_targets():
+        probe = _TARGET_PROBES.get(target.id)
+        check = by_name.get(probe[0]) if probe else None
+        inventory.append(
+            {
+                "id": target.id,
+                "pillar": target.pillar,
+                "name": target.name,
+                "source_hint": target.source_hint,
+                "source_verified": False,
+                "license_verified": False,
+                "probe_status": check.status if check is not None else "NOT_PROBED",
+                "probe_scope": probe[1] if check is not None and probe else None,
+                "probe_path": check.path if check is not None else None,
+                "probe_version": check.version if check is not None else None,
+                "probe_sha256": check.executable_sha256 if check is not None else None,
+                "execution_verified": False,
+            }
+        )
+    return inventory
 
 
 def _file_sha256(path: str | Path | None) -> str | None:

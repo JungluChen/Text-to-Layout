@@ -4606,6 +4606,18 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+all = [
+    { name = "gmsh" },
+    { name = "kqcircuits" },
+    { name = "meshio" },
+    { name = "optuna" },
+    { name = "qcodes" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32'" },
+    { name = "scikit-rf" },
+    { name = "scipy" },
+    { name = "scqubits", version = "4.1.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
+    { name = "scqubits", version = "4.3.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
+]
 api = [
     { name = "fastapi" },
     { name = "uvicorn" },
@@ -4622,6 +4634,10 @@ dev = [
 docs = [
     { name = "mkdocs" },
     { name = "mkdocs-material" },
+]
+fem = [
+    { name = "gmsh" },
+    { name = "meshio" },
 ]
 layout = [
     { name = "kqcircuits" },
@@ -4680,21 +4696,27 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.110" },
     { name = "fastapi", marker = "extra == 'api'", specifier = ">=0.110" },
     { name = "gdsfactory", specifier = ">=8.0" },
+    { name = "gmsh", marker = "extra == 'all'", specifier = ">=4.11" },
+    { name = "gmsh", marker = "extra == 'fem'", specifier = ">=4.11" },
     { name = "gmsh", marker = "extra == 'mesh'", specifier = ">=4.11" },
     { name = "gmsh", marker = "extra == 'research'", specifier = ">=4.11" },
     { name = "hatchling", marker = "extra == 'dev'", specifier = ">=1.25" },
     { name = "klayout", specifier = ">=0.29" },
+    { name = "kqcircuits", marker = "extra == 'all'" },
     { name = "kqcircuits", marker = "extra == 'layout'" },
     { name = "kqcircuits", marker = "extra == 'research'" },
     { name = "langgraph", specifier = ">=0.2" },
     { name = "matplotlib", specifier = ">=3.9" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.2.0" },
+    { name = "meshio", marker = "extra == 'all'", specifier = ">=5.3" },
     { name = "meshio", marker = "extra == 'dev'", specifier = ">=5.3" },
+    { name = "meshio", marker = "extra == 'fem'", specifier = ">=5.3" },
     { name = "meshio", marker = "extra == 'mesh'", specifier = ">=5.3" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.6" },
     { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=9.5" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.11" },
     { name = "numpy", specifier = ">=1.26" },
+    { name = "optuna", marker = "extra == 'all'", specifier = ">=4.0" },
     { name = "optuna", marker = "extra == 'optimization'", specifier = ">=4.0" },
     { name = "optuna", marker = "extra == 'research'", specifier = ">=4.0" },
     { name = "pillow", specifier = ">=10.0" },
@@ -4702,25 +4724,30 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=5.0" },
     { name = "pyyaml", specifier = ">=6.0" },
+    { name = "qcodes", marker = "extra == 'all'", specifier = ">=0.50" },
     { name = "qcodes", marker = "extra == 'measurement'", specifier = ">=0.50" },
     { name = "qcodes", marker = "extra == 'research'", specifier = ">=0.50" },
+    { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'all'" },
     { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'layout'" },
     { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'metal'" },
     { name = "qiskit-metal", marker = "sys_platform != 'win32' and extra == 'research'" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6" },
+    { name = "scikit-rf", marker = "extra == 'all'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'research'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'rf'", specifier = ">=1.0" },
     { name = "scikit-rf", marker = "extra == 'solvers'", specifier = ">=1.0" },
     { name = "scipy", specifier = ">=1.12" },
+    { name = "scipy", marker = "extra == 'all'", specifier = ">=1.12" },
     { name = "scipy", marker = "extra == 'mesh'", specifier = ">=1.12" },
     { name = "scipy", marker = "extra == 'research'", specifier = ">=1.12" },
+    { name = "scqubits", marker = "extra == 'all'", specifier = ">=4.0" },
     { name = "scqubits", marker = "extra == 'quantum'", specifier = ">=4.0" },
     { name = "scqubits", marker = "extra == 'research'", specifier = ">=4.0" },
     { name = "trimesh", specifier = ">=4.0" },
     { name = "uvicorn", specifier = ">=0.30" },
     { name = "uvicorn", marker = "extra == 'api'", specifier = ">=0.30" },
 ]
-provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "squid", "measurement", "quantum", "metal", "mesh", "research"]
+provides-extras = ["dev", "api", "solvers", "docs", "layout", "optimization", "rf", "fem", "spice", "vlsi", "commercial", "ai", "all", "squid", "measurement", "quantum", "metal", "mesh", "research"]
 
 [package.metadata.requires-dev]
 dev = [

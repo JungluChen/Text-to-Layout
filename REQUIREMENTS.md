@@ -60,6 +60,12 @@ Existing CLI/API and legacy MCP paths are inventoried in
 - **INT-05:** Tool discovery must not launch simulations. Execution tools expose
   their effects and prerequisites; duplicate requests must not silently start
   duplicate long jobs. Use existing job services and stable IDs where available.
+- **INT-06:** Treat the 100 user-requested Quantum/RF EDA integration slots as
+  candidates until upstream identity, license, version, platform and numerical
+  behavior are verified. Doctor may show scoped import/version probes; a found
+  tool is not an executed, converged or validated solver. Keep this inventory
+  separate from callable MCP functions and the canonical evidence contract.
+  See [integration boundary](docs/architecture/integrations.md).
 
 ## Illustrated guidebook is a release requirement
 

@@ -1,0 +1,648 @@
+{
+  "schema": "textlayout.integration-candidates.v1",
+  "provenance": "User-supplied mission specification, 2026-09-25; names and source hints are unverified candidates.",
+  "pillars": [
+    {
+      "id": 1,
+      "name": "Quantum Chip EDA, Layout & Device Toolkits"
+    },
+    {
+      "id": 2,
+      "name": "2.5D / 3D EM & Multiphysics Field Solvers"
+    },
+    {
+      "id": 3,
+      "name": "Microwave, RF Network Analysis & Impedance Synthesis"
+    },
+    {
+      "id": 4,
+      "name": "Layout Compilation, Geometry Cores & Meshing"
+    },
+    {
+      "id": 5,
+      "name": "Superconducting Electronics & RSFQ SPICE Engines"
+    },
+    {
+      "id": 6,
+      "name": "Analog, Mixed-Signal & General SPICE Simulators"
+    },
+    {
+      "id": 7,
+      "name": "Physical Design, Routing & VLSI Signoff"
+    },
+    {
+      "id": 8,
+      "name": "AI Placement, Spatial Routing & Design Automation"
+    },
+    {
+      "id": 9,
+      "name": "Commercial EDA Bridges & Interoperability"
+    },
+    {
+      "id": 10,
+      "name": "3D Visualization, Diagnostics & Workflow Auditing"
+    }
+  ],
+  "targets": [
+    {
+      "id": 1,
+      "pillar": 1,
+      "name": "KQCircuits",
+      "source_hint": "iqm-finland/kqcircuits"
+    },
+    {
+      "id": 2,
+      "pillar": 1,
+      "name": "Qiskit Metal",
+      "source_hint": "qiskit-community/qiskit-metal"
+    },
+    {
+      "id": 3,
+      "pillar": 1,
+      "name": "pyEPR",
+      "source_hint": "zlatko-minev/pyEPR"
+    },
+    {
+      "id": 4,
+      "pillar": 1,
+      "name": "CircuitQ",
+      "source_hint": "PhilippAumann/circuitq"
+    },
+    {
+      "id": 5,
+      "pillar": 1,
+      "name": "scqubits",
+      "source_hint": "scqubits/scqubits"
+    },
+    {
+      "id": 6,
+      "pillar": 1,
+      "name": "SQcircuit",
+      "source_hint": "squadds/SQcircuit"
+    },
+    {
+      "id": 7,
+      "pillar": 1,
+      "name": "SQuADDS",
+      "source_hint": "SQuADDS/SQuADDS"
+    },
+    {
+      "id": 8,
+      "pillar": 1,
+      "name": "QEDA",
+      "source_hint": "qeda/qeda"
+    },
+    {
+      "id": 9,
+      "pillar": 1,
+      "name": "pycqed",
+      "source_hint": "DiCarloLab-Delft/PycQED"
+    },
+    {
+      "id": 10,
+      "pillar": 1,
+      "name": "Qiskit Dynamics",
+      "source_hint": "qiskit-community/qiskit-dynamics"
+    },
+    {
+      "id": 11,
+      "pillar": 2,
+      "name": "AWS Palace",
+      "source_hint": "awslabs/palace"
+    },
+    {
+      "id": 12,
+      "pillar": 2,
+      "name": "openEMS",
+      "source_hint": "thliebig/openEMS-Project"
+    },
+    {
+      "id": 13,
+      "pillar": 2,
+      "name": "FasterCap",
+      "source_hint": "FastFieldSolvers/FasterCap"
+    },
+    {
+      "id": 14,
+      "pillar": 2,
+      "name": "FastHenry2",
+      "source_hint": "FastFieldSolvers/FastHenry2"
+    },
+    {
+      "id": 15,
+      "pillar": 2,
+      "name": "Meep",
+      "source_hint": "NanoComp/meep"
+    },
+    {
+      "id": 16,
+      "pillar": 2,
+      "name": "gprMax",
+      "source_hint": "gprmax/gprMax"
+    },
+    {
+      "id": 17,
+      "pillar": 2,
+      "name": "Elmer FEM",
+      "source_hint": "ElmerCSC/elmerfem"
+    },
+    {
+      "id": 18,
+      "pillar": 2,
+      "name": "MFEM",
+      "source_hint": "mfem/mfem"
+    },
+    {
+      "id": 19,
+      "pillar": 2,
+      "name": "scuff-em",
+      "source_hint": "homerreid/scuff-em"
+    },
+    {
+      "id": 20,
+      "pillar": 2,
+      "name": "FEniCS",
+      "source_hint": "FEniCS/dolfinx"
+    },
+    {
+      "id": 21,
+      "pillar": 3,
+      "name": "scikit-rf",
+      "source_hint": "scikit-rf/scikit-rf"
+    },
+    {
+      "id": 22,
+      "pillar": 3,
+      "name": "Qucs-S",
+      "source_hint": "ra3xdh/qucs_s"
+    },
+    {
+      "id": 23,
+      "pillar": 3,
+      "name": "TxLine CLI",
+      "source_hint": null
+    },
+    {
+      "id": 24,
+      "pillar": 3,
+      "name": "rfplot",
+      "source_hint": null
+    },
+    {
+      "id": 25,
+      "pillar": 3,
+      "name": "Schematic-to-Layout",
+      "source_hint": null
+    },
+    {
+      "id": 26,
+      "pillar": 3,
+      "name": "CoupledLines",
+      "source_hint": null
+    },
+    {
+      "id": 27,
+      "pillar": 3,
+      "name": "FilterSolutions-Clone",
+      "source_hint": null
+    },
+    {
+      "id": 28,
+      "pillar": 3,
+      "name": "SmithPredictor",
+      "source_hint": null
+    },
+    {
+      "id": 29,
+      "pillar": 3,
+      "name": "PySmith",
+      "source_hint": null
+    },
+    {
+      "id": 30,
+      "pillar": 3,
+      "name": "ATLC (Arbitrary Transmission Line Calculator)",
+      "source_hint": null
+    },
+    {
+      "id": 31,
+      "pillar": 4,
+      "name": "gdsfactory",
+      "source_hint": "gdsfactory/gdsfactory"
+    },
+    {
+      "id": 32,
+      "pillar": 4,
+      "name": "kfactory",
+      "source_hint": "gdsfactory/kfactory"
+    },
+    {
+      "id": 33,
+      "pillar": 4,
+      "name": "KLayout",
+      "source_hint": "KLayout/klayout"
+    },
+    {
+      "id": 34,
+      "pillar": 4,
+      "name": "PHIDL",
+      "source_hint": "amccaugh/phidl"
+    },
+    {
+      "id": 35,
+      "pillar": 4,
+      "name": "Gdspy",
+      "source_hint": "heitzmann/gdspy"
+    },
+    {
+      "id": 36,
+      "pillar": 4,
+      "name": "Shapely",
+      "source_hint": "shapely/shapely"
+    },
+    {
+      "id": 37,
+      "pillar": 4,
+      "name": "Clipper2",
+      "source_hint": "AngusJohnson/Clipper2"
+    },
+    {
+      "id": 38,
+      "pillar": 4,
+      "name": "Trimesh",
+      "source_hint": "mikedh/trimesh"
+    },
+    {
+      "id": 39,
+      "pillar": 4,
+      "name": "Gmsh",
+      "source_hint": "gmsh"
+    },
+    {
+      "id": 40,
+      "pillar": 4,
+      "name": "OpenCASCADE",
+      "source_hint": "tpaviot/pythonocc-core"
+    },
+    {
+      "id": 41,
+      "pillar": 5,
+      "name": "JoSIM",
+      "source_hint": "JoeyDelp/JoSIM"
+    },
+    {
+      "id": 42,
+      "pillar": 5,
+      "name": "PSCAN2",
+      "source_hint": "pscan2sim"
+    },
+    {
+      "id": 43,
+      "pillar": 5,
+      "name": "WRspice",
+      "source_hint": "wrcad.com"
+    },
+    {
+      "id": 44,
+      "pillar": 5,
+      "name": "XicTools",
+      "source_hint": "wrcad.com"
+    },
+    {
+      "id": 45,
+      "pillar": 5,
+      "name": "SuperCAD",
+      "source_hint": null
+    },
+    {
+      "id": 46,
+      "pillar": 5,
+      "name": "JSIM",
+      "source_hint": null
+    },
+    {
+      "id": 47,
+      "pillar": 5,
+      "name": "SPiCE-J",
+      "source_hint": null
+    },
+    {
+      "id": 48,
+      "pillar": 5,
+      "name": "SFQex",
+      "source_hint": null
+    },
+    {
+      "id": 49,
+      "pillar": 5,
+      "name": "ColdSPICE",
+      "source_hint": null
+    },
+    {
+      "id": 50,
+      "pillar": 5,
+      "name": "CryoPDK",
+      "source_hint": null
+    },
+    {
+      "id": 51,
+      "pillar": 6,
+      "name": "ngspice",
+      "source_hint": "ngspice"
+    },
+    {
+      "id": 52,
+      "pillar": 6,
+      "name": "Xyce",
+      "source_hint": "sandia-labs/xyce"
+    },
+    {
+      "id": 53,
+      "pillar": 6,
+      "name": "PySpice",
+      "source_hint": "FabriceSalvaire/PySpice"
+    },
+    {
+      "id": 54,
+      "pillar": 6,
+      "name": "OpenVAF",
+      "source_hint": "pascogroup/OpenVAF"
+    },
+    {
+      "id": 55,
+      "pillar": 6,
+      "name": "Xschem",
+      "source_hint": "StefanSchippers/xschem"
+    },
+    {
+      "id": 56,
+      "pillar": 6,
+      "name": "SPICE OPUS",
+      "source_hint": null
+    },
+    {
+      "id": 57,
+      "pillar": 6,
+      "name": "Ahkab",
+      "source_hint": null
+    },
+    {
+      "id": 58,
+      "pillar": 6,
+      "name": "PyCircuit",
+      "source_hint": null
+    },
+    {
+      "id": 59,
+      "pillar": 6,
+      "name": "Qucs",
+      "source_hint": "Qucs/qucs"
+    },
+    {
+      "id": 60,
+      "pillar": 6,
+      "name": "GnuCAP",
+      "source_hint": null
+    },
+    {
+      "id": 61,
+      "pillar": 7,
+      "name": "OpenROAD",
+      "source_hint": "The-OpenROAD-Project/OpenROAD"
+    },
+    {
+      "id": 62,
+      "pillar": 7,
+      "name": "OpenLane",
+      "source_hint": "The-OpenROAD-Project/OpenLane"
+    },
+    {
+      "id": 63,
+      "pillar": 7,
+      "name": "Magic VLSI",
+      "source_hint": "RTimothyEdwards/magic"
+    },
+    {
+      "id": 64,
+      "pillar": 7,
+      "name": "Netgen",
+      "source_hint": "RTimothyEdwards/netgen"
+    },
+    {
+      "id": 65,
+      "pillar": 7,
+      "name": "ALIGN",
+      "source_hint": "ALIGN-analoglayout/ALIGN"
+    },
+    {
+      "id": 66,
+      "pillar": 7,
+      "name": "SiliconCompiler",
+      "source_hint": "siliconcompiler/siliconcompiler"
+    },
+    {
+      "id": 67,
+      "pillar": 7,
+      "name": "BAG Framework",
+      "source_hint": "ucb-art/BAG_framework"
+    },
+    {
+      "id": 68,
+      "pillar": 7,
+      "name": "gds2parasitics",
+      "source_hint": null
+    },
+    {
+      "id": 69,
+      "pillar": 7,
+      "name": "OpenFASoC",
+      "source_hint": "idea-fasoc/openfasoc"
+    },
+    {
+      "id": 70,
+      "pillar": 7,
+      "name": "CLayout",
+      "source_hint": null
+    },
+    {
+      "id": 71,
+      "pillar": 8,
+      "name": "AlphaChip / Circuit Training",
+      "source_hint": "google-research/circuit_training"
+    },
+    {
+      "id": 72,
+      "pillar": 8,
+      "name": "DREAMPlace",
+      "source_hint": "limbo018/DREAMPlace"
+    },
+    {
+      "id": 73,
+      "pillar": 8,
+      "name": "AutoCkt",
+      "source_hint": "irdas/AutoCkt"
+    },
+    {
+      "id": 74,
+      "pillar": 8,
+      "name": "RL-Router",
+      "source_hint": null
+    },
+    {
+      "id": 75,
+      "pillar": 8,
+      "name": "GLayout",
+      "source_hint": null
+    },
+    {
+      "id": 76,
+      "pillar": 8,
+      "name": "Generative AI for Physical Design Benchmark",
+      "source_hint": "wenboown/generative-ai-for-semiconductor-physical-design"
+    },
+    {
+      "id": 77,
+      "pillar": 8,
+      "name": "RouteNet",
+      "source_hint": null
+    },
+    {
+      "id": 78,
+      "pillar": 8,
+      "name": "CongestionNet",
+      "source_hint": null
+    },
+    {
+      "id": 79,
+      "pillar": 8,
+      "name": "GraphSAGE-EDA",
+      "source_hint": null
+    },
+    {
+      "id": 80,
+      "pillar": 8,
+      "name": "Chip-LLM",
+      "source_hint": null
+    },
+    {
+      "id": 81,
+      "pillar": 9,
+      "name": "PyAEDT",
+      "source_hint": "ansys/pyaedt"
+    },
+    {
+      "id": 82,
+      "pillar": 9,
+      "name": "CST Python Bridge",
+      "source_hint": null
+    },
+    {
+      "id": 83,
+      "pillar": 9,
+      "name": "Keysight ADS Python Bridge",
+      "source_hint": null
+    },
+    {
+      "id": 84,
+      "pillar": 9,
+      "name": "Cadence SKILL-to-Python Bridge",
+      "source_hint": null
+    },
+    {
+      "id": 85,
+      "pillar": 9,
+      "name": "PyKLayout",
+      "source_hint": null
+    },
+    {
+      "id": 86,
+      "pillar": 9,
+      "name": "SonnetLab",
+      "source_hint": null
+    },
+    {
+      "id": 87,
+      "pillar": 9,
+      "name": "PDKMaster",
+      "source_hint": null
+    },
+    {
+      "id": 88,
+      "pillar": 9,
+      "name": "GDS2Touchstone",
+      "source_hint": null
+    },
+    {
+      "id": 89,
+      "pillar": 9,
+      "name": "VirtuosoBridge",
+      "source_hint": null
+    },
+    {
+      "id": 90,
+      "pillar": 9,
+      "name": "Calibre-Interface",
+      "source_hint": null
+    },
+    {
+      "id": 91,
+      "pillar": 10,
+      "name": "PyVista",
+      "source_hint": "pyvista/pyvista"
+    },
+    {
+      "id": 92,
+      "pillar": 10,
+      "name": "Meshio",
+      "source_hint": "nschloe/meshio"
+    },
+    {
+      "id": 93,
+      "pillar": 10,
+      "name": "Mayavi",
+      "source_hint": null
+    },
+    {
+      "id": 94,
+      "pillar": 10,
+      "name": "Three.js GDS Viewer",
+      "source_hint": null
+    },
+    {
+      "id": 95,
+      "pillar": 10,
+      "name": "Plotly",
+      "source_hint": null
+    },
+    {
+      "id": 96,
+      "pillar": 10,
+      "name": "Rich",
+      "source_hint": "Textualize/rich"
+    },
+    {
+      "id": 97,
+      "pillar": 10,
+      "name": "LangGraph",
+      "source_hint": "langchain-ai/langgraph"
+    },
+    {
+      "id": 98,
+      "pillar": 10,
+      "name": "HDF5 / h5py",
+      "source_hint": null
+    },
+    {
+      "id": 99,
+      "pillar": 10,
+      "name": "Zarr",
+      "source_hint": null
+    },
+    {
+      "id": 100,
+      "pillar": 10,
+      "name": "Netron",
+      "source_hint": "lutzroeder/netron"
+    }
+  ]
+}
