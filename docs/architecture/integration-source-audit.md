@@ -23,9 +23,31 @@ source registry is specified.
 | 13 FasterCap | The supplied `FastFieldSolvers/FasterCap` hint returned GitHub API 404. [ediloren/FasterCap](https://github.com/ediloren/FasterCap) describes the capacitance extractor and declares LGPL-2.1-or-later in its README; GitHub detects LGPL-2.1. | The existing IDC adapter must be evaluated against this actual source, including solver executable identity, matrix signs/units, refinement and benchmark evidence. A prepared input or an executable probe is not an accepted integration; retain its separate numerical validation queue. |
 | 14 FastHenry2 | The supplied `FastFieldSolvers/FastHenry2` hint returned GitHub API 404. [ediloren/FastHenry2](https://github.com/ediloren/FastHenry2) contains the original Unix FastHenry on `master`, a Windows FastHenry2 port on `WinMSVS`, and superconducting WRCad enhancements on another branch. GitHub's repository API reports no detected SPDX license. | Do not equate a free download or the separate LGPL-licensed FreeCAD workbench with permission to redistribute this solver. Audit the exact branch/source license terms and selected binary before any packaged dependency or accepted integration; distinguish FastHenry from FastHenry2 in adapter provenance and numerical benchmarks. |
 
-These fourteen source reviews record the linked repositories' identity,
+| 15 Meep | [NanoComp/meep](https://github.com/NanoComp/meep) is an FDTD electromagnetic solver with Python, Scheme and C++ interfaces; upstream identifies GNU GPL and GitHub detects GPL-2.0. | The existing bridge is in the frozen legacy tree, not a new typed product integration. Audit dimensionless-to-SI conversion, material dispersion, PML and resolution/time convergence before any comparison. No Meep run was performed by this review. |
+| 16 gprMax | [gprMax/gprMax](https://github.com/gprMax/gprMax) describes FDTD electromagnetic propagation and declares GPL-3.0-or-later. | No product adapter was found. Choose a bounded propagation or antenna reference first; validate grid spacing, timestep, sources and boundary effects. Upstream accelerator support is not evidence of Text-to-Layout platform support. |
+| 17 Elmer FEM | [ElmerCSC/elmerfem](https://github.com/ElmerCSC/elmerfem) is the official multiphysics FEM suite. Its [component license policy](https://github.com/ElmerCSC/elmerfem/blob/devel/license_texts/ElmerLicensePolicy.md) distinguishes LGPL libraries from GPL tools/modules; GitHub detects NOASSERTION. | The existing electrostatic bridge is legacy. Audit the exact selected modules and dependency licenses instead of assigning one blanket SPDX license. A first product slice needs ElmerGrid conversion, electrode tags, Maxwell capacitance units/signs and a refined reference case. |
+| 18 MFEM | [mfem/mfem](https://github.com/mfem/mfem) is a BSD-3-Clause finite-element library. | Palace already uses MFEM; that dependency is not a separate independent solver comparison. A direct integration would require its own weak formulation, boundary conditions, discretization, runner and reference evidence. Defer duplicate scaffolding. |
+| 19 scuff-em | [HomerReid/scuff-em](https://github.com/HomerReid/scuff-em) supplies boundary-element EM applications. Its [COPYRIGHT](https://github.com/HomerReid/scuff-em/blob/master/COPYRIGHT) declares GPL-2.0-or-later; the repository also contains multiple license texts. | No product adapter was found. Surface mesh orientation, material model and integral-equation assumptions need explicit mapping. Audit component licenses and select a public electrostatic or scattering benchmark before installing. |
+| 20 FEniCS | The supplied URL resolves to [FEniCS/dolfinx](https://github.com/FEniCS/dolfinx), the next-generation FEM environment, whose README declares LGPL-3.0-or-later. | Record DOLFINx explicitly rather than assuming compatibility with legacy DOLFIN APIs. No product adapter was found. A PDE library needs a specified formulation and manufactured/reference solution; an import cannot establish electromagnetic accuracy. |
+
+These twenty source reviews record the linked repositories' identity,
 purpose and available license status at review time. FastHenry2's actual
 source-license terms remain unverified. These reviews do not justify changing
 `doctor.integration_targets[*].source_verified` globally or asserting that
-the other 86 supplied names resolve. Review the remaining sources, aliases,
+the other 80 supplied names resolve. Review remaining sources, aliases,
 licenses and maintenance states in bounded groups before adding adapters.
+
+## Revision snapshot for slots 15–20
+
+GitHub API observations on 2026-09-27; all six reported `archived=false`.
+These revisions identify the reviewed source, not an installed version or a
+selected compatible release. Dependencies and platform execution are pending.
+
+| Slot | Default branch | Observed commit |
+| --- | --- | --- |
+| 15 | master | `c830998c2553500719def730485cf479bca514ca` |
+| 16 | master | `44dc76aa7b0dd6a5657fcb65fd5f8e91e4b851ca` |
+| 17 | devel | `7a29c6258b6174c48c38778b7f8f14a7e53cbb8a` |
+| 18 | master | `45799ebea86d9d83f027689ba2bcbd7e50f3021a` |
+| 19 | master | `9c6d0cb7695463af803dee8d04cdae939740cdcc` |
+| 20 | main | `120d1bcf1af6283a6ebefdad5e4e812789139578` |

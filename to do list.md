@@ -56,6 +56,14 @@ in the repository's generated evidence and retained solver artifacts.
 
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
+- **Current continuation (2026-09-27 13:09):** Palace run `36295978520`
+  remains active; do not duplicate it. The source audit now covers 20 slots.
+  Shared subprocess timeout-log fix `9c3a1a8` is validated locally (1978
+  tests passed, 11 skipped); main CI `36296058278` passed unchanged on
+  attempt 2 after a Windows 3.11 job-status failure. The earlier atomic-write
+  fix does not fully explain that intermittent symptom; retain it as open. See
+  `docs/progress/2026-09-27-130957.md` for retained logs and exact next actions.
+
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
   The revised 100-target mission supersedes the 50-target list as a roadmap,
   not evidence that these tools are
@@ -131,7 +139,7 @@ in the repository's generated evidence and retained solver artifacts.
   checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
-  The first fourteen source/scope reviews are recorded in
+  The first twenty source/scope reviews are recorded in
   `docs/architecture/integration-source-audit.md`: SQcircuit's hint points
   away from its maintainer repository, QEDA's hint resolves to a PCB tool,
   current Quantum Metal packaging differs from the locked legacy name,
@@ -140,7 +148,10 @@ in the repository's generated evidence and retained solver artifacts.
   PycQED hints return 404 while their maintainer repositories have different
   names; Qiskit Dynamics is archived. The FasterCap and FastHenry2 supplied
   hints also return 404, and the actual FastHenry2 source license is not yet
-  established. These reviews do not raise the 0/100 accepted-integration count.
+  established. Slots 15–20 now distinguish Meep/gprMax/scuff-em solvers,
+  component-specific Elmer licensing, and MFEM/DOLFINx numerical libraries.
+  Reviewed upstream revisions are retained; none is an installed version.
+  These reviews do not raise the 0/100 accepted-integration count.
   Do not migrate the optional package until import/platform compatibility is
   tested.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and

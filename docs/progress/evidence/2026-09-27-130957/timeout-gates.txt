@@ -1,0 +1,55 @@
+COMMAND ['scripts/check_benchmarks.py', '--strict'] EXIT 0
+Benchmark audit passed.
+
+COMMAND ['scripts/validate_readme_claims.py'] EXIT 0
+README claim validation passed: every support claim is backed by artifacts.
+
+COMMAND ['scripts/check_namespace_boundary.py', '--check'] EXIT 0
+namespace boundary OK: textlayout imports no legacy code; legacy package frozen.
+
+COMMAND ['scripts/generate_project_status.py', '--check'] EXIT 0
+project status artifacts are current.
+
+COMMAND ['scripts/generate_integration_checklist.py', '--check'] EXIT 0
+integration checklist is current
+
+COMMAND ['scripts/build_canonical_evidence.py', '--check'] EXIT 0
+6/6 canonical records are current.
+
+COMMAND ['scripts/check_palace_amr_benchmark.py'] EXIT 0
+Palace AMR benchmark: SIMULATION_EXECUTED; 7 blocking gate(s)
+  BLOCKED: palace_adaptive_mesh_refinement
+  BLOCKED: element_wise_error_indicators_recorded
+  BLOCKED: last_level_frequency_change_percent
+  BLOCKED: global_amr_error_indicator_percent
+  BLOCKED: all_numerical_domain_sweeps_complete
+  BLOCKED: numerical_domain_frequency_sensitivity_percent
+  BLOCKED: independent_reference_target
+
+COMMAND ['scripts/render_showcase_artifacts.py', '--check'] EXIT 0
+all derived showcase artifacts are current.
+
+COMMAND ['scripts/audit_evidence_consistency.py'] EXIT 0
+[OK  ] 01_idc_0p6pf
+[OK  ] 02_cpw_50ohm
+[OK  ] 03_idc_cpw_test_structure
+[OK  ] 04_spiral_inductor_3nh
+[OK  ] 05_quarter_wave_resonator_6ghz
+[OK  ] 06_research_test_chip
+
+6/6 showcases consistent.
+
+COMMAND ['scripts/build_palace_benchmark_evidence.py', '--check'] EXIT 0
+3/3 Palace benchmark records are current.
+
+COMMAND ['scripts/bundle_plugin.py', '--check'] EXIT 0
+plugin bundle is thin and current (0.3.0).
+
+COMMAND ['scripts/generate_audit_artifacts.py', '--fail-on-claim-downgrade'] EXIT 0
+wrote audit artifacts to /Users/ludko/Desktop/text2layout/Text-to-Layout/out/audit
+
+COMMAND ['scripts/generate_acceptance.py'] EXIT 0
+INFEASIBLE       A_infeasible_5mhz_lc
+GEOMETRY_PASS    B_feasible_6ghz_resonator
+GEOMETRY_PASS    C_idc_autosize_0p6pf
+
