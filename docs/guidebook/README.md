@@ -191,6 +191,28 @@ modern MCP adapter are still pending; do not invent a tool name for this prompt.
 5. Stop the local server with Ctrl+C when finished. A hosted agent cannot access
    this Mac's localhost without an explicitly configured connection.
 
+## Check and recover a background job
+
+`textlayout jobs start` prints a `job_id` and a persistent job directory. Save
+both before closing the terminal. To inspect that same job, use the root you
+passed at launch (omit `--job-root` only if you used its default). Replace the
+angle-bracket placeholders with the actual values before running:
+
+```sh
+uv run textlayout jobs status <job-id> --job-root <job-root>
+uv run textlayout jobs collect <job-id> --job-root <job-root>
+```
+
+`status` samples the running process; `collect` reads the recorded return code
+and output inventory after the monitor finishes. Inspect `job.json`,
+`finalization.json`, `stdout.txt` and `stderr.txt` inside the reported job
+directory if the state looks inconsistent. A solver output file by itself does
+not prove that the monitor finalized or that the numerical result converged.
+Use `uv run textlayout jobs resume <job-id> --job-root <job-root>` only for
+bookkeeping/post-processing; it does not relaunch the solver. Keep the original
+job directory and logs for diagnosis before starting another run. A versioned
+desktop screenshot with numbered callouts remains pending.
+
 ## AI prompt examples
 
 These are prompts to an agent with project/tool access; tool and solver access

@@ -4,9 +4,11 @@ import json
 import sys
 import time
 from pathlib import Path
+from threading import Event, Thread, current_thread
 
+import textlayout.jobs as jobs_module
 from textlayout.cli import build_parser
-from textlayout.jobs import cancel_job, collect_job, resume_job, start_job, status_job
+from textlayout.jobs import JobRecord, cancel_job, collect_job, resume_job, start_job, status_job
 
 
 def _wait_for_terminal(job_id: str, job_root: Path, *, timeout: float = 15.0):
@@ -64,6 +66,73 @@ def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> No
     assert collected.resource_samples_path.is_file()
     assert collected.samples == []
     assert finalization["sample_count"] >= 1
+
+
+def test_terminal_job_status_survives_concurrent_stale_writer(
+    tmp_path: Path, monkeypatch
+) -> None:
+    job_dir = tmp_path / "job-race"
+    job_dir.mkdir()
+    running = JobRecord(
+        job_id="job-race",
+        status="running",
+        command=[sys.executable, "-c", "pass"],
+        cwd=tmp_path,
+        job_dir=job_dir,
+        inventory_root=tmp_path,
+        stdout_path=job_dir / "stdout.txt",
+        stderr_path=job_dir / "stderr.txt",
+        manifest_path=job_dir / "manifest.json",
+        environment_path=job_dir / "environment.json",
+        created_at="2026-09-27T00:00:00Z",
+    )
+    jobs_module._save_record(running)
+    inspected = Event()
+    release = Event()
+    terminal_done = Event()
+    errors: list[BaseException] = []
+    original_read = jobs_module._read_json
+
+    def pause_stale_read(path: Path):
+        result = original_read(path)
+        if path == job_dir / "job.json" and current_thread().name == "stale-writer":
+            inspected.set()
+            if not release.wait(10):
+                raise TimeoutError("stale writer was not released")
+        return result
+
+    def write_record(record: JobRecord, done: Event | None = None) -> None:
+        try:
+            jobs_module._save_record(record)
+        except BaseException as exc:
+            errors.append(exc)
+        finally:
+            if done is not None:
+                done.set()
+
+    monkeypatch.setattr(jobs_module, "_read_json", pause_stale_read)
+    stale = Thread(target=write_record, args=(running,), name="stale-writer")
+    terminal = Thread(
+        target=write_record,
+        args=(running.model_copy(update={"status": "completed", "return_code": 0}), terminal_done),
+        name="terminal-writer",
+    )
+    stale.start()
+    try:
+        assert inspected.wait(5)
+        terminal.start()
+        # Without a record lock, the terminal writer completes before the stale
+        # writer resumes and its obsolete `running` payload wins the last replace.
+        terminal_done.wait(1)
+    finally:
+        release.set()
+        stale.join(10)
+        if terminal.ident is not None:
+            terminal.join(10)
+    assert not stale.is_alive()
+    assert not terminal.is_alive()
+    assert not errors
+    assert jobs_module._load_record(tmp_path, running.job_id).status == "completed"
 
 
 def test_job_resume_is_post_processing_only(tmp_path: Path) -> None:

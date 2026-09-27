@@ -15,6 +15,8 @@ import subprocess
 import sys
 import time
 import uuid
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -346,30 +348,56 @@ def _load_record(job_root: Path, job_id: str) -> JobRecord:
     return JobRecord.model_validate(_read_json(job_root / job_id / "job.json"))
 
 
+@contextmanager
+def _record_write_lock(path: Path) -> Iterator[None]:
+    """Serialize the read/check/replace transaction across job processes."""
+    lock_path = path.with_name(f".{path.name}.lock")
+    with lock_path.open("a+b") as handle:
+        if sys.platform == "win32":
+            import msvcrt
+
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK, 1)
+            try:
+                yield
+            finally:
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 def _save_record(record: JobRecord) -> None:
     path = _record_path(record.job_dir)
     payload = record.model_dump(mode="json", by_alias=True)
-    if path.is_file():
-        try:
-            existing = _read_json(path)
-        except (OSError, json.JSONDecodeError):
-            existing = {}
-        terminal = {
-            "completed",
-            "failed",
-            "cancelled",
-            "failed_to_start",
-            "collected",
-            "CANCELLED",
-            "CANCEL_FAILED_ORPHAN_REMAINS",
-        }
-        if existing.get("status") in terminal and payload.get("status") not in terminal:
-            return
-        if existing.get("cancellation_requested") and not payload.get("cancellation_requested"):
-            payload["cancellation_requested"] = True
-            if payload.get("status") == "running":
-                payload["status"] = "CANCEL_REQUESTED"
-    _write_json(path, payload)
+    with _record_write_lock(path):
+        if path.is_file():
+            try:
+                existing = _read_json(path)
+            except (OSError, json.JSONDecodeError):
+                existing = {}
+            terminal = {
+                "completed",
+                "failed",
+                "cancelled",
+                "failed_to_start",
+                "collected",
+                "CANCELLED",
+                "CANCEL_FAILED_ORPHAN_REMAINS",
+            }
+            if existing.get("status") in terminal and payload.get("status") not in terminal:
+                return
+            if existing.get("cancellation_requested") and not payload.get("cancellation_requested"):
+                payload["cancellation_requested"] = True
+                if payload.get("status") == "running":
+                    payload["status"] = "CANCEL_REQUESTED"
+        _write_json(path, payload)
 
 
 def start_job(
