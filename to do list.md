@@ -131,15 +131,16 @@ in the repository's generated evidence and retained solver artifacts.
   checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
-  The first eleven source/scope reviews are recorded in
+  The first fourteen source/scope reviews are recorded in
   `docs/architecture/integration-source-audit.md`: SQcircuit's hint points
   away from its maintainer repository, QEDA's hint resolves to a PCB tool,
   current Quantum Metal packaging differs from the locked legacy name,
   pyEPR's live HFSS path is disabled, and the product scqubits adapter only
   prepares inputs, and CircuitQ has no product adapter. The SQuADDS and
   PycQED hints return 404 while their maintainer repositories have different
-  names; Qiskit Dynamics is archived. These reviews do not raise the 0/100
-  accepted-integration count.
+  names; Qiskit Dynamics is archived. The FasterCap and FastHenry2 supplied
+  hints also return 404, and the actual FastHenry2 source license is not yet
+  established. These reviews do not raise the 0/100 accepted-integration count.
   Do not migrate the optional package until import/platform compatibility is
   tested.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and
@@ -264,10 +265,15 @@ in the repository's generated evidence and retained solver artifacts.
   mode 1 passed the endpoint and magnetic-shape tests but its electric
   quarter-wave profile correlation was 0.7423 against the existing 0.90
   criterion; mode 2 was classified as a substrate mode. Its compact packet is
-  retained under `docs/progress/evidence/2026-09-27-080338/`. Attempt 2 was
-  dispatched unchanged and remains active: compare its numeric profiles and
-  hashes before editing the model or classifier. The first-state diagnostic
-  frequencies must not be conflated with the final adapted-state CSV. Full
+  retained under `docs/progress/evidence/2026-09-27-080338/`. Attempt 2
+  completed with the same invalid verdict; mode profiles, solved-state
+  summary, FEM model, material map and first/final eigenvalue CSVs are
+  byte-identical to attempt 1. Retained attempt-2 logs and evidence are in
+  that same directory. The next focused diagnostic should preserve profiles
+  for both solved states even when first-state seed selection fails; then
+  assess sampling and four-mode coverage before a physical edit. The
+  first-state diagnostic frequencies must not be conflated with the final
+  adapted-state CSV. Full
   scientific acceptance and branch merge remain pending.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
