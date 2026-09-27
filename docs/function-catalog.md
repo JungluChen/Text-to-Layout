@@ -198,3 +198,12 @@ validate example arguments against returned schemas, execute bounded discovery
 and geometry examples on both Codex and Claude Code, and retain explicit
 missing-solver and invalid-input results. Large dispatcher registries need their
 own expanded inventory before being advertised as individually tested functions.
+
+
+### Shared solver timeout artifacts
+
+`textlayout.solvers.base.run_subprocess` retains partial stdout/stderr on
+timeout and re-raises `TimeoutExpired`. JosephsonCircuits failed results expose
+`solver_stdout` and `solver_stderr` artifact paths; no successful return code
+or numerical validation is inferred. This is an internal Python contract, not
+a new CLI or MCP function. See [recovery instructions](guidebook/README.md#recover-evidence-after-a-solver-timeout).

@@ -203,3 +203,12 @@ The short excerpts below identify the source principle; the concrete implementat
 | [onboarding.md › Best practices / Additional requests](https://github.com/dickwu/apple-design-skill/blob/da2da6dd03aacf06da3fecf205347601d38bb141/references/hig/onboarding.md#best-practices) · [Apple](https://developer.apple.com/design/human-interface-guidelines/onboarding) | “Teach through interactivity.” Offer optional sample-driven guidance and delay unnecessary setup. |
 | [generative-ai.md › Transparency / Outputs](https://github.com/dickwu/apple-design-skill/blob/da2da6dd03aacf06da3fecf205347601d38bb141/references/hig/generative-ai.md#transparency) · [Apple](https://developer.apple.com/design/human-interface-guidelines/generative-ai) | “Communicate where your app uses AI.” Make proposals inspectable, editable and reversible. |
 | [charting-data.md › Best practices / Designing effective charts](https://github.com/dickwu/apple-design-skill/blob/da2da6dd03aacf06da3fecf205347601d38bb141/references/hig/charting-data.md#best-practices) · [Apple](https://developer.apple.com/design/human-interface-guidelines/charting-data) | “Make every chart in your app accessible.” Supply understandable plots and equivalent data access. |
+
+
+### Failed solver log access
+
+The shared subprocess launcher retains partial timeout logs, and the
+JosephsonCircuits result exposes their artifact paths. Future UI recovery
+views must label these as partial failed-run evidence. This is a backend
+capability; a rendered recovery screen and accessibility screenshots remain
+pending.

@@ -131,3 +131,11 @@ core. The catalog and guidebook document its defaults, outputs and recovery.
 This does not complete desktop/web, MCP/plugin parity or screenshot acceptance.
 
 No paid hosting, license purchase or commercial solver access is assumed.
+
+
+### Timeout evidence retention
+
+Shared solver subprocess timeouts retain partial stdout/stderr without promoting
+a failed run. JosephsonCircuits failed results reference these logs; other
+runners need their own audited recovery behavior. See the guidebook recovery
+section and `tests/textlayout_suite/test_solver_timeout_logs.py`.

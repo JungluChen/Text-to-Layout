@@ -295,3 +295,28 @@ text and a numbered prose explanation; users must not depend on seeing arrows.
 Before marking a chapter complete, rerun every command/tool example, check
 expected files/status and failures, validate image links and review screenshots
 at normal size and 200% zoom. Update screenshots when the documented UI changes.
+
+
+## Recover evidence after a solver timeout
+
+For adapters using the shared subprocess launcher (currently the
+JosephsonCircuits.jl driver), a timeout retains captured output in
+`<output_dir>/josephsoncircuits.stdout.txt` and
+`<output_dir>/josephsoncircuits.stderr.txt`. The failed result references both
+files. A silent stream produces an empty file; bytes can end mid-character.
+Keep the original bytes when archiving logs. A timeout remains a failure,
+not a parsed or validated simulation.
+
+1. Preserve the failed result, prepared input, tool version and both log files.
+2. Inspect the last solver messages and resource limits before changing a
+   timeout. Do not start another invocation while a previous solver is active.
+3. Reproduce with the same inputs, executable and limit. Record both outcomes;
+   a longer limit alone does not establish convergence or accuracy.
+
+Example AI prompt: “Inspect the failed JosephsonCircuits result and its
+`solver_stdout`/`solver_stderr` artifacts. Identify the last completed solver
+stage, retain input and log hashes, and propose a bounded unchanged rerun.
+Do not label partial output as a successful simulation.”
+
+This describes log retention, not a new CLI/MCP command or a validated
+JosephsonCircuits numerical model. Other runners have separate timeout paths.

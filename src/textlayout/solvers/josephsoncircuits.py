@@ -118,13 +118,19 @@ def execute_josephsoncircuits(
             log_prefix="josephsoncircuits",
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
+        artifacts = dict(prepared.artifacts)
+        if isinstance(exc, subprocess.TimeoutExpired):
+            artifacts.update(
+                solver_stdout=str(Path(prepared.output_dir) / "josephsoncircuits.stdout.txt"),
+                solver_stderr=str(Path(prepared.output_dir) / "josephsoncircuits.stderr.txt"),
+            )
         return SimulationResult(
             status="failed",
             solver="JosephsonCircuits.jl",
             readiness_level=prepared.readiness_level,
             reason=f"JosephsonCircuits.jl subprocess failed: {exc}",
             output_dir=prepared.output_dir,
-            artifacts=dict(prepared.artifacts),
+            artifacts=artifacts,
             warnings=prepared.warnings,
         )
     result = Path(prepared.output_dir) / RESULT_FILE

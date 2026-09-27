@@ -81,18 +81,25 @@ def run_subprocess(
     timeout_seconds: int,
     log_prefix: str = "solver",
 ) -> SolverExecution:
-    """Run one solver command and always retain stdout/stderr on disk."""
+    """Retain process output, including partial bytes on timeout; re-raise timeouts."""
     started = time.perf_counter()
-    completed = subprocess.run(
-        command,
-        cwd=cwd,
-        capture_output=True,
-        text=True,
-        timeout=timeout_seconds,
-        check=False,
-    )
     stdout_path = cwd / f"{log_prefix}.stdout.txt"
     stderr_path = cwd / f"{log_prefix}.stderr.txt"
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        # TimeoutExpired retains bytes even with text=True. Preserve them exactly,
+        # including a potentially incomplete UTF-8 sequence at termination.
+        for path, output in ((stdout_path, exc.stdout), (stderr_path, exc.stderr)):
+            path.write_bytes(output.encode("utf-8") if isinstance(output, str) else output or b"")
+        raise
     stdout_path.write_text(
         completed.stdout or "[textlayout] solver emitted no stdout output.\n",
         encoding="utf-8",
