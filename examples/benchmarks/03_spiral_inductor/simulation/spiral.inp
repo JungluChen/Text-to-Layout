@@ -1,6 +1,6 @@
 * Text-to-Layout square spiral
 .units um
-.default sigma=5.8e4
+.default sigma=58
 N1 x=4 y=4 z=0
 N2 x=146 y=4 z=0
 N3 x=146 y=146 z=0

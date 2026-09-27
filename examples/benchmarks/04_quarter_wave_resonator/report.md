@@ -49,16 +49,16 @@
 
 ## Artifacts
 
-- `gds`: `examples\benchmarks\04_quarter_wave_resonator\output.gds`
-- `svg`: `examples\benchmarks\04_quarter_wave_resonator\output.svg`
-- `json`: `examples\benchmarks\04_quarter_wave_resonator\output.json`
-- `png`: `examples\benchmarks\04_quarter_wave_resonator\output.png`
-- `layout_dsl`: `examples\benchmarks\04_quarter_wave_resonator\layout.json`
-- `verification`: `examples\benchmarks\04_quarter_wave_resonator\verification.json`
-- `evidence`: `examples\benchmarks\04_quarter_wave_resonator\evidence.md`
-- `analytical_estimate`: `examples\benchmarks\04_quarter_wave_resonator\analytical_estimate.md`
-- `simulation_plan`: `examples\benchmarks\04_quarter_wave_resonator\simulation_plan.md`
-- `report`: `examples\benchmarks\04_quarter_wave_resonator\report.md`
+- `gds`: `examples/benchmarks/04_quarter_wave_resonator/output.gds`
+- `svg`: `examples/benchmarks/04_quarter_wave_resonator/output.svg`
+- `json`: `examples/benchmarks/04_quarter_wave_resonator/output.json`
+- `png`: `examples/benchmarks/04_quarter_wave_resonator/output.png`
+- `layout_dsl`: `examples/benchmarks/04_quarter_wave_resonator/layout.json`
+- `verification`: `examples/benchmarks/04_quarter_wave_resonator/verification.json`
+- `evidence`: `examples/benchmarks/04_quarter_wave_resonator/evidence.md`
+- `analytical_estimate`: `examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md`
+- `simulation_plan`: `examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md`
+- `report`: `examples/benchmarks/04_quarter_wave_resonator/report.md`
 
 ## Simulation status
 

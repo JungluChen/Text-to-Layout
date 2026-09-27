@@ -7,9 +7,9 @@
 
 ## Prepared artifacts
 
-- `panel_file`: `examples\benchmarks\01_idc_0p6pf\simulation\idc.qui`
-- `list_file`: `examples\benchmarks\01_idc_0p6pf\simulation\idc.lst`
-- `manifest`: `examples\benchmarks\01_idc_0p6pf\simulation\simulation_manifest.json`
+- `panel_file`: `examples/benchmarks/01_idc_0p6pf/simulation/idc.qui`
+- `list_file`: `examples/benchmarks/01_idc_0p6pf/simulation/idc.lst`
+- `manifest`: `examples/benchmarks/01_idc_0p6pf/simulation/simulation_manifest.json`
 
 ## Limitations
 

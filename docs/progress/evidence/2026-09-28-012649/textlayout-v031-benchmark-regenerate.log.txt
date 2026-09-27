@@ -1,0 +1,7 @@
+PASS  01_idc_0p6pf
+PASS  02_cpw_50ohm
+PASS  03_spiral_inductor
+PASS  04_quarter_wave_resonator
+TODO  05_squid_loop
+TODO  06_lc_5mhz_resonator
+Generated 4 benchmark(s); skipped 0 up-to-date.

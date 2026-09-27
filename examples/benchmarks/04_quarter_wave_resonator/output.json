@@ -196,6 +196,46 @@
     "coupling_gap_um": 6.0,
     "boundary_open": "capacitively coupled feedline end",
     "boundary_short": "ground bridge",
+    "resonator_centerline_um": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        4918.4652
+      ]
+    ],
+    "physical_grounded_end_um": [
+      0.0,
+      0.0
+    ],
+    "physical_open_end_um": [
+      0.0,
+      4918.4652
+    ],
+    "ground_connection_bbox_um": [
+      -11.0,
+      0.0,
+      11.0,
+      10.0
+    ],
+    "coupling_gap_bbox_um": [
+      -5.0,
+      4918.4652,
+      5.0,
+      4924.4652
+    ],
+    "polygon_roles": [
+      "resonator_signal",
+      "resonator_ground_left",
+      "resonator_ground_right",
+      "grounded_end_bridge",
+      "feedline_signal",
+      "feedline_ground_top",
+      "feedline_ground_bottom_left",
+      "feedline_ground_bottom_right"
+    ],
     "explicit_ground_reference_ports": true,
     "min_ports": 6,
     "analytical_estimate": true,
@@ -203,7 +243,7 @@
   },
   "provenance": {
     "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
-    "generator_version": "0.3.0",
+    "generator_version": "0.3.1",
     "generated_at": "normalized",
     "timestamp_normalized": true,
     "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"

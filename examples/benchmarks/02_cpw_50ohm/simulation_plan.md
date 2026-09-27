@@ -7,9 +7,9 @@
 
 ## Prepared artifacts
 
-- `model`: `examples\benchmarks\02_cpw_50ohm\simulation\openems_model.json`
-- `driver`: `examples\benchmarks\02_cpw_50ohm\simulation\openems_model.m`
-- `manifest`: `examples\benchmarks\02_cpw_50ohm\simulation\simulation_manifest.json`
+- `model`: `examples/benchmarks/02_cpw_50ohm/simulation/openems_model.json`
+- `driver`: `examples/benchmarks/02_cpw_50ohm/simulation/openems_model.m`
+- `manifest`: `examples/benchmarks/02_cpw_50ohm/simulation/simulation_manifest.json`
 
 ## Limitations
 

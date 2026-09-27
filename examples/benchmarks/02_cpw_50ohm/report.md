@@ -49,16 +49,16 @@
 
 ## Artifacts
 
-- `gds`: `examples\benchmarks\02_cpw_50ohm\output.gds`
-- `svg`: `examples\benchmarks\02_cpw_50ohm\output.svg`
-- `json`: `examples\benchmarks\02_cpw_50ohm\output.json`
-- `png`: `examples\benchmarks\02_cpw_50ohm\output.png`
-- `layout_dsl`: `examples\benchmarks\02_cpw_50ohm\layout.json`
-- `verification`: `examples\benchmarks\02_cpw_50ohm\verification.json`
-- `evidence`: `examples\benchmarks\02_cpw_50ohm\evidence.md`
-- `analytical_estimate`: `examples\benchmarks\02_cpw_50ohm\analytical_estimate.md`
-- `simulation_plan`: `examples\benchmarks\02_cpw_50ohm\simulation_plan.md`
-- `report`: `examples\benchmarks\02_cpw_50ohm\report.md`
+- `gds`: `examples/benchmarks/02_cpw_50ohm/output.gds`
+- `svg`: `examples/benchmarks/02_cpw_50ohm/output.svg`
+- `json`: `examples/benchmarks/02_cpw_50ohm/output.json`
+- `png`: `examples/benchmarks/02_cpw_50ohm/output.png`
+- `layout_dsl`: `examples/benchmarks/02_cpw_50ohm/layout.json`
+- `verification`: `examples/benchmarks/02_cpw_50ohm/verification.json`
+- `evidence`: `examples/benchmarks/02_cpw_50ohm/evidence.md`
+- `analytical_estimate`: `examples/benchmarks/02_cpw_50ohm/analytical_estimate.md`
+- `simulation_plan`: `examples/benchmarks/02_cpw_50ohm/simulation_plan.md`
+- `report`: `examples/benchmarks/02_cpw_50ohm/report.md`
 
 ## Simulation status
 

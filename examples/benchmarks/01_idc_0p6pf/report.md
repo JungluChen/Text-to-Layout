@@ -50,16 +50,16 @@
 
 ## Artifacts
 
-- `gds`: `examples\benchmarks\01_idc_0p6pf\output.gds`
-- `svg`: `examples\benchmarks\01_idc_0p6pf\output.svg`
-- `json`: `examples\benchmarks\01_idc_0p6pf\output.json`
-- `png`: `examples\benchmarks\01_idc_0p6pf\output.png`
-- `layout_dsl`: `examples\benchmarks\01_idc_0p6pf\layout.json`
-- `verification`: `examples\benchmarks\01_idc_0p6pf\verification.json`
-- `evidence`: `examples\benchmarks\01_idc_0p6pf\evidence.md`
-- `analytical_estimate`: `examples\benchmarks\01_idc_0p6pf\analytical_estimate.md`
-- `simulation_plan`: `examples\benchmarks\01_idc_0p6pf\simulation_plan.md`
-- `report`: `examples\benchmarks\01_idc_0p6pf\report.md`
+- `gds`: `examples/benchmarks/01_idc_0p6pf/output.gds`
+- `svg`: `examples/benchmarks/01_idc_0p6pf/output.svg`
+- `json`: `examples/benchmarks/01_idc_0p6pf/output.json`
+- `png`: `examples/benchmarks/01_idc_0p6pf/output.png`
+- `layout_dsl`: `examples/benchmarks/01_idc_0p6pf/layout.json`
+- `verification`: `examples/benchmarks/01_idc_0p6pf/verification.json`
+- `evidence`: `examples/benchmarks/01_idc_0p6pf/evidence.md`
+- `analytical_estimate`: `examples/benchmarks/01_idc_0p6pf/analytical_estimate.md`
+- `simulation_plan`: `examples/benchmarks/01_idc_0p6pf/simulation_plan.md`
+- `report`: `examples/benchmarks/01_idc_0p6pf/report.md`
 
 ## Simulation status
 

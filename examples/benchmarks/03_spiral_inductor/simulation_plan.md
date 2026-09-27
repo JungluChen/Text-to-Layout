@@ -7,13 +7,13 @@
 
 ## Prepared artifacts
 
-- `input`: `examples\benchmarks\03_spiral_inductor\simulation\spiral.inp`
-- `manifest`: `examples\benchmarks\03_spiral_inductor\simulation\simulation_manifest.json`
+- `input`: `examples/benchmarks/03_spiral_inductor/simulation/spiral.inp`
+- `manifest`: `examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json`
 
 ## Limitations
 
 - A prepared deck alone is not evidence; retained Zc.mat and logs are required.
-- Conductor conductivity and thickness are generic and require process replacement.
+- Normal-metal conductivity=58000000 S/m and thickness=0.2 um; replace these assumptions with process data. Kinetic inductance is not modeled.
 
 ## Status contract
 

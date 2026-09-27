@@ -7,9 +7,9 @@
 
 ## Prepared artifacts
 
-- `model`: `examples\benchmarks\04_quarter_wave_resonator\simulation\openems_model.json`
-- `driver`: `examples\benchmarks\04_quarter_wave_resonator\simulation\openems_model.m`
-- `manifest`: `examples\benchmarks\04_quarter_wave_resonator\simulation\simulation_manifest.json`
+- `model`: `examples/benchmarks/04_quarter_wave_resonator/simulation/openems_model.json`
+- `driver`: `examples/benchmarks/04_quarter_wave_resonator/simulation/openems_model.m`
+- `manifest`: `examples/benchmarks/04_quarter_wave_resonator/simulation/simulation_manifest.json`
 
 ## Limitations
 

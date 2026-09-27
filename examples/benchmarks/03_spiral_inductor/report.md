@@ -44,16 +44,16 @@
 
 ## Artifacts
 
-- `gds`: `examples\benchmarks\03_spiral_inductor\output.gds`
-- `svg`: `examples\benchmarks\03_spiral_inductor\output.svg`
-- `json`: `examples\benchmarks\03_spiral_inductor\output.json`
-- `png`: `examples\benchmarks\03_spiral_inductor\output.png`
-- `layout_dsl`: `examples\benchmarks\03_spiral_inductor\layout.json`
-- `verification`: `examples\benchmarks\03_spiral_inductor\verification.json`
-- `evidence`: `examples\benchmarks\03_spiral_inductor\evidence.md`
-- `analytical_estimate`: `examples\benchmarks\03_spiral_inductor\analytical_estimate.md`
-- `simulation_plan`: `examples\benchmarks\03_spiral_inductor\simulation_plan.md`
-- `report`: `examples\benchmarks\03_spiral_inductor\report.md`
+- `gds`: `examples/benchmarks/03_spiral_inductor/output.gds`
+- `svg`: `examples/benchmarks/03_spiral_inductor/output.svg`
+- `json`: `examples/benchmarks/03_spiral_inductor/output.json`
+- `png`: `examples/benchmarks/03_spiral_inductor/output.png`
+- `layout_dsl`: `examples/benchmarks/03_spiral_inductor/layout.json`
+- `verification`: `examples/benchmarks/03_spiral_inductor/verification.json`
+- `evidence`: `examples/benchmarks/03_spiral_inductor/evidence.md`
+- `analytical_estimate`: `examples/benchmarks/03_spiral_inductor/analytical_estimate.md`
+- `simulation_plan`: `examples/benchmarks/03_spiral_inductor/simulation_plan.md`
+- `report`: `examples/benchmarks/03_spiral_inductor/report.md`
 
 ## Simulation status
 
