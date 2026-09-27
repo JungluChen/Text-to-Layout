@@ -30,6 +30,18 @@ the solver input; the illustration alone cannot supply them.
    diagnostic limit. The status is `SIMULATION_INVALID`, so do not quote either
    eigenfrequency as a validated resonance.
 
+   A later bounded run stayed under that limit but still failed physical mode
+   identification. Open its [first diagnostic packet](../progress/evidence/2026-09-27-080338/palace-attempt1/)
+   and inspect `mode_tracking.json` → `mode_diagnostics_by_iteration` →
+   `iteration_00`. Candidate mode 1 has the expected electric and magnetic
+   endpoint ratios (19.05 and 46.66) and magnetic profile correlation 0.9866,
+   but its electric profile correlation is 0.7423, below the predeclared 0.90
+   gate. Candidate mode 2 is classified as a substrate mode. These observations
+   explain the rejection; they do not justify lowering the gate or claiming
+   a resonator frequency. The `iteration_00/eig.csv` file describes the first
+   solved state; `final_state/eig.csv` describes the later adapted state. Keep
+   their frequencies separate when reviewing the field profile.
+
 3. For a fresh run, follow [Palace installation and recovery](../troubleshooting/palace.md)
    and execute the repository's pinned `palace-integration` workflow on the
    intended commit. Do not start another solver job while one is active. Download

@@ -254,10 +254,16 @@ in the repository's generated evidence and retained solver artifacts.
   Attempt-2 compact evidence and comparison are in
   `docs/progress/2026-09-27-013856.md`. Diagnostic-only branch commit
   `e4f52cc` now retains mode signatures and measured longitudinal profiles
-  on rejection; real Palace run `36259710684` is active at that SHA. Inspect
-  its physical profile artifact, then repeat unchanged before changing the
-  model or classifier. Full scientific acceptance and branch merge remain
-  pending.
+  on rejection. [Palace run 36259710684](https://github.com/JungluChen/Text-to-Layout/actions/runs/36259710684)
+  attempt 1 at that SHA again rejected both modes. In the first solved state,
+  mode 1 passed the endpoint and magnetic-shape tests but its electric
+  quarter-wave profile correlation was 0.7423 against the existing 0.90
+  criterion; mode 2 was classified as a substrate mode. Its compact packet is
+  retained under `docs/progress/evidence/2026-09-27-080338/`. Attempt 2 was
+  dispatched unchanged and remains active: compare its numeric profiles and
+  hashes before editing the model or classifier. The first-state diagnostic
+  frequencies must not be conflated with the final adapted-state CSV. Full
+  scientific acceptance and branch merge remain pending.
   Windows CI `35915634148` and `35933303913` both passed unchanged second
   attempts; their first-attempt timing failures remain unexplained, not fixed by
   relaxed waits. See `docs/progress/2026-09-25-010046.md` for exact continuation.

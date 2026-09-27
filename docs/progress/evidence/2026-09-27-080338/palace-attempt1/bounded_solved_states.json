@@ -1,0 +1,20 @@
+{
+  "adapted_mesh_count": 1,
+  "refinement_count": 1,
+  "saved_mesh_count": 0,
+  "solved_state_count": 2,
+  "states": [
+    {
+      "degrees_of_freedom": 140958,
+      "element_count": 106614,
+      "palace_iteration": 1,
+      "tag": "iteration_00"
+    },
+    {
+      "degrees_of_freedom": 150305,
+      "element_count": 114276,
+      "palace_iteration": 2,
+      "tag": "iteration_01"
+    }
+  ]
+}
