@@ -131,13 +131,15 @@ in the repository's generated evidence and retained solver artifacts.
   checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
-  The first eight source/scope reviews are recorded in
+  The first eleven source/scope reviews are recorded in
   `docs/architecture/integration-source-audit.md`: SQcircuit's hint points
   away from its maintainer repository, QEDA's hint resolves to a PCB tool,
   current Quantum Metal packaging differs from the locked legacy name,
   pyEPR's live HFSS path is disabled, and the product scqubits adapter only
-  prepares inputs. CircuitQ has no product adapter. These source reviews do
-  not raise the 0/100 accepted-integration count.
+  prepares inputs, and CircuitQ has no product adapter. The SQuADDS and
+  PycQED hints return 404 while their maintainer repositories have different
+  names; Qiskit Dynamics is archived. These reviews do not raise the 0/100
+  accepted-integration count.
   Do not migrate the optional package until import/platform compatibility is
   tested.
   (2) Map existing adapters/evidence schemas to a minimal plugin contract and
@@ -274,9 +276,10 @@ in the repository's generated evidence and retained solver artifacts.
   at the 15-second job-status assertion and passed unchanged on attempt 2.
   A deterministic local interleaving reproduced a stale `running` record
   overwriting `completed` twice. The focused cross-process record-lock repair
-  and regression in `f687841` pass local full gates but require exact-SHA
-  Windows CI before being counted as verified; see
-  `docs/progress/2026-09-27-080338.md`.
+  and regression in `f687841` pass local full gates. Exact-SHA CI at
+  `f45ce81` passed Windows/macOS/Linux on Python 3.11/3.12, including the
+  Windows job regression; see `docs/progress/2026-09-27-080338.md`. This
+  validates the focused state-write repair, not the Palace physics.
   Require real reduced-benchmark execution, repeated verification, convergence
   and valid evidence before promotion. Do not dispatch a duplicate.
 - **Completion commits:** Pending.
