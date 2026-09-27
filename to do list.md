@@ -269,9 +269,15 @@ in the repository's generated evidence and retained solver artifacts.
   completed with the same invalid verdict; mode profiles, solved-state
   summary, FEM model, material map and first/final eigenvalue CSVs are
   byte-identical to attempt 1. Retained attempt-2 logs and evidence are in
-  that same directory. The next focused diagnostic should preserve profiles
-  for both solved states even when first-state seed selection fails; then
-  assess sampling and four-mode coverage before a physical edit. The
+  that same directory. Diagnostic-only commit `d40b165` now collects profiles
+  for both solved states before first-state seed rejection. Its local full
+  suite passed twice (1980 passed, 12 skipped), and exact-SHA general CI
+  `36284650404` passed. Real Palace run
+  [36295978520](https://github.com/JungluChen/Text-to-Layout/actions/runs/36295978520),
+  job `108554791553`, is active at that exact SHA; monitor it without
+  dispatching a duplicate. Retain and compare its per-state profiles, then
+  rerun unchanged before assessing sampling or four-mode coverage. See
+  `docs/progress/2026-09-27-080338.md` for validation and resume commands. The
   first-state diagnostic frequencies must not be conflated with the final
   adapted-state CSV. Full
   scientific acceptance and branch merge remain pending.
