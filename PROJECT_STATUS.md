@@ -4,7 +4,7 @@
 
 Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`. Do not hand-edit; this file is a rendering of `out/evidence/project_status.json`.
 
-- **Package version:** `0.3.0`
+- **Package version:** `0.3.1`
 
 ## CLI commands (introspected from the real parser)
 

@@ -9,12 +9,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "text-to-gds-plugin"
-version = "0.3.0"
+version = "0.3.1"
 description = "Plugin manifest and agent skills for text-to-gds. Contains no implementation."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-dependencies = ["text-to-gds==0.3.0"]
+dependencies = ["text-to-gds==0.3.1"]
 
 [tool.hatch.build.targets.wheel]
 only-include = ["skills"]

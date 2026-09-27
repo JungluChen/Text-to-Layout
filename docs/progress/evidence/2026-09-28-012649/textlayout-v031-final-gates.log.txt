@@ -1,0 +1,31 @@
+validate_readme_claims.py
+README claim validation passed: every support claim is backed by artifacts.
+EXIT 0
+check_namespace_boundary.py --check
+namespace boundary OK: textlayout imports no legacy code; legacy package frozen.
+EXIT 0
+generate_project_status.py --check
+project status artifacts are current.
+EXIT 0
+generate_integration_checklist.py --check
+integration checklist is current
+EXIT 0
+check_benchmarks.py --strict
+Benchmark audit passed.
+EXIT 0
+build_canonical_evidence.py --check
+6/6 canonical records are current.
+EXIT 0
+render_showcase_artifacts.py --check
+all derived showcase artifacts are current.
+EXIT 0
+audit_evidence_consistency.py
+[OK  ] 01_idc_0p6pf
+[OK  ] 02_cpw_50ohm
+[OK  ] 03_idc_cpw_test_structure
+[OK  ] 04_spiral_inductor_3nh
+[OK  ] 05_quarter_wave_resonator_6ghz
+[OK  ] 06_research_test_chip
+
+6/6 showcases consistent.
+EXIT 0

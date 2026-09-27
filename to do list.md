@@ -4,6 +4,20 @@
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
 
+## Current human-directed release priority — v0.3.1
+
+Finish the five-item Python MVP before the broader integration backlog below.
+Implemented commits: scqubits `3799d8d`, analytical CPW selection `a6f0406`,
+pinned reference contract/CLI `fba30db`, four-example promotion `b0fab5b`.
+Installed-wheel and platform release gates are in progress. WM1 mask checks
+pass; electrical agreement remains NOT_EVALUATED, with independent electrical
+inputs/mapping still required. PyPI Trusted Publishing is not configured, as
+confirmed by the owner: no tag or publication until configured and verified.
+After publication, build the macOS-only PySide6 shell specified by the user.
+Read Design.md in full before UI code. Signing, notarisation, actual installed
+workflow screenshots, signed updates and rollback must be evidenced before
+claiming desktop delivery. Windows/Linux desktop remain pending.
+
 ## Daily operating agreement
 
 - Run at 01:00 Asia/Taipei (UTC+8) on the local Mac, attached to the existing

@@ -15,7 +15,7 @@ import warnings
 from types import ModuleType
 from typing import Any
 
-__version__ = "0.3.0"
+from textlayout import __version__
 __textlayout_shim__ = True
 
 _ALIAS_ROOT = "text_to_gds"

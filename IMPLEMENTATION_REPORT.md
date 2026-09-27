@@ -1,7 +1,15 @@
-# Implementation Report — v0.3.0 AI-Native Quantum Design Intelligence Platform
+# Implementation Report — v0.3.1 release candidate
+
+**Version:** 0.3.1 (unpublished candidate)
+
+Current scope and limitations are recorded in RELEASE_NOTES.md. The June
+implementation report below is historical; its test counts are not release
+validation for this candidate.
+
+## Historical v0.3.0 implementation report
 
 **Date:** 2026-06-26  
-**Version:** 0.3.0 (was 0.2.0)  
+**Historical version:** 0.3.0 (was 0.2.0)
 **Test status:** 648 passed, 8 skipped, 0 failed  
 **Lint status:** ruff — all checks passed  
 **Asset status:** All benchmark figures regenerated

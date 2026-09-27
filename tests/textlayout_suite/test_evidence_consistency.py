@@ -143,12 +143,10 @@ class TestDriftDetection:
 class TestRealRepositoryIsTraversedNotHardCoded:
     def test_every_showcase_directory_is_audited(self) -> None:
         found = {p.name for p in iter_showcases(ROOT)}
-        listed = {
-            entry["id"]
-            for entry in json.loads(
-                (ROOT / "examples" / "showcase" / "index.json").read_text(encoding="utf-8")
-            )["examples"]
-        }
+        index = json.loads((ROOT / "examples" / "showcase" / "index.json").read_text())
+        listed = {entry["id"] for entry in index["examples"] + index["archived_examples"]}
+        assert len(index["examples"]) == 4
+        assert len(index["archived_examples"]) == 2
         assert found == listed, "the auditor must traverse the directory, not a fixed list"
 
     def test_audit_returns_one_report_per_showcase(self) -> None:

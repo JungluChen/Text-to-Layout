@@ -14,6 +14,13 @@ For a paper-based accuracy workflow, follow the
 [resonator result-check tutorial](scientific-result-check.md); it demonstrates
 why the current bounded Palace run is invalid and what a valid comparison needs.
 
+## Python MVP numerical workflows
+
+- [Typed scqubits transmon execution](scqubits-transmon.md): explicit SI inputs,
+  retained spectra, and limits of model-only evidence.
+- [Pinned public reference check](public-reference.md): installed CLI mask
+  roundtrip and the missing inputs blocking electrical agreement.
+
 ## Choose an interface
 
 | Interface | Starting point | Current boundary |

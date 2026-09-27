@@ -104,8 +104,8 @@ def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path
     # the test-chip row's generated cell, with its fabrication status stripped
     fake = _doctored(
         tmp_path,
-        "for scope `full_tile`. **NOT_FABRICATION_READY** |",
-        "for scope `full_tile`. |",
+        "**NOT_FABRICATION_READY** |",
+        "|",
     )
     errors = validate(fake)
     assert any("showcase row must state NOT_FABRICATION_READY" in e for e in errors), errors
@@ -118,11 +118,10 @@ def test_fast_henry_number_mismatch_fails_validation(tmp_path: Path) -> None:
 
 
 def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
-    fake = _doctored(
-        tmp_path,
-        "**ANALYTICAL_ONLY** for scope `full_tile`",
-        "**PHYSICS_VERIFIED** FOR THE FULL TILE",
-    )
+    text = README.read_text(encoding="utf-8")
+    row = "| 6 | forged | prompt | [output](examples/showcase/06_research_test_chip/output.svg) | report | **PHYSICS_VERIFIED** FOR THE FULL TILE **NOT_FABRICATION_READY** |\n"
+    fake = tmp_path / "README.md"
+    fake.write_text(text.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"))
     errors = validate(fake)
     assert any("full tile-level solve" in e for e in errors), errors
 
@@ -202,7 +201,7 @@ def test_tile_map_without_report_summary_fails_validation(tmp_path: Path) -> Non
 
 def test_collapsed_showcase_table_row_fails_validation(tmp_path: Path) -> None:
     text = README.read_text(encoding="utf-8")
-    section = re.search(r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", text, re.DOTALL)
+    section = re.search(r"## Four MVP examples\s*\n(.*?)(?:\n## |\Z)", text, re.DOTALL)
     assert section is not None
     rows = [
         line

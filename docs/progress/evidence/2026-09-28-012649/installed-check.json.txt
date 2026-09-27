@@ -1,0 +1,83 @@
+{
+  "schema": "textlayout.installed-wheel-check.v1",
+  "wheel": "text_to_gds-0.3.1-py3-none-any.whl",
+  "wheel_sha256": "eec9e6a737dc22bfc29ddcdcb688ccf16980367ed42ced6bef95dad20ff89f7a",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "commands": [
+    {
+      "name": "install",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "/Users/ludko/Desktop/text2layout/Text-to-Layout/dist/text_to_gds-0.3.1-py3-none-any.whl"
+      ],
+      "exit_code": 0,
+      "log": "install.log",
+      "sha256": "2810b673a417a02cff9e242dd4c643c29c6d9b836c37440883d8a4c494e7dca9"
+    },
+    {
+      "name": "identity",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/python",
+        "-c",
+        "import textlayout,importlib.metadata; print(textlayout.__file__); print(importlib.metadata.version('text-to-gds'))"
+      ],
+      "exit_code": 0,
+      "log": "identity.log",
+      "sha256": "cd8067a8d8808748f8bee0bfefbbcae1f84b7fe5aca1d2780ba7472afe786f97"
+    },
+    {
+      "name": "help",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/textlayout",
+        "--help"
+      ],
+      "exit_code": 0,
+      "log": "help.log",
+      "sha256": "0f75a56c1b9ec4a54edd33b37e449ea7d652d5237071fd6cb0bb93daaa81d20b"
+    },
+    {
+      "name": "doctor",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/textlayout",
+        "doctor",
+        "--json"
+      ],
+      "exit_code": 0,
+      "log": "doctor.log",
+      "sha256": "5c21587dd0e8caf812c7bfada2fceb87b12c4983efe09f3d31375174f7edbfcb"
+    },
+    {
+      "name": "prompt",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/textlayout",
+        "prompt",
+        "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports.",
+        "--out",
+        "/Users/ludko/Desktop/text2layout/Text-to-Layout/out/release-v031-final-installed/prompt"
+      ],
+      "exit_code": 0,
+      "log": "prompt.log",
+      "sha256": "1a5106bb2649c242ab5980081bda72a583c1ad99096bba8c2a193b9c5116e4d0"
+    },
+    {
+      "name": "reference",
+      "command": [
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/venv/bin/textlayout",
+        "verify",
+        "--reference",
+        "--cache",
+        "/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-80ildmfk/cache",
+        "--out",
+        "/Users/ludko/Desktop/text2layout/Text-to-Layout/out/release-v031-final-installed/reference"
+      ],
+      "exit_code": 0,
+      "log": "reference.log",
+      "sha256": "a896e6b367b286aca03d2b4a9fe342d638926ae61fd774fe443b50d00b35226d"
+    }
+  ],
+  "passed": true
+}

@@ -6,6 +6,18 @@ pull requests and verified benchmark evidence.
 
 ## [Unreleased]
 
+## [0.3.1] - Unpublished candidate
+
+- Execute typed SI transmon inputs with scqubits and retained spectral evidence.
+- Prefer scikit-rf CPW estimates with an explicit analytical fallback.
+- Package pinned SQuADDS mask-reference checks; electrical agreement remains
+  not evaluated because independently specified electrical inputs are missing.
+- Promote four inspectable MVP examples and retain two archived examples.
+- Verify clean installed-wheel CLI workflows outside the checkout.
+
+Publication awaits release gates and PyPI Trusted Publisher configuration.
+No macOS, Windows, or Linux desktop application is delivered by this release.
+
 ## [0.3.0] - 2026-07-05
 
 Bumped to match the version already claimed (but never actually released) by

@@ -265,9 +265,10 @@ def test_main_package_import():
 
 
 def test_version_updated():
-    """Test that version is updated to v0.3.0 (AI-Native Quantum CAD Platform)."""
+    """The compatibility namespace follows the product version."""
     from text_to_gds import __version__
-    assert __version__ == "0.3.0"
+    from textlayout import __version__ as product_version
+    assert __version__ == product_version
 
 
 # ─── Digital Twin (Stage 7) ───────────────────────────────────────────────────

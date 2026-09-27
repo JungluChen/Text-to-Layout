@@ -44,7 +44,7 @@ def _read_showcase_index() -> list[dict[str, Any]]:
     if not index_path.is_file():
         return []
     data = json.loads(index_path.read_text(encoding="utf-8"))
-    examples = data.get("examples", [])
+    examples = data.get("examples", []) + data.get("archived_examples", [])
     return examples if isinstance(examples, list) else []
 
 

@@ -346,7 +346,7 @@ def main(argv: list[str] | None = None) -> int:
     by_id = {r.design_id: r for r in records}
     promoted_ids = {"01_idc_0p6pf", "02_cpw_50ohm", "03_idc_cpw_test_structure", "04_spiral_inductor_3nh"}
     index["examples"] = [entry for entry in index["examples"] if entry["id"] in promoted_ids]
-    for entry in index["examples"]:
+    for entry in index["examples"] + index.get("archived_examples", []):
         if entry["id"] in by_id:
             _index_entry(entry, by_id[entry["id"]])
     emit(index_path, json.dumps(index, indent=2) + "\n")

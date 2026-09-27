@@ -34,7 +34,11 @@ def test_cpw_has_explicit_signal_and_ground_reference_ports() -> None:
         "GND_R_IN",
         "GND_R_OUT",
     }
-    assert result.geometry.metadata["estimated_z0_ohm"] == pytest.approx(50.0412)
+    metadata = result.geometry.metadata
+    expected = 50.0412 if "fallback" in metadata["analytical_model"] else 50.0083
+    assert metadata["estimated_z0_ohm"] == pytest.approx(expected)
+    assert metadata["method"] == "analytical"
+    assert metadata["confidence"] == 0.65
 
 
 def test_spiral_is_continuous_two_port_geometry() -> None:

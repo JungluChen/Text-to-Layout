@@ -1,0 +1,297 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+..............................................................ss...ss... [ 24%]
+........................................................................ [ 28%]
+........................................................................ [ 31%]
+........................................................................ [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+.........................................................F.............. [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 53%]
+...............................................F........................ [ 56%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 71%]
+........................................................................ [ 74%]
+..................................s..............................s...... [ 78%]
+............................................s........................... [ 81%]
+.....................................F.FFF............................F. [ 85%]
+...............F..........F............................................. [ 88%]
+....F.F.....F........................................................... [ 92%]
+........................................................................ [ 95%]
+........................................................................ [ 99%]
+...........                                                              [100%]
+=================================== FAILURES ===================================
+_ TestRealRepositoryIsTraversedNotHardCoded.test_every_showcase_directory_is_audited _
+
+self = <textlayout_suite.test_evidence_consistency.TestRealRepositoryIsTraversedNotHardCoded object at 0x12f46a000>
+
+    def test_every_showcase_directory_is_audited(self) -> None:
+        found = {p.name for p in iter_showcases(ROOT)}
+        listed = {
+            entry["id"]
+            for entry in json.loads(
+                (ROOT / "examples" / "showcase" / "index.json").read_text(encoding="utf-8")
+            )["examples"]
+        }
+>       assert found == listed, "the auditor must traverse the directory, not a fixed list"
+E       AssertionError: the auditor must traverse the directory, not a fixed list
+E       assert {'01_idc_0p6p...ch_test_chip'} == {'01_idc_0p6p...inductor_3nh'}
+E         
+E         Extra items in the left set:
+E         '06_research_test_chip'
+E         '05_quarter_wave_resonator_6ghz'
+E         Use -v to get more diff
+
+tests/textlayout_suite/test_evidence_consistency.py:152: AssertionError
+___________ test_cpw_has_explicit_signal_and_ground_reference_ports ____________
+
+    def test_cpw_has_explicit_signal_and_ground_reference_ports() -> None:
+        _, _, result = _run("02_cpw_50ohm")
+        assert {port.name for port in result.geometry.ports} == {
+            "RF_IN",
+            "RF_OUT",
+            "GND_L_IN",
+            "GND_L_OUT",
+            "GND_R_IN",
+            "GND_R_OUT",
+        }
+>       assert result.geometry.metadata["estimated_z0_ohm"] == pytest.approx(50.0412)
+E       assert 50.0083 == 50.0412 ± 5.0e-05
+E         
+E         comparison failed
+E         Obtained: 50.0083
+E         Expected: 50.0412 ± 5.0e-05
+
+tests/textlayout_suite/test_extended_generators.py:37: AssertionError
+_ TestBundleIsInstallableMetadata.test_the_plugin_depends_on_the_released_distribution _
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestBundleIsInstallableMetadata object at 0x12f9f2870>
+
+    def test_the_plugin_depends_on_the_released_distribution(self) -> None:
+        dependencies = self._plugin_pyproject()["project"]["dependencies"]
+>       assert dependencies == [f"text-to-gds=={self._project_version()}"]
+E       AssertionError: assert ['text-to-gds==0.3.0'] == ['text-to-gds==0.3.1']
+E         
+E         At index 0 diff: 'text-to-gds==0.3.0' != 'text-to-gds==0.3.1'
+E         Use -v to get more diff
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:112: AssertionError
+_ TestBundleIsInstallableMetadata.test_manifest_version_tracks_the_project_version[.claude-plugin/plugin.json] _
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestBundleIsInstallableMetadata object at 0x12f94fc80>
+manifest = '.claude-plugin/plugin.json'
+
+    @pytest.mark.parametrize(
+        "manifest", [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]
+    )
+    def test_manifest_version_tracks_the_project_version(self, manifest: str) -> None:
+        """These had drifted to 0.1.0, 0.2.0 and 0.3.0 for one artifact."""
+        payload = json.loads((PLUGIN_ROOT / manifest).read_text(encoding="utf-8"))
+>       assert payload["version"] == self._project_version()
+E       AssertionError: assert '0.3.0' == '0.3.1'
+E         
+E         - 0.3.1
+E         ?     ^
+E         + 0.3.0
+E         ?     ^
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:124: AssertionError
+_ TestBundleIsInstallableMetadata.test_manifest_version_tracks_the_project_version[.codex-plugin/plugin.json] _
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestBundleIsInstallableMetadata object at 0x12fa20dd0>
+manifest = '.codex-plugin/plugin.json'
+
+    @pytest.mark.parametrize(
+        "manifest", [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]
+    )
+    def test_manifest_version_tracks_the_project_version(self, manifest: str) -> None:
+        """These had drifted to 0.1.0, 0.2.0 and 0.3.0 for one artifact."""
+        payload = json.loads((PLUGIN_ROOT / manifest).read_text(encoding="utf-8"))
+>       assert payload["version"] == self._project_version()
+E       AssertionError: assert '0.3.0' == '0.3.1'
+E         
+E         - 0.3.1
+E         ?     ^
+E         + 0.3.0
+E         ?     ^
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:124: AssertionError
+_ TestBundleIsInstallableMetadata.test_version_file_tracks_the_project_version _
+
+self = <textlayout_suite.test_plugin_thin_bundle.TestBundleIsInstallableMetadata object at 0x12fa20890>
+
+    def test_version_file_tracks_the_project_version(self) -> None:
+        recorded = (PLUGIN_ROOT / "VERSION").read_text(encoding="utf-8").strip()
+>       assert recorded == self._project_version()
+E       AssertionError: assert '0.3.0' == '0.3.1'
+E         
+E         - 0.3.1
+E         ?     ^
+E         + 0.3.0
+E         ?     ^
+
+tests/textlayout_suite/test_plugin_thin_bundle.py:128: AssertionError
+_______ TestFullCheckAgainstRealRepo.test_current_repo_passes_all_checks _______
+
+self = <textlayout_suite.test_project_claims.TestFullCheckAgainstRealRepo object at 0x12fa35a60>
+
+    def test_current_repo_passes_all_checks(self) -> None:
+        """Regression guard: the real repo must stay claim-consistent."""
+        module = _load("check_project_claims_live", SCRIPTS_DIR / "check_project_claims.py")
+        errors = module.run_all_checks()
+>       assert errors == [], f"Repo has claim inconsistencies: {errors}"
+E       AssertionError: Repo has claim inconsistencies: ["IMPLEMENTATION_REPORT.md states Version: 0.3.0 but pyproject.toml version is '0.3.1'", "CHANGELOG.md's latest release entry is [0.3.0] but pyproject.toml version is '0.3.1'", "project_status.json records package_version='0.3.0' but pyproject.toml says '0.3.1' — rerun scripts/generate_project_status.py"]
+E       assert ["IMPLEMENTAT...ct_status.py'] == []
+E         
+E         Left contains 3 more items, first extra item: "IMPLEMENTATION_REPORT.md states Version: 0.3.0 but pyproject.toml version is '0.3.1'"
+E         Use -v to get more diff
+
+tests/textlayout_suite/test_project_claims.py:229: AssertionError
+_ TestStatusManifestSchema.test_every_showcase_has_exactly_one_headline_class __
+
+self = <textlayout_suite.test_project_status.TestStatusManifestSchema object at 0x12fa37d40>
+status_module = <module 'generate_project_status_v2' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/generate_project_status.py'>
+
+    def test_every_showcase_has_exactly_one_headline_class(self, status_module) -> None:
+        status = status_module.build_status()["showcase"]
+        classified = (
+            status["solver_backed"]
+            + status["skipped_solver_absent"]
+            + status["analytical_only"]
+            + status["invalid_or_failed"]
+            + status["unclassified"]
+        )
+        assert len(classified) == status["total_examples"]
+        assert len(classified) == len(set(classified))
+        assert status["unclassified"] == []
+>       assert "05_quarter_wave_resonator_6ghz" in status["invalid_or_failed"]
+E       AssertionError: assert '05_quarter_wave_resonator_6ghz' in []
+
+tests/textlayout_suite/test_project_status.py:151: AssertionError
+_______ TestStatusManifestFreshness.test_current_repo_manifest_is_fresh ________
+
+self = <textlayout_suite.test_project_status.TestStatusManifestFreshness object at 0x12fa5de80>
+claims_module = <module 'check_project_claims_v2' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/scripts/check_project_claims.py'>
+
+    def test_current_repo_manifest_is_fresh(self, claims_module) -> None:
+        """The committed workflow (generate then check) must hold for this repo."""
+        errors: list[str] = []
+        claims_module.check_status_manifest_freshness(errors)
+>       assert errors == []
+E       assert ['project_sta...ct_status.py'] == []
+E         
+E         Left contains one more item: "project_status.json records package_version='0.3.0' but pyproject.toml says '0.3.1' — rerun scripts/generate_project_status.py"
+E         Use -v to get more diff
+
+tests/textlayout_suite/test_project_status.py:293: AssertionError
+________ test_showcase_row_without_fabrication_status_fails_validation _________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-104/test_showcase_row_without_fabr0')
+
+    def test_showcase_row_without_fabrication_status_fails_validation(tmp_path: Path) -> None:
+        # the test-chip row's generated cell, with its fabrication status stripped
+>       fake = _doctored(
+            tmp_path,
+            "for scope `full_tile`. **NOT_FABRICATION_READY** |",
+            "for scope `full_tile`. |",
+        )
+
+tests/textlayout_suite/test_readme_claims.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-104/test_showcase_row_without_fabr0')
+old = 'for scope `full_tile`. **NOT_FABRICATION_READY** |'
+new = 'for scope `full_tile`. |'
+
+    def _doctored(tmp_path: Path, old: str, new: str) -> Path:
+        text = README.read_text(encoding="utf-8")
+>       assert old in text, f"fixture assumption broken: {old!r} not in README"
+E       AssertionError: fixture assumption broken: 'for scope `full_tile`. **NOT_FABRICATION_READY** |' not in README
+E       assert 'for scope `full_tile`. **NOT_FABRICATION_READY** |' in '# Text-to-Layout\n\nText-to-Layout is a local-first CLI that turns a design prompt into typed\nparameters, inspectabl...ke & Braginski (2004)\nand Tinkham (2004) for SQUID/Josephson physics.\n\n## License\n\nMIT; see [LICENSE](LICENSE).\n'
+
+tests/textlayout_suite/test_readme_claims.py:39: AssertionError
+_______________ test_full_tile_solver_overclaim_fails_validation _______________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-104/test_full_tile_solver_overclai0')
+
+    def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
+>       fake = _doctored(
+            tmp_path,
+            "**ANALYTICAL_ONLY** for scope `full_tile`",
+            "**PHYSICS_VERIFIED** FOR THE FULL TILE",
+        )
+
+tests/textlayout_suite/test_readme_claims.py:121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-104/test_full_tile_solver_overclai0')
+old = '**ANALYTICAL_ONLY** for scope `full_tile`'
+new = '**PHYSICS_VERIFIED** FOR THE FULL TILE'
+
+    def _doctored(tmp_path: Path, old: str, new: str) -> Path:
+        text = README.read_text(encoding="utf-8")
+>       assert old in text, f"fixture assumption broken: {old!r} not in README"
+E       AssertionError: fixture assumption broken: '**ANALYTICAL_ONLY** for scope `full_tile`' not in README
+E       assert '**ANALYTICAL_ONLY** for scope `full_tile`' in '# Text-to-Layout\n\nText-to-Layout is a local-first CLI that turns a design prompt into typed\nparameters, inspectabl...ke & Braginski (2004)\nand Tinkham (2004) for SQUID/Josephson physics.\n\n## License\n\nMIT; see [LICENSE](LICENSE).\n'
+
+tests/textlayout_suite/test_readme_claims.py:39: AssertionError
+______________ test_collapsed_showcase_table_row_fails_validation ______________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-104/test_collapsed_showcase_table_0')
+
+    def test_collapsed_showcase_table_row_fails_validation(tmp_path: Path) -> None:
+        text = README.read_text(encoding="utf-8")
+        section = re.search(r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", text, re.DOTALL)
+>       assert section is not None
+E       assert None is not None
+
+tests/textlayout_suite/test_readme_claims.py:206: AssertionError
+=============================== warnings summary ===============================
+tests/test_ai_copilot.py:3
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.ai import DesignIntent, DesignIntentParser
+
+src/textlayout/_legacy/device_optimizer.py:24
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+    class OptimizationReport(BaseModel):
+
+src/textlayout/_legacy/extracted_device.py:39
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+    class ExtractedDevice(BaseModel):
+
+src/textlayout/_legacy/microwave_validator.py:12
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+    class MicrowaveReport(BaseModel):
+
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+  DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+   /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/pydantic/main.py: 250
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_evidence_consistency.py::TestRealRepositoryIsTraversedNotHardCoded::test_every_showcase_directory_is_audited
+FAILED tests/textlayout_suite/test_extended_generators.py::test_cpw_has_explicit_signal_and_ground_reference_ports
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestBundleIsInstallableMetadata::test_the_plugin_depends_on_the_released_distribution
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestBundleIsInstallableMetadata::test_manifest_version_tracks_the_project_version[.claude-plugin/plugin.json]
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestBundleIsInstallableMetadata::test_manifest_version_tracks_the_project_version[.codex-plugin/plugin.json]
+FAILED tests/textlayout_suite/test_plugin_thin_bundle.py::TestBundleIsInstallableMetadata::test_version_file_tracks_the_project_version
+FAILED tests/textlayout_suite/test_project_claims.py::TestFullCheckAgainstRealRepo::test_current_repo_passes_all_checks
+FAILED tests/textlayout_suite/test_project_status.py::TestStatusManifestSchema::test_every_showcase_has_exactly_one_headline_class
+FAILED tests/textlayout_suite/test_project_status.py::TestStatusManifestFreshness::test_current_repo_manifest_is_fresh
+FAILED tests/textlayout_suite/test_readme_claims.py::test_showcase_row_without_fabrication_status_fails_validation
+FAILED tests/textlayout_suite/test_readme_claims.py::test_full_tile_solver_overclaim_fails_validation
+FAILED tests/textlayout_suite/test_readme_claims.py::test_collapsed_showcase_table_row_fails_validation
+12 failed, 2008 passed, 7 skipped, 518005 warnings in 43.42s

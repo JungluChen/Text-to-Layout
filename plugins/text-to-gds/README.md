@@ -5,11 +5,11 @@ Plugin manifest and agent skills for [Text-to-Layout][repo]. **This directory
 contains no implementation.**
 
 The MCP server is the `text-to-gds` console script from the `text-to-gds`
-distribution (version `0.3.0`), which `.mcp.json` launches. Install the
+distribution (version `0.3.1`), which `.mcp.json` launches. Install the
 package, then point your plugin host at this directory:
 
 ```bash
-pip install text-to-gds==0.3.0
+pip install text-to-gds==0.3.1
 ```
 
 | Path | Purpose |

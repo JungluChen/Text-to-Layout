@@ -1,0 +1,41 @@
+usage: textlayout [-h] [--version]
+                  {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}
+                  ...
+
+Text-to-Layout CLI
+
+positional arguments:
+  {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement}
+    design              Choose and build a device from a typed electrical
+                        goal.
+    prompt              Natural-language request -> intent, layout,
+                        verification, simulation, report.
+    generate            Generate verified artifacts from a DSL file.
+    verify              Verify a DSL file (no export).
+    epr                 Loss-participation (EPR) and coherence estimate for a
+                        DSL file. EPR_ANALYTICAL_ONLY by default; never a
+                        field solution.
+    evidence            Inspect and validate evidence ledgers (the source of
+                        truth for every physics claim).
+    doctor              Check the environment (imports, solvers, write perms).
+    jobs                Start, inspect, collect, cancel, and resume persistent
+                        local solver jobs.
+    serve               Run the FastAPI plugin server.
+    simulate            Run supported external solver benchmarks.
+    yield               JJ critical-current variability / fabrication-yield
+                        Monte Carlo. Drawing one SQUID loop proves geometry,
+                        not manufacturability.
+    chip                Multi-qubit chip-level frequency-collision analysis. A
+                        single-device closed loop cannot answer whether a
+                        processor works.
+    pdk                 Foundry PDK abstraction: list registered technologies
+                        or inspect a PDK's full provenance and process
+                        parameters.
+    measurement         Simulation-vs-measurement correlation: the path from
+                        illustrative to fab-calibrated numbers.
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+
+--- STDERR ---

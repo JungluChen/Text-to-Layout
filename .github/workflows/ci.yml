@@ -32,6 +32,20 @@ jobs:
       - run: uv run python scripts/generate_project_status.py --check
       - run: uv run python scripts/generate_integration_checklist.py --check
       - run: uv build
+      - name: Real optional numerical libraries
+        if: matrix.python == '3.12'
+        run: |
+          uv sync --frozen --dev --extra quantum --extra rf
+          uv run --no-sync pytest tests/textlayout_suite/test_scqubits_product.py tests/textlayout_suite/test_cpw_model_selection.py -q
+      - name: Verify installed wheel outside checkout
+        if: matrix.python == '3.12'
+        run: uv run --no-sync python scripts/verify_installed_wheel.py --wheel dist/text_to_gds-0.3.1-py3-none-any.whl --out out/installed-wheel
+      - name: Retain installed wheel transcripts
+        if: always() && matrix.python == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: installed-wheel-${{ matrix.os }}
+          path: out/installed-wheel
       - name: API smoke
         run: uv run pytest tests/textlayout_suite/test_api.py -q
       - name: Deterministic IDC prompt smoke

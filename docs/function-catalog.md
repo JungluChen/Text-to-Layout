@@ -207,3 +207,14 @@ timeout and re-raises `TimeoutExpired`. JosephsonCircuits failed results expose
 `solver_stdout` and `solver_stderr` artifact paths; no successful return code
 or numerical validation is inferred. This is an internal Python contract, not
 a new CLI or MCP function. See [recovery instructions](guidebook/README.md#recover-evidence-after-a-solver-timeout).
+
+## v0.3.1 public-reference CLI addition
+
+`textlayout verify --reference --out out/reference` downloads hash-pinned
+public source assets into a local cache and executes mask roundtrips.
+Optional `--cache PATH` selects the cache; `--offline` requires cached assets.
+Outputs are results.json and retained per-variant geometry evidence. Exit zero
+means the mask check passed, not electrical or fabrication validation.
+See [the verified workflow](guidebook/public-reference.md). This command does
+not introduce a callable MCP method. AI prompt example: “Run the public mask
+reference check and explain which electrical comparisons remain missing.”
