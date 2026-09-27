@@ -3,7 +3,11 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from textlayout.solvers.palace.benchmark_v017 import _classification_diagnostics
+from textlayout.solvers.palace.benchmark_v017 import (
+    _classification_diagnostics,
+    _classify_all_solved_states,
+    _ParsedIteration,
+)
 from textlayout.solvers.palace.mode_classification import (
     classify_mode,
     ModeClass,
@@ -123,6 +127,57 @@ def test_rejected_mode_retains_physical_profile_diagnostics() -> None:
     assert details["sanity"]["quarter_wave_profile_correlation"] == (
         sanity.quarter_wave_profile_correlation
     )
+
+
+def test_rejected_seed_retains_later_solved_state_profiles(tmp_path) -> None:
+    rejected_sanity = _sanity(reverse=True)
+    accepted_sanity = _sanity()
+    rejected = classify_mode(
+        mode_index=1,
+        frequency_ghz=4.7,
+        search_window_ghz=(1.8, 9.0),
+        sanity=rejected_sanity,
+        resonator_localization=0.9,
+        spatial=_spatial(),
+    )
+    accepted = classify_mode(
+        mode_index=1,
+        frequency_ghz=5.1,
+        search_window_ghz=(1.8, 9.0),
+        sanity=accepted_sanity,
+        resonator_localization=0.9,
+        spatial=_spatial(),
+    )
+    states = [
+        _ParsedIteration(
+            tag=f"iteration_{index:02d}",
+            palace_iteration=index,
+            directory=tmp_path,
+            modes=[],
+            fields=[],
+            global_error_percent=0.0,
+            element_count=100 + index,
+            degrees_of_freedom=100 + index,
+            cumulative_runtime_seconds=None,
+            output_file_hashes={},
+        )
+        for index in range(2)
+    ]
+    calls: list[str] = []
+
+    def classify(state: _ParsedIteration):
+        calls.append(state.tag)
+        if state.tag == "iteration_00":
+            return [rejected], {1: rejected_sanity}
+        return [accepted], {1: accepted_sanity}
+
+    diagnostics, classes, selection = _classify_all_solved_states(states, classify)
+    assert calls == ["iteration_00", "iteration_01"]
+    assert set(diagnostics) == {"iteration_00", "iteration_01"}
+    assert diagnostics["iteration_01"][1]["sanity"]["passed"] is True
+    assert classes["iteration_00"][1] != classes["iteration_01"][1]
+    assert selection.status == "TARGET_MODE_NOT_FOUND"
+    assert selection.target_mode is None
 
 
 def test_supported_non_target_classes_are_explainable() -> None:

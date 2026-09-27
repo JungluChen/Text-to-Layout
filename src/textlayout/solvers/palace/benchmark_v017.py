@@ -32,7 +32,7 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import Event
-from typing import Any
+from typing import Any, Callable
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -99,7 +99,11 @@ from textlayout.solvers.palace.models import (
     MaterialOverlapMap,
     PalaceBoundedAMRPolicy,
 )
-from textlayout.solvers.palace.mode_classification import ModeSignature, select_target_mode
+from textlayout.solvers.palace.mode_classification import (
+    ModeSignature,
+    select_target_mode,
+    TargetModeSelection,
+)
 from textlayout.solvers.palace.mode_sanity import QuarterWaveSanityResult
 from textlayout.solvers.palace.overlap import (
     build_material_overlap_map,
@@ -1460,6 +1464,34 @@ def _classification_diagnostics(
     }
 
 
+def _classify_all_solved_states(
+    iterations: list[_ParsedIteration],
+    classifier: Callable[
+        [_ParsedIteration], tuple[list[ModeSignature], dict[int, QuarterWaveSanityResult]]
+    ],
+) -> tuple[
+    dict[str, dict[int, dict[str, Any]]],
+    dict[str, dict[int, str]],
+    TargetModeSelection,
+]:
+    """Retain every solved state's physical diagnostics before judging the seed."""
+    if not iterations:
+        raise PalaceOutputError("mode classification requires at least one solved state")
+    diagnostics: dict[str, dict[int, dict[str, Any]]] = {}
+    classes: dict[str, dict[int, str]] = {}
+    seed_signatures: list[ModeSignature] | None = None
+    for iteration in iterations:
+        signatures, sanity_by_mode = classifier(iteration)
+        diagnostics[iteration.tag] = _classification_diagnostics(signatures, sanity_by_mode)
+        classes[iteration.tag] = {
+            signature.mode_index: str(signature.mode_class) for signature in signatures
+        }
+        if seed_signatures is None:
+            seed_signatures = signatures
+    assert seed_signatures is not None
+    return diagnostics, classes, select_target_mode(seed_signatures)
+
+
 def run_quarter_wave_benchmark_v017(
     output_dir: str | Path,
     *,
@@ -1975,32 +2007,27 @@ def run_quarter_wave_benchmark_v017(
                 max(target_frequency * 0.3, 0.001),
                 max(maximum_candidate_frequency * 1.1, target_frequency * 1.5),
             )
-            for iteration in parsed_iterations:
-                signatures, sanity_by_mode = classify_retained_modes(
+            (
+                mode_diagnostics_by_iteration,
+                classifications_by_iteration,
+                selection,
+            ) = _classify_all_solved_states(
+                parsed_iterations,
+                lambda iteration: classify_retained_modes(
                     iteration.modes,
                     iteration.fields,
                     model=model,
                     material_map=material_map,
                     params=params,
                     search_window_ghz=classifier_window,
+                ),
+            )
+            classification_selection = selection.model_dump(mode="json")
+            if selection.status != "TARGET_MODE_IDENTIFIED" or selection.target_mode is None:
+                raise PalaceOutputError(
+                    f"physical target classification failed: {selection.status}"
                 )
-                mode_diagnostics_by_iteration[iteration.tag] = _classification_diagnostics(
-                    signatures, sanity_by_mode
-                )
-                classifications_by_iteration[iteration.tag] = {
-                    signature.mode_index: str(signature.mode_class) for signature in signatures
-                }
-                if classified_seed_mode is None:
-                    selection = select_target_mode(signatures)
-                    classification_selection = selection.model_dump(mode="json")
-                    if (
-                        selection.status != "TARGET_MODE_IDENTIFIED"
-                        or selection.target_mode is None
-                    ):
-                        raise PalaceOutputError(
-                            f"physical target classification failed: {selection.status}"
-                        )
-                    classified_seed_mode = selection.target_mode
+            classified_seed_mode = selection.target_mode
             if reuse_mode_tracking:
                 payload = json.loads(mode_tracking_path.read_text(encoding="utf-8"))
                 tracked = [int(value) for value in payload["tracked_mode_indices"]]
