@@ -133,6 +133,23 @@ def _append_epr_section_to_report(report_path: Path, epr_markdown: str) -> None:
 
 
 def _cmd_verify(args: argparse.Namespace) -> int:
+    if args.reference:
+        if args.spec or args.include_epr:
+            raise ValueError("--reference cannot be combined with a DSL spec or --include-epr")
+        from textlayout.verification.squadds_reference import validate
+
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        try:
+            payload = validate(Path(args.cache), out, offline=args.offline)
+        except (OSError, ValueError, RuntimeError, KeyError, StopIteration) as exc:
+            payload = {"mask_geometry_passed": False, "error": str(exc),
+                       "electrical_reproduction_status": "NOT_EVALUATED"}
+        (out / "results.json").write_text(json.dumps(payload, indent=2) + "\n")
+        print(json.dumps(payload, indent=2))
+        return 0 if payload["mask_geometry_passed"] else 2
+    if not args.spec:
+        raise ValueError("verify requires a DSL spec or --reference")
     workflow = build_default_workflow()
     spec = _load_spec(args.spec)
     report = workflow.verify_only(spec)
@@ -932,7 +949,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_gen.set_defaults(func=_cmd_generate)
 
     p_ver = sub.add_parser("verify", help="Verify a DSL file (no export).")
-    p_ver.add_argument("spec", help="Path to a Layout DSL JSON file.")
+    p_ver.add_argument("spec", nargs="?", help="Path to a Layout DSL JSON file.")
+    p_ver.add_argument("--reference", action="store_true", help="Check pinned SQuADDS mask geometry; electrical agreement is not inferred.")
+    p_ver.add_argument("--cache", default=str(Path.home() / ".cache" / "textlayout" / "squadds"))
+    p_ver.add_argument("--out", default="out/squadds_reference")
+    p_ver.add_argument("--offline", action="store_true", help="Require hash-verified cached reference assets.")
     p_ver.add_argument(
         "--include-epr",
         action="store_true",

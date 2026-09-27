@@ -47,6 +47,8 @@ SANCTIONED_PROMOTIONS = {
     (EvidenceStatus.SIMULATION_INPUT_PREPARED, EvidenceStatus.SIMULATION_EXECUTED),
     (EvidenceStatus.SIMULATION_EXECUTED, EvidenceStatus.PHYSICS_VERIFIED),
     (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.MEASUREMENT_CORRELATED),
+    (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED),
+    (EvidenceStatus.REFERENCE_AGREED, EvidenceStatus.MEASUREMENT_CORRELATED),
 }
 
 MEASUREMENT_KWARGS = {
@@ -209,7 +211,7 @@ class TestIllegalPromotionsNamedExplicitly:
 
     @pytest.mark.parametrize(
         "old",
-        [s for s in ALL_STATUSES if s is not EvidenceStatus.PHYSICS_VERIFIED],
+        [s for s in ALL_STATUSES if s not in (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED)],
     )
     def test_only_a_verified_claim_may_be_measurement_correlated(self, old: EvidenceStatus) -> None:
         """Agreement with a fabricated chip cannot rescue an unconverged model."""

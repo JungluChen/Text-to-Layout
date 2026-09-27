@@ -41,6 +41,7 @@ the status logic per module.
 from __future__ import annotations
 
 import enum
+import hashlib
 import math
 from datetime import datetime, timezone
 from pathlib import Path
@@ -55,6 +56,7 @@ class EvidenceStatus(str, enum.Enum):
     SIMULATION_INPUT_PREPARED = "SIMULATION_INPUT_PREPARED"
     SIMULATION_EXECUTED = "SIMULATION_EXECUTED"
     PHYSICS_VERIFIED = "PHYSICS_VERIFIED"
+    REFERENCE_AGREED = "REFERENCE_AGREED"
     #: A physics-verified quantity that also agrees with a *measured* value from
     #: a fabricated device, under a named calibration. The only status backed by
     #: reality rather than by a model.
@@ -80,13 +82,14 @@ SOLVER_BACKED_STATUSES = frozenset(
     {
         EvidenceStatus.SIMULATION_EXECUTED,
         EvidenceStatus.PHYSICS_VERIFIED,
+        EvidenceStatus.REFERENCE_AGREED,
         EvidenceStatus.MEASUREMENT_CORRELATED,
     }
 )
 
 #: Statuses asserting the value agreed with its target inside tolerance.
 VERIFIED_STATUSES = frozenset(
-    {EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.MEASUREMENT_CORRELATED}
+    {EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED, EvidenceStatus.MEASUREMENT_CORRELATED}
 )
 
 _SOLVER_OUTPUT_STATUSES = SOLVER_BACKED_STATUSES
@@ -132,7 +135,8 @@ class ConfidenceClass(enum.IntEnum):
     #: A solver value agreed with its design target inside tolerance.
     VERIFIED = 4
     #: A verified value that also agreed with a measurement of a real device.
-    MEASURED = 5
+    REFERENCE = 5
+    MEASURED = 6
 
 
 _CONFIDENCE: dict[EvidenceStatus, ConfidenceClass] = {
@@ -147,6 +151,7 @@ _CONFIDENCE: dict[EvidenceStatus, ConfidenceClass] = {
     EvidenceStatus.SIMULATION_INPUT_PREPARED: ConfidenceClass.PREPARED,
     EvidenceStatus.SIMULATION_EXECUTED: ConfidenceClass.SIMULATED,
     EvidenceStatus.PHYSICS_VERIFIED: ConfidenceClass.VERIFIED,
+    EvidenceStatus.REFERENCE_AGREED: ConfidenceClass.REFERENCE,
     EvidenceStatus.MEASUREMENT_CORRELATED: ConfidenceClass.MEASURED,
 }
 
@@ -180,6 +185,8 @@ _PROMOTIONS: frozenset[tuple[EvidenceStatus, EvidenceStatus]] = frozenset(
         # never converged against its target cannot be promoted by pointing at
         # a fabricated chip that happens to agree with it.
         (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.MEASUREMENT_CORRELATED),
+        (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED),
+        (EvidenceStatus.REFERENCE_AGREED, EvidenceStatus.MEASUREMENT_CORRELATED),
     }
 )
 
@@ -220,6 +227,61 @@ def validate_transition(old: EvidenceStatus, new: EvidenceStatus) -> None:
     )
 
 
+class PublicReferenceComparison(BaseModel):
+    """Required provenance for reference agreement, never measurement calibration.
+
+    Declaration files and execution outputs must be retained unchanged. The
+    producer is responsible for recording library execution and source selection;
+    this contract verifies hashes and computes agreement rather than trusting a
+    caller-supplied pass flag. A tolerance declaration is an input, not a fit.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
+    source_url: str = Field(pattern=r"^https://", min_length=10)
+    source_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    source_file: str
+    source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    source_selection: str = Field(min_length=1)
+    published_value: float
+    unit: str = Field(min_length=1)
+    library: str = Field(min_length=1)
+    library_version: str = Field(min_length=1)
+    execution_output: str
+    execution_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    tolerance_percent: float = Field(gt=0)
+    tolerance_justification: str = Field(min_length=1)
+    tolerance_source: str
+    tolerance_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+    @model_validator(mode="after")
+    def check_provenance(self) -> PublicReferenceComparison:
+        if self.published_value == 0:
+            raise EvidenceError("reference relative-error comparison requires a nonzero published value")
+        for name, digest in ((self.source_file, self.source_sha256),
+                             (self.execution_output, self.execution_sha256),
+                             (self.tolerance_source, self.tolerance_source_sha256)):
+            path = Path(name)
+            if not path.is_file() or not path.stat().st_size:
+                raise EvidenceError(f"missing reference provenance file: {name}")
+            if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                raise EvidenceError(f"reference provenance hash mismatch: {name}")
+        # The numerical tolerance and rationale must occur in the retained source
+        # declaration, not merely in the result written after the solve.
+        import json
+        declaration = json.loads(Path(self.tolerance_source).read_text())
+        if (declaration.get("tolerance_percent") != self.tolerance_percent or
+                declaration.get("justification") != self.tolerance_justification):
+            raise EvidenceError("reference tolerance disagrees with its source declaration")
+        return self
+
+    def require_agreement(self, value: float | None, unit: str | None) -> None:
+        if value is None or not math.isfinite(value) or unit != self.unit:
+            raise EvidenceError("reference comparison requires a finite library value in matching units")
+        error = abs(value - self.published_value) / abs(self.published_value) * 100
+        if error > self.tolerance_percent:
+            raise EvidenceError(f"reference mismatch: {error}% exceeds {self.tolerance_percent}%")
+
+
 class QuantityEvidence(BaseModel):
     """Evidence for one extracted quantity versus its design target.
 
@@ -238,6 +300,7 @@ class QuantityEvidence(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True, use_enum_values=False)
 
+    public_reference: PublicReferenceComparison | None = None
     quantity: str = Field(description="Physical quantity, e.g. 'capacitance'.")
     target_value: float | None = Field(default=None, description="Design target value.")
     target_unit: str | None = Field(default=None, description="Unit of the target value.")
@@ -325,6 +388,12 @@ class QuantityEvidence(BaseModel):
                     f"{status.value} requires error <= tolerance "
                     f"({self.error_percent:.3f}% > {self.tolerance_percent:.3f}%)"
                 )
+        if status is EvidenceStatus.REFERENCE_AGREED:
+            if self.public_reference is None:
+                raise EvidenceError("REFERENCE_AGREED requires pinned public reference and library evidence")
+            self.public_reference.require_agreement(self.extracted_value, self.extracted_unit)
+            if self.public_reference.execution_output not in self.output_files:
+                raise EvidenceError("reference execution output must be part of solver evidence")
         if status is EvidenceStatus.MEASUREMENT_CORRELATED:
             if self.measured_value is None:
                 raise EvidenceError(
@@ -378,6 +447,8 @@ class QuantityEvidence(BaseModel):
                 f"{self.quantity}: NOT_FABRICATION_READY — the design must not be taped out "
                 f"({self.blocking_reason}); any physics claim here is advisory only"
             )
+        if self.status is EvidenceStatus.REFERENCE_AGREED:
+            return f"{self.quantity}: REFERENCE_AGREED — executed value agrees with pinned public reference; not measurement calibration"
         if self.status is EvidenceStatus.PHYSICS_VERIFIED:
             return (
                 f"{self.quantity}: PHYSICS_VERIFIED — {self.solver} extracted "
