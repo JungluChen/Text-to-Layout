@@ -621,9 +621,9 @@ _ROW_START_RE = re.compile(r"\|\s*[1-6]\s*\|")
 
 
 def _check_showcase_table_formatting(readme_text: str, errors: list[str]) -> None:
-    """Fail if the six-example table is collapsed into unreadable single lines."""
+    """Fail if the four-example table is collapsed into unreadable single lines."""
     section = re.search(
-        r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
+        r"## Four MVP examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
     )
     if section is None:
         return
@@ -633,24 +633,24 @@ def _check_showcase_table_formatting(readme_text: str, errors: list[str]) -> Non
         if len(_ROW_START_RE.findall(line)) > 1:
             _fail(
                 errors,
-                "six-example table has more than one row collapsed onto a single "
+                "four-example table has more than one row collapsed onto a single "
                 f"Markdown line: {line.strip()[:120]}...",
             )
         if len(line) > 4000:
             _fail(
                 errors,
-                "six-example table row exceeds a readable line length "
+                "four-example table row exceeds a readable line length "
                 f"({len(line)} chars); rows must not be collapsed",
             )
 
 
 def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
-    """Validate the six-example showcase table against committed artifacts."""
+    """Validate the four-example showcase table against committed artifacts."""
     section = re.search(
-        r"## Six research-grade examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
+        r"## Four MVP examples\s*\n(.*?)(?:\n## |\Z)", readme_text, re.DOTALL
     )
     if section is None:
-        _fail(errors, "README is missing the '## Six research-grade examples' table")
+        _fail(errors, "README is missing the '## Four MVP examples' table")
         return
     expected_header = "| # | Target | Prompt | Output | Step Results | Evidence Status |"
     if expected_header not in section.group(1):
@@ -660,8 +660,10 @@ def _check_showcase(readme_text: str, root: Path, errors: list[str]) -> None:
         for line in section.group(1).splitlines()
         if line.strip().startswith("|") and "examples/showcase/" in line
     ]
-    if len(rows) < 6:
-        _fail(errors, f"showcase table lists {len(rows)} examples; six are required")
+    promoted = {"01_idc_0p6pf", "02_cpw_50ohm", "03_idc_cpw_test_structure", "04_spiral_inductor_3nh"}
+    row_ids = {name for line in rows for name in re.findall(r"examples/showcase/([\w-]+)", line)}
+    if len(rows) != 4 or row_ids != promoted:
+        _fail(errors, f"showcase table must promote exactly the four MVP examples; found {sorted(row_ids)}")
     for line in rows:
         folders = sorted(set(re.findall(r"examples/showcase/([\w-]+)", line)))
         if not folders:

@@ -51,9 +51,9 @@ def _index() -> dict:
     return json.loads((SHOWCASE / "index.json").read_text(encoding="utf-8"))
 
 
-def test_index_lists_all_six_examples() -> None:
+def test_index_promotes_only_four_mvp_examples() -> None:
     entries = {entry["id"] for entry in _index()["examples"]}
-    assert entries == set(EXPECTED_IDS)
+    assert entries == set(EXPECTED_IDS[:4])
 
 
 @pytest.mark.parametrize("example_id", EXPECTED_IDS)
@@ -120,11 +120,10 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
     # The resonator's generated cell now reports SIMULATION_INVALID. Forge a
     # PHYSICS_VERIFIED claim for it: canonical evidence extracted nothing, so
     # claim validation must reject the doctored README.
-    marker = "**SIMULATION_INVALID** — openEMS+scikit-rf ran to completion"
-    start = real.index(marker)
-    end = real.index("**NOT_FABRICATION_READY**", start)
-    doctored = real[:start] + "**PHYSICS_VERIFIED** — totally real, trust me. " + real[end:]
-    assert doctored != real, "expected to find the quarter-wave resonator invalid-status cell"
+    # The archived invalid case must still be rejected if reintroduced as a
+    # fabricated public success. Do not remove its scientific validation tests.
+    row = "| 5 | forged | prompt | [output](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | report | **PHYSICS_VERIFIED** **NOT_FABRICATION_READY** |\n"
+    doctored = real.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->")
     fake_readme = tmp_path / "README.md"
     fake_readme.write_text(doctored, encoding="utf-8")
     errors = module.validate(fake_readme, root=ROOT)
@@ -181,7 +180,7 @@ def test_idc_cpw_region_map_does_not_promote_whole_structure() -> None:
 
 def test_root_readme_showcase_rows_link_to_committed_folders() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for example_id in EXPECTED_IDS:
+    for example_id in EXPECTED_IDS[:4]:
         assert f"examples/showcase/{example_id}" in readme, (
             f"README must link showcase example {example_id}"
         )

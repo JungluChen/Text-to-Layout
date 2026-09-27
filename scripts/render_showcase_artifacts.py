@@ -344,10 +344,15 @@ def main(argv: list[str] | None = None) -> int:
     index_path = ROOT / "examples" / "showcase" / "index.json"
     index = json.loads(index_path.read_text(encoding="utf-8"))
     by_id = {r.design_id: r for r in records}
+    promoted_ids = {"01_idc_0p6pf", "02_cpw_50ohm", "03_idc_cpw_test_structure", "04_spiral_inductor_3nh"}
+    index["examples"] = [entry for entry in index["examples"] if entry["id"] in promoted_ids]
     for entry in index["examples"]:
         if entry["id"] in by_id:
             _index_entry(entry, by_id[entry["id"]])
     emit(index_path, json.dumps(index, indent=2) + "\n")
+
+    # Keep all archived artifacts audited above, but promote only the MVP set.
+    records = [record for record in records if record.design_id in promoted_ids]
 
     # top-level README: showcase table + evidence summary
     readme_path = ROOT / "README.md"

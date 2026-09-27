@@ -723,7 +723,7 @@ def main(argv: list[str] | None = None) -> int:
     if not args.only:
         index_path = SHOWCASE_DIR / "index.json"
         index_path.write_text(
-            json.dumps({"schema": "textlayout.showcase-index.v1", "examples": entries}, indent=2)
+            json.dumps({"schema": "textlayout.showcase-index.v1", "examples": [entry for entry in entries if entry["id"] in {example.id for example in EXAMPLES[:4]}]}, indent=2)
             + "\n",
             encoding="utf-8",
         )

@@ -72,42 +72,6 @@
       "scientific_validation_level": "OUTPUT_PARSED",
       "target_tolerance_passed": true,
       "solver_execution_status": "SIMULATION_EXECUTED"
-    },
-    {
-      "id": "05_quarter_wave_resonator_6ghz",
-      "target": "6 GHz quarter-wave CPW resonator layout candidate",
-      "prompt": "Create a 6 GHz quarter-wave resonator on silicon with a weakly coupled input line, open end, shorted end, and port labels.",
-      "artifact_dir": "examples/showcase/05_quarter_wave_resonator_6ghz",
-      "geometry_status": "GEOMETRY_PASS",
-      "klayout_readback_status": "pass",
-      "solver": "openEMS+scikit-rf",
-      "solver_executed": true,
-      "simulation_status": "SIMULATION_INVALID",
-      "evidence_status": "SIMULATION_INVALID",
-      "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "openEMS+scikit-rf ran to completion, but its output failed a physical-sanity check: openems_result.s2p: 401/401 S-parameter samples are non-finite (NaN/Inf) \u2014 the solver produced no usable output (typically zero injected port energy); refusing to extract numbers from it No quantity was extracted. Not fabrication-ready.",
-      "canonical_evidence_id": "b5e514d1281a9d0fd74c2f47cbb42128",
-      "scientific_validation_level": "SIMULATION_INVALID",
-      "target_tolerance_passed": null,
-      "solver_execution_status": "SIMULATION_INVALID"
-    },
-    {
-      "id": "06_research_test_chip",
-      "target": "Multi-device comparison tile (IDC + CPW + spiral + marks + title)",
-      "prompt": "Create a 2 mm by 2 mm research test chip tile containing a 0.6 pF IDC, a 50 ohm CPW line, a spiral inductor, alignment marks, port labels, and a title text label.",
-      "artifact_dir": "examples/showcase/06_research_test_chip",
-      "geometry_status": "GEOMETRY_PASS",
-      "klayout_readback_status": "pass",
-      "solver": "none",
-      "solver_executed": false,
-      "simulation_status": "ANALYTICAL_ONLY",
-      "evidence_status": "ANALYTICAL_ONLY",
-      "fabrication_status": "NOT_FABRICATION_READY",
-      "limitation": "No full-tile solver ran. The tile map records exact-parameter sub-block execution or preparation without promoting it to tile verification. Not fabrication-ready.",
-      "canonical_evidence_id": "209c3057e9809607dcfe30a0dad5b742",
-      "scientific_validation_level": "ANALYTICAL_ONLY",
-      "target_tolerance_passed": null,
-      "solver_execution_status": "ANALYTICAL_ONLY"
     }
   ]
 }
