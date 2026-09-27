@@ -320,3 +320,19 @@ Do not label partial output as a successful simulation.”
 
 This describes log retention, not a new CLI/MCP command or a validated
 JosephsonCircuits numerical model. Other runners have separate timeout paths.
+
+
+## CPW analytical model selection
+
+Install the optional `rf` extra to use scikit-rf's Ghione/Naldi CPW model in
+the CPW generator. Without scikit-rf, the generator explicitly labels its
+Simons thick-substrate conformal-mapping fallback. Both carry
+`method="analytical"`, `confidence=0.65`, and the model name in geometry
+metadata. The preferred model currently assumes a 500 µm substrate because
+the generic Technology model does not provide substrate height. This is not
+a foundry stack or an executed full-wave EM validation.
+
+Example: `textlayout prompt "Create a 50 ohm CPW feedline on silicon at 6 GHz" --out out/cpw`.
+Inspect the geometry metadata and evidence report before interpreting an
+estimated impedance as a solver result. Optional-library installation can
+change the analytical estimate; retain the model label with each artifact.

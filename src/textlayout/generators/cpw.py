@@ -9,7 +9,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 from textlayout.models import Geometry, Point, Polygon, Port, Technology, rectangle
-from textlayout.research.formulas import cpw_z0
+from textlayout.research.formulas import cpw_skrf_z0, cpw_z0
 from textlayout.ports.generator import Generator
 from textlayout.schemas.dsl.cpw import CPWSpec
 
@@ -52,7 +52,12 @@ class CPWGenerator(Generator):
             Port("GND_R_IN", (x0 + ground_inner + gw / 2.0, y_lo), gw, 270.0, metal),
             Port("GND_R_OUT", (x0 + ground_inner + gw / 2.0, y_hi), gw, 90.0, metal),
         )
-        z0, eps_eff = cpw_z0(w, g, tech.substrate_epsilon_r)
+        estimate = cpw_skrf_z0(w, g, tech.substrate_epsilon_r)
+        model = "scikit-rf Ghione/Naldi CPW (500 um substrate assumption)"
+        if estimate is None:
+            estimate = cpw_z0(w, g, tech.substrate_epsilon_r)
+            model = "Simons thick-substrate conformal mapping (scikit-rf unavailable fallback)"
+        z0, eps_eff = estimate
         return Geometry(
             name="CPW",
             polygons=polygons,
@@ -70,5 +75,8 @@ class CPWGenerator(Generator):
                 "effective_permittivity": round(eps_eff, 4),
                 "analytical_estimate": True,
                 "analytical_quantity": "characteristic impedance",
+                "method": "analytical",
+                "confidence": 0.65,
+                "analytical_model": model,
             },
         )
