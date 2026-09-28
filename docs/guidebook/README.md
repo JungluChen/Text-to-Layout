@@ -362,3 +362,9 @@ independent validation. Without scikit-rf the comparison is absent and the
 fallback is labelled. The report's assumptions describe the models, not
 measured fabrication data. AI prompt: “Explain each CPW estimate's model,
 units and assumptions, and identify the missing independent validation.”
+
+## Public site and app design preview
+
+See [the preview walkthrough](web-preview.md) for Intent, Layout, Runs and
+revision/evidence inspection. This is a browser design reference, not an
+installed macOS application or a hosted solver service.

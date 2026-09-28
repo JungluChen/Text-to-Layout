@@ -1,0 +1,33 @@
+{
+  "source_commit": "2be48cfaf050f03568100b1454b8d927810f4640",
+  "files": {
+    "evidence.md": {
+      "source": "examples/benchmarks/02_cpw_50ohm/evidence.md",
+      "sha256": "ccac2da980b5a8876722bd8ade7245699a3fdbbccf7b02b6b65d714cb3d05fca"
+    },
+    "idc.svg": {
+      "source": "examples/benchmarks/01_idc_0p6pf/output.svg",
+      "sha256": "3002ee0f95b364d21ee04c9530d12c3e9847344a18589f8611152cf4c3817719"
+    },
+    "layout.json": {
+      "source": "examples/benchmarks/02_cpw_50ohm/layout.json",
+      "sha256": "7b70d2c8fdbb7df54a6b68f6e99d3edad04a8888f562d078ab8b4610dd9a408c"
+    },
+    "output.json": {
+      "source": "examples/benchmarks/02_cpw_50ohm/output.json",
+      "sha256": "fbf7e124ad0e5215d53afb1376a9ff09b18c59eef48f436362cfbc702e029191"
+    },
+    "output.svg": {
+      "source": "examples/benchmarks/02_cpw_50ohm/output.svg",
+      "sha256": "a27a3f9a3bf383cdc44fc7e1b47e6f1caf08d3a3818b26b978339fb62ed12cda"
+    },
+    "prompt.md": {
+      "source": "examples/benchmarks/02_cpw_50ohm/prompt.md",
+      "sha256": "bbd1aa5ef312b5f3cbc7fb0de960eed1f6a40dd41d77247a545144c6f8d74204"
+    },
+    "verification.json": {
+      "source": "examples/benchmarks/02_cpw_50ohm/verification.json",
+      "sha256": "4d25a14c3d27ed9db3eb38b4b101a244f11a346886469b0ce491874ff5ba7411"
+    }
+  }
+}

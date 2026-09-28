@@ -1,0 +1,162 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+..............................................................ss...ss... [ 24%]
+.................................................F...................... [ 28%]
+........................................................................ [ 31%]
+........................................................................ [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+........................................................................ [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 53%]
+........................................................................ [ 56%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+........................................................................ [ 74%]
+....................................s..............................s.... [ 78%]
+............F.................................s......................... [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 95%]
+........................................................................ [ 99%]
+..............                                                           [100%]
+=================================== FAILURES ===================================
+__________________ test_optimized_design_workflow_and_live_ui __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x138c8fbc0>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-123/test_optimized_design_workflow0')
+
+    def test_optimized_design_workflow_and_live_ui(monkeypatch, tmp_path):
+        monkeypatch.setattr("text_to_gds.server.ARTIFACT_ROOT", tmp_path)
+        optimized = run_optimized_design_workflow(
+            "Design a 6 GHz LJPA with 700 MHz bandwidth",
+            output_name="optimized.gds",
+            max_iterations=3,
+            epsilon_r=11.45,
+            substrate_thickness_um=500.0,
+            ground_width_um=100.0,
+            package_clearance_um=500.0,
+            pump_frequency_ghz=12.0,
+            pump_power_dbm=-100.0,
+            pump_mode="reflection",
+        )
+        assert optimized["status"] == "optimized_with_local_surrogate"
+        assert optimized["optimization"]["final_parameters"]["cpw_length"] != 210.0
+        assert (tmp_path / "optimized.workbench.html").exists()
+    
+>       httpd = create_workbench_server(host="127.0.0.1", port=0)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_smoke.py:642: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/textlayout/_legacy/ui.py:578: in create_workbench_server
+    return ThreadingHTTPServer((host, port), make_workbench_handler())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py:457: in __init__
+    self.server_bind()
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py:140: in server_bind
+    socketserver.TCPServer.server_bind(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <http.server.ThreadingHTTPServer object at 0x138c8c590>
+
+    def server_bind(self):
+        """Called by constructor to bind the socket.
+    
+        May be overridden.
+    
+        """
+        if self.allow_reuse_address and hasattr(socket, "SO_REUSEADDR"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        # Since Linux 6.12.9, SO_REUSEPORT is not allowed
+        # on other address families than AF_INET/AF_INET6.
+        if (
+            self.allow_reuse_port and hasattr(socket, "SO_REUSEPORT")
+            and self.address_family in (socket.AF_INET, socket.AF_INET6)
+        ):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+>       self.socket.bind(self.server_address)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py:478: PermissionError
+_______________ test_resource_watcher_terminates_memory_consumer _______________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-123/test_resource_watcher_terminat0')
+
+    def test_resource_watcher_terminates_memory_consumer(tmp_path: Path) -> None:
+        process = subprocess.Popen(
+            [
+                sys.executable,
+                "-c",
+                "import time; payload=bytearray(64*1024*1024); time.sleep(30)",
+            ]
+        )
+        watcher = ProcessTreeResourceWatcher(
+            process.pid,
+            max_rss_bytes=16 * 1024**2,
+            event_path=tmp_path / "resource_limit_event.json",
+        )
+>       result = watcher.run_until_exit()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/textlayout_suite/test_palace_resource_limits.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/textlayout/simulation/resource_sampler.py:168: in run_until_exit
+    processes = [root, *root.children(recursive=True)]
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:978: in children
+    ppid_map = _ppid_map()
+               ^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:256: in _ppid_map
+    for pid in pids():
+               ^^^^^^
+.venv/lib/python3.12/site-packages/psutil/__init__.py:1485: in pids
+    ret = sorted(_psplatform.pids())
+                 ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def pids():
+>       ls = cext.pids()
+             ^^^^^^^^^^^
+E       PermissionError: [Errno 1] Operation not permitted (originated from sysctl() malloc 1/3)
+
+.venv/lib/python3.12/site-packages/psutil/_psosx.py:320: PermissionError
+=============================== warnings summary ===============================
+tests/test_ai_copilot.py:3
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.ai import DesignIntent, DesignIntentParser
+
+src/textlayout/_legacy/device_optimizer.py:24
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+    class OptimizationReport(BaseModel):
+
+src/textlayout/_legacy/extracted_device.py:39
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+    class ExtractedDevice(BaseModel):
+
+src/textlayout/_legacy/microwave_validator.py:12
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+    class MicrowaveReport(BaseModel):
+
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+  DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+   /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/pydantic/main.py: 250
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_smoke.py::test_optimized_design_workflow_and_live_ui - Perm...
+FAILED tests/textlayout_suite/test_palace_resource_limits.py::test_resource_watcher_terminates_memory_consumer
+2 failed, 2021 passed, 7 skipped, 518005 warnings in 48.00s

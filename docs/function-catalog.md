@@ -225,3 +225,12 @@ Generated research reports keep `estimated_z0_ohm` and proposed gap/length
 labelled as the built-in Simons/Hilberg model. Optional `scikit_rf_z0_ohm`
 is a separate analytical comparison with explicit 500 um substrate and 1 GHz
 defaults. These are not interchangeable solver results or an accuracy claim.
+
+### Browser design preview
+
+`web/app.html` provides local-in-tab draft editing, original-input restoration,
+geometry/table selection, fit/zoom, evidence drill-down and retained artifact
+links. Inputs are the hashed CPW benchmark snapshot; outputs are presentation
+only, with no file writes or solver calls. No MCP method or native command is
+created. Use the existing `textlayout generate` command for real generation;
+see [preview guide](guidebook/web-preview.md).

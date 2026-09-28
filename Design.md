@@ -219,3 +219,11 @@ When showing the CPW research report, preserve the primary Simons/Hilberg
 estimate and separate scikit-rf comparison labels and assumptions. Geometry
 metadata can use the preferred scikit-rf estimate while parameter proposals
 use the thick-substrate model; show that distinction beside the values.
+
+### 2026-09-28 landing page and interactive design reference
+
+The user authorized starting design and a Vercel landing page while PyPI remains
+pending. `web/` now contains a separate public landing page and labelled static
+workbench preview. See [macOS handoff](docs/design/macos-app.md). It renders real
+benchmark artifacts, preserves their original statuses, and demonstrates stale
+revision handling. It does not implement a native application or hosted solver.

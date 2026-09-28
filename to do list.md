@@ -17,7 +17,9 @@ on macOS, Windows and Linux with verified artifact hashes. See
 pass; electrical agreement remains NOT_EVALUATED, with independent electrical
 inputs/mapping still required. PyPI Trusted Publishing is not configured, as
 confirmed by the owner: no tag or publication until configured and verified.
-After publication, build the macOS-only PySide6 shell specified by the user.
+The owner authorized app design and a Vercel landing page on 2026-09-28 before
+publication. The static design reference is in web/; native delivery remains
+pending. Build the macOS-only PySide6 shell specified by the user.
 Read Design.md in full before UI code. Signing, notarisation, actual installed
 workflow screenshots, signed updates and rollback must be evidenced before
 claiming desktop delivery. Windows/Linux desktop remain pending.

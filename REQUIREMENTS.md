@@ -146,3 +146,11 @@ Reports must identify the thick-substrate primary estimate and proposed
 parameters separately from optional scikit-rf values. State the optional
 model's finite substrate and frequency defaults; do not infer an accuracy
 bound or independent validation from agreement between analytical estimates.
+
+### WEB-01 — public landing and app design preview (2026-09-28)
+
+Deliver a Vercel-hosted static landing page and app design preview now, as
+requested by the owner. Distinguish source-available CLI, pending PyPI release,
+planned native apps and absent hosted solver execution. Deploy only `web/` and
+its public, hashed benchmark snapshots. Do not expose local configuration or
+credentials. This increment does not waive native release acceptance.

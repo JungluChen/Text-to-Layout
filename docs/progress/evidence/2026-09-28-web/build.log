@@ -1,0 +1,13 @@
+Building source distribution...
+WARN Retry attempt #0. Sleeping 1.57555493s before the next attempt
+WARN Retry attempt #1. Sleeping 2.842989416s before the next attempt
+WARN Retry attempt #2. Sleeping 4.751597333s before the next attempt
+error: Failed to build `/Users/ludko/Desktop/text2layout/Text-to-Layout`
+  Caused by: Failed to resolve requirements from `build-system.requires`
+  Caused by: No solution found when resolving: `hatchling>=1.25`
+  Caused by: Request failed after 3 retries in 9.2s
+  Caused by: Failed to fetch: `https://pypi.org/simple/hatchling/`
+  Caused by: error sending request for url (https://pypi.org/simple/hatchling/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: nodename nor servname provided, or not known

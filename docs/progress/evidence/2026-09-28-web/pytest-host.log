@@ -1,0 +1,58 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+..............................................................ss...ss... [ 24%]
+........................................................................ [ 28%]
+........................................................................ [ 31%]
+........................................................................ [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+........................................................................ [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 53%]
+........................................................................ [ 56%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+........................................................................ [ 74%]
+....................................s..............................s.... [ 78%]
+..............................................s......................... [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 95%]
+........................................................................ [ 99%]
+..............                                                           [100%]
+=============================== warnings summary ===============================
+tests/test_ai_copilot.py:3
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/tests/test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+    from text_to_gds.ai import DesignIntent, DesignIntentParser
+
+src/textlayout/_legacy/device_optimizer.py:24
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+    class OptimizationReport(BaseModel):
+
+src/textlayout/_legacy/extracted_device.py:39
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+    class ExtractedDevice(BaseModel):
+
+src/textlayout/_legacy/microwave_validator.py:12
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/_legacy/microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+    class MicrowaveReport(BaseModel):
+
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+  DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+   /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/pydantic/main.py: 250
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2023 passed, 7 skipped, 518005 warnings in 44.87s
