@@ -1,0 +1,1257 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	﻿2026-09-27T17:31:01.7788917Z ##[group]Run uv run python scripts/generate_benchmarks.py
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7789381Z ^[[36;1muv run python scripts/generate_benchmarks.py^[[0m
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7789755Z ^[[36;1mgit diff --exit-code examples/benchmarks/ \^[[0m
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7791118Z ^[[36;1m  || (echo "::error::benchmark artifacts are stale; run scripts/generate_benchmarks.py --force and commit." && exit 1)^[[0m
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7854087Z shell: /usr/bin/bash -e {0}
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7854365Z env:
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7854565Z   UV_PYTHON: 3.12
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7854900Z   VIRTUAL_ENV: /home/runner/work/Text-to-Layout/Text-to-Layout/.venv
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7855348Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:01.7855691Z ##[endgroup]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9350790Z PASS  01_idc_0p6pf
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9351536Z PASS  02_cpw_50ohm
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9352199Z PASS  03_spiral_inductor
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9352876Z PASS  04_quarter_wave_resonator
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9353475Z TODO  05_squid_loop
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9354264Z TODO  06_lc_5mhz_resonator
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:03.9364013Z Generated 4 benchmark(s); skipped 0 up-to-date.
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2242139Z diff --git a/examples/benchmarks/01_idc_0p6pf/output.json b/examples/benchmarks/01_idc_0p6pf/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2243455Z index 501d088..3f3aaeb 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2244148Z --- a/examples/benchmarks/01_idc_0p6pf/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2244978Z +++ b/examples/benchmarks/01_idc_0p6pf/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2245699Z @@ -1118,7 +1118,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2246180Z    },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2246598Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2247547Z      "layout_json_sha256": "53c96cae013b3b74baf38c39337a8ce4fe7dc2692ca1d0595f66c3458c78a107",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2248680Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2249345Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2249972Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2251124Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2251905Z      "source_layout_path": "benchmarks/01_idc_0p6pf/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2253314Z diff --git a/examples/benchmarks/01_idc_0p6pf/output.png b/examples/benchmarks/01_idc_0p6pf/output.png
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2254516Z index d595022..eb68259 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2255718Z Binary files a/examples/benchmarks/01_idc_0p6pf/output.png and b/examples/benchmarks/01_idc_0p6pf/output.png differ
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2257582Z diff --git a/examples/benchmarks/01_idc_0p6pf/report.md b/examples/benchmarks/01_idc_0p6pf/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2258551Z index 1457431..fd603ce 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2259020Z --- a/examples/benchmarks/01_idc_0p6pf/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2259571Z +++ b/examples/benchmarks/01_idc_0p6pf/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2260054Z @@ -50,16 +50,16 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2260568Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2260867Z  ## Artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2261187Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2261615Z -- `gds`: `examples\benchmarks\01_idc_0p6pf\output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2262226Z -- `svg`: `examples\benchmarks\01_idc_0p6pf\output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2262858Z -- `json`: `examples\benchmarks\01_idc_0p6pf\output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2263453Z -- `png`: `examples\benchmarks\01_idc_0p6pf\output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2263873Z -- `layout_dsl`: `examples\benchmarks\01_idc_0p6pf\layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2264334Z -- `verification`: `examples\benchmarks\01_idc_0p6pf\verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2264800Z -- `evidence`: `examples\benchmarks\01_idc_0p6pf\evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2265283Z -- `analytical_estimate`: `examples\benchmarks\01_idc_0p6pf\analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2265801Z -- `simulation_plan`: `examples\benchmarks\01_idc_0p6pf\simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2266346Z -- `report`: `examples\benchmarks\01_idc_0p6pf\report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2266721Z +- `gds`: `examples/benchmarks/01_idc_0p6pf/output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2267065Z +- `svg`: `examples/benchmarks/01_idc_0p6pf/output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2267414Z +- `json`: `examples/benchmarks/01_idc_0p6pf/output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2268674Z +- `png`: `examples/benchmarks/01_idc_0p6pf/output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2269089Z +- `layout_dsl`: `examples/benchmarks/01_idc_0p6pf/layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2269540Z +- `verification`: `examples/benchmarks/01_idc_0p6pf/verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2269988Z +- `evidence`: `examples/benchmarks/01_idc_0p6pf/evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2270774Z +- `analytical_estimate`: `examples/benchmarks/01_idc_0p6pf/analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2271312Z +- `simulation_plan`: `examples/benchmarks/01_idc_0p6pf/simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2271745Z +- `report`: `examples/benchmarks/01_idc_0p6pf/report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2272048Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2272234Z  ## Simulation status
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2272445Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2272895Z diff --git a/examples/benchmarks/01_idc_0p6pf/simulation_plan.md b/examples/benchmarks/01_idc_0p6pf/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2273442Z index 2af2570..7d5d640 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2273754Z --- a/examples/benchmarks/01_idc_0p6pf/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2274127Z +++ b/examples/benchmarks/01_idc_0p6pf/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2274427Z @@ -7,9 +7,9 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2274614Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2274790Z  ## Prepared artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2275005Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2275279Z -- `panel_file`: `examples\benchmarks\01_idc_0p6pf\simulation\idc.qui`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2275721Z -- `list_file`: `examples\benchmarks\01_idc_0p6pf\simulation\idc.lst`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2276208Z -- `manifest`: `examples\benchmarks\01_idc_0p6pf\simulation\simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2276711Z +- `panel_file`: `examples/benchmarks/01_idc_0p6pf/simulation/idc.qui`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2277136Z +- `list_file`: `examples/benchmarks/01_idc_0p6pf/simulation/idc.lst`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2277619Z +- `manifest`: `examples/benchmarks/01_idc_0p6pf/simulation/simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2278010Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2278189Z  ## Limitations
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2278378Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2278819Z diff --git a/examples/benchmarks/01_idc_0p6pf/verification.json b/examples/benchmarks/01_idc_0p6pf/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2279385Z index bca5e97..1b84a8e 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2279680Z --- a/examples/benchmarks/01_idc_0p6pf/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2280051Z +++ b/examples/benchmarks/01_idc_0p6pf/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2280646Z @@ -174,7 +174,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2280913Z    "errors": [],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2281270Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2281924Z      "layout_json_sha256": "53c96cae013b3b74baf38c39337a8ce4fe7dc2692ca1d0595f66c3458c78a107",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2282699Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2283142Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2283567Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2284068Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2284604Z      "source_layout_path": "benchmarks/01_idc_0p6pf/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2285699Z diff --git a/examples/benchmarks/02_cpw_50ohm/analytical_estimate.md b/examples/benchmarks/02_cpw_50ohm/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2286669Z index def43f7..49e1b5f 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2287175Z --- a/examples/benchmarks/02_cpw_50ohm/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2287847Z +++ b/examples/benchmarks/02_cpw_50ohm/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2288387Z @@ -12,9 +12,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2288734Z  - `substrate_eps_r`: `11.9`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2289124Z  - `eps_eff`: `6.45`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2289486Z  - `estimated_z0_ohm`: `50.04`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2289897Z -- `scikit_rf_z0_ohm`: `50.0083`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2290487Z -- `scikit_rf_eps_eff`: `6.449543`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2290996Z -- `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2291875Z +- `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2292691Z  - `target_z0_ohm`: `50.0`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2293471Z  - `proposed_gap_um_for_target`: `5.983`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2294005Z  - `proposed_gap_meets_min_spacing`: `True`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2294850Z diff --git a/examples/benchmarks/02_cpw_50ohm/evidence.md b/examples/benchmarks/02_cpw_50ohm/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2295682Z index 546156b..a3ce4f9 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2296171Z --- a/examples/benchmarks/02_cpw_50ohm/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2296730Z +++ b/examples/benchmarks/02_cpw_50ohm/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2297207Z @@ -8,9 +8,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2297559Z  - `substrate_eps_r` = 11.9
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2297937Z  - `eps_eff` = 6.45
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2298287Z  - `estimated_z0_ohm` = 50.04
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2298703Z -- `scikit_rf_z0_ohm` = 50.0083
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2299092Z -- `scikit_rf_eps_eff` = 6.449543
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2299391Z -- `analytical_backend` = scikit-rf CPW (Ghione/Naldi)
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2299896Z +- `analytical_backend` = built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2300646Z  - `target_z0_ohm` = 50.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2300900Z  - `proposed_gap_um_for_target` = 5.983
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2301195Z  - `proposed_gap_meets_min_spacing` = True
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2301688Z diff --git a/examples/benchmarks/02_cpw_50ohm/output.json b/examples/benchmarks/02_cpw_50ohm/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2302169Z index a384942..ccb4a5f 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2302453Z --- a/examples/benchmarks/02_cpw_50ohm/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2302782Z +++ b/examples/benchmarks/02_cpw_50ohm/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2303060Z @@ -95,11 +95,14 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2303269Z      "estimated_z0_ohm": 50.0412,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2303530Z      "effective_permittivity": 6.45,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2303791Z      "analytical_estimate": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2304078Z -    "analytical_quantity": "characteristic impedance"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2304425Z +    "analytical_quantity": "characteristic impedance",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2304728Z +    "method": "analytical",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2304973Z +    "confidence": 0.65,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2305385Z +    "analytical_model": "Simons thick-substrate conformal mapping (scikit-rf unavailable fallback)"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2305828Z    },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2306004Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2306394Z      "layout_json_sha256": "7b70d2c8fdbb7df54a6b68f6e99d3edad04a8888f562d078ab8b4610dd9a408c",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2306845Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2307097Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2307350Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2307602Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2307913Z      "source_layout_path": "benchmarks/02_cpw_50ohm/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2308451Z diff --git a/examples/benchmarks/02_cpw_50ohm/output.png b/examples/benchmarks/02_cpw_50ohm/output.png
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2308928Z index 7ee4ea3..0c7aebf 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2309425Z Binary files a/examples/benchmarks/02_cpw_50ohm/output.png and b/examples/benchmarks/02_cpw_50ohm/output.png differ
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2310352Z diff --git a/examples/benchmarks/02_cpw_50ohm/report.md b/examples/benchmarks/02_cpw_50ohm/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2310851Z index 542a061..6134619 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2311119Z --- a/examples/benchmarks/02_cpw_50ohm/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2311435Z +++ b/examples/benchmarks/02_cpw_50ohm/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2311706Z @@ -13,9 +13,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2311919Z  - Estimate `substrate_eps_r`: `11.9`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2312184Z  - Estimate `eps_eff`: `6.45`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2312436Z  - Estimate `estimated_z0_ohm`: `50.04`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2312714Z -- Estimate `scikit_rf_z0_ohm`: `50.0083`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2312999Z -- Estimate `scikit_rf_eps_eff`: `6.449543`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2313354Z -- Estimate `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2313951Z +- Estimate `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2314745Z  - Estimate `target_z0_ohm`: `50.0`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2315036Z  - Estimate `proposed_gap_um_for_target`: `5.983`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2315387Z  - Estimate `proposed_gap_meets_min_spacing`: `True`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2315689Z @@ -49,16 +47,16 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2315880Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2316049Z  ## Artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2316234Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2316469Z -- `gds`: `examples\benchmarks\02_cpw_50ohm\output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2316812Z -- `svg`: `examples\benchmarks\02_cpw_50ohm\output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2317157Z -- `json`: `examples\benchmarks\02_cpw_50ohm\output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2317510Z -- `png`: `examples\benchmarks\02_cpw_50ohm\output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2317889Z -- `layout_dsl`: `examples\benchmarks\02_cpw_50ohm\layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2318322Z -- `verification`: `examples\benchmarks\02_cpw_50ohm\verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2318750Z -- `evidence`: `examples\benchmarks\02_cpw_50ohm\evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2319218Z -- `analytical_estimate`: `examples\benchmarks\02_cpw_50ohm\analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2319776Z -- `simulation_plan`: `examples\benchmarks\02_cpw_50ohm\simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2320575Z -- `report`: `examples\benchmarks\02_cpw_50ohm\report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2320946Z +- `gds`: `examples/benchmarks/02_cpw_50ohm/output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2321286Z +- `svg`: `examples/benchmarks/02_cpw_50ohm/output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2321633Z +- `json`: `examples/benchmarks/02_cpw_50ohm/output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2321975Z +- `png`: `examples/benchmarks/02_cpw_50ohm/output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2322366Z +- `layout_dsl`: `examples/benchmarks/02_cpw_50ohm/layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2322802Z +- `verification`: `examples/benchmarks/02_cpw_50ohm/verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2323427Z +- `evidence`: `examples/benchmarks/02_cpw_50ohm/evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2324296Z +- `analytical_estimate`: `examples/benchmarks/02_cpw_50ohm/analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2325413Z +- `simulation_plan`: `examples/benchmarks/02_cpw_50ohm/simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2325850Z +- `report`: `examples/benchmarks/02_cpw_50ohm/report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2326405Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2326732Z  ## Simulation status
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2327088Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2327882Z diff --git a/examples/benchmarks/02_cpw_50ohm/simulation_plan.md b/examples/benchmarks/02_cpw_50ohm/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2328870Z index 75fead9..0ab60d8 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2329391Z --- a/examples/benchmarks/02_cpw_50ohm/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2330051Z +++ b/examples/benchmarks/02_cpw_50ohm/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2330759Z @@ -7,9 +7,9 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2331081Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2331290Z  ## Prepared artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2331508Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2331811Z -- `model`: `examples\benchmarks\02_cpw_50ohm\simulation\openems_model.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2332316Z -- `driver`: `examples\benchmarks\02_cpw_50ohm\simulation\openems_model.m`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2332853Z -- `manifest`: `examples\benchmarks\02_cpw_50ohm\simulation\simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2333385Z +- `model`: `examples/benchmarks/02_cpw_50ohm/simulation/openems_model.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2333871Z +- `driver`: `examples/benchmarks/02_cpw_50ohm/simulation/openems_model.m`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2334371Z +- `manifest`: `examples/benchmarks/02_cpw_50ohm/simulation/simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2334767Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2334936Z  ## Limitations
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2335128Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2335580Z diff --git a/examples/benchmarks/02_cpw_50ohm/verification.json b/examples/benchmarks/02_cpw_50ohm/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2336120Z index 3e8ccf1..3793d99 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2336421Z --- a/examples/benchmarks/02_cpw_50ohm/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2336787Z +++ b/examples/benchmarks/02_cpw_50ohm/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2337097Z @@ -126,9 +126,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2337648Z        "substrate_eps_r": 11.9,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2337887Z        "eps_eff": 6.45,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2338104Z        "estimated_z0_ohm": 50.04,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2338359Z -      "scikit_rf_z0_ohm": 50.0083,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2338613Z -      "scikit_rf_eps_eff": 6.449543,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2338927Z -      "analytical_backend": "scikit-rf CPW (Ghione/Naldi)",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2339459Z +      "analytical_backend": "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2339950Z        "target_z0_ohm": 50.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2340454Z        "proposed_gap_um_for_target": 5.983,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2340762Z        "proposed_gap_meets_min_spacing": true
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2341031Z @@ -164,7 +162,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2341232Z    "errors": [],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2341428Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2341812Z      "layout_json_sha256": "7b70d2c8fdbb7df54a6b68f6e99d3edad04a8888f562d078ab8b4610dd9a408c",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2342277Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2342539Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2342784Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2343033Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2343341Z      "source_layout_path": "benchmarks/02_cpw_50ohm/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2343935Z diff --git a/examples/benchmarks/03_spiral_inductor/output.gds b/examples/benchmarks/03_spiral_inductor/output.gds
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2344461Z index 4a562a3..0a0e873 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2344995Z Binary files a/examples/benchmarks/03_spiral_inductor/output.gds and b/examples/benchmarks/03_spiral_inductor/output.gds differ
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2345817Z diff --git a/examples/benchmarks/03_spiral_inductor/output.json b/examples/benchmarks/03_spiral_inductor/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2346349Z index 7f35443..831de4f 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2346633Z --- a/examples/benchmarks/03_spiral_inductor/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2346997Z +++ b/examples/benchmarks/03_spiral_inductor/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2347312Z @@ -65,19 +65,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2347520Z        "layer": "M1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2347727Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2347918Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348096Z -          8.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348289Z +          0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348468Z            142.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348648Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348822Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2348998Z -          142.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2349179Z +          150.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2349357Z            142.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2349537Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2349702Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2349873Z -          142.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2350057Z +          150.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2350442Z            150.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2350626Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2350797Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2350962Z -          8.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2351140Z +          0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2351311Z            150.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2351494Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2351664Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2351835Z @@ -87,19 +87,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352027Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352212Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352388Z            0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352563Z -          22.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352737Z +          14.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2352910Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353076Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353247Z            8.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353422Z -          22.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353599Z +          14.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353772Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2353971Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2354143Z            8.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2354319Z -          142.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2354500Z +          150.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2354679Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2354853Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2355022Z            0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2355197Z -          142.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2355379Z +          150.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2355872Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356039Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356209Z      },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356383Z @@ -170,19 +170,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356587Z        "layer": "M1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356786Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2356971Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2357138Z -          22.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2357313Z +          14.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2357495Z            128.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2357669Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2357842Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358014Z -          128.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358198Z +          136.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358384Z            128.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358563Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358735Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2358903Z -          128.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359090Z +          136.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359268Z            136.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359446Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359612Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359786Z -          22.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2359968Z +          14.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2360352Z            136.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2360577Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2360747Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2360925Z @@ -192,19 +192,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2361124Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2361312Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2361481Z            14.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2361664Z -          36.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2361842Z +          28.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362023Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362201Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362370Z            22.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362557Z -          36.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362744Z +          28.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2362923Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363094Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363272Z            22.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363451Z -          128.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363631Z +          136.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363807Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2363972Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2364141Z            14.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2364317Z -          128.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2364503Z +          136.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2364676Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2364846Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365012Z      },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365189Z @@ -275,19 +275,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365388Z        "layer": "M1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365585Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365782Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2365953Z -          36.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2366130Z +          28.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2366304Z            114.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2366486Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2366656Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2366827Z -          114.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367008Z +          122.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367189Z            114.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367374Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367543Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367711Z -          114.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2367901Z +          122.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368100Z            122.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368277Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368446Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368624Z -          36.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368801Z +          28.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2368981Z            122.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2369158Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2369329Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2369503Z @@ -297,19 +297,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2369707Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2369892Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2370063Z            28.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2370458Z -          50.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2370648Z +          42.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2370841Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371025Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371191Z            36.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371369Z -          50.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371549Z +          42.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371723Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2371891Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2372055Z            36.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2372234Z -          114.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2372544Z +          122.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2372727Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2372894Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2373209Z            28.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2373494Z -          114.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2373669Z +          122.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2373845Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374011Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374185Z      },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374354Z @@ -380,19 +380,19 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374550Z        "layer": "M1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374744Z        "points": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2374942Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375123Z -          50.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375300Z +          42.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375476Z            100.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375651Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375827Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2375996Z -          100.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2376177Z +          108.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2376357Z            100.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2376532Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2376712Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2376882Z -          100.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377061Z +          108.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377238Z            108.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377427Z          ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377604Z          [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377772Z -          50.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2377953Z +          42.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2378132Z            108.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2378313Z          ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2378481Z        ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2378652Z @@ -407,6 +407,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2378853Z      "trace_width_um": 8.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2379086Z      "spacing_um": 6.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2379299Z      "thickness_um": 0.2,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2379534Z +    "conductivity_s_per_m": 58000000.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2379809Z      "centerline_points_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2380043Z        [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2380428Z          4.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2380613Z @@ -493,7 +494,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2380801Z    },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2380988Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2381374Z      "layout_json_sha256": "05c2b6f52c4739d826aca441a907450bba076c005d1a9dc70b91eda1b08c3dc1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2381822Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2382084Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2382331Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2382588Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2382922Z      "source_layout_path": "benchmarks/03_spiral_inductor/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2383532Z diff --git a/examples/benchmarks/03_spiral_inductor/output.png b/examples/benchmarks/03_spiral_inductor/output.png
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2384090Z index ff36565..635050f 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2384629Z Binary files a/examples/benchmarks/03_spiral_inductor/output.png and b/examples/benchmarks/03_spiral_inductor/output.png differ
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2385436Z diff --git a/examples/benchmarks/03_spiral_inductor/output.svg b/examples/benchmarks/03_spiral_inductor/output.svg
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2385949Z index 5331e83..89ff70c 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2386229Z --- a/examples/benchmarks/03_spiral_inductor/output.svg
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2386596Z +++ b/examples/benchmarks/03_spiral_inductor/output.svg
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2386897Z @@ -1 +1 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2393762Z -<svg xmlns="http://www.w3.org/2000/svg" width="800.0" height="800.0" viewBox="-7.5 -7.5 165 165"><rect x="-7.5" y="-7.5" width="165" height="165" fill="white"/><polygon points="0,150 150,150 150,142 0,142" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="142,150 150,150 150,0 142,0" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="8,8 142,8 142,0 8,0" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="0,128 8,128 8,8 0,8" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="0,136 22,136 22,128 0,128" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,136 136,136 136,128 14,128" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="128,136 136,136 136,14 128,14" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="22,22 128,22 128,14 22,14" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,114 22,114 22,22 14,22" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,122 36,122 36,114 14,114" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,122 122,122 122,114 28,114" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="114,122 122,122 122,28 114,28" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="36,36 114,36 114,28 36,28" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,100 36,100 36,36 28,36" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,108 50,108 50,100 28,100" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="42,108 108,108 108,100 42,100" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="100,108 108,108 108,42 100,42" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="50,50 100,50 100,42 50,42" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/></svg>
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2401077Z \ No newline at end of file
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2407675Z +<svg xmlns="http://www.w3.org/2000/svg" width="800.0" height="800.0" viewBox="-7.5 -7.5 165 165"><rect x="-7.5" y="-7.5" width="165" height="165" fill="white"/><polygon points="0,150 150,150 150,142 0,142" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="142,150 150,150 150,0 142,0" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="0,8 150,8 150,0 0,0" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="0,136 8,136 8,0 0,0" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="0,136 22,136 22,128 0,128" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,136 136,136 136,128 14,128" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="128,136 136,136 136,14 128,14" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,22 136,22 136,14 14,14" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,122 22,122 22,14 14,14" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="14,122 36,122 36,114 14,114" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,122 122,122 122,114 28,114" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="114,122 122,122 122,28 114,28" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,36 122,36 122,28 28,28" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,108 36,108 36,28 28,28" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="28,108 50,108 50,100 28,100" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="42,108 108,108 108,100 42,100" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="100,108 108,108 108,42 100,42" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/><polygon points="42,50 108,50 108,42 42,42" fill="#1f77b4" fill-opacity="0.6" stroke="#1f77b4" stroke-width="0.33"/></svg>
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2414781Z \ No newline at end of file
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2415291Z diff --git a/examples/benchmarks/03_spiral_inductor/report.md b/examples/benchmarks/03_spiral_inductor/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2415820Z index 8401f5a..c521be2 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2416111Z --- a/examples/benchmarks/03_spiral_inductor/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2416461Z +++ b/examples/benchmarks/03_spiral_inductor/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2417033Z @@ -44,16 +44,16 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2417228Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2417397Z  ## Artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2417574Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2417828Z -- `gds`: `examples\benchmarks\03_spiral_inductor\output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2418213Z -- `svg`: `examples\benchmarks\03_spiral_inductor\output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2418600Z -- `json`: `examples\benchmarks\03_spiral_inductor\output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2418988Z -- `png`: `examples\benchmarks\03_spiral_inductor\output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2419396Z -- `layout_dsl`: `examples\benchmarks\03_spiral_inductor\layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2419873Z -- `verification`: `examples\benchmarks\03_spiral_inductor\verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2420641Z -- `evidence`: `examples\benchmarks\03_spiral_inductor\evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2421155Z -- `analytical_estimate`: `examples\benchmarks\03_spiral_inductor\analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2421720Z -- `simulation_plan`: `examples\benchmarks\03_spiral_inductor\simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2422199Z -- `report`: `examples\benchmarks\03_spiral_inductor\report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2422590Z +- `gds`: `examples/benchmarks/03_spiral_inductor/output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2422963Z +- `svg`: `examples/benchmarks/03_spiral_inductor/output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2423346Z +- `json`: `examples/benchmarks/03_spiral_inductor/output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2423722Z +- `png`: `examples/benchmarks/03_spiral_inductor/output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2424134Z +- `layout_dsl`: `examples/benchmarks/03_spiral_inductor/layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2424605Z +- `verification`: `examples/benchmarks/03_spiral_inductor/verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2425073Z +- `evidence`: `examples/benchmarks/03_spiral_inductor/evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2425569Z +- `analytical_estimate`: `examples/benchmarks/03_spiral_inductor/analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2426118Z +- `simulation_plan`: `examples/benchmarks/03_spiral_inductor/simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2426591Z +- `report`: `examples/benchmarks/03_spiral_inductor/report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2426906Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2427087Z  ## Simulation status
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2427292Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2427918Z diff --git a/examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json b/examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2428625Z index 6397c97..803c30a 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2428990Z --- a/examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2429513Z +++ b/examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2429900Z @@ -10,7 +10,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2430089Z    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2430494Z    "warnings": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2430832Z      "A prepared deck alone is not evidence; retained Zc.mat and logs are required.",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2431395Z -    "Conductor conductivity and thickness are generic and require process replacement."
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2432176Z +    "Normal-metal conductivity=58000000 S/m and thickness=0.2 um; replace these assumptions with process data. Kinetic inductance is not modeled."
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2432783Z    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2432969Z    "solver_executed": false
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2433196Z  }
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2433709Z diff --git a/examples/benchmarks/03_spiral_inductor/simulation/spiral.inp b/examples/benchmarks/03_spiral_inductor/simulation/spiral.inp
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2434311Z index 7a65eef..9183a40 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2434637Z --- a/examples/benchmarks/03_spiral_inductor/simulation/spiral.inp
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2435073Z +++ b/examples/benchmarks/03_spiral_inductor/simulation/spiral.inp
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2435405Z @@ -1,6 +1,6 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2435619Z  * Text-to-Layout square spiral
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2435855Z  .units um
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2436044Z -.default sigma=5.8e4
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2436253Z +.default sigma=58
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2436445Z  N1 x=4 y=4 z=0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2436902Z  N2 x=146 y=4 z=0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2437088Z  N3 x=146 y=146 z=0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2437611Z diff --git a/examples/benchmarks/03_spiral_inductor/simulation_plan.md b/examples/benchmarks/03_spiral_inductor/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2438192Z index c24c061..e9e737f 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2438499Z --- a/examples/benchmarks/03_spiral_inductor/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2438915Z +++ b/examples/benchmarks/03_spiral_inductor/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2439247Z @@ -7,13 +7,13 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2439429Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2439606Z  ## Prepared artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2439805Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2440095Z -- `input`: `examples\benchmarks\03_spiral_inductor\simulation\spiral.inp`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2440840Z -- `manifest`: `examples\benchmarks\03_spiral_inductor\simulation\simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2441382Z +- `input`: `examples/benchmarks/03_spiral_inductor/simulation/spiral.inp`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2441919Z +- `manifest`: `examples/benchmarks/03_spiral_inductor/simulation/simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2442347Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2442518Z  ## Limitations
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2442704Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2443002Z  - A prepared deck alone is not evidence; retained Zc.mat and logs are required.
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2443548Z -- Conductor conductivity and thickness are generic and require process replacement.
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2444305Z +- Normal-metal conductivity=58000000 S/m and thickness=0.2 um; replace these assumptions with process data. Kinetic inductance is not modeled.
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2444894Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2445061Z  ## Status contract
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2445259Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2445743Z diff --git a/examples/benchmarks/03_spiral_inductor/verification.json b/examples/benchmarks/03_spiral_inductor/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2446328Z index 0c1d55a..2fba2ef 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2446643Z --- a/examples/benchmarks/03_spiral_inductor/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2447323Z +++ b/examples/benchmarks/03_spiral_inductor/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2447687Z @@ -158,7 +158,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2447894Z    "errors": [],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2448095Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2448481Z      "layout_json_sha256": "05c2b6f52c4739d826aca441a907450bba076c005d1a9dc70b91eda1b08c3dc1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2448936Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2449195Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2449447Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2449703Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2450031Z      "source_layout_path": "benchmarks/03_spiral_inductor/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2451442Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md b/examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2452149Z index 72d1cfb..00a566c 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2452519Z --- a/examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2453031Z +++ b/examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2453393Z @@ -12,9 +12,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2453603Z  - `substrate_eps_r`: `11.9`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2453843Z  - `eps_eff`: `6.45`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2454060Z  - `estimated_z0_ohm`: `50.04`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2454302Z -- `scikit_rf_z0_ohm`: `50.0083`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2454551Z -- `scikit_rf_eps_eff`: `6.449543`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2454862Z -- `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2455386Z +- `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2455871Z  - `target_frequency_ghz`: `6.0`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2456138Z  - `quarter_wave_length_um`: `4918.4652`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2456398Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2456887Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/evidence.md b/examples/benchmarks/04_quarter_wave_resonator/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2457749Z index 8e5157c..9eb44d9 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2458065Z --- a/examples/benchmarks/04_quarter_wave_resonator/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2458486Z +++ b/examples/benchmarks/04_quarter_wave_resonator/evidence.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2458809Z @@ -8,9 +8,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2459015Z  - `substrate_eps_r` = 11.9
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2459240Z  - `eps_eff` = 6.45
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2459457Z  - `estimated_z0_ohm` = 50.04
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2459695Z -- `scikit_rf_z0_ohm` = 50.0083
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2459932Z -- `scikit_rf_eps_eff` = 6.449543
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2460470Z -- `analytical_backend` = scikit-rf CPW (Ghione/Naldi)
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2461006Z +- `analytical_backend` = built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2461482Z  - `target_frequency_ghz` = 6.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2461737Z  - `quarter_wave_length_um` = 4918.4652
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2461990Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2462485Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/output.json b/examples/benchmarks/04_quarter_wave_resonator/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2463073Z index 3e0b82b..e96114d 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2463384Z --- a/examples/benchmarks/04_quarter_wave_resonator/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2463794Z +++ b/examples/benchmarks/04_quarter_wave_resonator/output.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2464125Z @@ -196,6 +196,46 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2464338Z      "coupling_gap_um": 6.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2464627Z      "boundary_open": "capacitively coupled feedline end",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2465005Z      "boundary_short": "ground bridge",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2465336Z +    "resonator_centerline_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2465686Z +      [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2476730Z +        0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2477049Z +        0.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2477255Z +      ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2477438Z +      [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2477622Z +        0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2477809Z +        4918.4652
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2478008Z +      ]
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2478180Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2478399Z +    "physical_grounded_end_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2478663Z +      0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2478849Z +      0.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2479030Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2479222Z +    "physical_open_end_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2479455Z +      0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2479631Z +      4918.4652
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2479822Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2480015Z +    "ground_connection_bbox_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2480602Z +      -11.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2480796Z +      0.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2480972Z +      11.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2481160Z +      10.0
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2481330Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2481526Z +    "coupling_gap_bbox_um": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2481766Z +      -5.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2481955Z +      4918.4652,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2482142Z +      5.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2482329Z +      4924.4652
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2482514Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2482697Z +    "polygon_roles": [
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2482923Z +      "resonator_signal",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2483173Z +      "resonator_ground_left",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2483424Z +      "resonator_ground_right",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2483677Z +      "grounded_end_bridge",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2483953Z +      "feedline_signal",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2484182Z +      "feedline_ground_top",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2484427Z +      "feedline_ground_bottom_left",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2484703Z +      "feedline_ground_bottom_right"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2484950Z +    ],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2485157Z      "explicit_ground_reference_ports": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2485439Z      "min_ports": 6,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2485657Z      "analytical_estimate": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2485907Z @@ -203,7 +243,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2486104Z    },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2486284Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2486679Z      "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2487141Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2487411Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2487965Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2488218Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2488576Z      "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2489284Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/output.png b/examples/benchmarks/04_quarter_wave_resonator/output.png
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2489867Z index 40d6ba1..5e53534 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2490735Z Binary files a/examples/benchmarks/04_quarter_wave_resonator/output.png and b/examples/benchmarks/04_quarter_wave_resonator/output.png differ
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2491666Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/report.md b/examples/benchmarks/04_quarter_wave_resonator/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2492268Z index 9ba2aec..2c8987a 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2492586Z --- a/examples/benchmarks/04_quarter_wave_resonator/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2492990Z +++ b/examples/benchmarks/04_quarter_wave_resonator/report.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2493340Z @@ -13,9 +13,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2493565Z  - Estimate `substrate_eps_r`: `11.9`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2493838Z  - Estimate `eps_eff`: `6.45`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2494088Z  - Estimate `estimated_z0_ohm`: `50.04`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2494377Z -- Estimate `scikit_rf_z0_ohm`: `50.0083`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2494664Z -- Estimate `scikit_rf_eps_eff`: `6.449543`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2495025Z -- Estimate `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2495613Z +- Estimate `analytical_backend`: `built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2496139Z  - Estimate `target_frequency_ghz`: `6.0`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2496439Z  - Estimate `quarter_wave_length_um`: `4918.4652`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2496718Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2496889Z @@ -49,16 +47,16 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2497082Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2497252Z  ## Artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2497433Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2497696Z -- `gds`: `examples\benchmarks\04_quarter_wave_resonator\output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2498137Z -- `svg`: `examples\benchmarks\04_quarter_wave_resonator\output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2498572Z -- `json`: `examples\benchmarks\04_quarter_wave_resonator\output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2498998Z -- `png`: `examples\benchmarks\04_quarter_wave_resonator\output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2499443Z -- `layout_dsl`: `examples\benchmarks\04_quarter_wave_resonator\layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2499968Z -- `verification`: `examples\benchmarks\04_quarter_wave_resonator\verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2500738Z -- `evidence`: `examples\benchmarks\04_quarter_wave_resonator\evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2501300Z -- `analytical_estimate`: `examples\benchmarks\04_quarter_wave_resonator\analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2501900Z -- `simulation_plan`: `examples\benchmarks\04_quarter_wave_resonator\simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2502415Z -- `report`: `examples\benchmarks\04_quarter_wave_resonator\report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2502851Z +- `gds`: `examples/benchmarks/04_quarter_wave_resonator/output.gds`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2503269Z +- `svg`: `examples/benchmarks/04_quarter_wave_resonator/output.svg`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2503689Z +- `json`: `examples/benchmarks/04_quarter_wave_resonator/output.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2504118Z +- `png`: `examples/benchmarks/04_quarter_wave_resonator/output.png`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2504560Z +- `layout_dsl`: `examples/benchmarks/04_quarter_wave_resonator/layout.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2505063Z +- `verification`: `examples/benchmarks/04_quarter_wave_resonator/verification.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2505565Z +- `evidence`: `examples/benchmarks/04_quarter_wave_resonator/evidence.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2506116Z +- `analytical_estimate`: `examples/benchmarks/04_quarter_wave_resonator/analytical_estimate.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2506714Z +- `simulation_plan`: `examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2507212Z +- `report`: `examples/benchmarks/04_quarter_wave_resonator/report.md`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2507825Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2508007Z  ## Simulation status
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2508217Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2508757Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md b/examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2509404Z index 16e46d4..e361ab2 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2509746Z --- a/examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2510424Z +++ b/examples/benchmarks/04_quarter_wave_resonator/simulation_plan.md
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2510784Z @@ -7,9 +7,9 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2510985Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2511167Z  ## Prepared artifacts
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2511372Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2511699Z -- `model`: `examples\benchmarks\04_quarter_wave_resonator\simulation\openems_model.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2512258Z -- `driver`: `examples\benchmarks\04_quarter_wave_resonator\simulation\openems_model.m`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2512872Z -- `manifest`: `examples\benchmarks\04_quarter_wave_resonator\simulation\simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2513496Z +- `model`: `examples/benchmarks/04_quarter_wave_resonator/simulation/openems_model.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2514053Z +- `driver`: `examples/benchmarks/04_quarter_wave_resonator/simulation/openems_model.m`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2514650Z +- `manifest`: `examples/benchmarks/04_quarter_wave_resonator/simulation/simulation_manifest.json`
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2515089Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2515257Z  ## Limitations
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2515456Z  
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2516003Z diff --git a/examples/benchmarks/04_quarter_wave_resonator/verification.json b/examples/benchmarks/04_quarter_wave_resonator/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2516627Z index 5d98ec9..6833f8a 100644
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2516962Z --- a/examples/benchmarks/04_quarter_wave_resonator/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2517408Z +++ b/examples/benchmarks/04_quarter_wave_resonator/verification.json
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2517757Z @@ -130,9 +130,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2517974Z        "substrate_eps_r": 11.9,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2518214Z        "eps_eff": 6.45,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2518432Z        "estimated_z0_ohm": 50.04,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2518688Z -      "scikit_rf_z0_ohm": 50.0083,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2518945Z -      "scikit_rf_eps_eff": 6.449543,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2519264Z -      "analytical_backend": "scikit-rf CPW (Ghione/Naldi)",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2519814Z +      "analytical_backend": "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2520512Z        "target_frequency_ghz": 6.0,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2520790Z        "quarter_wave_length_um": 4918.4652
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2521050Z      },
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2521224Z @@ -167,7 +165,7 @@
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2521426Z    "errors": [],
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2521627Z    "provenance": {
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2522011Z      "layout_json_sha256": "b6eb878a0f8bf6e7b719cfe2b32d58a516ea5317762bef09911fcac674cd4dcb",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2522460Z -    "generator_version": "0.3.0",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2522722Z +    "generator_version": "0.3.1",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2522980Z      "generated_at": "normalized",
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2523230Z      "timestamp_normalized": true,
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2523585Z      "source_layout_path": "benchmarks/04_quarter_wave_resonator/layout.json"
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2542255Z ##[error]benchmark artifacts are stale; run scripts/generate_benchmarks.py --force and commit.
+quality-gates	Benchmark determinism (default run is a no-op when DSL is unchanged)	2026-09-27T17:31:04.2549884Z ##[error]Process completed with exit code 1.
+test (windows-latest, 3.11)	Run uv run pytest	﻿2026-09-27T17:31:16.6927697Z ##[group]Run uv run pytest
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.6928271Z ^[[36;1muv run pytest^[[0m
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7031668Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7032355Z env:
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7032761Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7033654Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7034437Z   UV_PYTHON: 3.11
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7034917Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7035535Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:16.7036055Z ##[endgroup]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9923024Z ============================= test session starts =============================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9924061Z platform win32 -- Python 3.11.9, pytest-9.0.3, pluggy-1.6.0
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9925119Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9926330Z configfile: pyproject.toml
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9927205Z testpaths: tests
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9927911Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9929043Z collected 2027 items
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:27.9929441Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:28.0043407Z tests\test_ai_copilot.py ...........                                     [  0%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:28.2115980Z tests\test_backend_orchestration.py .....                                [  0%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:28.2789149Z tests\test_candidate_loop.py ............                                [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:29.2977431Z tests\test_closed_loop.py .......                                        [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:29.3546015Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:29.3820148Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:30.4049024Z tests\test_device_views.py ...                                           [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:30.5469244Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:30.8194600Z tests\test_em_solvers.py ...                                             [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:30.9670499Z tests\test_fitting.py ...                                                [  2%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:31.5387553Z tests\test_fourth_wave.py ........................                       [  3%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:31.9913839Z tests\test_improvements.py ......                                        [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.0143987Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.0185824Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.0298219Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.1045254Z tests\test_jpa_topology.py ......                                        [  4%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.1130678Z tests\test_layout_backend.py ......                                      [  5%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.1681862Z tests\test_layout_quality_modes.py .......                               [  5%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.5845060Z tests\test_layout_validator.py ......................................... [  7%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.6334287Z ...                                                                      [  7%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:32.6901643Z tests\test_new_modules.py ...................................            [  9%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.3022782Z tests\test_next_improvements.py .......                                  [  9%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.3090013Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.3390087Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.4094316Z tests\test_open_solver.py ...........                                    [ 10%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.4968670Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.5627348Z tests\test_opensource_em.py ....                                         [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.7364572Z tests\test_packaging.py ....                                             [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.7979342Z tests\test_paper_benchmarks.py .                                         [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:33.9018094Z tests\test_pdk.py .....                                                  [ 11%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.0325124Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.1979279Z tests\test_phase456.py ..........                                        [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.2091390Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.2116179Z tests\test_phase8_operations.py ..                                       [ 13%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.2607905Z tests\test_phases_1_10.py ...............................                [ 14%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.3740219Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.3923965Z tests\test_physics_compiler.py ....................                      [ 17%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.4633676Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.5578572Z tests\test_physics_engine.py ........................................... [ 19%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:34.6693045Z .........s..                                                             [ 20%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.1003274Z tests\test_physics_first_pipeline.py .................................   [ 21%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.1329239Z tests\test_physics_grounded_compiler_contract.py .....                   [ 21%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.1359717Z tests\test_physics_provenance.py ...                                     [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.2199647Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.2612854Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.2630351Z .                                                                        [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.2724355Z tests\test_readiness.py ..                                               [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.3049318Z tests\test_report_visual_quality.py ...                                  [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.3576243Z tests\test_research_execution.py sssss.ss                                [ 24%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.6773587Z tests\test_research_quality_goal.py .......                              [ 25%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.6937274Z tests\test_review_committee.py .............                             [ 25%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:35.7691080Z tests\test_review_coverage.py ........                                   [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:36.0288084Z tests\test_signoff.py ......                                             [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:36.0794646Z tests\test_signoff_contract.py .......                                   [ 26%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:31:47.2504786Z tests\test_smoke.py ................                                     [ 27%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:26.1076918Z tests\test_solver_adapters.py ....                                       [ 27%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:26.7152881Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:26.7253211Z tests\test_solver_evidence.py .......                                    [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:26.7293923Z tests\test_solver_truthfulness.py ....                                   [ 28%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:26.7941640Z tests\test_sop_qa.py ................................................    [ 30%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.7065238Z tests\test_superconducting_eda_compiler.py .......                       [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.8419180Z tests\test_superconductivity.py ....                                     [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.8541480Z tests\test_third_wave.py ......                                          [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.8663360Z tests\test_transmon_matches_literature.py ..                             [ 31%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.9212375Z tests\test_transmon_topology.py .....                                    [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:27.9688724Z tests\test_visual_credibility.py .......                                 [ 32%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:28.3973860Z tests\textlayout_suite\test_acceptance.py ..............                 [ 33%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:29.6294931Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 33%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:30.5935245Z tests\textlayout_suite\test_api.py ............                          [ 34%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:30.9088866Z tests\textlayout_suite\test_api_from_text.py ..                          [ 34%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:42.1233465Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 35%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:42.2143837Z ..........                                                               [ 36%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:42.3032235Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 36%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:42.4063702Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 37%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:42.5000574Z .....................                                                    [ 38%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:49.4289867Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 38%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.8193774Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 40%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.8498586Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 40%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.8737765Z tests\textlayout_suite\test_convergence_order.py ....................... [ 41%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.8889980Z ..............                                                           [ 42%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.8982848Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 42%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:51.9271214Z tests\textlayout_suite\test_cpw_model_selection.py s.                    [ 42%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:56.5279866Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 42%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:56.5326418Z tests\textlayout_suite\test_document_authority.py ...                    [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:56.5381757Z tests\textlayout_suite\test_dsl.py .....                                 [ 43%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:57.2118217Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 44%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:57.4706119Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 45%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:57.6217219Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 46%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:59.7847284Z .............                                                            [ 46%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:59.8567216Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 47%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:59.8788412Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 48%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:32:59.9678117Z ........................................................................ [ 52%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:00.1122023Z ...................................................................      [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:00.1211639Z tests\textlayout_suite\test_exporters.py ....                            [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:00.9357531Z tests\textlayout_suite\test_extended_generators.py ........              [ 55%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:01.8158970Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:01.8928885Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 56%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:04.2083870Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:04.3490375Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:04.3905546Z tests\textlayout_suite\test_fem_model.py ............................    [ 58%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:07.5473129Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 58%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:07.6317124Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.0479600Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.1143285Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.1169395Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.1450620Z tests\textlayout_suite\test_golden_cpw.py .                              [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.1521704Z tests\textlayout_suite\test_idc_generator.py .....                       [ 59%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.1615731Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:08.9138622Z tests\textlayout_suite\test_integration_catalog.py ..                    [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:26.0163265Z tests\textlayout_suite\test_jobs.py .......                              [ 60%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:26.2794751Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:26.4801173Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:27.5593324Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:27.7355018Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 62%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:27.8246461Z .......                                                                  [ 63%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.1788420Z tests\textlayout_suite\test_measurement.py ............................. [ 64%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.1789740Z ..                                                                       [ 64%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.3434798Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.3932040Z ....                                                                     [ 66%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.4658917Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 67%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.4740020Z ..                                                                       [ 67%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.6407557Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:28.9911823Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:30.8499813Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 68%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:30.8594784Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:32.0066698Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:32.0319609Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 69%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:32.7184112Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:32.7832402Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:32.8247863Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 70%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:35.2232799Z tests\textlayout_suite\test_palace_backend.py .......................... [ 71%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:35.2523072Z .....                                                                    [ 71%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.0434556Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 72%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.0552194Z ........                                                                 [ 73%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.6602066Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 73%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.6706573Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.8938729Z tests\textlayout_suite\test_palace_ci_observer.py ....ss                 [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.9708458Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:36.9909216Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 74%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:37.0874208Z tests\textlayout_suite\test_palace_energy_weighted_mac.py ........       [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:37.1081964Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:37.4180390Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 75%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:37.4234237Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.6182839Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.7722586Z tests\textlayout_suite\test_palace_installation.py ..s..                 [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.7788447Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.7855638Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 76%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.8010150Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.8597346Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.9053879Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.9151475Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:38.9642741Z tests\textlayout_suite\test_palace_preparation.py .                      [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.0210816Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 77%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.0427073Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.1829727Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.1861190Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 78%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.2033898Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:39.2359434Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 79%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:40.8990974Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 80%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:40.9078864Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 80%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:40.9771138Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 80%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.1544262Z tests\textlayout_suite\test_pdk.py ........................              [ 81%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.4941328Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.4948508Z                                                                          [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.5080140Z tests\textlayout_suite\test_platform_certification.py .....              [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.7213899Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 83%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.7237442Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:41.8733399Z tests\textlayout_suite\test_product_docs.py ............                 [ 84%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:42.1121704Z tests\textlayout_suite\test_project_claims.py ....................       [ 85%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:43.2976536Z tests\textlayout_suite\test_project_status.py ......................     [ 86%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:43.3127020Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 87%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:43.3280729Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 87%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:43.7634017Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 88%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:43.9189668Z tests\textlayout_suite\test_public_reference.py .......                  [ 88%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:33:59.4928832Z tests\textlayout_suite\test_readme_claims.py ..........F......           [ 89%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:00.4309057Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 89%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:00.5799482Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:00.5825537Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:03.6675942Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:04.6503397Z ..                                                                       [ 91%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:04.6593190Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 91%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:04.7076516Z tests\textlayout_suite\test_scqubits_product.py s.......                 [ 92%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:04.7395168Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:05.7343367Z ............                                                             [ 93%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:05.7661475Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 93%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:05.8943275Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 94%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:06.9185970Z tests\textlayout_suite\test_solver_execution.py ..................       [ 95%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:06.9260938Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 95%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:06.9564929Z tests\textlayout_suite\test_solver_timeout_logs.py ....                  [ 96%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:07.0012704Z tests\textlayout_suite\test_sparameters.py .......                       [ 96%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:07.0234491Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:07.3400994Z ...                                                                      [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:07.3887164Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:07.6444972Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:09.5608025Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:09.8791120Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:09.8812123Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7044272Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7044799Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7045031Z ================================== FAILURES ===================================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7045809Z ______________ test_full_tile_solver_overclaim_fails_validation _______________
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7046346Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7046995Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_full_tile_solver_overclai0')
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7047939Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7048352Z     def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7049482Z         text = README.read_text(encoding="utf-8")
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7050854Z         row = "| 6 | forged | prompt | [output](examples/showcase/06_research_test_chip/output.svg) | report | **PHYSICS_VERIFIED** FOR THE FULL TILE **NOT_FABRICATION_READY** |\n"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7052082Z         fake = tmp_path / "README.md"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7052842Z >       fake.write_text(text.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"))
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7053417Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7053568Z tests\textlayout_suite\test_readme_claims.py:124: 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7053995Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7054533Z C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\pathlib.py:1079: in write_text
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7055023Z     return f.write(data)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7055274Z            ^^^^^^^^^^^^^
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7055570Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7056117Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7056352Z self = <encodings.cp1252.IncrementalEncoder object at 0x0000022301D72DD0>
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7057659Z input = '# Text-to-Layout\r\n\r\nText-to-Layout is a local-first CLI that turns a design prompt into typed\r\nparameters, insp...ki (2004)\r\nand Tinkham (2004) for SQUID/Josephson physics.\r\n\r\n## License\r\n\r\nMIT; see [LICENSE](LICENSE).\r\n'
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7058982Z final = False
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7059107Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7059222Z     def encode(self, input, final=False):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7059621Z >       return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7060040Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7060582Z E       UnicodeEncodeError: 'charmap' codec can't encode character '\u2264' in position 3545: character maps to <undefined>
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7061033Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7061303Z C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\encodings\cp1252.py:19: UnicodeEncodeError
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7061782Z ============================== warnings summary ===============================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7062096Z tests\test_ai_copilot.py:3
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7062663Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7063334Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7063581Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7063688Z src\textlayout\_legacy\device_optimizer.py:24
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7064446Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7065200Z     class OptimizationReport(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7065379Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7065492Z src\textlayout\_legacy\extracted_device.py:39
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7066223Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7066957Z     class ExtractedDevice(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7067133Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7067245Z src\textlayout\_legacy\microwave_validator.py:12
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7068224Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7069750Z     class MicrowaveReport(BaseModel):
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7070000Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7070135Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7070974Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7071865Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7072150Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7072310Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7072713Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7073109Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7073925Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7074807Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7075141Z 
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7075344Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7075759Z =========================== short test summary info ===========================
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7076723Z FAILED tests/textlayout_suite/test_readme_claims.py::test_full_tile_solver_overclaim_fails_validation - UnicodeEncodeError: 'charmap' codec can't encode character '\u2264' in position 3545: character maps to <undefined>
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:13.7077865Z === 1 failed, 2008 passed, 18 skipped, 518005 warnings in 171.96s (0:02:51) ===
+test (windows-latest, 3.11)	Run uv run pytest	2026-09-27T17:34:17.0070651Z ##[error]Process completed with exit code 1.
+test (windows-latest, 3.12)	Run uv run pytest	﻿2026-09-27T17:31:13.6619293Z ##[group]Run uv run pytest
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6619778Z ^[[36;1muv run pytest^[[0m
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6692411Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6692871Z env:
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6693170Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6693555Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6694070Z   UV_PYTHON: 3.12
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6694384Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6694800Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:13.6695124Z ##[endgroup]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8910985Z ============================= test session starts =============================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8912319Z platform win32 -- Python 3.12.10, pytest-9.0.3, pluggy-1.6.0
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8913246Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8913984Z configfile: pyproject.toml
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8914643Z testpaths: tests
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8915267Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8916336Z collected 2027 items
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.8916605Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:25.9022593Z tests\test_ai_copilot.py ...........                                     [  0%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:26.0587528Z tests\test_backend_orchestration.py .....                                [  0%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:26.1186957Z tests\test_candidate_loop.py ............                                [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:27.1548057Z tests\test_closed_loop.py .......                                        [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:27.2085192Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:27.2379193Z tests\test_cpw_matches_reference.py ..                                   [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:28.2609888Z tests\test_device_views.py ...                                           [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:28.4067282Z tests\test_eda_framework_architecture.py .......                         [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:28.5814612Z tests\test_em_solvers.py ...                                             [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:28.7240932Z tests\test_fitting.py ...                                                [  2%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.3598422Z tests\test_fourth_wave.py ........................                       [  3%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.7558885Z tests\test_improvements.py ......                                        [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.7750241Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.7789933Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.7900804Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.8724414Z tests\test_jpa_topology.py ......                                        [  4%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.8805631Z tests\test_layout_backend.py ......                                      [  5%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:29.9321223Z tests\test_layout_quality_modes.py .......                               [  5%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:30.3699503Z tests\test_layout_validator.py ......................................... [  7%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:30.4103403Z ...                                                                      [  7%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:30.4703649Z tests\test_new_modules.py ...................................            [  9%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.0570299Z tests\test_next_improvements.py .......                                  [  9%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.0638832Z tests\test_no_fake_gain.py .......                                       [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.1002587Z tests\test_no_toy_layouts.py .....                                       [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.1521208Z tests\test_open_solver.py ...........                                    [ 10%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.2458692Z tests\test_openems_real_s2p.py .......                                   [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.3050301Z tests\test_opensource_em.py ....                                         [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.4801841Z tests\test_packaging.py ....                                             [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.5449672Z tests\test_paper_benchmarks.py .                                         [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.6501874Z tests\test_pdk.py .....                                                  [ 11%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.7544866Z tests\test_phase1_phase2.py ............                                 [ 12%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.9257443Z tests\test_phase456.py ..........                                        [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.9343488Z tests\test_phase8_foundations.py ....                                    [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.9368538Z tests\test_phase8_operations.py ..                                       [ 13%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:31.9847781Z tests\test_phases_1_10.py ...............................                [ 14%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.0759739Z tests\test_physics_benchmark.py .......................                  [ 16%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.0937910Z tests\test_physics_compiler.py ....................                      [ 17%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.1654515Z tests\test_physics_compiler_loop.py ......                               [ 17%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.2530998Z tests\test_physics_engine.py ........................................... [ 19%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.3376642Z .........s..                                                             [ 20%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.7537029Z tests\test_physics_first_pipeline.py .................................   [ 21%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.7870041Z tests\test_physics_grounded_compiler_contract.py .....                   [ 21%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.7903218Z tests\test_physics_provenance.py ...                                     [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.8374114Z tests\test_pyaedt_bridge.py ...                                          [ 22%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.8770258Z tests\test_quantum_eda_platform.py ..................................... [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.8788837Z .                                                                        [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.8905435Z tests\test_readiness.py ..                                               [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.9248716Z tests\test_report_visual_quality.py ...                                  [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:32.9623522Z tests\test_research_execution.py sssss.ss                                [ 24%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:33.2569613Z tests\test_research_quality_goal.py .......                              [ 25%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:33.2716356Z tests\test_review_committee.py .............                             [ 25%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:33.3281930Z tests\test_review_coverage.py ........                                   [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:33.5839314Z tests\test_signoff.py ......                                             [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:33.6122786Z tests\test_signoff_contract.py .......                                   [ 26%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:31:44.7177604Z tests\test_smoke.py ................                                     [ 27%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:17.3313206Z tests\test_solver_adapters.py ....                                       [ 27%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:17.9667289Z tests\test_solver_artifacts_required.py .......                          [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:17.9813932Z tests\test_solver_evidence.py .......                                    [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:17.9856511Z tests\test_solver_truthfulness.py ....                                   [ 28%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:18.0489941Z tests\test_sop_qa.py ................................................    [ 30%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.0052423Z tests\test_superconducting_eda_compiler.py .......                       [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.1474160Z tests\test_superconductivity.py ....                                     [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.1599182Z tests\test_third_wave.py ......                                          [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.1705926Z tests\test_transmon_matches_literature.py ..                             [ 31%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.2235877Z tests\test_transmon_topology.py .....                                    [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.2716528Z tests\test_visual_credibility.py .......                                 [ 32%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:19.7209159Z tests\textlayout_suite\test_acceptance.py ..............                 [ 33%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:21.0901116Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 33%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:22.1686301Z tests\textlayout_suite\test_api.py ............                          [ 34%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:22.4937198Z tests\textlayout_suite\test_api_from_text.py ..                          [ 34%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:32.9279604Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 35%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:33.0281679Z ..........                                                               [ 36%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:33.1221127Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 36%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:33.2322604Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 37%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:33.3242954Z .....................                                                    [ 38%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:39.9205569Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 38%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.1323829Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 40%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.1626265Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 40%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.1860721Z tests\textlayout_suite\test_convergence_order.py ....................... [ 41%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.2006117Z ..............                                                           [ 42%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.2107557Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 42%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:42.2403357Z tests\textlayout_suite\test_cpw_model_selection.py s.                    [ 42%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:47.3248071Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 42%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:47.3297742Z tests\textlayout_suite\test_document_authority.py ...                    [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:47.3351999Z tests\textlayout_suite\test_dsl.py .....                                 [ 43%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:48.0501385Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 44%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:48.3207164Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 45%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:48.4712822Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 46%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:50.6920774Z .............                                                            [ 46%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:50.7699994Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 47%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:50.7919323Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 48%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:50.8710758Z ........................................................................ [ 52%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:51.0082714Z ...................................................................      [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:51.0158286Z tests\textlayout_suite\test_exporters.py ....                            [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:51.9324896Z tests\textlayout_suite\test_extended_generators.py ........              [ 55%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:52.7710872Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 56%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:52.8488002Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 56%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:54.7902205Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 57%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:54.8862790Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 57%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:54.9185520Z tests\textlayout_suite\test_fem_model.py ............................    [ 58%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:56.9150419Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 58%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:56.9456038Z tests\textlayout_suite\test_gds_export.py ...                            [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.2097183Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.2667116Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.2695034Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.3013927Z tests\textlayout_suite\test_golden_cpw.py .                              [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.3080913Z tests\textlayout_suite\test_idc_generator.py .....                       [ 59%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:57.3171308Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:32:58.0166152Z tests\textlayout_suite\test_integration_catalog.py ..                    [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:13.0400314Z tests\textlayout_suite\test_jobs.py .......                              [ 60%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:13.2458072Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:13.4222481Z tests\textlayout_suite\test_josim_idc.py ....                            [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:15.6365154Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 61%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:16.7060322Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 62%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:16.8222892Z .......                                                                  [ 63%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.1181739Z tests\textlayout_suite\test_measurement.py ............................. [ 64%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.1218636Z ..                                                                       [ 64%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.3610950Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 66%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.4454067Z ....                                                                     [ 66%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.4869564Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 67%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.5042463Z ..                                                                       [ 67%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.6541204Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:17.9048355Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:19.2841277Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 68%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:19.2963306Z tests\textlayout_suite\test_oci_stack.py ...                             [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:20.5128542Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:20.5364571Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 69%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:21.2185697Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:21.2786082Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:21.3435104Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 70%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:23.7464788Z tests\textlayout_suite\test_palace_backend.py .......................... [ 71%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:23.7745669Z .....                                                                    [ 71%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:24.5562595Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 72%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:24.5684299Z ........                                                                 [ 73%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.2272677Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 73%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.2380867Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.4680372Z tests\textlayout_suite\test_palace_ci_observer.py ....ss                 [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.5717640Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.5960444Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 74%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.7011049Z tests\textlayout_suite\test_palace_energy_weighted_mac.py ........       [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:25.7252989Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:26.0674778Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 75%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:26.0730036Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.4217551Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.5812443Z tests\textlayout_suite\test_palace_installation.py ..s..                 [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.5885469Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.5961434Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 76%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.6132297Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.6683394Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.7238514Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.7343080Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.7653123Z tests\textlayout_suite\test_palace_preparation.py .                      [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.8209796Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 77%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.8546643Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.9915173Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:27.9948616Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 78%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:28.0118830Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:28.0523646Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 79%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:36.2705346Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 80%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:36.2792097Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 80%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:36.5218062Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 80%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:36.7243071Z tests\textlayout_suite\test_pdk.py ........................              [ 81%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.2146040Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.2154371Z                                                                          [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.2304411Z tests\textlayout_suite\test_platform_certification.py .....              [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.4482390Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 83%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.4511979Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 84%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.6463980Z tests\textlayout_suite\test_product_docs.py ............                 [ 84%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:37.9866872Z tests\textlayout_suite\test_project_claims.py ....................       [ 85%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:39.1820463Z tests\textlayout_suite\test_project_status.py ......................     [ 86%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:39.1981494Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 87%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:39.2137292Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 87%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:39.6975848Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 88%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:39.8360733Z tests\textlayout_suite\test_public_reference.py .......                  [ 88%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:55.0262383Z tests\textlayout_suite\test_readme_claims.py ..........F......           [ 89%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:56.5431816Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 89%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:56.7468843Z tests\textlayout_suite\test_reference_gds.py ......                      [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:33:56.7496682Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 90%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:00.0599543Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 91%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:01.1076245Z ..                                                                       [ 91%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:01.1158835Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 91%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:01.1673693Z tests\textlayout_suite\test_scqubits_product.py s.......                 [ 92%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:01.1977374Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 93%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:02.1065465Z ............                                                             [ 93%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:02.1420998Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 93%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:02.2742967Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 94%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.4411521Z tests\textlayout_suite\test_solver_execution.py ..................       [ 95%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.4493911Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 95%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.4811178Z tests\textlayout_suite\test_solver_timeout_logs.py ....                  [ 96%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.5322823Z tests\textlayout_suite\test_sparameters.py .......                       [ 96%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.5544399Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.8784388Z ...                                                                      [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:03.9244758Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 97%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:04.1922574Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:06.2529060Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:06.5787388Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:06.5810277Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9832197Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9832983Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9833268Z ================================== FAILURES ===================================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9834038Z ______________ test_full_tile_solver_overclaim_fails_validation _______________
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9834653Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9835301Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_full_tile_solver_overclai0')
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9836541Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9836981Z     def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9837824Z         text = README.read_text(encoding="utf-8")
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9839254Z         row = "| 6 | forged | prompt | [output](examples/showcase/06_research_test_chip/output.svg) | report | **PHYSICS_VERIFIED** FOR THE FULL TILE **NOT_FABRICATION_READY** |\n"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9840662Z         fake = tmp_path / "README.md"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9841689Z >       fake.write_text(text.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"))
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9842506Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9842749Z tests\textlayout_suite\test_readme_claims.py:124: 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9843419Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9844283Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\pathlib.py:1048: in write_text
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9845029Z     return f.write(data)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9845398Z            ^^^^^^^^^^^^^
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9845845Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9846655Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9847019Z self = <encodings.cp1252.IncrementalEncoder object at 0x00000116C30B9C70>
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9848860Z input = '# Text-to-Layout\r\n\r\nText-to-Layout is a local-first CLI that turns a design prompt into typed\r\nparameters, insp...ki (2004)\r\nand Tinkham (2004) for SQUID/Josephson physics.\r\n\r\n## License\r\n\r\nMIT; see [LICENSE](LICENSE).\r\n'
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9850865Z final = False
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9851079Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9851240Z     def encode(self, input, final=False):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9851852Z >       return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9852507Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9853484Z E       UnicodeEncodeError: 'charmap' codec can't encode character '\u2264' in position 3545: character maps to <undefined>
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9854283Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9855026Z C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\encodings\cp1252.py:19: UnicodeEncodeError
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9855852Z ============================== warnings summary ===============================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9856375Z tests\test_ai_copilot.py:3
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9857352Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9858513Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9858922Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9859109Z src\textlayout\_legacy\device_optimizer.py:24
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9860383Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9861690Z     class OptimizationReport(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9861987Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9862146Z src\textlayout\_legacy\extracted_device.py:39
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9863399Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9864667Z     class ExtractedDevice(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9864940Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9865133Z src\textlayout\_legacy\microwave_validator.py:12
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9866411Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9867642Z     class MicrowaveReport(BaseModel):
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9867904Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9868092Z .venv\Lib\site-packages\fastapi\testclient.py:1
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9869508Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9871057Z     from starlette.testclient import TestClient as TestClient  # noqa
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9871544Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9871819Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9872480Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9873148Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9874809Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9876346Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9876916Z 
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9877237Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9877914Z =========================== short test summary info ===========================
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9879600Z FAILED tests/textlayout_suite/test_readme_claims.py::test_full_tile_solver_overclaim_fails_validation - UnicodeEncodeError: 'charmap' codec can't encode character '\u2264' in position 3545: character maps to <undefined>
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:09.9881557Z === 1 failed, 2008 passed, 18 skipped, 518005 warnings in 171.47s (0:02:51) ===
+test (windows-latest, 3.12)	Run uv run pytest	2026-09-27T17:34:13.5100938Z ##[error]Process completed with exit code 1.

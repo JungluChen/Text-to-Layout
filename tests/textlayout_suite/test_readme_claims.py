@@ -121,7 +121,7 @@ def test_full_tile_solver_overclaim_fails_validation(tmp_path: Path) -> None:
     text = README.read_text(encoding="utf-8")
     row = "| 6 | forged | prompt | [output](examples/showcase/06_research_test_chip/output.svg) | report | **PHYSICS_VERIFIED** FOR THE FULL TILE **NOT_FABRICATION_READY** |\n"
     fake = tmp_path / "README.md"
-    fake.write_text(text.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"))
+    fake.write_text(text.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"), encoding="utf-8")
     errors = validate(fake)
     assert any("full tile-level solve" in e for e in errors), errors
 
