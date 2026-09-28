@@ -343,3 +343,22 @@ Example: `textlayout prompt "Create a 50 ohm CPW feedline on silicon at 6 GHz" -
 Inspect the geometry metadata and evidence report before interpreting an
 estimated impedance as a solver result. Optional-library installation can
 change the analytical estimate; retain the model label with each artifact.
+
+## Reading CPW analytical comparisons
+
+Generate the existing CPW benchmark with:
+
+```sh
+uv run textlayout generate examples/benchmarks/02_cpw_50ohm/layout.json --out out/cpw-provenance
+```
+
+Inspect `out/cpw-provenance/cpw.analytical_estimate.md` and
+`out/cpw-provenance/cpw.json`. The research report
+labels its primary impedance and proposed gap as the thick-substrate
+Simons/Hilberg model. With the rf extra, the separate scikit-rf comparison
+uses a 500 um substrate at 1 GHz; geometry metadata prefers that model.
+Differences between these estimates do not establish an error bound or
+independent validation. Without scikit-rf the comparison is absent and the
+fallback is labelled. The report's assumptions describe the models, not
+measured fabrication data. AI prompt: “Explain each CPW estimate's model,
+units and assumptions, and identify the missing independent validation.”

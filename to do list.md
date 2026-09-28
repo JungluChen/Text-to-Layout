@@ -332,6 +332,13 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 
 ### 3. Audit scientific correctness across simulation tools
 
+- **2026-09-28 CPW reporting increment:** Reproduced a misleading global
+  backend label twice. Research reports now identify the primary thick-substrate
+  estimate/proposals separately from the optional 500 um / 1 GHz scikit-rf
+  comparison; removed an unestablished blanket accuracy claim. Equations,
+  numerical values and geometry are unchanged. Verification and continuation:
+  `docs/progress/2026-09-28-143715.md`.
+
 - **Status:** IN PROGRESS. The first bounded audit corrected the optional
   Touchstone fallback parser used for openEMS S-parameter results; the broader
   cross-solver audit remains open.

@@ -10,7 +10,10 @@
 - `estimated_z0_ohm` = 50.04
 - `scikit_rf_z0_ohm` = 50.0083
 - `scikit_rf_eps_eff` = 6.449543
-- `analytical_backend` = scikit-rf CPW (Ghione/Naldi)
+- `analytical_backend` = built-in Simons/Hilberg (primary estimate and proposed parameters)
+- `scikit_rf_backend` = scikit-rf CPW (Ghione/Naldi), separate analytical comparison
+- `scikit_rf_substrate_height_um` = 500.0
+- `scikit_rf_frequency_ghz` = 1.0
 - `target_frequency_ghz` = 6.0
 - `quarter_wave_length_um` = 4918.4652
 
@@ -38,20 +41,21 @@
 
 ## Design rationale
 
-- The impedance depends only on the ratio k = w/(w+2g), not absolute size — so geometry can be scaled to satisfy the minimum-gap rule while holding Z0 fixed.
+- In the thick-substrate model, impedance depends only on k = w/(w+2g), not absolute size — so geometry can be scaled to satisfy the minimum-gap rule while holding Z0 fixed.
 - On high-permittivity silicon, eps_eff is large, so a given Z0 needs a relatively narrow gap compared to a low-eps substrate.
 - Ground-plane width and any top cover shift Z0 slightly; the thick-substrate model ignores them.
 - For a λ/4 resonator, the open/short boundary and coupling capacitor pull the resonance down from the ideal v_p/4f — EM is needed for the exact f0 and Q.
 
 ## Assumptions
 
-- Substrate eps_r = 11.9 (from technology 'generic_2metal'); eps_eff = (1+eps_r)/2.
-- Symmetric CPW, thick substrate, zero metal thickness, lossless.
+- Substrate eps_r = 11.9 (from technology 'generic_2metal'); baseline eps_eff = (1+eps_r)/2.
+- Baseline estimate and proposed gap/length use symmetric, thick-substrate, zero-thickness, lossless CPW.
+- Separate scikit-rf estimate: 500 um substrate at 1 GHz, no metal backside, no metal-thickness correction. These are model defaults, not measured stack inputs.
 
 ## Limitations
 
 - Quasi-static, infinitely thick substrate, zero metal thickness, lossless.
-- No dispersion, radiation, or coupling effects — Z0 accurate to a few percent, f0 needs EM.
+- No universal accuracy bound is established; a matching independent comparison is required. The thick-substrate estimate omits dispersion, radiation and coupling; f0 needs EM.
 
 ## Recommended simulation
 

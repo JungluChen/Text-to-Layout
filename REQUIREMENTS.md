@@ -139,3 +139,10 @@ Shared solver subprocess timeouts retain partial stdout/stderr without promoting
 a failed run. JosephsonCircuits failed results reference these logs; other
 runners need their own audited recovery behavior. See the guidebook recovery
 section and `tests/textlayout_suite/test_solver_timeout_logs.py`.
+
+### CPW analytical comparison provenance
+
+Reports must identify the thick-substrate primary estimate and proposed
+parameters separately from optional scikit-rf values. State the optional
+model's finite substrate and frequency defaults; do not infer an accuracy
+bound or independent validation from agreement between analytical estimates.

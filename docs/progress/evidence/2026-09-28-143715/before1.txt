@@ -1,0 +1,15 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_________ test_actual_optional_model_does_not_relabel_primary_estimate _________
+
+    def test_actual_optional_model_does_not_relabel_primary_estimate():
+        pytest.importorskip("skrf")
+        result = report()
+        values = result.analytical_estimates
+>       assert "Simons/Hilberg" in values["analytical_backend"]
+E       AssertionError: assert 'Simons/Hilberg' in 'scikit-rf CPW (Ghione/Naldi)'
+
+tests/textlayout_suite/test_cpw_research_provenance.py:18: AssertionError
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_cpw_research_provenance.py::test_actual_optional_model_does_not_relabel_primary_estimate
+1 failed, 1 passed in 1.44s

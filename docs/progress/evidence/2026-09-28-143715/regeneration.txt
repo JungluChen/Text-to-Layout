@@ -1,0 +1,22 @@
+PASS  01_idc_0p6pf
+PASS  02_cpw_50ohm
+PASS  03_spiral_inductor
+PASS  04_quarter_wave_resonator
+TODO  05_squid_loop
+TODO  06_lc_5mhz_resonator
+Generated 4 benchmark(s); skipped 0 up-to-date.
+SKIP  01_idc_0p6pf (artifacts current)
+SKIP  02_cpw_50ohm (artifacts current)
+SKIP  03_spiral_inductor (artifacts current)
+SKIP  04_quarter_wave_resonator (artifacts current)
+TODO  05_squid_loop
+TODO  06_lc_5mhz_resonator
+Generated 0 benchmark(s); skipped 4 up-to-date.
+SKIP  01_idc_0p6pf (artifacts current)
+SKIP  02_cpw_50ohm (artifacts current)
+SKIP  03_spiral_inductor (artifacts current)
+SKIP  04_quarter_wave_resonator (artifacts current)
+TODO  05_squid_loop
+TODO  06_lc_5mhz_resonator
+Generated 0 benchmark(s); skipped 4 up-to-date.
+Changed geometry/input artifacts: []

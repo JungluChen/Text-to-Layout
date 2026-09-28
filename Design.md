@@ -212,3 +212,10 @@ JosephsonCircuits result exposes their artifact paths. Future UI recovery
 views must label these as partial failed-run evidence. This is a backend
 capability; a rendered recovery screen and accessibility screenshots remain
 pending.
+
+### CPW comparison presentation
+
+When showing the CPW research report, preserve the primary Simons/Hilberg
+estimate and separate scikit-rf comparison labels and assumptions. Geometry
+metadata can use the preferred scikit-rf estimate while parameter proposals
+use the thick-substrate model; show that distinction beside the values.

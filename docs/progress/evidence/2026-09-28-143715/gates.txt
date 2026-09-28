@@ -1,0 +1,49 @@
+check_benchmarks.py --strict
+Benchmark audit passed.
+EXIT 0
+validate_readme_claims.py
+README claim validation passed: every support claim is backed by artifacts.
+EXIT 0
+check_namespace_boundary.py --check
+namespace boundary OK: textlayout imports no legacy code; legacy package frozen.
+EXIT 0
+generate_project_status.py --check
+project status artifacts are current.
+EXIT 0
+generate_integration_checklist.py --check
+integration checklist is current
+EXIT 0
+build_canonical_evidence.py --check
+6/6 canonical records are current.
+EXIT 0
+render_showcase_artifacts.py --check
+all derived showcase artifacts are current.
+EXIT 0
+audit_evidence_consistency.py
+[OK  ] 01_idc_0p6pf
+[OK  ] 02_cpw_50ohm
+[OK  ] 03_idc_cpw_test_structure
+[OK  ] 04_spiral_inductor_3nh
+[OK  ] 05_quarter_wave_resonator_6ghz
+[OK  ] 06_research_test_chip
+
+6/6 showcases consistent.
+EXIT 0
+check_palace_amr_benchmark.py
+Palace AMR benchmark: SIMULATION_EXECUTED; 7 blocking gate(s)
+  BLOCKED: palace_adaptive_mesh_refinement
+  BLOCKED: element_wise_error_indicators_recorded
+  BLOCKED: last_level_frequency_change_percent
+  BLOCKED: global_amr_error_indicator_percent
+  BLOCKED: all_numerical_domain_sweeps_complete
+  BLOCKED: numerical_domain_frequency_sensitivity_percent
+  BLOCKED: independent_reference_target
+EXIT 0
+build_palace_benchmark_evidence.py --check
+3/3 Palace benchmark records are current.
+EXIT 0
+generate_acceptance.py
+INFEASIBLE       A_infeasible_5mhz_lc
+GEOMETRY_PASS    B_feasible_6ghz_resonator
+GEOMETRY_PASS    C_idc_autosize_0p6pf
+EXIT 0

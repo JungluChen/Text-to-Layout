@@ -15,7 +15,10 @@
 - Estimate `estimated_z0_ohm`: `50.04`
 - Estimate `scikit_rf_z0_ohm`: `50.0083`
 - Estimate `scikit_rf_eps_eff`: `6.449543`
-- Estimate `analytical_backend`: `scikit-rf CPW (Ghione/Naldi)`
+- Estimate `analytical_backend`: `built-in Simons/Hilberg (primary estimate and proposed parameters)`
+- Estimate `scikit_rf_backend`: `scikit-rf CPW (Ghione/Naldi), separate analytical comparison`
+- Estimate `scikit_rf_substrate_height_um`: `500.0`
+- Estimate `scikit_rf_frequency_ghz`: `1.0`
 - Estimate `target_frequency_ghz`: `6.0`
 - Estimate `quarter_wave_length_um`: `4918.4652`
 
@@ -67,4 +70,4 @@ Simulation readiness is Level 2 (open-source simulation input prepared). No EM s
 ## Limitations
 
 - Quasi-static, infinitely thick substrate, zero metal thickness, lossless.
-- No dispersion, radiation, or coupling effects — Z0 accurate to a few percent, f0 needs EM.
+- No universal accuracy bound is established; a matching independent comparison is required. The thick-substrate estimate omits dispersion, radiation and coupling; f0 needs EM.

@@ -49,7 +49,7 @@ _EQUATIONS = (
 )
 
 _DESIGN_NOTES = (
-    "The impedance depends only on the ratio k = w/(w+2g), not absolute size — so geometry can "
+    "In the thick-substrate model, impedance depends only on k = w/(w+2g), not absolute size — so geometry can "
     "be scaled to satisfy the minimum-gap rule while holding Z0 fixed.",
     "On high-permittivity silicon, eps_eff is large, so a given Z0 needs a relatively narrow gap "
     "compared to a low-eps substrate.",
@@ -60,7 +60,8 @@ _DESIGN_NOTES = (
 
 _LIMITATIONS = (
     "Quasi-static, infinitely thick substrate, zero metal thickness, lossless.",
-    "No dispersion, radiation, or coupling effects — Z0 accurate to a few percent, f0 needs EM.",
+    "No universal accuracy bound is established; a matching independent comparison is required. "
+    "The thick-substrate estimate omits dispersion, radiation and coupling; f0 needs EM.",
 )
 
 _SIM = {
@@ -76,6 +77,10 @@ def research_cpw(
     eps_eff = F.cpw_eps_eff(eps_r)
     estimates: dict[str, Any] = {"substrate_eps_r": eps_r, "eps_eff": round(eps_eff, 4)}
     proposed: dict[str, Any] | None = None
+    assumptions = [
+        f"Substrate eps_r = {eps_r} (from technology {tech.name!r}); baseline eps_eff = (1+eps_r)/2.",
+        "Baseline estimate and proposed gap/length use symmetric, thick-substrate, zero-thickness, lossless CPW.",
+    ]
 
     w = float(parameters.get("center_width_um", 10.0))
     g = parameters.get("gap_um")
@@ -87,7 +92,14 @@ def research_cpw(
         if skrf_estimate is not None:
             estimates["scikit_rf_z0_ohm"] = round(skrf_estimate[0], 4)
             estimates["scikit_rf_eps_eff"] = round(skrf_estimate[1], 6)
-            estimates["analytical_backend"] = "scikit-rf CPW (Ghione/Naldi)"
+            estimates["analytical_backend"] = "built-in Simons/Hilberg (primary estimate and proposed parameters)"
+            estimates["scikit_rf_backend"] = "scikit-rf CPW (Ghione/Naldi), separate analytical comparison"
+            estimates["scikit_rf_substrate_height_um"] = 500.0
+            estimates["scikit_rf_frequency_ghz"] = 1.0
+            assumptions.append(
+                "Separate scikit-rf estimate: 500 um substrate at 1 GHz, no metal backside, "
+                "no metal-thickness correction. These are model defaults, not measured stack inputs."
+            )
         else:
             estimates["analytical_backend"] = (
                 "built-in Simons/Hilberg (install text-to-gds[rf] for scikit-rf correlation)"
@@ -127,10 +139,7 @@ def research_cpw(
         model_name="Conformal-mapping CPW (Simons/Hilberg) + λ/4 transmission-line theory",
         physical_target=target,
         equations=_EQUATIONS,
-        assumptions=(
-            f"Substrate eps_r = {eps_r} (from technology {tech.name!r}); eps_eff = (1+eps_r)/2.",
-            "Symmetric CPW, thick substrate, zero metal thickness, lossless.",
-        ),
+        assumptions=tuple(assumptions),
         references=_REFERENCES,
         analytical_estimates=estimates,
         design_notes=_DESIGN_NOTES,

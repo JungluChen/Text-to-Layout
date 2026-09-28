@@ -218,3 +218,10 @@ means the mask check passed, not electrical or fabrication validation.
 See [the verified workflow](guidebook/public-reference.md). This command does
 not introduce a callable MCP method. AI prompt example: “Run the public mask
 reference check and explain which electrical comparisons remain missing.”
+
+### CPW research model provenance
+
+Generated research reports keep `estimated_z0_ohm` and proposed gap/length
+labelled as the built-in Simons/Hilberg model. Optional `scikit_rf_z0_ohm`
+is a separate analytical comparison with explicit 500 um substrate and 1 GHz
+defaults. These are not interchangeable solver results or an accuracy claim.

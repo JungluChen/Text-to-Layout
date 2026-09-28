@@ -132,7 +132,10 @@
       "estimated_z0_ohm": 50.04,
       "scikit_rf_z0_ohm": 50.0083,
       "scikit_rf_eps_eff": 6.449543,
-      "analytical_backend": "scikit-rf CPW (Ghione/Naldi)",
+      "analytical_backend": "built-in Simons/Hilberg (primary estimate and proposed parameters)",
+      "scikit_rf_backend": "scikit-rf CPW (Ghione/Naldi), separate analytical comparison",
+      "scikit_rf_substrate_height_um": 500.0,
+      "scikit_rf_frequency_ghz": 1.0,
       "target_frequency_ghz": 6.0,
       "quarter_wave_length_um": 4918.4652
     },
