@@ -1,0 +1,120 @@
+Warning: In file .tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-1/variant_0/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=52944, record number=171, cell=TOP)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-1/variant_1/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=31874, record number=126, cell=TOP$1)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-1/variant_2/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=2882, record number=121, cell=TOP$2)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-1/variant_3/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=53034, record number=171, cell=TOP$3)
+Warning: In file .tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+1 True 4 NOT_EVALUATED
+2026-09-28 11:25:04.168 | ERROR    | kfactory.kcell:name:691 - Name conflict in kfactory.kcell::name at line 691
+Renaming Unnamed_20 (cell_index=20) to TOP would cause it to be named the same as:
+ - TOP (cell_index=0), function_name=None, basename=None
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-2/variant_0/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=52960, record number=171, cell=TOP)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+2026-09-28 11:25:04.207 | ERROR    | kfactory.kcell:name:691 - Name conflict in kfactory.kcell::name at line 691
+Renaming Unnamed_25 (cell_index=25) to TOP$1 would cause it to be named the same as:
+ - TOP$1 (cell_index=5), function_name=None, basename=None
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-2/variant_1/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=31890, record number=126, cell=TOP$1)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+2026-09-28 11:25:04.244 | ERROR    | kfactory.kcell:name:691 - Name conflict in kfactory.kcell::name at line 691
+Renaming Unnamed_30 (cell_index=30) to TOP$2 would cause it to be named the same as:
+ - TOP$2 (cell_index=10), function_name=None, basename=None
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-2/variant_2/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=2898, record number=121, cell=TOP$2)
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+2026-09-28 11:25:04.282 | ERROR    | kfactory.kcell:name:691 - Name conflict in kfactory.kcell::name at line 691
+Renaming Unnamed_35 (cell_index=35) to TOP$3 would cause it to be named the same as:
+ - TOP$3 (cell_index=15), function_name=None, basename=None
+Warning: In file /Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/squadds_reference/wm1.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=60236, record number=464, cell=TOP)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=217958, record number=974, cell=TOP$1)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=367816, record number=1524, cell=TOP$2)
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=595914, record number=2129, cell=TOP$3)
+Warning: In file /private/tmp/textlayout-cp1252-fixed-2/variant_3/output.gds:
+Warning: Record length larger than 0x8000 encountered: interpreting as unsigned (position=53050, record number=171, cell=TOP$3)
+2 True 4 NOT_EVALUATED

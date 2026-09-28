@@ -1,0 +1,2 @@
+1 UnicodeDecodeError 'charmap' codec can't decode byte 0x9d in position 3395: character maps to <undefined>
+2 UnicodeDecodeError 'charmap' codec can't decode byte 0x9d in position 3395: character maps to <undefined>

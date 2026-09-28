@@ -1,0 +1,4 @@
+/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/textlayout-installed-_cqft6qx/venv/lib/python3.12/site-packages/textlayout/__init__.py
+0.3.1
+
+--- STDERR ---

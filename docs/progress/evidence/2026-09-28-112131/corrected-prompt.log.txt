@@ -1,0 +1,36 @@
+{
+  "schema": "textlayout.from-text.v1",
+  "status": "ok",
+  "component": "IDC",
+  "layout_component": "IDC",
+  "target": {
+    "capacitance_pf": 0.6,
+    "frequency_ghz": 6.0
+  },
+  "simulation_status": "SKIPPED_SOLVER_ABSENT",
+  "simulation_summary": "capacitance: SKIPPED_SOLVER_ABSENT \u2014 solver not installed; no physics verification was performed",
+  "circuit_simulators": {},
+  "artifacts": {
+    "intent": "intent.json",
+    "layout": "layout.json",
+    "optimization": "optimization.json",
+    "gds": "output.gds",
+    "svg": "output.svg",
+    "png": "output.png",
+    "klayout_readback": "klayout_readback.json",
+    "verification": "verification.json",
+    "capacitance_result": "extraction/capacitance_result.json",
+    "simulation": "simulation/simulation.json",
+    "simulation_legacy": "simulation.json",
+    "report": "report.md",
+    "workflow_trace": "workflow_trace.json"
+  },
+  "output_dir": "/Users/ludko/Desktop/text2layout/Text-to-Layout/out/release-v031-utf8-installed/prompt",
+  "pdk_provenance": {
+    "available": false,
+    "technology": "generic_2metal",
+    "note": "Technology 'generic_2metal' is not backed by a PDK YAML (e.g. the built-in generic_2metal Technology, which predates the PDK schema). No PDK provenance is available."
+  }
+}
+
+--- STDERR ---

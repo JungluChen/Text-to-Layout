@@ -1,0 +1,20 @@
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	﻿2026-09-28T03:19:24.0908127Z ##[group]Run uv run --no-sync python scripts/verify_installed_wheel.py --wheel dist/text_to_gds-0.3.1-py3-none-any.whl --out out/installed-wheel
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.0909378Z ^[[36;1muv run --no-sync python scripts/verify_installed_wheel.py --wheel dist/text_to_gds-0.3.1-py3-none-any.whl --out out/installed-wheel^[[0m
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1059998Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1060457Z env:
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1060740Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1061136Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1061451Z   UV_PYTHON: 3.12
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1061779Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1062159Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.1062474Z ##[endgroup]
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.5285327Z Actual environment location may have moved due to redirects, links or junctions.
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.5288423Z   Requested location: "C:\Users\RUNNER~1\AppData\Local\Temp\textlayout-installed-cstnm6c0\venv\Scripts\python.exe"
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:19:24.5289821Z   Actual location:    "C:\Users\runneradmin\AppData\Local\Temp\textlayout-installed-cstnm6c0\venv\Scripts\python.exe"
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:31.7210096Z install: exit 0
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:32.3305028Z identity: exit 0
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:32.9455510Z help: exit 0
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:38.1883734Z doctor: exit 0
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:42.3040099Z prompt: exit 0
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:43.7246442Z reference: exit 2
+test (windows-latest, 3.12)	Verify installed wheel outside checkout	2026-09-28T03:21:56.3177564Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,83 @@
+{
+  "schema": "textlayout.installed-wheel-check.v1",
+  "wheel": "text_to_gds-0.3.1-py3-none-any.whl",
+  "wheel_sha256": "eec9e6a737dc22bfc29ddcdcb688ccf16980367ed42ced6bef95dad20ff89f7a",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "commands": [
+    {
+      "name": "install",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "/home/runner/work/Text-to-Layout/Text-to-Layout/dist/text_to_gds-0.3.1-py3-none-any.whl"
+      ],
+      "exit_code": 0,
+      "log": "install.log",
+      "sha256": "e7620a76499dedd09809cfad1ca0c39b0d927f980af28b607e4cb68422b9b90c"
+    },
+    {
+      "name": "identity",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/python",
+        "-c",
+        "import textlayout,importlib.metadata; print(textlayout.__file__); print(importlib.metadata.version('text-to-gds'))"
+      ],
+      "exit_code": 0,
+      "log": "identity.log",
+      "sha256": "6bb0222be2cf0b68bdc7dd28271f4ae130606383a9f421d2bd8e8096f50554bb"
+    },
+    {
+      "name": "help",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/textlayout",
+        "--help"
+      ],
+      "exit_code": 0,
+      "log": "help.log",
+      "sha256": "0f75a56c1b9ec4a54edd33b37e449ea7d652d5237071fd6cb0bb93daaa81d20b"
+    },
+    {
+      "name": "doctor",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/textlayout",
+        "doctor",
+        "--json"
+      ],
+      "exit_code": 0,
+      "log": "doctor.log",
+      "sha256": "a552202ef8b113c3f0c52b55ab3d3cdd3082435a7d260cac5fa1bc8a7cf56068"
+    },
+    {
+      "name": "prompt",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/textlayout",
+        "prompt",
+        "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports.",
+        "--out",
+        "/home/runner/work/Text-to-Layout/Text-to-Layout/out/installed-wheel/prompt"
+      ],
+      "exit_code": 0,
+      "log": "prompt.log",
+      "sha256": "dfd67bc3ec845a3cb74485bce22893209e9142a2d2a1cc75cd0f78c83d217665"
+    },
+    {
+      "name": "reference",
+      "command": [
+        "/tmp/textlayout-installed-ag5e3ljf/venv/bin/textlayout",
+        "verify",
+        "--reference",
+        "--cache",
+        "/tmp/textlayout-installed-ag5e3ljf/cache",
+        "--out",
+        "/home/runner/work/Text-to-Layout/Text-to-Layout/out/installed-wheel/reference"
+      ],
+      "exit_code": 0,
+      "log": "reference.log",
+      "sha256": "ad4965fced57662592f841bd268a4a8355ef690ec0a0a7a3306f6a0321f0327b"
+    }
+  ],
+  "passed": true
+}

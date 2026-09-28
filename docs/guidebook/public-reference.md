@@ -44,3 +44,7 @@ ordering adds REFERENCE=5 and moves MEASURED to 6; persisted status names keep
 their meaning. Reference agreement does not replace measurement calibration
 or fabrication signoff. Consumers should use enum names rather than assuming
 integer confidence values.
+
+Pinned reference JSON is decoded as UTF-8 explicitly on every platform,
+including Windows with a legacy default locale. A decoding failure produces
+a failed mask check; it never becomes a successful electrical comparison.

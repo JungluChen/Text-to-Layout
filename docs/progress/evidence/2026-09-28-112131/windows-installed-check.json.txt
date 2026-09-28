@@ -1,0 +1,83 @@
+{
+  "schema": "textlayout.installed-wheel-check.v1",
+  "wheel": "text_to_gds-0.3.1-py3-none-any.whl",
+  "wheel_sha256": "97ed77bdcd1613c0b1887a2217989f83a0c593ea9b5a58e2c8b5db948a438384",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "commands": [
+    {
+      "name": "install",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "D:\\a\\Text-to-Layout\\Text-to-Layout\\dist\\text_to_gds-0.3.1-py3-none-any.whl"
+      ],
+      "exit_code": 0,
+      "log": "install.log",
+      "sha256": "63f96a153d7ac45d0a3b2306b1e35c110d3ac62f39c6fc5c4fcf3c1bb91887a1"
+    },
+    {
+      "name": "identity",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\python.exe",
+        "-c",
+        "import textlayout,importlib.metadata; print(textlayout.__file__); print(importlib.metadata.version('text-to-gds'))"
+      ],
+      "exit_code": 0,
+      "log": "identity.log",
+      "sha256": "a7f09fedd40f670c54ce0f8ffbdb6fdde6cc8cd6b843dec0697bd5786df1ae5a"
+    },
+    {
+      "name": "help",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\textlayout.exe",
+        "--help"
+      ],
+      "exit_code": 0,
+      "log": "help.log",
+      "sha256": "012a5f300e1fdfe4259438e33fe676d1b3a96ea3e66a2286b1e1aa35e6095699"
+    },
+    {
+      "name": "doctor",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\textlayout.exe",
+        "doctor",
+        "--json"
+      ],
+      "exit_code": 0,
+      "log": "doctor.log",
+      "sha256": "22b353a462bbb0e3a7032a9441455464dd0a26995ed64ae6d5cca84a3da30dab"
+    },
+    {
+      "name": "prompt",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\textlayout.exe",
+        "prompt",
+        "Create a 0.6 pF IDC on silicon at 6 GHz with 2 um minimum gap, 4 um finger width, and two RF ports.",
+        "--out",
+        "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\installed-wheel\\prompt"
+      ],
+      "exit_code": 0,
+      "log": "prompt.log",
+      "sha256": "2afcec609e6b8f6a7649a91acfe5e971168a5cccbe674269a9ceaf84a8480f29"
+    },
+    {
+      "name": "reference",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\venv\\Scripts\\textlayout.exe",
+        "verify",
+        "--reference",
+        "--cache",
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\textlayout-installed-cstnm6c0\\cache",
+        "--out",
+        "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\installed-wheel\\reference"
+      ],
+      "exit_code": 2,
+      "log": "reference.log",
+      "sha256": "6de7aec356acb6d4f1d4eeb4271f709fb35b99d08c1ea44897cb14f97db482ef"
+    }
+  ],
+  "passed": false
+}

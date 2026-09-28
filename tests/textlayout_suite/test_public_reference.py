@@ -76,3 +76,29 @@ def test_reference_cache_fails_closed(tmp_path):
     (tmp_path / "wm1.gds").write_bytes(b"modified")
     with pytest.raises(ValueError, match="SHA-256 mismatch"):
         verified_asset("wm1.gds", tmp_path, offline=True)
+
+
+def test_reference_database_is_utf8_with_windows_default_codec(tmp_path, monkeypatch):
+    """A Unicode source must decode before geometry processing on any host."""
+    import klayout.db as kdb
+    from textlayout.verification import squadds_reference as reference
+
+    database = tmp_path / "database.json"
+    database.write_text(json.dumps([{
+        "contrib_info": {"name": "WM1", "note": "Synthetic parser fixture: \u201d"},
+        "measured_results": [{"H_params": [{f"qubit_{i}": {} for i in range(1, 7)}]}],
+    }], ensure_ascii=False), encoding="utf-8")
+    original = Path.read_text
+
+    def windows_default(path, encoding=None, errors=None):
+        return original(path, encoding=encoding or "cp1252", errors=errors)
+
+    class GeometryStageReached:
+        def read(self, path):
+            raise RuntimeError("dataset decoded; geometry not part of this parser test")
+
+    monkeypatch.setattr(Path, "read_text", windows_default)
+    monkeypatch.setattr(reference, "verified_asset", lambda *args, **kwargs: database)
+    monkeypatch.setattr(kdb, "Layout", GeometryStageReached)
+    with pytest.raises(RuntimeError, match="dataset decoded"):
+        reference.validate(tmp_path, tmp_path / "out", offline=True)

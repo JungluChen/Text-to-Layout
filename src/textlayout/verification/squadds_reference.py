@@ -64,7 +64,7 @@ def validate(cache: Path, out: Path, *, offline: bool) -> dict[str, Any]:
 
     measured = verified_asset("measured_device_database.json", cache, offline=offline)
     gds = verified_asset("wm1.gds", cache, offline=offline)
-    records = json.loads(measured.read_text())
+    records = json.loads(measured.read_text(encoding="utf-8"))
     wm1 = next(row for row in records if row["contrib_info"]["name"] == "WM1")
     values = wm1["measured_results"][0]["H_params"][0]
     if set(values) != {f"qubit_{i}" for i in range(1, 7)}:
@@ -78,7 +78,7 @@ def validate(cache: Path, out: Path, *, offline: bool) -> dict[str, Any]:
     for index, cell in enumerate(TOPS):
         folder = out / f"variant_{index}"
         result = roundtrip_reference_gds(gds, folder / "output.gds", cell=cell)
-        (folder / "comparison.json").write_text(json.dumps(result, indent=2) + "\n")
+        (folder / "comparison.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
         comparisons.append(result)
     return {
         "schema": "textlayout.squadds-reference.v1",
@@ -120,7 +120,7 @@ def main() -> int:
         result = {"mask_geometry_passed": False, "error": str(exc),
                   "electrical_reproduction_status": "NOT_EVALUATED"}
     report = args.out / "results.json"
-    report.write_text(json.dumps(result, indent=2) + "\n")
+    report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: result.get(key) for key in (
         "mask_geometry_passed", "variants_evaluated", "measured_device_count",
         "electrical_reproduction_status", "error")}, indent=2))
