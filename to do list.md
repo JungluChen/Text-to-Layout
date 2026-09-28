@@ -9,7 +9,11 @@ in the repository's generated evidence and retained solver artifacts.
 Finish the five-item Python MVP before the broader integration backlog below.
 Implemented commits: scqubits `3799d8d`, analytical CPW selection `a6f0406`,
 pinned reference contract/CLI `fba30db`, four-example promotion `b0fab5b`.
-Installed-wheel and platform release gates are in progress. WM1 mask checks
+Installed-wheel gate `b334003`, benchmark regeneration `1ff2c05`, and Windows
+UTF-8 repairs `4556f84` / `5e34c6e` are implemented. Exact-product-SHA CI
+36373813267 and test 36373813312 passed; installed Python CLI commands passed
+on macOS, Windows and Linux with verified artifact hashes. See
+`docs/progress/2026-09-28-112131.md`. Publication remains blocked below. WM1 mask checks
 pass; electrical agreement remains NOT_EVALUATED, with independent electrical
 inputs/mapping still required. PyPI Trusted Publishing is not configured, as
 confirmed by the owner: no tag or publication until configured and verified.
