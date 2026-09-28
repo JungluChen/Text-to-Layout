@@ -50,7 +50,11 @@ Promise.all(sourceFiles.map(async (name) => {
   const svg = $('geometry'); const ns = 'http://www.w3.org/2000/svg'; const box = geometry.bbox_um;
   const view = `${box.ymin - 50} ${box.xmin - 30} ${box.height + 100} ${box.width + 60}`;
   svg.setAttribute('viewBox', view);
+  let stack = null;
+  let selectedIndex = 0;
   function select(index) {
+    selectedIndex = index;
+    stack?.select(index);
     [...svg.querySelectorAll('polygon')].forEach((p, i) => p.classList.toggle('selected', i === index));
     document.querySelectorAll('[data-object]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.object) === index)));
     const p = geometry.polygons[index];
@@ -66,6 +70,24 @@ Promise.all(sourceFiles.map(async (name) => {
   $('fit').addEventListener('click', () => svg.setAttribute('viewBox', view));
   $('zoom').addEventListener('click', () => svg.setAttribute('viewBox', `${box.ymin + box.height / 4} ${box.xmin - 10} ${box.height / 2} ${box.width + 20}`));
   const portsText = document.createElement('pre'); portsText.textContent = JSON.stringify({bbox_um: geometry.bbox_um, ports: geometry.ports}, null, 2); $('ports').append(portsText);
+  let loadingStack = false;
+  const loadStack = async () => {
+    if (!$('stack-panel').open || stack || loadingStack) return;
+    loadingStack = true;
+    $('stack-status').textContent = 'Loading Three.js…';
+    try {
+      const {createStack} = await import('./stack.bundle.js');
+      stack = createStack($('stack-canvas'), geometry, select);
+      stack.select(selectedIndex);
+      $('stack-status').textContent = '3D renderer ready · retained planar M1 geometry · physical stack data missing.';
+    } catch (error) {
+      $('stack-status').textContent = `3D unavailable: ${error.message}. The 2D view and object table remain usable. Close and reopen this section to retry.`;
+    } finally { loadingStack = false; }
+  };
+  $('stack-panel').addEventListener('toggle', loadStack);
+  if ($('stack-panel').open) loadStack();
+  document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => stack?.command(button.dataset.view)));
+  window.addEventListener('pagehide', event => { if (!event.persisted) stack?.dispose(); });
   select(0);
 }).catch(error => { $('load-status').textContent = `Artifacts could not be loaded: ${error.message}. Reload the page or inspect the repository. No evidence status is available.`; });
 function navigate() {

@@ -16,3 +16,12 @@ then `vercel deploy --prod`. Do not deploy the repository root. `.env*` and
 each copied public artifact. When updating snapshots, copy the complete matching
 benchmark revision and regenerate this manifest; never mix showcase execution
 evidence into benchmark geometry. Validate every hash before deployment.
+
+## Three.js build
+
+From web/: `npm ci`, `npm test`, `npm run build`. Preview `web/dist/`, not the
+source directory, with the HTTP server. Vercel builds and serves dist/ using
+vercel.json. Three.js0.186.1 and esbuild0.28.2 are pinned with npm integrity locks;
+the bundle is same-origin and its MIT license is served as THREE-LICENSE.txt.
+No CDN or CSP exception is needed. The lazy renderer makes no physical stack
+inference. The old dependency-free statement describes the initial increment.

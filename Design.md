@@ -227,3 +227,11 @@ pending. `web/` now contains a separate public landing page and labelled static
 workbench preview. See [macOS handoff](docs/design/macos-app.md). It renders real
 benchmark artifacts, preserves their original statuses, and demonstrates stale
 revision handling. It does not implement a native application or hosted solver.
+
+### Three.js browser geometry view
+
+The browser preview now lazy-loads a pinned, locally bundled Three.js renderer.
+It preserves retained x/y polygons at z=0 because the snapshot has no physical
+layer elevations or thickness. Orbit/zoom/reset/top-view buttons and the shared
+object table offer pointer and keyboard access. No auto-rotation or damping is
+used. This display does not change evidence or replace the future native shell.

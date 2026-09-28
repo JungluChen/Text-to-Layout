@@ -234,3 +234,8 @@ links. Inputs are the hashed CPW benchmark snapshot; outputs are presentation
 only, with no file writes or solver calls. No MCP method or native command is
 created. Use the existing `textlayout generate` command for real generation;
 see [preview guide](guidebook/web-preview.md).
+
+Browser 3D geometry: expand **3D geometry · Three.js**. Inputs are the same
+retained polygon coordinates; output is a WebGL view, with no solver or filesystem
+side effects. Orbit, top/reset, zoom and linked selection are presentation actions,
+not new MCP functions. WebGL2 is required; missing thickness is not reconstructed.

@@ -48,3 +48,18 @@ Capture: macOS, Codex in-app browser,2026-09-28, deployment
 `dpl_BVteoryZANRzzJNMBEN7DMfZoJVb`, system light appearance. This is an
 unannotated browser preview; installed-native tutorial and numbered annotations
 are pending. The original capture is retained without alteration.
+
+## Interactive 3D geometry
+
+1. Open Project / Layout and expand **3D geometry · Three.js**.
+2. Wait for **3D renderer ready**. Drag to orbit and scroll to zoom, or use
+   Rotate left/right, Zoom 3D in/out, Top view and Reset 3D view with the keyboard.
+3. Select a polygon in either canvas or the semantic object table. The original
+   inspector coordinates and both visual highlights refer to the same polygon.
+4. Check the missing-stack notice: this snapshot has x/y polygons only, displayed
+   at z=0 µm. No metal thickness, substrate volume or EM result is fabricated.
+
+If WebGL is unavailable, use the retained 2D view/table. Close and reopen the
+section after a module-load failure; reload after graphics-context loss.
+Browser 3D rendering is now implemented; native macOS stack integration remains
+pending. Rendering uses pinned Three.js, served from this site's own bundle.

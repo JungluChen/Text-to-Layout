@@ -154,3 +154,7 @@ requested by the owner. Distinguish source-available CLI, pending PyPI release,
 planned native apps and absent hosted solver execution. Deploy only `web/` and
 its public, hashed benchmark snapshots. Do not expose local configuration or
 credentials. This increment does not waive native release acceptance.
+
+The 2026-09-28 Three.js increment replaces the browser 3D placeholder with actual
+WebGL rendering of retained geometry. Missing physical stack data stays explicit;
+no material thickness is inferred. WebGL/module failures retain the 2D fallback.

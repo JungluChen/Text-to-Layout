@@ -448,3 +448,9 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
   all features ship. Add real installation, first design, missing-solver,
   results/evidence and export captures; validate commands and both plugin hosts.
 - **Completion commits:** Pending.
+
+### 2026-09-29 browser continuation
+
+Three.js geometry preview replaces the static3D placeholder; source/validation
+and remaining physical-stack/accessibility gaps are recorded in
+`docs/progress/2026-09-29-011521.md`. Native Qt delivery is still pending.

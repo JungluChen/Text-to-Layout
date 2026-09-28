@@ -65,3 +65,7 @@ walkthrough, complete accessibility matrix, signing/notarisation, signed update
 metadata, update verification/rollback, and installed-app screenshots remain
 pending. Windows and Linux desktop are not delivered. PyPI publication remains
 blocked on owner configuration, independently of this authorized design work.
+
+Browser increment: Three.js now renders the retained polygons in an orbitable
+planar 3D scene. Physical stack dimensions remain absent. The earlier statement
+that the optional stack preview is unconnected applies to native Qt only.
