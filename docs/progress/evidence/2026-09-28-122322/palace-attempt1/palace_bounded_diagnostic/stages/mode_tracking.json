@@ -1,0 +1,64 @@
+{
+  "schema": "textlayout.palace-stage-record.v1",
+  "stage": "mode_tracking",
+  "status": "failed",
+  "input_hashes": {
+    "base_mesh/postpro/iteration1/eig.csv": "a6c803d3a454760988db38d1a51624565653ed283cabe2e6495692cd8f443390",
+    "base_mesh/postpro/iteration1/domain-E.csv": "a89cc06fc8d3ec30724507ff1031617317cf4e0328dbd66369a4b83146a97766",
+    "base_mesh/postpro/iteration1/error-indicators.csv": "c19b3289a61f690e7cfce1d881af3720004cb5ce4d70f1ef203a0f99f1fdd4a3",
+    "base_mesh/postpro/iteration1/palace.json": "3370effca1865d3d8cd6fafe1ed42d3a7cc5f6ab4d8b89dfd20da51ad8675e64",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/data.pvtu": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/proc000000.vtu": "a606c3fdafe92ec4333f1458fb227dffff812622601a4782a29b31b86158f793",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/data.pvtu": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/proc000000.vtu": "8f3856d520c46f2e2ac16492372d2e81c5dacdb70a6c5c399dc6f5a14ddd0726",
+    "amr/iteration_00/domain-E.csv": "a89cc06fc8d3ec30724507ff1031617317cf4e0328dbd66369a4b83146a97766",
+    "amr/iteration_00/eig.csv": "a6c803d3a454760988db38d1a51624565653ed283cabe2e6495692cd8f443390",
+    "amr/iteration_00/error-indicators.csv": "c19b3289a61f690e7cfce1d881af3720004cb5ce4d70f1ef203a0f99f1fdd4a3",
+    "amr/iteration_00/palace.json": "3370effca1865d3d8cd6fafe1ed42d3a7cc5f6ab4d8b89dfd20da51ad8675e64",
+    "base_mesh/postpro/eig.csv": "bf1532d3e70acaedf69281af898fab95c4cbe5aa6e3a583e16d2967f703ec888",
+    "base_mesh/postpro/domain-E.csv": "b3ced69846bd66daa3257283539152d57261b1e4e0943882ae5c756ba6ac41ad",
+    "base_mesh/postpro/error-indicators.csv": "f4eddd7f0fee50c16b86ba2fb79f3bb51c235464aadd9db54c9b15ce1b558cb8",
+    "base_mesh/postpro/palace.json": "511515789e60586ef5365d3ae21d23602f0da0d939b2a1f82a53252f36f3e527",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000001/data.pvtu": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000001/proc000000.vtu": "f6413e65ad6d247db8926f62912c0dcf5d8b0c128e2db69adabb4e80afcd3525",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000002/data.pvtu": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000002/proc000000.vtu": "db242be80bd1960dca2efbde350c559237c0db8d76ae6eab35e72aab62d77b17",
+    "amr/iteration_01/domain-E.csv": "b3ced69846bd66daa3257283539152d57261b1e4e0943882ae5c756ba6ac41ad",
+    "amr/iteration_01/eig.csv": "bf1532d3e70acaedf69281af898fab95c4cbe5aa6e3a583e16d2967f703ec888",
+    "amr/iteration_01/error-indicators.csv": "f4eddd7f0fee50c16b86ba2fb79f3bb51c235464aadd9db54c9b15ce1b558cb8",
+    "amr/iteration_01/palace.json": "511515789e60586ef5365d3ae21d23602f0da0d939b2a1f82a53252f36f3e527"
+  },
+  "output_hashes": {
+    "mode_tracking.json": "efd351a76c5c18580673eea229437f1f7747fe35b65331c399f9b53cccecc185"
+  },
+  "command": null,
+  "return_code": null,
+  "runtime_seconds": null,
+  "started_at": "2026-09-27T06:26:19+00:00",
+  "completed_at": "2026-09-27T06:26:19+00:00",
+  "executable_identity": {
+    "name": "Palace",
+    "version": "0.17.0",
+    "execution_kind": "executable",
+    "executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-hzm53dafiy74yglnou4bfp2v55cilrhz/bin/palace",
+    "executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+    "mpi_launcher": "/usr/bin/mpirun"
+  },
+  "job_profile": null,
+  "upstream_stage_evidence_ids": [
+    "d5ddb67be91a66e9c79d2fa79d48796bc22441ac42dfa870033f73e91e4289b6",
+    "3c0041f9b2f1b86a3cb1f956d7948040d1d2635b6089bc808698fd443d493c45",
+    "59b85e3afb42fb8d490f2b14bff72244a509a277d968a02046bc09829070d4fe"
+  ],
+  "evidence_id": "496309585086faf235b5a3503ca4fd640adf688575a99a15d6421490cc87eeb4",
+  "notes": [
+    "physical target classification failed: TARGET_MODE_NOT_FOUND"
+  ],
+  "artifact_contract_report": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/stages/mode_tracking.artifacts.json",
+  "artifact_contract_sha256": "dba387d65c9ed8542d4498c85a73c66f1233c66897c655a41e64989afa53d165",
+  "undeclared_outputs": [
+    "bounded_solved_states.json",
+    "hard_resource_budget.json",
+    "material_overlap_map.json"
+  ]
+}

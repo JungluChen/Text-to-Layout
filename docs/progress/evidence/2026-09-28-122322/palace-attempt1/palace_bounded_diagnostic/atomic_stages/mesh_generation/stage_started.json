@@ -1,0 +1,17 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "mesh_generation",
+  "state": "STARTED",
+  "timestamp": "2026-09-27T06:20:31.540516+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/fem_model.json": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f"
+  },
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": null,
+  "evidence_id": "bb212ea752176b36d1a7d66658fd22c84a0a842fc185e4f1fe7b9d21c5bdc3af"
+}

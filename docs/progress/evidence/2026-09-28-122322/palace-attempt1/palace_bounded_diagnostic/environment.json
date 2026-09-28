@@ -1,0 +1,21 @@
+{
+  "compiler_versions": {
+    "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "gfortran": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "gxx": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  },
+  "cpu_logical_cores": "unknown",
+  "cpu_model": "unknown",
+  "git_commit": "d40b16548aa1037fe415f5ccc417998ea97cd604",
+  "gmsh_version": "4.15.2",
+  "mpi_version": "mpirun (Open MPI) 4.1.6",
+  "native_root": "/home/runner/.cache/textlayout-palace",
+  "os": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "palace_version": "0.17.0",
+  "python": "3.12.3",
+  "ram": "unknown",
+  "schema": "textlayout.palace-environment.v1",
+  "timestamp": "2026-09-27T06:20:31+00:00",
+  "wsl": "unknown"
+}

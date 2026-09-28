@@ -1,0 +1,17 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "adapt_mesh_0",
+  "state": "STARTED",
+  "timestamp": "2026-09-27T06:21:24.930313+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/quarter_wave_base.msh": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069"
+  },
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": null,
+  "evidence_id": "9417156d6fc207a4816ba91ae47fc5364afba12d6d026483354ee7670ee846e5"
+}

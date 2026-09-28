@@ -1,0 +1,18 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "mesh_generation",
+  "state": "COMPLETED",
+  "timestamp": "2026-09-27T06:21:24.905805+00:00",
+  "command": null,
+  "return_code": 0,
+  "input_hashes": {},
+  "output_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/quarter_wave_base.msh": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/mesh_metrics.json": "f44a3f415fba9ad25d7bfbe61ea109afccf07dde9141552606580a406abb86d2"
+  },
+  "parsed_result_sha256": "f44a3f415fba9ad25d7bfbe61ea109afccf07dde9141552606580a406abb86d2",
+  "resource_summary_sha256": "0670d840d19c20d53f1dcb2a7738dd91b1572d2b3df1fe941e020075bc487ea4",
+  "owned_children_remaining": false,
+  "reason": null,
+  "evidence_id": "86f6f7b97b698c55bdef25172d7c6a469889f44682aeb553ecf57c3498efae52"
+}

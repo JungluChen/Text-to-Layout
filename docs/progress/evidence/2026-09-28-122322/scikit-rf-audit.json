@@ -1,0 +1,51 @@
+{
+  "slot": 21,
+  "source": "https://github.com/scikit-rf/scikit-rf",
+  "tag": "v1.12.0",
+  "source_commit": "950534a5928d5c99e3fea2beaec7d82519800b0c",
+  "license": "BSD-3-Clause",
+  "installed_version": "1.12.0",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "installed_requires": [
+    "numpy>=1.21",
+    "scipy>=1.7",
+    "pandas>=1.1",
+    "typing-extensions",
+    "matplotlib>=3.5; extra == \"plot\"",
+    "openpyxl>=3.0; extra == \"xlsx\"",
+    "networkx>=2.0; extra == \"netw\"",
+    "PyVISA>=1.12; extra == \"visa\"",
+    "pyvisa-py>=0.6; extra == \"visa\""
+  ],
+  "inputs": {
+    "width_um": 10,
+    "gap_um": 6,
+    "eps_r": 11.9,
+    "substrate_height_um": 500,
+    "frequency_ghz": 1
+  },
+  "analytical_repeats": [
+    {
+      "preferred_z0_ohm_eps_eff": [
+        50.0083038325503,
+        6.449543145912174
+      ],
+      "fallback_z0_ohm_eps_eff": [
+        50.04115158403515,
+        6.45
+      ]
+    },
+    {
+      "preferred_z0_ohm_eps_eff": [
+        50.0083038325503,
+        6.449543145912174
+      ],
+      "fallback_z0_ohm_eps_eff": [
+        50.04115158403515,
+        6.45
+      ]
+    }
+  ],
+  "independent_reference_agreement": "NOT_EVALUATED",
+  "accepted_integration": false
+}

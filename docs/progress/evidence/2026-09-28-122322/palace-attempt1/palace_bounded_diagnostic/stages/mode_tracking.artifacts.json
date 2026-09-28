@@ -1,0 +1,67 @@
+{
+  "schema": "textlayout.palace-artifact-contract-report.v1",
+  "stage": "mode_tracking",
+  "entries": [
+    {
+      "path": "base_mesh/postpro/domain-E.csv",
+      "role": "expected_input",
+      "status": "present",
+      "size_bytes": 2046,
+      "mtime_ns": 1790490280380850398,
+      "sha256": "b3ced69846bd66daa3257283539152d57261b1e4e0943882ae5c756ba6ac41ad"
+    },
+    {
+      "path": "base_mesh/postpro/eig.csv",
+      "role": "expected_input",
+      "status": "present",
+      "size_bytes": 450,
+      "mtime_ns": 1790490280380850398,
+      "sha256": "bf1532d3e70acaedf69281af898fab95c4cbe5aa6e3a583e16d2967f703ec888"
+    },
+    {
+      "path": "bounded_solved_states.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 399,
+      "mtime_ns": 1790490312226971454,
+      "sha256": "2601a538e4a3bcf7234bb3f65746906ffa949eab3b63617585a1d0c84e18b342"
+    },
+    {
+      "path": "convergence.json",
+      "role": "expected_output",
+      "status": "missing",
+      "size_bytes": null,
+      "mtime_ns": null,
+      "sha256": null
+    },
+    {
+      "path": "hard_resource_budget.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 506,
+      "mtime_ns": 1790490031525233344,
+      "sha256": "0670d840d19c20d53f1dcb2a7738dd91b1572d2b3df1fe941e020075bc487ea4"
+    },
+    {
+      "path": "material_overlap_map.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 4536,
+      "mtime_ns": 1790490312230704920,
+      "sha256": "8b2e60f0f9d04e0e04e3307cc6a856ec6e929997a267a3d7a4f3b774f505697c"
+    },
+    {
+      "path": "mode_tracking.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 19865,
+      "mtime_ns": 1790490379407010360,
+      "sha256": "efd351a76c5c18580673eea229437f1f7747fe35b65331c399f9b53cccecc185"
+    }
+  ],
+  "undeclared_outputs": [
+    "bounded_solved_states.json",
+    "hard_resource_budget.json",
+    "material_overlap_map.json"
+  ]
+}

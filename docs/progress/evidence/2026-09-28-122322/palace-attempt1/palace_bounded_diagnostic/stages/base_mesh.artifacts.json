@@ -1,0 +1,31 @@
+{
+  "schema": "textlayout.palace-artifact-contract-report.v1",
+  "stage": "base_mesh",
+  "entries": [
+    {
+      "path": "base_mesh/mesh_metrics.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 403,
+      "mtime_ns": 1790490084901476729,
+      "sha256": "f44a3f415fba9ad25d7bfbe61ea109afccf07dde9141552606580a406abb86d2"
+    },
+    {
+      "path": "base_mesh/quarter_wave_base.msh",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 5424864,
+      "mtime_ns": 1790490084876289564,
+      "sha256": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069"
+    },
+    {
+      "path": "fem_model.json",
+      "role": "expected_input",
+      "status": "present",
+      "size_bytes": 5919,
+      "mtime_ns": 1790490031526237180,
+      "sha256": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f"
+    }
+  ],
+  "undeclared_outputs": []
+}

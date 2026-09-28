@@ -12,7 +12,7 @@ source registry is specified.
 | 2 Qiskit Metal | The [maintainer repository](https://github.com/qiskit-community/qiskit-metal) now calls the project Quantum Metal, gives Apache-2.0, and says the current PyPI package is `quantum-metal`; the older `qiskit-metal` package is archived at a pre-v0.5 release. Its Ansys path requires AEDT and a license. | Audit the existing `layout` and newly declared `all` optional groups before migrating package names. Test imports and all platform locks in isolation; do not infer HFSS access from this package. |
 | 3 pyEPR | The [maintainer repository](https://github.com/zlatko-minev/pyEPR) describes energy-participation quantization and its [license](https://github.com/zlatko-minev/pyEPR/blob/master/LICENSE) is BSD-3-Clause. Its canonical HFSS field-extraction example requires a live Ansys session, while the project also documents a no-HFSS numerical workflow. | Existing `src/textlayout/epr/backends.py` explicitly disables the live pyEPR/HFSS path; `_legacy/epr.py` can prepare a handoff. Treat an import or prepared script as neither licensed HFSS access nor executed EPR evidence. Audit the independent no-HFSS workflow before a typed adapter. |
 | 4 CircuitQ | [PhilippAumann/circuitq](https://github.com/PhilippAumann/circuitq) is an MIT-licensed Python toolbox for symbolic Hamiltonian construction and numerical superconducting-circuit analysis; the maintainers link a [physics paper](https://doi.org/10.1088/1367-2630/ac8cab). | It is a circuit quantizer, not a 3D EM field solver. No current product adapter or numerical comparison was found in `src/textlayout`; pin a version and validate its equations/units against the paper before adding one. |
-| 5 scqubits | [scqubits/scqubits](https://github.com/scqubits/scqubits) provides superconducting-qubit spectra and related calculations under its [BSD-3-Clause license](https://github.com/scqubits/scqubits/blob/main/LICENSE); its repository cites [Groszkowski and Koch (2021)](https://quantum-journal.org/papers/q-2021-11-17-583/). | The current `quantum` extra declares `scqubits>=4.0`, but `src/textlayout/solvers/scqubits_adapter.py` only prepares inputs or refuses live execution without a component-specific model builder. Legacy code has a separate engine; reconcile it with the typed evidence contract before claiming an executed or validated integration. |
+| 5 scqubits | [scqubits/scqubits](https://github.com/scqubits/scqubits) provides superconducting-qubit spectra and related calculations under its [BSD-3-Clause license](https://github.com/scqubits/scqubits/blob/main/LICENSE); its repository cites [Groszkowski and Koch (2021)](https://quantum-journal.org/papers/q-2021-11-17-583/). | The current `quantum` extra declares `scqubits>=4.0`, and `3799d8d` now executes a typed SI transmon model and retains spectra. Real execution is documented in `docs/progress/2026-09-28-012649.md`; convergence and independent reference agreement remain unestablished. This supersedes the earlier prepare-only observation; it does not complete acceptance. |
 | 6 SQcircuit | The [project site](https://www.sqcircuit.org/) links to [stanfordLINQS/SQcircuit](https://github.com/stanfordLINQS/SQcircuit), which identifies BSD-3-Clause. The supplied `squadds/SQcircuit` hint is therefore not the canonical source shown by the maintainers. | Retain the original hint for provenance, but use the verified repository when evaluating versions, equations and examples. No local installation or calculation is certified. |
 | 7 SQuADDS | The supplied `SQuADDS/SQuADDS` repository hint returned GitHub API 404 during this audit. The [maintainer repository](https://github.com/LFL-Lab/SQuADDS) identifies an MIT-licensed superconducting design database/workflow, cites its [2024 paper](https://doi.org/10.22331/q-2024-09-09-1465), and labels the software alpha. | Correct the source identity in a future typed registry while retaining the user hint for provenance. A published database and MCP server do not validate any Text-to-Layout adapter, geometry translation, solver run or numerical result. Audit dataset version, geometry/material compatibility and licensing before using reference rows. |
 | 8 QEDA | [qeda/qeda](https://github.com/qeda/qeda) is a MIT-licensed Node.js tool for schematic symbols and PCB land patterns. The supplied URL resolves, but its documented function does not match the Quantum Chip EDA pillar's intended superconducting layout/physics role. | Reclassify or reject this slot during catalog deduplication; do not install it as a quantum solver or count it toward quantum-chip capability. |
@@ -30,11 +30,12 @@ source registry is specified.
 | 19 scuff-em | [HomerReid/scuff-em](https://github.com/HomerReid/scuff-em) supplies boundary-element EM applications. Its [COPYRIGHT](https://github.com/HomerReid/scuff-em/blob/master/COPYRIGHT) declares GPL-2.0-or-later; the repository also contains multiple license texts. | No product adapter was found. Surface mesh orientation, material model and integral-equation assumptions need explicit mapping. Audit component licenses and select a public electrostatic or scattering benchmark before installing. |
 | 20 FEniCS | The supplied URL resolves to [FEniCS/dolfinx](https://github.com/FEniCS/dolfinx), the next-generation FEM environment, whose README declares LGPL-3.0-or-later. | Record DOLFINx explicitly rather than assuming compatibility with legacy DOLFIN APIs. No product adapter was found. A PDE library needs a specified formulation and manufactured/reference solution; an import cannot establish electromagnetic accuracy. |
 
-These twenty source reviews record the linked repositories' identity,
+These first twenty source reviews record the linked repositories' identity,
 purpose and available license status at review time. FastHenry2's actual
 source-license terms remain unverified. These reviews do not justify changing
 `doctor.integration_targets[*].source_verified` globally or asserting that
-the other 80 supplied names resolve. Review remaining sources, aliases,
+the remaining supplied names resolve. Slot 21 is reviewed separately below.
+Review remaining sources, aliases,
 licenses and maintenance states in bounded groups before adding adapters.
 
 ## Revision snapshot for slots 15–20
@@ -51,3 +52,35 @@ selected compatible release. Dependencies and platform execution are pending.
 | 18 | master | `45799ebea86d9d83f027689ba2bcbd7e50f3021a` |
 | 19 | master | `9c6d0cb7695463af803dee8d04cdae939740cdcc` |
 | 20 | main | `120d1bcf1af6283a6ebefdad5e4e812789139578` |
+
+## Slot 21: scikit-rf — 2026-09-28
+
+Canonical source: [scikit-rf/scikit-rf](https://github.com/scikit-rf/scikit-rf).
+Reviewed release v1.12.0 resolves to commit
+`950534a5928d5c99e3fea2beaec7d82519800b0c`; the pinned
+[LICENSE.txt](https://github.com/scikit-rf/scikit-rf/blob/950534a5928d5c99e3fea2beaec7d82519800b0c/LICENSE.txt)
+is BSD-3-Clause. Upstream is not archived at review time. This is an RF network
+analysis/model library, not an independent 3D field solver.
+
+`uv.lock` already resolves scikit-rf 1.12.0 with NumPy, SciPy, pandas and
+typing-extensions. The optional rf and solvers groups both reference this
+same package; they are not two integrations. The base install remains lean.
+Reviewed upstream revision, installed version and independent scientific
+acceptance are separate facts.
+
+The existing `cpw_skrf_z0` path uses the documented
+[CPW model](https://scikit-rf.readthedocs.io/en/latest/api/media/generated/skrf.media.cpw.CPW.html):
+width/gap/height converted from micrometres to metres, 1 GHz evaluation,
+500 um substrate default, no metal backside and unspecified thickness.
+The generator labels the height assumption, analytical method and confidence
+0.65. Commit `a6f0406` implements selection; no second adapter is warranted.
+For width 10 um, gap 6 um, eps_r 11.9, the installed library gives
+50.0083038325503 ohm and effective permittivity 6.449543145912174. The fallback
+returns 50.04115158403515 ohm and 6.45. Agreement with the same library tests
+routing/units, not independent validation. Focused tests pass twice (2 each).
+
+Next: specify a source-backed independent CPW case with matching substrate,
+frequency, thickness and boundary assumptions; declare its uncertainty and
+acceptance tolerance before evaluation. Keep slot 21 unchecked until its full
+execution/reference/platform/commit contract is met. No new solver or MCP
+capability is advertised by this audit. Reviewed slots now total 21; 79 remain.

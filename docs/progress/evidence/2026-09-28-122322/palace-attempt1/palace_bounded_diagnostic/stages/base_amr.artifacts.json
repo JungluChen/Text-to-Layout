@@ -1,0 +1,681 @@
+{
+  "schema": "textlayout.palace-artifact-contract-report.v1",
+  "stage": "base_amr",
+  "entries": [
+    {
+      "path": "base_mesh/mesh_metrics.json",
+      "role": "optional_output",
+      "status": "present",
+      "size_bytes": 403,
+      "mtime_ns": 1790490084901476729,
+      "sha256": "f44a3f415fba9ad25d7bfbe61ea109afccf07dde9141552606580a406abb86d2"
+    },
+    {
+      "path": "base_mesh/palace.stderr.txt",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 39,
+      "mtime_ns": 1790490311493411067,
+      "sha256": "61fc2e6c03d91c6d1590154062c621cae2f5dc97dc4b3228ffcdf6fe2fd7d659"
+    },
+    {
+      "path": "base_mesh/palace.stdout.txt",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 19620,
+      "mtime_ns": 1790490311408937957,
+      "sha256": "b94bbf96c16a2d7c19402486f7a54f664212e55dae6962d8253ed2d5b800db97"
+    },
+    {
+      "path": "base_mesh/palace_amr.json",
+      "role": "expected_input",
+      "status": "present",
+      "size_bytes": 2039,
+      "mtime_ns": 1790490084935166331,
+      "sha256": "e15e08b82d1397155f5a674a1fc169d7837f06bcb58ec4a1f95e3a74993889b8"
+    },
+    {
+      "path": "base_mesh/palace_amr.json",
+      "role": "optional_output",
+      "status": "present",
+      "size_bytes": 2039,
+      "mtime_ns": 1790490084935166331,
+      "sha256": "e15e08b82d1397155f5a674a1fc169d7837f06bcb58ec4a1f95e3a74993889b8"
+    },
+    {
+      "path": "base_mesh/peak_memory.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 232,
+      "mtime_ns": 1790490311898382254,
+      "sha256": "fe1c6ab8d6cc32946b38447ea369da912fa47858fbcf04f18a30c19126313380"
+    },
+    {
+      "path": "base_mesh/postpro/domain-E.csv",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 2046,
+      "mtime_ns": 1790490280380850398,
+      "sha256": "b3ced69846bd66daa3257283539152d57261b1e4e0943882ae5c756ba6ac41ad"
+    },
+    {
+      "path": "base_mesh/postpro/eig.csv",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 450,
+      "mtime_ns": 1790490280380850398,
+      "sha256": "bf1532d3e70acaedf69281af898fab95c4cbe5aa6e3a583e16d2967f703ec888"
+    },
+    {
+      "path": "base_mesh/postpro/error-indicators.csv",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 224,
+      "mtime_ns": 1790490310664935879,
+      "sha256": "f4eddd7f0fee50c16b86ba2fb79f3bb51c235464aadd9db54c9b15ce1b558cb8"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/B_imag_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2357427,
+      "mtime_ns": 1790490259357787072,
+      "sha256": "114bd9184e99ebef76e459baf33e750ed8192cc363931736f3e0520e921f7bcb"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/B_imag_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2345656,
+      "mtime_ns": 1790490291025880824,
+      "sha256": "e251dd80ef6b40394579de485560186f7f530056679eaa879ff2f883dd977c44"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/B_real_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2735919,
+      "mtime_ns": 1790490259298786889,
+      "sha256": "be96d656161682e3e7087c59cb628dcd719573981e3d64e1cc4d301eaf72437b"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/B_real_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2735698,
+      "mtime_ns": 1790490290967880664,
+      "sha256": "585e86067fb2d411870541dea643a0cc11a764619e10ef5441e1824f7b077b1b"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/E_imag_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1405196,
+      "mtime_ns": 1790490259237786700,
+      "sha256": "8e7cfa50ab428f65554bcb8368e8c64dab9dd8749c78e38e9c6ea5d6ff1edbbb"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/E_imag_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1348456,
+      "mtime_ns": 1790490290905880492,
+      "sha256": "6b49d2249ccf87216863a6f06d875974fa22923e3d67c792a6d0505c5e995013"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/E_real_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1079790,
+      "mtime_ns": 1790490259200786586,
+      "sha256": "ba3fca9febe2ce7da34c69bc12e77b4523460ddc63d8772bce40eb293d890da2"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/E_real_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 999431,
+      "mtime_ns": 1790490290870880396,
+      "sha256": "8a5b3008cd8687706afc6e2b31e6b14439b0515e55d52c11f6bafb371033f32a"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/S_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1305092,
+      "mtime_ns": 1790490263624799740,
+      "sha256": "77f557eef39aa44ceefd90fc07fa1e5a636cf183b6c47dd4def57b18f14e1fa3"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/S_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1291868,
+      "mtime_ns": 1790490295287892814,
+      "sha256": "2188b68b2b8d177e111ddacee255e197b2ae9885dbcd15689d287ed389a8308c"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/U_e_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 254323,
+      "mtime_ns": 1790490260335790005,
+      "sha256": "cdbf9a8bd430e5f132124c5637de366fa8999a1cba2d83e36d7126ee204c32ea"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/U_e_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 256518,
+      "mtime_ns": 1790490292022883601,
+      "sha256": "838c6869e9cc0416049fb6c1c30c1c83e2792a115df77a13fc78705bde76723f"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/U_m_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 246064,
+      "mtime_ns": 1790490261181792509,
+      "sha256": "1d677e0ab6a6da30da78079b21985ff6b2f1448947af980c882c91a5758bb359"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/U_m_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 245726,
+      "mtime_ns": 1790490292847885929,
+      "sha256": "ec55a6ca98fded6f414c45537e057244249b6c7566d403b9576aa5b0b0a0200e"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/indicator.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1311639,
+      "mtime_ns": 1790490311329937736,
+      "sha256": "d0e68f74bf5c62e0e593d6db39fe2be492298455b009506755fb73444fffc1e4"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/mesh.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 4942559,
+      "mtime_ns": 1790490311388937901,
+      "sha256": "65c497c84537f96e6b0f4786362557402cd6561bcb4630d0b44c59a6d8948030"
+    },
+    {
+      "path": "base_mesh/postpro/gridfunction/eigenmode/rank.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 228626,
+      "mtime_ns": 1790490311301937658,
+      "sha256": "6485c6c2a1b8920865baa9ee378942e699116d9cc186df3721e83f43cc70a826"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/domain-E.csv",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2046,
+      "mtime_ns": 1790490162808503188,
+      "sha256": "a89cc06fc8d3ec30724507ff1031617317cf4e0328dbd66369a4b83146a97766"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/eig.csv",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 450,
+      "mtime_ns": 1790490162808503188,
+      "sha256": "a6c803d3a454760988db38d1a51624565653ed283cabe2e6495692cd8f443390"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/error-indicators.csv",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 224,
+      "mtime_ns": 1790490186869578441,
+      "sha256": "c19b3289a61f690e7cfce1d881af3720004cb5ce4d70f1ef203a0f99f1fdd4a3"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_imag_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2215375,
+      "mtime_ns": 1790490147929457993,
+      "sha256": "9c2f138bbb4225ba47ba6e0e85830980a7d563c564af5763957adb776b2da65c"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_imag_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2199103,
+      "mtime_ns": 1790490172782538286,
+      "sha256": "785a7179d3151787d6e5c1ee08ea8332f96748577b2bb8708cae6d25f218b70a"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_real_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2548297,
+      "mtime_ns": 1790490147875457806,
+      "sha256": "8f0fc6fecb36cd60fc743a889eaff086fb44efeafe0ce9cd614a5e582a13c5a1"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_real_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 2547967,
+      "mtime_ns": 1790490172728538132,
+      "sha256": "d9b054aa45e8ececff27f187c7ed397e20a5aa4fc281af686b526f0cf0d6fcf1"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_imag_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1384144,
+      "mtime_ns": 1790490147817457606,
+      "sha256": "d6d08684d26470227292d70bf16f496c923770ee768fbcd138d976010eb698ab"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_imag_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1321259,
+      "mtime_ns": 1790490172670537967,
+      "sha256": "416c48ad0ad0fb308ac95eaabca2de5e177e4a6551d41b98b2f94eb0b4b5f046"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_real_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1008330,
+      "mtime_ns": 1790490147783457488,
+      "sha256": "9ed5a0745529d1bc7851855033698463180e6bf2bc263002b34945d7db261aea"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_real_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 928613,
+      "mtime_ns": 1790490172635537867,
+      "sha256": "1f1f8a168ba0278f40af9699713523d22bba8f10699537cc22d840e2fd4d6c2a"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/S_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1240430,
+      "mtime_ns": 1790490151887471669,
+      "sha256": "f0e6e3c6629decd735e14ec0cc8b00395f74853d4c2a9b2001b700733d053789"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/S_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1216617,
+      "mtime_ns": 1790490176741549579,
+      "sha256": "125d1dc7a3fa7a0c6ea5816aeec68a0b368c199341eb85681a6f970a76040392"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_e_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 241622,
+      "mtime_ns": 1790490148835461123,
+      "sha256": "3e4facf70535c4fb95a84b3ada1d1b4757f318fe8fda26503cc9f2f95ce76653"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_e_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 245592,
+      "mtime_ns": 1790490173687540868,
+      "sha256": "0cd57798f1863e68a1de410a772d37f7c53584a6d8079866b0f785f03320f438"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_m_000001.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 233500,
+      "mtime_ns": 1790490149604463781,
+      "sha256": "ca2da0ac933dfa18b3b9a489bf8dca303041750206a46d427a0f4027e36712b7"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_m_000002.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 233292,
+      "mtime_ns": 1790490174468543095,
+      "sha256": "5714637e8d922b6e2a2b432c2d963044b7e0c0fb895f7163019f45da9b4d2d63"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/indicator.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1224899,
+      "mtime_ns": 1790490187509580264,
+      "sha256": "c6147fc655a1852ce0b59ffee77a80cbaafe3c5cad1171ca96cfb4f46d5745dd"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/mesh.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 4644500,
+      "mtime_ns": 1790490187564580410,
+      "sha256": "aeeec63b980f987fcef9b2d5960fb593962718d2a4e72234bad19f63cdc7f636"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/gridfunction/eigenmode/rank.gf.000000",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 213302,
+      "mtime_ns": 1790490187483580190,
+      "sha256": "49df345369cb3b7ad55626189c62e5fd4c910ce5419a602d93f5118fdcaa4dfe"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/palace.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 6541,
+      "mtime_ns": 1790490187579076297,
+      "sha256": "3370effca1865d3d8cd6fafe1ed42d3a7cc5f6ab4d8b89dfd20da51ad8675e64"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1520,
+      "mtime_ns": 1790490143965446933,
+      "sha256": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 29417699,
+      "mtime_ns": 1790490143965446933,
+      "sha256": "a606c3fdafe92ec4333f1458fb227dffff812622601a4782a29b31b86158f793"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1520,
+      "mtime_ns": 1790490168861526035,
+      "sha256": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 29292439,
+      "mtime_ns": 1790490168861526035,
+      "sha256": "8f3856d520c46f2e2ac16492372d2e81c5dacdb70a6c5c399dc6f5a14ddd0726"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000003/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 891,
+      "mtime_ns": 1790490187441580070,
+      "sha256": "4fb36b367569382a4aec82438a2d3ad4a3fc401121ccb200a02d7a766ba930a7"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000003/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 4632194,
+      "mtime_ns": 1790490187441580070,
+      "sha256": "2dddf2cac4b691cc668fc6577f403f430e7c4bbf2bf0b5c7ab86bcd9853d303f"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode/eigenmode.pvd",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 378,
+      "mtime_ns": 1790490187441580070,
+      "sha256": "6f45312308bd91b9ece9d9845da5e5fb675931090c6ebad4f09fa9249bb2f3b3"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000001/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1632,
+      "mtime_ns": 1790490147718457264,
+      "sha256": "d37a193122c6bc331f114d95932692ad2d9ee648881c4f8c5ed5c22a7a999d3c"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000001/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 8439066,
+      "mtime_ns": 1790490147718457264,
+      "sha256": "35f721cf45d04382d7b84d5867357651c8754f83d4873d2f6ba988b2e9973151"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000002/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1632,
+      "mtime_ns": 1790490172571537685,
+      "sha256": "d37a193122c6bc331f114d95932692ad2d9ee648881c4f8c5ed5c22a7a999d3c"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000002/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 8406834,
+      "mtime_ns": 1790490172571537685,
+      "sha256": "5a709f9d86827da25753782fd3ade4b09fb26e2e4c98060cdf4b7887d9fbd0d8"
+    },
+    {
+      "path": "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/eigenmode_boundary.pvd",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 294,
+      "mtime_ns": 1790490172571537685,
+      "sha256": "c45bccbc5e55771cfa9cad26a64cff510dc72e3bf88be98a767067316fdcd917"
+    },
+    {
+      "path": "base_mesh/postpro/palace.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 6561,
+      "mtime_ns": 1790490311400937934,
+      "sha256": "511515789e60586ef5365d3ae21d23602f0da0d939b2a1f82a53252f36f3e527"
+    },
+    {
+      "path": "base_mesh/postpro/palace_amr_resolved.json",
+      "role": "optional_output",
+      "status": "present",
+      "size_bytes": 4539,
+      "mtime_ns": 1790490085078557522,
+      "sha256": "42700057b05bb9d164abc2380cd88c45d0e3119ce78f9791b735ae9a0af3850f"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000001/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1520,
+      "mtime_ns": 1790490255187774166,
+      "sha256": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000001/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 31511987,
+      "mtime_ns": 1790490255187774166,
+      "sha256": "f6413e65ad6d247db8926f62912c0dcf5d8b0c128e2db69adabb4e80afcd3525"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000002/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1520,
+      "mtime_ns": 1790490286889869380,
+      "sha256": "a98ebd8c711d7ea889ec1c8cb9e55399157ec8d713bd17093c0f8837240c1d8b"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000002/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 31407607,
+      "mtime_ns": 1790490286889869380,
+      "sha256": "db242be80bd1960dca2efbde350c559237c0db8d76ae6eab35e72aab62d77b17"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000003/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 891,
+      "mtime_ns": 1790490311261937546,
+      "sha256": "4fb36b367569382a4aec82438a2d3ad4a3fc401121ccb200a02d7a766ba930a7"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/Cycle000003/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 4957690,
+      "mtime_ns": 1790490311261937546,
+      "sha256": "cba0311a540bfc547ac974f6e1ad392c535385b52bb8f0eb3133219a888216e2"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode/eigenmode.pvd",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 378,
+      "mtime_ns": 1790490311261937546,
+      "sha256": "6f45312308bd91b9ece9d9845da5e5fb675931090c6ebad4f09fa9249bb2f3b3"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000001/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1632,
+      "mtime_ns": 1790490259130786369,
+      "sha256": "d37a193122c6bc331f114d95932692ad2d9ee648881c4f8c5ed5c22a7a999d3c"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000001/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 8686354,
+      "mtime_ns": 1790490259130786369,
+      "sha256": "3414f6041abdc6ae74168f33398cb7a7aeac9406ae041a94699d3ff96b3ea335"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000002/data.pvtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 1632,
+      "mtime_ns": 1790490290801880205,
+      "sha256": "d37a193122c6bc331f114d95932692ad2d9ee648881c4f8c5ed5c22a7a999d3c"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000002/proc000000.vtu",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 8664246,
+      "mtime_ns": 1790490290800880202,
+      "sha256": "b6d27567fbe9f6f9fc2fd44cf4daac7ec4b8cec5014d8a2f3849816fc3accb5c"
+    },
+    {
+      "path": "base_mesh/postpro/paraview/eigenmode_boundary/eigenmode_boundary.pvd",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 294,
+      "mtime_ns": 1790490290801880205,
+      "sha256": "c45bccbc5e55771cfa9cad26a64cff510dc72e3bf88be98a767067316fdcd917"
+    },
+    {
+      "path": "base_mesh/quarter_wave_base.msh",
+      "role": "expected_input",
+      "status": "present",
+      "size_bytes": 5424864,
+      "mtime_ns": 1790490084876289564,
+      "sha256": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069"
+    },
+    {
+      "path": "base_mesh/quarter_wave_base.msh",
+      "role": "optional_output",
+      "status": "present",
+      "size_bytes": 5424864,
+      "mtime_ns": 1790490084876289564,
+      "sha256": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069"
+    },
+    {
+      "path": "base_mesh/resource_summary.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 388,
+      "mtime_ns": 1790490311519501858,
+      "sha256": "0e1a9c7911dbaa8d32d58197e0d3866d48be6960acf4474299716869ff1589cb"
+    }
+  ],
+  "undeclared_outputs": [
+    "base_mesh/peak_memory.json",
+    "base_mesh/postpro/gridfunction/eigenmode/B_imag_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/B_imag_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/B_real_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/B_real_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/E_imag_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/E_imag_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/E_real_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/E_real_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/S_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/S_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/U_e_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/U_e_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/U_m_000001.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/U_m_000002.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/indicator.gf.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/mesh.000000",
+    "base_mesh/postpro/gridfunction/eigenmode/rank.gf.000000",
+    "base_mesh/postpro/iteration1/domain-E.csv",
+    "base_mesh/postpro/iteration1/eig.csv",
+    "base_mesh/postpro/iteration1/error-indicators.csv",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_imag_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_imag_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_real_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/B_real_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_imag_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_imag_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_real_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/E_real_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/S_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/S_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_e_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_e_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_m_000001.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/U_m_000002.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/indicator.gf.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/mesh.000000",
+    "base_mesh/postpro/iteration1/gridfunction/eigenmode/rank.gf.000000",
+    "base_mesh/postpro/iteration1/palace.json",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/data.pvtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000001/proc000000.vtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/data.pvtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000002/proc000000.vtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000003/data.pvtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/Cycle000003/proc000000.vtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode/eigenmode.pvd",
+    "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000001/data.pvtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000001/proc000000.vtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000002/data.pvtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/Cycle000002/proc000000.vtu",
+    "base_mesh/postpro/iteration1/paraview/eigenmode_boundary/eigenmode_boundary.pvd",
+    "base_mesh/postpro/palace.json",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000001/data.pvtu",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000001/proc000000.vtu",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000002/data.pvtu",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000002/proc000000.vtu",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000003/data.pvtu",
+    "base_mesh/postpro/paraview/eigenmode/Cycle000003/proc000000.vtu",
+    "base_mesh/postpro/paraview/eigenmode/eigenmode.pvd",
+    "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000001/data.pvtu",
+    "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000001/proc000000.vtu",
+    "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000002/data.pvtu",
+    "base_mesh/postpro/paraview/eigenmode_boundary/Cycle000002/proc000000.vtu",
+    "base_mesh/postpro/paraview/eigenmode_boundary/eigenmode_boundary.pvd",
+    "base_mesh/resource_summary.json"
+  ]
+}

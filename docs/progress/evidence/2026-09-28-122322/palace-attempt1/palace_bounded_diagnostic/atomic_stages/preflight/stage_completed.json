@@ -1,0 +1,21 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "preflight",
+  "state": "COMPLETED",
+  "timestamp": "2026-09-27T06:20:31.526949+00:00",
+  "command": null,
+  "return_code": 0,
+  "input_hashes": {},
+  "output_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/toolchain.json": "464dc8e5a3d2edd34b5d295f7e7416e9308c66a973bb611900bbe1873c8f2428",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/environment.json": "28603cd46587ccc537997b82dce81dc238651b6c09880a69f10e13d9700da07b",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/resource_decision.json": "6e53d6c16f21012f7aa2918ba9b6d1f2c06b34e368c0735a68b06cfa027d7c89",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/hard_resource_budget.json": "0670d840d19c20d53f1dcb2a7738dd91b1572d2b3df1fe941e020075bc487ea4",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/fem_model.json": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f"
+  },
+  "parsed_result_sha256": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f",
+  "resource_summary_sha256": "0670d840d19c20d53f1dcb2a7738dd91b1572d2b3df1fe941e020075bc487ea4",
+  "owned_children_remaining": false,
+  "reason": null,
+  "evidence_id": "eb696349ca694a1b0c10175b3d5fbe2c0f2ebd2194ab13912fe0194efe6654a9"
+}

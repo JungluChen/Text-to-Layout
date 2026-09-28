@@ -157,18 +157,21 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
   checking it.
 - **Next:** (1) Audit and deduplicate all 100 target slots, including license
   and commercial dependencies; rank by scientific impact and feasibility.
-  The first twenty source/scope reviews are recorded in
+  The first twenty-one source/scope reviews are recorded in
   `docs/architecture/integration-source-audit.md`: SQcircuit's hint points
   away from its maintainer repository, QEDA's hint resolves to a PCB tool,
   current Quantum Metal packaging differs from the locked legacy name,
-  pyEPR's live HFSS path is disabled, and the product scqubits adapter only
-  prepares inputs, and CircuitQ has no product adapter. The SQuADDS and
+  pyEPR's live HFSS path is disabled, and CircuitQ has no product adapter. The scqubits prepare-only observation
+  is superseded by typed transmon execution in `3799d8d`, without independent
+  reference acceptance. The SQuADDS and
   PycQED hints return 404 while their maintainer repositories have different
   names; Qiskit Dynamics is archived. The FasterCap and FastHenry2 supplied
   hints also return 404, and the actual FastHenry2 source license is not yet
   established. Slots 15–20 now distinguish Meep/gprMax/scuff-em solvers,
   component-specific Elmer licensing, and MFEM/DOLFINx numerical libraries.
-  Reviewed upstream revisions are retained; none is an installed version.
+  Slot 21 identifies the already-installed optional scikit-rf 1.12.0 library,
+  pinned upstream release, dependencies and analytical CPW assumptions; no
+  duplicate adapter was added. Source revisions do not establish numerical acceptance.
   These reviews do not raise the 0/100 accepted-integration count.
   Do not migrate the optional package until import/platform compatibility is
   tested.
@@ -303,9 +306,11 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
   suite passed twice (1980 passed, 12 skipped), and exact-SHA general CI
   `36284650404` passed. Real Palace run
   [36295978520](https://github.com/JungluChen/Text-to-Layout/actions/runs/36295978520),
-  job `108554791553`, is active at that exact SHA; monitor it without
-  dispatching a duplicate. Retain and compare its per-state profiles, then
-  rerun unchanged before assessing sampling or four-mode coverage. See
+  job `108554791553`, completed with TARGET_MODE_NOT_FOUND. Both states
+  were retained: mode-1 electric correlations 0.7422995731 and 0.8745187355
+  remain below 0.90. Attempt 2 was requested unchanged on 2026-09-28; monitor
+  it without dispatching a duplicate. Compare per-state hashes before editing.
+  Evidence is in `docs/progress/2026-09-28-122322.md`. See
   `docs/progress/2026-09-27-080338.md` for validation and resume commands. The
   first-state diagnostic frequencies must not be conflated with the final
   adapted-state CSV. Full

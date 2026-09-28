@@ -85,3 +85,11 @@ the solver input; the illustration alone cannot supply them.
 Recovery: if the workflow fails, keep the artifacts and its job ID, rerun the
 same command unchanged once, compare hashes and numeric outputs, then diagnose
 before editing. Use the [repository diagnostic sequence](../development/reproduce_before_edit.md).
+
+
+Latest retained two-state diagnostic (2026-09-28 audit): run 36295978520 at
+`d40b165` has 106,614 and 114,276 elements, with mode-1 electric profile
+correlations 0.7422995731 and 0.8745187355. Both remain below 0.90; mode 2 is
+classified as substrate in both states. Refinement improved this diagnostic
+metric but did not establish a target mode or convergence. The unchanged
+second attempt is pending. See [the retained packet](../progress/2026-09-28-122322.md).

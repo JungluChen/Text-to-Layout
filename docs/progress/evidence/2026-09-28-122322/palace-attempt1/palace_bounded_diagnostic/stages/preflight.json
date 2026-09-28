@@ -1,0 +1,38 @@
+{
+  "schema": "textlayout.palace-stage-record.v1",
+  "stage": "preflight",
+  "status": "complete",
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/examples/showcase/05_quarter_wave_resonator_6ghz/layout.json": "6a21a2bae60b2c2207141f819a8191609d309303aa52dfe4bdf900c38d4622d5"
+  },
+  "output_hashes": {
+    "environment.json": "28603cd46587ccc537997b82dce81dc238651b6c09880a69f10e13d9700da07b",
+    "fem_model.json": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f",
+    "resource_decision.json": "6e53d6c16f21012f7aa2918ba9b6d1f2c06b34e368c0735a68b06cfa027d7c89",
+    "toolchain.json": "464dc8e5a3d2edd34b5d295f7e7416e9308c66a973bb611900bbe1873c8f2428"
+  },
+  "command": null,
+  "return_code": null,
+  "runtime_seconds": null,
+  "started_at": "2026-09-27T06:20:31+00:00",
+  "completed_at": "2026-09-27T06:20:31+00:00",
+  "executable_identity": {
+    "name": "Palace",
+    "version": "0.17.0",
+    "execution_kind": "executable",
+    "executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-hzm53dafiy74yglnou4bfp2v55cilrhz/bin/palace",
+    "executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+    "mpi_launcher": "/usr/bin/mpirun"
+  },
+  "job_profile": null,
+  "upstream_stage_evidence_ids": [],
+  "evidence_id": "d5ddb67be91a66e9c79d2fa79d48796bc22441ac42dfa870033f73e91e4289b6",
+  "notes": [
+    "toolchain identity, environment, resource decision and FEM model prepared"
+  ],
+  "artifact_contract_report": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/stages/preflight.artifacts.json",
+  "artifact_contract_sha256": "cccbd36004332a967eaae5723dfaa57a014ecaa009401f47ddd9b684fc5883eb",
+  "undeclared_outputs": [
+    "hard_resource_budget.json"
+  ]
+}
