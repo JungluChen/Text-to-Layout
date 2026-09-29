@@ -1,0 +1,32 @@
+{
+  "fem_model.json": {
+    "attempt1_sha256": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f",
+    "attempt2_sha256": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f",
+    "byte_equal": true
+  },
+  "resolved_configs/amr_palace_resolved.json": {
+    "attempt1_sha256": "42700057b05bb9d164abc2380cd88c45d0e3119ce78f9791b735ae9a0af3850f",
+    "attempt2_sha256": "42700057b05bb9d164abc2380cd88c45d0e3119ce78f9791b735ae9a0af3850f",
+    "byte_equal": true
+  },
+  "bounded_solved_states.json": {
+    "attempt1_sha256": "2601a538e4a3bcf7234bb3f65746906ffa949eab3b63617585a1d0c84e18b342",
+    "attempt2_sha256": "2601a538e4a3bcf7234bb3f65746906ffa949eab3b63617585a1d0c84e18b342",
+    "byte_equal": true
+  },
+  "toolchain.json": {
+    "attempt1_sha256": "464dc8e5a3d2edd34b5d295f7e7416e9308c66a973bb611900bbe1873c8f2428",
+    "attempt2_sha256": "9d9093d245dd8588fba65531d1f8fe80a63629bbe2decb51efb64d43ca9cc93f",
+    "byte_equal": false
+  },
+  "amr/iteration_00/eig.csv": {
+    "attempt1_sha256": "a6c803d3a454760988db38d1a51624565653ed283cabe2e6495692cd8f443390",
+    "attempt2_sha256": "03770445fdb8b9cf6d0a5c6586e684db3135d09ac7c34e0930f878b0923b7f26",
+    "byte_equal": false
+  },
+  "amr/iteration_01/eig.csv": {
+    "attempt1_sha256": "bf1532d3e70acaedf69281af898fab95c4cbe5aa6e3a583e16d2967f703ec888",
+    "attempt2_sha256": "62bdb73c266025899d29de8597e394d9b75954ae48affb66cf3854d9b6c90faf",
+    "byte_equal": false
+  }
+}

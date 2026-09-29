@@ -1,0 +1,267 @@
+FFFF.F..FF....                                                           [100%]
+=================================== FAILURES ===================================
+_____________ test_spack_environment_requests_exact_palace_release _____________
+
+    def test_spack_environment_requests_exact_palace_release() -> None:
+>       text = (ROOT / "external_tools" / "palace" / "spack.yaml").read_text(encoding="utf-8")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/private/external_tools/palace/spack.yaml'), mode = 'r'
+buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/external_tools/palace/spack.yaml'
+
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+__ test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree ___
+
+    def test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree() -> None:
+        """The auditable artifacts stay under .tools/; the Spack build tree is native.
+    
+        The pinned source archives (verified by SHA-256) and the small install
+        identity record live under the git-ignored .tools/ tree. The Spack clone,
+        caches, build stage, and installed binaries are placed on native WSL ext4
+        for viable performance (the /mnt/c 9p mount stalls the FEM-stack install);
+        those binaries are still git-ignored, never committed, and never in src/.
+        """
+>       common = _load("_palace_common")
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/private/tmp/textlayout-20260930/test_native_discovery.py:20: in _load
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:995: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x109ffad80>
+path = '/private/scripts/external/_palace_common.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/private/scripts/external/_palace_common.py'
+
+<frozen importlib._bootstrap_external>:1190: FileNotFoundError
+_____________ test_completed_install_identity_is_native_and_pinned _____________
+
+    def test_completed_install_identity_is_native_and_pinned() -> None:
+        """When a real install exists, its identity must be native, pinned, hashed.
+    
+        Skips on machines without a completed install (e.g. normal CI), so this is
+        a guard on a genuine local/solver-CI installation, never a false failure.
+        """
+        import json
+    
+        import pytest
+    
+>       common = _load("_palace_common")
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/private/tmp/textlayout-20260930/test_native_discovery.py:20: in _load
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:995: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x109ffabd0>
+path = '/private/scripts/external/_palace_common.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/private/scripts/external/_palace_common.py'
+
+<frozen importlib._bootstrap_external>:1190: FileNotFoundError
+________________ test_installer_reuses_a_verified_installation _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109ffbcb0>
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-127/test_installer_reuses_a_verifi0')
+
+    def test_installer_reuses_a_verified_installation(monkeypatch, tmp_path: Path) -> None:
+>       installer = _load("install_palace")
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/private/tmp/textlayout-20260930/test_native_discovery.py:20: in _load
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:995: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x109ffbdd0>
+path = '/private/scripts/external/install_palace.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/private/scripts/external/install_palace.py'
+
+<frozen importlib._bootstrap_external>:1190: FileNotFoundError
+____________ test_native_install_record_outside_path_is_discovered _____________
+
+native_discovery = (<module 'textlayout.solvers.palace.capability' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/s...wzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-127/test_native_install_record_out0/spack-opt/palace/bin/palace'))
+
+    def test_native_install_record_outside_path_is_discovered(native_discovery):
+        import hashlib
+        import json
+    
+        capability, record, executable = native_discovery
+        record.write_text(json.dumps({"palace_executable": str(executable)}), encoding="utf-8")
+        detected = capability.detect_palace(probe_version=False)
+>       assert detected.available and detected.executable == str(executable)
+E       AssertionError: assert (False)
+E        +  where False = PalaceCapability(execution_kind=None, executable=None, version=None, executable_sha256=None, container_engine=None, co...ngularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.').available
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:166: AssertionError
+____________ test_unusable_native_record_keeps_normal_discovery[[]] ____________
+
+native_discovery = (<module 'textlayout.solvers.palace.capability' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/s...wzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-127/test_unusable_native_record_ke0/spack-opt/palace/bin/palace'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x12178ede0>
+record_text = '[]'
+
+    @pytest.mark.parametrize("record_text", [
+        "[]", "null", "{broken", '{"palace_executable": 42}',
+        '{"palace_executable": "/missing/spack/palace"}',
+        '{"palace_executable": "relative/palace"}',
+    ])
+    def test_unusable_native_record_keeps_normal_discovery(native_discovery, monkeypatch, record_text):
+        capability, record, executable = native_discovery
+        record.write_text(record_text, encoding="utf-8")
+        # Spy on the existing resolver: unusable records must not become an explicit
+        # override, so PATH/local-tools discovery can still find another installation.
+        calls = []
+    
+        def resolve(names, explicit=None, **kwargs):
+            calls.append((names, explicit))
+            return str(executable) if names[0] == "palace" and explicit is None else None
+    
+        monkeypatch.setattr(capability, "find_executable", resolve)
+>       assert capability.detect_palace(probe_version=False).executable == str(executable)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+explicit = None
+
+    def detect_palace(
+        explicit: str | None = None,
+        *,
+        container_image: str | None = None,
+        container_path: str | None = None,
+        container_digest: str | None = None,
+        probe_version: bool = True,
+        finder: Callable[..., str | None] | None = None,
+    ) -> PalaceCapability:
+        """Return a runnable, identified capability or an explicit absent result.
+    
+        Container images are never pulled implicitly. Set ``TEXTLAYOUT_PALACE_IMAGE``
+        to an already-present OCI image, or ``TEXTLAYOUT_PALACE_SIF`` to a local SIF.
+        """
+        locate = finder or find_executable
+        if (
+            explicit is None
+            and finder is None
+            and not os.environ.get("TEXTLAYOUT_PALACE")
+            and _INSTALL_RECORD.is_file()
+        ):
+            try:
+                installed = json.loads(_INSTALL_RECORD.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                installed = {}
+>           candidate = installed.get("palace_executable")
+                        ^^^^^^^^^^^^^
+E           AttributeError: 'list' object has no attribute 'get'
+
+src/textlayout/solvers/palace/capability.py:197: AttributeError
+___________ test_unusable_native_record_keeps_normal_discovery[null] ___________
+
+native_discovery = (<module 'textlayout.solvers.palace.capability' from '/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/s...wzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-127/test_unusable_native_record_ke1/spack-opt/palace/bin/palace'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x12178fdd0>
+record_text = 'null'
+
+    @pytest.mark.parametrize("record_text", [
+        "[]", "null", "{broken", '{"palace_executable": 42}',
+        '{"palace_executable": "/missing/spack/palace"}',
+        '{"palace_executable": "relative/palace"}',
+    ])
+    def test_unusable_native_record_keeps_normal_discovery(native_discovery, monkeypatch, record_text):
+        capability, record, executable = native_discovery
+        record.write_text(record_text, encoding="utf-8")
+        # Spy on the existing resolver: unusable records must not become an explicit
+        # override, so PATH/local-tools discovery can still find another installation.
+        calls = []
+    
+        def resolve(names, explicit=None, **kwargs):
+            calls.append((names, explicit))
+            return str(executable) if names[0] == "palace" and explicit is None else None
+    
+        monkeypatch.setattr(capability, "find_executable", resolve)
+>       assert capability.detect_palace(probe_version=False).executable == str(executable)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/private/tmp/textlayout-20260930/test_native_discovery.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+explicit = None
+
+    def detect_palace(
+        explicit: str | None = None,
+        *,
+        container_image: str | None = None,
+        container_path: str | None = None,
+        container_digest: str | None = None,
+        probe_version: bool = True,
+        finder: Callable[..., str | None] | None = None,
+    ) -> PalaceCapability:
+        """Return a runnable, identified capability or an explicit absent result.
+    
+        Container images are never pulled implicitly. Set ``TEXTLAYOUT_PALACE_IMAGE``
+        to an already-present OCI image, or ``TEXTLAYOUT_PALACE_SIF`` to a local SIF.
+        """
+        locate = finder or find_executable
+        if (
+            explicit is None
+            and finder is None
+            and not os.environ.get("TEXTLAYOUT_PALACE")
+            and _INSTALL_RECORD.is_file()
+        ):
+            try:
+                installed = json.loads(_INSTALL_RECORD.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                installed = {}
+>           candidate = installed.get("palace_executable")
+                        ^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'get'
+
+src/textlayout/solvers/palace/capability.py:197: AttributeError
+=========================== short test summary info ============================
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_spack_environment_requests_exact_palace_release
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_installer_keeps_pinned_sources_and_identity_under_ignored_tools_tree
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_completed_install_identity_is_native_and_pinned
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_installer_reuses_a_verified_installation
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_native_install_record_outside_path_is_discovered
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_unusable_native_record_keeps_normal_discovery[[]]
+FAILED ../../../../../private/tmp/textlayout-20260930/test_native_discovery.py::test_unusable_native_record_keeps_normal_discovery[null]
+7 failed, 7 passed in 0.41s

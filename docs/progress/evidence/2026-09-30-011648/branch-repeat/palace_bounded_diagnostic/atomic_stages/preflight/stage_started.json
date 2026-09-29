@@ -1,0 +1,17 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "preflight",
+  "state": "STARTED",
+  "timestamp": "2026-09-28T07:38:12.716819+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/examples/showcase/05_quarter_wave_resonator_6ghz/layout.json": "6a21a2bae60b2c2207141f819a8191609d309303aa52dfe4bdf900c38d4622d5"
+  },
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": null,
+  "evidence_id": "23f9420cf879f8d70e2892b63aacf39ce01f53ed50545c403ce08e2f6c7fea2b"
+}

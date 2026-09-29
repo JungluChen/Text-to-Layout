@@ -1,0 +1,17 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "mode_tracking",
+  "state": "STARTED",
+  "timestamp": "2026-09-28T07:41:59.568884+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/bounded_solved_states.json": "2601a538e4a3bcf7234bb3f65746906ffa949eab3b63617585a1d0c84e18b342"
+  },
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": null,
+  "evidence_id": "dddad125fef041e732ed419117ccf41c413cb64ad786487d7a75fb9f1a669ee5"
+}

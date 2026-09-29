@@ -1,0 +1,34 @@
+{
+  "schema": "textlayout.palace-stage-record.v1",
+  "stage": "base_mesh",
+  "status": "complete",
+  "input_hashes": {
+    "fem_model.json": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f"
+  },
+  "output_hashes": {
+    "base_mesh/mesh_metrics.json": "e2f7604cffb5d117cf2761220c2de79907fc078e74a79bbeebf1d908dfa23a2c",
+    "base_mesh/quarter_wave_base.msh": "dd9cc2e04f05385aa4a6d30c9fc3d3f435fcc466f3a343a614d82a292d1d4069"
+  },
+  "command": null,
+  "return_code": null,
+  "runtime_seconds": 48.569778735,
+  "started_at": "2026-09-28T07:39:01+00:00",
+  "completed_at": "2026-09-28T07:39:01+00:00",
+  "executable_identity": {
+    "name": "Palace",
+    "version": "0.17.0",
+    "execution_kind": "executable",
+    "executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-d5xmw2hg2yfj4yia44wbichaol6kaebz/bin/palace",
+    "executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+    "mpi_launcher": "/usr/bin/mpirun"
+  },
+  "job_profile": null,
+  "upstream_stage_evidence_ids": [
+    "839138ae24708f9262b610e38cb6ad2e11b645c48799897573f8e91c0d517fb5"
+  ],
+  "evidence_id": "bbb33593bd08f8e7becd8ea9fdb7f54a1e08d7d57a0753658bb54fe9614da4a7",
+  "notes": [],
+  "artifact_contract_report": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/stages/base_mesh.artifacts.json",
+  "artifact_contract_sha256": "1774199392a3c1511cede7c2f646d0435c4aa1d76add05096fd3ea5e20c459c5",
+  "undeclared_outputs": []
+}

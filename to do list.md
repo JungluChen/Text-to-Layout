@@ -76,13 +76,15 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
-- **Current continuation (2026-09-27 13:09):** Palace run `36295978520`
-  remains active; do not duplicate it. The source audit now covers 20 slots.
-  Shared subprocess timeout-log fix `9c3a1a8` is validated locally (1978
-  tests passed, 11 skipped); main CI `36296058278` passed unchanged on
-  attempt 2 after a Windows 3.11 job-status failure. The earlier atomic-write
-  fix does not fully explain that intermittent symptom; retain it as open. See
-  `docs/progress/2026-09-27-130957.md` for retained logs and exact next actions.
+- **Current continuation (2026-09-30 01:16):** Main Palace run `36405066273`
+  passed official smoke but skipped the benchmark because native install-record
+  discovery was missing. The isolated discovery repair passes repeated regression
+  and the full suite (2032 passed, 7 skipped); real main solver verification is
+  pending. Branch run `36295978520` attempt 2 completed with the same
+  `SIMULATION_INVALID / TARGET_MODE_NOT_FOUND` rejection and nearly identical
+  correlations. No whole-branch merge or scientific acceptance. Source reviews:
+  21/100; accepted integrations: 0/100. See `docs/progress/2026-09-30-011648.md`
+  for retained packets, CI continuation, and exact next steps.
 
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
   The revised 100-target mission supersedes the 50-target list as a roadmap,

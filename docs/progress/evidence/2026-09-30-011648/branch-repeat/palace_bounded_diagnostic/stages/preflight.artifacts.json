@@ -1,0 +1,49 @@
+{
+  "schema": "textlayout.palace-artifact-contract-report.v1",
+  "stage": "preflight",
+  "entries": [
+    {
+      "path": "environment.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 808,
+      "mtime_ns": 1790581092779854934,
+      "sha256": "ab25cf2131ed3815125e8c8e059bea971e7ce9a5dcf4a4427c1bcbd78cac109e"
+    },
+    {
+      "path": "fem_model.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 5919,
+      "mtime_ns": 1790581092959483036,
+      "sha256": "caf42e35628120bf4fe53b349f8edcff1c5ff23621d362da6cd57fef1e832e4f"
+    },
+    {
+      "path": "hard_resource_budget.json",
+      "role": "undeclared",
+      "status": "UNDECLARED_OUTPUT",
+      "size_bytes": 506,
+      "mtime_ns": 1790581092958650226,
+      "sha256": "d207609c5b3e4efd9b1979ad5790c1dac5641643c7cb30d75350844276b02371"
+    },
+    {
+      "path": "resource_decision.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 288,
+      "mtime_ns": 1790581092880676965,
+      "sha256": "296a2c4b5ae8f271eb71e40f654002d0686a94a151fb5c24ddf370d6b3ea1ea8"
+    },
+    {
+      "path": "toolchain.json",
+      "role": "expected_output",
+      "status": "present",
+      "size_bytes": 3922,
+      "mtime_ns": 1790581092775144468,
+      "sha256": "9d9093d245dd8588fba65531d1f8fe80a63629bbe2decb51efb64d43ca9cc93f"
+    }
+  ],
+  "undeclared_outputs": [
+    "hard_resource_budget.json"
+  ]
+}

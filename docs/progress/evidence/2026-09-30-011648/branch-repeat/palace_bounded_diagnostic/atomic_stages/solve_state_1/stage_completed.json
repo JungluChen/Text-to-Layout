@@ -1,0 +1,24 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "solve_state_1",
+  "state": "COMPLETED",
+  "timestamp": "2026-09-28T07:41:59.568501+00:00",
+  "command": [
+    "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v4/palace-0.17.0-d5xmw2hg2yfj4yia44wbichaol6kaebz/bin/palace",
+    "-serial",
+    "palace_amr.json"
+  ],
+  "return_code": 0,
+  "input_hashes": {},
+  "output_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/postpro/eig.csv": "62bdb73c266025899d29de8597e394d9b75954ae48affb66cf3854d9b6c90faf",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/postpro/domain-E.csv": "b3ced69846bd66daa3257283539152d57261b1e4e0943882ae5c756ba6ac41ad",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/postpro/error-indicators.csv": "0c927b1cb22bf81b16d2b66d497d9e8045b67f9185b0b6cde30a802289f7f010",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_bounded_diagnostic/base_mesh/postpro/palace.json": "db93a878a2aa647719cc48638349ad2720a51498f51fc2991f8da8761528a2fd"
+  },
+  "parsed_result_sha256": "2601a538e4a3bcf7234bb3f65746906ffa949eab3b63617585a1d0c84e18b342",
+  "resource_summary_sha256": "33362dce97dbde9d32d9ed06d24505753fbf7e8c3b19e16a35a2089a449cfd87",
+  "owned_children_remaining": false,
+  "reason": null,
+  "evidence_id": "332d8a5c110328fe14191cd2b7571871aa5dbc1d9cb5521d8e6904a43dc62cf0"
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "textlayout.palace-atomic-stage.v1",
+  "stage": "mode_tracking",
+  "state": "FAILED",
+  "timestamp": "2026-09-28T07:42:43.886341+00:00",
+  "command": null,
+  "return_code": null,
+  "input_hashes": {},
+  "output_hashes": {},
+  "parsed_result_sha256": null,
+  "resource_summary_sha256": null,
+  "owned_children_remaining": null,
+  "reason": "physical target classification failed: TARGET_MODE_NOT_FOUND",
+  "evidence_id": "ff57bf5bee19f1ecb48e92bcca677c3edc5fae135ce3588656a5347311a59520"
+}
