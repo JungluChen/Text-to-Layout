@@ -194,9 +194,16 @@ def detect_palace(
             installed = json.loads(_INSTALL_RECORD.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             installed = {}
-        candidate = installed.get("palace_executable")
-        if isinstance(candidate, str) and candidate.startswith(_WSL_PREFIX):
-            explicit = candidate
+        candidate = installed.get("palace_executable") if isinstance(installed, dict) else None
+        if isinstance(candidate, str) and candidate:
+            # Spack installs native binaries outside PATH. Reuse the recorded
+            # executable just as the installation/smoke helpers do, without
+            # letting a stale native record suppress normal PATH discovery.
+            native = Path(candidate)
+            if candidate.startswith(_WSL_PREFIX) or (
+                native.is_absolute() and native.is_file() and os.access(native, os.X_OK)
+            ):
+                explicit = candidate
     executable = locate(("palace", "palace.exe"), explicit, env_var="TEXTLAYOUT_PALACE")
     if executable is not None:
         launcher = locate(("mpirun", "mpiexec"), None, env_var="TEXTLAYOUT_MPIRUN")
