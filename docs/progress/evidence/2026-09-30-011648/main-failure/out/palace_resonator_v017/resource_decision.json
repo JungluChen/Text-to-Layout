@@ -1,0 +1,10 @@
+{
+  "accepted_processes": 2,
+  "available_mb": 14804,
+  "memory_tier": "unknown",
+  "preflight_peak_mb": null,
+  "rationale": "no peak-memory estimate available; honouring the requested count",
+  "requested_processes": 2,
+  "timestamp": "2026-09-28T10:58:49+00:00",
+  "total_mb": 15989
+}

@@ -1,0 +1,274 @@
+{
+  "critical_regions": [
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "cpw_gap",
+      "mesh_region_names": [],
+      "name": "cpw_gaps",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "coupling_gap",
+      "mesh_region_names": [],
+      "name": "coupling_gap",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "resonator_end",
+      "mesh_region_names": [],
+      "name": "open_and_grounded_ends",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    },
+    {
+      "attribute_ids": [
+        1,
+        3
+      ],
+      "kind": "substrate_interface",
+      "mesh_region_names": [],
+      "name": "substrate_vacuum_interface",
+      "region_type": "volume",
+      "surface_attribute_ids": [],
+      "volume_attribute_ids": []
+    }
+  ],
+  "eigenmode": {
+    "element_order": 1,
+    "linear_max_iterations": 1000,
+    "linear_tolerance": 1e-09,
+    "mode_count": 4,
+    "target_frequency_ghz": 2.7,
+    "tolerance": 1e-09
+  },
+  "interfaces": [
+    {
+      "attribute": 20,
+      "between": [
+        "substrate_resonator",
+        "vacuum_resonator"
+      ],
+      "loss_tangent": 0.001,
+      "name": "substrate_vacuum_interface",
+      "permittivity": 4.0,
+      "thickness_nm": 2.0
+    },
+    {
+      "attribute": 21,
+      "between": [
+        "substrate_outer",
+        "vacuum_outer"
+      ],
+      "loss_tangent": 0.001,
+      "name": "outer_substrate_vacuum_interface",
+      "permittivity": 4.0,
+      "thickness_nm": 2.0
+    }
+  ],
+  "length_unit_m": 1e-06,
+  "lumped_ports": [],
+  "materials": [
+    {
+      "loss_tangent": 1e-06,
+      "name": "silicon",
+      "permeability": 1.0,
+      "permittivity": 11.45
+    },
+    {
+      "loss_tangent": 0.0,
+      "name": "vacuum",
+      "permeability": 1.0,
+      "permittivity": 1.0
+    }
+  ],
+  "mesh": {
+    "characteristic_length": 880.0,
+    "min_element_quality": 0.01,
+    "refinements": [
+      {
+        "characteristic_length": 12.0,
+        "growth_distance": 80.0,
+        "target": "cpw_conductor_edges"
+      },
+      {
+        "characteristic_length": 8.0,
+        "growth_distance": 70.0,
+        "target": "cpw_gaps"
+      },
+      {
+        "characteristic_length": 5.333333333333333,
+        "growth_distance": 40.0,
+        "target": "coupling_gap"
+      },
+      {
+        "characteristic_length": 5.333333333333333,
+        "growth_distance": 40.0,
+        "target": "open_end"
+      },
+      {
+        "characteristic_length": 8.0,
+        "growth_distance": 40.0,
+        "target": "grounded_end"
+      },
+      {
+        "characteristic_length": 40.0,
+        "growth_distance": 160.0,
+        "target": "substrate_vacuum_interface"
+      },
+      {
+        "characteristic_length": 40.0,
+        "growth_distance": 80.0,
+        "target": "metal_substrate_interface"
+      },
+      {
+        "characteristic_length": 40.0,
+        "growth_distance": 80.0,
+        "target": "metal_air_interface"
+      },
+      {
+        "characteristic_length": 160.0,
+        "growth_distance": 300.0,
+        "target": "mesh_transition_buffer"
+      }
+    ]
+  },
+  "mesh_regions": [
+    {
+      "dimension": 1,
+      "kind": "conductor_edge",
+      "name": "cpw_conductor_edges"
+    },
+    {
+      "dimension": 2,
+      "kind": "cpw_gap",
+      "name": "cpw_gaps"
+    },
+    {
+      "dimension": 2,
+      "kind": "coupler_gap",
+      "name": "coupling_gap"
+    },
+    {
+      "dimension": 1,
+      "kind": "open_end",
+      "name": "open_end"
+    },
+    {
+      "dimension": 3,
+      "kind": "custom",
+      "name": "mesh_transition_buffer"
+    },
+    {
+      "dimension": 1,
+      "kind": "grounded_end",
+      "name": "grounded_end"
+    },
+    {
+      "dimension": 2,
+      "kind": "dielectric_interface",
+      "name": "substrate_vacuum_interface"
+    },
+    {
+      "dimension": 2,
+      "kind": "dielectric_interface",
+      "name": "metal_substrate_interface"
+    },
+    {
+      "dimension": 2,
+      "kind": "dielectric_interface",
+      "name": "metal_air_interface"
+    }
+  ],
+  "name": "quarter_wave_resonator_6ghz_sub300_vac300_lid450_lat100",
+  "schema_version": "textlayout.fem-model.v1",
+  "surfaces": [
+    {
+      "attribute": 10,
+      "kind": "pec",
+      "name": "superconducting_metal",
+      "resistance_ohm_per_square": null,
+      "role": "superconducting_metal"
+    },
+    {
+      "attribute": 11,
+      "kind": "pec",
+      "name": "package_walls",
+      "resistance_ohm_per_square": null,
+      "role": "package_wall"
+    },
+    {
+      "attribute": 12,
+      "kind": "pec",
+      "name": "lid",
+      "resistance_ohm_per_square": null,
+      "role": "lid"
+    }
+  ],
+  "volumes": [
+    {
+      "attribute": 1,
+      "material": "silicon",
+      "name": "substrate_resonator",
+      "postprocess_energy": true,
+      "role": "substrate"
+    },
+    {
+      "attribute": 2,
+      "material": "silicon",
+      "name": "substrate_outer",
+      "postprocess_energy": true,
+      "role": "substrate"
+    },
+    {
+      "attribute": 3,
+      "material": "vacuum",
+      "name": "vacuum_resonator",
+      "postprocess_energy": true,
+      "role": "vacuum"
+    },
+    {
+      "attribute": 4,
+      "material": "vacuum",
+      "name": "vacuum_outer",
+      "postprocess_energy": true,
+      "role": "vacuum"
+    },
+    {
+      "attribute": 5,
+      "material": "vacuum",
+      "name": "vacuum_far",
+      "postprocess_energy": true,
+      "role": "vacuum"
+    }
+  ],
+  "wave_ports": [
+    {
+      "attribute": 30,
+      "index": 1,
+      "mode_count": 1,
+      "name": "RF_IN"
+    },
+    {
+      "attribute": 31,
+      "index": 2,
+      "mode_count": 1,
+      "name": "RF_OUT"
+    }
+  ]
+}

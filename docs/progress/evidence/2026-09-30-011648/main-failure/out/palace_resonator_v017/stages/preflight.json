@@ -1,0 +1,36 @@
+{
+  "schema": "textlayout.palace-stage-record.v1",
+  "stage": "preflight",
+  "status": "complete",
+  "input_hashes": {
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/examples/showcase/05_quarter_wave_resonator_6ghz/layout.json": "6a21a2bae60b2c2207141f819a8191609d309303aa52dfe4bdf900c38d4622d5"
+  },
+  "output_hashes": {
+    "environment.json": "69600dcecb7b177d7b7479b1d0163e782e0dd1e11787c2f403b65892dea3698e",
+    "fem_model.json": "c1b8cbeecca7b25d84dbaac7d462c6c2616079fd8a56d8d5dbc94d3fd3de4a5a",
+    "resource_decision.json": "c775b4cff82eccc04c771d851decedebc7c41adf7d4d0a02450a52ca363027fd",
+    "toolchain.json": "31849384ad228e281d9398322f5c89b77903508f419f0f4298039daa85574dae"
+  },
+  "command": null,
+  "return_code": null,
+  "runtime_seconds": null,
+  "started_at": "2026-09-28T10:58:49+00:00",
+  "completed_at": "2026-09-28T10:58:49+00:00",
+  "executable_identity": {
+    "name": "Palace",
+    "version": null,
+    "execution_kind": null,
+    "executable": null,
+    "executable_sha256": null,
+    "mpi_launcher": null
+  },
+  "job_profile": null,
+  "upstream_stage_evidence_ids": [],
+  "evidence_id": "9488e6258515d70627c656824f2f4b706ea3381ef056c4f81f1aeedffe917b84",
+  "notes": [
+    "toolchain identity, environment, resource decision and FEM model prepared"
+  ],
+  "artifact_contract_report": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/palace_resonator_v017/stages/preflight.artifacts.json",
+  "artifact_contract_sha256": "a730680b67f74f1f125139645b1acb2fbe54eb7ebf87790d0061f1e84e94301a",
+  "undeclared_outputs": []
+}
