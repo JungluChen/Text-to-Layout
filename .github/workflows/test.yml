@@ -18,7 +18,24 @@ jobs:
       - name: Compile
         run: uv run python -m compileall src scripts examples
       - name: Test
-        run: uv run pytest
+        run: uv run pytest --basetemp "${{ runner.temp }}/textlayout-pytest"
+      - name: Retain failed job lifecycle diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-job-lifecycle-${{ github.run_attempt }}
+          # Only deterministic test records/logs; exclude environment snapshots.
+          path: |
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/job.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/heartbeat.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/finalization.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stderr.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stdout.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/resource_samples.jsonl
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/stdout.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/stderr.txt
+          if-no-files-found: warn
+          retention-days: 14
       - name: Lint
         run: uv run ruff check .
       - name: Type check
