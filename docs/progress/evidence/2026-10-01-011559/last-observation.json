@@ -1,0 +1,87 @@
+{
+  "schema": "textlayout.palace-ci-observation.v1",
+  "timestamp": "2026-09-29T19:01:08.898254+00:00",
+  "scope": "host/process diagnostics; not numerical validation",
+  "meminfo": {
+    "unavailable": "OSError"
+  },
+  "files": {
+    "toolchain.json": {
+      "size_bytes": 3922,
+      "tail": "{\n  \"capability\": {\n    \"available\": true,\n    \"container_digest\": null,\n    \"container_engine\": null,\n    \"container_image\": null,\n    \"executable\": \"/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-fc5grs6ugcjdbzpdpqbqsnmf6ejlq4hx/bin/palace\",\n    \"executable_sha256\": \"ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f\",\n    \"execution_kind\": \"executable\",\n    \"identified\": true,\n    \"mpi_launcher\": \"/usr/bin/mpirun\",\n    \"status\": \"AVAILABLE\",\n    \"unavailable_reason\": null,\n    \"version\": \"0.17.0\"\n  },\n  \"generated_at\": \"2026-09-29T18:43:39+00:00\",\n  \"git_commit\": \"59e8c654c1cfcc84788b488daf0482682bcda2ba\",\n  \"gmsh\": {\n    \"available\": true,\n    \"expected_version\": \"4.15.2\",\n    \"module\": \"/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py\",\n    \"module_sha256\": \"f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3\",\n    \"version\": \"4.15.2\"\n  },\n  \"install_record\": {\n    \"build_stage\": \"/home/runner/.cache/textlayout-palace/build-stage\",\n    \"compiler_and_mpi_tail\": [\n      \"[+] /home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-fc5grs6ugcjdbzpdpqbqsnmf6ejlq4hx\",\n      \"==> Installing palace-0.17.0-fc5grs6ugcjdbzpdpqbqsnmf6ejlq4hx [63/63]\",\n      \"==> Updating view at /home/runner/.cache/textlayout-palace/environment/.spack-env/view\",\n      \"gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\",\n      \"g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\",\n      \"GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\",\n      \"mpirun (Open MPI) 4.1.6\",\n      \"\"\n    ],\n    \"compiler_versions\": {\n      \"gcc\": \"gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\",\n      \"gfortran\": \"GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\",\n      \"gxx\": \"g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\"\n    },\n    \"git_commit\": \"59e8c654c1cfcc84788b488daf0482682bcda2ba\",\n    \"gmsh\": {\n      \"available\": true,\n      \"expected_version\": \"4.15.2\",\n      \"module\": \"/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/lib/python3.12/site-packages/gmsh.py\",\n      \"module_sha256\": \"f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3\",\n      \"version\": \"4.15.2\"\n    },\n    \"gmsh_version\": \"4.15.2\",\n    \"install_tree\": \"/home/runner/.cache/textlayout-palace/spack-opt\",\n    \"installed_at\": \"2026-09-29T18:43:21.397659+00:00\",\n    \"mpi_version\": \"mpirun (Open MPI) 4.1.6\",\n    \"native_root\": \"/home/runner/.cache/textlayout-palace\",\n    \"palace_commit\": \"12d8069afb5aa9e169a17e303d735e120968e9f2\",\n    \"palace_executable\": \"/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-fc5grs6ugcjdbzpdpqbqsnmf6ejlq4hx/bin/palace\",\n    \"palace_executable_sha256\": \"ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f\",\n    \"palace_version\": \"0.17.0\",\n    \"requested_version\": \"0.17.0\",\n    \"reused\": false,\n    \"schema\": \"textlayout.palace-install.v1\",\n    \"source_archive\": {\n      \"available\": true,\n      \"path\": \"/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz\",\n      \"sha256\": \"169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d\",\n      \"size_bytes\": 47331791\n    },\n    \"source_archive_path\": \"/home/runner/work/Text-to-Layout/Text-to-Layout/.tools/external/sources/palace-12d8069afb5aa9e169a17e303d735e120968e9f2.tar.gz\",\n    \"source_archive_sha256\": \"169f7fe210ea6e771a29bfe0803dd84a774b25b00d2aa3a1f33b9d97a510ff9d\",\n    \"spack_commit\": \"0c2be44e4ece21eb091ad5de4c97716b7c6d4c87\",\n    \"spack_environment\": \"external_tools/palace/spack.yaml\",\n    \"spack_packages_commit\": \"a2928a3376d286ddbf07da62847d5ba5b0fa3c67\",\n    \"spack_runtime_cache\": \"/home/runner/.cache/textlayout-palace\",\n    \"spack_version\": \"1.1.0\",\n    \"status\": \"INSTALLED\",\n    \"strategy\": \"pinned_spack_wsl\"\n  },\n  \"required_palace_version\": \"0.17.0\",\n  \"schema\": \"textlayout.palace-toolchain.v1\"\n}\n",
+      "truncated": false
+    },
+    "resource_decision.json": {
+      "size_bytes": 288,
+      "tail": "{\n  \"accepted_processes\": 2,\n  \"available_mb\": 14806,\n  \"memory_tier\": \"unknown\",\n  \"preflight_peak_mb\": null,\n  \"rationale\": \"no peak-memory estimate available; honouring the requested count\",\n  \"requested_processes\": 2,\n  \"timestamp\": \"2026-09-29T18:43:39+00:00\",\n  \"total_mb\": 15989\n}\n",
+      "truncated": false
+    },
+    "run_manifest.json": {
+      "unavailable": "FileNotFoundError"
+    },
+    "base_mesh/mesh_metrics.json": {
+      "size_bytes": 401,
+      "tail": "{\n  \"element_count\": 206137,\n  \"extents\": {\n    \"lateral_margin_um\": 100.0,\n    \"lid_height_um\": 450.0,\n    \"substrate_thickness_um\": 300.0,\n    \"vacuum_height_um\": 300.0\n  },\n  \"mean_quality\": 0.7263143756565194,\n  \"mesh_scale\": 4.0,\n  \"mesh_sha256\": \"d2c7eee442ccec0b5acf7a37a98b61dd305b53bafb68f0d43dab3ba0dc2b069e\",\n  \"minimum_quality\": 0.15838171066132758,\n  \"runtime_seconds\": 7.7689208339998\n}\n",
+      "truncated": false
+    },
+    "base_mesh/palace_amr.json": {
+      "size_bytes": 2038,
+      "tail": "{\n  \"Boundaries\": {\n    \"PEC\": {\n      \"Attributes\": [\n        10,\n        11,\n        12,\n        30,\n        31\n      ]\n    }\n  },\n  \"Domains\": {\n    \"Materials\": [\n      {\n        \"Attributes\": [\n          1\n        ],\n        \"LossTan\": 1e-06,\n        \"Permeability\": 1.0,\n        \"Permittivity\": 11.45\n      },\n      {\n        \"Attributes\": [\n          2\n        ],\n        \"LossTan\": 1e-06,\n        \"Permeability\": 1.0,\n        \"Permittivity\": 11.45\n      },\n      {\n        \"Attributes\": [\n          3\n        ],\n        \"Permeability\": 1.0,\n        \"Permittivity\": 1.0\n      },\n      {\n        \"Attributes\": [\n          4\n        ],\n        \"Permeability\": 1.0,\n        \"Permittivity\": 1.0\n      },\n      {\n        \"Attributes\": [\n          5\n        ],\n        \"Permeability\": 1.0,\n        \"Permittivity\": 1.0\n      }\n    ],\n    \"Postprocessing\": {\n      \"Energy\": [\n        {\n          \"Attributes\": [\n            1\n          ],\n          \"Index\": 1\n        },\n        {\n          \"Attributes\": [\n            2\n          ],\n          \"Index\": 2\n        },\n        {\n          \"Attributes\": [\n            3\n          ],\n          \"Index\": 3\n        },\n        {\n          \"Attributes\": [\n            4\n          ],\n          \"Index\": 4\n        },\n        {\n          \"Attributes\": [\n            5\n          ],\n          \"Index\": 5\n        }\n      ]\n    }\n  },\n  \"Model\": {\n    \"L0\": 1e-06,\n    \"Mesh\": \"quarter_wave_base.msh\",\n    \"Refinement\": {\n      \"MaxIts\": 4,\n      \"Nonconformal\": false,\n      \"SaveAdaptIterations\": true,\n      \"SaveAdaptMesh\": true,\n      \"Tol\": 0.0001,\n      \"UpdateFraction\": 0.7\n    }\n  },\n  \"Problem\": {\n    \"Output\": \"postpro\",\n    \"OutputFormats\": {\n      \"GridFunction\": true,\n      \"Paraview\": true\n    },\n    \"Type\": \"Eigenmode\",\n    \"Verbose\": 2\n  },\n  \"Solver\": {\n    \"Device\": \"CPU\",\n    \"Eigenmode\": {\n      \"N\": 4,\n      \"Save\": 4,\n      \"Target\": 2.7,\n      \"Tol\": 1e-09\n    },\n    \"Linear\": {\n      \"MaxIts\": 1000,\n      \"Tol\": 1e-09,\n      \"Type\": \"Default\"\n    },\n    \"Order\": 1\n  }\n}\n",
+      "truncated": false
+    },
+    "base_mesh/palace.stdout.txt": {
+      "size_bytes": 22749,
+      "tail": " 1.587       3.963       2.775\nOperator Construction           55.209      55.238      55.224\nLinear Solve                    34.697      34.708      34.702\n  Setup                          7.540       7.547       7.543\n  Preconditioner                88.247      88.264      88.256\nEigenvalue Solve                15.981      16.035      16.008\nDiv.-Free Projection            89.399      89.452      89.425\nEstimation                       2.564       2.792       2.678\n  Construction                  49.729      49.736      49.732\n  Solve                         73.042      73.129      73.085\nAdaptation                       3.598       3.625       3.611\n  Rebalancing                    1.822       1.822       1.822\nPostprocessing                  20.782      20.919      20.851\n  Paraview                     151.116     151.119     151.118\n  Grid function                 79.028      79.029      79.028\nDisk IO                          1.232       1.235       1.233\n--------------------------------------------------------------\nTotal                          678.854     678.854     678.854\n\nPeak Memory                   Per-Node       Total   Total HWM\n==============================================================\nInitialization                    4.1M        4.1M        4.1M\n  Mesh Preprocessing            152.4M      152.4M      156.5M\nOperator Construction           297.2M      297.2M      453.8M\nLinear Solve                      0.0K        0.0K      453.8M\n  Setup                           1.5G        1.5G        1.9G\n  Preconditioner                 10.5G       10.5G       12.5G\nEigenvalue Solve                 62.0M       62.0M       12.5G\nDiv.-Free Projection            199.9M      199.9M       12.7G\nEstimation                      697.2M      697.2M       13.4G\n  Construction                    0.0K        0.0K       13.4G\n  Solve                         477.1M      477.1M       13.9G\nAdaptation                        0.0K        0.0K       13.9G\n  Rebalancing                     0.0K        0.0K       13.9G\nPostprocessing                  109.0M      109.0M       14.0G\n  Paraview                       95.3M       95.3M       14.1G\n  Grid function                   0.0K        0.0K       14.1G\nDisk IO                          68.5M       68.5M       14.1G\n--------------------------------------------------------------\nTotal                            14.1G       14.1G       14.1G\nEstimated peak per-rank memory usage is: Min. 6.9G, Max. 7.3G, Avg. 7.1G, Total 14.2G\nEstimated peak per-node memory usage is: Min. 14.2G, Max. 14.2G, Avg. 14.2G, Total 14.2G\n\nAdaptive mesh refinement (AMR) iteration 2:\n Indicator norm = 3.846e-01, global unknowns = 924336\n Max. iterations = 4, tol. = 1.000e-04\n Marked 127539/759141 elements for refinement (70.00% of the error, \u03b8 = 0.70)\n Conforming mesh refinement added 2607704 elements (initial = 759141, final = 3366845)\n Rebalanced mesh: Ratio 1.161 exceeded max. allowed value 1.100 (new ratio = 1.000)\n\nParallel Mesh Stats:\n\n                minimum     average     maximum       total\n vertices        304927      306126      307326      612253\n edges          2019354     2022337     2025320     4044674\n faces          3397808     3399633     3401458     6799266\n elements       1683380     1683422     1683465     3366845\n neighbors            1           1           1\n\n            minimum     maximum\n h      0.000163591   0.0319171\n kappa      1.04077     28.0205\n\nProceeding with solve/estimate iteration 3...\n\nConfiguring Dirichlet PEC BC at attributes:\n 10-12, 30-31\n\nAssembling system matrices, number of global unknowns:\n H1 (p = 1): 612253, ND (p = 1): 4044674, RT (p = 1): 6799266\n Operator assembly level: Partial\n Mesh geometries:\n  Tetrahedron: P = 6, Q = 4 (quadrature order = 2)\n\nConfiguring ARPACK eigenvalue solver:\n Scaling \u03b3 = 1.133e+06, \u03b4 = 6.889e-06\n Configuring divergence-free projection\n Using random starting vector\n Shift-and-invert \u03c3 = 2.700e+00 GHz (2.936e-01)\n\nAssembling multigrid hierarchy:\n Level 0 (p = 1): 4044674 unknowns\n Level 0 (auxiliary) (p = 1): 612253 unknowns\n",
+      "truncated": true
+    },
+    "base_mesh/palace.stderr.txt": {
+      "size_bytes": 0,
+      "tail": "",
+      "truncated": false
+    },
+    "base_mesh/resource_summary.json": {
+      "unavailable": "FileNotFoundError"
+    },
+    "base_mesh/resource_samples.json": {
+      "unavailable": "FileNotFoundError"
+    }
+  },
+  "cgroup_path": "/system.slice/hosted-compute-agent.service",
+  "cgroup_memory": {
+    "memory.current": {
+      "size_bytes": 0,
+      "tail": "15896657920\n",
+      "truncated": false
+    },
+    "memory.peak": {
+      "size_bytes": 0,
+      "tail": "15973244928\n",
+      "truncated": false
+    },
+    "memory.max": {
+      "size_bytes": 0,
+      "tail": "max\n",
+      "truncated": false
+    },
+    "memory.events": {
+      "size_bytes": 0,
+      "tail": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "truncated": false
+    }
+  },
+  "process_columns": "pid ppid rss_KiB vsz_KiB cpu_percent command_name",
+  "largest_processes": [
+    " 679867  679825 7755996 9882788 99.2 palace-x86_64.b",
+    " 679870  679825 7410676 9898348 99.2 palace-x86_64.b",
+    "   2046    2044 104416 1431512 0.3 provjobd1305015",
+    "   2112    2090 54808 274614764 0.4 Runner.Worker",
+    "   2090    2032 53604 274345440 0.0 Runner.Listener",
+    " 679567  679564 48252 1295176 1.1 textlayout",
+    "    225       1 43716 305388  0.0 multipathd",
+    "   1712    1021 33760 454656  0.0 python3",
+    "   1154       1 31956 2127092 0.0 dockerd",
+    "    987       1 23760 295280  0.0 php-fpm8.3",
+    "   1063       1 22708 1960992 0.0 containerd",
+    "   1021       1 18792  39480  0.0 python3"
+  ]
+}

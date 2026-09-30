@@ -1,0 +1,83 @@
+ 1.587       3.963       2.775
+Operator Construction           55.209      55.238      55.224
+Linear Solve                    34.697      34.708      34.702
+  Setup                          7.540       7.547       7.543
+  Preconditioner                88.247      88.264      88.256
+Eigenvalue Solve                15.981      16.035      16.008
+Div.-Free Projection            89.399      89.452      89.425
+Estimation                       2.564       2.792       2.678
+  Construction                  49.729      49.736      49.732
+  Solve                         73.042      73.129      73.085
+Adaptation                       3.598       3.625       3.611
+  Rebalancing                    1.822       1.822       1.822
+Postprocessing                  20.782      20.919      20.851
+  Paraview                     151.116     151.119     151.118
+  Grid function                 79.028      79.029      79.028
+Disk IO                          1.232       1.235       1.233
+--------------------------------------------------------------
+Total                          678.854     678.854     678.854
+
+Peak Memory                   Per-Node       Total   Total HWM
+==============================================================
+Initialization                    4.1M        4.1M        4.1M
+  Mesh Preprocessing            152.4M      152.4M      156.5M
+Operator Construction           297.2M      297.2M      453.8M
+Linear Solve                      0.0K        0.0K      453.8M
+  Setup                           1.5G        1.5G        1.9G
+  Preconditioner                 10.5G       10.5G       12.5G
+Eigenvalue Solve                 62.0M       62.0M       12.5G
+Div.-Free Projection            199.9M      199.9M       12.7G
+Estimation                      697.2M      697.2M       13.4G
+  Construction                    0.0K        0.0K       13.4G
+  Solve                         477.1M      477.1M       13.9G
+Adaptation                        0.0K        0.0K       13.9G
+  Rebalancing                     0.0K        0.0K       13.9G
+Postprocessing                  109.0M      109.0M       14.0G
+  Paraview                       95.3M       95.3M       14.1G
+  Grid function                   0.0K        0.0K       14.1G
+Disk IO                          68.5M       68.5M       14.1G
+--------------------------------------------------------------
+Total                            14.1G       14.1G       14.1G
+Estimated peak per-rank memory usage is: Min. 6.9G, Max. 7.3G, Avg. 7.1G, Total 14.2G
+Estimated peak per-node memory usage is: Min. 14.2G, Max. 14.2G, Avg. 14.2G, Total 14.2G
+
+Adaptive mesh refinement (AMR) iteration 2:
+ Indicator norm = 3.846e-01, global unknowns = 924336
+ Max. iterations = 4, tol. = 1.000e-04
+ Marked 127539/759141 elements for refinement (70.00% of the error, θ = 0.70)
+ Conforming mesh refinement added 2607704 elements (initial = 759141, final = 3366845)
+ Rebalanced mesh: Ratio 1.161 exceeded max. allowed value 1.100 (new ratio = 1.000)
+
+Parallel Mesh Stats:
+
+                minimum     average     maximum       total
+ vertices        304927      306126      307326      612253
+ edges          2019354     2022337     2025320     4044674
+ faces          3397808     3399633     3401458     6799266
+ elements       1683380     1683422     1683465     3366845
+ neighbors            1           1           1
+
+            minimum     maximum
+ h      0.000163591   0.0319171
+ kappa      1.04077     28.0205
+
+Proceeding with solve/estimate iteration 3...
+
+Configuring Dirichlet PEC BC at attributes:
+ 10-12, 30-31
+
+Assembling system matrices, number of global unknowns:
+ H1 (p = 1): 612253, ND (p = 1): 4044674, RT (p = 1): 6799266
+ Operator assembly level: Partial
+ Mesh geometries:
+  Tetrahedron: P = 6, Q = 4 (quadrature order = 2)
+
+Configuring ARPACK eigenvalue solver:
+ Scaling γ = 1.133e+06, δ = 6.889e-06
+ Configuring divergence-free projection
+ Using random starting vector
+ Shift-and-invert σ = 2.700e+00 GHz (2.936e-01)
+
+Assembling multigrid hierarchy:
+ Level 0 (p = 1): 4044674 unknowns
+ Level 0 (auxiliary) (p = 1): 612253 unknowns

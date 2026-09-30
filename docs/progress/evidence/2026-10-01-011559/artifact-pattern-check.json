@@ -1,0 +1,34 @@
+{
+  "test_job_start_collect_records*/jobs/*/job.json": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/job.json",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/job.json"
+  ],
+  "test_job_start_collect_records*/jobs/*/heartbeat.json": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/heartbeat.json",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/heartbeat.json"
+  ],
+  "test_job_start_collect_records*/jobs/*/finalization.json": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/finalization.json",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/finalization.json"
+  ],
+  "test_job_start_collect_records*/jobs/*/monitor.stderr.txt": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/monitor.stderr.txt",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/monitor.stderr.txt"
+  ],
+  "test_job_start_collect_records*/jobs/*/monitor.stdout.txt": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/monitor.stdout.txt",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/monitor.stdout.txt"
+  ],
+  "test_job_start_collect_records*/jobs/*/resource_samples.jsonl": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/resource_samples.jsonl",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/resource_samples.jsonl"
+  ],
+  "test_job_start_collect_records*/jobs/*/stdout.txt": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/stdout.txt",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/stdout.txt"
+  ],
+  "test_job_start_collect_records*/jobs/*/stderr.txt": [
+    "test_job_start_collect_recordscurrent/jobs/job-d58f29641bee757c/stderr.txt",
+    "test_job_start_collect_records0/jobs/job-d58f29641bee757c/stderr.txt"
+  ]
+}
