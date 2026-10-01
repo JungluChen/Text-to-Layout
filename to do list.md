@@ -76,16 +76,15 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
-- **Current continuation (2026-10-01 01:15):** Main Palace run `36604920743`
-  confirms discovery repair `e4a294d`: real Palace 0.17.0 launched after smoke.
-  Runner shutdown interrupted the full AMR run at 3,366,845 elements; memory
-  pressure is observed but an OOM kill is not proven. No convergence/reference
-  acceptance. Do not repeat the same unrestricted hosted-runner solve before
-  reviewing resource bounds. Windows test `36605007641` failed the 15-second
-  job-status assertion; attempt 2/job `110006904726` passed unchanged. The intermittent cause remains open.
-  Diagnostic-only CI collection now retains that test's job/monitor records;
-  no timeout or assertion relaxation. See `docs/progress/2026-10-01-011559.md`.
-  Source reviews: 21/100; accepted integrations: 0/100.
+- **Current continuation (2026-10-02 01:27):** Main CI `36751037051`,
+  Windows test `36751037205` and nightly `36845507049` passed at `f09362a`.
+  No active solver was found. Palace remains blocked on bounded resource
+  planning and numerical convergence after run `36604920743`; see the October 1
+  report before another full run. Advanced the next actionable source review:
+  slot 22 Qucs-S release 26.1.1, its component/license boundaries and overlap
+  with ngspice/Xyce/Qucs. Source reviews: 22/100; accepted integrations: 0/100.
+  No solver, dependency or callable adapter was added. See
+  `docs/progress/2026-10-02-012737.md` for evidence and next steps.
 
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
   The revised 100-target mission supersedes the 50-target list as a roadmap,

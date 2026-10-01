@@ -84,3 +84,44 @@ frequency, thickness and boundary assumptions; declare its uncertainty and
 acceptance tolerance before evaluation. Keep slot 21 unchecked until its full
 execution/reference/platform/commit contract is met. No new solver or MCP
 capability is advertised by this audit. Reviewed slots now total 21; 79 remain.
+
+
+## Slot 22: Qucs-S — 2026-10-02
+
+Reviewed [release 26.1.1](https://github.com/ra3xdh/qucs_s/releases/tag/26.1.1)
+at commit `b88d6fe20d3c0803507f38cc7fdef67c174a40ed`. The maintainer repository
+is not archived at review time. The pinned
+[README](https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/README.md)
+describes a schematic/visualization front end for Ngspice (recommended), Xyce,
+SpiceOpus and Qucsator. It derives from Qucs but is not the same repository.
+
+[qucs/main.cpp](https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/qucs/main.cpp)
+permits GPL-2.0-or-later; COPYING contains the GPL v2 text. Do not assign that
+license automatically to all dependencies. The pinned .gitmodules contains
+qucsator_rf, rxcalc and qucs-s-spar-viewer; exact gitlink revisions and source
+file hashes are recorded in
+[the audit record](../progress/evidence/2026-10-02-012737/qucs-source-audit.json).
+Review each selected component's license before distribution.
+
+The release build uses CMake and Qt6 (Core, Gui, Widgets and LinguistTools in
+the top-level CMake file); README also lists Flex, Bison, gperf and dos2unix.
+Ngspice is a separate runtime solver, not a Python package to add to the base
+install. No Qucs-S adapter was found in src/textlayout; local PATH probes for
+qucs-s and ngspice returned absent. This does not rule out installations outside
+PATH. No installation, GUI execution, netlist export or simulation was tested.
+
+**Deduplication:** slot 22 is the Qucs-S front end; slot 51 is ngspice, slot 52
+is Xyce, and slot 59 is the original Qucs project. A Qucs-S run invoking ngspice
+and a direct invocation of the same ngspice binary are not two independent
+solver validations. Record both front-end revision/export hash and actual
+solver identity/output hash. Do not inflate accepted counts by counting an
+underlying engine twice.
+
+**Next bounded slice:** audit documented netlist export/batch capabilities and
+selected engine licensing, then specify a typed schematic/netlist handoff.
+Start with an ideal RC small-signal AC circuit (explicit R in ohms, C in farads,
+source amplitude/phase and output node), comparing complex transfer against
+`H(jω)=1/(1+jωRC)`. Declare sweep, solver tolerances, precision/error budget and
+acceptance before execution. This checks export, units and parser behavior;
+it is not independent 3D RF accuracy or commercial parity. Keep this slot
+unchecked until real execution, numerical and platform acceptance are retained.

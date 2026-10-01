@@ -1,0 +1,56 @@
+{
+  "reviewed_at": "2026-10-02 Asia/Taipei",
+  "repository": "https://github.com/ra3xdh/qucs_s",
+  "archived": false,
+  "release": "26.1.1",
+  "release_commit": "b88d6fe20d3c0803507f38cc7fdef67c174a40ed",
+  "observed_current_commit": "d13470fb87809a4e80f472a1a5aad002d69dac84",
+  "source_files": [
+    {
+      "path": "README.md",
+      "url": "https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/README.md",
+      "sha256": "c8cab4b8e049c588d045afd8e04bce08f3814be58da623da039233689855e185"
+    },
+    {
+      "path": "COPYING",
+      "url": "https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/COPYING",
+      "sha256": "3638f07ec85998a9cf50941604f48c6003ad0921d5ee1d352d8840c924afa1e6"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "url": "https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/CMakeLists.txt",
+      "sha256": "35bb146ec2b6dffbcc9e1aa0290424c08766cb318c6750c11fffc74007a8cefd"
+    },
+    {
+      "path": ".gitmodules",
+      "url": "https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/.gitmodules",
+      "sha256": "c3f6314e5ba3594ef911df2ccf61e563251cdbafeafb0dec237bd383700fceb0"
+    },
+    {
+      "path": "qucs/main.cpp",
+      "url": "https://github.com/ra3xdh/qucs_s/blob/b88d6fe20d3c0803507f38cc7fdef67c174a40ed/qucs/main.cpp",
+      "sha256": "96decfd31c45802114d4aefe8e6ff5c0e5e02c8e7f1b9fbbcd6c06a73442f52b"
+    }
+  ],
+  "submodules": [
+    {
+      "path": "qucs-s-spar-viewer",
+      "sha": "f231999a5c83125c3fabe36684c84b0207f476ae"
+    },
+    {
+      "path": "qucsator_rf",
+      "sha": "3971737dc6e446f8e3262d20e3087fa392299a7a"
+    },
+    {
+      "path": "rxcalc",
+      "sha": "8ece6c4876e83771ad65f1b7bdbd938069f95430"
+    }
+  ],
+  "license_observation": "COPYING is GPL v2; qucs/main.cpp permits GPL v2 or later. Submodule/component license review remains pending.",
+  "local_PATH_probes": {
+    "qucs-s": null,
+    "ngspice": null
+  },
+  "execution_performed": false,
+  "accepted_integration": false
+}

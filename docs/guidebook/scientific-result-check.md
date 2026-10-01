@@ -92,4 +92,14 @@ Latest retained two-state diagnostic (2026-09-28 audit): run 36295978520 at
 correlations 0.7422995731 and 0.8745187355. Both remain below 0.90; mode 2 is
 classified as substrate in both states. Refinement improved this diagnostic
 metric but did not establish a target mode or convergence. The unchanged
-second attempt is pending. See [the retained packet](../progress/2026-09-28-122322.md).
+second attempt reproduced the rejection with matching model/configuration hashes
+and floating-point-scale profile differences. See [the repeated evidence](../progress/2026-09-30-011648.md).
+
+
+The later main [run 36604920743](https://github.com/JungluChen/Text-to-Layout/actions/runs/36604920743)
+confirmed native discovery and real Palace execution, but the runner shut down
+during refinement at 3,366,845 elements. Final convergence/reference evidence
+was not uploaded. [The retained runtime report](../progress/2026-10-01-011559.md)
+separates observed memory pressure from an unproven OOM diagnosis. Do not
+interpret this interrupted run as a validated resonance or repeat the same
+unbounded workload before reviewing resource limits and evidence retention.
