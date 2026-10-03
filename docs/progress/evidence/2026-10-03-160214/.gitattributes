@@ -1,0 +1,2 @@
+# Preserve downloaded platform evidence bytes, including Windows newlines.
+platforms/** -text
