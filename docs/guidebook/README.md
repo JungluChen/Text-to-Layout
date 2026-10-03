@@ -14,6 +14,11 @@ For a paper-based accuracy workflow, follow the
 [resonator result-check tutorial](scientific-result-check.md); it demonstrates
 why the current bounded Palace run is invalid and what a valid comparison needs.
 
+## Integration acceptance
+
+- [KQCircuits geometry acceptance](../integrations/kqcircuits.md): real upstream
+  export, independent GDS readback and explicit incomplete adapter/platform status.
+
 ## Python MVP numerical workflows
 
 - [Typed scqubits transmon execution](scqubits-transmon.md): explicit SI inputs,

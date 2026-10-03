@@ -1,0 +1,32 @@
+name: kqcircuits-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: kqcircuits-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  geometry:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - name: Execute pinned external geometry and independent readback twice
+        run: |
+          uv run --isolated --no-project --python 3.12 --with kqcircuits==4.9.11 --with klayout==0.30.12 --with gdstk==0.9.61 python scripts/verify_kqcircuits_geometry.py --out out/kqc-first
+          uv run --isolated --no-project --python 3.12 --with kqcircuits==4.9.11 --with klayout==0.30.12 --with gdstk==0.9.61 python scripts/verify_kqcircuits_geometry.py --out out/kqc-repeat
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kqcircuits-geometry-${{ matrix.os }}
+          path: out/kqc-*
+          if-no-files-found: error
+          retention-days: 30

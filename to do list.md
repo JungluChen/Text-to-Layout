@@ -4,6 +4,18 @@
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
 
+## Highest user-directed priority — complete the integration checklist (2026-10-03)
+
+Work on `docs/integrations/checklist.md` before native app, landing-page or
+release expansion. Begin at 001 and satisfy source/license, typed adapter,
+real execution, reference and platform evidence before checking a box. If a
+candidate is blocked or unidentifiable, record the specific missing evidence
+and continue the next actionable entry; never count an audit as completion.
+Current item: **001 KQCircuits**. Real two-case straight-CPW geometry export,
+independent gdstk readback and rejection control now execute locally; the
+three-platform workflow and typed product adapter remain pending. Follow
+`docs/integrations/kqcircuits.md`. Existing physics honesty requirements remain.
+
 ## Current human-directed release priority — v0.3.1
 
 Finish the five-item Python MVP before the broader integration backlog below.
