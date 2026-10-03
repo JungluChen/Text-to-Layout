@@ -1,0 +1,6 @@
+{"unavailable": "OSError"}
+Traceback (most recent call last):
+  File "/private/tmp/textlayout-20261003/repro.py", line 9, in <module>
+    print(json.dumps(result));assert 'unavailable' not in result
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,9 @@
+import importlib.util,io,json
+from pathlib import Path
+from unittest.mock import patch
+s=importlib.util.spec_from_file_location('observer','scripts/observe_palace_ci.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+class ProcFile(io.BytesIO):
+ def seek(self,*a): raise OSError(22,'Invalid argument')
+with patch.object(Path,'open',side_effect=lambda *a,**k: ProcFile(b'MemTotal: 16384 kB\nMemAvailable: 8192 kB\n')):
+ result=m.read_tail(Path('/proc/meminfo'))
+print(json.dumps(result));assert 'unavailable' not in result

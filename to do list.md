@@ -76,15 +76,15 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
-- **Current continuation (2026-10-02 01:27):** Main CI `36751037051`,
-  Windows test `36751037205` and nightly `36845507049` passed at `f09362a`.
-  No active solver was found. Palace remains blocked on bounded resource
-  planning and numerical convergence after run `36604920743`; see the October 1
-  report before another full run. Advanced the next actionable source review:
-  slot 22 Qucs-S release 26.1.1, its component/license boundaries and overlap
-  with ngspice/Xyce/Qucs. Source reviews: 22/100; accepted integrations: 0/100.
-  No solver, dependency or callable adapter was added. See
-  `docs/progress/2026-10-02-012737.md` for evidence and next steps.
+- **Current continuation (2026-10-03 01:18):** Palace observer's missing
+  `/proc/meminfo` is reproduced and repaired with a bounded non-seeking read;
+  no solver behavior or scientific gate changed. CI `36900147878` failed the
+  Windows job-status assertion then passed unchanged; extend diagnostic
+  retention to that matrix job. Local full suite also timed out once during
+  recorded host sleep, then passed unchanged (2034 passed, 8 skipped).
+  See `docs/progress/2026-10-03-011837.md`. Palace convergence/branch merge,
+  native releases and publisher setup remain pending. Source reviews 22/100;
+  accepted integrations 0/100. No new solver job was dispatched.
 
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
   The revised 100-target mission supersedes the 50-target list as a roadmap,
