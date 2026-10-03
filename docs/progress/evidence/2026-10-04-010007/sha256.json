@@ -71,8 +71,6 @@
   "qiskit-metal-exploration/LICENSE.txt": "217ac15dbcda2782e004f5152886d847988c6367aaa0c4fc8c355363c21bd224",
   "qiskit-metal-exploration/repeat/report.json": "65f67c0aae867c3be0a6178e9d0f5c2d30764d1b819ff396ba7ed7566ce682d9",
   "qiskit-metal-exploration/first/report.json": "65f67c0aae867c3be0a6178e9d0f5c2d30764d1b819ff396ba7ed7566ce682d9",
-  "qiskit-metal-exploration/.ruff_cache/CACHEDIR.TAG": "5953156d7e0c564a427251316eaf26f8870e6483ae2197f916b630e4f93e31ae",
-  "qiskit-metal-exploration/.ruff_cache/.gitignore": "9e3a60f1e6ec4ae60215c11d54b171392745ec25e9dded433d5bd921363af316",
   "checks/full-after-repeat.txt": "a4dd56cba05145e0d86616afc3e729183f065bbd5ae51fd7ec60aead6ea0f0d1",
   "checks/01.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
   "checks/00.txt": "3be9d4da54faa79b99f79f8a6d7398074fa4fbc3696261b7f14edbd6ae5a4617",
