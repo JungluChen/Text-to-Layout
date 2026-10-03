@@ -96,3 +96,35 @@ def test_observer_cleanup_preserves_benchmark_exit(tmp_path: Path, exit_code: in
     )
     assert result.returncode == exit_code
     assert (tmp_path / "out/toolchain/palace_runtime.txt").is_file()
+
+
+@pytest.mark.parametrize("payload", [b"MemAvailable: 8192 kB\n", b"x" * 80])
+def test_virtual_file_uses_bounded_prefix_without_seek(monkeypatch, payload):
+    import errno
+    import io
+
+    reads = []
+
+    class VirtualFile(io.BytesIO):
+        def seek(self, *args):
+            raise OSError(errno.EINVAL, "virtual file rejects SEEK_END")
+
+        def read(self, size=-1):
+            reads.append(size)
+            return super().read(size)
+
+    monkeypatch.setattr(Path, "open", lambda *a, **k: VirtualFile(payload))
+    result = observer.read_tail(Path("/proc/meminfo"), 32)
+    assert result["head"] == payload[:32].decode()
+    assert result["read_mode"] == "bounded_prefix"
+    assert result["truncated"] is (len(payload) > 32)
+    assert result["size_bytes"] == (None if len(payload) > 32 else len(payload))
+    assert "tail" not in result
+    assert reads == [33]
+
+
+@pytest.mark.skipif(not Path("/proc/meminfo").is_file(), reason="requires Linux procfs")
+def test_actual_procfs_memory_is_readable():
+    result = observer.read_tail(Path("/proc/meminfo"))
+    assert "unavailable" not in result
+    assert "MemTotal:" in result.get("head", result.get("tail", ""))

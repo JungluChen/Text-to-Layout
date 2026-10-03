@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import math
 import subprocess
@@ -29,7 +30,19 @@ def read_tail(path: Path, limit: int = TAIL_BYTES) -> dict[str, object]:
         return {"size_bytes": size, "tail": data.decode("utf-8", errors="replace"),
                 "truncated": size > limit}
     except OSError as exc:
-        return {"unavailable": type(exc).__name__}
+        if exc.errno not in {errno.EINVAL, errno.ESPIPE}:
+            return {"unavailable": type(exc).__name__}
+        # procfs files can reject SEEK_END even though bounded reads work.
+        # Reopen from the start; never describe this prefix as a complete tail.
+        try:
+            with path.open("rb") as stream:
+                data = stream.read(limit + 1)
+            truncated = len(data) > limit
+            return {"size_bytes": None if truncated else len(data),
+                    "head": data[:limit].decode("utf-8", errors="replace"),
+                    "truncated": truncated, "read_mode": "bounded_prefix"}
+        except OSError as read_exc:
+            return {"unavailable": type(read_exc).__name__}
 
 
 def snapshot(run: Path, *, proc: Path = Path("/proc"),

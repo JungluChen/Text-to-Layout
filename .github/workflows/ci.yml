@@ -28,7 +28,24 @@ jobs:
       - run: uv run mypy
       # Cross-platform runs validate the suite but must not overwrite the
       # committed canonical JUnit evidence with host-specific skip counts.
-      - run: uv run pytest
+      - run: uv run pytest --basetemp "${{ runner.temp }}/textlayout-pytest"
+      - name: Retain failed job lifecycle diagnostics
+        if: failure() && matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-job-lifecycle-${{ matrix.python }}-${{ github.run_attempt }}
+          # Only deterministic test records/logs; exclude environment snapshots.
+          path: |
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/job.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/heartbeat.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/finalization.json
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stderr.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stdout.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/resource_samples.jsonl
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/stdout.txt
+            ${{ runner.temp }}/textlayout-pytest/test_job_start_collect_records*/jobs/*/stderr.txt
+          if-no-files-found: warn
+          retention-days: 14
       - run: uv run python scripts/generate_project_status.py --check
       - run: uv run python scripts/generate_integration_checklist.py --check
       - run: uv build

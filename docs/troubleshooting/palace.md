@@ -131,3 +131,14 @@ evidence. Only parsed Palace-owned output with passing gates is reported as
 `SIMULATION_EXECUTED`, and promotion to `PHYSICS_VERIFIED` additionally
 requires an independent reference artifact — the requested design frequency
 never counts as one.
+
+
+### CI memory diagnostics
+
+The read-only observer retains `/proc/meminfo` through a bounded prefix when
+Linux rejects seeking on that virtual file. Such entries use `head` and
+`read_mode: bounded_prefix`; normal log files continue to use `tail`. A truncated
+prefix has unknown total `size_bytes` (`null`), not an invented size. Missing or
+unreadable files remain unavailable. This is host diagnostic evidence, not a
+solver memory limit, an OOM diagnosis or numerical validation. See the October 3
+progress report for reproduction and the pending actual Linux procfs test.
