@@ -2,7 +2,7 @@
 
 Document class: MANUAL_DOCUMENTATION.
 
-**Scoped product adapter implemented; platform command verification pending.**
+**Scoped product adapter accepted on macOS, Windows and Linux.**
 The supported operation is straight CPW gap-mask geometry, not the full toolkit.
 No physics is implemented in this harness and no EM solver is invoked.
 
@@ -51,14 +51,18 @@ control increased each generated gap by 1 um and was rejected. It is clearly
 labelled diagnostic evidence, not a failed accepted design. No GUI screenshot
 is provided: this is a headless execution harness, not a delivered desktop app.
 
-## Remaining acceptance before checking 001
+## Acceptance record and remaining scope
 
 - DONE for this harness: [run 37108393257](https://github.com/JungluChen/Text-to-Layout/actions/runs/37108393257) at db7cdc10e5360a079ae01d0b75127d8e014c90d4 passed on Linux, Windows and macOS. Six report/GDS packets were downloaded, hashes verified and both cases passed each time. This covers the harness, not the product adapter.
 - Typed adapter, CLI/API and guidebook command are implemented below. Local
-  verification is retained in the dated product report; exact-SHA three-platform
-  product-command verification remains required. No MCP endpoint is exposed.
-- Retain source/license, execution, reference and platform records with the
-  implementation commit in completed.json in a subsequent documentation commit.
+  verification is retained in the dated product report. Exact-SHA product run
+  [37138947989](https://github.com/JungluChen/Text-to-Layout/actions/runs/37138947989)
+  passed twice on each platform at c6f023e9f69d7e353baa7b46ecc9694829c8ce51.
+  Six manifests, twelve reports and eighteen GDS outputs were downloaded and
+  independently verified. No MCP endpoint is exposed.
+- Source/license, execution, reference, platform records and the prior
+  implementation commit are retained in completed.json. Entry 001 covers only
+  the straight-CPW operation. Other shapes and electrical results remain pending.
 - Keep electrical simulation/convergence separate from this geometry-only scope.
 
 AI prompt: “Run the isolated KQCircuits geometry acceptance twice into fresh

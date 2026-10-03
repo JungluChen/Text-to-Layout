@@ -1,4 +1,20 @@
 {
   "schema": "textlayout.integration-completion.v1",
-  "completed": {}
+  "completed": {
+    "1": {
+      "name": "KQCircuits",
+      "scope": "straight CPW gap-mask generation and independent geometric readback only; no EM simulation or full-toolkit claim",
+      "implementation_commit": "c6f023e9f69d7e353baa7b46ecc9694829c8ce51",
+      "source_license_evidence": "docs/integrations/kqcircuits.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-04-010007/platforms/kqcircuits-geometry-ubuntu-latest/kqc-product-first/manifest.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-04-010007/platform-validation.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-04-010007/platform-run.json",
+      "acceptance": "Two CLI executions on each of macOS, Windows and Linux; 12 reports and 18 GDS files independently re-read after download, zero mask XOR, correct units and area. Tool execution only; solver_evidence is the legacy completion-field name, not an EM claim.",
+      "remaining_scope": [
+        "Other KQCircuits components",
+        "Electrical simulation, convergence and physical validation",
+        "Installed desktop applications"
+      ]
+    }
+  }
 }

@@ -1,0 +1,102 @@
+{
+  "scope": "exploratory QComponent in-memory geometry only; GDS export, product adapter, EM and platform acceptance pending",
+  "request": {
+    "pos_x": "0mm",
+    "pos_y": "0mm",
+    "orientation": "0",
+    "pad_height": "90um",
+    "pad_width": "455um",
+    "pad_gap": "30um",
+    "pocket_width": "650um",
+    "pocket_height": "650um"
+  },
+  "units": "mm",
+  "expected_bounds": {
+    "pad_top": [
+      -0.2275,
+      0.015,
+      0.2275,
+      0.105
+    ],
+    "pad_bot": [
+      -0.2275,
+      -0.105,
+      0.2275,
+      -0.015
+    ],
+    "rect_pk": [
+      -0.325,
+      -0.325,
+      0.325,
+      0.325
+    ]
+  },
+  "actual_bounds": {
+    "pad_top": [
+      -0.2275,
+      0.015,
+      0.2275,
+      0.105
+    ],
+    "pad_bot": [
+      -0.2275,
+      -0.105,
+      0.2275,
+      -0.015
+    ],
+    "rect_pk": [
+      -0.325,
+      -0.325,
+      0.325,
+      0.325
+    ]
+  },
+  "max_bound_errors_mm": {
+    "pad_top": 0.0,
+    "pad_bot": 0.0,
+    "rect_pk": 0.0
+  },
+  "absolute_tolerance_mm": 1e-12,
+  "passed": true,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "quantum_metal_version": "0.9.0",
+  "dependencies": [
+    "Cython==3.3.0",
+    "Pint==0.26.1",
+    "PyYAML==6.0.3",
+    "Pygments==2.21.0",
+    "addict==2.4.0",
+    "certifi==2026.7.22",
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "dill==0.4.1",
+    "flexcache==0.3",
+    "flexparser==0.4",
+    "fonttools==4.66.1",
+    "gdstk==1.0.1",
+    "geopandas==1.2.0",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.11.2",
+    "mpmath==1.3.0",
+    "numpy==2.5.3",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "pillow==12.3.0",
+    "platformdirs==4.12.2",
+    "pyogrio==0.13.0",
+    "pyparsing==3.3.3",
+    "pyproj==3.8.0",
+    "python-dateutil==2.9.0.post0",
+    "quantum-metal==0.9.0",
+    "qutip==5.3.1",
+    "scipy==1.18.1",
+    "scqubits==4.1.0",
+    "shapely==2.1.2",
+    "six==1.17.0",
+    "sympy==1.14.0",
+    "tqdm==4.70.1",
+    "typing_extensions==4.16.0"
+  ],
+  "probe_sha256": "190ecf2a4d27e0f062fcd35e777b29b49e4312c5adc20cd523662714e029183c"
+}

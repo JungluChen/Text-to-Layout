@@ -1,0 +1,53 @@
+Using Python 3.12.14 environment at: /private/tmp/textlayout-qm-090
+Resolved 35 packages in 1.90s
+Downloading sympy (6.0MiB)
+Downloading pyogrio (23.5MiB)
+Downloading pyproj (4.8MiB)
+Downloading qutip (9.7MiB)
+Downloading scqubits (6.2MiB)
+Downloading cython (3.0MiB)
+Downloading quantum-metal (5.1MiB)
+ Downloaded cython
+ Downloaded pyproj
+ Downloaded quantum-metal
+ Downloaded sympy
+ Downloaded scqubits
+ Downloaded qutip
+ Downloaded pyogrio
+Prepared 15 packages in 3.52s
+Installed 35 packages in 139ms
+ + addict==2.4.0
+ + certifi==2026.7.22
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + cython==3.3.0
+ + dill==0.4.1
+ + flexcache==0.3
+ + flexparser==0.4
+ + fonttools==4.66.1
+ + gdstk==1.0.1
+ + geopandas==1.2.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + mpmath==1.3.0
+ + numpy==2.5.3
+ + packaging==26.3
+ + pandas==3.0.6
+ + pillow==12.3.0
+ + pint==0.26.1
+ + platformdirs==4.12.2
+ + pygments==2.21.0
+ + pyogrio==0.13.0
+ + pyparsing==3.3.3
+ + pyproj==3.8.0
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + quantum-metal==0.9.0
+ + qutip==5.3.1
+ + scipy==1.18.1
+ + scqubits==4.1.0
+ + shapely==2.1.2
+ + six==1.17.0
+ + sympy==1.14.0
+ + tqdm==4.70.1
+ + typing-extensions==4.16.0

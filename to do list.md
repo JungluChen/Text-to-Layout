@@ -11,12 +11,15 @@ release expansion. Begin at 001 and satisfy source/license, typed adapter,
 real execution, reference and platform evidence before checking a box. If a
 candidate is blocked or unidentifiable, record the specific missing evidence
 and continue the next actionable entry; never count an audit as completion.
-Current item: **001 KQCircuits**. Real two-case straight-CPW geometry export,
-independent gdstk readback and rejection control now execute locally; the
-three-platform workflow now passes (37108393257), with downloaded hashes
-verified. The typed straight-CPW adapter and CLI are now implemented with local
-acceptance; exact-SHA product-command platform verification remains pending. Follow
-`docs/integrations/kqcircuits.md`. Existing physics honesty requirements remain.
+Entry **001 KQCircuits** is accepted for straight CPW gap-mask generation only,
+implementation c6f023e9f69d7e353baa7b46ecc9694829c8ce51. Actual typed CLI runs
+passed twice on each of Linux, Windows and macOS (37138947989); all 18 retained
+GDS outputs were independently checked after download. No EM/full-toolkit claim.
+See docs/progress/2026-10-04-010007.md. Current item: **002 Qiskit Metal**:
+Quantum Metal 0.9.0 now installs in isolation and its explicit TransmonPocket
+in-memory bounds pass twice locally. Next implement/execute a bounded GDS
+export and independent readback, then a typed adapter and platform checks. The existing
+legacy backend only prepares a plan; it is not accepted execution.
 
 ## Current human-directed release priority — v0.3.1
 

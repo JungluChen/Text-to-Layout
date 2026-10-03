@@ -1,0 +1,89 @@
+{
+  "schema": "textlayout.kqcircuits-geometry-acceptance.v1",
+  "scope": "straight CPW gap masks only; no EM simulation or fabrication signoff",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.12.10",
+  "versions": {
+    "kqcircuits": "4.9.11",
+    "klayout": "0.30.12",
+    "gdstk": "0.9.61"
+  },
+  "source_revision": "14483b00d20a4033971d08b99428b4ec9ace9d58",
+  "dependencies": [
+    "autocommand==2.2.2",
+    "backports.tarfile==1.2.0",
+    "colorama==0.4.6",
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "fonttools==4.66.1",
+    "gdstk==0.9.61",
+    "importlib_metadata==8.7.1",
+    "jaraco.context==6.1.0",
+    "jaraco.functools==4.4.0",
+    "jaraco.text==4.0.0",
+    "kiwisolver==1.5.1",
+    "klayout==0.30.12",
+    "kqcircuits==4.9.11",
+    "matplotlib==3.11.2",
+    "more-itertools==10.8.0",
+    "networkx==3.7",
+    "numpy==2.5.3",
+    "packaging==26.0",
+    "packaging==26.3",
+    "pillow==12.3.0",
+    "platformdirs==4.4.0",
+    "pyparsing==3.3.3",
+    "python-dateutil==2.9.0.post0",
+    "scipy==1.18.1",
+    "setuptools==84.0.0",
+    "six==1.17.0",
+    "tomli==2.4.0",
+    "tqdm==4.70.1",
+    "versiontag==1.2.0",
+    "wheel==0.46.3",
+    "zipp==3.23.0"
+  ],
+  "cases": [
+    {
+      "length_um": 1000.0,
+      "width_um": 10.0,
+      "gap_um": 6.0,
+      "gap_layer": [
+        130,
+        1
+      ],
+      "database_grid_um": 0.001,
+      "gds_unit_m": 1e-06,
+      "gds_precision_m": 1e-09,
+      "gap_polygon_count": 2,
+      "gap_area_um2": 12000.0,
+      "reference_gap_area_um2": 12000.0,
+      "xor_area_um2": 0,
+      "accepted_xor_area_um2": 0,
+      "geometry_check_passed": true,
+      "gds_file": "case-0.gds",
+      "gds_sha256": "9d7268aede440ed46fe79d4dd5d971988d9bcf6af568e59519b721e10603a764"
+    },
+    {
+      "length_um": 250.0,
+      "width_um": 20.0,
+      "gap_um": 8.0,
+      "gap_layer": [
+        130,
+        1
+      ],
+      "database_grid_um": 0.001,
+      "gds_unit_m": 1e-06,
+      "gds_precision_m": 1e-09,
+      "gap_polygon_count": 2,
+      "gap_area_um2": 4000.0,
+      "reference_gap_area_um2": 4000.0,
+      "xor_area_um2": 0,
+      "accepted_xor_area_um2": 0,
+      "geometry_check_passed": true,
+      "gds_file": "case-1.gds",
+      "gds_sha256": "8e7e55689a397d4dbb07a0b86f212f97234b4004b5a13d5d921ece17f5bbdbd3"
+    }
+  ],
+  "passed": true
+}

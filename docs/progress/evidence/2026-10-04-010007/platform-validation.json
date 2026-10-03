@@ -1,0 +1,144 @@
+{
+  "run_id": 37138947989,
+  "implementation_commit": "c6f023e9f69d7e353baa7b46ecc9694829c8ce51",
+  "worker_sha256": "b60f930b6bc0297c58614fca5f827279e213a5524e3e469eea425877f5989df3",
+  "passed": true,
+  "scope": "straight CPW gap-mask geometry only; no EM simulation",
+  "independent_download_readback": "gdstk 0.9.61 on macOS; compared all 18 retained GDS outputs again",
+  "cases": [
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-first/report.json",
+      "gds": "case-0.gds",
+      "sha256": "1a03ebeeb6cdf22c9f2b5af2b082236f6339af7b7bd90701b002f12c66b981f3",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-first/report.json",
+      "gds": "case-1.gds",
+      "sha256": "3bea4d5dce3ee57bebda66eaf89183d0d013650fa7d3ffec91ff479c85b1832d",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    },
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-product-first/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "60f411ae3313fe8190f945465a46a07137476786aa03aceb61f21960ac8f1a06",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-product-repeat/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "415af34b40e93f4e445e9b51fb0b308786652c11b912f32fb53f7624dc94e9fc",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-repeat/report.json",
+      "gds": "case-0.gds",
+      "sha256": "43bd4adf87771d17d23a9c97c549d417ea417df9a07b04703bfa8278bfdfcd97",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-macos-14/kqc-repeat/report.json",
+      "gds": "case-1.gds",
+      "sha256": "31d45b45008cc2ca02ed1e2715e696b253979d72c7e1d3c2fecf15ebc7ee0da8",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-first/report.json",
+      "gds": "case-0.gds",
+      "sha256": "e07e5be5db8ad6764f95be1fa87935bdd3862e2d91ea1d4d987c5aead9690048",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-first/report.json",
+      "gds": "case-1.gds",
+      "sha256": "35aec4912a8181a3640a5a8a9e224cfba19621ec0319d61548238efec96f0ca9",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-product-first/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "19ab1ea3559e49d53fe7636f871b45c435a70e3c32ac9020b2e7ba1ac6585a92",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-product-repeat/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "fbd55d8b42e5c16b12f7e4e255a818cbad0acec1fdb3511628e05e7930d80346",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-repeat/report.json",
+      "gds": "case-0.gds",
+      "sha256": "e07e5be5db8ad6764f95be1fa87935bdd3862e2d91ea1d4d987c5aead9690048",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-ubuntu-latest/kqc-repeat/report.json",
+      "gds": "case-1.gds",
+      "sha256": "35aec4912a8181a3640a5a8a9e224cfba19621ec0319d61548238efec96f0ca9",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-first/report.json",
+      "gds": "case-0.gds",
+      "sha256": "9d7268aede440ed46fe79d4dd5d971988d9bcf6af568e59519b721e10603a764",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-first/report.json",
+      "gds": "case-1.gds",
+      "sha256": "8e7e55689a397d4dbb07a0b86f212f97234b4004b5a13d5d921ece17f5bbdbd3",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-product-first/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "415af34b40e93f4e445e9b51fb0b308786652c11b912f32fb53f7624dc94e9fc",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-product-repeat/geometry/report.json",
+      "gds": "case-0.gds",
+      "sha256": "9441b7f3e0765fd2b93609eb0094c045caa0fa22ed98b17884395c4597838f7a",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-repeat/report.json",
+      "gds": "case-0.gds",
+      "sha256": "4db2d9ed2e5bf512d1af6c82762a06ac61b484bdd0a9d670eec9c1171e7c2902",
+      "xor_area_um2": 0,
+      "gap_area_um2": 12000.0
+    },
+    {
+      "report": "kqcircuits-geometry-windows-latest/kqc-repeat/report.json",
+      "gds": "case-1.gds",
+      "sha256": "ecc5f5183a1483c1580b7dbdf1da2cab541b475142582cb28060706714bd1926",
+      "xor_area_um2": 0,
+      "gap_area_um2": 4000.0
+    }
+  ],
+  "product_manifests": [
+    "kqcircuits-geometry-macos-14/kqc-product-first/manifest.json",
+    "kqcircuits-geometry-macos-14/kqc-product-repeat/manifest.json",
+    "kqcircuits-geometry-ubuntu-latest/kqc-product-first/manifest.json",
+    "kqcircuits-geometry-ubuntu-latest/kqc-product-repeat/manifest.json",
+    "kqcircuits-geometry-windows-latest/kqc-product-first/manifest.json",
+    "kqcircuits-geometry-windows-latest/kqc-product-repeat/manifest.json"
+  ]
+}

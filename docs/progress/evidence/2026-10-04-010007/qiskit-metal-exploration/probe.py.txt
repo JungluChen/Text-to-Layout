@@ -1,0 +1,26 @@
+"""Exploratory upstream QComponent test; not product integration or EM evidence."""
+import hashlib
+import importlib.metadata
+import json
+import math
+import platform
+import sys
+from pathlib import Path
+from qiskit_metal import designs
+from qiskit_metal.qlibrary.qubits.transmon_pocket import TransmonPocket
+
+out = Path(sys.argv[1]); out.mkdir(exist_ok=False)
+request = dict(pos_x='0mm', pos_y='0mm', orientation='0', pad_height='90um', pad_width='455um', pad_gap='30um', pocket_width='650um', pocket_height='650um')
+# Independent expected rectangle bounds in the declared millimetre design units.
+expected = {'pad_top': [-.2275, .015, .2275, .105], 'pad_bot': [-.2275, -.105, .2275, -.015], 'rect_pk': [-.325, -.325, .325, .325]}
+design = designs.DesignPlanar()
+q = TransmonPocket(design, 'Q1', options=request)
+assert design.get_units() == 'mm'
+rows = design.qgeometry.tables['poly']
+actual = {r['name']: list(r['geometry'].bounds) for _, r in rows.iterrows() if r['component'] == q.id}
+assert set(actual) == set(expected)
+errors = {k: max(abs(a-b) for a,b in zip(actual[k],expected[k])) for k in expected}
+assert all(v <= 1e-12 for v in errors.values())
+result = {'scope':'exploratory QComponent in-memory geometry only; GDS export, product adapter, EM and platform acceptance pending', 'request':request, 'units':'mm', 'expected_bounds':expected, 'actual_bounds':actual, 'max_bound_errors_mm':errors, 'absolute_tolerance_mm':1e-12, 'passed':True, 'platform':platform.platform(), 'python':platform.python_version(), 'quantum_metal_version':importlib.metadata.version('quantum-metal'), 'dependencies':sorted(f'{d.metadata["Name"]}=={d.version}' for d in importlib.metadata.distributions()), 'probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(out/'report.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))

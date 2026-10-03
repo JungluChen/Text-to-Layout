@@ -6,7 +6,7 @@ This is the 100-slot user-requested candidate inventory, not a claim
 that 100 distinct open-source projects exist or are installable.
 Source hints in `targets.json` remain unverified until audited.
 
-**Completed with full evidence: 0/100.**
+**Completed with full evidence: 1/100.**
 
 Check a target only after source/license/version review, a typed adapter
 using the shared evidence contract, an actual solver or tool execution,
@@ -18,7 +18,7 @@ probe alone does not satisfy this checklist.
 
 ## 1. Quantum Chip EDA, Layout & Device Toolkits
 
-- [ ] 001 KQCircuits — source/license, adapter, execution, comparison and platform acceptance pending.
+- [x] 001 KQCircuits — implementation `c6f023e9f69d7e353baa7b46ecc9694829c8ce51`; scope: straight CPW gap-mask generation and independent geometric readback only; no EM simulation or full-toolkit claim; evidence in `completed.json`.
 - [ ] 002 Qiskit Metal — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 003 pyEPR — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 004 CircuitQ — source/license, adapter, execution, comparison and platform acceptance pending.
