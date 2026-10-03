@@ -1,0 +1,86 @@
+[
+  {
+    "path": "kqcircuits-geometry-macos-14/kqc-first/report.json",
+    "platform": "macOS-14.8.9-arm64-arm-64bit",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  },
+  {
+    "path": "kqcircuits-geometry-macos-14/kqc-repeat/report.json",
+    "platform": "macOS-14.8.9-arm64-arm-64bit",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  },
+  {
+    "path": "kqcircuits-geometry-ubuntu-latest/kqc-first/report.json",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  },
+  {
+    "path": "kqcircuits-geometry-ubuntu-latest/kqc-repeat/report.json",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  },
+  {
+    "path": "kqcircuits-geometry-windows-latest/kqc-first/report.json",
+    "platform": "Windows-2025Server-10.0.26100-SP0",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  },
+  {
+    "path": "kqcircuits-geometry-windows-latest/kqc-repeat/report.json",
+    "platform": "Windows-2025Server-10.0.26100-SP0",
+    "versions": {
+      "kqcircuits": "4.9.11",
+      "klayout": "0.30.12",
+      "gdstk": "0.9.61"
+    },
+    "areas": [
+      12000.0,
+      4000.0
+    ],
+    "passed": true
+  }
+]

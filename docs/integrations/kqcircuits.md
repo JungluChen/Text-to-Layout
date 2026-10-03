@@ -53,7 +53,7 @@ is provided: this is a headless execution harness, not a delivered desktop app.
 
 ## Remaining acceptance before checking 001
 
-- Review exact-SHA three-platform execution artifacts and compare repeats.
+- DONE for this harness: [run 37108393257](https://github.com/JungluChen/Text-to-Layout/actions/runs/37108393257) at db7cdc10e5360a079ae01d0b75127d8e014c90d4 passed on Linux, Windows and macOS. Six report/GDS packets were downloaded, hashes verified and both cases passed each time. This covers the harness, not the future product adapter.
 - Implement a typed product adapter with explicit supported shape/units,
   invalid-input and unavailable-runtime behavior, using existing geometry and
   evidence contracts; this harness alone does not supply that adapter.
