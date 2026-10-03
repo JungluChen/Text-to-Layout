@@ -1,0 +1,40 @@
+{
+  "cancellation_requested": false,
+  "command": [
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Scripts\\python.exe",
+    "-c",
+    "from pathlib import Path; Path('solver.out').write_text('ok', encoding='utf-8')"
+  ],
+  "completed_at": "2026-10-03T08:17:40+00:00",
+  "created_at": "2026-10-03T08:17:10+00:00",
+  "cwd": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\work",
+  "environment_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\environment.json",
+  "finalization_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\finalization.json",
+  "inventory_root": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\work",
+  "job_dir": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd",
+  "job_id": "job-97f4e458005d91dd",
+  "manifest_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\manifest.json",
+  "monitor_pid": 4216,
+  "orphan_status": "not_orphaned",
+  "output_inventory": {
+    "solver.out": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df"
+  },
+  "output_inventory_sha256": "1856d70947e71935cd7892cae564ff1e977a425822562678ec59934c6a5c8c2b",
+  "parent_pid": 9024,
+  "peak_rss_kb": 0,
+  "pid": 7244,
+  "process_group_id": 7244,
+  "resource_evidence_sha256": "44bacceba73c883d05f25ec6f69f9b713722ce92fdfbc7c72309be28a788d6d4",
+  "resource_samples_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\resource_samples.jsonl",
+  "return_code": 0,
+  "samples": [],
+  "schema": "textlayout.local-solver-job.v1",
+  "solver_process_hashes": {},
+  "solver_process_paths": [],
+  "started_at": "2026-10-03T08:17:11+00:00",
+  "status": "completed",
+  "stderr_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\stderr.txt",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_path": "D:\\a\\_temp\\textlayout-pytest\\test_job_start_collect_records0\\jobs\\job-97f4e458005d91dd\\stdout.txt",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

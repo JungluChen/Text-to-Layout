@@ -2,8 +2,8 @@
 
 Document class: MANUAL_DOCUMENTATION.
 
-**In progress; not yet a completed integration.** The first executable slice
-is a process-isolated geometry acceptance harness, not a general product adapter.
+**Scoped product adapter implemented; platform command verification pending.**
+The supported operation is straight CPW gap-mask geometry, not the full toolkit.
 No physics is implemented in this harness and no EM solver is invoked.
 
 ## Pinned source and scope
@@ -53,12 +53,10 @@ is provided: this is a headless execution harness, not a delivered desktop app.
 
 ## Remaining acceptance before checking 001
 
-- DONE for this harness: [run 37108393257](https://github.com/JungluChen/Text-to-Layout/actions/runs/37108393257) at db7cdc10e5360a079ae01d0b75127d8e014c90d4 passed on Linux, Windows and macOS. Six report/GDS packets were downloaded, hashes verified and both cases passed each time. This covers the harness, not the future product adapter.
-- Implement a typed product adapter with explicit supported shape/units,
-  invalid-input and unavailable-runtime behavior, using existing geometry and
-  evidence contracts; this harness alone does not supply that adapter.
-- Add CLI/API and guidebook examples for the delivered adapter. Do not invent
-  an MCP method until the real host schema exposes one.
+- DONE for this harness: [run 37108393257](https://github.com/JungluChen/Text-to-Layout/actions/runs/37108393257) at db7cdc10e5360a079ae01d0b75127d8e014c90d4 passed on Linux, Windows and macOS. Six report/GDS packets were downloaded, hashes verified and both cases passed each time. This covers the harness, not the product adapter.
+- Typed adapter, CLI/API and guidebook command are implemented below. Local
+  verification is retained in the dated product report; exact-SHA three-platform
+  product-command verification remains required. No MCP endpoint is exposed.
 - Retain source/license, execution, reference and platform records with the
   implementation commit in completed.json in a subsequent documentation commit.
 - Keep electrical simulation/convergence separate from this geometry-only scope.
@@ -67,3 +65,49 @@ AI prompt: “Run the isolated KQCircuits geometry acceptance twice into fresh
 directories. Report package versions, GDS units, gap-layer mapping, XOR area,
 output hashes and platform. Do not claim impedance, convergence or a completed
 integration from these geometry checks.”
+
+
+## Product command and typed API
+
+Prepare a separate Python 3.12 environment with the three pinned packages above.
+Then run the shared core command with an explicit external interpreter:
+
+```sh
+uv run --no-sync textlayout kqcircuits-cpw examples/integrations/kqcircuits-cpw.json --python /path/to/external/python --out out/kqc-product
+```
+
+On Windows use the external environment's `Scripts/python.exe`; macOS/Linux
+use `bin/python`. The core never imports KQCircuits. It executes its packaged
+worker under the external interpreter and exchanges request/GDS/JSON/log files.
+No packages are installed implicitly. The worker is included in the wheel under
+textlayout.external, rather than depending on a checkout script. Installed-wheel
+execution is recorded separately from checkout execution in the progress report.
+
+`StraightCPWRequest` and `generate_straight_cpw` in
+`textlayout.external.kqcircuits_bridge` form the typed Python API. Required
+numeric fields: `length_um` (0 < value <= 100000), `width_um` and `gap_um`
+(0 < value <= 10000). Unknown fields, strings, booleans, nonfinite/nonpositive
+numbers and off-grid values are rejected. Length/gap use a 0.001 um grid;
+width uses 0.002 um so its half-width boundaries also lie on the grid.
+The fixed illustrative upstream face/layer mapping is retained; this is not a PDK.
+
+The result separates `execution_completed`, `return_code` and
+`geometry_verified`. Exit zero alone is insufficient: a matching one-case
+report, requested dimensions and GDS hash must be present. A verified geometry
+has no canonical physical-evidence promotion. Geometry checks use exact zero
+mask XOR on the 1 nm grid; area comparison permits one square grid cell
+(0.000001 um²) for floating-point area arithmetic, not an electrical tolerance.
+
+Request and worker hashes, exact command and typed result are in manifest.json;
+stdout/stderr are retained even on a timeout. A missing interpreter/runtime,
+nonzero exit, missing report, wrong dimensions or GDS hash mismatch cannot be
+reported as verified. Existing output directories are refused. Recovery: inspect
+stderr.txt and failure_reason, fix the external environment, then use a fresh
+output directory. Do not overwrite the failed packet or relabel it successful.
+
+CLI returns 0 only for verified geometry and 1 for a failed/unavailable run or
+invalid request. Typed API returns a failure result for process/report failures;
+invalid request, timeout configuration or an existing output directory raises.
+There is no new HTTP or MCP endpoint. AI prompt: “Use kqcircuits-cpw with the
+explicit external interpreter and this micrometre request. Retain the manifest,
+GDS and logs; report geometry verification separately from electrical simulation.”

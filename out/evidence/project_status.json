@@ -40,7 +40,8 @@
     "measurement": [
       "calibrate",
       "compare"
-    ]
+    ],
+    "kqcircuits-cpw": []
   },
   "showcase": {
     "total_examples": 6,

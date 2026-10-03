@@ -158,3 +158,13 @@ credentials. This increment does not waive native release acceptance.
 The 2026-09-28 Three.js increment replaces the browser 3D placeholder with actual
 WebGL rendering of retained geometry. Missing physical stack data stays explicit;
 no material thickness is inferred. WebGL/module failures retain the 2D fallback.
+
+
+### INT-08 — scoped KQCircuits geometry adapter
+
+Checklist entry 001 delivers straight CPW gap-mask generation only, through an
+explicit process-isolated pinned runtime. Typed micrometre inputs, grid checks,
+retained request/worker/output identities and independent GDS mask comparison
+are required. Process completion and verified geometry remain separate, with no
+electrical evidence promotion. Broader PCells, PDKs, GUI, HTTP/MCP parity and
+EM simulation need separate accepted milestones.

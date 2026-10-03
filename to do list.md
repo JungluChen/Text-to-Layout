@@ -14,7 +14,8 @@ and continue the next actionable entry; never count an audit as completion.
 Current item: **001 KQCircuits**. Real two-case straight-CPW geometry export,
 independent gdstk readback and rejection control now execute locally; the
 three-platform workflow now passes (37108393257), with downloaded hashes
-verified. The typed product adapter and public command coverage remain pending. Follow
+verified. The typed straight-CPW adapter and CLI are now implemented with local
+acceptance; exact-SHA product-command platform verification remains pending. Follow
 `docs/integrations/kqcircuits.md`. Existing physics honesty requirements remain.
 
 ## Current human-directed release priority — v0.3.1

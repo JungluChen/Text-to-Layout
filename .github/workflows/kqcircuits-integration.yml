@@ -19,6 +19,18 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: '3.12'
+      - name: Prepare core and isolated external runtime
+        run: |
+          uv sync --frozen --dev
+          uv venv .kqc-env --python 3.12
+          uv pip install --python .kqc-env kqcircuits==4.9.11 klayout==0.30.12 gdstk==0.9.61
+      - name: Execute product command twice
+        env:
+          KQC_PYTHON: ${{ runner.os == 'Windows' && '.kqc-env/Scripts/python.exe' || '.kqc-env/bin/python' }}
+        shell: bash
+        run: |
+          uv run --no-sync textlayout kqcircuits-cpw examples/integrations/kqcircuits-cpw.json --python "$KQC_PYTHON" --out out/kqc-product-first
+          uv run --no-sync textlayout kqcircuits-cpw examples/integrations/kqcircuits-cpw.json --python "$KQC_PYTHON" --out out/kqc-product-repeat
       - name: Execute pinned external geometry and independent readback twice
         run: |
           uv run --isolated --no-project --python 3.12 --with kqcircuits==4.9.11 --with klayout==0.30.12 --with gdstk==0.9.61 python scripts/verify_kqcircuits_geometry.py --out out/kqc-first

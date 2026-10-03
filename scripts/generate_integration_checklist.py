@@ -68,7 +68,7 @@ def render() -> str:
             key = str(target["id"])
             if key in records:
                 commit = records[key]["implementation_commit"]
-                lines.append(f"- [x] {target['id']:03d} {target['name']} — implementation `{commit}`; evidence in `completed.json`.")
+                lines.append(f"- [x] {target['id']:03d} {target['name']} — implementation `{commit}`; scope: {records[key].get('scope', 'see completed.json')}; evidence in `completed.json`.")
             else:
                 lines.append(f"- [ ] {target['id']:03d} {target['name']} — source/license, adapter, execution, comparison and platform acceptance pending.")
         lines.append("")

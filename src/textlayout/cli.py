@@ -65,6 +65,20 @@ def _pdk_provenance_payload(technology_name: str) -> dict[str, object]:
     return {"available": True, **provenance.model_dump(mode="json")}
 
 
+def _cmd_kqcircuits(args: argparse.Namespace) -> int:
+    from pydantic import ValidationError
+    from textlayout.external.kqcircuits_bridge import StraightCPWRequest, generate_straight_cpw
+
+    try:
+        request = StraightCPWRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
+        result = generate_straight_cpw(request, python=Path(args.python), output_dir=Path(args.out))
+    except (OSError, ValueError, ValidationError) as exc:
+        print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
+        return 1
+    print(result.model_dump_json(indent=2))
+    return 0 if result.geometry_verified else 1
+
+
 def _cmd_prompt(args: argparse.Namespace) -> int:
     workflow = build_from_text_workflow()
     result = workflow.run(
@@ -1466,6 +1480,12 @@ def build_parser() -> argparse.ArgumentParser:
         "measurement_calibration_report.json/.md (plus legacy calibration.yaml).",
     )
     p_meas_calibrate.set_defaults(func=_cmd_measurement_calibrate)
+
+    p_kqc = sub.add_parser("kqcircuits-cpw", help="Generate verified straight CPW gap masks via an isolated KQCircuits runtime; no EM simulation.")
+    p_kqc.add_argument("request", help="JSON: length_um, width_um, gap_um.")
+    p_kqc.add_argument("--python", required=True, help="Python executable in the pinned external environment.")
+    p_kqc.add_argument("--out", required=True, help="Fresh output directory; existing runs are preserved.")
+    p_kqc.set_defaults(func=_cmd_kqcircuits)
 
     return parser
 

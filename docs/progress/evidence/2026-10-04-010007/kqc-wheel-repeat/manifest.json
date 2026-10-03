@@ -1,0 +1,88 @@
+{
+  "command": [
+    "/private/tmp/textlayout-kqc-4911/bin/python",
+    "/private/tmp/uv-cache-textlayout/archive-v0/FODDse_B-HKWUpof/lib/python3.12/site-packages/textlayout/external/_kqcircuits_worker.py",
+    "--request",
+    "/private/tmp/kqc-wheel-repeat/request.json",
+    "--out",
+    "/private/tmp/kqc-wheel-repeat/geometry"
+  ],
+  "request_sha256": "1cce346c8477b33718e7b5bbe07953fd8885760bbf00fc1b6f2325cb723cd772",
+  "worker_sha256": "b60f930b6bc0297c58614fca5f827279e213a5524e3e469eea425877f5989df3",
+  "scope": "straight CPW mask geometry; no EM simulation",
+  "result": {
+    "execution_completed": true,
+    "geometry_verified": true,
+    "return_code": 0,
+    "failure_reason": null,
+    "output_dir": "/private/tmp/kqc-wheel-repeat",
+    "report": {
+      "schema": "textlayout.kqcircuits-geometry-acceptance.v1",
+      "scope": "straight CPW gap masks only; no EM simulation or fabrication signoff",
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.12.14",
+      "versions": {
+        "kqcircuits": "4.9.11",
+        "klayout": "0.30.12",
+        "gdstk": "0.9.61"
+      },
+      "source_revision": "14483b00d20a4033971d08b99428b4ec9ace9d58",
+      "dependencies": [
+        "autocommand==2.2.2",
+        "backports.tarfile==1.2.0",
+        "contourpy==1.4.0",
+        "cycler==0.12.1",
+        "fonttools==4.66.1",
+        "gdstk==0.9.61",
+        "importlib_metadata==8.7.1",
+        "jaraco.context==6.1.0",
+        "jaraco.functools==4.4.0",
+        "jaraco.text==4.0.0",
+        "kiwisolver==1.5.1",
+        "klayout==0.30.12",
+        "kqcircuits==4.9.11",
+        "matplotlib==3.11.2",
+        "more-itertools==10.8.0",
+        "networkx==3.7",
+        "numpy==2.5.3",
+        "packaging==26.0",
+        "packaging==26.3",
+        "pillow==12.3.0",
+        "platformdirs==4.4.0",
+        "pyparsing==3.3.3",
+        "python-dateutil==2.9.0.post0",
+        "scipy==1.18.1",
+        "setuptools==84.0.0",
+        "six==1.17.0",
+        "tomli==2.4.0",
+        "tqdm==4.70.1",
+        "versiontag==1.2.0",
+        "wheel==0.46.3",
+        "zipp==3.23.0"
+      ],
+      "cases": [
+        {
+          "length_um": 1000.0,
+          "width_um": 10.0,
+          "gap_um": 6.0,
+          "gap_layer": [
+            130,
+            1
+          ],
+          "database_grid_um": 0.001,
+          "gds_unit_m": 1e-06,
+          "gds_precision_m": 1e-09,
+          "gap_polygon_count": 2,
+          "gap_area_um2": 12000.0,
+          "reference_gap_area_um2": 12000.0,
+          "xor_area_um2": 0,
+          "accepted_xor_area_um2": 0,
+          "geometry_check_passed": true,
+          "gds_file": "case-0.gds",
+          "gds_sha256": "9bf6e5a1fe887db2efa7a51cdd1a7846329edef7298b6a47b5233fa3f0d26420"
+        }
+      ],
+      "passed": true
+    }
+  }
+}

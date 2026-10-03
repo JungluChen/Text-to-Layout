@@ -15,6 +15,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 - `textlayout evidence` — subcommands: `check`
 - `textlayout generate`
 - `textlayout jobs` — subcommands: `cancel`, `collect`, `resume`, `start`, `status`
+- `textlayout kqcircuits-cpw`
 - `textlayout measurement` — subcommands: `calibrate`, `compare`
 - `textlayout pdk` — subcommands: `apply-calibration`, `info`, `list`
 - `textlayout prompt`

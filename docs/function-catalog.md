@@ -239,3 +239,20 @@ Browser 3D geometry: expand **3D geometry · Three.js**. Inputs are the same
 retained polygon coordinates; output is a WebGL view, with no solver or filesystem
 side effects. Orbit, top/reset, zoom and linked selection are presentation actions,
 not new MCP functions. WebGL2 is required; missing thickness is not reconstructed.
+
+
+## KQCircuits straight-CPW geometry
+
+- CLI: `textlayout kqcircuits-cpw REQUEST.json --python EXTERNAL_PYTHON --out FRESH_DIR`.
+- Python: `StraightCPWRequest` / `generate_straight_cpw` in `textlayout.external.kqcircuits_bridge`.
+- Required inputs: length_um, width_um, gap_um; finite positive numeric micrometres.
+  Length <= 100000, width/gap <= 10000; length/gap on 0.001 um grid, width on 0.002 um.
+- Prerequisites: separate Python with KQCircuits 4.9.11, KLayout 0.30.12, gdstk 0.9.61.
+- Effects: starts an external geometry process, writes fresh request/GDS/report/logs/manifest;
+  120-second API timeout by default, no implicit installation or overwrite.
+- Outputs: typed execution_completed, geometry_verified, return_code, failure_reason,
+  output_dir and optional verified report. Geometry verification is not EM validation.
+- Scope: straight gap masks only; no new MCP/HTTP method. Platform acceptance is
+  recorded in [entry 001](integrations/kqcircuits.md).
+- Example request: `{"length_um":1000.0,"width_um":10.0,"gap_um":6.0}`.
+- Commands, recovery and AI prompt: [KQCircuits guide](integrations/kqcircuits.md).

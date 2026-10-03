@@ -1,0 +1,26 @@
+{
+  "job_id": "job-97f4e458005d91dd",
+  "sample": {
+    "alive": false,
+    "mpi_rank_count": 0,
+    "orphan_status": "not_orphaned",
+    "owned_wsl_processes": [],
+    "parent_alive": true,
+    "parent_pid": 9024,
+    "pid": 7244,
+    "process": {
+      "available": false
+    },
+    "process_count": 0,
+    "read_bytes": 0,
+    "rss_kb": 0,
+    "solver_process_paths": [],
+    "system_available_memory_kb": 0,
+    "timestamp": "2026-10-03T08:17:40+00:00",
+    "total_cpu_percent": 0.0,
+    "total_rss_kb": 0,
+    "write_bytes": 0
+  },
+  "schema": "textlayout.job-heartbeat.v1",
+  "timestamp": "2026-10-03T08:17:40+00:00"
+}
