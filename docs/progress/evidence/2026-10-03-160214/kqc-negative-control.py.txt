@@ -1,0 +1,13 @@
+"""Deliberately perturb actual generated geometry to test rejection; not acceptance evidence."""
+import importlib.util,sys
+from kqcircuits.elements.waveguide_coplanar_straight import WaveguideCoplanarStraight
+original=WaveguideCoplanarStraight.create
+def perturb(layout,**kwargs):
+ kwargs['b']+=1.0
+ return original(layout,**kwargs)
+WaveguideCoplanarStraight.create=perturb
+spec=importlib.util.spec_from_file_location('acceptance','scripts/verify_kqcircuits_geometry.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+sys.argv=['acceptance','--out','/private/tmp/kqc-negative-gap']
+code=m.main()
+assert code==1, 'Perturbed actual geometry must be rejected'
+print('NEGATIVE CONTROL: both generated gaps deliberately enlarged by 1 um; rejected as expected')
