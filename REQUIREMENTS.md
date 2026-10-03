@@ -168,3 +168,11 @@ retained request/worker/output identities and independent GDS mask comparison
 are required. Process completion and verified geometry remain separate, with no
 electrical evidence promotion. Broader PCells, PDKs, GUI, HTTP/MCP parity and
 EM simulation need separate accepted milestones.
+
+### INT-09 — Quantum Metal export acceptance
+
+For the bounded entry-002 mask fixture, independently reject empty GDS exports,
+wrong scales/layers and polygon differences even when upstream reports success.
+Keep mask verification separate from fabrication-junction completeness and
+physical validation. The benchmark gate alone is not a typed product adapter
+or cross-platform acceptance; do not check entry 002 until these exist.

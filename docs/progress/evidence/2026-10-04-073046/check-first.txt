@@ -1,0 +1,17 @@
+{
+  "schema": "textlayout.quantum-metal-transmon-mask.v1",
+  "scope": "fixed 2 mm chip, 455 x 90 um pads, 30 um gap, 650 um pocket; mask only",
+  "input_sha256": "86cd62498826b1540e0378902a54293bf91968b0f3a92a2fe7573814c838ac50",
+  "reader": "KLayout",
+  "reader_version": "0.30.9",
+  "database_grid_um": 0.001,
+  "top_cell_count": 0,
+  "geometry_verified": false,
+  "junction_verified": false,
+  "electrical_validation": "NOT_EVALUATED",
+  "limitations": [
+    "No fabrication junction supplied",
+    "No electrical solver executed"
+  ],
+  "failure_reason": "Expected one top cell and a 1 nm database grid"
+}

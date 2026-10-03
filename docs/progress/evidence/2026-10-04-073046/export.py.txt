@@ -1,0 +1,17 @@
+import json, sys, hashlib
+from pathlib import Path
+from qiskit_metal import designs
+from qiskit_metal.qlibrary.qubits.transmon_pocket import TransmonPocket
+from qiskit_metal.renderers.renderer_gds.gds_renderer import QGDSRenderer
+out=Path(sys.argv[1]);out.mkdir(exist_ok=False)
+d=designs.DesignPlanar()
+q=TransmonPocket(d,'Q1',options=dict(pos_x='0mm',pos_y='0mm',orientation='0',pad_height='90um',pad_width='455um',pad_gap='30um',pocket_width='650um',pocket_height='650um'))
+r=QGDSRenderer(d)
+r.options.ground_plane='False'
+r.options.cheese.view_in_file.main={1:False}
+r.options.no_cheese.view_in_file.main={1:False}
+r.options.path_filename=''
+status=r.export_to_gds(str(out/'transmon.gds'))
+report={'status':status,'options':r.options,'junction_rows':len(d.qgeometry.tables['junction']),'gds_sha256':hashlib.sha256((out/'transmon.gds').read_bytes()).hexdigest()}
+(out/'export.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps(report,indent=2))

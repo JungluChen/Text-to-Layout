@@ -381,3 +381,11 @@ with an explicit external interpreter and the checked-in request example. Keep
 request.json, manifest.json, logs and geometry together. This command checks
 gap-mask geometry; it does not run an electrical solver. No GUI is delivered by
 this feature, so screenshot capture remains pending a real application workflow.
+
+## Quantum Metal mask readback (experimental)
+
+Use the [entry 002 walkthrough](../integrations/quantum-metal.md) to distinguish
+a successful exporter return from nonempty, correctly scaled geometry. It covers
+the fixed mask fixture, explicit layers, missing junction, report inspection and
+recovery. This is a headless benchmark gate; no application screenshot or
+completed integration is claimed.

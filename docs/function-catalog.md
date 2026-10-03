@@ -256,3 +256,13 @@ not new MCP functions. WebGL2 is required; missing thickness is not reconstructe
   recorded in [entry 001](integrations/kqcircuits.md).
 - Example request: `{"length_um":1000.0,"width_um":10.0,"gap_um":6.0}`.
 - Commands, recovery and AI prompt: [KQCircuits guide](integrations/kqcircuits.md).
+
+### Quantum Metal transmon mask benchmark gate (entry 002, experimental)
+
+`uv run --no-sync python scripts/check_quantum_metal_transmon_gds.py INPUT.gds --out NEW.json`
+accepts the fixed 2 mm chip/455 × 90 um pad/30 um gap/650 um pocket fixture.
+KLayout readback requires one top cell, 1 nm grid, explicit layers and exact
+zero mask XOR. Writes a new report; never overwrites an existing report.
+Exit 0 verifies only this mask; junction and electrical checks remain unverified.
+No public product API/MCP method is introduced. See the
+[reference, recovery steps and AI prompt](integrations/quantum-metal.md).

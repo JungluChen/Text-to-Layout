@@ -1,0 +1,50 @@
+{
+  "status": 1,
+  "options": {
+    "short_segments_to_not_fillet": "True",
+    "check_short_segments_by_scaling_fillet": "2.0",
+    "gds_unit": 0.001,
+    "ground_plane": "True",
+    "negative_mask": {
+      "main": []
+    },
+    "fabricate": "False",
+    "corners": "natural",
+    "tolerance": "0.00001",
+    "precision": "0.000000001",
+    "width_LineString": "10um",
+    "path_filename": "",
+    "junction_pad_overlap": "5um",
+    "max_points": "199",
+    "cheese": {
+      "datatype": "100",
+      "shape": "0",
+      "cheese_0_x": "25um",
+      "cheese_0_y": "25um",
+      "cheese_1_radius": "100um",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      },
+      "delta_x": "100um",
+      "delta_y": "100um",
+      "edge_nocheese": "200um"
+    },
+    "no_cheese": {
+      "datatype": "99",
+      "buffer": "25um",
+      "cap_style": "2",
+      "join_style": "2",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      }
+    },
+    "bounding_box_scale_x": "1.2",
+    "bounding_box_scale_y": "1.2"
+  },
+  "junction_rows": 1,
+  "gds_sha256": "f5c5888aa003f8cb27115fe38ca8a2015a959a2c48897ecd2f7a37cf718760ca"
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_quantum_metal_transmon_gds.py",
+      "/private/tmp/qm-gds-audit/first/transmon.gds",
+      "--out",
+      "/private/tmp/qm-gds-audit/first/independent.json"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_quantum_metal_transmon_gds.py",
+      "/private/tmp/qm-gds-audit/repeat/transmon.gds",
+      "--out",
+      "/private/tmp/qm-gds-audit/repeat/independent.json"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_quantum_metal_transmon_gds.py",
+      "/private/tmp/qm-gds-audit/ground-first/transmon.gds",
+      "--out",
+      "/private/tmp/qm-gds-audit/ground-first/independent.json"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "scripts/check_quantum_metal_transmon_gds.py",
+      "/private/tmp/qm-gds-audit/ground-repeat/transmon.gds",
+      "--out",
+      "/private/tmp/qm-gds-audit/ground-repeat/independent.json"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  }
+]

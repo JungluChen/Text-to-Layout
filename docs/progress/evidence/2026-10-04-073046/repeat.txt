@@ -1,0 +1,55 @@
+07:24AM 15s INFO [_start_renderers]: Renderer=hfss skipped: runtime dependency not installed (QAnsysRenderer requires pyEPR. Install with: pip install 'quantum-metal[ansys]').
+07:24AM 15s INFO [_start_renderers]: Renderer=q3d skipped: runtime dependency not installed (QAnsysRenderer requires pyEPR. Install with: pip install 'quantum-metal[ansys]').
+07:24AM 15s INFO [_start_renderers]: Renderer=gmsh skipped: runtime dependency not installed (renderer_gmsh requires gmsh. Install with: pip install 'quantum-metal[mesh]' (or the legacy alias 'quantum-metal[fem]')).
+07:24AM 15s INFO [_start_renderers]: Renderer=aedt_q3d skipped: runtime dependency not installed (QPyaedt requires pyaedt (ansys.aedt.core). Install with: pip install 'quantum-metal[ansys]').
+07:24AM 15s INFO [_start_renderers]: Renderer=aedt_hfss skipped: runtime dependency not installed (QPyaedt requires pyaedt (ansys.aedt.core). Install with: pip install 'quantum-metal[ansys]').
+{
+  "status": 1,
+  "options": {
+    "short_segments_to_not_fillet": "True",
+    "check_short_segments_by_scaling_fillet": "2.0",
+    "gds_unit": 0.001,
+    "ground_plane": "False",
+    "negative_mask": {
+      "main": []
+    },
+    "fabricate": "False",
+    "corners": "natural",
+    "tolerance": "0.00001",
+    "precision": "0.000000001",
+    "width_LineString": "10um",
+    "path_filename": "",
+    "junction_pad_overlap": "5um",
+    "max_points": "199",
+    "cheese": {
+      "datatype": "100",
+      "shape": "0",
+      "cheese_0_x": "25um",
+      "cheese_0_y": "25um",
+      "cheese_1_radius": "100um",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      },
+      "delta_x": "100um",
+      "delta_y": "100um",
+      "edge_nocheese": "200um"
+    },
+    "no_cheese": {
+      "datatype": "99",
+      "buffer": "25um",
+      "cap_style": "2",
+      "join_style": "2",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      }
+    },
+    "bounding_box_scale_x": "1.2",
+    "bounding_box_scale_y": "1.2"
+  },
+  "junction_rows": 1,
+  "gds_sha256": "86cd62498826b1540e0378902a54293bf91968b0f3a92a2fe7573814c838ac50"
+}

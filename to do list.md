@@ -17,8 +17,11 @@ passed twice on each of Linux, Windows and macOS (37138947989); all 18 retained
 GDS outputs were independently checked after download. No EM/full-toolkit claim.
 See docs/progress/2026-10-04-010007.md. Current item: **002 Qiskit Metal**:
 Quantum Metal 0.9.0 now installs in isolation and its explicit TransmonPocket
-in-memory bounds pass twice locally. Next implement/execute a bounded GDS
-export and independent readback, then a typed adapter and platform checks. The existing
+in-memory bounds pass twice locally. Ground-plane-disabled export produced empty
+GDS despite upstream success, reproduced twice. The new fixed-mask gate rejects
+these and verifies the explicit 2 mm ground-plane fixture twice with zero XOR.
+Junction data is missing; entry 002 stays open. Next: a bounded typed adapter
+and repeated platform checks; see docs/integrations/quantum-metal.md. The existing
 legacy backend only prepares a plan; it is not accepted execution.
 
 ## Current human-directed release priority — v0.3.1
