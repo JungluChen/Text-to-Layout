@@ -30,6 +30,22 @@
         "Electrical extraction and simulation",
         "Other components, connectors, rotations and configurable layers"
       ]
+    },
+    "3": {
+      "name": "pyEPR",
+      "scope": "specified ideal one-mode full-cosine circuit diagonalization, two charge-insensitive benchmarks; no EM/HFSS extraction or measurement validation",
+      "implementation_commit": "4cd88ee4390d9f1353fdcca5dd036e1ef1acbba2",
+      "source_license_evidence": "docs/integrations/pyepr.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-04-160007/platforms/pyepr-circuit-ubuntu-latest/pyepr-base-first/solver.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-04-160007/platform-validation.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-04-160007/platform-run.json",
+      "acceptance": "Typed CLI: two cases twice on macOS, Windows and Linux; all 12 packets independently hash-checked and compared with fresh charge-basis calculations. Fixed 1 Hz refinement/dispersion and 2 Hz reference gates pass. Maximum reported reference difference 0.003927231 Hz; unchanged repeats identical. Exact implementation CI and test workflows passed.",
+      "remaining_scope": [
+        "Live HFSS/EM field participation extraction",
+        "Multimode EPR and coupled circuits",
+        "Broader parameter-domain validation and measured-device comparison",
+        "GUI/MCP and installed desktop surfaces"
+      ]
     }
   }
 }

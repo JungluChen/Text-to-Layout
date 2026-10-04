@@ -1,4 +1,4 @@
-# pyEPR — checklist entry 003, numerical acceptance pending
+# pyEPR — checklist entry 003, scoped ideal-circuit acceptance
 
 Document class: MANUAL_DOCUMENTATION.
 
@@ -71,9 +71,9 @@ Keep command stdout/stderr alongside each directory. Exit 0 requires all gates;
 exit 1 indicates a rejected result. The output directory must be new. Inspect
 `plan.json`, `report.json`, dependency identities, raw returns, eigenvalues,
 refinements and every metric before interpreting `passed`. No HFSS, EM fields,
-geometry, measured reference, GUI, MCP command or product adapter is supplied.
-Canonical evidence is explicitly not promoted. On Windows the external Python
-path differs; actual numerical platform validation remains pending.
+geometry, measured reference, GUI or MCP command is supplied by this developer
+script. It does not promote canonical evidence. The separate typed product
+adapter below retains canonical executed evidence after checks pass.
 
 Two unchanged local runs pass with a maximum comparison difference below
 0.0032 Hz. The earlier ratio-66.7 ng=0 mismatch remains retained and unaccepted.
@@ -87,22 +87,13 @@ pyEPR ideal-circuit benchmarks twice. Explain the charge-boundary approximation,
 raw frequency/chi units, convergence and failures; keep EM and measurement
 validation explicitly pending.”
 
-## Next acceptance steps
+## Acceptance progression
 
-1. Preserve the zero-charge discrepancy and the accepted two-case benchmark
-   scope; do not generalize the sampled charge-insensitive approximation.
-2. Retain the fixed reference/convergence gate when implementing the adapter.
-3. Implement typed input/output units and explicit model assumptions. Preserve
-   upstream raw numbers, sign convention, version, Hamiltonian and convergence.
-4. Repeat accepted reference/convergence checks through the product adapter
-   and on each supported platform before marking this entry complete.
-
-The current isolated environment is `/private/tmp/textlayout-pyepr-102`; the
-retained probe snapshots in the report can be copied to .py files and executed
-with that interpreter into fresh directories. No new CLI/MCP command is exposed.
-AI prompt: “Audit the pyEPR return units and circuit boundary assumptions against
-its raw Hamiltonian and the independent charge reference. Explain the retained
-difference without relabelling it as validation or relaxing acceptance gates.”
+The standalone benchmark preceded the typed product operation below. Its old
+probe commands are retained for reproducibility. The implementation now
+preserves units, sign convention, raw outputs and convergence; three-platform
+product execution and independent packet verification have passed. The zero-charge discrepancy
+and two-case scope remain explicit. No MCP operation is exposed.
 
 ## Typed product operation
 
@@ -137,9 +128,12 @@ use `FAILED`. The API timeout defaults to 120 seconds. Timeouts retain partial
 logs; there is no checkpoint or resume feature. Retry the same inputs into a
 fresh directory; editing parameters is a different run.
 
-Local two-case repeated execution passes. Dedicated platform workflow:
-`.github/workflows/pyepr-integration.yml`. Completion requires its actual
-Windows/macOS/Linux output and independent post-download verification.
+Both cases passed twice on macOS, Windows and Linux in run 37187701164.
+All twelve packets were independently checked after download; maximum reference
+difference 0.003927231 Hz, unchanged numerical repeats identical. General CI
+37187636083 and test 37187636081 passed for implementation
+`4cd88ee4390d9f1353fdcca5dd036e1ef1acbba2`. See
+[acceptance evidence](../progress/2026-10-04-160007.md).
 No callable MCP tool, GUI, screenshot, live field-participation extraction or
 multi-mode functionality is delivered here.
 

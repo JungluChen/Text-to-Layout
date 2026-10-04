@@ -1,0 +1,29 @@
+"""Recheck downloaded product packets, independent charge references and hashes."""
+import hashlib,json,sys
+from pathlib import Path
+import numpy as np
+from textlayout.external.pyepr_circuit import CircuitRequest,benchmark_plan
+from textlayout.external._pyepr_numeric import assess
+root=Path(sys.argv[1]);rows=[]
+for manifest in sorted(root.rglob('manifest.json')):
+ base=manifest.parent;m=json.loads(manifest.read_text());r=json.loads((base/'solver.json').read_text());plan=json.loads((base/'request.json').read_text())
+ for name,digest in m['artifact_sha256'].items(): assert hashlib.sha256((base/name).read_bytes()).hexdigest()==digest,(base,name)
+ assert m['request_sha256']==r['request_sha256']==hashlib.sha256((base/'request.json').read_bytes()).hexdigest()
+ result=m['result'];assert result['execution_completed'] and result['return_code']==0 and result['numerical_checks_passed'] and result['status']=='SIMULATION_EXECUTED'
+ assert r['version']=='1.0.2' and len(r['cases'])==1
+ c=r['cases'][0];request=CircuitRequest(**c['inputs']);assert plan==benchmark_plan(request)
+ metrics,passed=assess(c,plan);assert passed and result['metrics']==metrics
+ ej,ec=request.ej_over_h_hz,request.ec_over_h_hz
+ reference=[]
+ for ng in [0,.25,.5]:
+  n=np.arange(-45,46);mat=np.diag(4*ec*(n-ng)**2)
+  mat+=np.diag(np.full(90,-ej/2),1)+np.diag(np.full(90,-ej/2),-1)
+  eig=np.linalg.eigvalsh(mat);ref={'f01_hz':float(eig[1]-eig[0]),'alpha_hz':float(eig[2]-2*eig[1]+eig[0])}
+  for key,value in ref.items(): assert abs(value-c['fock'][-1][key])<=2,(base,key,value)
+  reference.append({'ng':ng,**ref})
+ for q in result['quantities']:
+  assert q['status']=='SIMULATION_EXECUTED' and q['extracted_unit']=='Hz'
+  assert q['extracted_value']==c['fock'][-1][q['quantity']+'_hz']
+ rows.append({'packet':str(base.relative_to(root)),'platform':r['platform'],'inputs':c['inputs'],'metrics':metrics,'fresh_charge_reference':reference,'passed':True})
+assert len(rows)==12,len(rows)
+print(json.dumps({'passed':True,'packets':rows,'scope':'two ideal circuits twice on each of three platforms; no EM or measurements'},indent=2))

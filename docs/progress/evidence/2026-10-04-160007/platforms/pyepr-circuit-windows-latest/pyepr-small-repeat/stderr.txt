@@ -1,0 +1,8 @@
+INFO 08:04AM [make_dispersive]: Starting diagonalization (16�16 matrix)
+INFO 08:04AM [make_dispersive]: Diagonalization complete
+INFO 08:04AM [make_dispersive]: Starting diagonalization (24�24 matrix)
+INFO 08:04AM [make_dispersive]: Diagonalization complete
+INFO 08:04AM [make_dispersive]: Starting diagonalization (32�32 matrix)
+INFO 08:04AM [make_dispersive]: Diagonalization complete
+INFO 08:04AM [make_dispersive]: Starting diagonalization (40�40 matrix)
+INFO 08:04AM [make_dispersive]: Diagonalization complete

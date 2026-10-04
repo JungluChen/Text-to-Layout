@@ -1,0 +1,510 @@
+{
+  "passed": true,
+  "packets": [
+    {
+      "packet": "pyepr-circuit-macos-14/pyepr-base-first",
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.0002269744873046875,
+          "reference_last_delta_hz": 0.0003509521484375,
+          "charge_spread_hz": 0.000423431396484375,
+          "max_difference_hz": 0.0002841949462890625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001964867115020752,
+          "reference_last_delta_hz": 0.000385284423828125,
+          "charge_spread_hz": 0.00574493408203125,
+          "max_difference_hz": 0.0029659271240234375,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-macos-14/pyepr-base-repeat",
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.0002269744873046875,
+          "reference_last_delta_hz": 0.0003509521484375,
+          "charge_spread_hz": 0.000423431396484375,
+          "max_difference_hz": 0.0002841949462890625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001964867115020752,
+          "reference_last_delta_hz": 0.000385284423828125,
+          "charge_spread_hz": 0.00574493408203125,
+          "max_difference_hz": 0.0029659271240234375,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-macos-14/pyepr-small-first",
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 6.866455078125e-05,
+          "reference_last_delta_hz": 0.000278472900390625,
+          "charge_spread_hz": 0.000324249267578125,
+          "max_difference_hz": 0.00031375885009765625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001087486743927002,
+          "reference_last_delta_hz": 0.0004425048828125,
+          "charge_spread_hz": 0.0005340576171875,
+          "max_difference_hz": 0.0005035400390625,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-macos-14/pyepr-small-repeat",
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 6.866455078125e-05,
+          "reference_last_delta_hz": 0.000278472900390625,
+          "charge_spread_hz": 0.000324249267578125,
+          "max_difference_hz": 0.00031375885009765625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001087486743927002,
+          "reference_last_delta_hz": 0.0004425048828125,
+          "charge_spread_hz": 0.0005340576171875,
+          "max_difference_hz": 0.0005035400390625,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-ubuntu-latest/pyepr-base-first",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.00013446807861328125,
+          "reference_last_delta_hz": 0.0007476806640625,
+          "charge_spread_hz": 0.000850677490234375,
+          "max_difference_hz": 0.0007228851318359375,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.000179290771484375,
+          "reference_last_delta_hz": 0.0012664794921875,
+          "charge_spread_hz": 0.00661468505859375,
+          "max_difference_hz": 0.0039272308349609375,
+          "raw_hamiltonian_difference_hz": 1.3709068298339844e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-ubuntu-latest/pyepr-base-repeat",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.00013446807861328125,
+          "reference_last_delta_hz": 0.0007476806640625,
+          "charge_spread_hz": 0.000850677490234375,
+          "max_difference_hz": 0.0007228851318359375,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.000179290771484375,
+          "reference_last_delta_hz": 0.0012664794921875,
+          "charge_spread_hz": 0.00661468505859375,
+          "max_difference_hz": 0.0039272308349609375,
+          "raw_hamiltonian_difference_hz": 1.3709068298339844e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-ubuntu-latest/pyepr-small-first",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.00011539459228515625,
+          "reference_last_delta_hz": 0.0001068115234375,
+          "charge_spread_hz": 0.000461578369140625,
+          "max_difference_hz": 0.00030994415283203125,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0002212822437286377,
+          "reference_last_delta_hz": 0.0002593994140625,
+          "charge_spread_hz": 0.00045013427734375,
+          "max_difference_hz": 0.0003891289234161377,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-ubuntu-latest/pyepr-small-repeat",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.00011539459228515625,
+          "reference_last_delta_hz": 0.0001068115234375,
+          "charge_spread_hz": 0.000461578369140625,
+          "max_difference_hz": 0.00030994415283203125,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0002212822437286377,
+          "reference_last_delta_hz": 0.0002593994140625,
+          "charge_spread_hz": 0.00045013427734375,
+          "max_difference_hz": 0.0003891289234161377,
+          "raw_hamiltonian_difference_hz": 1.2516975402832031e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-windows-latest/pyepr-base-first",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.0001125335693359375,
+          "reference_last_delta_hz": 0.0007476806640625,
+          "charge_spread_hz": 0.000850677490234375,
+          "max_difference_hz": 0.00043010711669921875,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001010894775390625,
+          "reference_last_delta_hz": 0.0012664794921875,
+          "charge_spread_hz": 0.00661468505859375,
+          "max_difference_hz": 0.0035419464111328125,
+          "raw_hamiltonian_difference_hz": 1.1622905731201172e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-windows-latest/pyepr-base-repeat",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "inputs": {
+        "ej_over_h_hz": 30000000000.0,
+        "ec_over_h_hz": 150000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 0.0001125335693359375,
+          "reference_last_delta_hz": 0.0007476806640625,
+          "charge_spread_hz": 0.000850677490234375,
+          "max_difference_hz": 0.00043010711669921875,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0001010894775390625,
+          "reference_last_delta_hz": 0.0012664794921875,
+          "charge_spread_hz": 0.00661468505859375,
+          "max_difference_hz": 0.0035419464111328125,
+          "raw_hamiltonian_difference_hz": 1.1622905731201172e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-windows-latest/pyepr-small-first",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 1.430511474609375e-05,
+          "reference_last_delta_hz": 0.0001068115234375,
+          "charge_spread_hz": 0.000461578369140625,
+          "max_difference_hz": 0.00024509429931640625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 4.9591064453125e-05,
+          "reference_last_delta_hz": 0.0002593994140625,
+          "charge_spread_hz": 0.00045013427734375,
+          "max_difference_hz": 0.0002994537353515625,
+          "raw_hamiltonian_difference_hz": 1.3113021850585938e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    },
+    {
+      "packet": "pyepr-circuit-windows-latest/pyepr-small-repeat",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "inputs": {
+        "ej_over_h_hz": 40000000000.0,
+        "ec_over_h_hz": 160000000.0
+      },
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 1.430511474609375e-05,
+          "reference_last_delta_hz": 0.0001068115234375,
+          "charge_spread_hz": 0.000461578369140625,
+          "max_difference_hz": 0.00024509429931640625,
+          "raw_hamiltonian_difference_hz": 0.0
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 4.9591064453125e-05,
+          "reference_last_delta_hz": 0.0002593994140625,
+          "charge_spread_hz": 0.00045013427734375,
+          "max_difference_hz": 0.0002994537353515625,
+          "raw_hamiltonian_difference_hz": 1.3113021850585938e-06
+        }
+      },
+      "fresh_charge_reference": [
+        {
+          "ng": 0,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "scope": "two ideal circuits twice on each of three platforms; no EM or measurements"
+}

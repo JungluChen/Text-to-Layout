@@ -1,0 +1,107 @@
+{
+  "request_sha256": "c8c0242e1efa4d3ec61cc47163056a7d1c1c769f2acf3f39e0337a140a30acb8",
+  "worker_sha256": "733c87b4646e591921eb7754278fe24b4e32fa81ef78b3f95fbf5c11c8183ed0",
+  "command": [
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\.pyepr-env\\Scripts\\python.exe",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\external\\_pyepr_numeric.py",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\request.json",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\solver.json"
+  ],
+  "scope": "ideal single-mode full-cosine circuit; no EM/HFSS, measurement or fabrication claim",
+  "result": {
+    "execution_completed": true,
+    "return_code": 0,
+    "status": "SIMULATION_EXECUTED",
+    "numerical_checks_passed": true,
+    "failure_reason": null,
+    "output_dir": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat",
+    "metrics": {
+      "f01_hz": {
+        "fock_last_delta_hz": 1.430511474609375e-05,
+        "reference_last_delta_hz": 0.0001068115234375,
+        "charge_spread_hz": 0.000461578369140625,
+        "max_difference_hz": 0.00024509429931640625,
+        "raw_hamiltonian_difference_hz": 0.0
+      },
+      "alpha_hz": {
+        "fock_last_delta_hz": 4.9591064453125e-05,
+        "reference_last_delta_hz": 0.0002593994140625,
+        "charge_spread_hz": 0.00045013427734375,
+        "max_difference_hz": 0.0002994537353515625,
+        "raw_hamiltonian_difference_hz": 1.3113021850585938e-06
+      }
+    },
+    "quantities": [
+      {
+        "public_reference": null,
+        "quantity": "f01",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": 6991610950.369729,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "pyEPR-quantum 1.0.2 full-cosine ideal circuit",
+        "command": "[\"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\.pyepr-env\\\\Scripts\\\\python.exe\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\src\\\\textlayout\\\\external\\\\_pyepr_numeric.py\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\out\\\\pyepr-small-repeat\\\\request.json\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\out\\\\pyepr-small-repeat\\\\solver.json\"]",
+        "input_files": [
+          "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\request.json"
+        ],
+        "output_files": [
+          "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\solver.json"
+        ],
+        "parser": "textlayout.external.pyepr_circuit.run_circuit",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-04T08:04:33+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Charge-offset references computed independently; not published measurements"
+        ]
+      },
+      {
+        "public_reference": null,
+        "quantity": "alpha",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": -168979190.0708866,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "pyEPR-quantum 1.0.2 full-cosine ideal circuit",
+        "command": "[\"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\.pyepr-env\\\\Scripts\\\\python.exe\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\src\\\\textlayout\\\\external\\\\_pyepr_numeric.py\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\out\\\\pyepr-small-repeat\\\\request.json\", \"D:\\\\a\\\\Text-to-Layout\\\\Text-to-Layout\\\\out\\\\pyepr-small-repeat\\\\solver.json\"]",
+        "input_files": [
+          "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\request.json"
+        ],
+        "output_files": [
+          "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\pyepr-small-repeat\\solver.json"
+        ],
+        "parser": "textlayout.external.pyepr_circuit.run_circuit",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-04T08:04:33+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Charge-offset references computed independently; not published measurements"
+        ]
+      }
+    ]
+  },
+  "artifact_sha256": {
+    "request.json": "c8c0242e1efa4d3ec61cc47163056a7d1c1c769f2acf3f39e0337a140a30acb8",
+    "solver.json": "c656fc6cf0d9d911feef56a4434f075edfeb498f1fa5331dd6cbe5fd50e2afc8",
+    "stderr.txt": "5481bf2243e45a7f271c749e2cc05e619a7bcf525b778903343b556d5c37745a",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "platform": "pyepr-circuit-macos-14",
+    "case": "base",
+    "max_unchanged_repeat_difference_hz": 0.0
+  },
+  {
+    "platform": "pyepr-circuit-macos-14",
+    "case": "small",
+    "max_unchanged_repeat_difference_hz": 0.0
+  },
+  {
+    "platform": "pyepr-circuit-ubuntu-latest",
+    "case": "base",
+    "max_unchanged_repeat_difference_hz": 0.0
+  },
+  {
+    "platform": "pyepr-circuit-ubuntu-latest",
+    "case": "small",
+    "max_unchanged_repeat_difference_hz": 0.0
+  },
+  {
+    "platform": "pyepr-circuit-windows-latest",
+    "case": "base",
+    "max_unchanged_repeat_difference_hz": 0.0
+  },
+  {
+    "platform": "pyepr-circuit-windows-latest",
+    "case": "small",
+    "max_unchanged_repeat_difference_hz": 0.0
+  }
+]

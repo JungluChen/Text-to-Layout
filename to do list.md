@@ -20,12 +20,15 @@ scoped positive charge-pad/ground-pocket mask acceptance, implementation
 dde9fcf56c84972fab804678272ed0f1a886062a. Both input cases passed twice on
 macOS, Windows and Linux (37172852770); all twelve downloaded GDS packets
 were independently checked. No fabrication-junction or electrical claim.
-Current item: **003 pyEPR**. Actual non-HFSS numerical execution repeats, but
-two new predeclared charge-insensitive circuit benchmarks now pass unchanged
-twice locally. The reusable gate preserves raw units, convergence, reference
-errors and roundoff diagnostics. A typed product adapter and real platform
-execution remain required. Preserve the earlier ng=0 discrepancy. Exact findings and next steps:
-docs/integrations/pyepr.md and docs/progress/2026-10-04-110110.md.
+Entry **003 pyEPR** is accepted for specified ideal one-mode full-cosine circuit
+execution only, implementation 4cd88ee4390d9f1353fdcca5dd036e1ef1acbba2.
+Two cases passed twice on each of macOS, Windows and Linux (37187701164);
+all 12 packets independently checked. Fixed convergence/reference limits pass;
+no HFSS/EM or measurement claim. Exact-SHA CI 37187636083 and test 37187636081
+passed. See docs/progress/2026-10-04-160007.md.
+Current item: **004 CircuitQ**. Audit upstream identity/license/version,
+existing adapters and numerical assumptions before selecting a bounded case.
+Do not mark it complete from import/discovery alone.
 
 
 ## Current human-directed release priority — v0.3.1
