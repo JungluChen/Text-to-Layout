@@ -1,0 +1,73 @@
+{
+  "request_sha256": "8e0a21e0f348bbc502f4b50b837149c41e3c1f1c3ca4a1ebfaa37f38e7a75539",
+  "worker_sha256": "8c19ddb15000e6789f32bec2f1f1f7867208fb9a619fe08a169580dfa9e2b936",
+  "command": [
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/.qm-env/bin/python",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_quantum_metal_worker.py",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/qm-small-repeat/request.json",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/qm-small-repeat/geometry"
+  ],
+  "scope": "charge-pad and ground-pocket masks only; no fabrication junction or EM simulation",
+  "result": {
+    "execution_completed": true,
+    "return_code": 0,
+    "geometry_verified": true,
+    "junction_verified": false,
+    "failure_reason": null,
+    "output_dir": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/qm-small-repeat",
+    "readback": {
+      "schema": "textlayout.quantum-metal-transmon-mask.v1",
+      "scope": "charge-pad and ground-pocket mask only",
+      "request": {
+        "pad_width_um": 200.0,
+        "pad_height_um": 70.0,
+        "pad_gap_um": 22.0,
+        "pocket_width_um": 500.0,
+        "pocket_height_um": 550.0,
+        "chip_width_um": 1800.0,
+        "chip_height_um": 2200.0
+      },
+      "input_sha256": "173c1b3281a1046d178dd5cc20a0c41760dc584638d3cc186f6f0303488ea8f0",
+      "reader": "KLayout",
+      "reader_version": "0.30.9",
+      "database_grid_um": 0.001,
+      "top_cell_count": 1,
+      "geometry_verified": true,
+      "junction_verified": false,
+      "electrical_validation": "NOT_EVALUATED",
+      "limitations": [
+        "No fabrication junction supplied",
+        "No electrical solver executed"
+      ],
+      "actual_layers": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          10
+        ]
+      ],
+      "layer_map_match": true,
+      "comparisons": [
+        {
+          "layer": 1,
+          "datatype": 10,
+          "xor_area_nm2": 0,
+          "accepted_xor_area_nm2": 0,
+          "actual_area_um2": 28000.0,
+          "reference_area_um2": 28000.0
+        },
+        {
+          "layer": 1,
+          "datatype": 0,
+          "xor_area_nm2": 0,
+          "accepted_xor_area_nm2": 0,
+          "actual_area_um2": 3685000.0,
+          "reference_area_um2": 3685000.0
+        }
+      ]
+    }
+  }
+}

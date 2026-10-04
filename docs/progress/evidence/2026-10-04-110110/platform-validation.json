@@ -1,0 +1,705 @@
+{
+  "implementation_commit": "dde9fcf56c84972fab804678272ed0f1a886062a",
+  "run_id": 37172852770,
+  "scope": "positive charge-pad and ground-pocket masks only; junction/electrical verification excluded",
+  "passed": true,
+  "count": 12,
+  "packets": [
+    {
+      "manifest": "quantum-metal-mask-macos-14/qm-base-first/manifest.json",
+      "gds_sha256": "320f703e912e469916c93fd29198cf5d4b005a6c207162cf1eb17260ca225e41",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "320f703e912e469916c93fd29198cf5d4b005a6c207162cf1eb17260ca225e41",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-macos-14/qm-base-repeat/manifest.json",
+      "gds_sha256": "fbad99f17df2c1e0fbd2cf6818e1dedc304db71d38367d857af8f37ef4c20c45",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "fbad99f17df2c1e0fbd2cf6818e1dedc304db71d38367d857af8f37ef4c20c45",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-macos-14/qm-small-first/manifest.json",
+      "gds_sha256": "31aca2e7929949aa9d3c6b66c63cef9ee86cf52a697172c895e3ce9987591d33",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "31aca2e7929949aa9d3c6b66c63cef9ee86cf52a697172c895e3ce9987591d33",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-macos-14/qm-small-repeat/manifest.json",
+      "gds_sha256": "3f345e94abc0a5c9282ca8b83ca163c531a3de580724cd9cef13431d7d3b9b46",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "3f345e94abc0a5c9282ca8b83ca163c531a3de580724cd9cef13431d7d3b9b46",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-ubuntu-latest/qm-base-first/manifest.json",
+      "gds_sha256": "10a5464f38a1668d9bc95d6df85b51374708d232a64dd4b157f448db2278ffd0",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "10a5464f38a1668d9bc95d6df85b51374708d232a64dd4b157f448db2278ffd0",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-ubuntu-latest/qm-base-repeat/manifest.json",
+      "gds_sha256": "ee5f263abb63d2634581791f5a19ee46dac37eb4f70c33407ac666bbb83cd0cf",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "ee5f263abb63d2634581791f5a19ee46dac37eb4f70c33407ac666bbb83cd0cf",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-ubuntu-latest/qm-small-first/manifest.json",
+      "gds_sha256": "e8acff37c5d0f9c19a8bfadd62129ace10dd97ca5c4e884bf0bdd20af3575ed4",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "e8acff37c5d0f9c19a8bfadd62129ace10dd97ca5c4e884bf0bdd20af3575ed4",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-ubuntu-latest/qm-small-repeat/manifest.json",
+      "gds_sha256": "173c1b3281a1046d178dd5cc20a0c41760dc584638d3cc186f6f0303488ea8f0",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "173c1b3281a1046d178dd5cc20a0c41760dc584638d3cc186f6f0303488ea8f0",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-windows-latest/qm-base-first/manifest.json",
+      "gds_sha256": "d6aa3f938dcd389c2353518f2d12b142cbe69396eaa7e8378a45c10ecb89c04f",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "d6aa3f938dcd389c2353518f2d12b142cbe69396eaa7e8378a45c10ecb89c04f",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-windows-latest/qm-base-repeat/manifest.json",
+      "gds_sha256": "7c06fe0aff6607a8072b0764d8a770a90e672e495c475cb79551c52f16c3f932",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 455.0,
+          "pad_height_um": 90.0,
+          "pad_gap_um": 30.0,
+          "pocket_width_um": 650.0,
+          "pocket_height_um": 650.0,
+          "chip_width_um": 2000.0,
+          "chip_height_um": 2000.0
+        },
+        "input_sha256": "7c06fe0aff6607a8072b0764d8a770a90e672e495c475cb79551c52f16c3f932",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 81900.0,
+            "reference_area_um2": 81900.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3577500.0,
+            "reference_area_um2": 3577500.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-windows-latest/qm-small-first/manifest.json",
+      "gds_sha256": "38e9897091a047b47bfad41391ce1c49c52e62a7b722b5de77446920ae2f4658",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "38e9897091a047b47bfad41391ce1c49c52e62a7b722b5de77446920ae2f4658",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    },
+    {
+      "manifest": "quantum-metal-mask-windows-latest/qm-small-repeat/manifest.json",
+      "gds_sha256": "7f03109221cde090501943cdbc7a30c6ac3ef3f0b1e8bc91c1070af4cb0bbe6e",
+      "readback": {
+        "schema": "textlayout.quantum-metal-transmon-mask.v1",
+        "scope": "charge-pad and ground-pocket mask only",
+        "request": {
+          "pad_width_um": 200.0,
+          "pad_height_um": 70.0,
+          "pad_gap_um": 22.0,
+          "pocket_width_um": 500.0,
+          "pocket_height_um": 550.0,
+          "chip_width_um": 1800.0,
+          "chip_height_um": 2200.0
+        },
+        "input_sha256": "7f03109221cde090501943cdbc7a30c6ac3ef3f0b1e8bc91c1070af4cb0bbe6e",
+        "reader": "KLayout",
+        "reader_version": "0.30.9",
+        "database_grid_um": 0.001,
+        "top_cell_count": 1,
+        "geometry_verified": true,
+        "junction_verified": false,
+        "electrical_validation": "NOT_EVALUATED",
+        "limitations": [
+          "No fabrication junction supplied",
+          "No electrical solver executed"
+        ],
+        "actual_layers": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "layer_map_match": true,
+        "comparisons": [
+          {
+            "layer": 1,
+            "datatype": 10,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 28000.0,
+            "reference_area_um2": 28000.0
+          },
+          {
+            "layer": 1,
+            "datatype": 0,
+            "xor_area_nm2": 0,
+            "accepted_xor_area_nm2": 0,
+            "actual_area_um2": 3685000.0,
+            "reference_area_um2": 3685000.0
+          }
+        ]
+      }
+    }
+  ]
+}

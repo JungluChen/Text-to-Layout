@@ -1,0 +1,13 @@
+"""Controlled charge-boundary sweep following a reproduced model discrepancy."""
+import json,sys,hashlib
+from pathlib import Path
+import numpy as np
+EJ=20e9;EC=.3e9
+rows=[]
+for ng in [0,.25,.5]:
+ for cut in [25,35]:
+  n=np.arange(-cut,cut+1)
+  H=np.diag(4*EC*(n-ng)**2)+np.diag(np.full(len(n)-1,-EJ/2),1)+np.diag(np.full(len(n)-1,-EJ/2),-1)
+  e=np.linalg.eigvalsh(H)
+  rows.append(dict(ng=ng,cutoff=cut,f01_Hz=float(e[1]-e[0]),alpha_Hz=float(e[2]-2*e[1]+e[0])))
+out=Path(sys.argv[1]);out.write_text(json.dumps({'purpose':'diagnose boundary-condition dependence, not retune an acceptance threshold','probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'EJ_over_h_Hz':EJ,'EC_over_h_Hz':EC,'rows':rows},indent=2)+'\n');print(json.dumps(rows,indent=2))

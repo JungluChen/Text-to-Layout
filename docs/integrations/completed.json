@@ -15,6 +15,21 @@
         "Electrical simulation, convergence and physical validation",
         "Installed desktop applications"
       ]
+    },
+    "2": {
+      "name": "Qiskit Metal / Quantum Metal",
+      "scope": "centred positive charge-pad and ground-pocket masks with typed dimensions; no fabrication junction, EM or full-toolkit claim",
+      "implementation_commit": "dde9fcf56c84972fab804678272ed0f1a886062a",
+      "source_license_evidence": "docs/integrations/quantum-metal.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-04-110110/platforms/quantum-metal-mask-ubuntu-latest/qm-base-first/manifest.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-04-110110/platform-validation.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-04-110110/platform-run.json",
+      "acceptance": "Two requests run twice on macOS, Windows and Linux. All twelve GDS packets independently re-read after download with correct units/layers and zero mask XOR. Tool execution only; solver_evidence is a legacy completion-field name.",
+      "remaining_scope": [
+        "Fabrication junction and connectivity/process validation",
+        "Electrical extraction and simulation",
+        "Other components, connectors, rotations and configurable layers"
+      ]
     }
   }
 }

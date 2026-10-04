@@ -15,15 +15,17 @@ Entry **001 KQCircuits** is accepted for straight CPW gap-mask generation only,
 implementation c6f023e9f69d7e353baa7b46ecc9694829c8ce51. Actual typed CLI runs
 passed twice on each of Linux, Windows and macOS (37138947989); all 18 retained
 GDS outputs were independently checked after download. No EM/full-toolkit claim.
-See docs/progress/2026-10-04-010007.md. Current item: **002 Qiskit Metal**:
-Quantum Metal 0.9.0 now installs in isolation and its explicit TransmonPocket
-in-memory bounds pass twice locally. Ground-plane-disabled export produced empty
-GDS despite upstream success, reproduced twice. The new fixed-mask gate rejects
-these and verifies the explicit 2 mm ground-plane fixture twice with zero XOR.
-Junction data is missing; entry 002 stays open. Typed adapter and public quantum-metal-mask command now execute both examples
-twice with independent readback. Next: exact-SHA repeated platform checks,
-then scoped acceptance and entry 003; see docs/integrations/quantum-metal.md. The existing
-legacy backend only prepares a plan; it is not accepted execution.
+See docs/progress/2026-10-04-010007.md. Entry **002 Quantum Metal** now has
+scoped positive charge-pad/ground-pocket mask acceptance, implementation
+dde9fcf56c84972fab804678272ed0f1a886062a. Both input cases passed twice on
+macOS, Windows and Linux (37172852770); all twelve downloaded GDS packets
+were independently checked. No fabrication-junction or electrical claim.
+Current item: **003 pyEPR**. Actual non-HFSS numerical execution repeats, but
+return-unit documentation and charge-boundary/reference discrepancies require
+resolution before a typed adapter. Preserve the ng=0 discrepancy; do not fit a
+reference after seeing results. Exact findings and next steps:
+docs/integrations/pyepr.md and docs/progress/2026-10-04-110110.md.
+
 
 ## Current human-directed release priority — v0.3.1
 

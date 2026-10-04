@@ -1,0 +1,109 @@
+{
+  "request": {
+    "pad_width_um": 455.0,
+    "pad_height_um": 90.0,
+    "pad_gap_um": 30.0,
+    "pocket_width_um": 650.0,
+    "pocket_height_um": 650.0,
+    "chip_width_um": 2000.0,
+    "chip_height_um": 2000.0
+  },
+  "versions": {
+    "quantum-metal": "0.9.0",
+    "gdstk": "1.0.1"
+  },
+  "export_return_code": 1,
+  "options": {
+    "short_segments_to_not_fillet": "True",
+    "check_short_segments_by_scaling_fillet": "2.0",
+    "gds_unit": 0.001,
+    "ground_plane": "True",
+    "negative_mask": {
+      "main": []
+    },
+    "fabricate": "False",
+    "corners": "natural",
+    "tolerance": "0.00001",
+    "precision": "0.000000001",
+    "width_LineString": "10um",
+    "path_filename": "",
+    "junction_pad_overlap": "5um",
+    "max_points": "199",
+    "cheese": {
+      "datatype": "100",
+      "shape": "0",
+      "cheese_0_x": "25um",
+      "cheese_0_y": "25um",
+      "cheese_1_radius": "100um",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      },
+      "delta_x": "100um",
+      "delta_y": "100um",
+      "edge_nocheese": "200um"
+    },
+    "no_cheese": {
+      "datatype": "99",
+      "buffer": "25um",
+      "cap_style": "2",
+      "join_style": "2",
+      "view_in_file": {
+        "main": {
+          "1": false
+        }
+      }
+    },
+    "bounding_box_scale_x": "1.2",
+    "bounding_box_scale_y": "1.2"
+  },
+  "junction_rows": 1,
+  "junction_supplied": false,
+  "gds_sha256": "d6aa3f938dcd389c2353518f2d12b142cbe69396eaa7e8378a45c10ecb89c04f",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.12.10",
+  "source_revision": "15587c1284a95354d427540864de4206daa2f064",
+  "dependencies": [
+    "Pint==0.26.1",
+    "PyYAML==6.0.3",
+    "Pygments==2.21.0",
+    "addict==2.4.0",
+    "certifi==2026.7.22",
+    "colorama==0.4.6",
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "dill==0.4.1",
+    "flexcache==0.3",
+    "flexparser==0.4",
+    "fonttools==4.66.1",
+    "gdstk==1.0.1",
+    "geopandas==1.2.0",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.11.2",
+    "mpmath==1.3.0",
+    "multiprocess==0.70.19",
+    "numpy==2.5.3",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "pathos==0.3.5",
+    "pillow==12.3.0",
+    "platformdirs==4.12.3",
+    "pox==0.3.7",
+    "ppft==1.7.8",
+    "pyogrio==0.13.0",
+    "pyparsing==3.3.3",
+    "pyproj==3.8.0",
+    "python-dateutil==2.9.0.post0",
+    "quantum-metal==0.9.0",
+    "qutip==5.3.1",
+    "scipy==1.18.1",
+    "scqubits==4.3.1",
+    "shapely==2.1.2",
+    "six==1.17.0",
+    "sympy==1.14.0",
+    "tqdm==4.70.1",
+    "typing_extensions==4.16.0",
+    "tzdata==2026.5"
+  ]
+}

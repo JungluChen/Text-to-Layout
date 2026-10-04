@@ -1,0 +1,9 @@
+{
+  "pad_width_um": 200.0,
+  "pad_height_um": 70.0,
+  "pad_gap_um": 22.0,
+  "pocket_width_um": 500.0,
+  "pocket_height_um": 550.0,
+  "chip_width_um": 1800.0,
+  "chip_height_um": 2200.0
+}

@@ -1,0 +1,30 @@
+"""Exploratory unit/convergence audit, not accepted product evidence."""
+import hashlib
+import importlib.metadata
+import json
+import platform
+import sys
+from pathlib import Path
+import numpy as np
+from scipy.constants import h, hbar, e
+from pyEPR.calcs.back_box_numeric import epr_numerical_diagonalization
+
+out=Path(sys.argv[1]);out.mkdir(exist_ok=False)
+EJ=20e9;EC=.3e9
+freq=np.sqrt(8*EJ*EC)
+lj=(hbar/(2*e))**2/(h*EJ)
+phi=(2*EC/EJ)**.25
+rows=[]
+for n in [12,18,24,30]:
+ f,chi,H=epr_numerical_diagonalization([freq/1e9],[lj],[[phi]],fock_trunc=n,use_full_cos=True,return_H=True)
+ en=np.sort(np.real(H.eigenenergies()))
+ rows.append(dict(fock_trunc=n,raw_frequency=float(np.real(f[0])),raw_chi=float(np.real(chi[0,0])),hamiltonian_f01_Hz=float(en[1]-en[0]),hamiltonian_alpha_Hz=float(en[2]-2*en[1]+en[0])))
+refs=[]
+for cut in [15,25,35]:
+ n=np.arange(-cut,cut+1)
+ mat=np.diag(4*EC*n*n)+np.diag(np.full(len(n)-1,-EJ/2),1)+np.diag(np.full(len(n)-1,-EJ/2),-1)
+ en=np.linalg.eigvalsh(mat)
+ refs.append(dict(charge_cutoff=cut,f01_Hz=float(en[1]-en[0]),alpha_Hz=float(en[2]-2*en[1]+en[0])))
+report={'scope':'exploratory one-mode zero-offset-charge transmon; no EM extraction or product acceptance', 'EJ_over_h_Hz':EJ,'EC_over_h_Hz':EC,'linear_frequency_GHz':freq/1e9,'Lj_H':lj,'reduced_phi_zpf':phi,'ng':0,'use_full_cos':True,'fock_runs':rows,'charge_basis_reference':refs,'acceptance':'NOT_EVALUATED: audit units and boundary conditions before defining an accepted benchmark','source_revision':'97be9f15212e6ddd427e7ee310dacfa778240fe0','platform':platform.platform(),'python':platform.python_version(),'dependencies':sorted(f'{d.metadata["Name"]}=={d.version}' for d in importlib.metadata.distributions()),'probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(out/'report.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps(report,indent=2))

@@ -1,0 +1,113 @@
+INFO 11:06AM [make_dispersive]: Starting diagonalization (12×12 matrix)
+INFO 11:06AM [make_dispersive]: Diagonalization complete
+INFO 11:06AM [make_dispersive]: Starting diagonalization (18×18 matrix)
+INFO 11:06AM [make_dispersive]: Diagonalization complete
+INFO 11:06AM [make_dispersive]: Starting diagonalization (24×24 matrix)
+INFO 11:06AM [make_dispersive]: Diagonalization complete
+INFO 11:06AM [make_dispersive]: Starting diagonalization (30×30 matrix)
+INFO 11:06AM [make_dispersive]: Diagonalization complete
+{
+  "scope": "exploratory one-mode zero-offset-charge transmon; no EM extraction or product acceptance",
+  "EJ_over_h_Hz": 20000000000.0,
+  "EC_over_h_Hz": 300000000.0,
+  "linear_frequency_GHz": 6.928203230275509,
+  "Lj_H": 8.173075640339061e-09,
+  "reduced_phi_zpf": 0.4161791450287817,
+  "ng": 0,
+  "use_full_cos": true,
+  "fock_runs": [
+    {
+      "fock_trunc": 12,
+      "raw_frequency": 6613449027.551664,
+      "raw_chi": 336.8514448041286,
+      "hamiltonian_f01_Hz": 6613449027.551664,
+      "hamiltonian_alpha_Hz": -336851444.8041276
+    },
+    {
+      "fock_trunc": 18,
+      "raw_frequency": 6613448459.375093,
+      "raw_chi": 336.8774611228733,
+      "hamiltonian_f01_Hz": 6613448459.375093,
+      "hamiltonian_alpha_Hz": -336877461.1228732
+    },
+    {
+      "fock_trunc": 24,
+      "raw_frequency": 6613448457.684344,
+      "raw_chi": 336.8776040877266,
+      "hamiltonian_f01_Hz": 6613448457.684344,
+      "hamiltonian_alpha_Hz": -336877604.0877255
+    },
+    {
+      "fock_trunc": 30,
+      "raw_frequency": 6613448457.664044,
+      "raw_chi": 336.8776071452026,
+      "hamiltonian_f01_Hz": 6613448457.664044,
+      "hamiltonian_alpha_Hz": -336877607.14520246
+    }
+  ],
+  "charge_basis_reference": [
+    {
+      "charge_cutoff": 15,
+      "f01_Hz": 6613448853.504734,
+      "alpha_Hz": -336893105.57587624
+    },
+    {
+      "charge_cutoff": 25,
+      "f01_Hz": 6613448853.504744,
+      "alpha_Hz": -336893105.5758419
+    },
+    {
+      "charge_cutoff": 35,
+      "f01_Hz": 6613448853.504728,
+      "alpha_Hz": -336893105.5761452
+    }
+  ],
+  "acceptance": "NOT_EVALUATED: audit units and boundary conditions before defining an accepted benchmark",
+  "source_revision": "97be9f15212e6ddd427e7ee310dacfa778240fe0",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "dependencies": [
+    "Pint==0.26.1",
+    "Pygments==2.21.0",
+    "addict==2.4.0",
+    "asttokens==3.0.2",
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "executing==2.2.1",
+    "flexcache==0.3",
+    "flexparser==0.4",
+    "fonttools==4.66.1",
+    "ipython==9.17.1",
+    "ipython_pygments_lexers==1.1.1",
+    "jedi==0.20.0",
+    "kiwisolver==1.5.1",
+    "matplotlib-inline==0.2.2",
+    "matplotlib==3.11.2",
+    "mpmath==1.3.0",
+    "numpy==2.5.3",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "parso==0.8.7",
+    "pexpect==4.9.0",
+    "pillow==12.3.0",
+    "platformdirs==4.12.3",
+    "prompt_toolkit==3.0.53",
+    "psutil==7.2.2",
+    "ptyprocess==0.7.0",
+    "pure_eval==0.2.4",
+    "pyEPR-quantum==1.0.2",
+    "pyparsing==3.3.3",
+    "python-dateutil==2.9.0.post0",
+    "qutip==5.3.1",
+    "scipy==1.18.1",
+    "seaborn==0.13.2",
+    "six==1.17.0",
+    "stack-data==0.6.3",
+    "sympy==1.14.0",
+    "traitlets==5.16.1",
+    "typing_extensions==4.16.0",
+    "wcwidth==0.9.1",
+    "xarray==2026.9.0"
+  ],
+  "probe_sha256": "38af10588a76a3dbb0bba4d16f48c31760815bc15672f05238ceb023414aec99"
+}

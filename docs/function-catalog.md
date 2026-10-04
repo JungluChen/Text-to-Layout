@@ -275,7 +275,7 @@ fields specify pads, gap, pocket and chip; all are positive 0.002 um multiples
 with strict containment and bounds. External quantum-metal 0.9.0/gdstk 1.0.1 is
 required; the core independently reads GDS with KLayout. Writes retained request,
 GDS, exporter metadata, logs and manifest. No installation, overwrite or physical
-evidence promotion. See [full input contract and recovery](integrations/quantum-metal.md#typed-product-operation-platform-verification-pending).
+evidence promotion. See [full input contract and recovery](integrations/quantum-metal.md#typed-product-operation).
 AI prompt: “Generate both checked-in mask examples through quantum-metal-mask,
 using an explicit runtime and new directories. Compare retained masks against
 independent references; report missing junction and unperformed EM validation.”

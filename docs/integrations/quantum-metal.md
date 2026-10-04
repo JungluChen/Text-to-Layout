@@ -1,4 +1,4 @@
-# Quantum Metal / Qiskit Metal — entry 002 in progress
+# Quantum Metal / Qiskit Metal — entry 002 scoped mask acceptance
 
 Document class: MANUAL_DOCUMENTATION.
 
@@ -61,10 +61,10 @@ pad-only export. No upstream library was patched.
 
 ## Remaining acceptance
 
-Entry 002 stays unchecked pending platform acceptance. The typed adapter and
+Entry 002 is accepted only for the typed positive-mask scope below. The typed adapter and
 public command described below now implement the bounded positive-mask scope,
-validate inputs and retain provenance/failures. Repeat real export/readback on
-macOS, Windows and Linux before acceptance. Broader transmon delivery requires an explicit real junction source
+validate inputs and retain provenance/failures. Both input cases passed twice on macOS, Windows and Linux in run 37172852770;
+all twelve downloaded GDS packets were independently re-read. Broader transmon delivery requires an explicit real junction source
 and connectivity/fabrication validation; electrical validation requires real
 solver execution and appropriate references. GUI screenshots remain pending a
 real installed application; this headless gate supplies no GUI evidence.
@@ -74,7 +74,7 @@ explicit mask fixture. Separate exporter return code, nonempty geometry, mask
 comparison, fabrication-junction completeness and electrical validation. Keep
 entry 002 pending until its typed adapter and platform evidence exist.”
 
-## Typed product operation (platform verification pending)
+## Typed product operation
 
 `TransmonMaskRequest` and `generate_transmon_mask` in
 `textlayout.external.quantum_metal_mask` expose the bounded positive-mask operation.
@@ -116,6 +116,7 @@ are refused. Keep failed packets and retry into a fresh directory after correcti
 the runtime/request. No checkpoint/resume is offered. No MCP method is added.
 
 The `quantum-metal-integration` manual workflow runs both example inputs twice
-on each platform and retains all packets. Acceptance remains pending until these
-actual outputs are reviewed. A complete fabricated transmon remains outside this
+on each platform and retains all packets. Run [37172852770](https://github.com/JungluChen/Text-to-Layout/actions/runs/37172852770)
+passed at dde9fcf56c84972fab804678272ed0f1a886062a and all twelve original
+packets were independently verified after download. A complete fabricated transmon remains outside this
 mask operation because a real junction and its process specification are absent.
