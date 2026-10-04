@@ -1,0 +1,189 @@
+"""Run two fixed pyEPR ideal-circuit benchmarks; not an EM/product adapter.
+
+Requires an isolated pyEPR-quantum==1.0.2 environment. Numerical thresholds
+were specified before execution; the reference is independently computed, not
+published measurement data. No canonical scientific status is promoted.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import importlib.metadata
+import inspect
+import importlib
+from typing import Any
+import json
+import math
+import platform
+import sys
+from pathlib import Path
+
+QUANTITIES = ("f01_hz", "alpha_hz")
+
+
+def finite_real(value: Any) -> float:
+    """Reject nonfinite or complex output beyond 32 binary64 epsilon of scale."""
+    number = complex(value)
+    if (
+        not math.isfinite(number.real)
+        or not math.isfinite(number.imag)
+        or abs(number.imag) > 32 * sys.float_info.epsilon * max(1.0, abs(number.real))
+    ):
+        raise ValueError("Expected a finite real solver quantity")
+    return float(number.real)
+
+
+def derived_inputs(case: dict[str, Any]) -> tuple[float, float, float]:
+    constants = importlib.import_module("scipy.constants")
+    e, h, hbar = constants.e, constants.h, constants.hbar
+
+    # JSON integers can exceed int64 before sqrt; convert before multiplication.
+    ej = float(case["ej_over_h_hz"])
+    ec = float(case["ec_over_h_hz"])
+    if not all(math.isfinite(v) and v > 0 for v in (ej, ec)):
+        raise ValueError("EJ/h and EC/h must be finite positive Hz")
+    return math.sqrt(8 * ej * ec) / 1e9, (hbar / (2 * e)) ** 2 / (h * ej), (2 * ec / ej) ** 0.25
+
+
+def assess(case: dict[str, Any], plan: dict[str, Any]) -> tuple[dict[str, Any], bool]:
+    fock, reference = case["fock"], case["reference"]
+    if [row["cutoff"] for row in fock] != plan["fock_truncations"]:
+        raise ValueError("Missing or reordered Fock refinement")
+    expected = [(ng, n) for ng in plan["charge_offsets"] for n in plan["charge_cutoffs"]]
+    if [(row["ng"], row["cutoff"]) for row in reference] != expected:
+        raise ValueError("Missing or reordered charge reference")
+    for row in fock:
+        for key in (*QUANTITIES, "hamiltonian_f01_hz", "hamiltonian_alpha_hz"):
+            finite_real(row[key])
+    for row in reference:
+        for key in QUANTITIES:
+            finite_real(row[key])
+    metrics = {}
+    for quantity in QUANTITIES:
+        final = [r[quantity] for r in reference if r["cutoff"] == plan["charge_cutoffs"][-1]]
+        prior = [r[quantity] for r in reference if r["cutoff"] == plan["charge_cutoffs"][-2]]
+        metrics[quantity] = {
+            "fock_last_delta_hz": abs(fock[-1][quantity] - fock[-2][quantity]),
+            "reference_last_delta_hz": max(abs(a - b) for a, b in zip(final, prior)),
+            "charge_spread_hz": max(final) - min(final),
+            "max_difference_hz": max(abs(v - fock[-1][quantity]) for v in final),
+            "raw_hamiltonian_difference_hz": max(
+                abs(r[quantity] - r["hamiltonian_" + quantity]) for r in fock
+            ),
+        }
+    passed = all(
+        m["fock_last_delta_hz"] <= plan["max_last_refinement_hz"]
+        and m["reference_last_delta_hz"] <= plan["max_last_refinement_hz"]
+        and m["charge_spread_hz"] <= plan["max_charge_offset_spread_hz"]
+        and m["max_difference_hz"] <= plan["max_reference_difference_hz"]
+        # Unit/sign/assignment consistency, using the predeclared 1 Hz resolution.
+        and m["raw_hamiltonian_difference_hz"] <= plan["max_last_refinement_hz"]
+        for m in metrics.values()
+    )
+    return metrics, passed
+
+
+def execute(plan: dict[str, Any]) -> dict[str, Any]:
+    np = importlib.import_module("numpy")
+    epr_numerical_diagonalization = importlib.import_module(
+        "pyEPR.calcs.back_box_numeric"
+    ).epr_numerical_diagonalization
+
+    version = importlib.metadata.version("pyEPR-quantum")
+    if version != "1.0.2":
+        raise ValueError(f"Expected pyEPR-quantum 1.0.2, found {version}")
+    source = Path(inspect.getfile(epr_numerical_diagonalization))
+    cases = []
+    for inputs in plan["cases"]:
+        freq_ghz, lj_h, phi = derived_inputs(inputs)
+        fock, reference = [], []
+        for cutoff in plan["fock_truncations"]:
+            freq, chi, ham = epr_numerical_diagonalization(
+                [freq_ghz],
+                [lj_h],
+                [[phi]],
+                fock_trunc=cutoff,
+                use_full_cos=True,
+                return_H=True,
+            )
+            matrix = ham.full()
+            scale = max(1.0, float(np.max(np.abs(matrix))))
+            hermitian_residual = float(np.max(np.abs(matrix - matrix.conj().T)))
+            if (
+                not math.isfinite(hermitian_residual)
+                or hermitian_residual > 32 * sys.float_info.epsilon * scale
+            ):
+                raise ValueError("Hamiltonian is not Hermitian within binary64 roundoff")
+            raw_eig = ham.eigenenergies()
+            eig = sorted(finite_real(v) for v in raw_eig)
+            raw_f, raw_chi = finite_real(freq[0]), finite_real(chi[0, 0])
+            fock.append(
+                {
+                    "cutoff": cutoff,
+                    "raw_frequency_hz": raw_f,
+                    "raw_chi_mhz": raw_chi,
+                    "raw_frequency_imaginary_hz": float(complex(freq[0]).imag),
+                    "raw_chi_imaginary_mhz": float(complex(chi[0, 0]).imag),
+                    "eigenvalue_max_imaginary_hz": float(np.max(np.abs(np.imag(raw_eig)))),
+                    "hamiltonian_max_antihermitian_hz": hermitian_residual,
+                    "hamiltonian_roundoff_bound_hz": 32 * sys.float_info.epsilon * scale,
+                    "f01_hz": raw_f,
+                    "alpha_hz": -raw_chi * 1e6,
+                    "hamiltonian_eigenvalues_hz": eig,
+                    "hamiltonian_f01_hz": eig[1] - eig[0],
+                    "hamiltonian_alpha_hz": eig[2] - 2 * eig[1] + eig[0],
+                }
+            )
+        ej, ec = float(inputs["ej_over_h_hz"]), float(inputs["ec_over_h_hz"])
+        for ng in plan["charge_offsets"]:
+            for cutoff in plan["charge_cutoffs"]:
+                n = np.arange(-cutoff, cutoff + 1)
+                ham = np.diag(4 * ec * (n - ng) ** 2)
+                hop = np.full(len(n) - 1, -ej / 2)
+                ham += np.diag(hop, 1) + np.diag(hop, -1)
+                eig = np.linalg.eigvalsh(ham)
+                reference.append(
+                    {
+                        "ng": ng,
+                        "cutoff": cutoff,
+                        "f01_hz": finite_real(eig[1] - eig[0]),
+                        "alpha_hz": finite_real(eig[2] - 2 * eig[1] + eig[0]),
+                    }
+                )
+        case = {
+            "inputs": inputs,
+            "linear_frequency_ghz": freq_ghz,
+            "Lj_H": lj_h,
+            "reduced_phi_zpf": phi,
+            "fock": fock,
+            "reference": reference,
+        }
+        case["metrics"], case["passed"] = assess(case, plan)
+        cases.append(case)
+    return {
+        "cases": cases,
+        "passed": all(c["passed"] for c in cases),
+        "upstream_source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        "upstream_revision": "97be9f15212e6ddd427e7ee310dacfa778240fe0",
+    }
+
+
+def main() -> int:
+    request_path, out = Path(sys.argv[1]), Path(sys.argv[2])
+    plan = json.loads(request_path.read_text(encoding="utf-8"))
+    report = execute(plan)
+    report.update(
+        request_sha256=hashlib.sha256(request_path.read_bytes()).hexdigest(),
+        version=importlib.metadata.version("pyEPR-quantum"),
+        platform=platform.platform(),
+        python=platform.python_version(),
+        dependencies=sorted(
+            f"{d.metadata['Name']}=={d.version}" for d in importlib.metadata.distributions()
+        ),
+    )
+    out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

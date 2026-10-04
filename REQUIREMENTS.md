@@ -190,3 +190,8 @@ Entry 003 starts with a pinned, repeatable two-case ideal-circuit gate. Preserve
 its predeclared convergence/reference limits, raw Hz/MHz sign conventions and
 charge-offset assumptions. Passing this gate does not deliver EM extraction,
 a typed product adapter, measured agreement or platform acceptance.
+
+INT-10 product adapter: typed Hz energy inputs, bounded domain, fixed per-run
+reference/refinement gates, process-isolated optional runtime and canonical
+executed/rejected evidence. Neither successful process exit nor circuit
+agreement establishes EM or measurement validation.

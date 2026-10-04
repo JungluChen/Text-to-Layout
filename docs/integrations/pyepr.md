@@ -103,3 +103,47 @@ with that interpreter into fresh directories. No new CLI/MCP command is exposed.
 AI prompt: “Audit the pyEPR return units and circuit boundary assumptions against
 its raw Hamiltonian and the independent charge reference. Explain the retained
 difference without relabelling it as validation or relaxing acceptance gates.”
+
+## Typed product operation
+
+`CircuitRequest` and `run_circuit` in `textlayout.external.pyepr_circuit`
+accept EJ/h and EC/h in **Hz**. The bounded domain is EC/h=100–200 MHz and
+EJ/EC=200–250. Inputs outside it, nonfinite values and unknown fields fail.
+Each run must independently pass the fixed convergence/reference gates; the
+input domain itself does not guarantee acceptance. Only the two documented
+cases currently have numerical execution evidence. No tolerance is editable.
+
+```sh
+uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-200.json --python /private/tmp/textlayout-pyepr-102/bin/python --out out/pyepr-200-first
+uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-200.json --python /private/tmp/textlayout-pyepr-102/bin/python --out out/pyepr-200-repeat
+uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-250.json --python /private/tmp/textlayout-pyepr-102/bin/python --out out/pyepr-250-first
+uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-250.json --python /private/tmp/textlayout-pyepr-102/bin/python --out out/pyepr-250-repeat
+```
+
+Set `--python` to your explicitly installed pyEPR-quantum 1.0.2 interpreter
+(Windows: `ENV/Scripts/python.exe`). The optional runtime is not added to the
+base install. Side effects: one bounded local process, fresh output directory,
+no HFSS launch. Keep request.json, solver.json, stdout.txt, stderr.txt and
+manifest.json together; the manifest hashes artifacts, inputs and worker.
+The solver output retains upstream source hash, version, platform/dependencies,
+raw frequency/chi and roundoff residues, eigenvalues and all refinements.
+
+A completed process is distinct from `numerical_checks_passed`. Accepted
+quantities use canonical `SIMULATION_EXECUTED` with explicit Hz units, never
+measurement correlation or a published-reference claim. Rejected numerical
+checks use `CONVERGENCE_FAILED` with raw diagnostics retained but no accepted
+quantities. Invalid output uses `SIMULATION_INVALID`; invocation errors/timeouts
+use `FAILED`. The API timeout defaults to 120 seconds. Timeouts retain partial
+logs; there is no checkpoint or resume feature. Retry the same inputs into a
+fresh directory; editing parameters is a different run.
+
+Local two-case repeated execution passes. Dedicated platform workflow:
+`.github/workflows/pyepr-integration.yml`. Completion requires its actual
+Windows/macOS/Linux output and independent post-download verification.
+No callable MCP tool, GUI, screenshot, live field-participation extraction or
+multi-mode functionality is delivered here.
+
+AI prompt: “Run the typed pyepr-circuit example with the explicit external
+interpreter, repeat unchanged into a fresh directory, and inspect the retained
+raw units, charge-offset assumptions, reference errors and convergence. Keep
+specified circuit energies distinct from geometry-derived EM values.”

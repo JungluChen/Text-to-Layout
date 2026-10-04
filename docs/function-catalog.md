@@ -291,3 +291,12 @@ chi in MHz, signed alpha in Hz, convergence and independent charge-basis
 comparisons. This launches local numerical computations and writes a new
 directory. No product CLI/MCP schema is exposed. See the
 [walkthrough](integrations/pyepr.md#reproducible-ideal-circuit-benchmark).
+
+### `pyepr-circuit` / `CircuitRequest`, `run_circuit`
+
+Typed inputs: `ej_over_h_hz`, `ec_over_h_hz`, no defaults; EC/h 100–200 MHz,
+EJ/EC 200–250. CLI requires `--python` (pyEPR-quantum 1.0.2) and `--out`
+(fresh directory). Returns execution status separately from numerical checks,
+metrics and canonical Hz quantities. Runs a bounded local process, preserves
+logs/hashes; no EM, measurements, checkpoint/resume or MCP mapping.
+[Commands, failures and AI prompt](integrations/pyepr.md#typed-product-operation).

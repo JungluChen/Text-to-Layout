@@ -401,3 +401,7 @@ Use the [fixed ideal-circuit walkthrough](../integrations/pyepr.md#reproducible-
 for isolated setup, two unchanged executions, units, comparison limits and
 failure recovery. Results are computed references, not measured devices. The
 product adapter, platform verification and GUI screenshot remain pending.
+
+The [typed pyEPR walkthrough](../integrations/pyepr.md#typed-product-operation)
+now provides both circuit cases, explicit interpreter paths, status inspection
+and retry recovery. No graphical application or screenshot is claimed.

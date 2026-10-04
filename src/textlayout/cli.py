@@ -91,6 +91,18 @@ def _cmd_quantum_metal_mask(args: argparse.Namespace) -> int:
     return 0 if result.geometry_verified else 1
 
 
+def _cmd_pyepr_circuit(args: argparse.Namespace) -> int:
+    from textlayout.external.pyepr_circuit import CircuitRequest, run_circuit
+    try:
+        request = CircuitRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
+        result = run_circuit(request, python=Path(args.python), output_dir=Path(args.out))
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
+        return 1
+    print(result.model_dump_json(indent=2))
+    return 0 if result.numerical_checks_passed else 1
+
+
 def _cmd_prompt(args: argparse.Namespace) -> int:
     workflow = build_from_text_workflow()
     result = workflow.run(
@@ -1504,6 +1516,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_qm.add_argument("--python", required=True, help="Pinned external Python executable.")
     p_qm.add_argument("--out", required=True, help="New output directory.")
     p_qm.set_defaults(func=_cmd_quantum_metal_mask)
+
+    p_epr = sub.add_parser("pyepr-circuit", help="Run an ideal one-mode circuit with convergence/reference checks; no EM extraction.")
+    p_epr.add_argument("request", help="JSON: ej_over_h_hz, ec_over_h_hz.")
+    p_epr.add_argument("--python", required=True, help="External pyEPR-quantum 1.0.2 interpreter.")
+    p_epr.add_argument("--out", required=True, help="Fresh evidence directory.")
+    p_epr.set_defaults(func=_cmd_pyepr_circuit)
 
     return parser
 

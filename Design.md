@@ -235,3 +235,11 @@ It preserves retained x/y polygons at z=0 because the snapshot has no physical
 layer elevations or thickness. Orbit/zoom/reset/top-view buttons and the shared
 object table offer pointer and keyboard access. No auto-rotation or damping is
 used. This display does not change evidence or replace the future native shell.
+
+### pyEPR circuit evidence boundary
+
+The headless typed `pyepr-circuit` operation uses canonical executed/rejected
+statuses with separate numerical checks. Future clients must label specified
+ideal circuit parameters and computed charge-basis references explicitly;
+never present them as geometry-extracted EM values or measured devices. No
+UI screen or screenshot is delivered by this adapter.

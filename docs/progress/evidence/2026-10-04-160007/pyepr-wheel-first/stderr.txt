@@ -1,0 +1,9 @@
+Matplotlib is building the font cache; this may take a moment.
+INFO 04:01PM [make_dispersive]: Starting diagonalization (16×16 matrix)
+INFO 04:01PM [make_dispersive]: Diagonalization complete
+INFO 04:01PM [make_dispersive]: Starting diagonalization (24×24 matrix)
+INFO 04:01PM [make_dispersive]: Diagonalization complete
+INFO 04:01PM [make_dispersive]: Starting diagonalization (32×32 matrix)
+INFO 04:01PM [make_dispersive]: Diagonalization complete
+INFO 04:01PM [make_dispersive]: Starting diagonalization (40×40 matrix)
+INFO 04:01PM [make_dispersive]: Diagonalization complete

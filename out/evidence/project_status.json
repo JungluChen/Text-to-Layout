@@ -42,7 +42,8 @@
       "compare"
     ],
     "kqcircuits-cpw": [],
-    "quantum-metal-mask": []
+    "quantum-metal-mask": [],
+    "pyepr-circuit": []
   },
   "showcase": {
     "total_examples": 6,

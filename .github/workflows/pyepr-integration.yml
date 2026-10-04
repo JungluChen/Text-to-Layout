@@ -1,0 +1,42 @@
+name: pyepr-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pyepr-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  circuit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare shared core and external runtime
+        run: |
+          uv sync --frozen --dev
+          uv venv .pyepr-env --python 3.12
+          uv pip install --python .pyepr-env pyEPR-quantum==1.0.2
+      - name: Execute two ideal circuits twice through the product command
+        shell: bash
+        env:
+          EPR_PYTHON: ${{ runner.os == 'Windows' && '.pyepr-env/Scripts/python.exe' || '.pyepr-env/bin/python' }}
+        run: |
+          uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-200.json --python "$EPR_PYTHON" --out out/pyepr-base-first
+          uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-200.json --python "$EPR_PYTHON" --out out/pyepr-base-repeat
+          uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-250.json --python "$EPR_PYTHON" --out out/pyepr-small-first
+          uv run --no-sync textlayout pyepr-circuit examples/integrations/pyepr-250.json --python "$EPR_PYTHON" --out out/pyepr-small-repeat
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pyepr-circuit-${{ matrix.os }}
+          path: out/pyepr-*
+          if-no-files-found: error
+          retention-days: 30

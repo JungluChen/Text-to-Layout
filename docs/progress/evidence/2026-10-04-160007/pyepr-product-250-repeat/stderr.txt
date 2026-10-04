@@ -1,0 +1,11 @@
+/Users/ludko/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/matplotlib-f3um7fcn because there was an issue with the default path (/Users/ludko/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+INFO 03:58PM [make_dispersive]: Starting diagonalization (16×16 matrix)
+INFO 03:58PM [make_dispersive]: Diagonalization complete
+INFO 03:58PM [make_dispersive]: Starting diagonalization (24×24 matrix)
+INFO 03:58PM [make_dispersive]: Diagonalization complete
+INFO 03:58PM [make_dispersive]: Starting diagonalization (32×32 matrix)
+INFO 03:58PM [make_dispersive]: Diagonalization complete
+INFO 03:58PM [make_dispersive]: Starting diagonalization (40×40 matrix)
+INFO 03:58PM [make_dispersive]: Diagonalization complete

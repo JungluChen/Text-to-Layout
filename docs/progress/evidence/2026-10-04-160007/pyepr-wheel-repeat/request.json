@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "ej_over_h_hz": 30000000000.0,
+      "ec_over_h_hz": 150000000.0
+    }
+  ],
+  "fock_truncations": [
+    16,
+    24,
+    32,
+    40
+  ],
+  "charge_cutoffs": [
+    25,
+    35,
+    45
+  ],
+  "charge_offsets": [
+    0,
+    0.25,
+    0.5
+  ],
+  "max_last_refinement_hz": 1.0,
+  "max_charge_offset_spread_hz": 1.0,
+  "max_reference_difference_hz": 2.0,
+  "potential": "full cosine"
+}
