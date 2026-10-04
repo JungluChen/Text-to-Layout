@@ -1,0 +1,12 @@
+Using Python 3.12.14 environment at: /private/tmp/textlayout-circuitq-runtime
+Resolved 6 packages in 662ms
+   Building circuitq @ file:///private/tmp/textlayout-circuitq-audit
+      Built circuitq @ file:///private/tmp/textlayout-circuitq-audit
+Prepared 1 package in 112ms
+Installed 6 packages in 107ms
+ + circuitq==1.2.1 (from file:///private/tmp/textlayout-circuitq-audit)
+ + mpmath==1.3.0
+ + networkx==3.7
+ + numpy==2.5.3
+ + scipy==1.18.1
+ + sympy==1.14.0

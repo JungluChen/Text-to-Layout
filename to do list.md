@@ -28,7 +28,12 @@ no HFSS/EM or measurement claim. Exact-SHA CI 37187636083 and test 37187636081
 passed. See docs/progress/2026-10-04-160007.md.
 Current item: **004 CircuitQ**. Audit upstream identity/license/version,
 existing adapters and numerical assumptions before selecting a bounded case.
-Do not mark it complete from import/discovery alone.
+Do not mark it complete from import/discovery alone. Pinned 1.2.1 source/MIT
+audit and repeated exploratory LC execution are retained in
+`docs/integrations/circuitq.md`; typed adapter and numerical/platform acceptance
+remain pending. Also track Windows lifecycle CI 37208006683: late successful
+finalization exceeded the test deadline; attempt 2 passed unchanged. Investigate
+variable monitor/telemetry timing before production edits.
 
 
 ## Current human-directed release priority — v0.3.1

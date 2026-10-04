@@ -1,0 +1,99 @@
+{
+  "plan": {
+    "purpose": "exploratory unit/grid audit; not acceptance",
+    "capacitance_f": 1e-13,
+    "inductance_h": 1e-07,
+    "dimensions": [
+      101,
+      201,
+      401
+    ],
+    "natural_units": false,
+    "ground_nodes": [
+      0
+    ]
+  },
+  "results": [
+    {
+      "dimension": 101,
+      "resolved_dimension": 101,
+      "parameters": "[C_{01}, L_{010}]",
+      "defaults": {
+        "C": 1e-13,
+        "L": 1e-07,
+        "E_C": 1.2834849832677847e-25,
+        "E": 6.417424916338924e-24
+      },
+      "grid_length": 4.1356676943898556e-15,
+      "hbar_si": 1.054571817e-34,
+      "energy_j": [
+        5.251391639626256e-25,
+        1.571088236155561e-24,
+        2.6083234290245994e-24,
+        3.636731585972741e-24,
+        4.656194864347964e-24
+      ],
+      "f01_hz": 1578536068.1593983,
+      "reference_hz": 1591549430.9189532,
+      "relative_error": -0.008176536968783312
+    },
+    {
+      "dimension": 201,
+      "resolved_dimension": 201,
+      "parameters": "[C_{01}, L_{010}]",
+      "defaults": {
+        "C": 1e-13,
+        "L": 1e-07,
+        "E_C": 1.2834849832677847e-25,
+        "E": 6.417424916338924e-24
+      },
+      "grid_length": 4.1356676943898556e-15,
+      "hbar_si": 1.054571817e-34,
+      "energy_j": [
+        5.267508729457593e-25,
+        1.5791803639245963e-24,
+        2.6294620441596598e-24,
+        3.6775892782841415e-24,
+        4.723555441178145e-24
+      ],
+      "f01_hz": 1588316252.5510495,
+      "reference_hz": 1591549430.9189532,
+      "relative_error": -0.0020314658816703466
+    },
+    {
+      "dimension": 401,
+      "resolved_dimension": 401,
+      "parameters": "[C_{01}, L_{010}]",
+      "defaults": {
+        "C": 1e-13,
+        "L": 1e-07,
+        "E_C": 1.2834849832677847e-25,
+        "E": 6.417424916338924e-24
+      },
+      "grid_length": 4.1356676943898556e-15,
+      "hbar_si": 1.054571817e-34,
+      "energy_j": [
+        5.27152251586341e-25,
+        1.5811893052245354e-24,
+        2.6346912558511722e-24,
+        3.6876576956451416e-24,
+        4.740088296528433e-24
+      ],
+      "f01_hz": 1590742370.3297112,
+      "reference_hz": 1591549430.9189532,
+      "relative_error": -0.0005070911236328918
+    }
+  ],
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "source_revision": "b45978891ac2c25ad7a44973c3cbe836c770e0aa",
+  "probe_sha256": "16fab92a8702898ec3abbafa51a508328eeef4e0619c371b3f4fbaf19c3b9b5c",
+  "dependencies": [
+    "circuitq==1.2.1",
+    "mpmath==1.3.0",
+    "networkx==3.7",
+    "numpy==2.5.3",
+    "scipy==1.18.1",
+    "sympy==1.14.0"
+  ]
+}

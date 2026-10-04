@@ -1,0 +1,18 @@
+import hashlib,importlib.metadata,json,platform,sys
+from pathlib import Path
+import numpy as np
+import networkx as nx
+import circuitq as cq
+plan={'purpose':'exploratory unit/grid audit; not acceptance','capacitance_f':1e-13,'inductance_h':1e-7,'dimensions':[101,201,401],'natural_units':False,'ground_nodes':[0]}
+rows=[]
+for dim in plan['dimensions']:
+ g=nx.MultiGraph();g.add_edge(0,1,element='C');g.add_edge(0,1,element='L')
+ c=cq.CircuitQ(g,ground_nodes=[0],natural_units=False)
+ c.get_numerical_hamiltonian(dim)
+ eig,_=c.get_eigensystem(n_eig=5)
+ energies=np.sort(np.real(eig))
+ f=float((energies[1]-energies[0])/6.62607015e-34)
+ reference=1/(2*np.pi*np.sqrt(plan['capacitance_f']*plan['inductance_h']))
+ rows.append({'dimension':dim,'resolved_dimension':c.n_dim,'parameters':str(c.h_parameters),'defaults':c.c_v,'grid_length':float(c.grid_length),'hbar_si':c.hbar_si,'energy_j':energies.tolist(),'f01_hz':f,'reference_hz':reference,'relative_error':float((f-reference)/reference)})
+report={'plan':plan,'results':rows,'platform':platform.platform(),'python':platform.python_version(),'source_revision':'b45978891ac2c25ad7a44973c3cbe836c770e0aa','probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'dependencies':sorted(f'{d.metadata["Name"]}=={d.version}' for d in importlib.metadata.distributions())}
+Path(sys.argv[1]).write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps(report,indent=2))

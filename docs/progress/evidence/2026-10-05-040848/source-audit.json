@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/PhilippAumann/circuitq",
+  "revision": "b45978891ac2c25ad7a44973c3cbe836c770e0aa",
+  "declared_version": "1.2.1",
+  "license": "MIT",
+  "source_hashes": {
+    "LICENSE": "95c4b56a9d76e594a70a19456d967762a38a9e940ce28a205531c454b67a3cfc",
+    "setup.py": "f77c10dda25e16c98541804dc0cd83a923dd3d9dea6bb03a24608c95af604f09",
+    "circuitq/core.py": "7410a903c7a7325c4a02eb99d1ed2dd55e612128fdbd4c222656af0793c63c03",
+    "docs/lc_circuit.ipynb": "7c619c4251b8357059ad5657a5206f32e4c0816903ab8a83bdb95a7a84716e7f"
+  },
+  "dependencies_declared": [
+    "numpy",
+    "networkx",
+    "sympy",
+    "scipy"
+  ],
+  "integration_state": "exploratory execution only; typed adapter and platform acceptance pending"
+}

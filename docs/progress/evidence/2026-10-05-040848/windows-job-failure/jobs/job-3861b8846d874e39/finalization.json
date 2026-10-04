@@ -1,0 +1,22 @@
+{
+  "finalized_at": "2026-10-04T14:08:32+00:00",
+  "job_id": "job-3861b8846d874e39",
+  "output_inventory": {
+    "solver.out": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df"
+  },
+  "output_inventory_sha256": "1856d70947e71935cd7892cae564ff1e977a425822562678ec59934c6a5c8c2b",
+  "peak_rss_kb": 0,
+  "resource_evidence_sha256": "e16345553e4a38545c15dbbe58507d05334c62aa82a5e760cdf09767ea8b998d",
+  "return_code": 0,
+  "sample_count": 3,
+  "schema": "textlayout.job-finalization.v1",
+  "solver_process_hashes": {},
+  "stage_refresh": {
+    "error": null,
+    "records": [],
+    "refreshed": false
+  },
+  "status": "completed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
