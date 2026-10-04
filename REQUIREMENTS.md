@@ -176,3 +176,10 @@ wrong scales/layers and polygon differences even when upstream reports success.
 Keep mask verification separate from fabrication-junction completeness and
 physical validation. The benchmark gate alone is not a typed product adapter
 or cross-platform acceptance; do not check entry 002 until these exist.
+
+INT-09 implementation now includes a typed positive-mask request and isolated
+product CLI with explicit runtime and dimensions, containment/grid validation,
+retained failure logs and independent KLayout comparison. Canonical electrical
+acceptance is not promoted. Two real geometries and repeated platform evidence
+are required before scoped checklist completion; complete junction support is
+separate and remains pending.

@@ -41,7 +41,8 @@
       "calibrate",
       "compare"
     ],
-    "kqcircuits-cpw": []
+    "kqcircuits-cpw": [],
+    "quantum-metal-mask": []
   },
   "showcase": {
     "total_examples": 6,

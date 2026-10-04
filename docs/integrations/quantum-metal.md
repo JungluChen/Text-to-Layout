@@ -61,11 +61,10 @@ pad-only export. No upstream library was patched.
 
 ## Remaining acceptance
 
-Entry 002 stays unchecked. Next: preserve the supported positive-mask scope in
-a typed process-isolated adapter, validate parameter bounds/units/layer semantics,
-retain source/package provenance and process failures, then expose a tested
-public command. Repeat real export/readback on macOS, Windows and Linux before
-acceptance. Broader transmon delivery requires an explicit real junction source
+Entry 002 stays unchecked pending platform acceptance. The typed adapter and
+public command described below now implement the bounded positive-mask scope,
+validate inputs and retain provenance/failures. Repeat real export/readback on
+macOS, Windows and Linux before acceptance. Broader transmon delivery requires an explicit real junction source
 and connectivity/fabrication validation; electrical validation requires real
 solver execution and appropriate references. GUI screenshots remain pending a
 real installed application; this headless gate supplies no GUI evidence.
@@ -74,3 +73,49 @@ AI prompt: “Inspect the Quantum Metal exporter log and independently check thi
 explicit mask fixture. Separate exporter return code, nonempty geometry, mask
 comparison, fabrication-junction completeness and electrical validation. Keep
 entry 002 pending until its typed adapter and platform evidence exist.”
+
+## Typed product operation (platform verification pending)
+
+`TransmonMaskRequest` and `generate_transmon_mask` in
+`textlayout.external.quantum_metal_mask` expose the bounded positive-mask operation.
+Required numeric micrometre fields are `pad_width_um`, `pad_height_um`,
+`pad_gap_um` (up to 10000), `pocket_width_um`, `pocket_height_um` (up to 50000),
+and `chip_width_um`, `chip_height_um` (up to 100000). All must be positive,
+finite and multiples of 0.002 um so centred boundaries lie on the 1 nm grid.
+Strings, booleans and unknown fields are rejected. The pocket must strictly
+contain both pads and their gap; the chip must strictly contain the pocket.
+No connector, rotation, junction or layer customization is supported.
+
+Prepare an external environment without changing the core:
+
+```sh
+uv venv .qm-env --python 3.12
+uv pip install --python .qm-env quantum-metal==0.9.0 gdstk==1.0.1
+uv run --no-sync textlayout quantum-metal-mask examples/integrations/quantum-metal-mask.json --python .qm-env/bin/python --out out/qm-first
+uv run --no-sync textlayout quantum-metal-mask examples/integrations/quantum-metal-mask-small.json --python .qm-env/bin/python --out out/qm-small
+```
+
+On Windows, pass `.qm-env/Scripts/python.exe`. Explicit external interpreter
+selection preserves the lean base install. The worker is packaged in the wheel;
+no upstream modules are imported in the core. KLayout readback occurs in the
+core after checking exporter versions, request identity and GDS SHA-256.
+
+Inspect `manifest.json` for `execution_completed`, `return_code`,
+`geometry_verified`, `junction_verified`, and independent readback. The first
+three are separate results; junction verification is always false for this
+operation. Readback keeps electrical validation NOT_EVALUATED. Exact zero XOR
+is required against the supplied dimensions. Changed dimensions are checked
+against newly constructed independent integer-grid references, not the fixed
+fixture's rectangles. The historical benchmark script still checks only its
+original fixed fixture through the same implementation.
+
+The command exits zero only after independent mask verification; missing runtime,
+nonzero process exit, timeout, malformed report, mismatched input/hash or failed
+readback cannot pass. Logs survive failures/timeouts. Existing output directories
+are refused. Keep failed packets and retry into a fresh directory after correcting
+the runtime/request. No checkpoint/resume is offered. No MCP method is added.
+
+The `quantum-metal-integration` manual workflow runs both example inputs twice
+on each platform and retains all packets. Acceptance remains pending until these
+actual outputs are reviewed. A complete fabricated transmon remains outside this
+mask operation because a real junction and its process specification are absent.

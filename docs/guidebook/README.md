@@ -389,3 +389,8 @@ a successful exporter return from nonempty, correctly scaled geometry. It covers
 the fixed mask fixture, explicit layers, missing junction, report inspection and
 recovery. This is a headless benchmark gate; no application screenshot or
 completed integration is claimed.
+
+The [Quantum Metal typed product walkthrough](../integrations/quantum-metal.md#typed-product-operation-platform-verification-pending)
+now covers external environment setup, both real input files, parameter rules,
+retained logs and independent mask readback. It deliberately distinguishes the
+partial mask from a complete fabricated or electrically validated transmon.

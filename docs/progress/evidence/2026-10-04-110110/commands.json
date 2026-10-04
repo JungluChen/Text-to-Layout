@@ -1,0 +1,62 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "quantum-metal-mask",
+      "examples/integrations/quantum-metal-mask.json",
+      "--python",
+      "/private/tmp/textlayout-qm-090/bin/python",
+      "--out",
+      "/private/tmp/qm-product/base-first"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "quantum-metal-mask",
+      "examples/integrations/quantum-metal-mask.json",
+      "--python",
+      "/private/tmp/textlayout-qm-090/bin/python",
+      "--out",
+      "/private/tmp/qm-product/base-repeat"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "quantum-metal-mask",
+      "examples/integrations/quantum-metal-mask-small.json",
+      "--python",
+      "/private/tmp/textlayout-qm-090/bin/python",
+      "--out",
+      "/private/tmp/qm-product/small-first"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "quantum-metal-mask",
+      "examples/integrations/quantum-metal-mask-small.json",
+      "--python",
+      "/private/tmp/textlayout-qm-090/bin/python",
+      "--out",
+      "/private/tmp/qm-product/small-repeat"
+    ],
+    "exit_code": 0
+  }
+]

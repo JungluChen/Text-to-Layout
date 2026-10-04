@@ -266,3 +266,17 @@ zero mask XOR. Writes a new report; never overwrites an existing report.
 Exit 0 verifies only this mask; junction and electrical checks remain unverified.
 No public product API/MCP method is introduced. See the
 [reference, recovery steps and AI prompt](integrations/quantum-metal.md).
+
+### Quantum Metal positive-mask CLI and typed API
+
+`textlayout quantum-metal-mask REQUEST.json --python EXTERNAL_PYTHON --out NEW_DIR`
+uses `TransmonMaskRequest` / `generate_transmon_mask`. Seven explicit micrometre
+fields specify pads, gap, pocket and chip; all are positive 0.002 um multiples
+with strict containment and bounds. External quantum-metal 0.9.0/gdstk 1.0.1 is
+required; the core independently reads GDS with KLayout. Writes retained request,
+GDS, exporter metadata, logs and manifest. No installation, overwrite or physical
+evidence promotion. See [full input contract and recovery](integrations/quantum-metal.md#typed-product-operation-platform-verification-pending).
+AI prompt: “Generate both checked-in mask examples through quantum-metal-mask,
+using an explicit runtime and new directories. Compare retained masks against
+independent references; report missing junction and unperformed EM validation.”
+No schema-valid MCP example exists because this operation has no MCP endpoint.

@@ -20,8 +20,9 @@ Quantum Metal 0.9.0 now installs in isolation and its explicit TransmonPocket
 in-memory bounds pass twice locally. Ground-plane-disabled export produced empty
 GDS despite upstream success, reproduced twice. The new fixed-mask gate rejects
 these and verifies the explicit 2 mm ground-plane fixture twice with zero XOR.
-Junction data is missing; entry 002 stays open. Next: a bounded typed adapter
-and repeated platform checks; see docs/integrations/quantum-metal.md. The existing
+Junction data is missing; entry 002 stays open. Typed adapter and public quantum-metal-mask command now execute both examples
+twice with independent readback. Next: exact-SHA repeated platform checks,
+then scoped acceptance and entry 003; see docs/integrations/quantum-metal.md. The existing
 legacy backend only prepares a plan; it is not accepted execution.
 
 ## Current human-directed release priority — v0.3.1
