@@ -1,0 +1,8 @@
+Palace AMR benchmark: SIMULATION_EXECUTED; 7 blocking gate(s)
+  BLOCKED: palace_adaptive_mesh_refinement
+  BLOCKED: element_wise_error_indicators_recorded
+  BLOCKED: last_level_frequency_change_percent
+  BLOCKED: global_amr_error_indicator_percent
+  BLOCKED: all_numerical_domain_sweeps_complete
+  BLOCKED: numerical_domain_frequency_sensitivity_percent
+  BLOCKED: independent_reference_target

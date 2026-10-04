@@ -21,9 +21,10 @@ dde9fcf56c84972fab804678272ed0f1a886062a. Both input cases passed twice on
 macOS, Windows and Linux (37172852770); all twelve downloaded GDS packets
 were independently checked. No fabrication-junction or electrical claim.
 Current item: **003 pyEPR**. Actual non-HFSS numerical execution repeats, but
-return-unit documentation and charge-boundary/reference discrepancies require
-resolution before a typed adapter. Preserve the ng=0 discrepancy; do not fit a
-reference after seeing results. Exact findings and next steps:
+two new predeclared charge-insensitive circuit benchmarks now pass unchanged
+twice locally. The reusable gate preserves raw units, convergence, reference
+errors and roundoff diagnostics. A typed product adapter and real platform
+execution remain required. Preserve the earlier ng=0 discrepancy. Exact findings and next steps:
 docs/integrations/pyepr.md and docs/progress/2026-10-04-110110.md.
 
 

@@ -1,0 +1,24 @@
+INFO 01:15PM [make_dispersive]: Starting diagonalization (16×16 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 30000000000, 'ec_over_h_hz': 150000000} 16 array([5.84597885e+09+2.06261233e-25j]) array([[159.54638777-1.15838177e-29j]]) False 8.366295889097598e-22
+INFO 01:15PM [make_dispersive]: Starting diagonalization (24×24 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 30000000000, 'ec_over_h_hz': 150000000} 24 array([5.84597885e+09+1.32482526e-23j]) array([[159.54638999+1.31683402e-31j]]) False 5.354100227400648e-21
+INFO 01:15PM [make_dispersive]: Starting diagonalization (32×32 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 30000000000, 'ec_over_h_hz': 150000000} 32 array([5.84597885e+09-4.04479774e-22j]) array([[159.54638999-8.09424109e-28j]]) False 4.466775632143266e-21
+INFO 01:15PM [make_dispersive]: Starting diagonalization (40×40 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 30000000000, 'ec_over_h_hz': 150000000} 40 array([5.84597885e+09+1.88771194e-22j]) array([[159.54638999+3.65311148e-28j]]) False 5.424701116764036e-20
+INFO 01:15PM [make_dispersive]: Starting diagonalization (16×16 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 40000000000, 'ec_over_h_hz': 160000000} 16 array([6.99161095e+09+3.03543275e-27j]) array([[168.97918914-2.10858649e-28j]]) False 8.479971849427543e-22
+INFO 01:15PM [make_dispersive]: Starting diagonalization (24×24 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 40000000000, 'ec_over_h_hz': 160000000} 24 array([6.99161095e+09+3.84615057e-24j]) array([[168.97919007-2.23709742e-30j]]) False 4.974629411893654e-22
+INFO 01:15PM [make_dispersive]: Starting diagonalization (32×32 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 40000000000, 'ec_over_h_hz': 160000000} 32 array([6.99161095e+09+3.43868013e-22j]) array([[168.97919007+2.38973961e-27j]]) False 1.1950571878895801e-20
+INFO 01:15PM [make_dispersive]: Starting diagonalization (40×40 matrix)
+INFO 01:15PM [make_dispersive]: Diagonalization complete
+DIAG {'ej_over_h_hz': 40000000000, 'ec_over_h_hz': 160000000} 40 array([6.99161095e+09+7.71894889e-23j]) array([[168.97919007+2.09773943e-27j]]) False 2.0286918190081692e-20

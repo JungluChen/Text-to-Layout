@@ -1,0 +1,273 @@
+{
+  "plan_sha256": "ec6fcf303677d1b10fe6112861ac32c2feec791cff83412c7333c88f99ab0a68",
+  "probe_sha256": "b2807211b3ce0a36f6b58eb045585bde0db6c234de177333ed0bd9b106bfb426",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "dependencies": [
+    "Pint==0.26.1",
+    "Pygments==2.21.0",
+    "addict==2.4.0",
+    "asttokens==3.0.2",
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "executing==2.2.1",
+    "flexcache==0.3",
+    "flexparser==0.4",
+    "fonttools==4.66.1",
+    "ipython==9.17.1",
+    "ipython_pygments_lexers==1.1.1",
+    "jedi==0.20.0",
+    "kiwisolver==1.5.1",
+    "matplotlib-inline==0.2.2",
+    "matplotlib==3.11.2",
+    "mpmath==1.3.0",
+    "numpy==2.5.3",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "parso==0.8.7",
+    "pexpect==4.9.0",
+    "pillow==12.3.0",
+    "platformdirs==4.12.3",
+    "prompt_toolkit==3.0.53",
+    "psutil==7.2.2",
+    "ptyprocess==0.7.0",
+    "pure_eval==0.2.4",
+    "pyEPR-quantum==1.0.2",
+    "pyparsing==3.3.3",
+    "python-dateutil==2.9.0.post0",
+    "qutip==5.3.1",
+    "scipy==1.18.1",
+    "seaborn==0.13.2",
+    "six==1.17.0",
+    "stack-data==0.6.3",
+    "sympy==1.14.0",
+    "traitlets==5.16.1",
+    "typing_extensions==4.16.0",
+    "wcwidth==0.9.1",
+    "xarray==2026.9.0"
+  ],
+  "cases": [
+    {
+      "inputs": {
+        "ej_over_h_hz": 30000000000,
+        "ec_over_h_hz": 150000000
+      },
+      "linear_frequency_ghz": 6.0,
+      "Lj_H": 5.448717093559374e-09,
+      "reduced_phi_zpf": 0.31622776601683794,
+      "fock": [
+        {
+          "cutoff": 16,
+          "f01_hz": 5845978851.576986,
+          "alpha_hz": -159546387.77243614,
+          "hamiltonian_f01_hz": 5845978851.576986,
+          "hamiltonian_alpha_hz": -159546387.77243513
+        },
+        {
+          "cutoff": 24,
+          "f01_hz": 5845978851.544738,
+          "alpha_hz": -159546389.99386978,
+          "hamiltonian_f01_hz": 5845978851.544738,
+          "hamiltonian_alpha_hz": -159546389.99387023
+        },
+        {
+          "cutoff": 32,
+          "f01_hz": 5845978851.544718,
+          "alpha_hz": -159546389.9940834,
+          "hamiltonian_f01_hz": 5845978851.544718,
+          "hamiltonian_alpha_hz": -159546389.99408206
+        },
+        {
+          "cutoff": 40,
+          "f01_hz": 5845978851.544686,
+          "alpha_hz": -159546389.9940586,
+          "hamiltonian_f01_hz": 5845978851.544686,
+          "hamiltonian_alpha_hz": -159546389.9940583
+        }
+      ],
+      "reference": [
+        {
+          "ng": 0,
+          "cutoff": 25,
+          "f01_hz": 5845978851.544998,
+          "alpha_hz": -159546389.99715042
+        },
+        {
+          "ng": 0,
+          "cutoff": 35,
+          "f01_hz": 5845978851.544823,
+          "alpha_hz": -159546389.99687958
+        },
+        {
+          "ng": 0,
+          "cutoff": 45,
+          "f01_hz": 5845978851.545174,
+          "alpha_hz": -159546389.99716568
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 25,
+          "f01_hz": 5845978851.544689,
+          "alpha_hz": -159546389.99404526
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 35,
+          "f01_hz": 5845978851.5445595,
+          "alpha_hz": -159546389.99396133
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 45,
+          "f01_hz": 5845978851.54475,
+          "alpha_hz": -159546389.99430084
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 25,
+          "f01_hz": 5845978851.544624,
+          "alpha_hz": -159546389.99113846
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 35,
+          "f01_hz": 5845978851.544533,
+          "alpha_hz": -159546389.99103546
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 45,
+          "f01_hz": 5845978851.544811,
+          "alpha_hz": -159546389.99142075
+        }
+      ],
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 3.147125244140625e-05,
+          "reference_last_delta_hz": 0.0003509521484375,
+          "charge_spread_hz": 0.000423431396484375,
+          "max_difference_hz": 0.00048732757568359375
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 2.47955322265625e-05,
+          "reference_last_delta_hz": 0.000385284423828125,
+          "charge_spread_hz": 0.00574493408203125,
+          "max_difference_hz": 0.0031070709228515625
+        }
+      },
+      "passed": true
+    },
+    {
+      "inputs": {
+        "ej_over_h_hz": 40000000000,
+        "ec_over_h_hz": 160000000
+      },
+      "linear_frequency_ghz": 7.155417527999327,
+      "Lj_H": 4.086537820169531e-09,
+      "reduced_phi_zpf": 0.2990697562442441,
+      "fock": [
+        {
+          "cutoff": 16,
+          "f01_hz": 6991610950.382983,
+          "alpha_hz": -168979189.14294052,
+          "hamiltonian_f01_hz": 6991610950.382983,
+          "hamiltonian_alpha_hz": -168979189.14294165
+        },
+        {
+          "cutoff": 24,
+          "f01_hz": 6991610950.369749,
+          "alpha_hz": -168979190.0708351,
+          "hamiltonian_f01_hz": 6991610950.369749,
+          "hamiltonian_alpha_hz": -168979190.07083508
+        },
+        {
+          "cutoff": 32,
+          "f01_hz": 6991610950.369822,
+          "alpha_hz": -168979190.07105827,
+          "hamiltonian_f01_hz": 6991610950.369822,
+          "hamiltonian_alpha_hz": -168979190.07105824
+        },
+        {
+          "cutoff": 40,
+          "f01_hz": 6991610950.36973,
+          "alpha_hz": -168979190.07081982,
+          "hamiltonian_f01_hz": 6991610950.36973,
+          "hamiltonian_alpha_hz": -168979190.07081842
+        }
+      ],
+      "reference": [
+        {
+          "ng": 0,
+          "cutoff": 25,
+          "f01_hz": 6991610950.369698,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0,
+          "cutoff": 35,
+          "f01_hz": 6991610950.369846,
+          "alpha_hz": -168979190.07099915
+        },
+        {
+          "ng": 0,
+          "cutoff": 45,
+          "f01_hz": 6991610950.370102,
+          "alpha_hz": -168979190.07141876
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 25,
+          "f01_hz": 6991610950.369915,
+          "alpha_hz": -168979190.07112122
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 35,
+          "f01_hz": 6991610950.369839,
+          "alpha_hz": -168979190.07077026
+        },
+        {
+          "ng": 0.25,
+          "cutoff": 45,
+          "f01_hz": 6991610950.369778,
+          "alpha_hz": -168979190.0708847
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 25,
+          "f01_hz": 6991610950.369801,
+          "alpha_hz": -168979190.070961
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 35,
+          "f01_hz": 6991610950.3696785,
+          "alpha_hz": -168979190.07080078
+        },
+        {
+          "ng": 0.5,
+          "cutoff": 45,
+          "f01_hz": 6991610950.369957,
+          "alpha_hz": -168979190.0712433
+        }
+      ],
+      "metrics": {
+        "f01_hz": {
+          "fock_last_delta_hz": 9.1552734375e-05,
+          "reference_last_delta_hz": 0.000278472900390625,
+          "charge_spread_hz": 0.000324249267578125,
+          "max_difference_hz": 0.0003719329833984375
+        },
+        "alpha_hz": {
+          "fock_last_delta_hz": 0.0002384483814239502,
+          "reference_last_delta_hz": 0.0004425048828125,
+          "charge_spread_hz": 0.0005340576171875,
+          "max_difference_hz": 0.0005989372730255127
+        }
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "scope": "Two ideal one-mode charge-insensitive transmon circuit benchmarks, no EM extraction"
+}

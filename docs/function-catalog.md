@@ -280,3 +280,14 @@ AI prompt: “Generate both checked-in mask examples through quantum-metal-mask,
 using an explicit runtime and new directories. Compare retained masks against
 independent references; report missing junction and unperformed EM validation.”
 No schema-valid MCP example exists because this operation has no MCP endpoint.
+
+## pyEPR ideal-circuit benchmark (developer gate)
+
+`scripts/check_pyepr_charge_insensitive.py --out NEW_DIRECTORY` runs two locked
+input cases with pyEPR-quantum 1.0.2 in a separate interpreter. Inputs and units
+are fixed in `references/pyepr/charge-insensitive-plan.json`; there are no
+user-adjustable thresholds. Outputs retain versions, raw frequency in Hz,
+chi in MHz, signed alpha in Hz, convergence and independent charge-basis
+comparisons. This launches local numerical computations and writes a new
+directory. No product CLI/MCP schema is exposed. See the
+[walkthrough](integrations/pyepr.md#reproducible-ideal-circuit-benchmark).

@@ -1,0 +1,9 @@
+AttributeError: 'int' object has no attribute 'sqrt'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/private/tmp/pyepr-003-audit/charge_insensitive.py", line 10, in <module>
+    ej,ec=case['ej_over_h_hz'],case['ec_over_h_hz'];freq=np.sqrt(8*ej*ec);lj=(hbar/(2*e))**2/(h*ej);phi=(2*ec/ej)**.25
+                                                         ^^^^^^^^^^^^^^^^
+TypeError: loop of ufunc does not support argument 0 of type int which has no callable sqrt method

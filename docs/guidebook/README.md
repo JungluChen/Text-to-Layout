@@ -394,3 +394,10 @@ The [Quantum Metal typed product walkthrough](../integrations/quantum-metal.md#t
 now covers external environment setup, both real input files, parameter rules,
 retained logs and independent mask readback. It deliberately distinguishes the
 partial mask from a complete fabricated or electrically validated transmon.
+
+## pyEPR numerical benchmark
+
+Use the [fixed ideal-circuit walkthrough](../integrations/pyepr.md#reproducible-ideal-circuit-benchmark)
+for isolated setup, two unchanged executions, units, comparison limits and
+failure recovery. Results are computed references, not measured devices. The
+product adapter, platform verification and GUI screenshot remain pending.

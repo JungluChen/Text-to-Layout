@@ -1,0 +1,28 @@
+"""Execute immutable predeclared high-ratio benchmarks; no threshold tuning."""
+import hashlib,importlib.metadata,json,platform,sys
+from pathlib import Path
+import numpy as np
+from scipy.constants import h,hbar,e
+from pyEPR.calcs.back_box_numeric import epr_numerical_diagonalization
+plan_path=Path(sys.argv[1]);plan=json.loads(plan_path.read_text());out=Path(sys.argv[2]);out.mkdir(exist_ok=False)
+results=[]
+for case in plan['cases']:
+ ej,ec=float(case['ej_over_h_hz']),float(case['ec_over_h_hz']);freq=np.sqrt(8*ej*ec);lj=(hbar/(2*e))**2/(h*ej);phi=(2*ec/ej)**.25
+ fock=[];reference=[]
+ for cutoff in plan['fock_truncations']:
+  f,chi,H=epr_numerical_diagonalization([freq/1e9],[lj],[[phi]],fock_trunc=cutoff,use_full_cos=True,return_H=True)
+  eig=np.sort(np.real(H.eigenenergies()));f01=float(np.real(f[0]));alpha=-float(np.real(chi[0,0]))*1e6
+  fock.append(dict(cutoff=cutoff,f01_hz=f01,alpha_hz=alpha,hamiltonian_f01_hz=float(eig[1]-eig[0]),hamiltonian_alpha_hz=float(eig[2]-2*eig[1]+eig[0])))
+ for ng in plan['charge_offsets']:
+  for cutoff in plan['charge_cutoffs']:
+   n=np.arange(-cutoff,cutoff+1);H=np.diag(4*ec*(n-ng)**2)+np.diag(np.full(len(n)-1,-ej/2),1)+np.diag(np.full(len(n)-1,-ej/2),-1);eig=np.linalg.eigvalsh(H)
+   reference.append(dict(ng=ng,cutoff=cutoff,f01_hz=float(eig[1]-eig[0]),alpha_hz=float(eig[2]-2*eig[1]+eig[0])))
+ metrics={}
+ for q in ['f01_hz','alpha_hz']:
+  final=[r[q] for r in reference if r['cutoff']==plan['charge_cutoffs'][-1]]
+  prior=[r[q] for r in reference if r['cutoff']==plan['charge_cutoffs'][-2]]
+  metrics[q]={'fock_last_delta_hz':abs(fock[-1][q]-fock[-2][q]),'reference_last_delta_hz':max(abs(a-b) for a,b in zip(final,prior)),'charge_spread_hz':max(final)-min(final),'max_difference_hz':max(abs(v-fock[-1][q]) for v in final)}
+ passed=all(m['fock_last_delta_hz']<=plan['max_last_refinement_hz'] and m['reference_last_delta_hz']<=plan['max_last_refinement_hz'] and m['charge_spread_hz']<=plan['max_charge_offset_spread_hz'] and m['max_difference_hz']<=plan['max_reference_difference_hz'] for m in metrics.values())
+ results.append(dict(inputs=case,linear_frequency_ghz=freq/1e9,Lj_H=lj,reduced_phi_zpf=phi,fock=fock,reference=reference,metrics=metrics,passed=passed))
+report={'plan_sha256':hashlib.sha256(plan_path.read_bytes()).hexdigest(),'probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'platform':platform.platform(),'python':platform.python_version(),'dependencies':sorted(f'{d.metadata["Name"]}=={d.version}' for d in importlib.metadata.distributions()),'cases':results,'passed':all(r['passed'] for r in results),'scope':plan['scope']}
+(out/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps(report,indent=2));raise SystemExit(0 if report['passed'] else 1)

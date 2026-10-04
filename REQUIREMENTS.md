@@ -183,3 +183,10 @@ retained failure logs and independent KLayout comparison. Canonical electrical
 acceptance is not promoted. Two real geometries and repeated platform evidence
 are required before scoped checklist completion; complete junction support is
 separate and remains pending.
+
+### INT-10 — pyEPR numerical benchmark boundary
+
+Entry 003 starts with a pinned, repeatable two-case ideal-circuit gate. Preserve
+its predeclared convergence/reference limits, raw Hz/MHz sign conventions and
+charge-offset assumptions. Passing this gate does not deliver EM extraction,
+a typed product adapter, measured agreement or platform acceptance.
