@@ -9,6 +9,7 @@ Generated: 2026-07-10T07:03:36+00:00 — by `scripts/generate_project_status.py`
 ## CLI commands (introspected from the real parser)
 
 - `textlayout chip` — subcommands: `analyze`, `optimize`
+- `textlayout circuitq-lc`
 - `textlayout design`
 - `textlayout doctor`
 - `textlayout epr`

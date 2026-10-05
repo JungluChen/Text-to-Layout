@@ -1,0 +1,99 @@
+{
+  "request_sha256": "be8257648a0e40ac2b82253a283da8d5aca238504725d36d8d9d904e17352cc5",
+  "worker_sha256": "d4bd24d513253bf28a63ef88a85955792d4847184438578b1c2dae10fcd01953",
+  "command": [
+    "/private/tmp/textlayout-circuitq-runtime/bin/python",
+    "/private/tmp/pyepr-core-wheel/lib/python3.12/site-packages/textlayout/external/_circuitq_lc_worker.py",
+    "/private/tmp/circuitq-wheel-repeat/request.json",
+    "/private/tmp/circuitq-wheel-repeat/solver.json"
+  ],
+  "scope": "ideal parallel LC circuit; no nonlinear/noise, EM or measurement claim",
+  "result": {
+    "execution_completed": true,
+    "return_code": 0,
+    "status": "SIMULATION_EXECUTED",
+    "numerical_checks_passed": true,
+    "failure_reason": null,
+    "output_dir": "/private/tmp/circuitq-wheel-repeat",
+    "metrics": {
+      "frequency_relative": 6.250647635708262e-06,
+      "refinement_relative": 1.875058579849395e-05,
+      "anharmonicity_over_frequency": 6.249959239960278e-06,
+      "domain_relative": 3.909014479629207e-12,
+      "scaled_residual": 1.4617748779168913e-16,
+      "hermiticity_relative": 0.0
+    },
+    "quantities": [
+      {
+        "public_reference": null,
+        "quantity": "frequency",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": 1989424353.380332,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "CircuitQ 1.2.1 natural-unit ideal LC circuit",
+        "command": "[\"/private/tmp/textlayout-circuitq-runtime/bin/python\", \"/private/tmp/pyepr-core-wheel/lib/python3.12/site-packages/textlayout/external/_circuitq_lc_worker.py\", \"/private/tmp/circuitq-wheel-repeat/request.json\", \"/private/tmp/circuitq-wheel-repeat/solver.json\"]",
+        "input_files": [
+          "/private/tmp/circuitq-wheel-repeat/request.json"
+        ],
+        "output_files": [
+          "/private/tmp/circuitq-wheel-repeat/solver.json"
+        ],
+        "parser": "textlayout.external.circuitq_lc.run_lc",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-05T14:10:06+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Exact ideal LC reference; numerical discretization, not measured hardware"
+        ]
+      },
+      {
+        "public_reference": null,
+        "quantity": "anharmonicity",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": -12433.898839531792,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "CircuitQ 1.2.1 natural-unit ideal LC circuit",
+        "command": "[\"/private/tmp/textlayout-circuitq-runtime/bin/python\", \"/private/tmp/pyepr-core-wheel/lib/python3.12/site-packages/textlayout/external/_circuitq_lc_worker.py\", \"/private/tmp/circuitq-wheel-repeat/request.json\", \"/private/tmp/circuitq-wheel-repeat/solver.json\"]",
+        "input_files": [
+          "/private/tmp/circuitq-wheel-repeat/request.json"
+        ],
+        "output_files": [
+          "/private/tmp/circuitq-wheel-repeat/solver.json"
+        ],
+        "parser": "textlayout.external.circuitq_lc.run_lc",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-05T14:10:06+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Exact ideal LC reference; numerical discretization, not measured hardware"
+        ]
+      }
+    ]
+  },
+  "artifact_sha256": {
+    "request.json": "be8257648a0e40ac2b82253a283da8d5aca238504725d36d8d9d904e17352cc5",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "solver.json": "3bc98b6a02b8623f599d883256d285bac3526f0c2bbe4b763f1929f47bec23d7",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

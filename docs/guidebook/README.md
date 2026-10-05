@@ -412,3 +412,7 @@ Follow the [predeclared LC gate walkthrough](../integrations/circuitq.md#predecl
 for repeated execution, SI/natural-unit equivalence, rejected residuals and
 reference/convergence checks. This headless developer gate has no GUI screenshot
 or platform/product acceptance yet.
+
+The [typed CircuitQ LC walkthrough](../integrations/circuitq.md#typed-product-command)
+covers pinned optional setup, both F/H input files, repeated runs, status
+inspection and failure recovery. No GUI screenshot or measurement claim.

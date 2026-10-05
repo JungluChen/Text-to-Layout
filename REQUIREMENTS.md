@@ -201,3 +201,7 @@ agreement establishes EM or measurement validation.
 Retain rejected SI eigenpairs and verify matrix equivalence when using natural
 units. Fixed grid, domain, exact LC reference, zero-anharmonicity, Hermiticity
 and residual gates precede any product adapter or platform acceptance.
+
+INT-11 typed adapter requires explicit F/H inputs, isolated audited source,
+fixed numerical checks, retained raw outputs and canonical rejected/executed
+statuses. Two repeated platform examples are required for scoped acceptance.

@@ -308,3 +308,12 @@ CircuitQ 1.2.1 runtime and two immutable physical cases. Outputs: plan/report,
 raw joule eigenvalues, Hz quantities and acceptance metrics; starts bounded
 local numerical calculations. No product CLI/MCP schema or canonical evidence
 promotion. [Commands, units, limits and AI prompt](integrations/circuitq.md#predeclared-lc-acceptance-gate).
+
+### `circuitq-lc` / `LCRequest`, `run_lc`
+
+Requires capacitance_f (80–120 fF), inductance_h (60–80 nH), explicit external
+CircuitQ 1.2.1 interpreter and fresh output directory. No input/tolerance defaults
+exposed by CLI. API timeout 120 seconds. Runs bounded local diagonalization;
+retains logs, hashes, raw energies, Hz quantities and canonical status separately
+from numerical gates. No MCP mapping or resume.
+[Commands and AI prompt](integrations/circuitq.md#typed-product-command).

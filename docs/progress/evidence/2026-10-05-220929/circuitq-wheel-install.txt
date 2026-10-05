@@ -1,0 +1,6 @@
+Using Python 3.12.14 environment at: pyepr-core-wheel
+Resolved 142 packages in 1.40s
+Prepared 1 package in 50ms
+Uninstalled 1 package in 42ms
+Installed 1 package in 5ms
+ ~ text-to-gds==0.3.1 (from file:///Users/ludko/Desktop/text2layout/Text-to-Layout/dist/text_to_gds-0.3.1-py3-none-any.whl)

@@ -243,3 +243,10 @@ statuses with separate numerical checks. Future clients must label specified
 ideal circuit parameters and computed charge-basis references explicitly;
 never present them as geometry-extracted EM values or measured devices. No
 UI screen or screenshot is delivered by this adapter.
+
+### CircuitQ LC evidence boundary
+
+Future clients must label CircuitQ inputs as specified ideal F/H values and
+reference results as exact ideal LC calculations. The typed headless command
+separates process exit, numerical checks and canonical evidence. No graphical
+surface or measured/EM validation is delivered by this adapter.

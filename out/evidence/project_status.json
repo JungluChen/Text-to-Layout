@@ -43,7 +43,8 @@
     ],
     "kqcircuits-cpw": [],
     "quantum-metal-mask": [],
-    "pyepr-circuit": []
+    "pyepr-circuit": [],
+    "circuitq-lc": []
   },
   "showcase": {
     "total_examples": 6,

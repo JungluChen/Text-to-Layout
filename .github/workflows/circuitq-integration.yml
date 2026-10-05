@@ -1,0 +1,42 @@
+name: circuitq-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: circuitq-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  circuit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare shared core and external runtime
+        run: |
+          uv sync --frozen --dev
+          uv venv .circuitq-env --python 3.12
+          uv pip install --python .circuitq-env "circuitq @ git+https://github.com/PhilippAumann/circuitq.git@b45978891ac2c25ad7a44973c3cbe836c770e0aa"
+      - name: Execute two ideal circuits twice through the product command
+        shell: bash
+        env:
+          CQ_PYTHON: ${{ runner.os == 'Windows' && '.circuitq-env/Scripts/python.exe' || '.circuitq-env/bin/python' }}
+        run: |
+          uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-a.json --python "$CQ_PYTHON" --out out/circuitq-base-first
+          uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-a.json --python "$CQ_PYTHON" --out out/circuitq-base-repeat
+          uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-b.json --python "$CQ_PYTHON" --out out/circuitq-small-first
+          uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-b.json --python "$CQ_PYTHON" --out out/circuitq-small-repeat
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: circuitq-lc-${{ matrix.os }}
+          path: out/circuitq-*
+          if-no-files-found: error
+          retention-days: 30

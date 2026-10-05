@@ -1,0 +1,44 @@
+........F..                                                              [100%]
+=================================== FAILURES ===================================
+____________ test_retained_output_and_canonical_status[convergence] ____________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-157/test_retained_output_and_canon3')
+defect = 'convergence'
+
+    @pytest.mark.parametrize("defect", [None, "version", "identity", "convergence", "nan"])
+    def test_retained_output_and_canonical_status(tmp_path: Path, defect: str | None) -> None:
+        def run(command: list[str], **kwargs: object) -> subprocess.CompletedProcess:
+            report = json.loads(
+                (
+                    ROOT / "docs/progress/evidence/2026-10-05-101038/circuitq-gate-first/report.json"
+                ).read_text()
+            )
+            report["cases"] = report["cases"][:1]
+            report["version"] = "wrong" if defect == "version" else "1.2.1"
+            report["request_sha256"] = hashlib.sha256(Path(command[2]).read_bytes()).hexdigest()
+            if defect == "identity":
+                report["request_sha256"] = "wrong"
+            if defect == "convergence":
+                report["cases"][0]["rows"][-2]["frequency_hz"] += 100
+            if defect == "nan":
+                report["cases"][0]["rows"][-2]["frequency_hz"] = float("nan")
+            Path(command[3]).write_text(json.dumps(report))
+            return subprocess.CompletedProcess(command, 0, "fixture replay", "")
+    
+        with patch("textlayout.external.circuitq_lc.subprocess.run", side_effect=run):
+            result = run_lc(REQUEST, python=Path("external-python"), output_dir=tmp_path / "run")
+        assert result.execution_completed
+>       assert result.numerical_checks_passed == (defect is None)
+E       AssertionError: assert True == ('convergence' is None)
+E        +  where True = LCResult(execution_completed=True, return_code=0, status=<EvidenceStatus.SIMULATION_EXECUTED: 'SIMULATION_EXECUTED'>, ... extraction or measurement validation', 'Exact ideal LC reference; numerical discretization, not measured hardware'])]).numerical_checks_passed
+
+tests/textlayout_suite/test_circuitq_product.py:62: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/_pytest/cacheprovider.py:475
+  /Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/lib/python3.12/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: cache could not write path /Users/ludko/Desktop/text2layout/Text-to-Layout/.pytest_cache/v/cache/nodeids: [Errno 1] Operation not permitted: '/Users/ludko/Desktop/text2layout/Text-to-Layout/.pytest_cache/v/cache/nodeids'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_circuitq_product.py::test_retained_output_and_canonical_status[convergence]
+1 failed, 10 passed, 1 warning in 0.28s

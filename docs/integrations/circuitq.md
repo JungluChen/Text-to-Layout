@@ -88,3 +88,44 @@ residual was rejected, and check physical-matrix equivalence before interpreting
 the natural-unit result. Do not call this EM or measurement validation.”
 
 [Retained failure, diagnosis and verification](../progress/2026-10-05-101038.md).
+
+## Typed product command
+
+`textlayout.external.circuitq_lc.LCRequest` requires explicit capacitance_f
+(80–120 fF in farads) and inductance_h (60–80 nH in henries); no defaults,
+nonfinite values or extra fields. `run_lc(request, python=..., output_dir=...)`
+uses a process-isolated optional CircuitQ runtime. Input bounds are a bounded
+operating scope, not a claim that the whole domain has platform acceptance.
+The same fixed numerical checks apply to every request.
+
+Install the audited upstream source in a separate environment:
+
+```sh
+uv venv /tmp/circuitq-runtime --python 3.12
+uv pip install --python /tmp/circuitq-runtime "circuitq @ git+https://github.com/PhilippAumann/circuitq.git@b45978891ac2c25ad7a44973c3cbe836c770e0aa"
+uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-a.json --python /tmp/circuitq-runtime/bin/python --out out/circuitq-a-first
+uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-a.json --python /tmp/circuitq-runtime/bin/python --out out/circuitq-a-repeat
+uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-b.json --python /tmp/circuitq-runtime/bin/python --out out/circuitq-b-first
+uv run --no-sync textlayout circuitq-lc examples/integrations/circuitq-lc-b.json --python /tmp/circuitq-runtime/bin/python --out out/circuitq-b-repeat
+```
+
+Windows interpreter path: `ENV/Scripts/python.exe`. Retain request.json,
+solver.json, manifest.json and both logs. Worker checks version and audited
+core hash (normalizing CRLF only for source identity; raw hash also retained).
+No upstream code is vendored. Each packet records SI/natural matrix equivalence,
+raw joule energies, frequency/anharmonicity in Hz, refinements, residuals,
+dependency versions, input/output hashes and actual command arguments.
+
+`execution_completed` and `numerical_checks_passed` are distinct. Accepted
+quantities use canonical `SIMULATION_EXECUTED`; failed numerical gates expose
+no accepted quantities and use `CONVERGENCE_FAILED`. Malformed output is
+`SIMULATION_INVALID`, launch/timeout failure is `FAILED`. Neither exact LC
+agreement nor a successful process establishes EM or measurement validation.
+Fresh output directory required; same-input retry and edited requests are
+separate invocations. API timeout defaults to 120 seconds and retains partial
+logs. No solver checkpoint/resume, GUI, screenshot or MCP command is exposed.
+
+AI prompt: “Run both typed LC examples twice with the audited external
+interpreter. Inspect SI/natural matrix equality, raw energies, residual and
+grid/domain checks before interpreting the result. Report rejected output
+without promoting it to physical validation.”
