@@ -195,3 +195,9 @@ INT-10 product adapter: typed Hz energy inputs, bounded domain, fixed per-run
 reference/refinement gates, process-isolated optional runtime and canonical
 executed/rejected evidence. Neither successful process exit nor circuit
 agreement establishes EM or measurement validation.
+
+### INT-11 — CircuitQ LC conditioning and acceptance
+
+Retain rejected SI eigenpairs and verify matrix equivalence when using natural
+units. Fixed grid, domain, exact LC reference, zero-anharmonicity, Hermiticity
+and residual gates precede any product adapter or platform acceptance.

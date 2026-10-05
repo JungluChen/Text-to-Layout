@@ -1,0 +1,39 @@
+"""Execute predeclared ideal LC cases without changing thresholds."""
+import hashlib,importlib.metadata,json,math,platform,sys
+from pathlib import Path
+import circuitq as cq
+import networkx as nx
+import numpy as np
+import scipy.sparse.linalg as sla
+plan_path=Path(sys.argv[1]);plan=json.loads(plan_path.read_text());cases=[]
+for case in plan['cases']:
+ c_f,l_h=case['capacitance_f'],case['inductance_h'];h=plan['reference_h_j_s'];hbar=h/(2*math.pi)
+ sigma=math.sqrt(hbar*math.sqrt(l_h/c_f)/2);reference=1/(2*math.pi*math.sqrt(l_h*c_f));rows=[]
+ for dimension,extent in [(d,plan['half_domain_sigma']) for d in plan['dimensions']]+[(plan['expanded_dimension'],plan['expanded_half_domain_sigma'])]:
+  graph=nx.MultiGraph();graph.add_edge(0,1,element='C');graph.add_edge(0,1,element='L')
+  circuit=cq.CircuitQ(graph,ground_nodes=[0],natural_units=False)
+  names=[str(p) for p in circuit.h_parameters]
+  assert names==['C_{01}','L_{010}'],names
+  matrix=circuit.get_numerical_hamiltonian(dimension,grid_length=extent*sigma,parameter_values=[c_f,l_h])
+  si_matrix = matrix.copy()
+  energy_scale=circuit.hbar_si*1e9
+  flux_scale=circuit.hbar_si/(2*circuit.e)
+  natural=cq.CircuitQ(graph,ground_nodes=[0],natural_units=True)
+  capacitance_nat=c_f*energy_scale/(2*circuit.e)**2
+  inductance_nat=l_h*energy_scale/flux_scale**2
+  matrix=natural.get_numerical_hamiltonian(dimension,grid_length=extent*sigma/flux_scale,parameter_values=[capacitance_nat,inductance_nat])
+  similarity=float(sla.norm(matrix*energy_scale-si_matrix)/sla.norm(si_matrix))
+  assert similarity < 1e-12,similarity
+  values,vectors=natural.get_eigensystem(n_eig=5)
+  assert np.all(np.isfinite(values)) and np.all(np.isfinite(vectors))
+  assert np.max(np.abs(np.imag(values)))==0
+  norm=float(sla.norm(matrix));herm=float(sla.norm(matrix-matrix.getH())/norm)
+  residual=max(float(np.linalg.norm(matrix@vectors[:,i]-values[i]*vectors[:,i])/(norm*np.linalg.norm(vectors[:,i]))) for i in range(5))
+  energies=np.real(values)*energy_scale;f=float((energies[1]-energies[0])/h);alpha=float((energies[2]-2*energies[1]+energies[0])/h)
+  rows.append(dict(dimension=dimension,energy_scale_j=energy_scale,matrix_similarity_relative=similarity,natural_capacitance=capacitance_nat,natural_inductance=inductance_nat,resolved_dimension=circuit.n_dim,half_domain_sigma=extent,grid_length_wb=float(circuit.grid_length),parameter_names=names,parameter_values=circuit.parameter_values,energies_j=energies.tolist(),frequency_hz=f,anharmonicity_hz=alpha,scaled_residual=residual,hermiticity_relative=herm,upstream_hbar=circuit.hbar_si))
+ fine,prior,expanded=rows[-2],rows[-3],rows[-1]
+ metrics=dict(frequency_relative=abs(fine['frequency_hz']/reference-1),refinement_relative=abs(fine['frequency_hz']-prior['frequency_hz'])/reference,anharmonicity_over_frequency=abs(fine['anharmonicity_hz'])/reference,domain_relative=abs(fine['frequency_hz']-expanded['frequency_hz'])/reference,scaled_residual=max(r['scaled_residual'] for r in rows),hermiticity_relative=max(r['hermiticity_relative'] for r in rows))
+ passed=all(value<=plan[key+'_limit'] for key,value in metrics.items())
+ cases.append(dict(inputs=case,reference_frequency_hz=reference,sigma_wb=sigma,rows=rows,metrics=metrics,passed=passed))
+report=dict(plan_sha256=hashlib.sha256(plan_path.read_bytes()).hexdigest(),probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),platform=platform.platform(),python=platform.python_version(),dependencies=sorted(f'{d.metadata["Name"]}=={d.version}' for d in importlib.metadata.distributions()),cases=cases,passed=all(c['passed'] for c in cases))
+Path(sys.argv[2]).write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps(report,indent=2));sys.exit(0 if report['passed'] else 1)

@@ -300,3 +300,11 @@ EJ/EC 200–250. CLI requires `--python` (pyEPR-quantum 1.0.2) and `--out`
 metrics and canonical Hz quantities. Runs a bounded local process, preserves
 logs/hashes; no EM, measurements, checkpoint/resume or MCP mapping.
 [Commands, failures and AI prompt](integrations/pyepr.md#typed-product-operation).
+
+## CircuitQ LC developer gate
+
+`scripts/check_circuitq_lc.py --out NEW_DIRECTORY` uses an isolated audited
+CircuitQ 1.2.1 runtime and two immutable physical cases. Outputs: plan/report,
+raw joule eigenvalues, Hz quantities and acceptance metrics; starts bounded
+local numerical calculations. No product CLI/MCP schema or canonical evidence
+promotion. [Commands, units, limits and AI prompt](integrations/circuitq.md#predeclared-lc-acceptance-gate).

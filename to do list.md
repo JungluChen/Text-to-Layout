@@ -31,7 +31,9 @@ existing adapters and numerical assumptions before selecting a bounded case.
 Do not mark it complete from import/discovery alone. Pinned 1.2.1 source/MIT
 audit and repeated exploratory LC execution are retained in
 `docs/integrations/circuitq.md`; typed adapter and numerical/platform acceptance
-remain pending. Also track Windows lifecycle CI 37208006683: late successful
+remain pending. A locked LC gate now retains rejected SI residuals and passing
+equivalent natural-unit repeats; use it for the next adapter slice.
+Also track Windows lifecycle CI 37208006683: late successful
 finalization exceeded the test deadline; attempt 2 passed unchanged. Investigate
 variable monitor/telemetry timing before production edits.
 

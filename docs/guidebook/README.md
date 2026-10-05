@@ -405,3 +405,10 @@ product adapter, platform verification and GUI screenshot remain pending.
 The [typed pyEPR walkthrough](../integrations/pyepr.md#typed-product-operation)
 now provides both circuit cases, explicit interpreter paths, status inspection
 and retry recovery. No graphical application or screenshot is claimed.
+
+## CircuitQ ideal LC benchmark
+
+Follow the [predeclared LC gate walkthrough](../integrations/circuitq.md#predeclared-lc-acceptance-gate)
+for repeated execution, SI/natural-unit equivalence, rejected residuals and
+reference/convergence checks. This headless developer gate has no GUI screenshot
+or platform/product acceptance yet.
