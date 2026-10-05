@@ -6,7 +6,7 @@ This is the 100-slot user-requested candidate inventory, not a claim
 that 100 distinct open-source projects exist or are installable.
 Source hints in `targets.json` remain unverified until audited.
 
-**Completed with full evidence: 3/100.**
+**Completed with full evidence: 4/100.**
 
 Check a target only after source/license/version review, a typed adapter
 using the shared evidence contract, an actual solver or tool execution,
@@ -21,7 +21,7 @@ probe alone does not satisfy this checklist.
 - [x] 001 KQCircuits — implementation `c6f023e9f69d7e353baa7b46ecc9694829c8ce51`; scope: straight CPW gap-mask generation and independent geometric readback only; no EM simulation or full-toolkit claim; evidence in `completed.json`.
 - [x] 002 Qiskit Metal — implementation `dde9fcf56c84972fab804678272ed0f1a886062a`; scope: centred positive charge-pad and ground-pocket masks with typed dimensions; no fabrication junction, EM or full-toolkit claim; evidence in `completed.json`.
 - [x] 003 pyEPR — implementation `4cd88ee4390d9f1353fdcca5dd036e1ef1acbba2`; scope: specified ideal one-mode full-cosine circuit diagonalization, two charge-insensitive benchmarks; no EM/HFSS extraction or measurement validation; evidence in `completed.json`.
-- [ ] 004 CircuitQ — source/license, adapter, execution, comparison and platform acceptance pending.
+- [x] 004 CircuitQ — implementation `0cc02e3b9b3639b38a3ef5046db7d352b550ab7f`; scope: specified ideal parallel LC circuit with SI/natural matrix equivalence and two repeated numerical benchmarks; no nonlinear/noise, EM or measurement claim; evidence in `completed.json`.
 - [ ] 005 scqubits — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 006 SQcircuit — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 007 SQuADDS — source/license, adapter, execution, comparison and platform acceptance pending.

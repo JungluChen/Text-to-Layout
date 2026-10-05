@@ -1,0 +1,99 @@
+{
+  "request_sha256": "be8257648a0e40ac2b82253a283da8d5aca238504725d36d8d9d904e17352cc5",
+  "worker_sha256": "d4bd24d513253bf28a63ef88a85955792d4847184438578b1c2dae10fcd01953",
+  "command": [
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/.circuitq-env/bin/python",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_circuitq_lc_worker.py",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/request.json",
+    "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/solver.json"
+  ],
+  "scope": "ideal parallel LC circuit; no nonlinear/noise, EM or measurement claim",
+  "result": {
+    "execution_completed": true,
+    "return_code": 0,
+    "status": "SIMULATION_EXECUTED",
+    "numerical_checks_passed": true,
+    "failure_reason": null,
+    "output_dir": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first",
+    "metrics": {
+      "frequency_relative": 6.250646496286372e-06,
+      "refinement_relative": 1.87505869031998e-05,
+      "anharmonicity_over_frequency": 6.249961579433224e-06,
+      "domain_relative": 5.493329012117346e-12,
+      "scaled_residual": 9.878657524832017e-17,
+      "hermiticity_relative": 0.0
+    },
+    "quantities": [
+      {
+        "public_reference": null,
+        "quantity": "frequency",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": 1989424353.3825989,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "CircuitQ 1.2.1 natural-unit ideal LC circuit",
+        "command": "[\"/home/runner/work/Text-to-Layout/Text-to-Layout/.circuitq-env/bin/python\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_circuitq_lc_worker.py\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/request.json\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/solver.json\"]",
+        "input_files": [
+          "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/request.json"
+        ],
+        "output_files": [
+          "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/solver.json"
+        ],
+        "parser": "textlayout.external.circuitq_lc.run_lc",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-05T14:12:09+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Exact ideal LC reference; numerical discretization, not measured hardware"
+        ]
+      },
+      {
+        "public_reference": null,
+        "quantity": "anharmonicity",
+        "target_value": null,
+        "target_unit": null,
+        "extracted_value": -12433.903493765338,
+        "extracted_unit": "Hz",
+        "analytical_value": null,
+        "analytical_model": null,
+        "error_percent": null,
+        "tolerance_percent": 5.0,
+        "status": "SIMULATION_EXECUTED",
+        "solver": "CircuitQ 1.2.1 natural-unit ideal LC circuit",
+        "command": "[\"/home/runner/work/Text-to-Layout/Text-to-Layout/.circuitq-env/bin/python\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_circuitq_lc_worker.py\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/request.json\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/solver.json\"]",
+        "input_files": [
+          "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/request.json"
+        ],
+        "output_files": [
+          "/home/runner/work/Text-to-Layout/Text-to-Layout/out/circuitq-base-first/solver.json"
+        ],
+        "parser": "textlayout.external.circuitq_lc.run_lc",
+        "measured_value": null,
+        "measured_unit": null,
+        "measurement_uncertainty": null,
+        "calibration_version": null,
+        "blocking_reason": null,
+        "timestamp": "2026-10-05T14:12:09+00:00",
+        "notes": [
+          "Specified ideal circuit; no EM extraction or measurement validation",
+          "Exact ideal LC reference; numerical discretization, not measured hardware"
+        ]
+      }
+    ]
+  },
+  "artifact_sha256": {
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "solver.json": "f9823b8404b859ca5558987069e2c62d05517610972fbaa24c09d20ba81ad58d",
+    "request.json": "be8257648a0e40ac2b82253a283da8d5aca238504725d36d8d9d904e17352cc5",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

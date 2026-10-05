@@ -26,16 +26,16 @@ Two cases passed twice on each of macOS, Windows and Linux (37187701164);
 all 12 packets independently checked. Fixed convergence/reference limits pass;
 no HFSS/EM or measurement claim. Exact-SHA CI 37187636083 and test 37187636081
 passed. See docs/progress/2026-10-04-160007.md.
-Current item: **004 CircuitQ**. Audit upstream identity/license/version,
-existing adapters and numerical assumptions before selecting a bounded case.
-Do not mark it complete from import/discovery alone. Pinned 1.2.1 source/MIT
-audit and repeated exploratory LC execution are retained in
-`docs/integrations/circuitq.md`; typed adapter and numerical/platform acceptance
-remain pending. A locked LC gate now retains rejected SI residuals and passing
-equivalent natural-unit repeats; use it for the next adapter slice.
-Also track Windows lifecycle CI 37208006683: late successful
-finalization exceeded the test deadline; attempt 2 passed unchanged. Investigate
-variable monitor/telemetry timing before production edits.
+Entry **004 CircuitQ** is accepted for specified ideal parallel-LC execution,
+implementation 0cc02e3b9b3639b38a3ef5046db7d352b550ab7f. Both cases passed twice
+on Windows/macOS/Linux (37322754080), all twelve packets independently checked.
+Fixed residual, matrix-equivalence, domain/grid and exact-reference gates pass;
+no nonlinear/noise, EM or measurement claim. CI 37322701518 and test 37322701485
+passed. See docs/progress/2026-10-05-220929.md.
+Current item: **005 scqubits**. Audit existing adapter/source/license and select
+a bounded independent numerical/reference acceptance path before adding code.
+Windows lifecycle CI 37208006683 had late successful finalization and passed
+unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 
 
 ## Current human-directed release priority — v0.3.1

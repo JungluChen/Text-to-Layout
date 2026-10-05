@@ -1,0 +1,33 @@
+import json,hashlib,math,sys
+from pathlib import Path
+from textlayout.external.circuitq_lc import LCRequest,benchmark_plan
+from textlayout.external._circuitq_lc_worker import assess
+root=Path(sys.argv[1]);results=[];repeats=[]
+for platform in sorted(root.iterdir()):
+ assert {p.name for p in platform.iterdir()}=={'circuitq-base-first','circuitq-base-repeat','circuitq-small-first','circuitq-small-repeat'}
+ for case in ['base','small']:
+  pair=[]
+  for run in ['first','repeat']:
+   base=platform/f'circuitq-{case}-{run}';m=json.loads((base/'manifest.json').read_text());s=json.loads((base/'solver.json').read_text());plan=json.loads((base/'request.json').read_text())
+   for name,digest in m['artifact_sha256'].items():assert hashlib.sha256((base/name).read_bytes()).hexdigest()==digest,(base,name)
+   assert m['request_sha256']==s['request_sha256']==hashlib.sha256((base/'request.json').read_bytes()).hexdigest()
+   assert s['version']=='1.2.1' and len(s['cases'])==1
+   c=s['cases'][0];req=LCRequest(**c['inputs']);assert plan==benchmark_plan(req)
+   expected=1/(2*math.pi*math.sqrt(req.capacitance_f*req.inductance_h))
+   metrics,passed=assess(c['rows'],plan,expected);assert passed and metrics==m['result']['metrics']
+   assert m['result']['status']=='SIMULATION_EXECUTED' and m['result']['numerical_checks_passed'] and m['result']['return_code']==0
+   for row in c['rows']:
+    eig=row['energies_j'];assert all(math.isfinite(e) for e in eig)
+    freq=(eig[1]-eig[0])/6.62607015e-34;alpha=(eig[2]-2*eig[1]+eig[0])/6.62607015e-34
+    assert math.isclose(freq,row['frequency_hz'],rel_tol=1e-14)
+    assert math.isclose(alpha,row['anharmonicity_hz'],rel_tol=1e-14)
+   for q in m['result']['quantities']:
+    assert q['status']=='SIMULATION_EXECUTED' and q['extracted_unit']=='Hz'
+    assert q['extracted_value']==c['rows'][-2][q['quantity']+'_hz']
+   results.append(dict(packet=str(base.relative_to(root)),inputs=c['inputs'],platform=s['platform'],reference_hz=expected,metrics=metrics,passed=True))
+   pair.append(c)
+  delta=max(abs(a[k]-b[k]) for a,b in zip(pair[0]['rows'],pair[1]['rows']) for k in ['frequency_hz','anharmonicity_hz'])
+  assert delta/expected<=plan['frequency_relative_limit']
+  repeats.append(dict(platform=platform.name,case=case,max_difference_hz=delta))
+assert len(results)==12
+print(json.dumps(dict(passed=True,scope='two ideal LC cases, three platforms; no EM/measurement',packets=results,repeats=repeats),indent=2))

@@ -1,0 +1,157 @@
+{
+  "cases": [
+    {
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "reference_frequency_hz": 1875658991.993971,
+      "sigma_wb": 1.9309257928592447e-16,
+      "rows": [
+        {
+          "dimension": 401,
+          "energy_scale_j": 1.054571817e-25,
+          "matrix_similarity_relative": 1.4499621570470025e-15,
+          "natural_capacitance": 0.12324707699131397,
+          "natural_inductance": 0.05841923537470532,
+          "resolved_dimension": 401,
+          "half_domain_sigma": 8,
+          "grid_length_wb": 1.5447406342873957e-15,
+          "parameter_names": [
+            "C_{01}",
+            "L_{010}"
+          ],
+          "parameter_values": [
+            1.2e-13,
+            6e-08
+          ],
+          "energies_j": [
+            6.2138133036690375e-25,
+            1.8640818405408487e-24,
+            3.1066580403864415e-24,
+            4.349109913513886e-24,
+            5.59143747107465e-24
+          ],
+          "frequency_hz": 1875471406.1908097,
+          "anharmonicity_hz": -187607.92677709562,
+          "scaled_residual": 6.344083355207629e-17,
+          "hermiticity_relative": 0.0,
+          "upstream_hbar": 1.054571817e-34
+        },
+        {
+          "dimension": 801,
+          "energy_scale_j": 1.054571817e-25,
+          "matrix_similarity_relative": 5.250349572442537e-14,
+          "natural_capacitance": 0.12324707699131397,
+          "natural_inductance": 0.05841923537470532,
+          "resolved_dimension": 801,
+          "half_domain_sigma": 8,
+          "grid_length_wb": 1.5447406342873957e-15,
+          "parameter_names": [
+            "C_{01}",
+            "L_{010}"
+          ],
+          "parameter_values": [
+            1.2e-13,
+            6e-08
+          ],
+          "energies_j": [
+            6.214046347884029e-25,
+            1.8641983684781708e-24,
+            3.1069610299476133e-24,
+            4.349692620635018e-24,
+            5.5923931734109116e-24
+          ],
+          "frequency_hz": 1875612098.2054014,
+          "anharmonicity_hz": -46893.88977475541,
+          "scaled_residual": 7.464292832509231e-17,
+          "hermiticity_relative": 0.0,
+          "upstream_hbar": 1.054571817e-34
+        },
+        {
+          "dimension": 1601,
+          "energy_scale_j": 1.054571817e-25,
+          "matrix_similarity_relative": 5.2532415514685405e-14,
+          "natural_capacitance": 0.12324707699131397,
+          "natural_inductance": 0.05841923537470532,
+          "resolved_dimension": 1601,
+          "half_domain_sigma": 8,
+          "grid_length_wb": 1.5447406342873957e-15,
+          "parameter_names": [
+            "C_{01}",
+            "L_{010}"
+          ],
+          "parameter_values": [
+            1.2e-13,
+            6e-08
+          ],
+          "energies_j": [
+            6.214104606206958e-25,
+            1.8642274980039726e-24,
+            3.1070367677825232e-24,
+            4.3498382726705015e-24,
+            5.592632048980527e-24
+          ],
+          "frequency_hz": 1875647267.9107945,
+          "anharmonicity_hz": -11722.792771956227,
+          "scaled_residual": 9.480630952463226e-17,
+          "hermiticity_relative": 0.0,
+          "upstream_hbar": 1.054571817e-34
+        },
+        {
+          "dimension": 2001,
+          "energy_scale_j": 1.054571817e-25,
+          "matrix_similarity_relative": 1.5165304659912911e-13,
+          "natural_capacitance": 0.12324707699131397,
+          "natural_inductance": 0.05841923537470532,
+          "resolved_dimension": 2001,
+          "half_domain_sigma": 10,
+          "grid_length_wb": 1.9309257928592445e-15,
+          "parameter_names": [
+            "C_{01}",
+            "L_{010}"
+          ],
+          "parameter_values": [
+            1.2e-13,
+            6e-08
+          ],
+          "energies_j": [
+            6.2141046062168205e-25,
+            1.8642274979989007e-24,
+            3.1070367676125383e-24,
+            4.3498382693892434e-24,
+            5.5926320032554995e-24
+          ],
+          "frequency_hz": 1875647267.9016514,
+          "anharmonicity_hz": -11723.03251425512,
+          "scaled_residual": 9.459196789443906e-17,
+          "hermiticity_relative": 0.0,
+          "upstream_hbar": 1.054571817e-34
+        }
+      ],
+      "metrics": {
+        "frequency_relative": 6.250647493266648e-06,
+        "refinement_relative": 1.8750586083714405e-05,
+        "anharmonicity_over_frequency": 6.249959519290864e-06,
+        "domain_relative": 4.87461427103334e-12,
+        "scaled_residual": 9.480630952463226e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "upstream_core_sha256": "52360bf742f07ec9b99437104efc84af2369033ad424ee5e012c7986e0510d7a",
+  "request_sha256": "5d31eca65b0b605014b64469244aaae8e899624a7374523a5315bc11fdf7b279",
+  "version": "1.2.1",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.12.10",
+  "dependencies": [
+    "circuitq==1.2.1",
+    "mpmath==1.3.0",
+    "networkx==3.7",
+    "numpy==2.5.3",
+    "scipy==1.18.1",
+    "sympy==1.14.0"
+  ]
+}

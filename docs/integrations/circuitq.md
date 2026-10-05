@@ -1,12 +1,13 @@
-# CircuitQ — entry 004, audit and exploratory execution
+# CircuitQ — entry 004, scoped ideal-LC acceptance
 
-Document class: MANUAL_DOCUMENTATION. Not a completed integration.
+Document class: MANUAL_DOCUMENTATION. Accepted only for the bounded ideal-LC scope below.
 
 Source: [PhilippAumann/circuitq](https://github.com/PhilippAumann/circuitq/tree/b45978891ac2c25ad7a44973c3cbe836c770e0aa),
 revision b45978891ac2c25ad7a44973c3cbe836c770e0aa; setup.py declares 1.2.1,
 MIT license. Dependencies: NumPy, NetworkX, SymPy and SciPy, unbounded upstream.
 Isolated Python 3.12 installation resolves/imports successfully; keep it outside
-the lean base package. No canonical CircuitQ adapter was found in this repository.
+the lean base package. The initial audit found no canonical CircuitQ adapter; the typed operation
+delivered later is documented below.
 
 The upstream LC notebook provides a parallel C/L graph. Explicit ground node 0,
 SI mode, C=1e-13 F and L=1e-7 H were used for the first probe. These are upstream
@@ -31,15 +32,15 @@ No pass threshold was applied retrospectively. The probe projects eigenvalues
 to real for inspection; a production parser must retain/check imaginary parts,
 Hermiticity, residuals and finite values before acceptance.
 
-Next: declare a fresh LC benchmark with explicit physical parameters, grid and
+The initial next step was to declare a fresh LC benchmark with explicit physical parameters, grid and
 domain refinement, exact frequency/zero anharmonicity reference, and numerical
 limits before execution. Inspect periodic/end-point discretization assumptions
 and parameter ordering. Then implement a typed isolated adapter, repeat via the
 product interface, verify each platform and retain canonical evidence. No EM,
 T1/noise, arbitrary-topology or measurement claim follows from this LC probe.
 
-[Full audit and reproduction report](../progress/2026-10-05-040848.md). No product CLI or
-MCP command exists yet. AI prompt: “Inspect CircuitQ's parameter ordering, SI and
+[Full audit and reproduction report](../progress/2026-10-05-040848.md). That initial probe exposed no product CLI or MCP command; the later typed
+CLI is documented below. AI prompt: “Inspect CircuitQ's parameter ordering, SI and
 reduced-flux conventions, grid/domain refinement and residuals before proposing
 an acceptance benchmark. Do not promote import or exploratory output.”
 
@@ -81,8 +82,8 @@ Save stdout/stderr with both runs. Inspect plan.json and report.json, upstream
 core hash, dependency versions, matrices' similarity, raw joule eigenvalues and
 all metrics. Exit 0 requires every gate; failure is retained as rejection.
 Output directories must be new. This developer gate does not expose a product
-CLI/MCP function or promote canonical evidence. Typed adapter and actual
-Windows/macOS/Linux runs are next; checklist entry 004 remains unchecked.
+CLI/MCP function or promote canonical evidence. The typed adapter below follows this developer gate. Platform acceptance
+requires its real retained numerical runs.
 AI prompt: “Run the locked LC benchmark twice, explain why the SI eigenpair
 residual was rejected, and check physical-matrix equivalence before interpreting
 the natural-unit result. Do not call this EM or measurement validation.”
@@ -129,3 +130,14 @@ AI prompt: “Run both typed LC examples twice with the audited external
 interpreter. Inspect SI/natural matrix equality, raw energies, residual and
 grid/domain checks before interpreting the result. Report rejected output
 without promoting it to physical validation.”
+
+
+## Platform acceptance
+
+Implementation `0cc02e3b9b3639b38a3ef5046db7d352b550ab7f` passed the dedicated
+three-platform run 37322754080: both cases twice on macOS, Windows and Linux.
+All 12 downloaded packets independently verified. Worst frequency error
+6.250648055 ppm; all fixed gates pass, with identical same-platform repeats.
+General CI 37322701518 and test 37322701485 also passed. Entry 004 is complete
+for this ideal parallel-LC operation, not arbitrary CircuitQ features.
+[Full retained evidence](../progress/2026-10-05-220929.md).

@@ -46,6 +46,22 @@
         "Broader parameter-domain validation and measured-device comparison",
         "GUI/MCP and installed desktop surfaces"
       ]
+    },
+    "4": {
+      "name": "CircuitQ",
+      "scope": "specified ideal parallel LC circuit with SI/natural matrix equivalence and two repeated numerical benchmarks; no nonlinear/noise, EM or measurement claim",
+      "implementation_commit": "0cc02e3b9b3639b38a3ef5046db7d352b550ab7f",
+      "source_license_evidence": "docs/integrations/circuitq.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-05-220929/platforms/circuitq-lc-ubuntu-latest/circuitq-base-first/solver.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-05-220929/platform-validation.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-05-220929/platform-run.json",
+      "acceptance": "Two typed CLI cases twice on Windows/macOS/Linux, all 12 downloaded packets independently hash-checked and re-evaluated against exact LC references and raw joule energies. Fixed residual/Hermiticity/grid/domain/reference limits passed. Worst frequency error 6.250648055 ppm; same-platform repeats identical. Exact implementation CI and test passed.",
+      "remaining_scope": [
+        "Nonlinear circuits and arbitrary topology",
+        "Noise/T1 calculations",
+        "Broader domain and measured-device validation",
+        "EM extraction and GUI/MCP surfaces"
+      ]
     }
   }
 }

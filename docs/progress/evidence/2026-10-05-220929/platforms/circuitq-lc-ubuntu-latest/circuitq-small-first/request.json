@@ -1,0 +1,26 @@
+{
+  "scope": "two ideal parallel LC circuits; no nonlinear circuit, EM or measurement claim",
+  "dimensions": [
+    401,
+    801,
+    1601
+  ],
+  "half_domain_sigma": 8,
+  "expanded_dimension": 2001,
+  "expanded_half_domain_sigma": 10,
+  "frequency_relative_limit": 2e-05,
+  "refinement_relative_limit": 2e-05,
+  "anharmonicity_over_frequency_limit": 2e-05,
+  "domain_relative_limit": 1e-07,
+  "scaled_residual_limit": 1e-10,
+  "hermiticity_relative_limit": 1e-13,
+  "rationale": "Exact ideal LC spacing and zero anharmonicity are analytical references. Gaussian flux sigma=sqrt(hbar*sqrt(L/C)/2); 8-sigma and 10-sigma half-domains suppress tails, compared at equal grid spacing. Second-order finite-difference grid sequence halves spacing. Numerical budget 20 ppm for frequency/refinement/anharmonicity and 0.1 ppm for domain effect; these are computational resolution requirements, not experimental uncertainty. No thresholds change after execution.",
+  "reference_h_j_s": 6.62607015e-34,
+  "source_revision": "b45978891ac2c25ad7a44973c3cbe836c770e0aa",
+  "cases": [
+    {
+      "capacitance_f": 1.2e-13,
+      "inductance_h": 6e-08
+    }
+  ]
+}

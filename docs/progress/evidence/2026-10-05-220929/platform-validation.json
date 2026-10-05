@@ -1,0 +1,254 @@
+{
+  "passed": true,
+  "scope": "two ideal LC cases, three platforms; no EM/measurement",
+  "packets": [
+    {
+      "packet": "circuitq-lc-macos-14/circuitq-base-first",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.250646297667473e-06,
+        "refinement_relative": 1.8750587250143114e-05,
+        "anharmonicity_over_frequency": 6.249961679822746e-06,
+        "domain_relative": 5.219249788531842e-12,
+        "scaled_residual": 9.373185545905248e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-macos-14/circuitq-base-repeat",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.250646297667473e-06,
+        "refinement_relative": 1.8750587250143114e-05,
+        "anharmonicity_over_frequency": 6.249961679822746e-06,
+        "domain_relative": 5.219249788531842e-12,
+        "scaled_residual": 9.373185545905248e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-macos-14/circuitq-small-first",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250647753502925e-06,
+        "refinement_relative": 1.8750585841693345e-05,
+        "anharmonicity_over_frequency": 6.249959106083716e-06,
+        "domain_relative": 4.729325368798833e-12,
+        "scaled_residual": 9.279948047342228e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-macos-14/circuitq-small-repeat",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "macOS-14.8.9-arm64-arm-64bit",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250647753502925e-06,
+        "refinement_relative": 1.8750585841693345e-05,
+        "anharmonicity_over_frequency": 6.249959106083716e-06,
+        "domain_relative": 4.729325368798833e-12,
+        "scaled_residual": 9.279948047342228e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-ubuntu-latest/circuitq-base-first",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.250646496286372e-06,
+        "refinement_relative": 1.87505869031998e-05,
+        "anharmonicity_over_frequency": 6.249961579433224e-06,
+        "domain_relative": 5.493329012117346e-12,
+        "scaled_residual": 9.878657524832017e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-ubuntu-latest/circuitq-base-repeat",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.250646496286372e-06,
+        "refinement_relative": 1.87505869031998e-05,
+        "anharmonicity_over_frequency": 6.249961579433224e-06,
+        "domain_relative": 5.493329012117346e-12,
+        "scaled_residual": 9.878657524832017e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-ubuntu-latest/circuitq-small-first",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250648054928476e-06,
+        "refinement_relative": 1.875058499652632e-05,
+        "anharmonicity_over_frequency": 6.249959631607544e-06,
+        "domain_relative": 4.342142519974416e-12,
+        "scaled_residual": 9.829983041333602e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-ubuntu-latest/circuitq-small-repeat",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250648054928476e-06,
+        "refinement_relative": 1.875058499652632e-05,
+        "anharmonicity_over_frequency": 6.249959631607544e-06,
+        "domain_relative": 4.342142519974416e-12,
+        "scaled_residual": 9.829983041333602e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-windows-latest/circuitq-base-first",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.2506461695477356e-06,
+        "refinement_relative": 1.8750587184229877e-05,
+        "anharmonicity_over_frequency": 6.24996104195567e-06,
+        "domain_relative": 6.025428597915178e-12,
+        "scaled_residual": 9.976190755070945e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-windows-latest/circuitq-base-repeat",
+      "inputs": {
+        "capacitance_f": 8e-14,
+        "inductance_h": 8e-08
+      },
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "reference_hz": 1989436788.6486914,
+      "metrics": {
+        "frequency_relative": 6.2506461695477356e-06,
+        "refinement_relative": 1.8750587184229877e-05,
+        "anharmonicity_over_frequency": 6.24996104195567e-06,
+        "domain_relative": 6.025428597915178e-12,
+        "scaled_residual": 9.976190755070945e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-windows-latest/circuitq-small-first",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250647493266648e-06,
+        "refinement_relative": 1.8750586083714405e-05,
+        "anharmonicity_over_frequency": 6.249959519290864e-06,
+        "domain_relative": 4.87461427103334e-12,
+        "scaled_residual": 9.480630952463226e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    },
+    {
+      "packet": "circuitq-lc-windows-latest/circuitq-small-repeat",
+      "inputs": {
+        "capacitance_f": 1.2e-13,
+        "inductance_h": 6e-08
+      },
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "reference_hz": 1875658991.993971,
+      "metrics": {
+        "frequency_relative": 6.250647493266648e-06,
+        "refinement_relative": 1.8750586083714405e-05,
+        "anharmonicity_over_frequency": 6.249959519290864e-06,
+        "domain_relative": 4.87461427103334e-12,
+        "scaled_residual": 9.480630952463226e-17,
+        "hermiticity_relative": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "repeats": [
+    {
+      "platform": "circuitq-lc-macos-14",
+      "case": "base",
+      "max_difference_hz": 0.0
+    },
+    {
+      "platform": "circuitq-lc-macos-14",
+      "case": "small",
+      "max_difference_hz": 0.0
+    },
+    {
+      "platform": "circuitq-lc-ubuntu-latest",
+      "case": "base",
+      "max_difference_hz": 0.0
+    },
+    {
+      "platform": "circuitq-lc-ubuntu-latest",
+      "case": "small",
+      "max_difference_hz": 0.0
+    },
+    {
+      "platform": "circuitq-lc-windows-latest",
+      "case": "base",
+      "max_difference_hz": 0.0
+    },
+    {
+      "platform": "circuitq-lc-windows-latest",
+      "case": "small",
+      "max_difference_hz": 0.0
+    }
+  ]
+}
