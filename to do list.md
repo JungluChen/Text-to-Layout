@@ -34,6 +34,10 @@ no nonlinear/noise, EM or measurement claim. CI 37322701518 and test 37322701485
 passed. See docs/progress/2026-10-05-220929.md.
 Current item: **005 scqubits**. Audit existing adapter/source/license and select
 a bounded independent numerical/reference acceptance path before adding code.
+Audit 2026-10-09-210224 retained repeated ng=0 Mathieu comparisons and isolated a
+rounded-flux-constant SI conversion discrepancy (up to 3.379 Hz across six
+levels). No acceptance threshold applied; audit shared legacy compatibility
+before fixing constants, then predeclare gates and verify actual platforms.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

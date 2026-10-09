@@ -1,0 +1,26 @@
+import hashlib, importlib.metadata as md, json, math, platform, sys
+from pathlib import Path
+import numpy as np
+from scipy.special import mathieu_a, mathieu_b
+import scqubits
+from textlayout.solvers.scqubits_adapter import prepare_scqubits_input, execute_scqubits
+out=Path(sys.argv[1]); out.mkdir()
+h=6.62607015e-34; e=1.602176634e-19
+report={'scope':'exploratory ng=0 ideal transmon audit; not checklist acceptance','platform':platform.platform(),'versions':{x:md.version(x) for x in ('scqubits','numpy','scipy')},'cases':[]}
+for ej,ec in [(15.,.3),(30.,.15)]:
+    # Exact SI conversion, audited against existing rounded flux constant.
+    params={'ic_a':ej*1e9*4*math.pi*e,'capacitance_f':e*e/(2*h*ec*1e9),'ng':0.,'n_evals':6}
+    q=-ej/(2*ec)
+    vals=sorted([float(mathieu_a(0,q))]+[float(f(m,q)) for m in range(2,14,2) for f in (mathieu_a,mathieu_b)])[:6]
+    ref=(np.array(vals)-vals[0])*ec*1e9
+    rows=[]
+    for ncut in (15,25,35):
+        result=execute_scqubits(prepare_scqubits_input(dict(params,ncut=ncut),out/f'{ej}-{ncut}'))
+        data=json.loads(Path(result.artifacts['result']).read_text())
+        levels=np.array(data['quantities']['energy_levels_ghz'])*1e9
+        rows.append({'ncut':ncut,'status':result.status,'levels_hz':levels.tolist(),'max_mathieu_difference_hz':float(np.max(abs(levels-ref))),'actual_ej_ghz':data['solver_inputs']['EJ_GHz']})
+    report['cases'].append({'ej_ghz':ej,'ec_ghz':ec,'params':params,'mathieu_levels_hz':ref.tolist(),'rows':rows})
+source=Path(scqubits.__file__).parent/'core/transmon.py'
+report['source_sha256']=hashlib.sha256(source.read_bytes()).hexdigest()
+(out/'audit.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps(report,indent=2))

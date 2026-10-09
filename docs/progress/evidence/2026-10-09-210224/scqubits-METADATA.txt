@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: scqubits
+Version: 4.1.0
+Summary: scqubits: superconducting qubits in Python
+Home-page: https://scqubits.readthedocs.io
+Author: Jens Koch, Peter Groszkowski
+Author-email: jens-koch@northwestern.edu, piotrekg@gmail.com
+License: BSD
+Keywords: superconducting qubits
+Platform: Linux
+Platform: Mac OSX
+Platform: Unix
+Platform: Windows
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: cycler
+Requires-Dist: cython >=0.29.20
+Requires-Dist: matplotlib >=3.5.1
+Requires-Dist: numpy >=1.14.2
+Requires-Dist: scipy >=1.5
+Requires-Dist: dill
+Requires-Dist: sympy
+Requires-Dist: tqdm
+Requires-Dist: typing-extensions
+Requires-Dist: qutip <5.0 ; python_version < "3.9"
+Requires-Dist: qutip >=4.3.1 ; python_version >= "3.9"
+Provides-Extra: explorer
+Requires-Dist: ipywidgets >=7.5 ; extra == 'explorer'
+Provides-Extra: graphics
+Requires-Dist: matplotlib-label-lines >=0.3.6 ; extra == 'graphics'
+Provides-Extra: h5-support
+Requires-Dist: h5py >=2.10 ; extra == 'h5-support'
+Provides-Extra: pathos
+Requires-Dist: pathos ; extra == 'pathos'
+Requires-Dist: dill ; extra == 'pathos'
+
+
+scqubits is an open-source Python library for simulating superconducting qubits. It is
+meant to give the user a convenient way to obtain energy spectra of common
+superconducting qubits, plot energy levels as a function of external parameters,
+calculate matrix elements etc. The library further provides an interface to QuTiP,
+making it easy to work with composite Hilbert spaces consisting of coupled
+superconducting qubits and harmonic modes. Internally, numerics within scqubits is
+carried out with the help of Numpy and Scipy; plotting capabilities rely on
+Matplotlib.
+
+If scqubits is helpful to you in your research, please support its continued
+development and maintenance. Use of scqubits in research publications is
+appropriately acknowledged by citing:
+
+Peter Groszkowski and Jens Koch, 'scqubits:  a Python package for superconducting qubits',
+Quantum 5, 583 (2021). https://quantum-journal.org/papers/q-2021-11-17-583/

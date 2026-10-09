@@ -1,0 +1,48 @@
+{
+  "convergence": "NOT_EVALUATED",
+  "engine": "scqubits.Transmon.eigenvals",
+  "input_sha256": "537a65a6f39e6c022613c0d326a81f30dc334f82d367ca90773a8890618071dd",
+  "lineage": {
+    "EC": "e^2 / (2*capacitance_f*h), GHz",
+    "EJ": "Phi0 * ic_a / (2*pi*h), GHz",
+    "source": "explicit SI inputs; extraction provenance is caller-owned"
+  },
+  "parameters": {
+    "capacitance_f": 6.456743108219708e-14,
+    "ic_a": 3.020031805876573e-08,
+    "n_evals": 6,
+    "ncut": 15,
+    "ng": 0.0
+  },
+  "quantities": {
+    "anharmonicity_mhz": -344.7669087746697,
+    "ec_ghz": 0.3,
+    "ej_ec_ratio": 49.9999999888306,
+    "ej_ghz": 14.99999999664918,
+    "energy_levels_ghz": [
+      0.0,
+      5.682575676622607,
+      11.020384444470544,
+      15.972980847750701,
+      20.41860603541047,
+      24.617355248192283
+    ],
+    "f01_ghz": 5.682575676622607,
+    "f12_ghz": 5.337808767847937,
+    "transmon_regime": true
+  },
+  "reference_comparison": "NOT_EVALUATED",
+  "schema": "textlayout.scqubits-transmon.v1",
+  "solver_inputs": {
+    "EC_GHz": 0.3,
+    "EJ_GHz": 14.99999999664918,
+    "n_evals": 6,
+    "ncut": 15,
+    "ng": 0.0
+  },
+  "solver_version": "4.1.0",
+  "status": "executed",
+  "warnings": [
+    "Executed spectrum; cutoff convergence and reference comparison are pending."
+  ]
+}
