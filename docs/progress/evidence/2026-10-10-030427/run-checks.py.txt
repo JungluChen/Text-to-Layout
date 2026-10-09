@@ -1,0 +1,9 @@
+import json,subprocess,time,os
+from pathlib import Path
+out=Path('/private/tmp/scq-checks'); out.mkdir(exist_ok=True)
+checks=json.loads(Path('docs/progress/evidence/2026-10-05-220929/circuitq-product-checks/checks.json').read_text()); results=[]
+for i,c in enumerate(checks):
+ start=time.time()
+ with (out/f'{i:02}.txt').open('w') as f: r=subprocess.run(c['command'],shell=True,stdout=f,stderr=subprocess.STDOUT)
+ results.append({'command':c['command'],'exit_code':r.returncode,'elapsed_seconds':time.time()-start})
+ (out/'checks.json').write_text(json.dumps(results,indent=2)+'\n'); print(c['command'],r.returncode,flush=True)

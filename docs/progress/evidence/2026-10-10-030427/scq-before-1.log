@@ -1,0 +1,80 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+________________ test_legacy_josephson_exact_si_identity[15.0] _________________
+
+energy_ghz = 15.0
+
+    @pytest.mark.parametrize('energy_ghz', [15.0, 30.0])
+    def test_legacy_josephson_exact_si_identity(energy_ghz):
+        current = 4 * math.pi * 1.602176634e-19 * energy_ghz * 1e9
+>       assert ej_ghz(current) == pytest.approx(energy_ghz, rel=1e-14)
+E       assert 14.999999996649182 == 15.0 ± 1.0e-12
+E         
+E         comparison failed
+E         Obtained: 14.999999996649182
+E         Expected: 15.0 ± 1.0e-12
+
+/private/tmp/test_scqubits_si_conversion.py:11: AssertionError
+________________ test_legacy_josephson_exact_si_identity[30.0] _________________
+
+energy_ghz = 30.0
+
+    @pytest.mark.parametrize('energy_ghz', [15.0, 30.0])
+    def test_legacy_josephson_exact_si_identity(energy_ghz):
+        current = 4 * math.pi * 1.602176634e-19 * energy_ghz * 1e9
+>       assert ej_ghz(current) == pytest.approx(energy_ghz, rel=1e-14)
+E       assert 29.999999993298363 == 30.0 ± 1.0e-12
+E         
+E         comparison failed
+E         Obtained: 29.999999993298363
+E         Expected: 30.0 ± 1.0e-12
+
+/private/tmp/test_scqubits_si_conversion.py:11: AssertionError
+________________ test_product_josephson_exact_si_identity[15.0] ________________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-161/test_product_josephson_exact_s0')
+energy_ghz = 15.0
+
+    @pytest.mark.parametrize('energy_ghz', [15.0, 30.0])
+    def test_product_josephson_exact_si_identity(tmp_path, energy_ghz):
+        pytest.importorskip('scqubits')
+        current = 4 * math.pi * 1.602176634e-19 * energy_ghz * 1e9
+        result = adapter.execute_scqubits(adapter.prepare_scqubits_input(
+            {'ic_a':current, 'capacitance_f':80e-15}, tmp_path))
+        assert result.status == 'executed', result.reason
+        payload = json.loads(Path(result.artifacts['result']).read_text())
+>       assert payload['solver_inputs']['EJ_GHz'] == pytest.approx(energy_ghz, rel=1e-14)
+E       assert 14.999999996649182 == 15.0 ± 1.0e-12
+E         
+E         comparison failed
+E         Obtained: 14.999999996649182
+E         Expected: 15.0 ± 1.0e-12
+
+/private/tmp/test_scqubits_si_conversion.py:21: AssertionError
+________________ test_product_josephson_exact_si_identity[30.0] ________________
+
+tmp_path = PosixPath('/private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/pytest-of-ludko/pytest-161/test_product_josephson_exact_s1')
+energy_ghz = 30.0
+
+    @pytest.mark.parametrize('energy_ghz', [15.0, 30.0])
+    def test_product_josephson_exact_si_identity(tmp_path, energy_ghz):
+        pytest.importorskip('scqubits')
+        current = 4 * math.pi * 1.602176634e-19 * energy_ghz * 1e9
+        result = adapter.execute_scqubits(adapter.prepare_scqubits_input(
+            {'ic_a':current, 'capacitance_f':80e-15}, tmp_path))
+        assert result.status == 'executed', result.reason
+        payload = json.loads(Path(result.artifacts['result']).read_text())
+>       assert payload['solver_inputs']['EJ_GHz'] == pytest.approx(energy_ghz, rel=1e-14)
+E       assert 29.999999993298363 == 30.0 ± 1.0e-12
+E         
+E         comparison failed
+E         Obtained: 29.999999993298363
+E         Expected: 30.0 ± 1.0e-12
+
+/private/tmp/test_scqubits_si_conversion.py:21: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../../../private/tmp/test_scqubits_si_conversion.py::test_legacy_josephson_exact_si_identity[15.0]
+FAILED ../../../../../private/tmp/test_scqubits_si_conversion.py::test_legacy_josephson_exact_si_identity[30.0]
+FAILED ../../../../../private/tmp/test_scqubits_si_conversion.py::test_product_josephson_exact_si_identity[15.0]
+FAILED ../../../../../private/tmp/test_scqubits_si_conversion.py::test_product_josephson_exact_si_identity[30.0]
+4 failed in 1.07s

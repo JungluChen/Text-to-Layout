@@ -416,3 +416,14 @@ or platform/product acceptance yet.
 The [typed CircuitQ LC walkthrough](../integrations/circuitq.md#typed-product-command)
 covers pinned optional setup, both F/H input files, repeated runs, status
 inspection and failure recovery. No GUI screenshot or measurement claim.
+
+### Reproducing scqubits spectra after the SI constants correction
+
+Keep old input/result files. Re-run the same explicit current and capacitance
+into a fresh output directory through the existing transmon workflow. Inspect
+`scqubits_result.json` → `lineage.constants`: Phi0 is derived as h/(2e).
+Earlier results used a rounded Phi0; small spectral changes are expected and
+do not imply a geometry change. Compare matching ng and charge cutoff first.
+Executed still leaves convergence/reference NOT_EVALUATED. If constants are
+missing, retain that historical limitation rather than filling guessed values.
+No new GUI or screenshot is delivered by this numerical correction.

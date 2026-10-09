@@ -40,9 +40,9 @@ VALID_METHOD_LABELS = frozenset([
 ])
 
 # Physical constants — never approximated or overridden by user inputs.
-PHI0_WEBER = 2.067833848e-15       # Magnetic flux quantum (Wb)
 ELECTRON_CHARGE_C = 1.602176634e-19  # Elementary charge (C)
 PLANCK_J_S = 6.62607015e-34         # Planck constant (J·s)
+PHI0_WEBER = PLANCK_J_S / (2.0 * ELECTRON_CHARGE_C)  # h/(2e), exact SI definition
 
 
 def empty_extraction_v1(device: str = "") -> dict[str, Any]:

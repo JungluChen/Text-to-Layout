@@ -205,3 +205,9 @@ and residual gates precede any product adapter or platform acceptance.
 INT-11 typed adapter requires explicit F/H inputs, isolated audited source,
 fixed numerical checks, retained raw outputs and canonical rejected/executed
 statuses. Two repeated platform examples are required for scoped acceptance.
+
+### scqubits SI conversion traceability
+
+Transmon EJ conversion derives Phi0=h/(2e) from exact SI defining constants.
+Retain h, e and the derived flux quantum in result lineage. This numerical
+correction does not promote cutoff convergence or reference validation.

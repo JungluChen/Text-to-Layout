@@ -78,9 +78,9 @@ def execute_scqubits(prepared: SimulationResult) -> SimulationResult:
         scqubits = importlib.import_module("scqubits")
         # Preserve the extraction-derived conversion and guards from the legacy
         # adapter. Energies passed to scqubits are E/h in GHz, not angular rates.
-        phi0_weber = 2.067833848e-15
         planck_j_s = 6.62607015e-34
         electron_charge_c = 1.602176634e-19
+        phi0_weber = planck_j_s / (2.0 * electron_charge_c)
         ej = phi0_weber * inputs.ic_a / (2 * math.pi * planck_j_s * 1e9)
         ec = electron_charge_c**2 / (2 * inputs.capacitance_f * planck_j_s * 1e9)
         ratio = ej / ec
@@ -116,7 +116,9 @@ def execute_scqubits(prepared: SimulationResult) -> SimulationResult:
                               "ncut": inputs.ncut, "n_evals": inputs.n_evals},
             "lineage": {"EJ": "Phi0 * ic_a / (2*pi*h), GHz",
                         "EC": "e^2 / (2*capacitance_f*h), GHz",
-                        "source": "explicit SI inputs; extraction provenance is caller-owned"},
+                        "source": "explicit SI inputs; extraction provenance is caller-owned",
+                        "constants": {"h_j_s": planck_j_s, "e_c": electron_charge_c,
+                                      "phi0_wb": phi0_weber, "phi0_definition": "h/(2e)"}},
             "quantities": quantities,
             "warnings": warnings,
             "convergence": "NOT_EVALUATED",

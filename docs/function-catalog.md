@@ -317,3 +317,10 @@ exposed by CLI. API timeout 120 seconds. Runs bounded local diagonalization;
 retains logs, hashes, raw energies, Hz quantities and canonical status separately
 from numerical gates. No MCP mapping or resume.
 [Commands and AI prompt](integrations/circuitq.md#typed-product-command).
+
+### scqubits conversion correction
+
+The existing `execute_scqubits` operation now derives Phi0 from exact h/(2e),
+matching the corrected legacy extraction conversion. Result lineage records
+h (J s), e (C), Phi0 (Wb) and its definition. Existing inputs/defaults and
+execution effects are unchanged; this is not a new MCP tool or validation level.

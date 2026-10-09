@@ -250,3 +250,10 @@ Future clients must label CircuitQ inputs as specified ideal F/H values and
 reference results as exact ideal LC calculations. The typed headless command
 separates process exit, numerical checks and canonical evidence. No graphical
 surface or measured/EM validation is delivered by this adapter.
+
+### scqubits conversion evidence
+
+Result inspectors must preserve historical spectra and expose the recorded
+SI conversion constants when available. Older spectra used a rounded flux
+quantum; do not silently rewrite them. Convergence/reference remain pending
+until separately evaluated. No new UI is delivered by the constants fix.
