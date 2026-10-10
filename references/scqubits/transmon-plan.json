@@ -1,0 +1,27 @@
+{
+  "schema": "textlayout.scqubits-transmon-plan.v1",
+  "scope": "two ideal ng=0 transmons; no EM, noise or measured-device claim",
+  "version": "4.1.0",
+  "source_sha256": "c3e4825e1b38d8b6399adb0fd980b71179b2c9f10cdbce5ae41135a36681eb50",
+  "cases": [
+    {
+      "ej_ghz": 18.0,
+      "ec_ghz": 0.24
+    },
+    {
+      "ej_ghz": 24.0,
+      "ec_ghz": 0.2
+    }
+  ],
+  "ng": 0.0,
+  "cutoffs": [
+    20,
+    30,
+    40
+  ],
+  "levels": 6,
+  "max_refinement_hz": 1.0,
+  "max_reference_hz": 1.0,
+  "max_scaled_residual": 1e-12,
+  "rationale": "1 Hz absolute numerical resolution for all six excitation energies and last refinement, chosen before these cases run; not experimental uncertainty. Scaled residual 1e-12 bounds algebraic solve quality separately from truncation. Mathieu periodic spectrum is restricted to ng=0 and shares SciPy with the solver; it is a different algorithm, not an independent library or measurement."
+}

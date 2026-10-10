@@ -427,3 +427,24 @@ do not imply a geometry change. Compare matching ng and charge cutoff first.
 Executed still leaves convergence/reference NOT_EVALUATED. If constants are
 missing, retain that historical limitation rather than filling guessed values.
 No new GUI or screenshot is delivered by this numerical correction.
+
+### Developer scqubits acceptance benchmark
+
+Use an environment with scqubits 4.1.0 installed; the base install stays lean.
+From the repository root run:
+
+```sh
+PYTHONPATH=src uv run --no-sync python scripts/check_scqubits_transmon.py --out /tmp/scqubits-first
+PYTHONPATH=src uv run --no-sync python scripts/check_scqubits_transmon.py --out /tmp/scqubits-repeat
+```
+
+Use new directories each time. Read benchmark.json metrics and verify the
+sha256.json entries against retained files. The locked plan defines two ideal
+ng=0 circuits, cutoffs 20/30/40, six excitation levels, 1 Hz refinement/reference
+limits and scaled residual <=1e-12. A failure retains already-written adapter
+outputs; keep them and rerun unchanged before editing. No resume support.
+Mathieu comparison uses a different algorithm within SciPy, not measurement
+or an independent library. Other offsets and physical extraction remain pending.
+AI prompt: “Audit this scqubits packet against its locked plan and retained
+inputs; separate execution, numerical agreement and unavailable platform evidence.”
+No new GUI screenshot is claimed.

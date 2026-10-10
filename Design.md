@@ -257,3 +257,6 @@ Result inspectors must preserve historical spectra and expose the recorded
 SI conversion constants when available. Older spectra used a rounded flux
 quantum; do not silently rewrite them. Convergence/reference remain pending
 until separately evaluated. No new UI is delivered by the constants fix.
+
+The entry-005 benchmark is a retained numerical report, not a new UI status.
+Do not convert its passed flag to physical or measurement validation.

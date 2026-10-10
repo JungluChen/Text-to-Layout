@@ -39,8 +39,8 @@ rounded-flux-constant SI conversion discrepancy (up to 3.379 Hz across six
 levels). No acceptance threshold applied; audit shared legacy compatibility
 before fixing constants, then predeclare gates and verify actual platforms.
 The subsequent SI fix derives Phi0=h/(2e) in product and legacy paths, retains
-constants in lineage, and preserves existing compatibility tolerances. Fixed
-acceptance gates and dedicated scqubits platform evidence remain pending.
+constants in lineage, and preserves existing compatibility tolerances. A locked two-case ng=0 benchmark now checks cutoff/reference/residual evidence;
+dedicated scqubits platform evidence and canonical acceptance remain pending.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

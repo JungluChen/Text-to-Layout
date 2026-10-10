@@ -211,3 +211,9 @@ statuses. Two repeated platform examples are required for scoped acceptance.
 Transmon EJ conversion derives Phi0=h/(2e) from exact SI defining constants.
 Retain h, e and the derived flux quantum in result lineage. This numerical
 correction does not promote cutoff convergence or reference validation.
+
+### scqubits fixed benchmark scope
+
+Entry 005 requires a locked two-case ng=0 transmon benchmark, actual adapter
+outputs, six-level cutoff checks, Mathieu comparison and eigenpair residuals.
+Passing its numerical gate alone does not complete platform acceptance.

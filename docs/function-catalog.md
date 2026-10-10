@@ -324,3 +324,12 @@ The existing `execute_scqubits` operation now derives Phi0 from exact h/(2e),
 matching the corrected legacy extraction conversion. Result lineage records
 h (J s), e (C), Phi0 (Wb) and its definition. Existing inputs/defaults and
 execution effects are unchanged; this is not a new MCP tool or validation level.
+
+### Developer benchmark: scqubits transmon
+
+`PYTHONPATH=src python scripts/check_scqubits_transmon.py --out NEW_DIR` uses
+optional scqubits 4.1.0 and the locked references/scqubits/transmon-plan.json.
+It executes six existing typed adapter calls and retains benchmark.json, raw
+eigenvectors/eigenvalues, source/version identity and SHA-256 manifest. Exit 1
+rejects numerical checks; exceptions reject missing/invalid evidence. No MCP
+entrypoint or new public solver capability is introduced.
