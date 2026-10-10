@@ -62,6 +62,22 @@
         "Broader domain and measured-device validation",
         "EM extraction and GUI/MCP surfaces"
       ]
+    },
+    "5": {
+      "name": "scqubits",
+      "scope": "two fixed ideal ng=0 transmon spectra via the typed SI adapter, with cutoff/residual/Mathieu checks; no noise, EM, measurement or full-toolkit claim",
+      "implementation_commit": "577471cd62e616facafbdea4a2e81e07a0c253e3",
+      "source_license_evidence": "docs/integrations/scqubits.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-10-150004/platforms/scqubits-transmon-ubuntu-latest/scqubits-first/case-0-40/scqubits_result.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-10-150004/scqubits-platform-validation.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-10-150004/scqubits-platform-run.json",
+      "acceptance": "Two cases at three cutoffs, repeated on macOS/Windows/Linux: six benchmark packets, 36 typed adapter executions. All raw hashes, SI inputs, eigenpairs, canonical values and fresh Mathieu references independently checked. Fixed 1 Hz refinement/reference and 1e-12 scaled residual gates passed; worst reference difference 0.000167847 Hz. Same-platform repeats identical. Exact implementation CI/test passed.",
+      "remaining_scope": [
+        "Other charge offsets and broader parameter domains",
+        "Noise and coupled circuits",
+        "EM extraction and measured-device comparison",
+        "Installed desktop and GUI/MCP surfaces"
+      ]
     }
   }
 }

@@ -1,0 +1,16 @@
+{
+  "benchmark.json": "1d40eb50387f1131f8ceefa5650d4e70af8c48a7a6f73da06b48d2bb45e5dffc",
+  "canonical.json": "07265ae67aecab4e593b436f1d10507915051613957d617ee553df0b22f8ec28",
+  "case-0-20/scqubits_input.json": "75f3466b69c218ac6972d20511c7292d533380ba34c384e7e5a9c211367725dc",
+  "case-0-20/scqubits_result.json": "8fb7df821b31fc09baea6128672cbb21d65a4959a1bd65aaefff615d1056eb3c",
+  "case-0-30/scqubits_input.json": "08e88aa1726f401874b774e38c4aaab33e6e83b506a99e88eb3baaadeaf4f4a5",
+  "case-0-30/scqubits_result.json": "aaf051cf968e5460e75732f0d70850c9a9177588d560f3a2c6c658c9b5e7029d",
+  "case-0-40/scqubits_input.json": "662ea90d58fc98371d9bb56b52a03009b6e57c9606d9b0ece5c1390ec0edc1bc",
+  "case-0-40/scqubits_result.json": "d69e507b599c463cf00dcb19333e4093af15bd4e844b0ceb51d6f0a31788a1f6",
+  "case-1-20/scqubits_input.json": "52dc515df96be71a84e4826a6c3238e413d9c4a309b718179172660c649b9474",
+  "case-1-20/scqubits_result.json": "066d8b06d957bb0e52b0bdf4178433e32a40a4e9594c1eea58dd907e8adc2607",
+  "case-1-30/scqubits_input.json": "f086037e48f84c47d1cb31cd975f49c1c13c15624c8ba4c2f26da908a1709ea5",
+  "case-1-30/scqubits_result.json": "3258a254dac1c61f96dd46cb70998661c36137471bc63b8a38cde0453700019b",
+  "case-1-40/scqubits_input.json": "e4082774e791d9c7e79268bdf981e46ba9f5943f219eb8ca8d30143676886854",
+  "case-1-40/scqubits_result.json": "fd5ccac92409c0c2602771daafab207ca0e2c667556c9734db2cfdf9904c54a3"
+}

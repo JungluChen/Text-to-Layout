@@ -32,15 +32,13 @@ on Windows/macOS/Linux (37322754080), all twelve packets independently checked.
 Fixed residual, matrix-equivalence, domain/grid and exact-reference gates pass;
 no nonlinear/noise, EM or measurement claim. CI 37322701518 and test 37322701485
 passed. See docs/progress/2026-10-05-220929.md.
-Current item: **005 scqubits**. Audit existing adapter/source/license and select
-a bounded independent numerical/reference acceptance path before adding code.
-Audit 2026-10-09-210224 retained repeated ng=0 Mathieu comparisons and isolated a
-rounded-flux-constant SI conversion discrepancy (up to 3.379 Hz across six
-levels). No acceptance threshold applied; audit shared legacy compatibility
-before fixing constants, then predeclare gates and verify actual platforms.
-The subsequent SI fix derives Phi0=h/(2e) in product and legacy paths, retains
-constants in lineage, and preserves existing compatibility tolerances. A locked two-case ng=0 benchmark now checks cutoff/reference/residual evidence;
-dedicated scqubits platform evidence and canonical acceptance remain pending.
+Entry **005 scqubits** is accepted for two fixed ideal ng=0 transmon cases,
+implementation 577471cd62e616facafbdea4a2e81e07a0c253e3. Dedicated run
+38032886016 passed repeated cutoff/reference/residual checks on all three OSs;
+six packets and 36 typed adapter calls independently verified. Exact CI/test
+38032885443/38032885403 passed. No noise, EM or measurement claim.
+See docs/progress/2026-10-10-150004.md. Current item: **006 SQcircuit** — audit source,
+license, version, dependencies and existing adapter before defining acceptance.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

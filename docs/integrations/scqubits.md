@@ -1,4 +1,4 @@
-# scqubits — entry 005, acceptance pending
+# scqubits — entry 005, scoped ideal-transmon acceptance
 
 Document class: MANUAL_DOCUMENTATION.
 
@@ -33,6 +33,8 @@ do not claim a separate numerical library or measured-device validation.
 Run `PYTHONPATH=src uv run --no-sync python scripts/check_scqubits_transmon.py --out NEW_DIR`
 from the repository root with scqubits 4.1.0 installed. Keep both repeated
 packets; independently inspect hashes, inputs, eigenvectors and reported metrics.
-Other offsets, noise, multimode circuits, EM extraction, canonical acceptance
-integration and dedicated three-platform execution remain pending. Checklist
-005 stays unchecked until the documented scope has all required evidence.
+Other offsets, noise, multimode circuits and EM extraction remain pending.
+Canonical executed/rejected evidence and dedicated platform verification are
+accepted for these two cases only. Implementation 577471cd62e616facafbdea4a2e81e07a0c253e3;
+run 38032886016 passed twice on each OS, all six packets independently checked.
+See docs/progress/2026-10-10-150004.md for original evidence and limits.

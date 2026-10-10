@@ -1,0 +1,53 @@
+import json,hashlib,importlib.util,sys,math
+from pathlib import Path
+import numpy as np
+from scipy.special import mathieu_a, mathieu_b
+root=Path(sys.argv[1]); repo=Path.cwd()
+spec=importlib.util.spec_from_file_location('gate',repo/'scripts/check_scqubits_transmon.py'); gate=importlib.util.module_from_spec(spec); spec.loader.exec_module(gate)
+plan=json.loads(gate.PLAN.read_text()); summary=[]
+for platform in ('ubuntu-latest','windows-latest','macos-14'):
+    repeats=[]
+    for run in ('first','repeat'):
+        packet=root/f'scqubits-transmon-{platform}'/f'scqubits-{run}'
+        manifest=json.loads((packet/'sha256.json').read_text())
+        for name,digest in manifest.items():
+            assert hashlib.sha256((packet/name).read_bytes()).hexdigest()==digest,(platform,name)
+        report=json.loads((packet/'benchmark.json').read_text()); canonical=json.loads((packet/'canonical.json').read_text())
+        assert report['plan_sha256']==gate.PLAN_SHA256
+        assert report['versions']['scqubits']=='4.1.0'
+        assert len(report['cases'])==2 and len(canonical)==4
+        numerical=[]
+        for i,case in enumerate(report['cases']):
+            assert case['inputs']==plan['cases'][i]
+            ej,ec=case['inputs']['ej_ghz'],case['inputs']['ec_ghz']; q=-ej/(2*ec)
+            roots=sorted([float(mathieu_a(0,q))]+[float(f(n,q)) for n in range(2,14,2) for f in (mathieu_a,mathieu_b)])[:6]
+            ref=[(v-roots[0])*ec*1e9 for v in roots]
+            assert max(abs(a-b) for a,b in zip(ref,case['reference_hz']))<.001
+            metrics,passed=gate.assess(case['rows'],ref,plan); assert passed
+            for row in case['rows']:
+                n=row['ncut']; directory=packet/f'case-{i}-{n}'
+                inputs=json.loads((directory/'scqubits_input.json').read_text()); output=json.loads((directory/'scqubits_result.json').read_text())
+                assert inputs['ng']==0 and inputs['ncut']==n and inputs['n_evals']==6
+                assert math.isclose(inputs['ic_a'],4*math.pi*1.602176634e-19*ej*1e9,rel_tol=1e-14)
+                assert math.isclose(inputs['capacitance_f'],1.602176634e-19**2/(2*6.62607015e-34*ec*1e9),rel_tol=1e-14)
+                assert output['input_sha256']==hashlib.sha256((directory/'scqubits_input.json').read_bytes()).hexdigest()
+                assert output['status']=='executed' and output['solver_version']=='4.1.0'
+                assert output['parameters']==inputs
+                levels=[x*1e9 for x in output['quantities']['energy_levels_ghz']]
+                assert levels==row['levels_hz']
+                h=np.diag(4*ec*np.arange(-n,n+1,dtype=float)**2)+np.diag(np.full(2*n,-ej/2),1)+np.diag(np.full(2*n,-ej/2),-1)
+                eig=np.asarray(row['eigenvalues_ghz']); vectors=np.asarray(row['eigenvectors'])
+                assert vectors.shape==(2*n+1,6)
+                residual=max(np.linalg.norm(h@v-e*v)/(np.linalg.norm(h)*np.linalg.norm(v)) for e,v in zip(eig,vectors.T))
+                assert residual<=plan['max_scaled_residual']
+                assert max(abs((eig-eig[0])*1e9-np.asarray(levels)))<1
+            levels=case['rows'][-1]['levels_hz']
+            for j,value in enumerate((levels[1],levels[2]-2*levels[1])):
+                item=canonical[2*i+j]
+                assert item['status']=='SIMULATION_EXECUTED' and item['extracted_unit']=='Hz'
+                assert item['extracted_value']==value and item['measured_value'] is None
+            numerical.append({'levels':[r['levels_hz'] for r in case['rows']],'metrics':metrics})
+        repeats.append(numerical)
+    assert repeats[0]==repeats[1],platform
+    summary.append({'platform':platform,'same_platform_repeats_identical':True,'cases':repeats[0]})
+print(json.dumps({'passed':True,'packets':6,'adapter_executions':36,'platforms':summary},indent=2))

@@ -1,0 +1,1 @@
+{"passed": true, "cases": [{"last_refinement_hz": 0.0001621246337890625, "reference_difference_hz": 0.0001678466796875, "scaled_residual": 1.92274176003713e-17}, {"last_refinement_hz": 0.00020599365234375, "reference_difference_hz": 0.00016307830810546875, "scaled_residual": 2.6665385292063193e-17}]}

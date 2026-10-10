@@ -1,0 +1,134 @@
+[
+  {
+    "public_reference": null,
+    "quantity": "case_0_frequency",
+    "target_value": null,
+    "target_unit": null,
+    "extracted_value": 5627737306.167394,
+    "extracted_unit": "Hz",
+    "analytical_value": null,
+    "analytical_model": null,
+    "error_percent": null,
+    "tolerance_percent": 5.0,
+    "status": "SIMULATION_EXECUTED",
+    "solver": "scqubits 4.1.0 ideal transmon",
+    "command": "[\"/Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/bin/python\", \"scripts/check_scqubits_transmon.py\", \"--out\", \"/private/tmp/scq-final-first\"]",
+    "input_files": [
+      "/private/tmp/scq-final-first/case-0-40/scqubits_input.json"
+    ],
+    "output_files": [
+      "/private/tmp/scq-final-first/case-0-40/scqubits_result.json"
+    ],
+    "parser": "scripts.check_scqubits_transmon.canonical_quantities",
+    "measured_value": null,
+    "measured_unit": null,
+    "measurement_uncertainty": null,
+    "calibration_version": null,
+    "blocking_reason": null,
+    "timestamp": "2026-10-10T06:56:30+00:00",
+    "notes": [
+      "Fixed ideal ng=0 benchmark; numerical metrics in benchmark.json",
+      "No EM, measurement or broader parameter-domain validation",
+      "Canonical default percent tolerance is unused; fixed Hz/residual gates govern this benchmark"
+    ]
+  },
+  {
+    "public_reference": null,
+    "quantity": "case_0_anharmonicity",
+    "target_value": null,
+    "target_unit": null,
+    "extracted_value": -267377732.9273243,
+    "extracted_unit": "Hz",
+    "analytical_value": null,
+    "analytical_model": null,
+    "error_percent": null,
+    "tolerance_percent": 5.0,
+    "status": "SIMULATION_EXECUTED",
+    "solver": "scqubits 4.1.0 ideal transmon",
+    "command": "[\"/Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/bin/python\", \"scripts/check_scqubits_transmon.py\", \"--out\", \"/private/tmp/scq-final-first\"]",
+    "input_files": [
+      "/private/tmp/scq-final-first/case-0-40/scqubits_input.json"
+    ],
+    "output_files": [
+      "/private/tmp/scq-final-first/case-0-40/scqubits_result.json"
+    ],
+    "parser": "scripts.check_scqubits_transmon.canonical_quantities",
+    "measured_value": null,
+    "measured_unit": null,
+    "measurement_uncertainty": null,
+    "calibration_version": null,
+    "blocking_reason": null,
+    "timestamp": "2026-10-10T06:56:30+00:00",
+    "notes": [
+      "Fixed ideal ng=0 benchmark; numerical metrics in benchmark.json",
+      "No EM, measurement or broader parameter-domain validation",
+      "Canonical default percent tolerance is unused; fixed Hz/residual gates govern this benchmark"
+    ]
+  },
+  {
+    "public_reference": null,
+    "quantity": "case_1_frequency",
+    "target_value": null,
+    "target_unit": null,
+    "extracted_value": 5989696830.928363,
+    "extracted_unit": "Hz",
+    "analytical_value": null,
+    "analytical_model": null,
+    "error_percent": null,
+    "tolerance_percent": 5.0,
+    "status": "SIMULATION_EXECUTED",
+    "solver": "scqubits 4.1.0 ideal transmon",
+    "command": "[\"/Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/bin/python\", \"scripts/check_scqubits_transmon.py\", \"--out\", \"/private/tmp/scq-final-first\"]",
+    "input_files": [
+      "/private/tmp/scq-final-first/case-1-40/scqubits_input.json"
+    ],
+    "output_files": [
+      "/private/tmp/scq-final-first/case-1-40/scqubits_result.json"
+    ],
+    "parser": "scripts.check_scqubits_transmon.canonical_quantities",
+    "measured_value": null,
+    "measured_unit": null,
+    "measurement_uncertainty": null,
+    "calibration_version": null,
+    "blocking_reason": null,
+    "timestamp": "2026-10-10T06:56:30+00:00",
+    "notes": [
+      "Fixed ideal ng=0 benchmark; numerical metrics in benchmark.json",
+      "No EM, measurement or broader parameter-domain validation",
+      "Canonical default percent tolerance is unused; fixed Hz/residual gates govern this benchmark"
+    ]
+  },
+  {
+    "public_reference": null,
+    "quantity": "case_1_anharmonicity",
+    "target_value": null,
+    "target_unit": null,
+    "extracted_value": -217119850.6739807,
+    "extracted_unit": "Hz",
+    "analytical_value": null,
+    "analytical_model": null,
+    "error_percent": null,
+    "tolerance_percent": 5.0,
+    "status": "SIMULATION_EXECUTED",
+    "solver": "scqubits 4.1.0 ideal transmon",
+    "command": "[\"/Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/bin/python\", \"scripts/check_scqubits_transmon.py\", \"--out\", \"/private/tmp/scq-final-first\"]",
+    "input_files": [
+      "/private/tmp/scq-final-first/case-1-40/scqubits_input.json"
+    ],
+    "output_files": [
+      "/private/tmp/scq-final-first/case-1-40/scqubits_result.json"
+    ],
+    "parser": "scripts.check_scqubits_transmon.canonical_quantities",
+    "measured_value": null,
+    "measured_unit": null,
+    "measurement_uncertainty": null,
+    "calibration_version": null,
+    "blocking_reason": null,
+    "timestamp": "2026-10-10T06:56:30+00:00",
+    "notes": [
+      "Fixed ideal ng=0 benchmark; numerical metrics in benchmark.json",
+      "No EM, measurement or broader parameter-domain validation",
+      "Canonical default percent tolerance is unused; fixed Hz/residual gates govern this benchmark"
+    ]
+  }
+]
