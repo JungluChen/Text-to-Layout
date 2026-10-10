@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "requires": [
+    "numpy>=1.14.2",
+    "scipy>=1.1.0",
+    "matplotlib>=3.0.0",
+    "qutip>=5.0.0",
+    "dill>=0.3.4",
+    "IPython>=7.0.0",
+    "torch>=2.0",
+    "mpmath>=1.2.1",
+    "sympy>=1.13.0"
+  ],
+  "metadata": {
+    "Metadata-Version": "2.1",
+    "Name": "SQcircuit",
+    "Version": "1.0.0",
+    "Summary": "superconducting quantum circuit analyzer",
+    "Home-page": "https://github.com/stanfordLINQS/SQcircuit",
+    "Author": "Taha Rajabzadeh, Amir Safavi-Naeini",
+    "Author-email": "tahar@stanford.edu, safavi@stanford.edu",
+    "License": "BSD",
+    "Keywords": "superconducting circuits",
+    "Classifier": "Development Status :: 5 - Production/Stable",
+    "Requires-Python": ">=3.6",
+    "License-File": "LICENSE",
+    "Requires-Dist": "numpy>=1.14.2",
+    "Description": "SQcircuit is an open-source Python library that is \ncapable of analyzing an arbitrary superconducting quantum circuit. SQcircuit \nuses the theory discussed in [Rajabzadeh et al., 2022] to describe the \nHamiltonian in the appropriate basis and to effectively find the energy \nspectrum and eigenvectors of the circuit. To design the desired quantum \ncircuit and to discover new qubits, additional functionalities and methods \nare provided to extract the circuit properties such as matrix elements, \ndephasing rate, decay rates, etc.\n\nTheory detail of SQcircuit and the introduction to library functionalities are \npresented in the following paper:\n\nTaha Rajabzadeh, Zhaoyou Wang, Nathan Lee, Takuma Makihara, Yudan Guo, \nAmir H. Safavi-Naeini, 'Analysis of arbitrary superconducting quantum circuits \naccompanied by a Python package: SQcircuit', arXiv:2206.08319 (2022). \nhttps://arxiv.org/abs/2206.08319\n"
+  },
+  "circuit.py": {
+    "installed_sha256": "81e03763c9aef465e6c42072fee3a54cf40dd908e29995e9aa24acd2a3fae9ed",
+    "tag_sha256": "81e03763c9aef465e6c42072fee3a54cf40dd908e29995e9aa24acd2a3fae9ed",
+    "identical": true
+  },
+  "units.py": {
+    "installed_sha256": "9945d9649a390c7817d0ef62238e0e1ce442a50e3a283e8917d8049ebffa7009",
+    "tag_sha256": "9945d9649a390c7817d0ef62238e0e1ce442a50e3a283e8917d8049ebffa7009",
+    "identical": true
+  }
+}

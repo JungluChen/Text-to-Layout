@@ -39,6 +39,10 @@ six packets and 36 typed adapter calls independently verified. Exact CI/test
 38032885443/38032885403 passed. No noise, EM or measurement claim.
 See docs/progress/2026-10-10-150004.md. Current item: **006 SQcircuit** — audit source,
 license, version, dependencies and existing adapter before defining acceptance.
+Source/license audit and repeated local LC probes retained in
+`docs/progress/2026-10-10-211726.md`. Default inductor adds 1e-20 F; original
+ideal-LC reference failed. Explicit capacitance semantics, deterministic
+execution policy, typed adapter and three-platform evidence remain pending.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

@@ -1,0 +1,13 @@
+import json, math
+from pathlib import Path
+import SQcircuit as sq
+out=[]
+for name in ('first','repeat'):
+ data=json.loads(Path('/private/tmp/sqcircuit-audit-'+name+'/audit.json').read_text())
+ for case in data['cases']:
+  c=case['inputs']['capacitance_f']; l=case['inputs']['inductance_h']
+  ind=sq.Inductor(l,'H'); cr=sq.Circuit({(0,1):[sq.Capacitor(c,'F'),ind]})
+  total=float(cr.C[0,0]); f=1/(2*math.pi*math.sqrt(total*l))
+  out.append({'run':name,'capacitance_f':c,'inductance_h':l,'resolved_capacitance_f':total,'expected_total_f':c+1e-20,'matched_model_errors_hz':[max(abs(v-i*f) for i,v in enumerate(row['excitation_hz'])) for row in case['rows']]})
+Path('/private/tmp/sqcircuit-diagnosis.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps(out,indent=2))

@@ -1,0 +1,17 @@
+import hashlib,importlib.metadata as md,json,math,platform,sys
+from pathlib import Path
+import numpy as np
+import SQcircuit as sq
+import SQcircuit.units as units
+plan_path=Path('/private/tmp/sqcircuit-audit-plan.json'); plan=json.loads(plan_path.read_text()); out=Path(sys.argv[1]); out.mkdir()
+sq.set_unit_freq('GHz'); np.random.seed(plan['seed'])
+result={'scope':plan['scope'],'plan_sha256':hashlib.sha256(plan_path.read_bytes()).hexdigest(),'platform':platform.platform(),'python':platform.python_version(),'versions':{n:md.version(n) for n in ('SQcircuit','numpy','scipy','qutip','torch','sympy')},'constants':{'hbar':units.hbar,'Phi0':units.Phi0,'e':units.e},'cases':[]}
+for case in plan['cases']:
+    cap,ind=case['capacitance_f'],case['inductance_h']; ref=1/(2*math.pi*math.sqrt(cap*ind)); rows=[]
+    for n in plan['truncations']:
+        cr=sq.Circuit({(0,1):[sq.Capacitor(cap,'F'),sq.Inductor(ind,'H')]}); cr.set_trunc_nums([n]); freq,vec=cr.diag(plan['levels']); h=cr.hamiltonian().full(); vals=np.asarray(freq); vectors=np.column_stack([v.full().ravel() for v in vec]); residual=max(float(np.linalg.norm(h@v-f*2*math.pi*1e9*v)/(np.linalg.norm(h)*np.linalg.norm(v))) for f,v in zip(vals,vectors.T)); levels=(vals-vals[0])*1e9; reference=np.arange(plan['levels'])*ref
+        rows.append({'truncation':n,'frequency_values_ghz':vals.tolist(),'excitation_hz':levels.tolist(),'max_reference_error_hz':float(max(abs(levels-reference))),'scaled_residual':residual,'hermiticity_relative':float(np.linalg.norm(h-h.conj().T)/np.linalg.norm(h)),'eigenvectors_real':vectors.real.tolist(),'eigenvectors_imag':vectors.imag.tolist()})
+    result['cases'].append({'inputs':case,'reference_spacing_hz':ref,'rows':rows})
+base=Path(sq.__file__).parent
+result['source_hashes']={name:hashlib.sha256((base/name).read_bytes()).hexdigest() for name in ('circuit.py','units.py','elements.py')}
+(out/'audit.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n'); (out/'plan.json').write_bytes(plan_path.read_bytes()); print(json.dumps({'versions':result['versions'],'cases':[[{'n':r['truncation'],'error_hz':r['max_reference_error_hz'],'residual':r['scaled_residual']} for r in c['rows']] for c in result['cases']]}))

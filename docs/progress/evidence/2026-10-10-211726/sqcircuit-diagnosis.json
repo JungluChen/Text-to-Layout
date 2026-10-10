@@ -1,0 +1,50 @@
+[
+  {
+    "run": "first",
+    "capacitance_f": 1e-13,
+    "inductance_h": 1e-07,
+    "resolved_capacitance_f": 1.0000001e-13,
+    "expected_total_f": 1.0000001e-13,
+    "matched_model_errors_hz": [
+      7.62939453125e-06,
+      1.430511474609375e-05,
+      3.814697265625e-05
+    ]
+  },
+  {
+    "run": "first",
+    "capacitance_f": 8e-14,
+    "inductance_h": 6e-08,
+    "resolved_capacitance_f": 8.000001e-14,
+    "expected_total_f": 8.000001e-14,
+    "matched_model_errors_hz": [
+      1.1444091796875e-05,
+      2.288818359375e-05,
+      7.62939453125e-05
+    ]
+  },
+  {
+    "run": "repeat",
+    "capacitance_f": 1e-13,
+    "inductance_h": 1e-07,
+    "resolved_capacitance_f": 1.0000001e-13,
+    "expected_total_f": 1.0000001e-13,
+    "matched_model_errors_hz": [
+      9.5367431640625e-06,
+      1.71661376953125e-05,
+      2.47955322265625e-05
+    ]
+  },
+  {
+    "run": "repeat",
+    "capacitance_f": 8e-14,
+    "inductance_h": 6e-08,
+    "resolved_capacitance_f": 8.000001e-14,
+    "expected_total_f": 8.000001e-14,
+    "matched_model_errors_hz": [
+      6.67572021484375e-06,
+      2.86102294921875e-05,
+      3.814697265625e-05
+    ]
+  }
+]
