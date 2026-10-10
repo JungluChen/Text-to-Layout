@@ -1,0 +1,38 @@
+name: scqubits-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: scqubits-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  transmon:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - name: Install core and audited optional numerical runtime
+        run: |
+          uv sync --frozen --dev
+          uv pip install scqubits==4.1.0 numpy==1.26.4 scipy==1.17.1
+      - name: Execute the locked two-case benchmark twice
+        env:
+          PYTHONPATH: src
+        run: |
+          uv run --no-sync python scripts/check_scqubits_transmon.py --out out/scqubits-first
+          uv run --no-sync python scripts/check_scqubits_transmon.py --out out/scqubits-repeat
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scqubits-transmon-${{ matrix.os }}
+          path: out/scqubits-*
+          if-no-files-found: error
+          retention-days: 30

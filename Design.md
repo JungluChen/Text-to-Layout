@@ -260,3 +260,10 @@ until separately evaluated. No new UI is delivered by the constants fix.
 
 The entry-005 benchmark is a retained numerical report, not a new UI status.
 Do not convert its passed flag to physical or measurement validation.
+
+The scqubits benchmark now writes canonical.json alongside benchmark.json.
+Passing fixed numerical gates emits SIMULATION_EXECUTED quantities; rejection
+emits CONVERGENCE_FAILED without values. Neither outcome claims physical or
+measurement validation. The dedicated scqubits-integration workflow repeats
+the two-case benchmark on each OS; only retained successful artifacts count
+as platform evidence. General product results keep their original statuses.

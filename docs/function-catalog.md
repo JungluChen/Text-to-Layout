@@ -333,3 +333,10 @@ It executes six existing typed adapter calls and retains benchmark.json, raw
 eigenvectors/eigenvalues, source/version identity and SHA-256 manifest. Exit 1
 rejects numerical checks; exceptions reject missing/invalid evidence. No MCP
 entrypoint or new public solver capability is introduced.
+
+The scqubits benchmark now writes canonical.json alongside benchmark.json.
+Passing fixed numerical gates emits SIMULATION_EXECUTED quantities; rejection
+emits CONVERGENCE_FAILED without values. Neither outcome claims physical or
+measurement validation. The dedicated scqubits-integration workflow repeats
+the two-case benchmark on each OS; only retained successful artifacts count
+as platform evidence. General product results keep their original statuses.

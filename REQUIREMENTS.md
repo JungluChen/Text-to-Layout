@@ -217,3 +217,10 @@ correction does not promote cutoff convergence or reference validation.
 Entry 005 requires a locked two-case ng=0 transmon benchmark, actual adapter
 outputs, six-level cutoff checks, Mathieu comparison and eigenpair residuals.
 Passing its numerical gate alone does not complete platform acceptance.
+
+The scqubits benchmark now writes canonical.json alongside benchmark.json.
+Passing fixed numerical gates emits SIMULATION_EXECUTED quantities; rejection
+emits CONVERGENCE_FAILED without values. Neither outcome claims physical or
+measurement validation. The dedicated scqubits-integration workflow repeats
+the two-case benchmark on each OS; only retained successful artifacts count
+as platform evidence. General product results keep their original statuses.

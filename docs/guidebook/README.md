@@ -448,3 +448,10 @@ or an independent library. Other offsets and physical extraction remain pending.
 AI prompt: “Audit this scqubits packet against its locked plan and retained
 inputs; separate execution, numerical agreement and unavailable platform evidence.”
 No new GUI screenshot is claimed.
+
+The scqubits benchmark now writes canonical.json alongside benchmark.json.
+Passing fixed numerical gates emits SIMULATION_EXECUTED quantities; rejection
+emits CONVERGENCE_FAILED without values. Neither outcome claims physical or
+measurement validation. The dedicated scqubits-integration workflow repeats
+the two-case benchmark on each OS; only retained successful artifacts count
+as platform evidence. General product results keep their original statuses.

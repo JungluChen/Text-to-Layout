@@ -53,3 +53,29 @@ def test_rejects_invalid_evidence(failure):
         rows[0]['levels_hz'].pop()
     with pytest.raises(ValueError):
         bench.assess(rows, reference, PLAN)
+
+
+@pytest.mark.parametrize('accepted', [True, False])
+def test_canonical_status_is_not_physical_validation(tmp_path, accepted):
+    rows = evidence()
+    if not accepted:
+        rows[-1]['scaled_residual'] = 1e-6
+    packet = tmp_path / 'case-0-40'
+    packet.mkdir()
+    for name in ('scqubits_input.json', 'scqubits_result.json'):
+        (packet / name).write_text('{"synthetic_test_fixture": true}')
+    report = {'cases':[{'rows':rows, 'reference_hz':rows[-1]['levels_hz'], 'passed':True}]}
+    quantities = bench.canonical_quantities(report, PLAN, tmp_path)
+    assert len(quantities) == 2
+    for item in quantities:
+        assert item['status'] == ('SIMULATION_EXECUTED' if accepted else 'CONVERGENCE_FAILED')
+        assert (item['extracted_value'] is not None) == accepted
+        assert item['public_reference'] is None
+        assert item['measured_value'] is None
+
+
+def test_canonical_requires_retained_output(tmp_path):
+    rows = evidence()
+    report = {'cases':[{'rows':rows, 'reference_hz':rows[-1]['levels_hz']}]}
+    with pytest.raises(ValueError):
+        bench.canonical_quantities(report, PLAN, tmp_path)

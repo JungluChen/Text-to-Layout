@@ -7,6 +7,7 @@ import importlib.metadata
 import json
 import math
 import platform
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -92,6 +93,35 @@ def execute(plan, out):
     return result
 
 
+
+def canonical_quantities(report, plan, out):
+    """Emit executed/rejected evidence; a model benchmark is not physical signoff."""
+    from textlayout.evidence.contract import EvidenceStatus, QuantityEvidence
+
+    quantities = []
+    for i, case in enumerate(report['cases']):
+        _, passed = assess(case['rows'], case['reference_hz'], plan)
+        levels = case['rows'][-1]['levels_hz']
+        packet = out / f"case-{i}-{plan['cutoffs'][-1]}"
+        status = EvidenceStatus.SIMULATION_EXECUTED if passed else EvidenceStatus.CONVERGENCE_FAILED
+        for name, value in [('frequency', levels[1]), ('anharmonicity', levels[2]-2*levels[1])]:
+            item = QuantityEvidence(
+                quantity=f"case_{i}_{name}", status=status,
+                extracted_value=value if passed else None,
+                extracted_unit='Hz' if passed else None,
+                solver=f"scqubits {plan['version']} ideal transmon",
+                command=json.dumps([sys.executable, *sys.argv]),
+                input_files=[str(packet / 'scqubits_input.json')],
+                output_files=[str(packet / 'scqubits_result.json')],
+                parser='scripts.check_scqubits_transmon.canonical_quantities',
+                notes=['Fixed ideal ng=0 benchmark; numerical metrics in benchmark.json',
+                       'No EM, measurement or broader parameter-domain validation',
+                       'Canonical default percent tolerance is unused; fixed Hz/residual gates govern this benchmark'],
+            )
+            quantities.append(item.model_dump(mode='json'))
+    return quantities
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out',type=Path,required=True)
@@ -102,6 +132,8 @@ def main():
     args.out.mkdir(parents=True,exist_ok=False)
     result=execute(json.loads(raw),args.out)
     (args.out/'benchmark.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
+    canonical = canonical_quantities(result, json.loads(raw), args.out)
+    (args.out/'canonical.json').write_text(json.dumps(canonical,indent=2)+'\n')
     manifest={str(p.relative_to(args.out)):hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(args.out.rglob('*')) if p.is_file()}
     (args.out/'sha256.json').write_text(json.dumps(manifest,indent=2)+'\n')
