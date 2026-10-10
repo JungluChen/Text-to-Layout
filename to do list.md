@@ -43,6 +43,10 @@ Source/license audit and repeated local LC probes retained in
 `docs/progress/2026-10-10-211726.md`. Default inductor adds 1e-20 F; original
 ideal-LC reference failed. Explicit capacitance semantics, deterministic
 execution policy, typed adapter and three-platform evidence remain pending.
+Follow-up 2026-10-11-031011: explicit Cbranch plus public Hamiltonian/dense
+diagonalization passes repeated local LC checks; stable SymPy 1.14.0 tested.
+Native eigs randomness traced to OS-seeded rng. Typed adapter and platform
+verification remain the next implementation slice.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

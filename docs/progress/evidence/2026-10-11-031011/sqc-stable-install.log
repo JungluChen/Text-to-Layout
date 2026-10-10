@@ -1,0 +1,11 @@
+Using Python 3.12.14 environment at: /private/tmp/textlayout-sqcircuit-100
+Resolved 2 packages in 573ms
+Downloading sympy (6.0MiB)
+ Downloaded sympy
+Prepared 2 packages in 1.36s
+Uninstalled 2 packages in 110ms
+Installed 2 packages in 35ms
+ - mpmath==1.4.1
+ + mpmath==1.3.0
+ - sympy==1.14.0rc1
+ + sympy==1.14.0

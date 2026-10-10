@@ -1,0 +1,5 @@
+{
+  "SQcircuit/circuit.py": "81e03763c9aef465e6c42072fee3a54cf40dd908e29995e9aa24acd2a3fae9ed",
+  "SQcircuit/elements.py": "392533e65df7169348031f2784ffae383e848acb2928070e82f22b53350d557c",
+  "scipy/sparse/linalg/_eigen/arpack/arpack.py": "ac4f4a62ee4938976af68bbe23786fc0a48965a8165c9b41e5007a667bf6df4d"
+}

@@ -38,3 +38,37 @@ accepted. Checklist entry 006 stays unchecked. Next: establish explicit branch
 capacitance semantics and stable compatible pins, lock an a priori reference
 plan, implement the typed adapter and canonical provenance, then run unchanged
 benchmarks twice on all three platforms. No EM, noise or measured-device claim.
+
+
+## Explicit capacitance and repeatability follow-up
+
+The next local diagnostic supplies `Inductor(..., cap=Capacitor(Cbranch, 'F'))`
+with explicit positive branch capacitance. Two cases use (C, L, Cbranch) =
+(100 fF, 100 nH, 1e-20 F) and (80 fF, 60 nH, 1 fF). The latter deliberately
+makes the branch contribution observable. The independent reference uses
+Ctotal=C+Cbranch. Truncations 10/20/30 retain six levels; predeclared absolute
+1 Hz agreement, scaled residual 1e-12 and Hermiticity 1e-14 gates apply.
+
+Installed SciPy 1.18.1 documents that eigs(rng=None) obtains OS entropy.
+SQcircuit 1.0.0 calls eigs without rng or v0, so NumPy's legacy seed cannot
+control that initialization. This explains why the prior native diagonalizer
+probe was not bitwise repeatable. No upstream code was patched or monkeypatched.
+
+A separate route calls public Circuit.hamiltonian().full(), then
+numpy.linalg.eigh, dividing rad/s eigenvalue differences by 2*pi to obtain Hz.
+This must be identified as SQcircuit Hamiltonian construction plus NumPy dense
+diagonalization, not SQcircuit.diag execution. Both same-platform repeated JSON
+packets matched byte-for-byte. Worst reference discrepancy: 9.5367431640625e-7
+Hz. The harmonic basis already diagonalizes this simple LC model: increasing
+its truncation tests retained low levels, not nontrivial spatial convergence.
+
+Replacing the incidental SymPy 1.14.0rc1 resolution with stable 1.14.0 in the
+isolated runtime passed uv pip check, and the fresh explicit probe passed twice
+with byte-identical outputs. A complete environment freeze is retained, but
+compatibility is demonstrated only on this Mac. No base extra or supported
+cross-platform lock has been added. The typed adapter should require explicit
+Cbranch, bound matrix size, record both numerical packages and source hashes,
+and retain raw angular-frequency eigenpairs. Canonical schema/CLI, negative
+paths and Windows/Linux execution are still pending; entry 006 is unchecked.
+
+Evidence: ../progress/evidence/2026-10-11-031011/

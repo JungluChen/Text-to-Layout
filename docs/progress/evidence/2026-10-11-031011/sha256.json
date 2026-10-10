@@ -1,0 +1,11 @@
+{
+  "source-hashes.json": "cfb36aa3b886edc4d36475d5c6e19d8f8130f76f8558a350a9d785a2a4333588",
+  "sqc-explicit-first.json": "81f8cbd587a7572b48a0c8847f40ed59729bdd0d4aee104c332c8a2c35b907ea",
+  "sqc-explicit-plan.json": "3e3304efda045edde3be03312a2c1a3b8d213c7b04144404b496a3153f4060e4",
+  "sqc-explicit-repeat.json": "81f8cbd587a7572b48a0c8847f40ed59729bdd0d4aee104c332c8a2c35b907ea",
+  "sqc-explicit.py.txt": "4a0f8cdda6f410a05720e6675d34629fd9535cb33e16384839c29196bb146cf7",
+  "sqc-stable-first.json": "9967576349190cd413fe8655f512a6b976940a43ba00e0f9ba9a17ff99134a26",
+  "sqc-stable-freeze.txt": "80cbf700af694c6d6955ea73e1e19625f6f803d7257b24bd4dcd4abaabbf9d66",
+  "sqc-stable-install.log": "00e26bc585d92a443e110e7c995ccfe3e279cf44d8b3f291714bff8357e1848e",
+  "sqc-stable-repeat.json": "9967576349190cd413fe8655f512a6b976940a43ba00e0f9ba9a17ff99134a26"
+}

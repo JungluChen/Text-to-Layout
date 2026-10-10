@@ -1,0 +1,18 @@
+import hashlib, importlib.metadata as md, json, math, platform, sys
+from pathlib import Path
+import numpy as np
+import SQcircuit as sq
+plan=Path('/private/tmp/sqc-explicit-plan.json'); p=json.loads(plan.read_text()); rows=[]
+sq.set_unit_freq('GHz')
+for case in p['cases']:
+ c,l,b=(case[k] for k in ('capacitance_f','inductance_h','branch_capacitance_f'))
+ for n in p['truncations']:
+  cr=sq.Circuit({(0,1):[sq.Capacitor(c,'F'),sq.Inductor(l,'H',cap=sq.Capacitor(b,'F'))]});cr.set_trunc_nums([n])
+  h=cr.hamiltonian().full(); w,v=np.linalg.eigh(h);w=w[:p['levels']];v=v[:,:p['levels']]
+  levels=(w-w[0])/(2*math.pi);reference=np.arange(p['levels'])/(2*math.pi*math.sqrt((c+b)*l))
+  error=float(max(abs(levels-reference)));res=float(max(np.linalg.norm(h@vec-e*vec)/(np.linalg.norm(h)*np.linalg.norm(vec)) for e,vec in zip(w,v.T)));herm=float(np.linalg.norm(h-h.conj().T)/np.linalg.norm(h))
+  rows.append({'inputs':case,'truncation':n,'resolved_capacitance_f':float(cr.C[0,0]),'hamiltonian_rad_s_real':h.real.tolist(),'hamiltonian_rad_s_imag':h.imag.tolist(),'eigenvalues_rad_s':w.tolist(),'excitation_hz':levels.tolist(),'max_reference_error_hz':error,'scaled_residual':res,'relative_hermiticity':herm,'passed':error<=p['reference_limit_hz'] and res<=p['residual_limit'] and herm<=p['hermiticity_limit'] and float(cr.C[0,0])==c+b})
+out={'plan_sha256':hashlib.sha256(plan.read_bytes()).hexdigest(),'platform':platform.platform(),'python':platform.python_version(),'method':'SQcircuit Hamiltonian + numpy.linalg.eigh; not SQcircuit.diag','versions':{k:md.version(k) for k in ('SQcircuit','numpy','scipy','torch','qutip','sympy')},'rows':rows}
+Path(sys.argv[1]).write_text(json.dumps(out,indent=2,allow_nan=False)+'\n')
+print('all_passed',all(r['passed'] for r in rows),'worst_error_hz',max(r['max_reference_error_hz'] for r in rows))
+assert all(r['passed'] for r in rows)
