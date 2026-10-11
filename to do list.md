@@ -47,6 +47,9 @@ Follow-up 2026-10-11-031011: explicit Cbranch plus public Hamiltonian/dense
 diagonalization passes repeated local LC checks; stable SymPy 1.14.0 tested.
 Native eigs randomness traced to OS-seeded rng. Typed adapter and platform
 verification remain the next implementation slice.
+A typed prepared-only SQcircuit LC API now requires explicit Cbranch and writes
+a bounded hashed plan without importing or executing a solver. Execution, CLI,
+canonical numerical evidence and three-platform verification remain pending.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

@@ -72,3 +72,18 @@ and retain raw angular-frequency eigenpairs. Canonical schema/CLI, negative
 paths and Windows/Linux execution are still pending; entry 006 is unchecked.
 
 Evidence: ../progress/evidence/2026-10-11-031011/
+
+
+### SQcircuit LC preparation boundary
+
+`textlayout.external.sqcircuit_lc.SQcircuitLCRequest` requires capacitance_f
+(80–100 fF expressed in F), inductance_h (60–100 nH expressed in H), and
+branch_capacitance_f (1e-20–1e-15 F), with no physical defaults. Branch
+capacitance is additional parallel capacitance, never included silently.
+`prepare_sqcircuit_lc(request, output_dir=Path(...))` writes request.json in a
+new directory and returns its absolute path, SHA256 and only
+SIMULATION_INPUT_PREPARED. Existing directories are refused. No numerical
+packages are imported, no solver is probed or run, and no quantities are
+returned. Bounds limit intended scope; they do not certify the whole range.
+Execution, canonical numerical results, CLI/MCP mappings and platform
+acceptance remain pending. No graphical screen or screenshot is delivered.

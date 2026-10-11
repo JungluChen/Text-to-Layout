@@ -1,0 +1,20 @@
+{
+  "schema_name": "textlayout.sqcircuit-lc-plan.v1",
+  "request": {
+    "capacitance_f": 1e-13,
+    "inductance_h": 1e-7,
+    "branch_capacitance_f": 1e-20
+  },
+  "method": "SQcircuit Hamiltonian + numpy.linalg.eigh",
+  "sqcircuit_version": "1.0.0",
+  "source_revision": "7cdc826a63224a8fb860362224a4a530e80aa1d7",
+  "truncations": [
+    10,
+    20,
+    30
+  ],
+  "levels": 6,
+  "reference_limit_hz": 1.0,
+  "scaled_residual_limit": 1e-12,
+  "hermiticity_limit": 1e-14
+}

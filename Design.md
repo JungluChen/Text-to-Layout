@@ -267,3 +267,18 @@ emits CONVERGENCE_FAILED without values. Neither outcome claims physical or
 measurement validation. The dedicated scqubits-integration workflow repeats
 the two-case benchmark on each OS; only retained successful artifacts count
 as platform evidence. General product results keep their original statuses.
+
+
+### SQcircuit LC preparation boundary
+
+`textlayout.external.sqcircuit_lc.SQcircuitLCRequest` requires capacitance_f
+(80–100 fF expressed in F), inductance_h (60–100 nH expressed in H), and
+branch_capacitance_f (1e-20–1e-15 F), with no physical defaults. Branch
+capacitance is additional parallel capacitance, never included silently.
+`prepare_sqcircuit_lc(request, output_dir=Path(...))` writes request.json in a
+new directory and returns its absolute path, SHA256 and only
+SIMULATION_INPUT_PREPARED. Existing directories are refused. No numerical
+packages are imported, no solver is probed or run, and no quantities are
+returned. Bounds limit intended scope; they do not certify the whole range.
+Execution, canonical numerical results, CLI/MCP mappings and platform
+acceptance remain pending. No graphical screen or screenshot is delivered.
