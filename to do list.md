@@ -58,6 +58,10 @@ rejection. Product process/identity verification and canonical result conversion
 remain next; no checklist promotion from the assessment alone.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
+Recurrence 38148751846 on 5419cda: Windows 3.11 observed running at the
+15-second wait; retained job finalized successfully about 16 seconds after start.
+Unchanged failed-job retry passed. See docs/progress/2026-10-12-042554.md;
+phase-level Windows timing remains required before changing lifecycle behavior.
 
 
 ## Current human-directed release priority — v0.3.1

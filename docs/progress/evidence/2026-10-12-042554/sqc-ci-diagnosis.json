@@ -1,0 +1,17 @@
+{
+  "job_status": "completed",
+  "return_code": 0,
+  "started_at": "2026-10-11T14:52:35+00:00",
+  "completed_at": "2026-10-11T14:52:51+00:00",
+  "sample_count": 4,
+  "retained_hash_checks": {
+    "stdout.txt": true,
+    "stderr.txt": true,
+    "resource_samples.jsonl": true
+  },
+  "solver_out_expected_sha256": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df",
+  "output_inventory": {
+    "solver.out": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df"
+  },
+  "limitations": "Original solver.out and manifest were not included in this lifecycle artifact; only inventory identity is available. Second-resolution timestamps cannot establish exact deadline timing or the cause of latency."
+}
