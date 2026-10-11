@@ -296,3 +296,18 @@ Raw JSON says numerical_acceptance=NOT_EVALUATED. This is not a canonical
 executed/validated result, public CLI or MCP endpoint. A separate numerical
 assessment and product subprocess failure/timeout wrapper remain pending.
 Optional dependencies stay isolated; no base install change or UI delivery.
+
+
+### SQcircuit retained-packet assessment
+
+`textlayout.external.sqcircuit_assessment.assess_sqcircuit_lc(plan, rows)`
+recomputes reference, last-truncation change, scaled eigenpair residual,
+Hermiticity and orthonormality from retained raw arrays. It checks explicit
+resolved C+Cbranch, component shapes, finite values, nonzero norms and ordered
+levels. Malformed packets raise ValueError; finite numerical disagreement
+returns numerical_checks_passed=false. No files or processes are changed.
+The fixed orthonormality budget is 1e-12; last-truncation and reference limits
+are both the predeclared 1 Hz numerical resolution, not experimental error.
+This assessment emits no canonical quantities and verifies no process/source
+identity. Product orchestration, canonical result conversion, CLI/MCP and
+three-platform execution remain pending. No screenshot or UI claim is added.

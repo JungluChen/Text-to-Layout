@@ -53,6 +53,9 @@ canonical numerical evidence and three-platform verification remain pending.
 The isolated raw worker now retains real SQcircuit Hamiltonians/eigenpairs;
 local unchanged outputs match. Canonical assessment and the product execution
 wrapper are next; raw NOT_EVALUATED output does not complete entry 006.
+Raw eigenpair assessment is now implemented with malformed/corrupted-packet
+rejection. Product process/identity verification and canonical result conversion
+remain next; no checklist promotion from the assessment alone.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

@@ -519,3 +519,37 @@ or timeout wrapper exists yet. Use a fresh filename for unchanged repetition.
 AI prompt: “Inspect both raw packets and request hashes; independently check
 angular-frequency units, explicit branch capacitance, residuals and reference
 agreement. Do not promote raw execution to platform or physical validation.”
+
+
+### SQcircuit retained-packet assessment
+
+`textlayout.external.sqcircuit_assessment.assess_sqcircuit_lc(plan, rows)`
+recomputes reference, last-truncation change, scaled eigenpair residual,
+Hermiticity and orthonormality from retained raw arrays. It checks explicit
+resolved C+Cbranch, component shapes, finite values, nonzero norms and ordered
+levels. Malformed packets raise ValueError; finite numerical disagreement
+returns numerical_checks_passed=false. No files or processes are changed.
+The fixed orthonormality budget is 1e-12; last-truncation and reference limits
+are both the predeclared 1 Hz numerical resolution, not experimental error.
+This assessment emits no canonical quantities and verifies no process/source
+identity. Product orchestration, canonical result conversion, CLI/MCP and
+three-platform execution remain pending. No screenshot or UI claim is added.
+
+For retained developer packets, run in the base Python environment:
+
+```python
+import json
+from pathlib import Path
+from textlayout.external.sqcircuit_lc import SQcircuitLCPlan
+from textlayout.external.sqcircuit_assessment import assess_sqcircuit_lc
+root = Path("docs/progress/evidence/2026-10-11-154025")
+plan = SQcircuitLCPlan.model_validate_json((root / "request.json").read_text())
+raw = json.loads((root / "sqc-worker-first.json").read_text())
+print(assess_sqcircuit_lc(plan, raw["rows"]).model_dump_json())
+```
+
+This retained example passes numerical checks; it does not rerun the solver.
+On ValueError, preserve the raw packet and compare shapes/units/input identity;
+on failed checks, repeat the original solver before diagnosis. Do not change
+limits or edit the failed packet. AI prompt: “Recompute these raw numerical
+checks and report missing execution identity and platform evidence separately.”

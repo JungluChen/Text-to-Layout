@@ -1,0 +1,22 @@
+{
+  "checks/00.txt": "dbc9a96e00c5cb40a6803bcd080bd1760bed441b2ac250b8687e5ef13af09d02",
+  "checks/01.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+  "checks/02.txt": "7cb633152e62aae6e03fae6954c540b04fe061dba298df534cd78cd9a2ad562a",
+  "checks/03.txt": "ad2b5efdb61a34b710c63fbfbc036023100a0e3c08deb35cb9a2cf5af4c1e577",
+  "checks/04.txt": "8b33f6683a910f3f7d18e650f9a7e6b2b3c461680e2b563fb823d498f1575d59",
+  "checks/05.txt": "d5fec22a01d06b913bcf34b2ac5b7f714317922f280b8e8bceef37f143ed6230",
+  "checks/06.txt": "776a9921caa437c14c9f08eb9b50095a84f3b2e6443df62ea481a7eb35b4e210",
+  "checks/07.txt": "ecf652db6d4a009242b28e79c40d6c326bee2837c1c383ad6a49373732a64a04",
+  "checks/08.txt": "64af89cce3dad102071a10f229d7257ccbd39fcd3403c413b821d2581e87facb",
+  "checks/09.txt": "f2ee4ea4105d6ce8320a0413a3eb64b3f56de87e1a2dc9d0ebb83548c8354f77",
+  "checks/10.txt": "462fdad9331a79877677ae1e2e16a58241495942f456790b8a1a3206e47d5bf3",
+  "checks/11.txt": "b9ad98746d175e423403b9b1c9ed3a1dba51454441ce11e33dc204a40e54b8fd",
+  "checks/12.txt": "cafb8c1a550aef51f26304d74aa3a39bf5322b2c7f9062bee9e156318d173d3a",
+  "checks/13.txt": "0124acd1d4ce3806f54d75365080e985a8178ab714a2860200ebc143bce43daa",
+  "checks/14.txt": "517e892fff4936fddadd11c354b3a1efabb9ac13bd69b19874ff2c6a37a650ac",
+  "checks/checks.json": "82a8e08908895a5fd543fa1a76d16f826c42441a92997af0ed49a3d59af5635a",
+  "sqc-assessment-failure-first.txt": "9fcb9628d3c2c1eab79fa75f411e76e740ff491badb7697a01ac8465bb539e2d",
+  "sqc-assessment-failure-repeat.txt": "5fe6ddb884cd6b267351d4d1fb40a46f9c3c942f7a6e5265af0f48f15622d57c",
+  "sqc-assessment-first.json": "500d40349304e42d8a92fc453a5bd65090cd9f03b33c4a77e22f3bf2b87a1c2c",
+  "sqc-assessment-repeat.json": "500d40349304e42d8a92fc453a5bd65090cd9f03b33c4a77e22f3bf2b87a1c2c"
+}

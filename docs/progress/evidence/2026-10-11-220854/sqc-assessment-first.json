@@ -1,0 +1,9 @@
+{
+  "numerical_checks_passed": true,
+  "max_reference_error_hz": 9.5367431640625e-7,
+  "last_refinement_hz": 0.0,
+  "max_scaled_residual": 0.0,
+  "max_relative_hermiticity": 0.0,
+  "max_orthonormality_error": 0.0,
+  "capacitance_matches": true
+}
