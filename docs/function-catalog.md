@@ -355,3 +355,17 @@ packages are imported, no solver is probed or run, and no quantities are
 returned. Bounds limit intended scope; they do not certify the whole range.
 Execution, canonical numerical results, CLI/MCP mappings and platform
 acceptance remain pending. No graphical screen or screenshot is delivered.
+
+
+### SQcircuit raw worker (developer interface)
+
+The isolated `src/textlayout/external/_sqcircuit_lc_worker.py` accepts a prepared
+request.json and a new output filename. It validates the fixed plan and explicit
+SI bounds before numerical imports, requires SQcircuit 1.0.0 and refuses existing
+outputs. It builds the public Hamiltonian with explicit branch capacitance and
+uses NumPy dense eigh, retaining angular-frequency matrices/eigenpairs, resolved
+capacitance, request hash, source hashes, Python/platform and dependency versions.
+Raw JSON says numerical_acceptance=NOT_EVALUATED. This is not a canonical
+executed/validated result, public CLI or MCP endpoint. A separate numerical
+assessment and product subprocess failure/timeout wrapper remain pending.
+Optional dependencies stay isolated; no base install change or UI delivery.

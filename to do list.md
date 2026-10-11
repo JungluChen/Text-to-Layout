@@ -50,6 +50,9 @@ verification remain the next implementation slice.
 A typed prepared-only SQcircuit LC API now requires explicit Cbranch and writes
 a bounded hashed plan without importing or executing a solver. Execution, CLI,
 canonical numerical evidence and three-platform verification remain pending.
+The isolated raw worker now retains real SQcircuit Hamiltonians/eigenpairs;
+local unchanged outputs match. Canonical assessment and the product execution
+wrapper are next; raw NOT_EVALUATED output does not complete entry 006.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 

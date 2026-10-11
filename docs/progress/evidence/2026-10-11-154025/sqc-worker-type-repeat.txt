@@ -1,0 +1,2 @@
+src/textlayout/external/_sqcircuit_lc_worker.py:93: error: Argument 1 to "Path" has incompatible type "str | None"; expected "str | PathLike[str]"  [arg-type]
+Found 1 error in 1 file (checked 196 source files)

@@ -40,3 +40,31 @@ def test_preparation_is_repeatable_and_preserves_existing_evidence(tmp_path: Pat
     with pytest.raises(FileExistsError):
         prepare_sqcircuit_lc(request, output_dir=tmp_path / "first")
     assert Path(first.input_path).read_bytes() == raw
+
+
+@pytest.mark.parametrize("change", [
+    {"truncations": [10, 20, 300000]},
+    {"reference_limit_hz": 1000.0},
+    {"levels": True},
+    {"extra": "ignored"},
+])
+def test_worker_rejects_modified_plan(change: dict[str, object]) -> None:
+    from textlayout.external._sqcircuit_lc_worker import validate_plan
+    from textlayout.external.sqcircuit_lc import SQcircuitLCPlan
+
+    plan = SQcircuitLCPlan(request=SQcircuitLCRequest.model_validate(INPUTS))
+    with pytest.raises(ValueError):
+        validate_plan({**json.loads(plan.model_dump_json()), **change})
+
+
+def test_worker_preserves_existing_output_without_optional_import(tmp_path: Path) -> None:
+    from textlayout.external._sqcircuit_lc_worker import execute
+
+    prepared = prepare_sqcircuit_lc(
+        SQcircuitLCRequest.model_validate(INPUTS), output_dir=tmp_path / "input"
+    )
+    output = tmp_path / "existing.json"
+    output.write_text("prior evidence")
+    with pytest.raises(FileExistsError):
+        execute(Path(prepared.input_path), output)
+    assert output.read_text() == "prior evidence"

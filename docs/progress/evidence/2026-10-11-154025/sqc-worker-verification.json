@@ -1,0 +1,25 @@
+{
+  "raw_sha256": "e6a0ba45b225972027c2fc425da59cb85ddfbfd6f7796aaff0127bdc8bc34412",
+  "repeat_identical": true,
+  "rows": [
+    {
+      "truncation": 10,
+      "error_hz": 0.0,
+      "scaled_residual": 0.0,
+      "hermiticity_relative": 0.0
+    },
+    {
+      "truncation": 20,
+      "error_hz": 0.0,
+      "scaled_residual": 0.0,
+      "hermiticity_relative": 0.0
+    },
+    {
+      "truncation": 30,
+      "error_hz": 0.0,
+      "scaled_residual": 0.0,
+      "hermiticity_relative": 0.0
+    }
+  ],
+  "scope": "independent local re-evaluation only; canonical product assessment/platform acceptance pending"
+}

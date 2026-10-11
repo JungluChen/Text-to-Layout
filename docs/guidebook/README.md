@@ -489,3 +489,33 @@ and choose a fresh directory. There is no execution or resume command yet.
 AI prompt: “Prepare this explicitly specified LC input; verify its branch
 capacitance and hash, and report preparation separately from solver execution.”
 No schema-valid MCP call is available for this Python-only preparation API.
+
+
+### SQcircuit raw worker (developer interface)
+
+The isolated `src/textlayout/external/_sqcircuit_lc_worker.py` accepts a prepared
+request.json and a new output filename. It validates the fixed plan and explicit
+SI bounds before numerical imports, requires SQcircuit 1.0.0 and refuses existing
+outputs. It builds the public Hamiltonian with explicit branch capacitance and
+uses NumPy dense eigh, retaining angular-frequency matrices/eigenpairs, resolved
+capacitance, request hash, source hashes, Python/platform and dependency versions.
+Raw JSON says numerical_acceptance=NOT_EVALUATED. This is not a canonical
+executed/validated result, public CLI or MCP endpoint. A separate numerical
+assessment and product subprocess failure/timeout wrapper remain pending.
+Optional dependencies stay isolated; no base install change or UI delivery.
+
+After preparing the plan above, choose an isolated interpreter containing the
+audited SQcircuit 1.0.0 runtime. Developer invocation from the repository root:
+
+```sh
+/path/to/optional/python src/textlayout/external/_sqcircuit_lc_worker.py out/sqcircuit-prepared/request.json out/sqcircuit-prepared/raw.json
+```
+
+The interpreter path is an explicit placeholder, not an installed-tool claim.
+Expected output is raw.json with three truncations, six eigenpairs each and
+NOT_EVALUATED acceptance. Preserve stderr on nonzero exit; missing package,
+wrong version, invalid plan and existing output are errors. No checkpoint/resume
+or timeout wrapper exists yet. Use a fresh filename for unchanged repetition.
+AI prompt: “Inspect both raw packets and request hashes; independently check
+angular-frequency units, explicit branch capacitance, residuals and reference
+agreement. Do not promote raw execution to platform or physical validation.”

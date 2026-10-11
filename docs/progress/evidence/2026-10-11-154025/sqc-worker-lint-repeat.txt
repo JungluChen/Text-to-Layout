@@ -1,0 +1,12 @@
+E741 Ambiguous variable name: `l`
+  --> src/textlayout/external/_sqcircuit_lc_worker.py:68:8
+   |
+66 |     sq.set_unit_freq("GHz")
+67 |     rows = []
+68 |     c, l, branch = (request[k] for k in (
+   |        ^
+69 |         "capacitance_f", "inductance_h", "branch_capacitance_f"
+70 |     ))
+   |
+
+Found 1 error.

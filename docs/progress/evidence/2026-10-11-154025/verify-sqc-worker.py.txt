@@ -1,0 +1,11 @@
+import json,math,hashlib
+from pathlib import Path
+import numpy as np
+p=Path('/private/tmp/sqc-worker-first.json');data=json.loads(p.read_text()); req=data['inputs'];ref=1/(2*math.pi*math.sqrt((req['capacitance_f']+req['branch_capacitance_f'])*req['inductance_h']));rows=[]
+for row in data['rows']:
+ h=np.array(row['hamiltonian_rad_s_real'])+1j*np.array(row['hamiltonian_rad_s_imag']);v=np.array(row['eigenvectors_real'])+1j*np.array(row['eigenvectors_imag']);w=np.array(row['eigenvalues_rad_s']);exc=(w-w[0])/(2*math.pi)
+ error=float(max(abs(exc-np.arange(6)*ref)));res=float(max(np.linalg.norm(h@x-e*x)/(np.linalg.norm(h)*np.linalg.norm(x)) for e,x in zip(w,v.T)));herm=float(np.linalg.norm(h-h.conj().T)/np.linalg.norm(h))
+ assert error<=1 and res<=1e-12 and herm<=1e-14
+ rows.append({'truncation':row['truncation'],'error_hz':error,'scaled_residual':res,'hermiticity_relative':herm})
+result={'raw_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'repeat_identical':p.read_bytes()==Path('/private/tmp/sqc-worker-repeat.json').read_bytes(),'rows':rows,'scope':'independent local re-evaluation only; canonical product assessment/platform acceptance pending'}
+Path('/private/tmp/sqc-worker-verification.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
