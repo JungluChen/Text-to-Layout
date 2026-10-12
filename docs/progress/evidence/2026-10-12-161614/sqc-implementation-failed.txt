@@ -1,0 +1,2870 @@
+﻿2026-10-12T02:51:25.0913115Z Current runner version: '2.337.0'
+2026-10-12T02:51:25.0946975Z ##[group]Runner Image Provisioner
+2026-10-12T02:51:25.0947830Z Hosted Compute Agent
+2026-10-12T02:51:25.0948727Z Version: 20260901.588
+2026-10-12T02:51:25.0949392Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-12T02:51:25.0950083Z Build Date: 2026-09-01T19:56:44Z
+2026-10-12T02:51:25.0950779Z Worker ID: {64001030-07b3-41d1-a5b4-46c08803d582}
+2026-10-12T02:51:25.0951475Z Azure Region: westus3
+2026-10-12T02:51:25.0952033Z ##[endgroup]
+2026-10-12T02:51:25.0953370Z ##[group]Operating System
+2026-10-12T02:51:25.0954017Z Microsoft Windows Server 2025
+2026-10-12T02:51:25.0954694Z 10.0.26100
+2026-10-12T02:51:25.0955292Z Datacenter
+2026-10-12T02:51:25.0955843Z ##[endgroup]
+2026-10-12T02:51:25.0956420Z ##[group]Runner Image
+2026-10-12T02:51:25.0957056Z Image: windows-2025-vs2026
+2026-10-12T02:51:25.0957688Z Version: 20260925.250.1
+2026-10-12T02:51:25.0958961Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+2026-10-12T02:51:25.0960516Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+2026-10-12T02:51:25.0961599Z ##[endgroup]
+2026-10-12T02:51:25.0963113Z ##[group]GITHUB_TOKEN Permissions
+2026-10-12T02:51:25.0965103Z Contents: read
+2026-10-12T02:51:25.0965940Z Metadata: read
+2026-10-12T02:51:25.0966660Z Packages: read
+2026-10-12T02:51:25.0967342Z ##[endgroup]
+2026-10-12T02:51:25.0969887Z Secret source: Actions
+2026-10-12T02:51:25.0970961Z Cache mode: write
+2026-10-12T02:51:25.0971905Z Prepare workflow directory
+2026-10-12T02:51:25.1238754Z Prepare all required actions
+2026-10-12T02:51:25.1285851Z Getting action download info
+2026-10-12T02:51:25.3890119Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-12T02:51:28.9648418Z Download action repository 'astral-sh/setup-uv@v5' (SHA:d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86)
+2026-10-12T02:51:29.6010098Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-12T02:51:30.0540225Z Complete job name: test (windows-latest, 3.11)
+2026-10-12T02:51:30.4109618Z ##[group]Run actions/checkout@v4
+2026-10-12T02:51:30.4110471Z with:
+2026-10-12T02:51:30.4110749Z   repository: JungluChen/Text-to-Layout
+2026-10-12T02:51:30.4113310Z   token: ***
+2026-10-12T02:51:30.4113636Z   ssh-strict: true
+2026-10-12T02:51:30.4113937Z   ssh-user: git
+2026-10-12T02:51:30.4114198Z   persist-credentials: true
+2026-10-12T02:51:30.4114467Z   clean: true
+2026-10-12T02:51:30.4114792Z   sparse-checkout-cone-mode: true
+2026-10-12T02:51:30.4115107Z   fetch-depth: 1
+2026-10-12T02:51:30.4115341Z   fetch-tags: false
+2026-10-12T02:51:30.4115701Z   show-progress: true
+2026-10-12T02:51:30.4115962Z   lfs: false
+2026-10-12T02:51:30.4116235Z   submodules: false
+2026-10-12T02:51:30.4116481Z   set-safe-directory: true
+2026-10-12T02:51:30.4116759Z   allow-unsafe-pr-checkout: false
+2026-10-12T02:51:30.4117280Z ##[endgroup]
+2026-10-12T02:51:30.5866984Z Syncing repository: JungluChen/Text-to-Layout
+2026-10-12T02:51:30.5868284Z ##[group]Getting Git version info
+2026-10-12T02:51:30.5868806Z Working directory is 'D:\a\Text-to-Layout\Text-to-Layout'
+2026-10-12T02:51:30.7272244Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-12T02:51:33.0556091Z git version 2.55.0.windows.5
+2026-10-12T02:51:33.0594361Z ##[endgroup]
+2026-10-12T02:51:33.0610611Z Temporarily overriding HOME='D:\a\_temp\3ddf17e3-d005-4b48-a0a0-fd8a7320ab0c' before making global git config changes
+2026-10-12T02:51:33.0619129Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-12T02:51:33.0619871Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Text-to-Layout\Text-to-Layout
+2026-10-12T02:51:33.1759536Z Deleting the contents of 'D:\a\Text-to-Layout\Text-to-Layout'
+2026-10-12T02:51:33.1764249Z ##[group]Initializing the repository
+2026-10-12T02:51:33.1772057Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\Text-to-Layout\Text-to-Layout
+2026-10-12T02:51:34.5803276Z Initialized empty Git repository in D:/a/Text-to-Layout/Text-to-Layout/.git/
+2026-10-12T02:51:34.5908626Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/JungluChen/Text-to-Layout
+2026-10-12T02:51:34.7066199Z ##[endgroup]
+2026-10-12T02:51:34.7066591Z ##[group]Disabling automatic garbage collection
+2026-10-12T02:51:34.7074641Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-12T02:51:34.7311159Z ##[endgroup]
+2026-10-12T02:51:34.7311457Z ##[group]Setting up auth
+2026-10-12T02:51:34.7322150Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-12T02:51:34.7558518Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-12T02:51:40.1663822Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-12T02:51:40.1908467Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-12T02:51:40.6767313Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-12T02:51:40.7008011Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-12T02:51:41.2309785Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-12T02:51:41.2556174Z ##[endgroup]
+2026-10-12T02:51:41.2556614Z ##[group]Fetching the repository
+2026-10-12T02:51:41.2568931Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +db75ddd18e6658211ecb324b8593760570da8b46:refs/remotes/origin/main
+2026-10-12T02:51:44.5248087Z From https://github.com/JungluChen/Text-to-Layout
+2026-10-12T02:51:44.5248572Z  * [new ref]         db75ddd18e6658211ecb324b8593760570da8b46 -> origin/main
+2026-10-12T02:51:44.5281532Z ##[endgroup]
+2026-10-12T02:51:44.5281994Z ##[group]Determining the checkout info
+2026-10-12T02:51:44.5284055Z ##[endgroup]
+2026-10-12T02:51:44.5292390Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-12T02:51:44.5894779Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-12T02:51:44.6131507Z ##[group]Checking out the ref
+2026-10-12T02:51:44.6138947Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+2026-10-12T02:51:45.7320053Z Switched to a new branch 'main'
+2026-10-12T02:51:45.7440222Z branch 'main' set up to track 'origin/main'.
+2026-10-12T02:51:45.7505497Z ##[endgroup]
+2026-10-12T02:51:45.7967407Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-12T02:51:45.8227391Z db75ddd18e6658211ecb324b8593760570da8b46
+2026-10-12T02:51:45.8609690Z ##[group]Run astral-sh/setup-uv@v5
+2026-10-12T02:51:45.8609974Z with:
+2026-10-12T02:51:45.8610137Z   python-version: 3.11
+2026-10-12T02:51:45.8612410Z   github-token: ***
+2026-10-12T02:51:45.8612588Z   enable-cache: auto
+2026-10-12T02:51:45.8612805Z   cache-dependency-glob: **/uv.lock
+**/requirements*.txt
+
+2026-10-12T02:51:45.8613052Z   prune-cache: true
+2026-10-12T02:51:45.8613222Z   ignore-nothing-to-cache: false
+2026-10-12T02:51:45.8613424Z   ignore-empty-workdir: false
+2026-10-12T02:51:45.8613611Z ##[endgroup]
+2026-10-12T02:51:46.0731941Z (node:1488) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-12T02:51:46.0734124Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-12T02:51:46.3982232Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.13.0/uv-x86_64-pc-windows-msvc.zip" ...
+2026-10-12T02:51:47.0125015Z [command]"C:\Program Files\PowerShell\7\pwsh.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.ZipFile } catch { } ; try { [System.IO.Compression.ZipFile]::ExtractToDirectory('D:\a\_temp\95e0c419-2fa6-44e5-8ceb-9cdbca499b6d.zip', 'D:\a\_temp\a3b7a6d6-a317-4863-ac1f-f0084488ea05', $true) } catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Expand-Archive -LiteralPath 'D:\a\_temp\95e0c419-2fa6-44e5-8ceb-9cdbca499b6d.zip' -DestinationPath 'D:\a\_temp\a3b7a6d6-a317-4863-ac1f-f0084488ea05' -Force } else { throw $_ } } ;"
+2026-10-12T02:51:47.5095637Z Set UV_TOOL_BIN_DIR to D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:51:47.5098705Z Added D:\a\_temp\uv-tool-bin-dir to the path
+2026-10-12T02:51:47.5104851Z Added C:\hostedtoolcache\windows\uv\0.13.0\x86_64 to the path
+2026-10-12T02:51:47.5107870Z Set UV_TOOL_DIR to D:\a\_temp\uv-tool-dir
+2026-10-12T02:51:47.5110362Z Set UV_PYTHON to 3.11
+2026-10-12T02:51:47.5111054Z Activating python venv...
+2026-10-12T02:51:50.8340245Z Set UV_CACHE_DIR to D:\a\_temp\setup-uv-cache
+2026-10-12T02:51:50.8340560Z Successfully installed uv version 0.13.0
+2026-10-12T02:51:50.8340880Z Searching files using cache dependency glob: **/uv.lock,**/requirements*.txt
+2026-10-12T02:51:50.9205645Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-after-1.log.txt
+2026-10-12T02:51:50.9222210Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-after-2.log.txt
+2026-10-12T02:51:50.9231283Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-before-1.log.txt
+2026-10-12T02:51:50.9239168Z D:\a\Text-to-Layout\Text-to-Layout\docs\progress\evidence\2026-09-15-051619\commands\requirements-consistency-before-2.log.txt
+2026-10-12T02:51:51.2611276Z D:\a\Text-to-Layout\Text-to-Layout\requirements.txt
+2026-10-12T02:51:51.3474685Z D:\a\Text-to-Layout\Text-to-Layout\uv.lock
+2026-10-12T02:51:51.3522227Z Found 6 files to hash.
+2026-10-12T02:51:51.3524708Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-pc-windows-msvc-3.11-c4e8c473725bf452d7fc9a79e3b2611ae34e2f23d5c72e16a8b8b62da3ba314c
+2026-10-12T02:51:51.6231950Z Cache hit for: setup-uv-1-x86_64-pc-windows-msvc-3.11-c4e8c473725bf452d7fc9a79e3b2611ae34e2f23d5c72e16a8b8b62da3ba314c
+2026-10-12T02:51:51.6321091Z (node:1488) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-12T02:51:52.1520630Z Received 315428 of 315428 (100.0%), 1.0 MBs/sec
+2026-10-12T02:51:52.1521828Z Cache Size: ~0 MB (315428 B)
+2026-10-12T02:51:52.1588098Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/15f4c160-03e2-447f-8fab-4aa1a788f162/cache.tzst -P -C D:/a/Text-to-Layout/Text-to-Layout --force-local --use-compress-program "zstd -d"
+2026-10-12T02:51:52.2734182Z Cache restored successfully
+2026-10-12T02:51:52.2744347Z uv cache restored from GitHub Actions cache with key: setup-uv-1-x86_64-pc-windows-msvc-3.11-c4e8c473725bf452d7fc9a79e3b2611ae34e2f23d5c72e16a8b8b62da3ba314c
+2026-10-12T02:51:52.2989339Z ##[group]Run uv sync --dev
+2026-10-12T02:51:52.2989642Z [36;1muv sync --dev[0m
+2026-10-12T02:51:52.3342616Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:51:52.3342921Z env:
+2026-10-12T02:51:52.3343104Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:51:52.3343551Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:51:52.3343750Z   UV_PYTHON: 3.11
+2026-10-12T02:51:52.3343954Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:51:52.3344208Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:51:52.3344422Z ##[endgroup]
+2026-10-12T02:51:52.6020036Z Resolved 230 packages in 3ms
+2026-10-12T02:51:52.6386785Z    Building text-to-gds @ file:///D:/a/Text-to-Layout/Text-to-Layout
+2026-10-12T02:51:52.7347268Z Downloading pywin32 (9.1MiB)
+2026-10-12T02:51:52.7578269Z Downloading matplotlib (7.8MiB)
+2026-10-12T02:51:52.7582100Z Downloading pydantic-core (1.9MiB)
+2026-10-12T02:51:52.7587654Z Downloading networkx (2.0MiB)
+2026-10-12T02:51:52.7590789Z Downloading widgetsnbextension (2.1MiB)
+2026-10-12T02:51:52.7593823Z Downloading pygit2 (1.1MiB)
+2026-10-12T02:51:52.7598666Z Downloading pygments (1.2MiB)
+2026-10-12T02:51:52.7603823Z Downloading jedi (4.7MiB)
+2026-10-12T02:51:52.7609944Z Downloading ast-serialize (1.1MiB)
+2026-10-12T02:51:52.7620600Z Downloading scikit-image (11.3MiB)
+2026-10-12T02:51:52.7622973Z Downloading numpy (15.1MiB)
+2026-10-12T02:51:52.7625814Z Downloading pandas (9.4MiB)
+2026-10-12T02:51:52.7631920Z Downloading scipy (34.9MiB)
+2026-10-12T02:51:52.7636271Z Downloading debugpy (5.0MiB)
+2026-10-12T02:51:52.7638826Z Downloading cryptography (3.6MiB)
+2026-10-12T02:51:52.7641289Z Downloading ipytree (1.2MiB)
+2026-10-12T02:51:52.7643961Z Downloading mypy (10.5MiB)
+2026-10-12T02:51:52.7647447Z Downloading pillow (6.8MiB)
+2026-10-12T02:51:52.7668755Z Downloading fonttools (2.2MiB)
+2026-10-12T02:51:52.7679576Z Downloading ruff (11.3MiB)
+2026-10-12T02:51:52.7681209Z Downloading rapidfuzz (1.5MiB)
+2026-10-12T02:51:52.7688358Z Downloading shapely (1.6MiB)
+2026-10-12T02:51:52.9090974Z Downloading klayout (13.2MiB)
+2026-10-12T02:51:53.3461267Z  Downloaded ast-serialize
+2026-10-12T02:51:53.4079586Z  Downloaded pygit2
+2026-10-12T02:51:53.4101725Z  Downloaded pygments
+2026-10-12T02:51:53.4132522Z  Downloaded ipytree
+2026-10-12T02:51:53.5020315Z  Downloaded rapidfuzz
+2026-10-12T02:51:53.5845214Z  Downloaded shapely
+2026-10-12T02:51:53.6689762Z  Downloaded networkx
+2026-10-12T02:51:53.6736202Z  Downloaded pydantic-core
+2026-10-12T02:51:53.6785395Z    Building rectpack==0.2.2
+2026-10-12T02:51:53.7387270Z  Downloaded widgetsnbextension
+2026-10-12T02:51:53.7859950Z  Downloaded fonttools
+2026-10-12T02:51:53.9400809Z  Downloaded cryptography
+2026-10-12T02:51:54.1821090Z  Downloaded debugpy
+2026-10-12T02:51:54.3591801Z  Downloaded pillow
+2026-10-12T02:51:54.4470564Z  Downloaded matplotlib
+2026-10-12T02:51:54.5136764Z  Downloaded pandas
+2026-10-12T02:51:54.5664776Z  Downloaded pywin32
+2026-10-12T02:51:54.5729977Z  Downloaded ruff
+2026-10-12T02:51:54.6057847Z  Downloaded scikit-image
+2026-10-12T02:51:54.6479571Z  Downloaded numpy
+2026-10-12T02:51:54.7959075Z  Downloaded mypy
+2026-10-12T02:51:55.0217668Z  Downloaded scipy
+2026-10-12T02:51:55.2468405Z  Downloaded jedi
+2026-10-12T02:51:55.4103394Z       Built text-to-gds @ file:///D:/a/Text-to-Layout/Text-to-Layout
+2026-10-12T02:51:55.7680695Z  Downloaded klayout
+2026-10-12T02:51:55.8093252Z       Built rectpack==0.2.2
+2026-10-12T02:51:55.8126591Z Prepared 154 packages in 3.20s
+2026-10-12T02:51:57.4892059Z Installed 154 packages in 1.67s
+2026-10-12T02:51:57.4896745Z  + aenum==3.1.17
+2026-10-12T02:51:57.4897716Z  + annotated-doc==0.0.4
+2026-10-12T02:51:57.4898897Z  + annotated-types==0.7.0
+2026-10-12T02:51:57.4900031Z  + anyio==4.13.0
+2026-10-12T02:51:57.4901080Z  + ast-serialize==0.5.0
+2026-10-12T02:51:57.4902117Z  + asttokens==3.0.1
+2026-10-12T02:51:57.4903175Z  + attrs==26.1.0
+2026-10-12T02:51:57.4907194Z  + build==1.5.1
+2026-10-12T02:51:57.4907431Z  + cachetools==7.1.4
+2026-10-12T02:51:57.4907618Z  + certifi==2026.5.20
+2026-10-12T02:51:57.4908062Z  + cffi==2.0.0
+2026-10-12T02:51:57.4909179Z  + charset-normalizer==3.4.7
+2026-10-12T02:51:57.4910391Z  + click==8.4.1
+2026-10-12T02:51:57.4911051Z  + colorama==0.4.6
+2026-10-12T02:51:57.4912608Z  + comm==0.2.3
+2026-10-12T02:51:57.4913887Z  + contourpy==1.3.3
+2026-10-12T02:51:57.4914853Z  + coverage==7.14.3
+2026-10-12T02:51:57.4916029Z  + cryptography==48.0.0
+2026-10-12T02:51:57.4916881Z  + cycler==0.12.1
+2026-10-12T02:51:57.4917895Z  + debugpy==1.8.21
+2026-10-12T02:51:57.4919039Z  + decorator==5.3.1
+2026-10-12T02:51:57.4920048Z  + distro==1.9.0
+2026-10-12T02:51:57.4921062Z  + executing==2.2.1
+2026-10-12T02:51:57.4922457Z  + fastapi==0.138.1
+2026-10-12T02:51:57.4923479Z  + fonttools==4.63.0
+2026-10-12T02:51:57.4924540Z  + freetype-py==2.5.1
+2026-10-12T02:51:57.4925562Z  + gdsfactory==9.43.0
+2026-10-12T02:51:57.4926459Z  + graphviz==0.21
+2026-10-12T02:51:57.4927594Z  + h11==0.16.0
+2026-10-12T02:51:57.4928528Z  + hatchling==1.31.0
+2026-10-12T02:51:57.4929579Z  + httpcore==1.0.9
+2026-10-12T02:51:57.4930929Z  + httpx==0.28.1
+2026-10-12T02:51:57.4931754Z  + httpx-sse==0.4.3
+2026-10-12T02:51:57.4932332Z  + idna==3.18
+2026-10-12T02:51:57.4933530Z  + imageio==2.37.3
+2026-10-12T02:51:57.4934458Z  + iniconfig==2.3.0
+2026-10-12T02:51:57.4935439Z  + ipyevents==2.0.4
+2026-10-12T02:51:57.4936380Z  + ipykernel==7.2.0
+2026-10-12T02:51:57.4937371Z  + ipython==9.14.0
+2026-10-12T02:51:57.4938441Z  + ipython-pygments-lexers==1.1.1
+2026-10-12T02:51:57.4939431Z  + ipytree==0.2.2
+2026-10-12T02:51:57.4940444Z  + ipywidgets==8.1.8
+2026-10-12T02:51:57.4941559Z  + jedi==0.20.0
+2026-10-12T02:51:57.4942481Z  + jinja2==3.1.6
+2026-10-12T02:51:57.4943296Z  + jsonpatch==1.33
+2026-10-12T02:51:57.4944341Z  + jsonpointer==3.1.1
+2026-10-12T02:51:57.4945460Z  + jsonschema==4.26.0
+2026-10-12T02:51:57.4946520Z  + jsonschema-specifications==2025.9.1
+2026-10-12T02:51:57.4947559Z  + jupyter-client==8.8.0
+2026-10-12T02:51:57.4948563Z  + jupyter-core==5.9.1
+2026-10-12T02:51:57.4949693Z  + jupyterlab-widgets==3.0.16
+2026-10-12T02:51:57.4950927Z  + kfactory==2.5.3
+2026-10-12T02:51:57.4951320Z  + kiwisolver==1.5.0
+2026-10-12T02:51:57.4952394Z  + klayout==0.30.9
+2026-10-12T02:51:57.4953466Z  + langchain-core==1.4.8
+2026-10-12T02:51:57.4954510Z  + langchain-protocol==0.0.18
+2026-10-12T02:51:57.4955584Z  + langgraph==1.2.7
+2026-10-12T02:51:57.4956628Z  + langgraph-checkpoint==4.1.1
+2026-10-12T02:51:57.4957645Z  + langgraph-prebuilt==1.1.0
+2026-10-12T02:51:57.4958612Z  + langgraph-sdk==0.4.2
+2026-10-12T02:51:57.4959655Z  + langsmith==0.9.7
+2026-10-12T02:51:57.4960603Z  + lazy-loader==0.5
+2026-10-12T02:51:57.4961600Z  + librt==0.11.0
+2026-10-12T02:51:57.4962590Z  + loguru==0.7.3
+2026-10-12T02:51:57.4963594Z  + mapbox-earcut==2.0.0
+2026-10-12T02:51:57.4964656Z  + markdown-it-py==4.2.0
+2026-10-12T02:51:57.4965712Z  + markupsafe==3.0.3
+2026-10-12T02:51:57.4966738Z  + matplotlib==3.10.9
+2026-10-12T02:51:57.4967809Z  + matplotlib-inline==0.2.2
+2026-10-12T02:51:57.4968789Z  + mcp==1.27.2
+2026-10-12T02:51:57.4969711Z  + mdurl==0.1.2
+2026-10-12T02:51:57.4971109Z  + meshio==5.3.5
+2026-10-12T02:51:57.4971445Z  + mypy==2.1.0
+2026-10-12T02:51:57.4972493Z  + mypy-extensions==1.1.0
+2026-10-12T02:51:57.4973558Z  + natsort==8.4.0
+2026-10-12T02:51:57.4974551Z  + nest-asyncio==1.6.0
+2026-10-12T02:51:57.4975588Z  + networkx==3.6.1
+2026-10-12T02:51:57.4976602Z  + numpy==1.26.4
+2026-10-12T02:51:57.4977636Z  + orjson==3.11.9
+2026-10-12T02:51:57.4978617Z  + ormsgpack==1.12.2
+2026-10-12T02:51:57.4979526Z  + packaging==26.2
+2026-10-12T02:51:57.4980520Z  + pandas==3.0.3
+2026-10-12T02:51:57.4981470Z  + parso==0.8.7
+2026-10-12T02:51:57.4982460Z  + pathspec==1.1.1
+2026-10-12T02:51:57.4983861Z  + pillow==12.2.0
+2026-10-12T02:51:57.4984688Z  + platformdirs==4.10.0
+2026-10-12T02:51:57.4985622Z  + pluggy==1.6.0
+2026-10-12T02:51:57.4986725Z  + prompt-toolkit==3.0.52
+2026-10-12T02:51:57.4988963Z  + psutil==7.2.2
+2026-10-12T02:51:57.4989249Z  + pure-eval==0.2.3
+2026-10-12T02:51:57.4989573Z  + pycparser==3.0
+2026-10-12T02:51:57.4991111Z  + pydantic==2.12.5
+2026-10-12T02:51:57.4991306Z  + pydantic-core==2.41.5
+2026-10-12T02:51:57.4992410Z  + pydantic-extra-types==2.11.1
+2026-10-12T02:51:57.4993839Z  + pydantic-settings==2.14.1
+2026-10-12T02:51:57.4994660Z  + pygit2==1.19.2
+2026-10-12T02:51:57.4995624Z  + pyglet==2.1.14
+2026-10-12T02:51:57.4996577Z  + pygments==2.20.0
+2026-10-12T02:51:57.4997538Z  + pyjwt==2.13.0
+2026-10-12T02:51:57.4998530Z  + pyparsing==3.3.2
+2026-10-12T02:51:57.4999513Z  + pyproject-hooks==1.2.0
+2026-10-12T02:51:57.5000480Z  + pytest==9.0.3
+2026-10-12T02:51:57.5001476Z  + pytest-cov==7.1.0
+2026-10-12T02:51:57.5002562Z  + python-dateutil==2.9.0.post0
+2026-10-12T02:51:57.5003538Z  + python-dotenv==1.2.2
+2026-10-12T02:51:57.5004523Z  + python-multipart==0.0.30
+2026-10-12T02:51:57.5005254Z  + pywin32==311
+2026-10-12T02:51:57.5006276Z  + pyyaml==6.0.3
+2026-10-12T02:51:57.5007297Z  + pyzmq==27.1.0
+2026-10-12T02:51:57.5008099Z  + qrcode==8.2
+2026-10-12T02:51:57.5009089Z  + rapidfuzz==3.14.5
+2026-10-12T02:51:57.5010330Z  + rectangle-packer==2.1.0
+2026-10-12T02:51:57.5011253Z  + rectpack==0.2.2
+2026-10-12T02:51:57.5012262Z  + referencing==0.37.0
+2026-10-12T02:51:57.5013265Z  + requests==2.34.2
+2026-10-12T02:51:57.5014177Z  + requests-toolbelt==1.0.0
+2026-10-12T02:51:57.5015193Z  + rich==15.0.0
+2026-10-12T02:51:57.5016085Z  + rpds-py==2026.5.1
+2026-10-12T02:51:57.5017120Z  + ruamel-yaml==0.19.1
+2026-10-12T02:51:57.5018101Z  + ruamel-yaml-string==0.1.1
+2026-10-12T02:51:57.5019124Z  + ruff==0.15.15
+2026-10-12T02:51:57.5020089Z  + scikit-image==0.26.0
+2026-10-12T02:51:57.5021086Z  + scipy==1.17.1
+2026-10-12T02:51:57.5022000Z  + semver==3.0.4
+2026-10-12T02:51:57.5022989Z  + shapely==2.1.2
+2026-10-12T02:51:57.5023971Z  + shellingham==1.5.4
+2026-10-12T02:51:57.5024956Z  + six==1.17.0
+2026-10-12T02:51:57.5025934Z  + sniffio==1.3.1
+2026-10-12T02:51:57.5026882Z  + sse-starlette==3.4.4
+2026-10-12T02:51:57.5027881Z  + stack-data==0.6.3
+2026-10-12T02:51:57.5028791Z  + starlette==1.2.1
+2026-10-12T02:51:57.5029802Z  + tenacity==9.1.4
+2026-10-12T02:51:57.5031429Z  + text-to-gds==0.3.1 (from file:///D:/a/Text-to-Layout/Text-to-Layout)
+2026-10-12T02:51:57.5032197Z  + tifffile==2026.3.3
+2026-10-12T02:51:57.5033188Z  + toolz==1.1.0
+2026-10-12T02:51:57.5034165Z  + tornado==6.5.6
+2026-10-12T02:51:57.5035066Z  + traitlets==5.15.0
+2026-10-12T02:51:57.5036096Z  + trimesh==4.12.2
+2026-10-12T02:51:57.5037174Z  + trove-classifiers==2026.6.1.19
+2026-10-12T02:51:57.5038179Z  + typer==0.24.2
+2026-10-12T02:51:57.5039201Z  + types-pyyaml==6.0.12.20260518
+2026-10-12T02:51:57.5040319Z  + typing-extensions==4.15.0
+2026-10-12T02:51:57.5041304Z  + typing-inspection==0.4.2
+2026-10-12T02:51:57.5042161Z  + tzdata==2026.2
+2026-10-12T02:51:57.5043311Z  + urllib3==2.7.0
+2026-10-12T02:51:57.5044274Z  + uuid-utils==0.16.2
+2026-10-12T02:51:57.5045297Z  + uvicorn==0.48.0
+2026-10-12T02:51:57.5046270Z  + watchdog==6.0.0
+2026-10-12T02:51:57.5047161Z  + wcwidth==0.7.0
+2026-10-12T02:51:57.5048162Z  + websockets==15.0.1
+2026-10-12T02:51:57.5049154Z  + widgetsnbextension==4.0.15
+2026-10-12T02:51:57.5050562Z  + win32-setctime==1.2.0
+2026-10-12T02:51:57.5051561Z  + xxhash==3.8.0
+2026-10-12T02:51:57.5052486Z  + zstandard==0.25.0
+2026-10-12T02:51:57.6880826Z ##[group]Run uv run textlayout --help
+2026-10-12T02:51:57.6881286Z [36;1muv run textlayout --help[0m
+2026-10-12T02:51:57.6979747Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:51:57.6980059Z env:
+2026-10-12T02:51:57.6980257Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:51:57.6980508Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:51:57.6980710Z   UV_PYTHON: 3.11
+2026-10-12T02:51:57.6980918Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:51:57.6981173Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:51:57.6981395Z ##[endgroup]
+2026-10-12T02:51:59.6834416Z usage: textlayout [-h] [--version]
+2026-10-12T02:51:59.6835462Z                   {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement,kqcircuits-cpw,quantum-metal-mask,pyepr-circuit,circuitq-lc}
+2026-10-12T02:51:59.6836202Z                   ...
+2026-10-12T02:51:59.6836626Z 
+2026-10-12T02:51:59.6836786Z Text-to-Layout CLI
+2026-10-12T02:51:59.6836884Z 
+2026-10-12T02:51:59.6836961Z positional arguments:
+2026-10-12T02:51:59.6837621Z   {design,prompt,generate,verify,epr,evidence,doctor,jobs,serve,simulate,yield,chip,pdk,measurement,kqcircuits-cpw,quantum-metal-mask,pyepr-circuit,circuitq-lc}
+2026-10-12T02:51:59.6838366Z     design              Choose and build a device from a typed electrical
+2026-10-12T02:51:59.6838635Z                         goal.
+2026-10-12T02:51:59.6838882Z     prompt              Natural-language request -> intent, layout,
+2026-10-12T02:51:59.6839161Z                         verification, simulation, report.
+2026-10-12T02:51:59.6839454Z     generate            Generate verified artifacts from a DSL file.
+2026-10-12T02:51:59.6839739Z     verify              Verify a DSL file (no export).
+2026-10-12T02:51:59.6840349Z     epr                 Loss-participation (EPR) and coherence estimate for a
+2026-10-12T02:51:59.6840680Z                         DSL file. EPR_ANALYTICAL_ONLY by default; never a
+2026-10-12T02:51:59.6840949Z                         field solution.
+2026-10-12T02:51:59.6841213Z     evidence            Inspect and validate evidence ledgers (the source of
+2026-10-12T02:51:59.6841506Z                         truth for every physics claim).
+2026-10-12T02:51:59.6841795Z     doctor              Check the environment (imports, solvers, write perms).
+2026-10-12T02:51:59.6842130Z     jobs                Start, inspect, collect, cancel, and resume persistent
+2026-10-12T02:51:59.6842395Z                         local solver jobs.
+2026-10-12T02:51:59.6842651Z     serve               Run the FastAPI plugin server.
+2026-10-12T02:51:59.6842928Z     simulate            Run supported external solver benchmarks.
+2026-10-12T02:51:59.6843257Z     yield               JJ critical-current variability / fabrication-yield
+2026-10-12T02:51:59.6843581Z                         Monte Carlo. Drawing one SQUID loop proves geometry,
+2026-10-12T02:51:59.6843867Z                         not manufacturability.
+2026-10-12T02:51:59.6844150Z     chip                Multi-qubit chip-level frequency-collision analysis. A
+2026-10-12T02:51:59.6844474Z                         single-device closed loop cannot answer whether a
+2026-10-12T02:51:59.6844734Z                         processor works.
+2026-10-12T02:51:59.6844999Z     pdk                 Foundry PDK abstraction: list registered technologies
+2026-10-12T02:51:59.6845302Z                         or inspect a PDK's full provenance and process
+2026-10-12T02:51:59.6845558Z                         parameters.
+2026-10-12T02:51:59.6845838Z     measurement         Simulation-vs-measurement correlation: the path from
+2026-10-12T02:51:59.6846158Z                         illustrative to fab-calibrated numbers.
+2026-10-12T02:51:59.6846468Z     kqcircuits-cpw      Generate verified straight CPW gap masks via an
+2026-10-12T02:51:59.6846792Z                         isolated KQCircuits runtime; no EM simulation.
+2026-10-12T02:51:59.6848981Z     quantum-metal-mask  Generate independently checked charge-pad/ground
+2026-10-12T02:51:59.6849383Z                         masks; no junction or EM simulation.
+2026-10-12T02:51:59.6849673Z     pyepr-circuit       Run an ideal one-mode circuit with
+2026-10-12T02:51:59.6849979Z                         convergence/reference checks; no EM extraction.
+2026-10-12T02:51:59.6850307Z     circuitq-lc         Run ideal LC with fixed grid/domain/reference checks;
+2026-10-12T02:51:59.6850592Z                         no EM extraction.
+2026-10-12T02:51:59.6850734Z 
+2026-10-12T02:51:59.6850807Z options:
+2026-10-12T02:51:59.6851004Z   -h, --help            show this help message and exit
+2026-10-12T02:51:59.6851298Z   --version             show program's version number and exit
+2026-10-12T02:51:59.8559855Z ##[group]Run uv run textlayout doctor --json
+2026-10-12T02:51:59.8560229Z [36;1muv run textlayout doctor --json[0m
+2026-10-12T02:51:59.8617408Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:51:59.8617872Z env:
+2026-10-12T02:51:59.8618054Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:51:59.8618300Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:51:59.8618511Z   UV_PYTHON: 3.11
+2026-10-12T02:51:59.8618724Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:51:59.8618985Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:51:59.8619201Z ##[endgroup]
+2026-10-12T02:52:11.5039166Z {
+2026-10-12T02:52:11.5039523Z   "schema": "textlayout.doctor.v2",
+2026-10-12T02:52:11.5039889Z   "status": "ok",
+2026-10-12T02:52:11.5040149Z   "host": {
+2026-10-12T02:52:11.5040363Z     "os": "Windows",
+2026-10-12T02:52:11.5040583Z     "os_release": "10",
+2026-10-12T02:52:11.5040824Z     "architecture": "AMD64",
+2026-10-12T02:52:11.5041242Z     "filesystem": "D:\\a\\Text-to-Layout\\Text-to-Layout"
+2026-10-12T02:52:11.5041620Z   },
+2026-10-12T02:52:11.5041840Z   "runtime": {
+2026-10-12T02:52:11.5042087Z     "python": "3.11.9",
+2026-10-12T02:52:11.5042392Z     "textlayout": "0.3.1",
+2026-10-12T02:52:11.5042749Z     "git_sha": "db75ddd18e6658211ecb324b8593760570da8b46",
+2026-10-12T02:52:11.5043133Z     "support_state": "CORE_TESTED"
+2026-10-12T02:52:11.5043417Z   },
+2026-10-12T02:52:11.5043618Z   "wsl": {
+2026-10-12T02:52:11.5043848Z     "detected": false,
+2026-10-12T02:52:11.5044125Z     "version": null,
+2026-10-12T02:52:11.5044370Z     "distro": null,
+2026-10-12T02:52:11.5044637Z     "filesystem_warning": null
+2026-10-12T02:52:11.5044917Z   },
+2026-10-12T02:52:11.5045138Z   "core_dependencies": {
+2026-10-12T02:52:11.5045432Z     "Python": {
+2026-10-12T02:52:11.5045673Z       "name": "Python",
+2026-10-12T02:52:11.5046354Z       "status": "FOUND",
+2026-10-12T02:52:11.5046659Z       "detail": "3.11.9 (requires >= 3.11)",
+2026-10-12T02:52:11.5046993Z       "required": true,
+2026-10-12T02:52:11.5047504Z       "section": "Core",
+2026-10-12T02:52:11.5047766Z       "path": null,
+2026-10-12T02:52:11.5048025Z       "version": "3.11.9",
+2026-10-12T02:52:11.5048268Z       "backend_type": "runtime",
+2026-10-12T02:52:11.5048472Z       "capabilities": [],
+2026-10-12T02:52:11.5048891Z       "smoke_test": "passed",
+2026-10-12T02:52:11.5049173Z       "executable_sha256": null
+2026-10-12T02:52:11.5049448Z     },
+2026-10-12T02:52:11.5049657Z     "textlayout": {
+2026-10-12T02:52:11.5049884Z       "name": "textlayout",
+2026-10-12T02:52:11.5050145Z       "status": "FOUND",
+2026-10-12T02:52:11.5050831Z       "detail": "textlayout 0.3.1",
+2026-10-12T02:52:11.5051121Z       "required": true,
+2026-10-12T02:52:11.5051310Z       "section": "Core",
+2026-10-12T02:52:11.5051603Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\__init__.py",
+2026-10-12T02:52:11.5051925Z       "version": "0.3.1",
+2026-10-12T02:52:11.5052148Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5052366Z       "capabilities": [],
+2026-10-12T02:52:11.5052552Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5052767Z       "executable_sha256": null
+2026-10-12T02:52:11.5052960Z     },
+2026-10-12T02:52:11.5053108Z     "gdsfactory": {
+2026-10-12T02:52:11.5053283Z       "name": "gdsfactory",
+2026-10-12T02:52:11.5053467Z       "status": "FOUND",
+2026-10-12T02:52:11.5053665Z       "detail": "gdsfactory 9.43.0",
+2026-10-12T02:52:11.5053869Z       "required": true,
+2026-10-12T02:52:11.5054046Z       "section": "Core",
+2026-10-12T02:52:11.5054379Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\gdsfactory\\__init__.py",
+2026-10-12T02:52:11.5054732Z       "version": "9.43.0",
+2026-10-12T02:52:11.5054927Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5055142Z       "capabilities": [],
+2026-10-12T02:52:11.5055341Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5057515Z       "executable_sha256": null
+2026-10-12T02:52:11.5057771Z     },
+2026-10-12T02:52:11.5057935Z     "klayout.db": {
+2026-10-12T02:52:11.5058115Z       "name": "klayout.db",
+2026-10-12T02:52:11.5058470Z       "status": "FOUND",
+2026-10-12T02:52:11.5058668Z       "detail": "klayout.db 0.30.9",
+2026-10-12T02:52:11.5058877Z       "required": true,
+2026-10-12T02:52:11.5059052Z       "section": "Core",
+2026-10-12T02:52:11.5059390Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\klayout\\db\\__init__.py",
+2026-10-12T02:52:11.5059762Z       "version": "0.30.9",
+2026-10-12T02:52:11.5059975Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5060202Z       "capabilities": [],
+2026-10-12T02:52:11.5060399Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5060619Z       "executable_sha256": null
+2026-10-12T02:52:11.5060807Z     },
+2026-10-12T02:52:11.5060967Z     "langgraph.graph": {
+2026-10-12T02:52:11.5061163Z       "name": "langgraph.graph",
+2026-10-12T02:52:11.5061356Z       "status": "FOUND",
+2026-10-12T02:52:11.5061543Z       "detail": "langgraph.graph",
+2026-10-12T02:52:11.5061741Z       "required": true,
+2026-10-12T02:52:11.5061913Z       "section": "Core",
+2026-10-12T02:52:11.5062254Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\langgraph\\graph\\__init__.py",
+2026-10-12T02:52:11.5062618Z       "version": null,
+2026-10-12T02:52:11.5062801Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5063011Z       "capabilities": [],
+2026-10-12T02:52:11.5063199Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5063410Z       "executable_sha256": null
+2026-10-12T02:52:11.5063584Z     },
+2026-10-12T02:52:11.5063752Z     "output directory write permission": {
+2026-10-12T02:52:11.5063993Z       "name": "output directory write permission",
+2026-10-12T02:52:11.5064228Z       "status": "FOUND",
+2026-10-12T02:52:11.5064444Z       "detail": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+2026-10-12T02:52:11.5064689Z       "required": true,
+2026-10-12T02:52:11.5064857Z       "section": "Core",
+2026-10-12T02:52:11.5065072Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+2026-10-12T02:52:11.5065312Z       "version": null,
+2026-10-12T02:52:11.5065532Z       "backend_type": "filesystem",
+2026-10-12T02:52:11.5065839Z       "capabilities": [],
+2026-10-12T02:52:11.5066052Z       "smoke_test": "passed: create/write/delete",
+2026-10-12T02:52:11.5066425Z       "executable_sha256": null
+2026-10-12T02:52:11.5066607Z     }
+2026-10-12T02:52:11.5066749Z   },
+2026-10-12T02:52:11.5066900Z   "external_solvers": {
+2026-10-12T02:52:11.5067101Z     "FasterCap/FastCap": {
+2026-10-12T02:52:11.5067298Z       "name": "FasterCap/FastCap",
+2026-10-12T02:52:11.5067500Z       "status": "MISSING",
+2026-10-12T02:52:11.5068027Z       "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+2026-10-12T02:52:11.5068584Z       "required": false,
+2026-10-12T02:52:11.5068769Z       "section": "Extraction",
+2026-10-12T02:52:11.5068959Z       "path": null,
+2026-10-12T02:52:11.5069128Z       "version": null,
+2026-10-12T02:52:11.5069327Z       "backend_type": "executable",
+2026-10-12T02:52:11.5069533Z       "capabilities": [
+2026-10-12T02:52:11.5069719Z         "IDC electrostatics",
+2026-10-12T02:52:11.5069915Z         "capacitance matrix"
+2026-10-12T02:52:11.5070106Z       ],
+2026-10-12T02:52:11.5070283Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5070520Z       "executable_sha256": null,
+2026-10-12T02:52:11.5070721Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5070942Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5071127Z     },
+2026-10-12T02:52:11.5071283Z     "FastHenry/FastHenry2": {
+2026-10-12T02:52:11.5071482Z       "name": "FastHenry/FastHenry2",
+2026-10-12T02:52:11.5071687Z       "status": "MISSING",
+2026-10-12T02:52:11.5072419Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5072699Z       "required": false,
+2026-10-12T02:52:11.5072883Z       "section": "Extraction",
+2026-10-12T02:52:11.5073525Z       "path": null,
+2026-10-12T02:52:11.5073698Z       "version": null,
+2026-10-12T02:52:11.5073879Z       "backend_type": "executable",
+2026-10-12T02:52:11.5074112Z       "capabilities": [
+2026-10-12T02:52:11.5074297Z         "Spiral PEEC",
+2026-10-12T02:52:11.5074477Z         "inductance matrix"
+2026-10-12T02:52:11.5074654Z       ],
+2026-10-12T02:52:11.5074838Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5075073Z       "executable_sha256": null,
+2026-10-12T02:52:11.5075278Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5075495Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5075691Z     },
+2026-10-12T02:52:11.5075839Z     "openEMS": {
+2026-10-12T02:52:11.5076004Z       "name": "openEMS",
+2026-10-12T02:52:11.5076187Z       "status": "MISSING",
+2026-10-12T02:52:11.5076423Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5076688Z       "required": false,
+2026-10-12T02:52:11.5076868Z       "section": "RF / EM",
+2026-10-12T02:52:11.5077049Z       "path": null,
+2026-10-12T02:52:11.5077211Z       "version": null,
+2026-10-12T02:52:11.5077398Z       "backend_type": "executable",
+2026-10-12T02:52:11.5077597Z       "capabilities": [
+2026-10-12T02:52:11.5077770Z         "CPW FDTD"
+2026-10-12T02:52:11.5077927Z       ],
+2026-10-12T02:52:11.5078108Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5078340Z       "executable_sha256": null,
+2026-10-12T02:52:11.5078542Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5078755Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5078944Z     },
+2026-10-12T02:52:11.5079099Z     "CSXCAD": {
+2026-10-12T02:52:11.5079257Z       "name": "CSXCAD",
+2026-10-12T02:52:11.5079430Z       "status": "MISSING",
+2026-10-12T02:52:11.5079655Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5079912Z       "required": false,
+2026-10-12T02:52:11.5080088Z       "section": "RF / EM",
+2026-10-12T02:52:11.5080269Z       "path": null,
+2026-10-12T02:52:11.5080429Z       "version": null,
+2026-10-12T02:52:11.5080619Z       "backend_type": "executable",
+2026-10-12T02:52:11.5080817Z       "capabilities": [
+2026-10-12T02:52:11.5080993Z         "CPW FDTD geometry"
+2026-10-12T02:52:11.5081165Z       ],
+2026-10-12T02:52:11.5081335Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5081578Z       "executable_sha256": null,
+2026-10-12T02:52:11.5081773Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5081983Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5082164Z     },
+2026-10-12T02:52:11.5082315Z     "Octave": {
+2026-10-12T02:52:11.5082470Z       "name": "Octave",
+2026-10-12T02:52:11.5082650Z       "status": "MISSING",
+2026-10-12T02:52:11.5082871Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5083129Z       "required": false,
+2026-10-12T02:52:11.5083305Z       "section": "RF / EM",
+2026-10-12T02:52:11.5083481Z       "path": null,
+2026-10-12T02:52:11.5083644Z       "version": null,
+2026-10-12T02:52:11.5083842Z       "backend_type": "executable",
+2026-10-12T02:52:11.5084040Z       "capabilities": [
+2026-10-12T02:52:11.5084212Z         "openEMS frontend"
+2026-10-12T02:52:11.5084382Z       ],
+2026-10-12T02:52:11.5084567Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5084817Z       "executable_sha256": null,
+2026-10-12T02:52:11.5085024Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5085240Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5085429Z     },
+2026-10-12T02:52:11.5085595Z     "Octave openEMS path": {
+2026-10-12T02:52:11.5085932Z       "name": "Octave openEMS path",
+2026-10-12T02:52:11.5086156Z       "status": "FOUND",
+2026-10-12T02:52:11.5087445Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5088644Z       "required": false,
+2026-10-12T02:52:11.5088828Z       "section": "RF / EM",
+2026-10-12T02:52:11.5089848Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5090893Z       "version": null,
+2026-10-12T02:52:11.5091086Z       "backend_type": "interface-directory",
+2026-10-12T02:52:11.5091305Z       "capabilities": [
+2026-10-12T02:52:11.5091483Z         "CPW FDTD"
+2026-10-12T02:52:11.5091639Z       ],
+2026-10-12T02:52:11.5091838Z       "smoke_test": "passed: discovered interface directory",
+2026-10-12T02:52:11.5092097Z       "executable_sha256": null,
+2026-10-12T02:52:11.5092313Z       "evidence_stage": "PROBE_PASS",
+2026-10-12T02:52:11.5092538Z       "support_state": "SOLVER_PARTIAL"
+2026-10-12T02:52:11.5092739Z     },
+2026-10-12T02:52:11.5092894Z     "Octave CSXCAD path": {
+2026-10-12T02:52:11.5093094Z       "name": "Octave CSXCAD path",
+2026-10-12T02:52:11.5093303Z       "status": "FOUND",
+2026-10-12T02:52:11.5094334Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5095378Z       "required": false,
+2026-10-12T02:52:11.5095561Z       "section": "RF / EM",
+2026-10-12T02:52:11.5096573Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5097600Z       "version": null,
+2026-10-12T02:52:11.5097800Z       "backend_type": "interface-directory",
+2026-10-12T02:52:11.5098021Z       "capabilities": [
+2026-10-12T02:52:11.5098194Z         "CPW FDTD"
+2026-10-12T02:52:11.5098352Z       ],
+2026-10-12T02:52:11.5098562Z       "smoke_test": "passed: discovered interface directory",
+2026-10-12T02:52:11.5098824Z       "executable_sha256": null,
+2026-10-12T02:52:11.5099032Z       "evidence_stage": "PROBE_PASS",
+2026-10-12T02:52:11.5099240Z       "support_state": "SOLVER_PARTIAL"
+2026-10-12T02:52:11.5099433Z     },
+2026-10-12T02:52:11.5099572Z     "scikit-rf": {
+2026-10-12T02:52:11.5099735Z       "name": "scikit-rf",
+2026-10-12T02:52:11.5099908Z       "status": "MISSING",
+2026-10-12T02:52:11.5100113Z       "detail": "import skrf: No module named 'skrf'",
+2026-10-12T02:52:11.5100340Z       "required": false,
+2026-10-12T02:52:11.5100513Z       "section": "RF / EM",
+2026-10-12T02:52:11.5100691Z       "path": null,
+2026-10-12T02:52:11.5100849Z       "version": null,
+2026-10-12T02:52:11.5101035Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5101239Z       "capabilities": [],
+2026-10-12T02:52:11.5101533Z       "smoke_test": "failed: module not found",
+2026-10-12T02:52:11.5101763Z       "executable_sha256": null,
+2026-10-12T02:52:11.5101968Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5102176Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5102440Z     },
+2026-10-12T02:52:11.5102571Z     "Gmsh": {
+2026-10-12T02:52:11.5102728Z       "name": "Gmsh",
+2026-10-12T02:52:11.5102893Z       "status": "MISSING",
+2026-10-12T02:52:11.5103120Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5103373Z       "required": false,
+2026-10-12T02:52:11.5103553Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5103735Z       "path": null,
+2026-10-12T02:52:11.5103891Z       "version": null,
+2026-10-12T02:52:11.5104065Z       "backend_type": "executable",
+2026-10-12T02:52:11.5104262Z       "capabilities": [
+2026-10-12T02:52:11.5104437Z         "3D meshing"
+2026-10-12T02:52:11.5104589Z       ],
+2026-10-12T02:52:11.5104758Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5104983Z       "executable_sha256": null,
+2026-10-12T02:52:11.5105189Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5105392Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5105571Z     },
+2026-10-12T02:52:11.5105705Z     "meshio": {
+2026-10-12T02:52:11.5105918Z       "name": "meshio",
+2026-10-12T02:52:11.5106171Z       "status": "FOUND",
+2026-10-12T02:52:11.5106485Z       "detail": "meshio 5.3.5",
+2026-10-12T02:52:11.5106684Z       "required": false,
+2026-10-12T02:52:11.5106856Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5107194Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\meshio\\__init__.py",
+2026-10-12T02:52:11.5107539Z       "version": "5.3.5",
+2026-10-12T02:52:11.5107725Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5107933Z       "capabilities": [],
+2026-10-12T02:52:11.5108120Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5108323Z       "executable_sha256": null,
+2026-10-12T02:52:11.5108526Z       "evidence_stage": "PROBE_PASS",
+2026-10-12T02:52:11.5108731Z       "support_state": "SOLVER_PARTIAL"
+2026-10-12T02:52:11.5108922Z     },
+2026-10-12T02:52:11.5109066Z     "Palace": {
+2026-10-12T02:52:11.5109231Z       "name": "Palace",
+2026-10-12T02:52:11.5109400Z       "status": "MISSING",
+2026-10-12T02:52:11.5109990Z       "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+2026-10-12T02:52:11.5110578Z       "required": false,
+2026-10-12T02:52:11.5110750Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5110934Z       "path": null,
+2026-10-12T02:52:11.5111098Z       "version": null,
+2026-10-12T02:52:11.5111290Z       "backend_type": "executable-or-container",
+2026-10-12T02:52:11.5111512Z       "capabilities": [
+2026-10-12T02:52:11.5111678Z         "Eigenmode FEM"
+2026-10-12T02:52:11.5111840Z       ],
+2026-10-12T02:52:11.5112004Z       "smoke_test": "not run: backend missing",
+2026-10-12T02:52:11.5112233Z       "executable_sha256": null,
+2026-10-12T02:52:11.5112427Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5112636Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5112820Z     },
+2026-10-12T02:52:11.5112959Z     "JoSIM": {
+2026-10-12T02:52:11.5113114Z       "name": "JoSIM",
+2026-10-12T02:52:11.5113275Z       "status": "MISSING",
+2026-10-12T02:52:11.5113515Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5113764Z       "required": false,
+2026-10-12T02:52:11.5113935Z       "section": "Circuit",
+2026-10-12T02:52:11.5114108Z       "path": null,
+2026-10-12T02:52:11.5114267Z       "version": null,
+2026-10-12T02:52:11.5114437Z       "backend_type": "executable",
+2026-10-12T02:52:11.5114633Z       "capabilities": [
+2026-10-12T02:52:11.5114797Z         "Josephson transient"
+2026-10-12T02:52:11.5114976Z       ],
+2026-10-12T02:52:11.5115619Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5115851Z       "executable_sha256": null,
+2026-10-12T02:52:11.5116047Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5116254Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5116525Z     },
+2026-10-12T02:52:11.5116672Z     "WRspice / ngspice": {
+2026-10-12T02:52:11.5116853Z       "name": "WRspice / ngspice",
+2026-10-12T02:52:11.5117045Z       "status": "MISSING",
+2026-10-12T02:52:11.5117268Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5117518Z       "required": false,
+2026-10-12T02:52:11.5117690Z       "section": "Circuit",
+2026-10-12T02:52:11.5117862Z       "path": null,
+2026-10-12T02:52:11.5118020Z       "version": null,
+2026-10-12T02:52:11.5118193Z       "backend_type": "executable",
+2026-10-12T02:52:11.5118385Z       "capabilities": [
+2026-10-12T02:52:11.5118561Z         "Josephson harmonic balance",
+2026-10-12T02:52:11.5118771Z         "SPICE transient"
+2026-10-12T02:52:11.5118942Z       ],
+2026-10-12T02:52:11.5119108Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5119333Z       "executable_sha256": null,
+2026-10-12T02:52:11.5119527Z       "evidence_stage": "NOT_INSTALLED",
+2026-10-12T02:52:11.5119747Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5119927Z     }
+2026-10-12T02:52:11.5120061Z   },
+2026-10-12T02:52:11.5120209Z   "integration_targets": [
+2026-10-12T02:52:11.5120382Z     {
+2026-10-12T02:52:11.5120516Z       "id": 1,
+2026-10-12T02:52:11.5120667Z       "pillar": 1,
+2026-10-12T02:52:11.5120834Z       "name": "KQCircuits",
+2026-10-12T02:52:11.5121034Z       "source_hint": "iqm-finland/kqcircuits",
+2026-10-12T02:52:11.5121258Z       "source_verified": false,
+2026-10-12T02:52:11.5121447Z       "license_verified": false,
+2026-10-12T02:52:11.5121635Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5121827Z       "probe_scope": null,
+2026-10-12T02:52:11.5122007Z       "probe_path": null,
+2026-10-12T02:52:11.5122182Z       "probe_version": null,
+2026-10-12T02:52:11.5122365Z       "probe_sha256": null,
+2026-10-12T02:52:11.5122538Z       "execution_verified": false
+2026-10-12T02:52:11.5122737Z     },
+2026-10-12T02:52:11.5123001Z     {
+2026-10-12T02:52:11.5123229Z       "id": 2,
+2026-10-12T02:52:11.5123514Z       "pillar": 1,
+2026-10-12T02:52:11.5123750Z       "name": "Qiskit Metal",
+2026-10-12T02:52:11.5124031Z       "source_hint": "qiskit-community/qiskit-metal",
+2026-10-12T02:52:11.5124394Z       "source_verified": false,
+2026-10-12T02:52:11.5124653Z       "license_verified": false,
+2026-10-12T02:52:11.5124925Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5137893Z       "probe_scope": null,
+2026-10-12T02:52:11.5138232Z       "probe_path": null,
+2026-10-12T02:52:11.5138516Z       "probe_version": null,
+2026-10-12T02:52:11.5138790Z       "probe_sha256": null,
+2026-10-12T02:52:11.5138981Z       "execution_verified": false
+2026-10-12T02:52:11.5139171Z     },
+2026-10-12T02:52:11.5139318Z     {
+2026-10-12T02:52:11.5139472Z       "id": 3,
+2026-10-12T02:52:11.5139629Z       "pillar": 1,
+2026-10-12T02:52:11.5139794Z       "name": "pyEPR",
+2026-10-12T02:52:11.5139986Z       "source_hint": "zlatko-minev/pyEPR",
+2026-10-12T02:52:11.5140217Z       "source_verified": false,
+2026-10-12T02:52:11.5140415Z       "license_verified": false,
+2026-10-12T02:52:11.5140615Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5140822Z       "probe_scope": null,
+2026-10-12T02:52:11.5141001Z       "probe_path": null,
+2026-10-12T02:52:11.5141182Z       "probe_version": null,
+2026-10-12T02:52:11.5141366Z       "probe_sha256": null,
+2026-10-12T02:52:11.5141550Z       "execution_verified": false
+2026-10-12T02:52:11.5141742Z     },
+2026-10-12T02:52:11.5141879Z     {
+2026-10-12T02:52:11.5142015Z       "id": 4,
+2026-10-12T02:52:11.5142165Z       "pillar": 1,
+2026-10-12T02:52:11.5142334Z       "name": "CircuitQ",
+2026-10-12T02:52:11.5142526Z       "source_hint": "PhilippAumann/circuitq",
+2026-10-12T02:52:11.5142918Z       "source_verified": false,
+2026-10-12T02:52:11.5143106Z       "license_verified": false,
+2026-10-12T02:52:11.5143304Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5143501Z       "probe_scope": null,
+2026-10-12T02:52:11.5143758Z       "probe_path": null,
+2026-10-12T02:52:11.5143931Z       "probe_version": null,
+2026-10-12T02:52:11.5144113Z       "probe_sha256": null,
+2026-10-12T02:52:11.5144297Z       "execution_verified": false
+2026-10-12T02:52:11.5144475Z     },
+2026-10-12T02:52:11.5144611Z     {
+2026-10-12T02:52:11.5144748Z       "id": 5,
+2026-10-12T02:52:11.5144894Z       "pillar": 1,
+2026-10-12T02:52:11.5145043Z       "name": "scqubits",
+2026-10-12T02:52:11.5145224Z       "source_hint": "scqubits/scqubits",
+2026-10-12T02:52:11.5145465Z       "source_verified": false,
+2026-10-12T02:52:11.5145654Z       "license_verified": false,
+2026-10-12T02:52:11.5145840Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5146031Z       "probe_scope": null,
+2026-10-12T02:52:11.5146209Z       "probe_path": null,
+2026-10-12T02:52:11.5146653Z       "probe_version": null,
+2026-10-12T02:52:11.5146834Z       "probe_sha256": null,
+2026-10-12T02:52:11.5147008Z       "execution_verified": false
+2026-10-12T02:52:11.5147184Z     },
+2026-10-12T02:52:11.5147319Z     {
+2026-10-12T02:52:11.5147457Z       "id": 6,
+2026-10-12T02:52:11.5147598Z       "pillar": 1,
+2026-10-12T02:52:11.5147754Z       "name": "SQcircuit",
+2026-10-12T02:52:11.5147949Z       "source_hint": "stanfordLINQS/SQcircuit",
+2026-10-12T02:52:11.5148199Z       "source_verified": false,
+2026-10-12T02:52:11.5148382Z       "license_verified": false,
+2026-10-12T02:52:11.5148576Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5148762Z       "probe_scope": null,
+2026-10-12T02:52:11.5148941Z       "probe_path": null,
+2026-10-12T02:52:11.5149110Z       "probe_version": null,
+2026-10-12T02:52:11.5149279Z       "probe_sha256": null,
+2026-10-12T02:52:11.5149454Z       "execution_verified": false
+2026-10-12T02:52:11.5149638Z     },
+2026-10-12T02:52:11.5149775Z     {
+2026-10-12T02:52:11.5149905Z       "id": 7,
+2026-10-12T02:52:11.5150048Z       "pillar": 1,
+2026-10-12T02:52:11.5150201Z       "name": "SQuADDS",
+2026-10-12T02:52:11.5150395Z       "source_hint": "SQuADDS/SQuADDS",
+2026-10-12T02:52:11.5150602Z       "source_verified": false,
+2026-10-12T02:52:11.5150789Z       "license_verified": false,
+2026-10-12T02:52:11.5150975Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5151172Z       "probe_scope": null,
+2026-10-12T02:52:11.5151346Z       "probe_path": null,
+2026-10-12T02:52:11.5151516Z       "probe_version": null,
+2026-10-12T02:52:11.5151690Z       "probe_sha256": null,
+2026-10-12T02:52:11.5151866Z       "execution_verified": false
+2026-10-12T02:52:11.5152052Z     },
+2026-10-12T02:52:11.5152180Z     {
+2026-10-12T02:52:11.5152316Z       "id": 8,
+2026-10-12T02:52:11.5152454Z       "pillar": 1,
+2026-10-12T02:52:11.5152610Z       "name": "QEDA",
+2026-10-12T02:52:11.5152779Z       "source_hint": "qeda/qeda",
+2026-10-12T02:52:11.5152963Z       "source_verified": false,
+2026-10-12T02:52:11.5153142Z       "license_verified": false,
+2026-10-12T02:52:11.5153337Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5153523Z       "probe_scope": null,
+2026-10-12T02:52:11.5153690Z       "probe_path": null,
+2026-10-12T02:52:11.5153857Z       "probe_version": null,
+2026-10-12T02:52:11.5154031Z       "probe_sha256": null,
+2026-10-12T02:52:11.5154210Z       "execution_verified": false
+2026-10-12T02:52:11.5154388Z     },
+2026-10-12T02:52:11.5154522Z     {
+2026-10-12T02:52:11.5154657Z       "id": 9,
+2026-10-12T02:52:11.5154804Z       "pillar": 1,
+2026-10-12T02:52:11.5154970Z       "name": "pycqed",
+2026-10-12T02:52:11.5155165Z       "source_hint": "DiCarloLab-Delft/PycQED",
+2026-10-12T02:52:11.5155384Z       "source_verified": false,
+2026-10-12T02:52:11.5155566Z       "license_verified": false,
+2026-10-12T02:52:11.5155761Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5156046Z       "probe_scope": null,
+2026-10-12T02:52:11.5156226Z       "probe_path": null,
+2026-10-12T02:52:11.5156410Z       "probe_version": null,
+2026-10-12T02:52:11.5156596Z       "probe_sha256": null,
+2026-10-12T02:52:11.5156865Z       "execution_verified": false
+2026-10-12T02:52:11.5157054Z     },
+2026-10-12T02:52:11.5157193Z     {
+2026-10-12T02:52:11.5157333Z       "id": 10,
+2026-10-12T02:52:11.5157494Z       "pillar": 1,
+2026-10-12T02:52:11.5157658Z       "name": "Qiskit Dynamics",
+2026-10-12T02:52:11.5157891Z       "source_hint": "qiskit-community/qiskit-dynamics",
+2026-10-12T02:52:11.5158133Z       "source_verified": false,
+2026-10-12T02:52:11.5158339Z       "license_verified": false,
+2026-10-12T02:52:11.5158535Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5158733Z       "probe_scope": null,
+2026-10-12T02:52:11.5158921Z       "probe_path": null,
+2026-10-12T02:52:11.5159109Z       "probe_version": null,
+2026-10-12T02:52:11.5159291Z       "probe_sha256": null,
+2026-10-12T02:52:11.5159479Z       "execution_verified": false
+2026-10-12T02:52:11.5159661Z     },
+2026-10-12T02:52:11.5159799Z     {
+2026-10-12T02:52:11.5159947Z       "id": 11,
+2026-10-12T02:52:11.5160097Z       "pillar": 2,
+2026-10-12T02:52:11.5160261Z       "name": "AWS Palace",
+2026-10-12T02:52:11.5160451Z       "source_hint": "awslabs/palace",
+2026-10-12T02:52:11.5160677Z       "source_verified": false,
+2026-10-12T02:52:11.5160867Z       "license_verified": false,
+2026-10-12T02:52:11.5161060Z       "probe_status": "MISSING",
+2026-10-12T02:52:11.5161276Z       "probe_scope": "solver identity/version probe",
+2026-10-12T02:52:11.5161520Z       "probe_path": null,
+2026-10-12T02:52:11.5161697Z       "probe_version": null,
+2026-10-12T02:52:11.5161882Z       "probe_sha256": null,
+2026-10-12T02:52:11.5162059Z       "execution_verified": false
+2026-10-12T02:52:11.5162243Z     },
+2026-10-12T02:52:11.5162389Z     {
+2026-10-12T02:52:11.5162528Z       "id": 12,
+2026-10-12T02:52:11.5162678Z       "pillar": 2,
+2026-10-12T02:52:11.5162842Z       "name": "openEMS",
+2026-10-12T02:52:11.5163086Z       "source_hint": "thliebig/openEMS-Project",
+2026-10-12T02:52:11.5163316Z       "source_verified": false,
+2026-10-12T02:52:11.5163504Z       "license_verified": false,
+2026-10-12T02:52:11.5163691Z       "probe_status": "MISSING",
+2026-10-12T02:52:11.5163914Z       "probe_scope": "executable version/help probe",
+2026-10-12T02:52:11.5164146Z       "probe_path": null,
+2026-10-12T02:52:11.5164326Z       "probe_version": null,
+2026-10-12T02:52:11.5164508Z       "probe_sha256": null,
+2026-10-12T02:52:11.5164699Z       "execution_verified": false
+2026-10-12T02:52:11.5164884Z     },
+2026-10-12T02:52:11.5165024Z     {
+2026-10-12T02:52:11.5165161Z       "id": 13,
+2026-10-12T02:52:11.5165315Z       "pillar": 2,
+2026-10-12T02:52:11.5165484Z       "name": "FasterCap",
+2026-10-12T02:52:11.5165691Z       "source_hint": "FastFieldSolvers/FasterCap",
+2026-10-12T02:52:11.5165923Z       "source_verified": false,
+2026-10-12T02:52:11.5166114Z       "license_verified": false,
+2026-10-12T02:52:11.5166321Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5166768Z       "probe_scope": null,
+2026-10-12T02:52:11.5166951Z       "probe_path": null,
+2026-10-12T02:52:11.5167134Z       "probe_version": null,
+2026-10-12T02:52:11.5167322Z       "probe_sha256": null,
+2026-10-12T02:52:11.5167503Z       "execution_verified": false
+2026-10-12T02:52:11.5167688Z     },
+2026-10-12T02:52:11.5167826Z     {
+2026-10-12T02:52:11.5167966Z       "id": 14,
+2026-10-12T02:52:11.5168124Z       "pillar": 2,
+2026-10-12T02:52:11.5168364Z       "name": "FastHenry2",
+2026-10-12T02:52:11.5168610Z       "source_hint": "FastFieldSolvers/FastHenry2",
+2026-10-12T02:52:11.5168850Z       "source_verified": false,
+2026-10-12T02:52:11.5169046Z       "license_verified": false,
+2026-10-12T02:52:11.5169246Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5169445Z       "probe_scope": null,
+2026-10-12T02:52:11.5169622Z       "probe_path": null,
+2026-10-12T02:52:11.5169905Z       "probe_version": null,
+2026-10-12T02:52:11.5170085Z       "probe_sha256": null,
+2026-10-12T02:52:11.5170269Z       "execution_verified": false
+2026-10-12T02:52:11.5170450Z     },
+2026-10-12T02:52:11.5170659Z     {
+2026-10-12T02:52:11.5170805Z       "id": 15,
+2026-10-12T02:52:11.5170953Z       "pillar": 2,
+2026-10-12T02:52:11.5171107Z       "name": "Meep",
+2026-10-12T02:52:11.5171278Z       "source_hint": "NanoComp/meep",
+2026-10-12T02:52:11.5171490Z       "source_verified": false,
+2026-10-12T02:52:11.5171672Z       "license_verified": false,
+2026-10-12T02:52:11.5171864Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5172056Z       "probe_scope": null,
+2026-10-12T02:52:11.5172237Z       "probe_path": null,
+2026-10-12T02:52:11.5172413Z       "probe_version": null,
+2026-10-12T02:52:11.5172593Z       "probe_sha256": null,
+2026-10-12T02:52:11.5172769Z       "execution_verified": false
+2026-10-12T02:52:11.5172946Z     },
+2026-10-12T02:52:11.5173085Z     {
+2026-10-12T02:52:11.5173220Z       "id": 16,
+2026-10-12T02:52:11.5173367Z       "pillar": 2,
+2026-10-12T02:52:11.5173528Z       "name": "gprMax",
+2026-10-12T02:52:11.5173718Z       "source_hint": "gprmax/gprMax",
+2026-10-12T02:52:11.5173923Z       "source_verified": false,
+2026-10-12T02:52:11.5174107Z       "license_verified": false,
+2026-10-12T02:52:11.5174300Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5174507Z       "probe_scope": null,
+2026-10-12T02:52:11.5174684Z       "probe_path": null,
+2026-10-12T02:52:11.5174858Z       "probe_version": null,
+2026-10-12T02:52:11.5175039Z       "probe_sha256": null,
+2026-10-12T02:52:11.5175229Z       "execution_verified": false
+2026-10-12T02:52:11.5175409Z     },
+2026-10-12T02:52:11.5175547Z     {
+2026-10-12T02:52:11.5175684Z       "id": 17,
+2026-10-12T02:52:11.5175834Z       "pillar": 2,
+2026-10-12T02:52:11.5176002Z       "name": "Elmer FEM",
+2026-10-12T02:52:11.5176190Z       "source_hint": "ElmerCSC/elmerfem",
+2026-10-12T02:52:11.5176405Z       "source_verified": false,
+2026-10-12T02:52:11.5176591Z       "license_verified": false,
+2026-10-12T02:52:11.5176793Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5176986Z       "probe_scope": null,
+2026-10-12T02:52:11.5177163Z       "probe_path": null,
+2026-10-12T02:52:11.5177333Z       "probe_version": null,
+2026-10-12T02:52:11.5177519Z       "probe_sha256": null,
+2026-10-12T02:52:11.5177697Z       "execution_verified": false
+2026-10-12T02:52:11.5177878Z     },
+2026-10-12T02:52:11.5178014Z     {
+2026-10-12T02:52:11.5178152Z       "id": 18,
+2026-10-12T02:52:11.5178306Z       "pillar": 2,
+2026-10-12T02:52:11.5178459Z       "name": "MFEM",
+2026-10-12T02:52:11.5178627Z       "source_hint": "mfem/mfem",
+2026-10-12T02:52:11.5178816Z       "source_verified": false,
+2026-10-12T02:52:11.5179010Z       "license_verified": false,
+2026-10-12T02:52:11.5179201Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5179394Z       "probe_scope": null,
+2026-10-12T02:52:11.5179572Z       "probe_path": null,
+2026-10-12T02:52:11.5179751Z       "probe_version": null,
+2026-10-12T02:52:11.5179929Z       "probe_sha256": null,
+2026-10-12T02:52:11.5180109Z       "execution_verified": false
+2026-10-12T02:52:11.5180291Z     },
+2026-10-12T02:52:11.5180424Z     {
+2026-10-12T02:52:11.5180571Z       "id": 19,
+2026-10-12T02:52:11.5180716Z       "pillar": 2,
+2026-10-12T02:52:11.5180868Z       "name": "scuff-em",
+2026-10-12T02:52:11.5181048Z       "source_hint": "homerreid/scuff-em",
+2026-10-12T02:52:11.5181261Z       "source_verified": false,
+2026-10-12T02:52:11.5181444Z       "license_verified": false,
+2026-10-12T02:52:11.5181630Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5181814Z       "probe_scope": null,
+2026-10-12T02:52:11.5181984Z       "probe_path": null,
+2026-10-12T02:52:11.5182150Z       "probe_version": null,
+2026-10-12T02:52:11.5182326Z       "probe_sha256": null,
+2026-10-12T02:52:11.5182500Z       "execution_verified": false
+2026-10-12T02:52:11.5182678Z     },
+2026-10-12T02:52:11.5183437Z     {
+2026-10-12T02:52:11.5183578Z       "id": 20,
+2026-10-12T02:52:11.5183718Z       "pillar": 2,
+2026-10-12T02:52:11.5183871Z       "name": "FEniCS",
+2026-10-12T02:52:11.5184048Z       "source_hint": "FEniCS/dolfinx",
+2026-10-12T02:52:11.5184328Z       "source_verified": false,
+2026-10-12T02:52:11.5184507Z       "license_verified": false,
+2026-10-12T02:52:11.5184686Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5184876Z       "probe_scope": null,
+2026-10-12T02:52:11.5185037Z       "probe_path": null,
+2026-10-12T02:52:11.5185200Z       "probe_version": null,
+2026-10-12T02:52:11.5185365Z       "probe_sha256": null,
+2026-10-12T02:52:11.5185535Z       "execution_verified": false
+2026-10-12T02:52:11.5185704Z     },
+2026-10-12T02:52:11.5185825Z     {
+2026-10-12T02:52:11.5185957Z       "id": 21,
+2026-10-12T02:52:11.5186097Z       "pillar": 3,
+2026-10-12T02:52:11.5186253Z       "name": "scikit-rf",
+2026-10-12T02:52:11.5186436Z       "source_hint": "scikit-rf/scikit-rf",
+2026-10-12T02:52:11.5186952Z       "source_verified": false,
+2026-10-12T02:52:11.5187129Z       "license_verified": false,
+2026-10-12T02:52:11.5187314Z       "probe_status": "MISSING",
+2026-10-12T02:52:11.5187510Z       "probe_scope": "Python import probe",
+2026-10-12T02:52:11.5187714Z       "probe_path": null,
+2026-10-12T02:52:11.5187881Z       "probe_version": null,
+2026-10-12T02:52:11.5188053Z       "probe_sha256": null,
+2026-10-12T02:52:11.5188223Z       "execution_verified": false
+2026-10-12T02:52:11.5188395Z     },
+2026-10-12T02:52:11.5188521Z     {
+2026-10-12T02:52:11.5188648Z       "id": 22,
+2026-10-12T02:52:11.5188796Z       "pillar": 3,
+2026-10-12T02:52:11.5188946Z       "name": "Qucs-S",
+2026-10-12T02:52:11.5189114Z       "source_hint": "ra3xdh/qucs_s",
+2026-10-12T02:52:11.5189303Z       "source_verified": false,
+2026-10-12T02:52:11.5189481Z       "license_verified": false,
+2026-10-12T02:52:11.5189661Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5189858Z       "probe_scope": null,
+2026-10-12T02:52:11.5190022Z       "probe_path": null,
+2026-10-12T02:52:11.5190184Z       "probe_version": null,
+2026-10-12T02:52:11.5190360Z       "probe_sha256": null,
+2026-10-12T02:52:11.5190531Z       "execution_verified": false
+2026-10-12T02:52:11.5190698Z     },
+2026-10-12T02:52:11.5190821Z     {
+2026-10-12T02:52:11.5190950Z       "id": 23,
+2026-10-12T02:52:11.5191092Z       "pillar": 3,
+2026-10-12T02:52:11.5191240Z       "name": "TxLine CLI",
+2026-10-12T02:52:11.5191401Z       "source_hint": null,
+2026-10-12T02:52:11.5191566Z       "source_verified": false,
+2026-10-12T02:52:11.5191739Z       "license_verified": false,
+2026-10-12T02:52:11.5191923Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5192116Z       "probe_scope": null,
+2026-10-12T02:52:11.5192283Z       "probe_path": null,
+2026-10-12T02:52:11.5192454Z       "probe_version": null,
+2026-10-12T02:52:11.5192623Z       "probe_sha256": null,
+2026-10-12T02:52:11.5192793Z       "execution_verified": false
+2026-10-12T02:52:11.5192971Z     },
+2026-10-12T02:52:11.5193105Z     {
+2026-10-12T02:52:11.5193242Z       "id": 24,
+2026-10-12T02:52:11.5193383Z       "pillar": 3,
+2026-10-12T02:52:11.5193536Z       "name": "rfplot",
+2026-10-12T02:52:11.5193707Z       "source_hint": null,
+2026-10-12T02:52:11.5193876Z       "source_verified": false,
+2026-10-12T02:52:11.5194054Z       "license_verified": false,
+2026-10-12T02:52:11.5194234Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5194417Z       "probe_scope": null,
+2026-10-12T02:52:11.5194585Z       "probe_path": null,
+2026-10-12T02:52:11.5194751Z       "probe_version": null,
+2026-10-12T02:52:11.5194924Z       "probe_sha256": null,
+2026-10-12T02:52:11.5195093Z       "execution_verified": false
+2026-10-12T02:52:11.5195271Z     },
+2026-10-12T02:52:11.5195396Z     {
+2026-10-12T02:52:11.5195525Z       "id": 25,
+2026-10-12T02:52:11.5195664Z       "pillar": 3,
+2026-10-12T02:52:11.5195832Z       "name": "Schematic-to-Layout",
+2026-10-12T02:52:11.5196143Z       "source_hint": null,
+2026-10-12T02:52:11.5196317Z       "source_verified": false,
+2026-10-12T02:52:11.5196493Z       "license_verified": false,
+2026-10-12T02:52:11.5196678Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5197350Z       "probe_scope": null,
+2026-10-12T02:52:11.5197513Z       "probe_path": null,
+2026-10-12T02:52:11.5197680Z       "probe_version": null,
+2026-10-12T02:52:11.5197849Z       "probe_sha256": null,
+2026-10-12T02:52:11.5198023Z       "execution_verified": false
+2026-10-12T02:52:11.5198196Z     },
+2026-10-12T02:52:11.5198324Z     {
+2026-10-12T02:52:11.5198452Z       "id": 26,
+2026-10-12T02:52:11.5198602Z       "pillar": 3,
+2026-10-12T02:52:11.5198756Z       "name": "CoupledLines",
+2026-10-12T02:52:11.5198932Z       "source_hint": null,
+2026-10-12T02:52:11.5199098Z       "source_verified": false,
+2026-10-12T02:52:11.5199278Z       "license_verified": false,
+2026-10-12T02:52:11.5199469Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5199660Z       "probe_scope": null,
+2026-10-12T02:52:11.5199828Z       "probe_path": null,
+2026-10-12T02:52:11.5199996Z       "probe_version": null,
+2026-10-12T02:52:11.5200171Z       "probe_sha256": null,
+2026-10-12T02:52:11.5200345Z       "execution_verified": false
+2026-10-12T02:52:11.5200518Z     },
+2026-10-12T02:52:11.5200646Z     {
+2026-10-12T02:52:11.5200781Z       "id": 27,
+2026-10-12T02:52:11.5200921Z       "pillar": 3,
+2026-10-12T02:52:11.5201084Z       "name": "FilterSolutions-Clone",
+2026-10-12T02:52:11.5201280Z       "source_hint": null,
+2026-10-12T02:52:11.5201448Z       "source_verified": false,
+2026-10-12T02:52:11.5201631Z       "license_verified": false,
+2026-10-12T02:52:11.5201810Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5201992Z       "probe_scope": null,
+2026-10-12T02:52:11.5202157Z       "probe_path": null,
+2026-10-12T02:52:11.5202332Z       "probe_version": null,
+2026-10-12T02:52:11.5202503Z       "probe_sha256": null,
+2026-10-12T02:52:11.5202678Z       "execution_verified": false
+2026-10-12T02:52:11.5202851Z     },
+2026-10-12T02:52:11.5202983Z     {
+2026-10-12T02:52:11.5203115Z       "id": 28,
+2026-10-12T02:52:11.5203257Z       "pillar": 3,
+2026-10-12T02:52:11.5203413Z       "name": "SmithPredictor",
+2026-10-12T02:52:11.5203588Z       "source_hint": null,
+2026-10-12T02:52:11.5203762Z       "source_verified": false,
+2026-10-12T02:52:11.5203940Z       "license_verified": false,
+2026-10-12T02:52:11.5204120Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5205418Z       "probe_scope": null,
+2026-10-12T02:52:11.5205925Z       "probe_path": null,
+2026-10-12T02:52:11.5206178Z       "probe_version": null,
+2026-10-12T02:52:11.5206432Z       "probe_sha256": null,
+2026-10-12T02:52:11.5206684Z       "execution_verified": false
+2026-10-12T02:52:11.5206954Z     },
+2026-10-12T02:52:11.5207136Z     {
+2026-10-12T02:52:11.5207320Z       "id": 29,
+2026-10-12T02:52:11.5207519Z       "pillar": 3,
+2026-10-12T02:52:11.5207733Z       "name": "PySmith",
+2026-10-12T02:52:11.5207985Z       "source_hint": null,
+2026-10-12T02:52:11.5208230Z       "source_verified": false,
+2026-10-12T02:52:11.5208486Z       "license_verified": false,
+2026-10-12T02:52:11.5208759Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5209050Z       "probe_scope": null,
+2026-10-12T02:52:11.5209289Z       "probe_path": null,
+2026-10-12T02:52:11.5209539Z       "probe_version": null,
+2026-10-12T02:52:11.5209792Z       "probe_sha256": null,
+2026-10-12T02:52:11.5210043Z       "execution_verified": false
+2026-10-12T02:52:11.5210290Z     },
+2026-10-12T02:52:11.5210468Z     {
+2026-10-12T02:52:11.5210646Z       "id": 30,
+2026-10-12T02:52:11.5210844Z       "pillar": 3,
+2026-10-12T02:52:11.5211142Z       "name": "ATLC (Arbitrary Transmission Line Calculator)",
+2026-10-12T02:52:11.5211488Z       "source_hint": null,
+2026-10-12T02:52:11.5211728Z       "source_verified": false,
+2026-10-12T02:52:11.5211980Z       "license_verified": false,
+2026-10-12T02:52:11.5212515Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5212799Z       "probe_scope": null,
+2026-10-12T02:52:11.5213034Z       "probe_path": null,
+2026-10-12T02:52:11.5213267Z       "probe_version": null,
+2026-10-12T02:52:11.5213627Z       "probe_sha256": null,
+2026-10-12T02:52:11.5213879Z       "execution_verified": false
+2026-10-12T02:52:11.5214133Z     },
+2026-10-12T02:52:11.5214319Z     {
+2026-10-12T02:52:11.5214500Z       "id": 31,
+2026-10-12T02:52:11.5214697Z       "pillar": 4,
+2026-10-12T02:52:11.5214918Z       "name": "gdsfactory",
+2026-10-12T02:52:11.5215182Z       "source_hint": "gdsfactory/gdsfactory",
+2026-10-12T02:52:11.5215487Z       "source_verified": false,
+2026-10-12T02:52:11.5215761Z       "license_verified": false,
+2026-10-12T02:52:11.5216025Z       "probe_status": "FOUND",
+2026-10-12T02:52:11.5216295Z       "probe_scope": "Python import probe",
+2026-10-12T02:52:11.5216856Z       "probe_path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\gdsfactory\\__init__.py",
+2026-10-12T02:52:11.5217405Z       "probe_version": "9.43.0",
+2026-10-12T02:52:11.5217661Z       "probe_sha256": null,
+2026-10-12T02:52:11.5217919Z       "execution_verified": false
+2026-10-12T02:52:11.5218176Z     },
+2026-10-12T02:52:11.5218367Z     {
+2026-10-12T02:52:11.5218548Z       "id": 32,
+2026-10-12T02:52:11.5218748Z       "pillar": 4,
+2026-10-12T02:52:11.5218970Z       "name": "kfactory",
+2026-10-12T02:52:11.5219233Z       "source_hint": "gdsfactory/kfactory",
+2026-10-12T02:52:11.5219537Z       "source_verified": false,
+2026-10-12T02:52:11.5219801Z       "license_verified": false,
+2026-10-12T02:52:11.5220065Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5220337Z       "probe_scope": null,
+2026-10-12T02:52:11.5220590Z       "probe_path": null,
+2026-10-12T02:52:11.5220824Z       "probe_version": null,
+2026-10-12T02:52:11.5221068Z       "probe_sha256": null,
+2026-10-12T02:52:11.5221314Z       "execution_verified": false
+2026-10-12T02:52:11.5221579Z     },
+2026-10-12T02:52:11.5221761Z     {
+2026-10-12T02:52:11.5221934Z       "id": 33,
+2026-10-12T02:52:11.5222128Z       "pillar": 4,
+2026-10-12T02:52:11.5222345Z       "name": "KLayout",
+2026-10-12T02:52:11.5222589Z       "source_hint": "KLayout/klayout",
+2026-10-12T02:52:11.5222878Z       "source_verified": false,
+2026-10-12T02:52:11.5223131Z       "license_verified": false,
+2026-10-12T02:52:11.5223384Z       "probe_status": "FOUND",
+2026-10-12T02:52:11.5223722Z       "probe_scope": "Python binding import probe; CLI untested",
+2026-10-12T02:52:11.5224324Z       "probe_path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\klayout\\db\\__init__.py",
+2026-10-12T02:52:11.5224853Z       "probe_version": "0.30.9",
+2026-10-12T02:52:11.5225113Z       "probe_sha256": null,
+2026-10-12T02:52:11.5225359Z       "execution_verified": false
+2026-10-12T02:52:11.5225605Z     },
+2026-10-12T02:52:11.5226011Z     {
+2026-10-12T02:52:11.5226190Z       "id": 34,
+2026-10-12T02:52:11.5226394Z       "pillar": 4,
+2026-10-12T02:52:11.5226611Z       "name": "PHIDL",
+2026-10-12T02:52:11.5226851Z       "source_hint": "amccaugh/phidl",
+2026-10-12T02:52:11.5227150Z       "source_verified": false,
+2026-10-12T02:52:11.5227417Z       "license_verified": false,
+2026-10-12T02:52:11.5227696Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5227971Z       "probe_scope": null,
+2026-10-12T02:52:11.5228216Z       "probe_path": null,
+2026-10-12T02:52:11.5228463Z       "probe_version": null,
+2026-10-12T02:52:11.5228725Z       "probe_sha256": null,
+2026-10-12T02:52:11.5228986Z       "execution_verified": false
+2026-10-12T02:52:11.5229231Z     },
+2026-10-12T02:52:11.5229404Z     {
+2026-10-12T02:52:11.5229594Z       "id": 35,
+2026-10-12T02:52:11.5229788Z       "pillar": 4,
+2026-10-12T02:52:11.5229989Z       "name": "Gdspy",
+2026-10-12T02:52:11.5230226Z       "source_hint": "heitzmann/gdspy",
+2026-10-12T02:52:11.5230526Z       "source_verified": false,
+2026-10-12T02:52:11.5230784Z       "license_verified": false,
+2026-10-12T02:52:11.5231193Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5231474Z       "probe_scope": null,
+2026-10-12T02:52:11.5231722Z       "probe_path": null,
+2026-10-12T02:52:11.5231955Z       "probe_version": null,
+2026-10-12T02:52:11.5232300Z       "probe_sha256": null,
+2026-10-12T02:52:11.5232545Z       "execution_verified": false
+2026-10-12T02:52:11.5232793Z     },
+2026-10-12T02:52:11.5232971Z     {
+2026-10-12T02:52:11.5233145Z       "id": 36,
+2026-10-12T02:52:11.5233332Z       "pillar": 4,
+2026-10-12T02:52:11.5233546Z       "name": "Shapely",
+2026-10-12T02:52:11.5233801Z       "source_hint": "shapely/shapely",
+2026-10-12T02:52:11.5234083Z       "source_verified": false,
+2026-10-12T02:52:11.5234343Z       "license_verified": false,
+2026-10-12T02:52:11.5234604Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5234876Z       "probe_scope": null,
+2026-10-12T02:52:11.5235105Z       "probe_path": null,
+2026-10-12T02:52:11.5235344Z       "probe_version": null,
+2026-10-12T02:52:11.5235597Z       "probe_sha256": null,
+2026-10-12T02:52:11.5235839Z       "execution_verified": false
+2026-10-12T02:52:11.5236089Z     },
+2026-10-12T02:52:11.5236263Z     {
+2026-10-12T02:52:11.5236446Z       "id": 37,
+2026-10-12T02:52:11.5236638Z       "pillar": 4,
+2026-10-12T02:52:11.5236856Z       "name": "Clipper2",
+2026-10-12T02:52:11.5237124Z       "source_hint": "AngusJohnson/Clipper2",
+2026-10-12T02:52:11.5237430Z       "source_verified": false,
+2026-10-12T02:52:11.5237684Z       "license_verified": false,
+2026-10-12T02:52:11.5237959Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5238218Z       "probe_scope": null,
+2026-10-12T02:52:11.5238457Z       "probe_path": null,
+2026-10-12T02:52:11.5238698Z       "probe_version": null,
+2026-10-12T02:52:11.5238948Z       "probe_sha256": null,
+2026-10-12T02:52:11.5239205Z       "execution_verified": false
+2026-10-12T02:52:11.5239459Z     },
+2026-10-12T02:52:11.5239628Z     {
+2026-10-12T02:52:11.5239803Z       "id": 38,
+2026-10-12T02:52:11.5240009Z       "pillar": 4,
+2026-10-12T02:52:11.5240217Z       "name": "Trimesh",
+2026-10-12T02:52:11.5240461Z       "source_hint": "mikedh/trimesh",
+2026-10-12T02:52:11.5240743Z       "source_verified": false,
+2026-10-12T02:52:11.5241012Z       "license_verified": false,
+2026-10-12T02:52:11.5241275Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5241538Z       "probe_scope": null,
+2026-10-12T02:52:11.5241776Z       "probe_path": null,
+2026-10-12T02:52:11.5242011Z       "probe_version": null,
+2026-10-12T02:52:11.5242261Z       "probe_sha256": null,
+2026-10-12T02:52:11.5242503Z       "execution_verified": false
+2026-10-12T02:52:11.5242750Z     },
+2026-10-12T02:52:11.5242933Z     {
+2026-10-12T02:52:11.5243127Z       "id": 39,
+2026-10-12T02:52:11.5243323Z       "pillar": 4,
+2026-10-12T02:52:11.5243535Z       "name": "Gmsh",
+2026-10-12T02:52:11.5243762Z       "source_hint": "gmsh",
+2026-10-12T02:52:11.5244012Z       "source_verified": false,
+2026-10-12T02:52:11.5244269Z       "license_verified": false,
+2026-10-12T02:52:11.5244536Z       "probe_status": "MISSING",
+2026-10-12T02:52:11.5244925Z       "probe_scope": "executable version/help probe; Python binding untested",
+2026-10-12T02:52:11.5245358Z       "probe_path": null,
+2026-10-12T02:52:11.5245600Z       "probe_version": null,
+2026-10-12T02:52:11.5245847Z       "probe_sha256": null,
+2026-10-12T02:52:11.5246301Z       "execution_verified": false
+2026-10-12T02:52:11.5246549Z     },
+2026-10-12T02:52:11.5246728Z     {
+2026-10-12T02:52:11.5246908Z       "id": 40,
+2026-10-12T02:52:11.5247107Z       "pillar": 4,
+2026-10-12T02:52:11.5247330Z       "name": "OpenCASCADE",
+2026-10-12T02:52:11.5247614Z       "source_hint": "tpaviot/pythonocc-core",
+2026-10-12T02:52:11.5247931Z       "source_verified": false,
+2026-10-12T02:52:11.5248196Z       "license_verified": false,
+2026-10-12T02:52:11.5248455Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5248732Z       "probe_scope": null,
+2026-10-12T02:52:11.5249131Z       "probe_path": null,
+2026-10-12T02:52:11.5249389Z       "probe_version": null,
+2026-10-12T02:52:11.5249632Z       "probe_sha256": null,
+2026-10-12T02:52:11.5249883Z       "execution_verified": false
+2026-10-12T02:52:11.5250234Z     },
+2026-10-12T02:52:11.5250401Z     {
+2026-10-12T02:52:11.5250564Z       "id": 41,
+2026-10-12T02:52:11.5250752Z       "pillar": 5,
+2026-10-12T02:52:11.5250972Z       "name": "JoSIM",
+2026-10-12T02:52:11.5251215Z       "source_hint": "JoeyDelp/JoSIM",
+2026-10-12T02:52:11.5251496Z       "source_verified": false,
+2026-10-12T02:52:11.5251747Z       "license_verified": false,
+2026-10-12T02:52:11.5252007Z       "probe_status": "MISSING",
+2026-10-12T02:52:11.5252313Z       "probe_scope": "executable version/help probe",
+2026-10-12T02:52:11.5252652Z       "probe_path": null,
+2026-10-12T02:52:11.5252893Z       "probe_version": null,
+2026-10-12T02:52:11.5253153Z       "probe_sha256": null,
+2026-10-12T02:52:11.5253409Z       "execution_verified": false
+2026-10-12T02:52:11.5253723Z     },
+2026-10-12T02:52:11.5253910Z     {
+2026-10-12T02:52:11.5254092Z       "id": 42,
+2026-10-12T02:52:11.5254305Z       "pillar": 5,
+2026-10-12T02:52:11.5254507Z       "name": "PSCAN2",
+2026-10-12T02:52:11.5254752Z       "source_hint": "pscan2sim",
+2026-10-12T02:52:11.5255017Z       "source_verified": false,
+2026-10-12T02:52:11.5255278Z       "license_verified": false,
+2026-10-12T02:52:11.5255562Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5255849Z       "probe_scope": null,
+2026-10-12T02:52:11.5256099Z       "probe_path": null,
+2026-10-12T02:52:11.5256360Z       "probe_version": null,
+2026-10-12T02:52:11.5256609Z       "probe_sha256": null,
+2026-10-12T02:52:11.5256859Z       "execution_verified": false
+2026-10-12T02:52:11.5257112Z     },
+2026-10-12T02:52:11.5257282Z     {
+2026-10-12T02:52:11.5257463Z       "id": 43,
+2026-10-12T02:52:11.5257657Z       "pillar": 5,
+2026-10-12T02:52:11.5257864Z       "name": "WRspice",
+2026-10-12T02:52:11.5258106Z       "source_hint": "wrcad.com",
+2026-10-12T02:52:11.5258375Z       "source_verified": false,
+2026-10-12T02:52:11.5258640Z       "license_verified": false,
+2026-10-12T02:52:11.5258909Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5259180Z       "probe_scope": null,
+2026-10-12T02:52:11.5259421Z       "probe_path": null,
+2026-10-12T02:52:11.5259654Z       "probe_version": null,
+2026-10-12T02:52:11.5259895Z       "probe_sha256": null,
+2026-10-12T02:52:11.5260125Z       "execution_verified": false
+2026-10-12T02:52:11.5260364Z     },
+2026-10-12T02:52:11.5260541Z     {
+2026-10-12T02:52:11.5260720Z       "id": 44,
+2026-10-12T02:52:11.5260923Z       "pillar": 5,
+2026-10-12T02:52:11.5261146Z       "name": "XicTools",
+2026-10-12T02:52:11.5261400Z       "source_hint": "wrcad.com",
+2026-10-12T02:52:11.5261665Z       "source_verified": false,
+2026-10-12T02:52:11.5261920Z       "license_verified": false,
+2026-10-12T02:52:11.5262178Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5262454Z       "probe_scope": null,
+2026-10-12T02:52:11.5262695Z       "probe_path": null,
+2026-10-12T02:52:11.5262940Z       "probe_version": null,
+2026-10-12T02:52:11.5263187Z       "probe_sha256": null,
+2026-10-12T02:52:11.5263437Z       "execution_verified": false
+2026-10-12T02:52:11.5263712Z     },
+2026-10-12T02:52:11.5263889Z     {
+2026-10-12T02:52:11.5264072Z       "id": 45,
+2026-10-12T02:52:11.5264273Z       "pillar": 5,
+2026-10-12T02:52:11.5264494Z       "name": "SuperCAD",
+2026-10-12T02:52:11.5264733Z       "source_hint": null,
+2026-10-12T02:52:11.5264977Z       "source_verified": false,
+2026-10-12T02:52:11.5265248Z       "license_verified": false,
+2026-10-12T02:52:11.5265530Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5265796Z       "probe_scope": null,
+2026-10-12T02:52:11.5266301Z       "probe_path": null,
+2026-10-12T02:52:11.5266542Z       "probe_version": null,
+2026-10-12T02:52:11.5266795Z       "probe_sha256": null,
+2026-10-12T02:52:11.5267033Z       "execution_verified": false
+2026-10-12T02:52:11.5267458Z     },
+2026-10-12T02:52:11.5267645Z     {
+2026-10-12T02:52:11.5267826Z       "id": 46,
+2026-10-12T02:52:11.5268037Z       "pillar": 5,
+2026-10-12T02:52:11.5268242Z       "name": "JSIM",
+2026-10-12T02:52:11.5268569Z       "source_hint": null,
+2026-10-12T02:52:11.5268824Z       "source_verified": false,
+2026-10-12T02:52:11.5269091Z       "license_verified": false,
+2026-10-12T02:52:11.5269361Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5269630Z       "probe_scope": null,
+2026-10-12T02:52:11.5269957Z       "probe_path": null,
+2026-10-12T02:52:11.5270325Z       "probe_version": null,
+2026-10-12T02:52:11.5270681Z       "probe_sha256": null,
+2026-10-12T02:52:11.5271050Z       "execution_verified": false
+2026-10-12T02:52:11.5271427Z     },
+2026-10-12T02:52:11.5271704Z     {
+2026-10-12T02:52:11.5271973Z       "id": 47,
+2026-10-12T02:52:11.5272309Z       "pillar": 5,
+2026-10-12T02:52:11.5272609Z       "name": "SPiCE-J",
+2026-10-12T02:52:11.5272956Z       "source_hint": null,
+2026-10-12T02:52:11.5273295Z       "source_verified": false,
+2026-10-12T02:52:11.5273691Z       "license_verified": false,
+2026-10-12T02:52:11.5274073Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5286142Z       "probe_scope": null,
+2026-10-12T02:52:11.5286713Z       "probe_path": null,
+2026-10-12T02:52:11.5286968Z       "probe_version": null,
+2026-10-12T02:52:11.5287224Z       "probe_sha256": null,
+2026-10-12T02:52:11.5287492Z       "execution_verified": false
+2026-10-12T02:52:11.5287770Z     },
+2026-10-12T02:52:11.5287947Z     {
+2026-10-12T02:52:11.5288128Z       "id": 48,
+2026-10-12T02:52:11.5288338Z       "pillar": 5,
+2026-10-12T02:52:11.5288559Z       "name": "SFQex",
+2026-10-12T02:52:11.5288794Z       "source_hint": null,
+2026-10-12T02:52:11.5289047Z       "source_verified": false,
+2026-10-12T02:52:11.5289314Z       "license_verified": false,
+2026-10-12T02:52:11.5289596Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5289892Z       "probe_scope": null,
+2026-10-12T02:52:11.5290153Z       "probe_path": null,
+2026-10-12T02:52:11.5290401Z       "probe_version": null,
+2026-10-12T02:52:11.5290651Z       "probe_sha256": null,
+2026-10-12T02:52:11.5290905Z       "execution_verified": false
+2026-10-12T02:52:11.5291160Z     },
+2026-10-12T02:52:11.5291348Z     {
+2026-10-12T02:52:11.5291531Z       "id": 49,
+2026-10-12T02:52:11.5291742Z       "pillar": 5,
+2026-10-12T02:52:11.5291953Z       "name": "ColdSPICE",
+2026-10-12T02:52:11.5292191Z       "source_hint": null,
+2026-10-12T02:52:11.5292426Z       "source_verified": false,
+2026-10-12T02:52:11.5292703Z       "license_verified": false,
+2026-10-12T02:52:11.5292975Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5293248Z       "probe_scope": null,
+2026-10-12T02:52:11.5293490Z       "probe_path": null,
+2026-10-12T02:52:11.5293730Z       "probe_version": null,
+2026-10-12T02:52:11.5293989Z       "probe_sha256": null,
+2026-10-12T02:52:11.5294238Z       "execution_verified": false
+2026-10-12T02:52:11.5294485Z     },
+2026-10-12T02:52:11.5294667Z     {
+2026-10-12T02:52:11.5294853Z       "id": 50,
+2026-10-12T02:52:11.5295053Z       "pillar": 5,
+2026-10-12T02:52:11.5295268Z       "name": "CryoPDK",
+2026-10-12T02:52:11.5295509Z       "source_hint": null,
+2026-10-12T02:52:11.5295765Z       "source_verified": false,
+2026-10-12T02:52:11.5296027Z       "license_verified": false,
+2026-10-12T02:52:11.5296301Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5296578Z       "probe_scope": null,
+2026-10-12T02:52:11.5296820Z       "probe_path": null,
+2026-10-12T02:52:11.5297068Z       "probe_version": null,
+2026-10-12T02:52:11.5297308Z       "probe_sha256": null,
+2026-10-12T02:52:11.5297558Z       "execution_verified": false
+2026-10-12T02:52:11.5297798Z     },
+2026-10-12T02:52:11.5297994Z     {
+2026-10-12T02:52:11.5298070Z       "id": 51,
+2026-10-12T02:52:11.5298160Z       "pillar": 6,
+2026-10-12T02:52:11.5298242Z       "name": "ngspice",
+2026-10-12T02:52:11.5298337Z       "source_hint": "ngspice",
+2026-10-12T02:52:11.5298614Z       "source_verified": false,
+2026-10-12T02:52:11.5298713Z       "license_verified": false,
+2026-10-12T02:52:11.5298817Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5298911Z       "probe_scope": null,
+2026-10-12T02:52:11.5299101Z       "probe_path": null,
+2026-10-12T02:52:11.5299202Z       "probe_version": null,
+2026-10-12T02:52:11.5299292Z       "probe_sha256": null,
+2026-10-12T02:52:11.5299386Z       "execution_verified": false
+2026-10-12T02:52:11.5299468Z     },
+2026-10-12T02:52:11.5299540Z     {
+2026-10-12T02:52:11.5299631Z       "id": 52,
+2026-10-12T02:52:11.5299719Z       "pillar": 6,
+2026-10-12T02:52:11.5299800Z       "name": "Xyce",
+2026-10-12T02:52:11.5299917Z       "source_hint": "sandia-labs/xyce",
+2026-10-12T02:52:11.5300014Z       "source_verified": false,
+2026-10-12T02:52:11.5300103Z       "license_verified": false,
+2026-10-12T02:52:11.5300206Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5300299Z       "probe_scope": null,
+2026-10-12T02:52:11.5300391Z       "probe_path": null,
+2026-10-12T02:52:11.5300485Z       "probe_version": null,
+2026-10-12T02:52:11.5300568Z       "probe_sha256": null,
+2026-10-12T02:52:11.5300669Z       "execution_verified": false
+2026-10-12T02:52:11.5300754Z     },
+2026-10-12T02:52:11.5300824Z     {
+2026-10-12T02:52:11.5300910Z       "id": 53,
+2026-10-12T02:52:11.5300999Z       "pillar": 6,
+2026-10-12T02:52:11.5301088Z       "name": "PySpice",
+2026-10-12T02:52:11.5301226Z       "source_hint": "FabriceSalvaire/PySpice",
+2026-10-12T02:52:11.5301322Z       "source_verified": false,
+2026-10-12T02:52:11.5301428Z       "license_verified": false,
+2026-10-12T02:52:11.5301540Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5301633Z       "probe_scope": null,
+2026-10-12T02:52:11.5301736Z       "probe_path": null,
+2026-10-12T02:52:11.5301841Z       "probe_version": null,
+2026-10-12T02:52:11.5301932Z       "probe_sha256": null,
+2026-10-12T02:52:11.5302038Z       "execution_verified": false
+2026-10-12T02:52:11.5302125Z     },
+2026-10-12T02:52:11.5302200Z     {
+2026-10-12T02:52:11.5302284Z       "id": 54,
+2026-10-12T02:52:11.5302364Z       "pillar": 6,
+2026-10-12T02:52:11.5302458Z       "name": "OpenVAF",
+2026-10-12T02:52:11.5302582Z       "source_hint": "pascogroup/OpenVAF",
+2026-10-12T02:52:11.5302677Z       "source_verified": false,
+2026-10-12T02:52:11.5302782Z       "license_verified": false,
+2026-10-12T02:52:11.5302887Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5302979Z       "probe_scope": null,
+2026-10-12T02:52:11.5303072Z       "probe_path": null,
+2026-10-12T02:52:11.5303161Z       "probe_version": null,
+2026-10-12T02:52:11.5303259Z       "probe_sha256": null,
+2026-10-12T02:52:11.5303365Z       "execution_verified": false
+2026-10-12T02:52:11.5303441Z     },
+2026-10-12T02:52:11.5303525Z     {
+2026-10-12T02:52:11.5303613Z       "id": 55,
+2026-10-12T02:52:11.5303699Z       "pillar": 6,
+2026-10-12T02:52:11.5303793Z       "name": "Xschem",
+2026-10-12T02:52:11.5303921Z       "source_hint": "StefanSchippers/xschem",
+2026-10-12T02:52:11.5304027Z       "source_verified": false,
+2026-10-12T02:52:11.5304132Z       "license_verified": false,
+2026-10-12T02:52:11.5304229Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5304337Z       "probe_scope": null,
+2026-10-12T02:52:11.5304437Z       "probe_path": null,
+2026-10-12T02:52:11.5304526Z       "probe_version": null,
+2026-10-12T02:52:11.5304619Z       "probe_sha256": null,
+2026-10-12T02:52:11.5304716Z       "execution_verified": false
+2026-10-12T02:52:11.5304789Z     },
+2026-10-12T02:52:11.5304872Z     {
+2026-10-12T02:52:11.5304946Z       "id": 56,
+2026-10-12T02:52:11.5305036Z       "pillar": 6,
+2026-10-12T02:52:11.5305134Z       "name": "SPICE OPUS",
+2026-10-12T02:52:11.5305219Z       "source_hint": null,
+2026-10-12T02:52:11.5305309Z       "source_verified": false,
+2026-10-12T02:52:11.5305407Z       "license_verified": false,
+2026-10-12T02:52:11.5305500Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5305739Z       "probe_scope": null,
+2026-10-12T02:52:11.5305834Z       "probe_path": null,
+2026-10-12T02:52:11.5305929Z       "probe_version": null,
+2026-10-12T02:52:11.5306019Z       "probe_sha256": null,
+2026-10-12T02:52:11.5306199Z       "execution_verified": false
+2026-10-12T02:52:11.5306288Z     },
+2026-10-12T02:52:11.5306582Z     {
+2026-10-12T02:52:11.5306668Z       "id": 57,
+2026-10-12T02:52:11.5306757Z       "pillar": 6,
+2026-10-12T02:52:11.5306850Z       "name": "Ahkab",
+2026-10-12T02:52:11.5306942Z       "source_hint": null,
+2026-10-12T02:52:11.5307045Z       "source_verified": false,
+2026-10-12T02:52:11.5307142Z       "license_verified": false,
+2026-10-12T02:52:11.5307253Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5307352Z       "probe_scope": null,
+2026-10-12T02:52:11.5307441Z       "probe_path": null,
+2026-10-12T02:52:11.5307538Z       "probe_version": null,
+2026-10-12T02:52:11.5307632Z       "probe_sha256": null,
+2026-10-12T02:52:11.5307732Z       "execution_verified": false
+2026-10-12T02:52:11.5307813Z     },
+2026-10-12T02:52:11.5307885Z     {
+2026-10-12T02:52:11.5307971Z       "id": 58,
+2026-10-12T02:52:11.5308058Z       "pillar": 6,
+2026-10-12T02:52:11.5308140Z       "name": "PyCircuit",
+2026-10-12T02:52:11.5308244Z       "source_hint": null,
+2026-10-12T02:52:11.5308345Z       "source_verified": false,
+2026-10-12T02:52:11.5308437Z       "license_verified": false,
+2026-10-12T02:52:11.5308543Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5308644Z       "probe_scope": null,
+2026-10-12T02:52:11.5308737Z       "probe_path": null,
+2026-10-12T02:52:11.5308838Z       "probe_version": null,
+2026-10-12T02:52:11.5308924Z       "probe_sha256": null,
+2026-10-12T02:52:11.5309034Z       "execution_verified": false
+2026-10-12T02:52:11.5309114Z     },
+2026-10-12T02:52:11.5309189Z     {
+2026-10-12T02:52:11.5309273Z       "id": 59,
+2026-10-12T02:52:11.5309368Z       "pillar": 6,
+2026-10-12T02:52:11.5309449Z       "name": "Qucs",
+2026-10-12T02:52:11.5309553Z       "source_hint": "Qucs/qucs",
+2026-10-12T02:52:11.5309644Z       "source_verified": false,
+2026-10-12T02:52:11.5309750Z       "license_verified": false,
+2026-10-12T02:52:11.5309851Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5309944Z       "probe_scope": null,
+2026-10-12T02:52:11.5310042Z       "probe_path": null,
+2026-10-12T02:52:11.5310139Z       "probe_version": null,
+2026-10-12T02:52:11.5310220Z       "probe_sha256": null,
+2026-10-12T02:52:11.5310327Z       "execution_verified": false
+2026-10-12T02:52:11.5310413Z     },
+2026-10-12T02:52:11.5310491Z     {
+2026-10-12T02:52:11.5310583Z       "id": 60,
+2026-10-12T02:52:11.5310669Z       "pillar": 6,
+2026-10-12T02:52:11.5310771Z       "name": "GnuCAP",
+2026-10-12T02:52:11.5310871Z       "source_hint": null,
+2026-10-12T02:52:11.5310965Z       "source_verified": false,
+2026-10-12T02:52:11.5311070Z       "license_verified": false,
+2026-10-12T02:52:11.5311178Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5311278Z       "probe_scope": null,
+2026-10-12T02:52:11.5311382Z       "probe_path": null,
+2026-10-12T02:52:11.5311473Z       "probe_version": null,
+2026-10-12T02:52:11.5311566Z       "probe_sha256": null,
+2026-10-12T02:52:11.5311674Z       "execution_verified": false
+2026-10-12T02:52:11.5311749Z     },
+2026-10-12T02:52:11.5311832Z     {
+2026-10-12T02:52:11.5311917Z       "id": 61,
+2026-10-12T02:52:11.5312001Z       "pillar": 7,
+2026-10-12T02:52:11.5312102Z       "name": "OpenROAD",
+2026-10-12T02:52:11.5312280Z       "source_hint": "The-OpenROAD-Project/OpenROAD",
+2026-10-12T02:52:11.5312386Z       "source_verified": false,
+2026-10-12T02:52:11.5312553Z       "license_verified": false,
+2026-10-12T02:52:11.5312644Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5312748Z       "probe_scope": null,
+2026-10-12T02:52:11.5312846Z       "probe_path": null,
+2026-10-12T02:52:11.5312941Z       "probe_version": null,
+2026-10-12T02:52:11.5313039Z       "probe_sha256": null,
+2026-10-12T02:52:11.5313997Z       "execution_verified": false
+2026-10-12T02:52:11.5314100Z     },
+2026-10-12T02:52:11.5314182Z     {
+2026-10-12T02:52:11.5314259Z       "id": 62,
+2026-10-12T02:52:11.5314353Z       "pillar": 7,
+2026-10-12T02:52:11.5314539Z       "name": "OpenLane",
+2026-10-12T02:52:11.5314684Z       "source_hint": "The-OpenROAD-Project/OpenLane",
+2026-10-12T02:52:11.5314783Z       "source_verified": false,
+2026-10-12T02:52:11.5314885Z       "license_verified": false,
+2026-10-12T02:52:11.5314988Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5315087Z       "probe_scope": null,
+2026-10-12T02:52:11.5315182Z       "probe_path": null,
+2026-10-12T02:52:11.5315274Z       "probe_version": null,
+2026-10-12T02:52:11.5315367Z       "probe_sha256": null,
+2026-10-12T02:52:11.5315455Z       "execution_verified": false
+2026-10-12T02:52:11.5315540Z     },
+2026-10-12T02:52:11.5315625Z     {
+2026-10-12T02:52:11.5315700Z       "id": 63,
+2026-10-12T02:52:11.5315785Z       "pillar": 7,
+2026-10-12T02:52:11.5315890Z       "name": "Magic VLSI",
+2026-10-12T02:52:11.5316014Z       "source_hint": "RTimothyEdwards/magic",
+2026-10-12T02:52:11.5316123Z       "source_verified": false,
+2026-10-12T02:52:11.5316215Z       "license_verified": false,
+2026-10-12T02:52:11.5316323Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5316424Z       "probe_scope": null,
+2026-10-12T02:52:11.5316513Z       "probe_path": null,
+2026-10-12T02:52:11.5316620Z       "probe_version": null,
+2026-10-12T02:52:11.5316721Z       "probe_sha256": null,
+2026-10-12T02:52:11.5316819Z       "execution_verified": false
+2026-10-12T02:52:11.5316899Z     },
+2026-10-12T02:52:11.5316979Z     {
+2026-10-12T02:52:11.5317057Z       "id": 64,
+2026-10-12T02:52:11.5317150Z       "pillar": 7,
+2026-10-12T02:52:11.5317234Z       "name": "Netgen",
+2026-10-12T02:52:11.5317360Z       "source_hint": "RTimothyEdwards/netgen",
+2026-10-12T02:52:11.5317462Z       "source_verified": false,
+2026-10-12T02:52:11.5317556Z       "license_verified": false,
+2026-10-12T02:52:11.5317673Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5317774Z       "probe_scope": null,
+2026-10-12T02:52:11.5317859Z       "probe_path": null,
+2026-10-12T02:52:11.5317962Z       "probe_version": null,
+2026-10-12T02:52:11.5318055Z       "probe_sha256": null,
+2026-10-12T02:52:11.5318162Z       "execution_verified": false
+2026-10-12T02:52:11.5318252Z     },
+2026-10-12T02:52:11.5318320Z     {
+2026-10-12T02:52:11.5318402Z       "id": 65,
+2026-10-12T02:52:11.5318493Z       "pillar": 7,
+2026-10-12T02:52:11.5318583Z       "name": "ALIGN",
+2026-10-12T02:52:11.5318717Z       "source_hint": "ALIGN-analoglayout/ALIGN",
+2026-10-12T02:52:11.5318818Z       "source_verified": false,
+2026-10-12T02:52:11.5318914Z       "license_verified": false,
+2026-10-12T02:52:11.5319016Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5319103Z       "probe_scope": null,
+2026-10-12T02:52:11.5319205Z       "probe_path": null,
+2026-10-12T02:52:11.5319306Z       "probe_version": null,
+2026-10-12T02:52:11.5319399Z       "probe_sha256": null,
+2026-10-12T02:52:11.5319505Z       "execution_verified": false
+2026-10-12T02:52:11.5319595Z     },
+2026-10-12T02:52:11.5319671Z     {
+2026-10-12T02:52:11.5319762Z       "id": 66,
+2026-10-12T02:52:11.5319844Z       "pillar": 7,
+2026-10-12T02:52:11.5319954Z       "name": "SiliconCompiler",
+2026-10-12T02:52:11.5320110Z       "source_hint": "siliconcompiler/siliconcompiler",
+2026-10-12T02:52:11.5320204Z       "source_verified": false,
+2026-10-12T02:52:11.5320310Z       "license_verified": false,
+2026-10-12T02:52:11.5320412Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5320502Z       "probe_scope": null,
+2026-10-12T02:52:11.5320601Z       "probe_path": null,
+2026-10-12T02:52:11.5320697Z       "probe_version": null,
+2026-10-12T02:52:11.5320783Z       "probe_sha256": null,
+2026-10-12T02:52:11.5320885Z       "execution_verified": false
+2026-10-12T02:52:11.5320967Z     },
+2026-10-12T02:52:11.5321055Z     {
+2026-10-12T02:52:11.5321140Z       "id": 67,
+2026-10-12T02:52:11.5321334Z       "pillar": 7,
+2026-10-12T02:52:11.5321443Z       "name": "BAG Framework",
+2026-10-12T02:52:11.5321564Z       "source_hint": "ucb-art/BAG_framework",
+2026-10-12T02:52:11.5321735Z       "source_verified": false,
+2026-10-12T02:52:11.5321837Z       "license_verified": false,
+2026-10-12T02:52:11.5321931Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5322022Z       "probe_scope": null,
+2026-10-12T02:52:11.5322121Z       "probe_path": null,
+2026-10-12T02:52:11.5322207Z       "probe_version": null,
+2026-10-12T02:52:11.5322304Z       "probe_sha256": null,
+2026-10-12T02:52:11.5322404Z       "execution_verified": false
+2026-10-12T02:52:11.5322480Z     },
+2026-10-12T02:52:11.5322564Z     {
+2026-10-12T02:52:11.5322654Z       "id": 68,
+2026-10-12T02:52:11.5322735Z       "pillar": 7,
+2026-10-12T02:52:11.5322839Z       "name": "gds2parasitics",
+2026-10-12T02:52:11.5322921Z       "source_hint": null,
+2026-10-12T02:52:11.5323024Z       "source_verified": false,
+2026-10-12T02:52:11.5323129Z       "license_verified": false,
+2026-10-12T02:52:11.5323223Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5323324Z       "probe_scope": null,
+2026-10-12T02:52:11.5323431Z       "probe_path": null,
+2026-10-12T02:52:11.5323522Z       "probe_version": null,
+2026-10-12T02:52:11.5323616Z       "probe_sha256": null,
+2026-10-12T02:52:11.5323710Z       "execution_verified": false
+2026-10-12T02:52:11.5323794Z     },
+2026-10-12T02:52:11.5323876Z     {
+2026-10-12T02:52:11.5323950Z       "id": 69,
+2026-10-12T02:52:11.5324044Z       "pillar": 7,
+2026-10-12T02:52:11.5324138Z       "name": "OpenFASoC",
+2026-10-12T02:52:11.5324245Z       "source_hint": "idea-fasoc/openfasoc",
+2026-10-12T02:52:11.5324342Z       "source_verified": false,
+2026-10-12T02:52:11.5324446Z       "license_verified": false,
+2026-10-12T02:52:11.5324541Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5324636Z       "probe_scope": null,
+2026-10-12T02:52:11.5324722Z       "probe_path": null,
+2026-10-12T02:52:11.5324825Z       "probe_version": null,
+2026-10-12T02:52:11.5324921Z       "probe_sha256": null,
+2026-10-12T02:52:11.5325015Z       "execution_verified": false
+2026-10-12T02:52:11.5325104Z     },
+2026-10-12T02:52:11.5325184Z     {
+2026-10-12T02:52:11.5325261Z       "id": 70,
+2026-10-12T02:52:11.5325352Z       "pillar": 7,
+2026-10-12T02:52:11.5325433Z       "name": "CLayout",
+2026-10-12T02:52:11.5325521Z       "source_hint": null,
+2026-10-12T02:52:11.5325621Z       "source_verified": false,
+2026-10-12T02:52:11.5325714Z       "license_verified": false,
+2026-10-12T02:52:11.5325813Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5325909Z       "probe_scope": null,
+2026-10-12T02:52:11.5325994Z       "probe_path": null,
+2026-10-12T02:52:11.5326095Z       "probe_version": null,
+2026-10-12T02:52:11.5326195Z       "probe_sha256": null,
+2026-10-12T02:52:11.5326290Z       "execution_verified": false
+2026-10-12T02:52:11.5326372Z     },
+2026-10-12T02:52:11.5326448Z     {
+2026-10-12T02:52:11.5326791Z       "id": 71,
+2026-10-12T02:52:11.5326882Z       "pillar": 8,
+2026-10-12T02:52:11.5326994Z       "name": "AlphaChip / Circuit Training",
+2026-10-12T02:52:11.5327144Z       "source_hint": "google-research/circuit_training",
+2026-10-12T02:52:11.5327243Z       "source_verified": false,
+2026-10-12T02:52:11.5327337Z       "license_verified": false,
+2026-10-12T02:52:11.5327444Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5327534Z       "probe_scope": null,
+2026-10-12T02:52:11.5327625Z       "probe_path": null,
+2026-10-12T02:52:11.5327715Z       "probe_version": null,
+2026-10-12T02:52:11.5327800Z       "probe_sha256": null,
+2026-10-12T02:52:11.5327910Z       "execution_verified": false
+2026-10-12T02:52:11.5327996Z     },
+2026-10-12T02:52:11.5328076Z     {
+2026-10-12T02:52:11.5328159Z       "id": 72,
+2026-10-12T02:52:11.5328239Z       "pillar": 8,
+2026-10-12T02:52:11.5328336Z       "name": "DREAMPlace",
+2026-10-12T02:52:11.5328582Z       "source_hint": "limbo018/DREAMPlace",
+2026-10-12T02:52:11.5328669Z       "source_verified": false,
+2026-10-12T02:52:11.5328767Z       "license_verified": false,
+2026-10-12T02:52:11.5328865Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5329033Z       "probe_scope": null,
+2026-10-12T02:52:11.5329129Z       "probe_path": null,
+2026-10-12T02:52:11.5329224Z       "probe_version": null,
+2026-10-12T02:52:11.5329306Z       "probe_sha256": null,
+2026-10-12T02:52:11.5329408Z       "execution_verified": false
+2026-10-12T02:52:11.5329482Z     },
+2026-10-12T02:52:11.5329564Z     {
+2026-10-12T02:52:11.5329644Z       "id": 73,
+2026-10-12T02:52:11.5329717Z       "pillar": 8,
+2026-10-12T02:52:11.5329808Z       "name": "AutoCkt",
+2026-10-12T02:52:11.5329914Z       "source_hint": "irdas/AutoCkt",
+2026-10-12T02:52:11.5330009Z       "source_verified": false,
+2026-10-12T02:52:11.5330111Z       "license_verified": false,
+2026-10-12T02:52:11.5330216Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5330311Z       "probe_scope": null,
+2026-10-12T02:52:11.5330410Z       "probe_path": null,
+2026-10-12T02:52:11.5330497Z       "probe_version": null,
+2026-10-12T02:52:11.5330594Z       "probe_sha256": null,
+2026-10-12T02:52:11.5330702Z       "execution_verified": false
+2026-10-12T02:52:11.5330776Z     },
+2026-10-12T02:52:11.5330858Z     {
+2026-10-12T02:52:11.5330943Z       "id": 74,
+2026-10-12T02:52:11.5331019Z       "pillar": 8,
+2026-10-12T02:52:11.5331111Z       "name": "RL-Router",
+2026-10-12T02:52:11.5331191Z       "source_hint": null,
+2026-10-12T02:52:11.5331289Z       "source_verified": false,
+2026-10-12T02:52:11.5331383Z       "license_verified": false,
+2026-10-12T02:52:11.5331478Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5331581Z       "probe_scope": null,
+2026-10-12T02:52:11.5331673Z       "probe_path": null,
+2026-10-12T02:52:11.5331764Z       "probe_version": null,
+2026-10-12T02:52:11.5331861Z       "probe_sha256": null,
+2026-10-12T02:52:11.5331959Z       "execution_verified": false
+2026-10-12T02:52:11.5332040Z     },
+2026-10-12T02:52:11.5332124Z     {
+2026-10-12T02:52:11.5332205Z       "id": 75,
+2026-10-12T02:52:11.5332299Z       "pillar": 8,
+2026-10-12T02:52:11.5332392Z       "name": "GLayout",
+2026-10-12T02:52:11.5332482Z       "source_hint": null,
+2026-10-12T02:52:11.5332579Z       "source_verified": false,
+2026-10-12T02:52:11.5332676Z       "license_verified": false,
+2026-10-12T02:52:11.5332771Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5332865Z       "probe_scope": null,
+2026-10-12T02:52:11.5332949Z       "probe_path": null,
+2026-10-12T02:52:11.5333056Z       "probe_version": null,
+2026-10-12T02:52:11.5333164Z       "probe_sha256": null,
+2026-10-12T02:52:11.5333258Z       "execution_verified": false
+2026-10-12T02:52:11.5333341Z     },
+2026-10-12T02:52:11.5333423Z     {
+2026-10-12T02:52:11.5333497Z       "id": 76,
+2026-10-12T02:52:11.5333590Z       "pillar": 8,
+2026-10-12T02:52:11.5333755Z       "name": "Generative AI for Physical Design Benchmark",
+2026-10-12T02:52:11.5334030Z       "source_hint": "wenboown/generative-ai-for-semiconductor-physical-design",
+2026-10-12T02:52:11.5334127Z       "source_verified": false,
+2026-10-12T02:52:11.5334215Z       "license_verified": false,
+2026-10-12T02:52:11.5334327Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5334424Z       "probe_scope": null,
+2026-10-12T02:52:11.5334512Z       "probe_path": null,
+2026-10-12T02:52:11.5334608Z       "probe_version": null,
+2026-10-12T02:52:11.5334699Z       "probe_sha256": null,
+2026-10-12T02:52:11.5334795Z       "execution_verified": false
+2026-10-12T02:52:11.5334876Z     },
+2026-10-12T02:52:11.5334944Z     {
+2026-10-12T02:52:11.5335029Z       "id": 77,
+2026-10-12T02:52:11.5335115Z       "pillar": 8,
+2026-10-12T02:52:11.5335199Z       "name": "RouteNet",
+2026-10-12T02:52:11.5335287Z       "source_hint": null,
+2026-10-12T02:52:11.5335386Z       "source_verified": false,
+2026-10-12T02:52:11.5335476Z       "license_verified": false,
+2026-10-12T02:52:11.5335689Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5335788Z       "probe_scope": null,
+2026-10-12T02:52:11.5335875Z       "probe_path": null,
+2026-10-12T02:52:11.5335967Z       "probe_version": null,
+2026-10-12T02:52:11.5336135Z       "probe_sha256": null,
+2026-10-12T02:52:11.5336237Z       "execution_verified": false
+2026-10-12T02:52:11.5336320Z     },
+2026-10-12T02:52:11.5336389Z     {
+2026-10-12T02:52:11.5336472Z       "id": 78,
+2026-10-12T02:52:11.5336556Z       "pillar": 8,
+2026-10-12T02:52:11.5336647Z       "name": "CongestionNet",
+2026-10-12T02:52:11.5336741Z       "source_hint": null,
+2026-10-12T02:52:11.5336828Z       "source_verified": false,
+2026-10-12T02:52:11.5336929Z       "license_verified": false,
+2026-10-12T02:52:11.5337026Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5337107Z       "probe_scope": null,
+2026-10-12T02:52:11.5337202Z       "probe_path": null,
+2026-10-12T02:52:11.5337298Z       "probe_version": null,
+2026-10-12T02:52:11.5337385Z       "probe_sha256": null,
+2026-10-12T02:52:11.5337488Z       "execution_verified": false
+2026-10-12T02:52:11.5337567Z     },
+2026-10-12T02:52:11.5337635Z     {
+2026-10-12T02:52:11.5337716Z       "id": 79,
+2026-10-12T02:52:11.5337797Z       "pillar": 8,
+2026-10-12T02:52:11.5337898Z       "name": "GraphSAGE-EDA",
+2026-10-12T02:52:11.5337997Z       "source_hint": null,
+2026-10-12T02:52:11.5338082Z       "source_verified": false,
+2026-10-12T02:52:11.5338181Z       "license_verified": false,
+2026-10-12T02:52:11.5338279Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5338365Z       "probe_scope": null,
+2026-10-12T02:52:11.5338455Z       "probe_path": null,
+2026-10-12T02:52:11.5338539Z       "probe_version": null,
+2026-10-12T02:52:11.5338626Z       "probe_sha256": null,
+2026-10-12T02:52:11.5338725Z       "execution_verified": false
+2026-10-12T02:52:11.5338790Z     },
+2026-10-12T02:52:11.5338863Z     {
+2026-10-12T02:52:11.5338941Z       "id": 80,
+2026-10-12T02:52:11.5339019Z       "pillar": 8,
+2026-10-12T02:52:11.5339115Z       "name": "Chip-LLM",
+2026-10-12T02:52:11.5339198Z       "source_hint": null,
+2026-10-12T02:52:11.5339281Z       "source_verified": false,
+2026-10-12T02:52:11.5339376Z       "license_verified": false,
+2026-10-12T02:52:11.5339467Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5339563Z       "probe_scope": null,
+2026-10-12T02:52:11.5339653Z       "probe_path": null,
+2026-10-12T02:52:11.5339740Z       "probe_version": null,
+2026-10-12T02:52:11.5339833Z       "probe_sha256": null,
+2026-10-12T02:52:11.5339933Z       "execution_verified": false
+2026-10-12T02:52:11.5340001Z     },
+2026-10-12T02:52:11.5340081Z     {
+2026-10-12T02:52:11.5340155Z       "id": 81,
+2026-10-12T02:52:11.5340241Z       "pillar": 9,
+2026-10-12T02:52:11.5340334Z       "name": "PyAEDT",
+2026-10-12T02:52:11.5340428Z       "source_hint": "ansys/pyaedt",
+2026-10-12T02:52:11.5340527Z       "source_verified": false,
+2026-10-12T02:52:11.5340620Z       "license_verified": false,
+2026-10-12T02:52:11.5340719Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5340811Z       "probe_scope": null,
+2026-10-12T02:52:11.5340902Z       "probe_path": null,
+2026-10-12T02:52:11.5340987Z       "probe_version": null,
+2026-10-12T02:52:11.5341081Z       "probe_sha256": null,
+2026-10-12T02:52:11.5341169Z       "execution_verified": false
+2026-10-12T02:52:11.5341246Z     },
+2026-10-12T02:52:11.5341316Z     {
+2026-10-12T02:52:11.5341390Z       "id": 82,
+2026-10-12T02:52:11.5341480Z       "pillar": 9,
+2026-10-12T02:52:11.5341579Z       "name": "CST Python Bridge",
+2026-10-12T02:52:11.5341664Z       "source_hint": null,
+2026-10-12T02:52:11.5341753Z       "source_verified": false,
+2026-10-12T02:52:11.5341841Z       "license_verified": false,
+2026-10-12T02:52:11.5341941Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5342035Z       "probe_scope": null,
+2026-10-12T02:52:11.5342116Z       "probe_path": null,
+2026-10-12T02:52:11.5342214Z       "probe_version": null,
+2026-10-12T02:52:11.5342462Z       "probe_sha256": null,
+2026-10-12T02:52:11.5342559Z       "execution_verified": false
+2026-10-12T02:52:11.5342635Z     },
+2026-10-12T02:52:11.5342713Z     {
+2026-10-12T02:52:11.5342794Z       "id": 83,
+2026-10-12T02:52:11.5342964Z       "pillar": 9,
+2026-10-12T02:52:11.5343071Z       "name": "Keysight ADS Python Bridge",
+2026-10-12T02:52:11.5343156Z       "source_hint": null,
+2026-10-12T02:52:11.5343246Z       "source_verified": false,
+2026-10-12T02:52:11.5343336Z       "license_verified": false,
+2026-10-12T02:52:11.5343439Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5343517Z       "probe_scope": null,
+2026-10-12T02:52:11.5343605Z       "probe_path": null,
+2026-10-12T02:52:11.5343697Z       "probe_version": null,
+2026-10-12T02:52:11.5343776Z       "probe_sha256": null,
+2026-10-12T02:52:11.5343874Z       "execution_verified": false
+2026-10-12T02:52:11.5343952Z     },
+2026-10-12T02:52:11.5344023Z     {
+2026-10-12T02:52:11.5344096Z       "id": 84,
+2026-10-12T02:52:11.5344189Z       "pillar": 9,
+2026-10-12T02:52:11.5344307Z       "name": "Cadence SKILL-to-Python Bridge",
+2026-10-12T02:52:11.5344397Z       "source_hint": null,
+2026-10-12T02:52:11.5344479Z       "source_verified": false,
+2026-10-12T02:52:11.5344581Z       "license_verified": false,
+2026-10-12T02:52:11.5344678Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5344764Z       "probe_scope": null,
+2026-10-12T02:52:11.5344857Z       "probe_path": null,
+2026-10-12T02:52:11.5344957Z       "probe_version": null,
+2026-10-12T02:52:11.5345050Z       "probe_sha256": null,
+2026-10-12T02:52:11.5345151Z       "execution_verified": false
+2026-10-12T02:52:11.5345224Z     },
+2026-10-12T02:52:11.5345306Z     {
+2026-10-12T02:52:11.5345398Z       "id": 85,
+2026-10-12T02:52:11.5345480Z       "pillar": 9,
+2026-10-12T02:52:11.5345569Z       "name": "PyKLayout",
+2026-10-12T02:52:11.5345662Z       "source_hint": null,
+2026-10-12T02:52:11.5345754Z       "source_verified": false,
+2026-10-12T02:52:11.5345861Z       "license_verified": false,
+2026-10-12T02:52:11.5345966Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5346051Z       "probe_scope": null,
+2026-10-12T02:52:11.5346144Z       "probe_path": null,
+2026-10-12T02:52:11.5346249Z       "probe_version": null,
+2026-10-12T02:52:11.5346338Z       "probe_sha256": null,
+2026-10-12T02:52:11.5346441Z       "execution_verified": false
+2026-10-12T02:52:11.5346514Z     },
+2026-10-12T02:52:11.5346597Z     {
+2026-10-12T02:52:11.5346956Z       "id": 86,
+2026-10-12T02:52:11.5347049Z       "pillar": 9,
+2026-10-12T02:52:11.5347151Z       "name": "SonnetLab",
+2026-10-12T02:52:11.5347250Z       "source_hint": null,
+2026-10-12T02:52:11.5347348Z       "source_verified": false,
+2026-10-12T02:52:11.5347421Z       "license_verified": false,
+2026-10-12T02:52:11.5347486Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5347555Z       "probe_scope": null,
+2026-10-12T02:52:11.5347619Z       "probe_path": null,
+2026-10-12T02:52:11.5347684Z       "probe_version": null,
+2026-10-12T02:52:11.5347752Z       "probe_sha256": null,
+2026-10-12T02:52:11.5347821Z       "execution_verified": false
+2026-10-12T02:52:11.5347875Z     },
+2026-10-12T02:52:11.5347932Z     {
+2026-10-12T02:52:11.5347990Z       "id": 87,
+2026-10-12T02:52:11.5348055Z       "pillar": 9,
+2026-10-12T02:52:11.5348126Z       "name": "PDKMaster",
+2026-10-12T02:52:11.5348188Z       "source_hint": null,
+2026-10-12T02:52:11.5348261Z       "source_verified": false,
+2026-10-12T02:52:11.5348334Z       "license_verified": false,
+2026-10-12T02:52:11.5348402Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5348472Z       "probe_scope": null,
+2026-10-12T02:52:11.5348535Z       "probe_path": null,
+2026-10-12T02:52:11.5348607Z       "probe_version": null,
+2026-10-12T02:52:11.5348676Z       "probe_sha256": null,
+2026-10-12T02:52:11.5348743Z       "execution_verified": false
+2026-10-12T02:52:11.5348802Z     },
+2026-10-12T02:52:11.5348862Z     {
+2026-10-12T02:52:11.5348917Z       "id": 88,
+2026-10-12T02:52:11.5349079Z       "pillar": 9,
+2026-10-12T02:52:11.5349153Z       "name": "GDS2Touchstone",
+2026-10-12T02:52:11.5349223Z       "source_hint": null,
+2026-10-12T02:52:11.5349298Z       "source_verified": false,
+2026-10-12T02:52:11.5349438Z       "license_verified": false,
+2026-10-12T02:52:11.5349512Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5349582Z       "probe_scope": null,
+2026-10-12T02:52:11.5349643Z       "probe_path": null,
+2026-10-12T02:52:11.5349714Z       "probe_version": null,
+2026-10-12T02:52:11.5349780Z       "probe_sha256": null,
+2026-10-12T02:52:11.5349848Z       "execution_verified": false
+2026-10-12T02:52:11.5349906Z     },
+2026-10-12T02:52:11.5349958Z     {
+2026-10-12T02:52:11.5350018Z       "id": 89,
+2026-10-12T02:52:11.5350080Z       "pillar": 9,
+2026-10-12T02:52:11.5350145Z       "name": "VirtuosoBridge",
+2026-10-12T02:52:11.5350211Z       "source_hint": null,
+2026-10-12T02:52:11.5350278Z       "source_verified": false,
+2026-10-12T02:52:11.5350345Z       "license_verified": false,
+2026-10-12T02:52:11.5350419Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5350481Z       "probe_scope": null,
+2026-10-12T02:52:11.5350549Z       "probe_path": null,
+2026-10-12T02:52:11.5350624Z       "probe_version": null,
+2026-10-12T02:52:11.5350685Z       "probe_sha256": null,
+2026-10-12T02:52:11.5350758Z       "execution_verified": false
+2026-10-12T02:52:11.5350818Z     },
+2026-10-12T02:52:11.5350873Z     {
+2026-10-12T02:52:11.5350933Z       "id": 90,
+2026-10-12T02:52:11.5350993Z       "pillar": 9,
+2026-10-12T02:52:11.5351065Z       "name": "Calibre-Interface",
+2026-10-12T02:52:11.5351133Z       "source_hint": null,
+2026-10-12T02:52:11.5351195Z       "source_verified": false,
+2026-10-12T02:52:11.5351268Z       "license_verified": false,
+2026-10-12T02:52:11.5351339Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5351400Z       "probe_scope": null,
+2026-10-12T02:52:11.5351469Z       "probe_path": null,
+2026-10-12T02:52:11.5351539Z       "probe_version": null,
+2026-10-12T02:52:11.5351599Z       "probe_sha256": null,
+2026-10-12T02:52:11.5351670Z       "execution_verified": false
+2026-10-12T02:52:11.5351724Z     },
+2026-10-12T02:52:11.5351783Z     {
+2026-10-12T02:52:11.5351846Z       "id": 91,
+2026-10-12T02:52:11.5351906Z       "pillar": 10,
+2026-10-12T02:52:11.5351975Z       "name": "PyVista",
+2026-10-12T02:52:11.5352059Z       "source_hint": "pyvista/pyvista",
+2026-10-12T02:52:11.5352126Z       "source_verified": false,
+2026-10-12T02:52:11.5352199Z       "license_verified": false,
+2026-10-12T02:52:11.5352274Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5352339Z       "probe_scope": null,
+2026-10-12T02:52:11.5352411Z       "probe_path": null,
+2026-10-12T02:52:11.5352475Z       "probe_version": null,
+2026-10-12T02:52:11.5352543Z       "probe_sha256": null,
+2026-10-12T02:52:11.5352615Z       "execution_verified": false
+2026-10-12T02:52:11.5352668Z     },
+2026-10-12T02:52:11.5352731Z     {
+2026-10-12T02:52:11.5352802Z       "id": 92,
+2026-10-12T02:52:11.5352860Z       "pillar": 10,
+2026-10-12T02:52:11.5352928Z       "name": "Meshio",
+2026-10-12T02:52:11.5353000Z       "source_hint": "nschloe/meshio",
+2026-10-12T02:52:11.5353074Z       "source_verified": false,
+2026-10-12T02:52:11.5353142Z       "license_verified": false,
+2026-10-12T02:52:11.5353214Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5353285Z       "probe_scope": null,
+2026-10-12T02:52:11.5353350Z       "probe_path": null,
+2026-10-12T02:52:11.5353414Z       "probe_version": null,
+2026-10-12T02:52:11.5353481Z       "probe_sha256": null,
+2026-10-12T02:52:11.5353555Z       "execution_verified": false
+2026-10-12T02:52:11.5353609Z     },
+2026-10-12T02:52:11.5353668Z     {
+2026-10-12T02:52:11.5353725Z       "id": 93,
+2026-10-12T02:52:11.5353793Z       "pillar": 10,
+2026-10-12T02:52:11.5353860Z       "name": "Mayavi",
+2026-10-12T02:52:11.5353922Z       "source_hint": null,
+2026-10-12T02:52:11.5353993Z       "source_verified": false,
+2026-10-12T02:52:11.5354142Z       "license_verified": false,
+2026-10-12T02:52:11.5354209Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5354278Z       "probe_scope": null,
+2026-10-12T02:52:11.5354339Z       "probe_path": null,
+2026-10-12T02:52:11.5354472Z       "probe_version": null,
+2026-10-12T02:52:11.5354538Z       "probe_sha256": null,
+2026-10-12T02:52:11.5354604Z       "execution_verified": false
+2026-10-12T02:52:11.5354665Z     },
+2026-10-12T02:52:11.5354724Z     {
+2026-10-12T02:52:11.5354782Z       "id": 94,
+2026-10-12T02:52:11.5354846Z       "pillar": 10,
+2026-10-12T02:52:11.5354924Z       "name": "Three.js GDS Viewer",
+2026-10-12T02:52:11.5354986Z       "source_hint": null,
+2026-10-12T02:52:11.5355055Z       "source_verified": false,
+2026-10-12T02:52:11.5355119Z       "license_verified": false,
+2026-10-12T02:52:11.5355192Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5355258Z       "probe_scope": null,
+2026-10-12T02:52:11.5355318Z       "probe_path": null,
+2026-10-12T02:52:11.5355391Z       "probe_version": null,
+2026-10-12T02:52:11.5355460Z       "probe_sha256": null,
+2026-10-12T02:52:11.5355524Z       "execution_verified": false
+2026-10-12T02:52:11.5355584Z     },
+2026-10-12T02:52:11.5355640Z     {
+2026-10-12T02:52:11.5355704Z       "id": 95,
+2026-10-12T02:52:11.5355765Z       "pillar": 10,
+2026-10-12T02:52:11.5355827Z       "name": "Plotly",
+2026-10-12T02:52:11.5355893Z       "source_hint": null,
+2026-10-12T02:52:11.5355959Z       "source_verified": false,
+2026-10-12T02:52:11.5356022Z       "license_verified": false,
+2026-10-12T02:52:11.5356093Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5356158Z       "probe_scope": null,
+2026-10-12T02:52:11.5356220Z       "probe_path": null,
+2026-10-12T02:52:11.5356286Z       "probe_version": null,
+2026-10-12T02:52:11.5356349Z       "probe_sha256": null,
+2026-10-12T02:52:11.5356419Z       "execution_verified": false
+2026-10-12T02:52:11.5356475Z     },
+2026-10-12T02:52:11.5356527Z     {
+2026-10-12T02:52:11.5356593Z       "id": 96,
+2026-10-12T02:52:11.5356656Z       "pillar": 10,
+2026-10-12T02:52:11.5356715Z       "name": "Rich",
+2026-10-12T02:52:11.5356792Z       "source_hint": "Textualize/rich",
+2026-10-12T02:52:11.5356860Z       "source_verified": false,
+2026-10-12T02:52:11.5356931Z       "license_verified": false,
+2026-10-12T02:52:11.5357001Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5357063Z       "probe_scope": null,
+2026-10-12T02:52:11.5357132Z       "probe_path": null,
+2026-10-12T02:52:11.5357199Z       "probe_version": null,
+2026-10-12T02:52:11.5357259Z       "probe_sha256": null,
+2026-10-12T02:52:11.5357331Z       "execution_verified": false
+2026-10-12T02:52:11.5357389Z     },
+2026-10-12T02:52:11.5357445Z     {
+2026-10-12T02:52:11.5357508Z       "id": 97,
+2026-10-12T02:52:11.5357567Z       "pillar": 10,
+2026-10-12T02:52:11.5357641Z       "name": "LangGraph",
+2026-10-12T02:52:11.5357739Z       "source_hint": "langchain-ai/langgraph",
+2026-10-12T02:52:11.5357809Z       "source_verified": false,
+2026-10-12T02:52:11.5357882Z       "license_verified": false,
+2026-10-12T02:52:11.5357954Z       "probe_status": "FOUND",
+2026-10-12T02:52:11.5358035Z       "probe_scope": "Python import probe",
+2026-10-12T02:52:11.5358307Z       "probe_path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\langgraph\\graph\\__init__.py",
+2026-10-12T02:52:11.5358378Z       "probe_version": null,
+2026-10-12T02:52:11.5358444Z       "probe_sha256": null,
+2026-10-12T02:52:11.5358519Z       "execution_verified": false
+2026-10-12T02:52:11.5358574Z     },
+2026-10-12T02:52:11.5358638Z     {
+2026-10-12T02:52:11.5358701Z       "id": 98,
+2026-10-12T02:52:11.5358759Z       "pillar": 10,
+2026-10-12T02:52:11.5358829Z       "name": "HDF5 / h5py",
+2026-10-12T02:52:11.5358896Z       "source_hint": null,
+2026-10-12T02:52:11.5358961Z       "source_verified": false,
+2026-10-12T02:52:11.5359035Z       "license_verified": false,
+2026-10-12T02:52:11.5359186Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5359260Z       "probe_scope": null,
+2026-10-12T02:52:11.5359327Z       "probe_path": null,
+2026-10-12T02:52:11.5359389Z       "probe_version": null,
+2026-10-12T02:52:11.5359459Z       "probe_sha256": null,
+2026-10-12T02:52:11.5359597Z       "execution_verified": false
+2026-10-12T02:52:11.5359655Z     },
+2026-10-12T02:52:11.5359715Z     {
+2026-10-12T02:52:11.5359772Z       "id": 99,
+2026-10-12T02:52:11.5359841Z       "pillar": 10,
+2026-10-12T02:52:11.5359910Z       "name": "Zarr",
+2026-10-12T02:52:11.5359974Z       "source_hint": null,
+2026-10-12T02:52:11.5360051Z       "source_verified": false,
+2026-10-12T02:52:11.5360126Z       "license_verified": false,
+2026-10-12T02:52:11.5360197Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5360265Z       "probe_scope": null,
+2026-10-12T02:52:11.5360334Z       "probe_path": null,
+2026-10-12T02:52:11.5360402Z       "probe_version": null,
+2026-10-12T02:52:11.5360470Z       "probe_sha256": null,
+2026-10-12T02:52:11.5360544Z       "execution_verified": false
+2026-10-12T02:52:11.5360606Z     },
+2026-10-12T02:52:11.5360666Z     {
+2026-10-12T02:52:11.5360723Z       "id": 100,
+2026-10-12T02:52:11.5360788Z       "pillar": 10,
+2026-10-12T02:52:11.5360858Z       "name": "Netron",
+2026-10-12T02:52:11.5360939Z       "source_hint": "lutzroeder/netron",
+2026-10-12T02:52:11.5361011Z       "source_verified": false,
+2026-10-12T02:52:11.5361079Z       "license_verified": false,
+2026-10-12T02:52:11.5361160Z       "probe_status": "NOT_PROBED",
+2026-10-12T02:52:11.5361582Z       "probe_scope": null,
+2026-10-12T02:52:11.5361726Z       "probe_path": null,
+2026-10-12T02:52:11.5361803Z       "probe_version": null,
+2026-10-12T02:52:11.5361872Z       "probe_sha256": null,
+2026-10-12T02:52:11.5361945Z       "execution_verified": false
+2026-10-12T02:52:11.5362007Z     }
+2026-10-12T02:52:11.5362098Z   ],
+2026-10-12T02:52:11.5362195Z   "capabilities": {
+2026-10-12T02:52:11.5362299Z     "Layout generation": {
+2026-10-12T02:52:11.5362394Z       "state": "READY",
+2026-10-12T02:52:11.5362481Z       "support_state": "CORE_TESTED"
+2026-10-12T02:52:11.5362583Z     },
+2026-10-12T02:52:11.5362691Z     "KLayout verification": {
+2026-10-12T02:52:11.5362775Z       "state": "READY",
+2026-10-12T02:52:11.5362852Z       "support_state": "CORE_TESTED"
+2026-10-12T02:52:11.5362910Z     },
+2026-10-12T02:52:11.5362976Z     "IDC analytical": {
+2026-10-12T02:52:11.5363035Z       "state": "READY",
+2026-10-12T02:52:11.5363106Z       "support_state": "CORE_TESTED"
+2026-10-12T02:52:11.5363164Z     },
+2026-10-12T02:52:11.5363220Z     "IDC BEM": {
+2026-10-12T02:52:11.5363306Z       "state": "BLOCKED_SOLVER_ABSENT",
+2026-10-12T02:52:11.5363380Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5363436Z     },
+2026-10-12T02:52:11.5363507Z     "CPW full-wave": {
+2026-10-12T02:52:11.5363596Z       "state": "BLOCKED_STACK_INCOMPLETE",
+2026-10-12T02:52:11.5363662Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5363726Z     },
+2026-10-12T02:52:11.5363792Z     "Spiral PEEC": {
+2026-10-12T02:52:11.5363870Z       "state": "BLOCKED_SOLVER_ABSENT",
+2026-10-12T02:52:11.5363940Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5363993Z     },
+2026-10-12T02:52:11.5364062Z     "Resonator FEM": {
+2026-10-12T02:52:11.5364139Z       "state": "BLOCKED_STACK_INCOMPLETE",
+2026-10-12T02:52:11.5364202Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5364262Z     },
+2026-10-12T02:52:11.5364597Z     "JJ transient": {
+2026-10-12T02:52:11.5364693Z       "state": "BLOCKED_SOLVER_ABSENT",
+2026-10-12T02:52:11.5364766Z       "support_state": "UNTESTED"
+2026-10-12T02:52:11.5364820Z     }
+2026-10-12T02:52:11.5364882Z   },
+2026-10-12T02:52:11.5364947Z   "system": {
+2026-10-12T02:52:11.5365008Z     "os": "Windows",
+2026-10-12T02:52:11.5365075Z     "os_release": "10",
+2026-10-12T02:52:11.5365139Z     "architecture": "AMD64",
+2026-10-12T02:52:11.5365209Z     "python": "3.11.9",
+2026-10-12T02:52:11.5365476Z     "package_commit": "db75ddd18e6658211ecb324b8593760570da8b46",
+2026-10-12T02:52:11.5365551Z     "package_version": "0.3.1",
+2026-10-12T02:52:11.5365671Z     "filesystem": "D:\\a\\Text-to-Layout\\Text-to-Layout",
+2026-10-12T02:52:11.5365732Z     "wsl": {
+2026-10-12T02:52:11.5365867Z       "detected": false,
+2026-10-12T02:52:11.5365934Z       "version": null,
+2026-10-12T02:52:11.5366002Z       "distro": null,
+2026-10-12T02:52:11.5366070Z       "filesystem_warning": null
+2026-10-12T02:52:11.5366128Z     }
+2026-10-12T02:52:11.5366183Z   },
+2026-10-12T02:52:11.5366258Z   "physics_capabilities": {
+2026-10-12T02:52:11.5366343Z     "IDC electrostatics": "NOT_INSTALLED",
+2026-10-12T02:52:11.5366411Z     "CPW FDTD": "INCOMPLETE",
+2026-10-12T02:52:11.5366490Z     "Spiral PEEC": "NOT_INSTALLED",
+2026-10-12T02:52:11.5366569Z     "Eigenmode FEM": "INCOMPLETE",
+2026-10-12T02:52:11.5366647Z     "Josephson transient": "NOT_INSTALLED",
+2026-10-12T02:52:11.5366742Z     "Josephson harmonic balance": "NOT_INSTALLED"
+2026-10-12T02:52:11.5366802Z   },
+2026-10-12T02:52:11.5366860Z   "checks": [
+2026-10-12T02:52:11.5366918Z     {
+2026-10-12T02:52:11.5366982Z       "name": "Python",
+2026-10-12T02:52:11.5367050Z       "status": "FOUND",
+2026-10-12T02:52:11.5367133Z       "detail": "3.11.9 (requires >= 3.11)",
+2026-10-12T02:52:11.5367194Z       "required": true,
+2026-10-12T02:52:11.5367263Z       "section": "Core",
+2026-10-12T02:52:11.5367332Z       "path": null,
+2026-10-12T02:52:11.5367393Z       "version": "3.11.9",
+2026-10-12T02:52:11.5367465Z       "backend_type": "runtime",
+2026-10-12T02:52:11.5367529Z       "capabilities": [],
+2026-10-12T02:52:11.5367601Z       "smoke_test": "passed",
+2026-10-12T02:52:11.5367671Z       "executable_sha256": null
+2026-10-12T02:52:11.5367723Z     },
+2026-10-12T02:52:11.5367783Z     {
+2026-10-12T02:52:11.5367851Z       "name": "textlayout",
+2026-10-12T02:52:11.5367911Z       "status": "FOUND",
+2026-10-12T02:52:11.5367985Z       "detail": "textlayout 0.3.1",
+2026-10-12T02:52:11.5368044Z       "required": true,
+2026-10-12T02:52:11.5368115Z       "section": "Core",
+2026-10-12T02:52:11.5368284Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\__init__.py",
+2026-10-12T02:52:11.5368344Z       "version": "0.3.1",
+2026-10-12T02:52:11.5368431Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5368499Z       "capabilities": [],
+2026-10-12T02:52:11.5368570Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5368643Z       "executable_sha256": null
+2026-10-12T02:52:11.5368703Z     },
+2026-10-12T02:52:11.5368757Z     {
+2026-10-12T02:52:11.5368828Z       "name": "gdsfactory",
+2026-10-12T02:52:11.5368887Z       "status": "FOUND",
+2026-10-12T02:52:11.5368962Z       "detail": "gdsfactory 9.43.0",
+2026-10-12T02:52:11.5369029Z       "required": true,
+2026-10-12T02:52:11.5369090Z       "section": "Core",
+2026-10-12T02:52:11.5369303Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\gdsfactory\\__init__.py",
+2026-10-12T02:52:11.5369370Z       "version": "9.43.0",
+2026-10-12T02:52:11.5369441Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5369510Z       "capabilities": [],
+2026-10-12T02:52:11.5369592Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5369658Z       "executable_sha256": null
+2026-10-12T02:52:11.5369722Z     },
+2026-10-12T02:52:11.5369777Z     {
+2026-10-12T02:52:11.5369848Z       "name": "klayout.db",
+2026-10-12T02:52:11.5369915Z       "status": "FOUND",
+2026-10-12T02:52:11.5369981Z       "detail": "klayout.db 0.30.9",
+2026-10-12T02:52:11.5370052Z       "required": true,
+2026-10-12T02:52:11.5370117Z       "section": "Core",
+2026-10-12T02:52:11.5370322Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\klayout\\db\\__init__.py",
+2026-10-12T02:52:11.5370393Z       "version": "0.30.9",
+2026-10-12T02:52:11.5370471Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5370532Z       "capabilities": [],
+2026-10-12T02:52:11.5370607Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5370746Z       "executable_sha256": null
+2026-10-12T02:52:11.5370810Z     },
+2026-10-12T02:52:11.5370872Z     {
+2026-10-12T02:52:11.5370942Z       "name": "langgraph.graph",
+2026-10-12T02:52:11.5371557Z       "status": "FOUND",
+2026-10-12T02:52:11.5371634Z       "detail": "langgraph.graph",
+2026-10-12T02:52:11.5371696Z       "required": true,
+2026-10-12T02:52:11.5371761Z       "section": "Core",
+2026-10-12T02:52:11.5371989Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\langgraph\\graph\\__init__.py",
+2026-10-12T02:52:11.5372049Z       "version": null,
+2026-10-12T02:52:11.5372128Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5372191Z       "capabilities": [],
+2026-10-12T02:52:11.5372267Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5372337Z       "executable_sha256": null
+2026-10-12T02:52:11.5372391Z     },
+2026-10-12T02:52:11.5372450Z     {
+2026-10-12T02:52:11.5372551Z       "name": "output directory write permission",
+2026-10-12T02:52:11.5372613Z       "status": "FOUND",
+2026-10-12T02:52:11.5372726Z       "detail": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+2026-10-12T02:52:11.5372793Z       "required": true,
+2026-10-12T02:52:11.5372857Z       "section": "Core",
+2026-10-12T02:52:11.5372964Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out",
+2026-10-12T02:52:11.5373026Z       "version": null,
+2026-10-12T02:52:11.5373099Z       "backend_type": "filesystem",
+2026-10-12T02:52:11.5373166Z       "capabilities": [],
+2026-10-12T02:52:11.5373250Z       "smoke_test": "passed: create/write/delete",
+2026-10-12T02:52:11.5373325Z       "executable_sha256": null
+2026-10-12T02:52:11.5373385Z     },
+2026-10-12T02:52:11.5373439Z     {
+2026-10-12T02:52:11.5373511Z       "name": "FasterCap/FastCap",
+2026-10-12T02:52:11.5373573Z       "status": "MISSING",
+2026-10-12T02:52:11.5373993Z       "detail": "FasterCap/FastCap not found. Capacitance solver execution will be skipped. Solver input generation remains available. Physics verification will not be claimed.",
+2026-10-12T02:52:11.5374060Z       "required": false,
+2026-10-12T02:52:11.5374125Z       "section": "Extraction",
+2026-10-12T02:52:11.5374191Z       "path": null,
+2026-10-12T02:52:11.5374260Z       "version": null,
+2026-10-12T02:52:11.5374326Z       "backend_type": "executable",
+2026-10-12T02:52:11.5374392Z       "capabilities": [
+2026-10-12T02:52:11.5374463Z         "IDC electrostatics",
+2026-10-12T02:52:11.5374527Z         "capacitance matrix"
+2026-10-12T02:52:11.5374591Z       ],
+2026-10-12T02:52:11.5374677Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5374742Z       "executable_sha256": null
+2026-10-12T02:52:11.5374802Z     },
+2026-10-12T02:52:11.5374855Z     {
+2026-10-12T02:52:11.5374935Z       "name": "FastHenry/FastHenry2",
+2026-10-12T02:52:11.5375006Z       "status": "MISSING",
+2026-10-12T02:52:11.5375121Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5375190Z       "required": false,
+2026-10-12T02:52:11.5375260Z       "section": "Extraction",
+2026-10-12T02:52:11.5375319Z       "path": null,
+2026-10-12T02:52:11.5375385Z       "version": null,
+2026-10-12T02:52:11.5375454Z       "backend_type": "executable",
+2026-10-12T02:52:11.5375523Z       "capabilities": [
+2026-10-12T02:52:11.5375591Z         "Spiral PEEC",
+2026-10-12T02:52:11.5375653Z         "inductance matrix"
+2026-10-12T02:52:11.5375722Z       ],
+2026-10-12T02:52:11.5375806Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5375870Z       "executable_sha256": null
+2026-10-12T02:52:11.5375931Z     },
+2026-10-12T02:52:11.5375991Z     {
+2026-10-12T02:52:11.5376052Z       "name": "openEMS",
+2026-10-12T02:52:11.5376117Z       "status": "MISSING",
+2026-10-12T02:52:11.5376222Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5376287Z       "required": false,
+2026-10-12T02:52:11.5376356Z       "section": "RF / EM",
+2026-10-12T02:52:11.5376495Z       "path": null,
+2026-10-12T02:52:11.5376565Z       "version": null,
+2026-10-12T02:52:11.5376641Z       "backend_type": "executable",
+2026-10-12T02:52:11.5376705Z       "capabilities": [
+2026-10-12T02:52:11.5376837Z         "CPW FDTD"
+2026-10-12T02:52:11.5376892Z       ],
+2026-10-12T02:52:11.5376980Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5377048Z       "executable_sha256": null
+2026-10-12T02:52:11.5377101Z     },
+2026-10-12T02:52:11.5377159Z     {
+2026-10-12T02:52:11.5377223Z       "name": "CSXCAD",
+2026-10-12T02:52:11.5377285Z       "status": "MISSING",
+2026-10-12T02:52:11.5377395Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5377461Z       "required": false,
+2026-10-12T02:52:11.5377523Z       "section": "RF / EM",
+2026-10-12T02:52:11.5377586Z       "path": null,
+2026-10-12T02:52:11.5377644Z       "version": null,
+2026-10-12T02:52:11.5377715Z       "backend_type": "executable",
+2026-10-12T02:52:11.5377786Z       "capabilities": [
+2026-10-12T02:52:11.5377850Z         "CPW FDTD geometry"
+2026-10-12T02:52:11.5377909Z       ],
+2026-10-12T02:52:11.5377994Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5378061Z       "executable_sha256": null
+2026-10-12T02:52:11.5378118Z     },
+2026-10-12T02:52:11.5378171Z     {
+2026-10-12T02:52:11.5378237Z       "name": "Octave",
+2026-10-12T02:52:11.5378305Z       "status": "MISSING",
+2026-10-12T02:52:11.5378408Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5378473Z       "required": false,
+2026-10-12T02:52:11.5378540Z       "section": "RF / EM",
+2026-10-12T02:52:11.5378598Z       "path": null,
+2026-10-12T02:52:11.5378665Z       "version": null,
+2026-10-12T02:52:11.5378737Z       "backend_type": "executable",
+2026-10-12T02:52:11.5378798Z       "capabilities": [
+2026-10-12T02:52:11.5378865Z         "openEMS frontend"
+2026-10-12T02:52:11.5378917Z       ],
+2026-10-12T02:52:11.5379006Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5379075Z       "executable_sha256": null
+2026-10-12T02:52:11.5379127Z     },
+2026-10-12T02:52:11.5379187Z     {
+2026-10-12T02:52:11.5379266Z       "name": "Octave openEMS path",
+2026-10-12T02:52:11.5379329Z       "status": "FOUND",
+2026-10-12T02:52:11.5380246Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5380313Z       "required": false,
+2026-10-12T02:52:11.5380373Z       "section": "RF / EM",
+2026-10-12T02:52:11.5381274Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5381341Z       "version": null,
+2026-10-12T02:52:11.5381426Z       "backend_type": "interface-directory",
+2026-10-12T02:52:11.5381496Z       "capabilities": [
+2026-10-12T02:52:11.5381558Z         "CPW FDTD"
+2026-10-12T02:52:11.5381611Z       ],
+2026-10-12T02:52:11.5381728Z       "smoke_test": "passed: discovered interface directory",
+2026-10-12T02:52:11.5381799Z       "executable_sha256": null
+2026-10-12T02:52:11.5381851Z     },
+2026-10-12T02:52:11.5381914Z     {
+2026-10-12T02:52:11.5381982Z       "name": "Octave CSXCAD path",
+2026-10-12T02:52:11.5382050Z       "status": "FOUND",
+2026-10-12T02:52:11.5383024Z       "detail": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5383150Z       "required": false,
+2026-10-12T02:52:11.5383212Z       "section": "RF / EM",
+2026-10-12T02:52:11.5384109Z       "path": "wsl:W\u0000i\u0000n\u0000d\u0000o\u0000w\u0000s\u0000 \u0000S\u0000u\u0000b\u0000s\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000f\u0000o\u0000r\u0000 \u0000L\u0000i\u0000n\u0000u\u0000x\u0000 \u0000h\u0000a\u0000s\u0000 \u0000n\u0000o\u0000 \u0000i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000e\u0000d\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000i\u0000o\u0000n\u0000s\u0000.\u0000",
+2026-10-12T02:52:11.5384173Z       "version": null,
+2026-10-12T02:52:11.5384254Z       "backend_type": "interface-directory",
+2026-10-12T02:52:11.5384321Z       "capabilities": [
+2026-10-12T02:52:11.5384382Z         "CPW FDTD"
+2026-10-12T02:52:11.5384683Z       ],
+2026-10-12T02:52:11.5384842Z       "smoke_test": "passed: discovered interface directory",
+2026-10-12T02:52:11.5384907Z       "executable_sha256": null
+2026-10-12T02:52:11.5384967Z     },
+2026-10-12T02:52:11.5385025Z     {
+2026-10-12T02:52:11.5385094Z       "name": "scikit-rf",
+2026-10-12T02:52:11.5385170Z       "status": "MISSING",
+2026-10-12T02:52:11.5385273Z       "detail": "import skrf: No module named 'skrf'",
+2026-10-12T02:52:11.5385336Z       "required": false,
+2026-10-12T02:52:11.5385411Z       "section": "RF / EM",
+2026-10-12T02:52:11.5385471Z       "path": null,
+2026-10-12T02:52:11.5385537Z       "version": null,
+2026-10-12T02:52:11.5385618Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5385681Z       "capabilities": [],
+2026-10-12T02:52:11.5385776Z       "smoke_test": "failed: module not found",
+2026-10-12T02:52:11.5385844Z       "executable_sha256": null
+2026-10-12T02:52:11.5385897Z     },
+2026-10-12T02:52:11.5385959Z     {
+2026-10-12T02:52:11.5386021Z       "name": "Gmsh",
+2026-10-12T02:52:11.5386084Z       "status": "MISSING",
+2026-10-12T02:52:11.5386201Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5386262Z       "required": false,
+2026-10-12T02:52:11.5386337Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5386400Z       "path": null,
+2026-10-12T02:52:11.5386459Z       "version": null,
+2026-10-12T02:52:11.5386538Z       "backend_type": "executable",
+2026-10-12T02:52:11.5386609Z       "capabilities": [
+2026-10-12T02:52:11.5386668Z         "3D meshing"
+2026-10-12T02:52:11.5386728Z       ],
+2026-10-12T02:52:11.5386811Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5386881Z       "executable_sha256": null
+2026-10-12T02:52:11.5386940Z     },
+2026-10-12T02:52:11.5386994Z     {
+2026-10-12T02:52:11.5387062Z       "name": "meshio",
+2026-10-12T02:52:11.5387132Z       "status": "FOUND",
+2026-10-12T02:52:11.5387194Z       "detail": "meshio 5.3.5",
+2026-10-12T02:52:11.5387258Z       "required": false,
+2026-10-12T02:52:11.5387331Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5387536Z       "path": "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Lib\\site-packages\\meshio\\__init__.py",
+2026-10-12T02:52:11.5387605Z       "version": "5.3.5",
+2026-10-12T02:52:11.5387678Z       "backend_type": "python-package",
+2026-10-12T02:52:11.5387748Z       "capabilities": [],
+2026-10-12T02:52:11.5387825Z       "smoke_test": "passed: imported",
+2026-10-12T02:52:11.5387887Z       "executable_sha256": null
+2026-10-12T02:52:11.5387948Z     },
+2026-10-12T02:52:11.5388006Z     {
+2026-10-12T02:52:11.5388066Z       "name": "Palace",
+2026-10-12T02:52:11.5388133Z       "status": "MISSING",
+2026-10-12T02:52:11.5388697Z       "detail": "Palace was not found as an executable, a local SIF with Apptainer/Singularity, or an already-present OCI image. Set TEXTLAYOUT_PALACE, TEXTLAYOUT_PALACE_SIF, or TEXTLAYOUT_PALACE_IMAGE.",
+2026-10-12T02:52:11.5388764Z       "required": false,
+2026-10-12T02:52:11.5388836Z       "section": "3D FEM future",
+2026-10-12T02:52:11.5388963Z       "path": null,
+2026-10-12T02:52:11.5389024Z       "version": null,
+2026-10-12T02:52:11.5389123Z       "backend_type": "executable-or-container",
+2026-10-12T02:52:11.5389186Z       "capabilities": [
+2026-10-12T02:52:11.5389251Z         "Eigenmode FEM"
+2026-10-12T02:52:11.5389310Z       ],
+2026-10-12T02:52:11.5389389Z       "smoke_test": "not run: backend missing",
+2026-10-12T02:52:11.5389460Z       "executable_sha256": null
+2026-10-12T02:52:11.5389518Z     },
+2026-10-12T02:52:11.5389572Z     {
+2026-10-12T02:52:11.5389638Z       "name": "JoSIM",
+2026-10-12T02:52:11.5389700Z       "status": "MISSING",
+2026-10-12T02:52:11.5389818Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5389883Z       "required": false,
+2026-10-12T02:52:11.5389947Z       "section": "Circuit",
+2026-10-12T02:52:11.5390009Z       "path": null,
+2026-10-12T02:52:11.5390074Z       "version": null,
+2026-10-12T02:52:11.5390140Z       "backend_type": "executable",
+2026-10-12T02:52:11.5390210Z       "capabilities": [
+2026-10-12T02:52:11.5390283Z         "Josephson transient"
+2026-10-12T02:52:11.5390338Z       ],
+2026-10-12T02:52:11.5390427Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5390493Z       "executable_sha256": null
+2026-10-12T02:52:11.5390550Z     },
+2026-10-12T02:52:11.5390613Z     {
+2026-10-12T02:52:11.5390683Z       "name": "WRspice / ngspice",
+2026-10-12T02:52:11.5390752Z       "status": "MISSING",
+2026-10-12T02:52:11.5390864Z       "detail": "not found; execution will be skipped honestly",
+2026-10-12T02:52:11.5390924Z       "required": false,
+2026-10-12T02:52:11.5390991Z       "section": "Circuit",
+2026-10-12T02:52:11.5391049Z       "path": null,
+2026-10-12T02:52:11.5391116Z       "version": null,
+2026-10-12T02:52:11.5391189Z       "backend_type": "executable",
+2026-10-12T02:52:11.5391250Z       "capabilities": [
+2026-10-12T02:52:11.5391334Z         "Josephson harmonic balance",
+2026-10-12T02:52:11.5391404Z         "SPICE transient"
+2026-10-12T02:52:11.5391456Z       ],
+2026-10-12T02:52:11.5391543Z       "smoke_test": "not run: executable missing",
+2026-10-12T02:52:11.5391616Z       "executable_sha256": null
+2026-10-12T02:52:11.5391669Z     }
+2026-10-12T02:52:11.5391727Z   ]
+2026-10-12T02:52:11.5391807Z }
+2026-10-12T02:52:12.0832649Z ##[group]Run uv run python scripts/validate_readme_claims.py
+2026-10-12T02:52:12.0833080Z [36;1muv run python scripts/validate_readme_claims.py[0m
+2026-10-12T02:52:12.0889914Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:52:12.0890200Z env:
+2026-10-12T02:52:12.0890386Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:52:12.0890624Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:52:12.0890830Z   UV_PYTHON: 3.11
+2026-10-12T02:52:12.0891037Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:52:12.0891290Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:52:12.0891499Z ##[endgroup]
+2026-10-12T02:52:13.2810011Z README claim validation passed: every support claim is backed by artifacts.
+2026-10-12T02:52:13.3998365Z ##[group]Run uv run python scripts/check_namespace_boundary.py --check
+2026-10-12T02:52:13.3998845Z [36;1muv run python scripts/check_namespace_boundary.py --check[0m
+2026-10-12T02:52:13.4055365Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:52:13.4055698Z env:
+2026-10-12T02:52:13.4055882Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:52:13.4056133Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:52:13.4056338Z   UV_PYTHON: 3.11
+2026-10-12T02:52:13.4056544Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:52:13.4056796Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:52:13.4057157Z ##[endgroup]
+2026-10-12T02:52:14.7034909Z namespace boundary OK: textlayout imports no legacy code; legacy package frozen.
+2026-10-12T02:52:14.8080810Z ##[group]Run uv run ruff check .
+2026-10-12T02:52:14.8081324Z [36;1muv run ruff check .[0m
+2026-10-12T02:52:14.8137099Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:52:14.8137391Z env:
+2026-10-12T02:52:14.8137571Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:52:14.8137805Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:52:14.8138005Z   UV_PYTHON: 3.11
+2026-10-12T02:52:14.8138207Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:52:14.8138454Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:52:14.8138660Z ##[endgroup]
+2026-10-12T02:52:15.2661511Z All checks passed!
+2026-10-12T02:52:15.3674192Z ##[group]Run uv run mypy
+2026-10-12T02:52:15.3674467Z [36;1muv run mypy[0m
+2026-10-12T02:52:15.3730868Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:52:15.3731171Z env:
+2026-10-12T02:52:15.3731359Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:52:15.3731600Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:52:15.3731825Z   UV_PYTHON: 3.11
+2026-10-12T02:52:15.3732043Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:52:15.3732301Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:52:15.3732517Z ##[endgroup]
+2026-10-12T02:52:36.8624897Z Success: no issues found in 198 source files
+2026-10-12T02:52:37.0023565Z ##[group]Run uv run pytest --basetemp "D:\a\_temp/textlayout-pytest"
+2026-10-12T02:52:37.0024032Z [36;1muv run pytest --basetemp "D:\a\_temp/textlayout-pytest"[0m
+2026-10-12T02:52:37.0081166Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-12T02:52:37.0081455Z env:
+2026-10-12T02:52:37.0081637Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:52:37.0081873Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:52:37.0082077Z   UV_PYTHON: 3.11
+2026-10-12T02:52:37.0082279Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:52:37.0082528Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:52:37.0082730Z ##[endgroup]
+2026-10-12T02:52:47.5421315Z ============================= test session starts =============================
+2026-10-12T02:52:47.5421918Z platform win32 -- Python 3.11.9, pytest-9.0.3, pluggy-1.6.0
+2026-10-12T02:52:47.5422382Z rootdir: D:\a\Text-to-Layout\Text-to-Layout
+2026-10-12T02:52:47.5422887Z configfile: pyproject.toml
+2026-10-12T02:52:47.5423182Z testpaths: tests
+2026-10-12T02:52:47.5423472Z plugins: anyio-4.13.0, langsmith-0.9.7, cov-7.1.0
+2026-10-12T02:52:47.5423835Z collected 2174 items
+2026-10-12T02:52:47.5424000Z 
+2026-10-12T02:52:47.5503052Z tests\test_ai_copilot.py ...........                                     [  0%]
+2026-10-12T02:52:47.8364692Z tests\test_backend_orchestration.py .....                                [  0%]
+2026-10-12T02:52:48.1018267Z tests\test_candidate_loop.py ............                                [  1%]
+2026-10-12T02:52:48.7690407Z tests\test_closed_loop.py .......                                        [  1%]
+2026-10-12T02:52:48.8087614Z tests\test_cpw_boolean_gap.py ....                                       [  1%]
+2026-10-12T02:52:48.8309196Z tests\test_cpw_matches_reference.py ..                                   [  1%]
+2026-10-12T02:52:49.4949484Z tests\test_device_views.py ...                                           [  2%]
+2026-10-12T02:52:49.5916187Z tests\test_eda_framework_architecture.py .......                         [  2%]
+2026-10-12T02:52:49.7860545Z tests\test_em_solvers.py ...                                             [  2%]
+2026-10-12T02:52:49.8834787Z tests\test_fitting.py ...                                                [  2%]
+2026-10-12T02:52:49.9708531Z tests\test_fourth_wave.py ........................                       [  3%]
+2026-10-12T02:52:50.0417856Z tests\test_improvements.py ......                                        [  4%]
+2026-10-12T02:52:50.0552222Z tests\test_jj_boolean_overlap.py ...                                     [  4%]
+2026-10-12T02:52:50.0584465Z tests\test_jj_stack_matches_reference.py ..                              [  4%]
+2026-10-12T02:52:50.0666662Z tests\test_jpa_matches_literature.py ..                                  [  4%]
+2026-10-12T02:52:50.1159766Z tests\test_jpa_topology.py ......                                        [  4%]
+2026-10-12T02:52:50.1218803Z tests\test_layout_backend.py ......                                      [  4%]
+2026-10-12T02:52:50.1522368Z tests\test_layout_quality_modes.py .......                               [  5%]
+2026-10-12T02:52:50.4485693Z tests\test_layout_validator.py ......................................... [  7%]
+2026-10-12T02:52:50.4763825Z ...                                                                      [  7%]
+2026-10-12T02:52:50.7217712Z tests\test_new_modules.py ...................................            [  8%]
+2026-10-12T02:52:51.0356201Z tests\test_next_improvements.py .......                                  [  9%]
+2026-10-12T02:52:51.0403526Z tests\test_no_fake_gain.py .......                                       [  9%]
+2026-10-12T02:52:51.0578881Z tests\test_no_toy_layouts.py .....                                       [  9%]
+2026-10-12T02:52:51.1053334Z tests\test_open_solver.py ...........                                    [ 10%]
+2026-10-12T02:52:51.1517653Z tests\test_openems_real_s2p.py .......                                   [ 10%]
+2026-10-12T02:52:51.1864943Z tests\test_opensource_em.py ....                                         [ 10%]
+2026-10-12T02:52:51.3036213Z tests\test_packaging.py ....                                             [ 10%]
+2026-10-12T02:52:51.3534646Z tests\test_paper_benchmarks.py .                                         [ 10%]
+2026-10-12T02:52:51.4219785Z tests\test_pdk.py .....                                                  [ 11%]
+2026-10-12T02:52:51.5033265Z tests\test_phase1_phase2.py ............                                 [ 11%]
+2026-10-12T02:52:51.6197076Z tests\test_phase456.py ..........                                        [ 12%]
+2026-10-12T02:52:51.6242591Z tests\test_phase8_foundations.py ....                                    [ 12%]
+2026-10-12T02:52:51.6260550Z tests\test_phase8_operations.py ..                                       [ 12%]
+2026-10-12T02:52:51.6623544Z tests\test_phases_1_10.py ...............................                [ 13%]
+2026-10-12T02:52:51.7067172Z tests\test_physics_benchmark.py .......................                  [ 14%]
+2026-10-12T02:52:51.7198820Z tests\test_physics_compiler.py ....................                      [ 15%]
+2026-10-12T02:52:51.7509471Z tests\test_physics_compiler_loop.py ......                               [ 16%]
+2026-10-12T02:52:51.8175565Z tests\test_physics_engine.py ........................................... [ 18%]
+2026-10-12T02:52:51.8971569Z .........s..                                                             [ 18%]
+2026-10-12T02:52:52.1684569Z tests\test_physics_first_pipeline.py .................................   [ 20%]
+2026-10-12T02:52:52.1909029Z tests\test_physics_grounded_compiler_contract.py .....                   [ 20%]
+2026-10-12T02:52:52.1930491Z tests\test_physics_provenance.py ...                                     [ 20%]
+2026-10-12T02:52:52.2204031Z tests\test_pyaedt_bridge.py ...                                          [ 20%]
+2026-10-12T02:52:52.2514567Z tests\test_quantum_eda_platform.py ..................................... [ 22%]
+2026-10-12T02:52:52.2527530Z .                                                                        [ 22%]
+2026-10-12T02:52:52.2586103Z tests\test_readiness.py ..                                               [ 22%]
+2026-10-12T02:52:52.2801714Z tests\test_report_visual_quality.py ...                                  [ 22%]
+2026-10-12T02:52:52.3155326Z tests\test_research_execution.py sssss.ss                                [ 23%]
+2026-10-12T02:52:52.5414455Z tests\test_research_quality_goal.py .......                              [ 23%]
+2026-10-12T02:52:52.5504152Z tests\test_review_committee.py .............                             [ 23%]
+2026-10-12T02:52:52.5855547Z tests\test_review_coverage.py ........                                   [ 24%]
+2026-10-12T02:52:52.7742738Z tests\test_signoff.py ......                                             [ 24%]
+2026-10-12T02:52:52.7883259Z tests\test_signoff_contract.py .......                                   [ 24%]
+2026-10-12T02:53:01.0552291Z tests\test_smoke.py ................                                     [ 25%]
+2026-10-12T02:54:27.6060620Z tests\test_solver_adapters.py ....                                       [ 25%]
+2026-10-12T02:54:28.6089676Z tests\test_solver_artifacts_required.py .......                          [ 26%]
+2026-10-12T02:54:28.6152117Z tests\test_solver_evidence.py .......                                    [ 26%]
+2026-10-12T02:54:28.6180560Z tests\test_solver_truthfulness.py ....                                   [ 26%]
+2026-10-12T02:54:28.6661752Z tests\test_sop_qa.py ................................................    [ 28%]
+2026-10-12T02:54:29.3695775Z tests\test_superconducting_eda_compiler.py .......                       [ 29%]
+2026-10-12T02:54:29.4669950Z tests\test_superconductivity.py ....                                     [ 29%]
+2026-10-12T02:54:29.4759288Z tests\test_third_wave.py ......                                          [ 29%]
+2026-10-12T02:54:29.4849671Z tests\test_transmon_matches_literature.py ..                             [ 29%]
+2026-10-12T02:54:29.5235876Z tests\test_transmon_topology.py .....                                    [ 29%]
+2026-10-12T02:54:29.5570981Z tests\test_visual_credibility.py .......                                 [ 30%]
+2026-10-12T02:54:29.8699672Z tests\textlayout_suite\test_acceptance.py ..............                 [ 30%]
+2026-10-12T02:54:31.7695167Z tests\textlayout_suite\test_acceptance_physics.py ............           [ 31%]
+2026-10-12T02:54:32.4875049Z tests\textlayout_suite\test_api.py ............                          [ 32%]
+2026-10-12T02:54:32.9728725Z tests\textlayout_suite\test_api_from_text.py ..                          [ 32%]
+2026-10-12T02:54:44.9754424Z tests\textlayout_suite\test_audit_artifacts.py ......................... [ 33%]
+2026-10-12T02:54:45.0530067Z ..........                                                               [ 33%]
+2026-10-12T02:54:45.1237663Z tests\textlayout_suite\test_benchmark_structure.py ....                  [ 33%]
+2026-10-12T02:54:45.1802347Z tests\textlayout_suite\test_canonical_evidence.py ...................... [ 34%]
+2026-10-12T02:54:45.2313750Z .....................                                                    [ 35%]
+2026-10-12T02:54:51.5530786Z tests\textlayout_suite\test_chip_40q_showcase.py ........                [ 36%]
+2026-10-12T02:54:53.5607044Z tests\textlayout_suite\test_chip_lattice.py ..........................   [ 37%]
+2026-10-12T02:54:53.5846460Z tests\textlayout_suite\test_ci_platform_matrix.py ....                   [ 37%]
+2026-10-12T02:54:53.5951302Z tests\textlayout_suite\test_circuitq_lc_gate.py .............            [ 38%]
+2026-10-12T02:54:53.6296805Z tests\textlayout_suite\test_circuitq_product.py ...........              [ 38%]
+2026-10-12T02:54:53.6461772Z tests\textlayout_suite\test_convergence_order.py ....................... [ 39%]
+2026-10-12T02:54:53.6565995Z ..............                                                           [ 40%]
+2026-10-12T02:54:53.6632343Z tests\textlayout_suite\test_cpw_generator.py ....                        [ 40%]
+2026-10-12T02:54:53.6832433Z tests\textlayout_suite\test_cpw_model_selection.py s.                    [ 40%]
+2026-10-12T02:54:53.7026996Z tests\textlayout_suite\test_cpw_research_provenance.py s.                [ 40%]
+2026-10-12T02:54:57.5553691Z tests\textlayout_suite\test_doctor_and_dependencies.py .........         [ 41%]
+2026-10-12T02:54:57.5588036Z tests\textlayout_suite\test_document_authority.py ...                    [ 41%]
+2026-10-12T02:54:57.5626149Z tests\textlayout_suite\test_dsl.py .....                                 [ 41%]
+2026-10-12T02:54:58.0159166Z tests\textlayout_suite\test_epr_coherence.py ......................      [ 42%]
+2026-10-12T02:54:58.1999799Z tests\textlayout_suite\test_epr_pdk_provenance.py ............           [ 43%]
+2026-10-12T02:54:58.3028262Z tests\textlayout_suite\test_evidence_consistency.py .................... [ 44%]
+2026-10-12T02:55:00.2080940Z .............                                                            [ 44%]
+2026-10-12T02:55:00.2513788Z tests\textlayout_suite\test_evidence_contract.py ..................      [ 45%]
+2026-10-12T02:55:00.2728237Z tests\textlayout_suite\test_evidence_transitions.py .................... [ 46%]
+2026-10-12T02:55:00.3393822Z ........................................................................ [ 49%]
+2026-10-12T02:55:00.4290109Z ...................................................................      [ 52%]
+2026-10-12T02:55:00.4365957Z tests\textlayout_suite\test_exporters.py ....                            [ 53%]
+2026-10-12T02:55:01.1546184Z tests\textlayout_suite\test_extended_generators.py ........              [ 53%]
+2026-10-12T02:55:01.9271772Z tests\textlayout_suite\test_external_tool_registry.py ......             [ 53%]
+2026-10-12T02:55:01.9789090Z tests\textlayout_suite\test_fabrication_gate.py ..........               [ 54%]
+2026-10-12T02:55:03.5639721Z tests\textlayout_suite\test_fastercap_execution.py ........              [ 54%]
+2026-10-12T02:55:03.6378344Z tests\textlayout_suite\test_fasthenry_units.py .s                        [ 54%]
+2026-10-12T02:55:03.6666879Z tests\textlayout_suite\test_fem_model.py ............................    [ 55%]
+2026-10-12T02:55:05.0233283Z tests\textlayout_suite\test_from_text_workflow.py ......                 [ 56%]
+2026-10-12T02:55:05.0411726Z tests\textlayout_suite\test_gds_export.py ...                            [ 56%]
+2026-10-12T02:55:05.1926253Z tests\textlayout_suite\test_generate_workflow.py ......                  [ 56%]
+2026-10-12T02:55:05.2267149Z tests\textlayout_suite\test_geometry_engine.py ....                      [ 56%]
+2026-10-12T02:55:05.2282994Z tests\textlayout_suite\test_gmsh_runtime.py .                            [ 56%]
+2026-10-12T02:55:05.2464833Z tests\textlayout_suite\test_golden_cpw.py .                              [ 56%]
+2026-10-12T02:55:05.2509012Z tests\textlayout_suite\test_idc_generator.py .....                       [ 57%]
+2026-10-12T02:55:05.2572837Z tests\textlayout_suite\test_idc_optimization.py ........                 [ 57%]
+2026-10-12T02:55:05.7718465Z tests\textlayout_suite\test_integration_catalog.py ..                    [ 57%]
+2026-10-12T02:55:32.7508918Z tests\textlayout_suite\test_jobs.py F......                              [ 57%]
+2026-10-12T02:55:32.8261992Z tests\textlayout_suite\test_josim_adapter.py .........                   [ 58%]
+2026-10-12T02:55:33.0347456Z tests\textlayout_suite\test_josim_idc.py ....                            [ 58%]
+2026-10-12T02:55:33.7228775Z tests\textlayout_suite\test_jpa_mvp.py ...                               [ 58%]
+2026-10-12T02:55:33.8173279Z tests\textlayout_suite\test_klayout_drc.py ............................. [ 59%]
+2026-10-12T02:55:33.9230230Z .......                                                                  [ 60%]
+2026-10-12T02:55:33.9497556Z tests\textlayout_suite\test_kqcircuits_product.py .............          [ 60%]
+2026-10-12T02:55:34.0244075Z tests\textlayout_suite\test_measurement.py ............................. [ 62%]
+2026-10-12T02:55:34.0272590Z ..                                                                       [ 62%]
+2026-10-12T02:55:34.1137540Z tests\textlayout_suite\test_mesh_convergence.py ........................ [ 63%]
+2026-10-12T02:55:34.1370291Z ....                                                                     [ 63%]
+2026-10-12T02:55:34.1623532Z tests\textlayout_suite\test_mode_tracking.py ........................... [ 64%]
+2026-10-12T02:55:34.1748110Z ..                                                                       [ 64%]
+2026-10-12T02:55:34.2657293Z tests\textlayout_suite\test_multi_device_generators.py .......           [ 65%]
+2026-10-12T02:55:34.4187742Z tests\textlayout_suite\test_multi_sim_prompt.py ..                       [ 65%]
+2026-10-12T02:55:36.2623909Z tests\textlayout_suite\test_namespace_boundary.py ...............        [ 66%]
+2026-10-12T02:55:36.2690652Z tests\textlayout_suite\test_oci_stack.py ...                             [ 66%]
+2026-10-12T02:55:37.1331840Z tests\textlayout_suite\test_open_source_simulation.py .....              [ 66%]
+2026-10-12T02:55:37.1464483Z tests\textlayout_suite\test_openems_evidence.py ........                 [ 66%]
+2026-10-12T02:55:37.6748993Z tests\textlayout_suite\test_palace_amr_verification.py .........         [ 67%]
+2026-10-12T02:55:37.7059081Z tests\textlayout_suite\test_palace_artifact_contracts.py ...             [ 67%]
+2026-10-12T02:55:37.7196258Z tests\textlayout_suite\test_palace_atomic_stages.py ...                  [ 67%]
+2026-10-12T02:55:39.9165632Z tests\textlayout_suite\test_palace_backend.py .......................... [ 68%]
+2026-10-12T02:55:39.9291141Z .....                                                                    [ 68%]
+2026-10-12T02:55:40.5770677Z tests\textlayout_suite\test_palace_benchmark_evidence.py ............... [ 69%]
+2026-10-12T02:55:40.5859186Z ........                                                                 [ 69%]
+2026-10-12T02:55:41.1391373Z tests\textlayout_suite\test_palace_benchmark_v017.py .................   [ 70%]
+2026-10-12T02:55:41.1461750Z tests\textlayout_suite\test_palace_bounded_amr_policy.py .........       [ 71%]
+2026-10-12T02:55:41.3291883Z tests\textlayout_suite\test_palace_ci_observer.py ....ss..s              [ 71%]
+2026-10-12T02:55:41.3846855Z tests\textlayout_suite\test_palace_cross_amr_fixture.py ..               [ 71%]
+2026-10-12T02:55:41.3947036Z tests\textlayout_suite\test_palace_diagnostic.py ....                    [ 71%]
+2026-10-12T02:55:41.4417163Z tests\textlayout_suite\test_palace_energy_weighted_mac.py ........       [ 72%]
+2026-10-12T02:55:41.4543374Z tests\textlayout_suite\test_palace_field_mac.py ..                       [ 72%]
+2026-10-12T02:55:41.5864382Z tests\textlayout_suite\test_palace_field_retention.py .........          [ 72%]
+2026-10-12T02:55:41.5902670Z tests\textlayout_suite\test_palace_global_assignment.py ....             [ 72%]
+2026-10-12T02:55:42.3302479Z tests\textlayout_suite\test_palace_higher_order_vtk.py ..                [ 72%]
+2026-10-12T02:55:42.5853015Z tests\textlayout_suite\test_palace_installation.py ..s...........        [ 73%]
+2026-10-12T02:55:42.5898821Z tests\textlayout_suite\test_palace_mac_applicability.py ......           [ 73%]
+2026-10-12T02:55:42.5948789Z tests\textlayout_suite\test_palace_material_overlap.py ...               [ 74%]
+2026-10-12T02:55:42.6044110Z tests\textlayout_suite\test_palace_mode_classification.py .....          [ 74%]
+2026-10-12T02:55:42.6413888Z tests\textlayout_suite\test_palace_model_audit.py ...                    [ 74%]
+2026-10-12T02:55:42.6578712Z tests\textlayout_suite\test_palace_mpi_integration.py ..                 [ 74%]
+2026-10-12T02:55:42.6650002Z tests\textlayout_suite\test_palace_p2_manufactured.py ......             [ 74%]
+2026-10-12T02:55:42.6935742Z tests\textlayout_suite\test_palace_preparation.py .                      [ 74%]
+2026-10-12T02:55:42.7079711Z tests\textlayout_suite\test_palace_process_ownership.py ..s...           [ 75%]
+2026-10-12T02:55:42.7237222Z tests\textlayout_suite\test_palace_quarter_wave_sanity.py ............   [ 75%]
+2026-10-12T02:55:42.8292319Z tests\textlayout_suite\test_palace_resource_limits.py ..                 [ 75%]
+2026-10-12T02:55:42.8319870Z tests\textlayout_suite\test_palace_targeted_mesh.py ..                   [ 75%]
+2026-10-12T02:55:42.8441758Z tests\textlayout_suite\test_palace_toolchain.py .....                    [ 76%]
+2026-10-12T02:55:42.8693486Z tests\textlayout_suite\test_palace_toolchain_pins.py ............        [ 76%]
+2026-10-12T02:55:43.3852917Z tests\textlayout_suite\test_palace_vertical_slice.py .............       [ 77%]
+2026-10-12T02:55:43.3920692Z tests\textlayout_suite\test_paraview_toolchain.py .s                     [ 77%]
+2026-10-12T02:55:43.4201265Z tests\textlayout_suite\test_partial_lvs.py ....                          [ 77%]
+2026-10-12T02:55:43.4714149Z tests\textlayout_suite\test_pdk.py ........................              [ 78%]
+2026-10-12T02:55:43.6596779Z tests\textlayout_suite\test_pdk_provenance.py .......................... [ 79%]
+2026-10-12T02:55:43.6601219Z                                                                          [ 79%]
+2026-10-12T02:55:43.6707059Z tests\textlayout_suite\test_platform_certification.py .....              [ 79%]
+2026-10-12T02:55:43.8086398Z tests\textlayout_suite\test_plugin_thin_bundle.py ..............         [ 80%]
+2026-10-12T02:55:43.8103374Z tests\textlayout_suite\test_polygon_drc.py ..                            [ 80%]
+2026-10-12T02:55:43.9156849Z tests\textlayout_suite\test_product_docs.py ............                 [ 81%]
+2026-10-12T02:55:44.0208979Z tests\textlayout_suite\test_project_claims.py ....................       [ 82%]
+2026-10-12T02:55:44.7326023Z tests\textlayout_suite\test_project_status.py ......................     [ 83%]
+2026-10-12T02:55:44.7432801Z tests\textlayout_suite\test_prompt_numeric_conditioning.py ............  [ 83%]
+2026-10-12T02:55:44.7542615Z tests\textlayout_suite\test_prompt_parsing.py .............              [ 84%]
+2026-10-12T02:55:44.9103950Z tests\textlayout_suite\test_pscan2_adapter.py ......                     [ 84%]
+2026-10-12T02:55:44.9398064Z tests\textlayout_suite\test_public_reference.py ........                 [ 85%]
+2026-10-12T02:55:44.9500444Z tests\textlayout_suite\test_pyepr_benchmark_gate.py .............        [ 85%]
+2026-10-12T02:55:44.9882086Z tests\textlayout_suite\test_pyepr_product.py ...........                 [ 86%]
+2026-10-12T02:55:45.0100682Z tests\textlayout_suite\test_quantum_metal_mask_gate.py .....             [ 86%]
+2026-10-12T02:55:45.0435932Z tests\textlayout_suite\test_quantum_metal_product.py ................    [ 87%]
+2026-10-12T02:55:59.1410457Z tests\textlayout_suite\test_readme_claims.py .................           [ 87%]
+2026-10-12T02:55:59.7825295Z tests\textlayout_suite\test_real_cqed_loop_demo.py .......               [ 88%]
+2026-10-12T02:55:59.8440962Z tests\textlayout_suite\test_reference_gds.py ......                      [ 88%]
+2026-10-12T02:55:59.8460205Z tests\textlayout_suite\test_reproduce_policy.py ..                       [ 88%]
+2026-10-12T02:56:02.0200407Z tests\textlayout_suite\test_requirements_workflow.py ................... [ 89%]
+2026-10-12T02:56:03.4173340Z ..                                                                       [ 89%]
+2026-10-12T02:56:03.4231167Z tests\textlayout_suite\test_resource_sampler.py ........                 [ 89%]
+2026-10-12T02:56:03.4418948Z tests\textlayout_suite\test_scqubits_benchmark.py ............           [ 90%]
+2026-10-12T02:56:03.4658457Z tests\textlayout_suite\test_scqubits_product.py s.......                 [ 90%]
+2026-10-12T02:56:03.4747552Z tests\textlayout_suite\test_scqubits_si_conversion.py ..ss               [ 90%]
+2026-10-12T02:56:03.4978320Z tests\textlayout_suite\test_showcase_examples.py ....................... [ 92%]
+2026-10-12T02:56:04.3867173Z ............                                                             [ 92%]
+2026-10-12T02:56:04.4076159Z tests\textlayout_suite\test_simulation_postprocess.py .....              [ 92%]
+2026-10-12T02:56:04.4636038Z tests\textlayout_suite\test_simulator_bootstrap.py ....................  [ 93%]
+2026-10-12T02:56:05.2743697Z tests\textlayout_suite\test_solver_execution.py ..................       [ 94%]
+2026-10-12T02:56:05.2782874Z tests\textlayout_suite\test_solver_path_resolution.py .s                 [ 94%]
+2026-10-12T02:56:05.2909087Z tests\textlayout_suite\test_solver_timeout_logs.py ....                  [ 94%]
+2026-10-12T02:56:05.3145318Z tests\textlayout_suite\test_sparameters.py .......                       [ 95%]
+2026-10-12T02:56:05.3338776Z tests\textlayout_suite\test_sqcircuit_assessment.py ...........          [ 95%]
+2026-10-12T02:56:05.3516106Z tests\textlayout_suite\test_sqcircuit_lc.py .............                [ 96%]
+2026-10-12T02:56:05.4046418Z tests\textlayout_suite\test_sqcircuit_runner.py ..........               [ 96%]
+2026-10-12T02:56:05.4202805Z tests\textlayout_suite\test_synthesis_constraints.py ................... [ 97%]
+2026-10-12T02:56:05.6148107Z ...                                                                      [ 97%]
+2026-10-12T02:56:05.6405050Z tests\textlayout_suite\test_touchstone_honesty.py ......                 [ 98%]
+2026-10-12T02:56:05.8377706Z tests\textlayout_suite\test_verification.py ......                       [ 98%]
+2026-10-12T02:56:07.1674623Z tests\textlayout_suite\test_workflow_graph.py .....                      [ 98%]
+2026-10-12T02:56:07.3814270Z tests\textlayout_suite\test_wrspice_adapter.py .....                     [ 98%]
+2026-10-12T02:56:07.3830999Z tests\textlayout_suite\test_wsl_bootstrap.py .s                          [ 98%]
+2026-10-12T02:56:11.4877485Z tests\textlayout_suite\test_yield_model.py .........................     [100%]
+2026-10-12T02:56:11.4877916Z 
+2026-10-12T02:56:11.4878444Z ================================== FAILURES ===================================
+2026-10-12T02:56:11.4879004Z ___________ test_job_start_collect_records_return_code_and_outputs ____________
+2026-10-12T02:56:11.4879383Z 
+2026-10-12T02:56:11.4879644Z tmp_path = WindowsPath('D:/a/_temp/textlayout-pytest/test_job_start_collect_records0')
+2026-10-12T02:56:11.4880022Z 
+2026-10-12T02:56:11.4880377Z     def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> None:
+2026-10-12T02:56:11.4880864Z         work = tmp_path / "work"
+2026-10-12T02:56:11.4881348Z         jobs = tmp_path / "jobs"
+2026-10-12T02:56:11.4881629Z         work.mkdir()
+2026-10-12T02:56:11.4881866Z         command = [
+2026-10-12T02:56:11.4882117Z             sys.executable,
+2026-10-12T02:56:11.4882402Z             "-c",
+2026-10-12T02:56:11.4882846Z             "from pathlib import Path; Path('solver.out').write_text('ok', encoding='utf-8')",
+2026-10-12T02:56:11.4883345Z         ]
+2026-10-12T02:56:11.4883520Z     
+2026-10-12T02:56:11.4883785Z         started = start_job(command, cwd=work, job_root=jobs)
+2026-10-12T02:56:11.4884149Z         assert started.job_id.startswith("job-")
+2026-10-12T02:56:11.4884520Z         assert started.manifest_path.is_file()
+2026-10-12T02:56:11.4884879Z         assert started.environment_path.is_file()
+2026-10-12T02:56:11.4885411Z         environment = json.loads(started.environment_path.read_text(encoding="utf-8"))
+2026-10-12T02:56:11.4886036Z         assert environment["clear"]["TEXTLAYOUT_JOB_ID"] == started.job_id
+2026-10-12T02:56:11.4886631Z         assert environment["clear"]["TEXTLAYOUT_JOB_DIR"] == str(started.job_dir)
+2026-10-12T02:56:11.4887227Z         assert environment["clear"]["TEXTLAYOUT_JOB_ROOT"] == str(jobs.resolve())
+2026-10-12T02:56:11.4887507Z     
+2026-10-12T02:56:11.4887704Z         terminal = _wait_for_terminal(started.job_id, jobs)
+2026-10-12T02:56:11.4887983Z >       assert terminal.status == "completed"
+2026-10-12T02:56:11.4888266Z E       AssertionError: assert 'running' == 'completed'
+2026-10-12T02:56:11.4888516Z E         
+2026-10-12T02:56:11.4888682Z E         - completed
+2026-10-12T02:56:11.4888858Z E         + running
+2026-10-12T02:56:11.4888950Z 
+2026-10-12T02:56:11.4889066Z tests\textlayout_suite\test_jobs.py:53: AssertionError
+2026-10-12T02:56:11.4889624Z ============================== warnings summary ===============================
+2026-10-12T02:56:11.4889905Z tests\test_ai_copilot.py:3
+2026-10-12T02:56:11.4890373Z   D:\a\Text-to-Layout\Text-to-Layout\tests\test_ai_copilot.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+2026-10-12T02:56:11.4890924Z     from text_to_gds.ai import DesignIntent, DesignIntentParser
+2026-10-12T02:56:11.4891129Z 
+2026-10-12T02:56:11.4891456Z src\textlayout\_legacy\device_optimizer.py:24
+2026-10-12T02:56:11.4892048Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\device_optimizer.py:24: UserWarning: Field name "schema" in "OptimizationReport" shadows an attribute in parent "BaseModel"
+2026-10-12T02:56:11.4892633Z     class OptimizationReport(BaseModel):
+2026-10-12T02:56:11.4892779Z 
+2026-10-12T02:56:11.4892880Z src\textlayout\_legacy\extracted_device.py:39
+2026-10-12T02:56:11.4893438Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\extracted_device.py:39: UserWarning: Field name "schema" in "ExtractedDevice" shadows an attribute in parent "BaseModel"
+2026-10-12T02:56:11.4893989Z     class ExtractedDevice(BaseModel):
+2026-10-12T02:56:11.4894125Z 
+2026-10-12T02:56:11.4894232Z src\textlayout\_legacy\microwave_validator.py:12
+2026-10-12T02:56:11.4894796Z   D:\a\Text-to-Layout\Text-to-Layout\src\textlayout\_legacy\microwave_validator.py:12: UserWarning: Field name "schema" in "MicrowaveReport" shadows an attribute in parent "BaseModel"
+2026-10-12T02:56:11.4895350Z     class MicrowaveReport(BaseModel):
+2026-10-12T02:56:11.4895478Z 
+2026-10-12T02:56:11.4895585Z .venv\Lib\site-packages\fastapi\testclient.py:1
+2026-10-12T02:56:11.4896338Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+2026-10-12T02:56:11.4897024Z     from starlette.testclient import TestClient as TestClient  # noqa
+2026-10-12T02:56:11.4897248Z 
+2026-10-12T02:56:11.4897398Z tests/textlayout_suite/test_chip_40q_showcase.py: 337500 warnings
+2026-10-12T02:56:11.4897728Z tests/textlayout_suite/test_chip_lattice.py: 141500 warnings
+2026-10-12T02:56:11.4898058Z tests/textlayout_suite/test_real_cqed_loop_demo.py: 39000 warnings
+2026-10-12T02:56:11.4898684Z   D:\a\Text-to-Layout\Text-to-Layout\.venv\Lib\site-packages\pydantic\main.py:250: DeprecationWarning: In future, it will be an error for 'np.bool_' scalars to be interpreted as an index
+2026-10-12T02:56:11.4899349Z     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+2026-10-12T02:56:11.4899613Z 
+2026-10-12T02:56:11.4899841Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-10-12T02:56:11.4900177Z =========================== short test summary info ===========================
+2026-10-12T02:56:11.4900877Z FAILED tests/textlayout_suite/test_jobs.py::test_job_start_collect_records_return_code_and_outputs - AssertionError: assert 'running' == 'completed'
+2026-10-12T02:56:11.4901348Z   
+2026-10-12T02:56:11.4901491Z   - completed
+2026-10-12T02:56:11.4901650Z   + running
+2026-10-12T02:56:11.4901881Z === 1 failed, 2151 passed, 22 skipped, 518005 warnings in 209.15s (0:03:29) ===
+2026-10-12T02:56:15.3857398Z ##[error]Process completed with exit code 1.
+2026-10-12T02:56:15.4038422Z ##[group]Run actions/upload-artifact@v4
+2026-10-12T02:56:15.4038756Z with:
+2026-10-12T02:56:15.4038965Z   name: windows-job-lifecycle-3.11-1
+2026-10-12T02:56:15.4040774Z   path: D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/job.json
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/heartbeat.json
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/finalization.json
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stderr.txt
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/monitor.stdout.txt
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/resource_samples.jsonl
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/stdout.txt
+D:\a\_temp/textlayout-pytest/test_job_start_collect_records*/jobs/*/stderr.txt
+
+2026-10-12T02:56:15.4042559Z   if-no-files-found: warn
+2026-10-12T02:56:15.4042749Z   retention-days: 14
+2026-10-12T02:56:15.4042954Z   compression-level: 6
+2026-10-12T02:56:15.4043134Z   overwrite: false
+2026-10-12T02:56:15.4043310Z   include-hidden-files: false
+2026-10-12T02:56:15.4043702Z env:
+2026-10-12T02:56:15.4043878Z   UV_TOOL_BIN_DIR: D:\a\_temp\uv-tool-bin-dir
+2026-10-12T02:56:15.4044111Z   UV_TOOL_DIR: D:\a\_temp\uv-tool-dir
+2026-10-12T02:56:15.4044309Z   UV_PYTHON: 3.11
+2026-10-12T02:56:15.4044522Z   VIRTUAL_ENV: D:\a\Text-to-Layout\Text-to-Layout\.venv
+2026-10-12T02:56:15.4044781Z   UV_CACHE_DIR: D:\a\_temp\setup-uv-cache
+2026-10-12T02:56:15.4044989Z ##[endgroup]
+2026-10-12T02:56:15.5724251Z (node:2240) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-12T02:56:15.5724830Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-12T02:56:15.7233545Z With the provided path, there will be 16 files uploaded
+2026-10-12T02:56:15.7240847Z Artifact name is valid!
+2026-10-12T02:56:15.7242508Z Root directory input is valid!
+2026-10-12T02:56:16.0620700Z Beginning upload of artifact content to blob storage
+2026-10-12T02:56:16.0975952Z (node:2240) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-12T02:56:16.2966221Z Uploaded bytes 7496
+2026-10-12T02:56:16.3537652Z Finished uploading artifact content to blob storage!
+2026-10-12T02:56:16.3538377Z SHA256 digest of uploaded artifact zip is 05253863a3334a13bde978c6abebdb14a208475b54360920f41aa92454b950a1
+2026-10-12T02:56:16.3540084Z Finalizing artifact upload
+2026-10-12T02:56:16.6221938Z Artifact windows-job-lifecycle-3.11-1.zip successfully finalized. Artifact ID 11724725252
+2026-10-12T02:56:16.6223126Z Artifact windows-job-lifecycle-3.11-1 has been successfully uploaded! Final size is 7496 bytes. Artifact ID is 11724725252
+2026-10-12T02:56:16.6232866Z Artifact download URL: https://github.com/JungluChen/Text-to-Layout/actions/runs/38197426746/artifacts/11724725252
+2026-10-12T02:56:16.6574259Z Post job cleanup.
+2026-10-12T02:56:16.7949331Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-12T02:56:16.8181952Z git version 2.55.0.windows.5
+2026-10-12T02:56:16.8234324Z Temporarily overriding HOME='D:\a\_temp\4e40e299-f499-41e7-97a0-9cb7e52daaf6' before making global git config changes
+2026-10-12T02:56:16.8235104Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-12T02:56:16.8243682Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Text-to-Layout\Text-to-Layout
+2026-10-12T02:56:16.8519639Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-12T02:56:16.8790302Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-12T02:56:17.3347939Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-12T02:56:17.3561280Z http.https://github.com/.extraheader
+2026-10-12T02:56:17.3594963Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-10-12T02:56:17.3838450Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-12T02:56:17.8568103Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-12T02:56:17.8825693Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-12T02:56:18.3487206Z Cleaning up orphan processes
+2026-10-12T02:56:18.3800008Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4, astral-sh/setup-uv@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

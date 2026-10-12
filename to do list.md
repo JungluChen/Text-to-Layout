@@ -67,6 +67,10 @@ Recurrence 38148751846 on 5419cda: Windows 3.11 observed running at the
 15-second wait; retained job finalized successfully about 16 seconds after start.
 Unchanged failed-job retry passed. See docs/progress/2026-10-12-042554.md;
 phase-level Windows timing remains required before changing lifecycle behavior.
+Recurrence on db75ddd/c383c02: Windows 3.11 lifecycle wait failed again;
+c383c02 unchanged failed-job repeat passed (38197649575 attempt 2). Retained
+16-second finalization evidence and phase-timing next steps:
+`docs/progress/2026-10-12-161614.md`. No lifecycle fix or tolerance change.
 
 
 ## Current human-directed release priority — v0.3.1
