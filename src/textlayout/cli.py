@@ -115,6 +115,25 @@ def _cmd_circuitq_lc(args: argparse.Namespace) -> int:
     return 0 if result.numerical_checks_passed else 1
 
 
+def _cmd_sqcircuit_lc(args: argparse.Namespace) -> int:
+    from textlayout.evidence.contract import EvidenceStatus
+    from textlayout.external.sqcircuit_lc import SQcircuitLCRequest
+    from textlayout.external.sqcircuit_runner import run_sqcircuit_lc
+    try:
+        request = SQcircuitLCRequest.model_validate_json(
+            Path(args.request).read_text(encoding="utf-8")
+        )
+        result = run_sqcircuit_lc(
+            request, python=Path(args.python), output_dir=Path(args.out),
+            timeout_seconds=args.timeout,
+        )
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
+        return 1
+    print(result.model_dump_json(indent=2))
+    return 0 if result.status == EvidenceStatus.SIMULATION_EXECUTED else 1
+
+
 def _cmd_prompt(args: argparse.Namespace) -> int:
     workflow = build_from_text_workflow()
     result = workflow.run(
@@ -1540,6 +1559,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_cq.add_argument("--python", required=True, help="Audited external CircuitQ 1.2.1 interpreter.")
     p_cq.add_argument("--out", required=True, help="Fresh evidence directory.")
     p_cq.set_defaults(func=_cmd_circuitq_lc)
+
+    p_sqc = sub.add_parser("sqcircuit-lc", help="Run specified ideal LC with fixed eigenpair/reference checks; no EM extraction.")
+    p_sqc.add_argument("request", help="JSON SI fields: capacitance_f, inductance_h, branch_capacitance_f (additional parallel capacitance).")
+    p_sqc.add_argument("--python", required=True, help="Audited isolated SQcircuit 1.0.0 Python executable.")
+    p_sqc.add_argument("--out", required=True, help="Fresh evidence directory; existing runs are preserved.")
+    p_sqc.add_argument("--timeout", type=float, default=120.0, help="Finite positive worker timeout in seconds (default: 120); no resume.")
+    p_sqc.set_defaults(func=_cmd_sqcircuit_lc)
 
     return parser
 

@@ -144,3 +144,20 @@ were zero for these diagonal harmonic-basis cases. Evidence:
 orchestration/result-conversion work above. CLI/MCP mapping, dedicated
 Windows/Linux execution and checklist acceptance remain pending. Base
 installation stays lean; no UI or screenshot is delivered.
+
+
+### SQcircuit CLI (2026-10-13)
+
+`textlayout sqcircuit-lc REQUEST.json --python INTERPRETER --out NEW_DIRECTORY
+[--timeout SECONDS]` exposes the typed ideal LC wrapper. All three SI request
+fields are required: capacitance_f (8e-14–1e-13 F), inductance_h (6e-8–1e-7 H),
+and additional branch_capacitance_f (1e-20–1e-15 F). No physical defaults.
+Timeout defaults to 120 seconds and must be finite/positive. The external
+interpreter must provide the audited SQcircuit 1.0.0 runtime; no base dependency
+is added. The command writes the wrapper's evidence packet and prints typed
+result JSON. Exit 0 means SIMULATION_EXECUTED with fixed numerical checks
+passed; all other result states exit 1, including missing solver. Invalid
+request or existing output directory produces JSON error on stderr, exit 1.
+This supersedes the earlier pending CLI mapping. Dedicated solver runs on
+Windows/Linux, MCP mapping and entry 006 acceptance remain pending. No UI,
+screenshot, nonlinear/EM extraction or measurement claim is added.

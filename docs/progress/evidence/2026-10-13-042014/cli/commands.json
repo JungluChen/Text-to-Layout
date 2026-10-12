@@ -1,0 +1,62 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "sqcircuit-lc",
+      "/private/tmp/sqc-cli-20261013/input-0.json",
+      "--python",
+      "/private/tmp/textlayout-sqcircuit-100/bin/python",
+      "--out",
+      "/private/tmp/sqc-cli-20261013/case-0-first"
+    ],
+    "returncode": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "sqcircuit-lc",
+      "/private/tmp/sqc-cli-20261013/input-0.json",
+      "--python",
+      "/private/tmp/textlayout-sqcircuit-100/bin/python",
+      "--out",
+      "/private/tmp/sqc-cli-20261013/case-0-repeat"
+    ],
+    "returncode": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "sqcircuit-lc",
+      "/private/tmp/sqc-cli-20261013/input-1.json",
+      "--python",
+      "/private/tmp/textlayout-sqcircuit-100/bin/python",
+      "--out",
+      "/private/tmp/sqc-cli-20261013/case-1-first"
+    ],
+    "returncode": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "textlayout",
+      "sqcircuit-lc",
+      "/private/tmp/sqc-cli-20261013/input-1.json",
+      "--python",
+      "/private/tmp/textlayout-sqcircuit-100/bin/python",
+      "--out",
+      "/private/tmp/sqc-cli-20261013/case-1-repeat"
+    ],
+    "returncode": 0
+  }
+]

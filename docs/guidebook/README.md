@@ -606,3 +606,45 @@ AI prompt: “Run the typed SQcircuit ideal LC wrapper with C=1e-13 F,
 L=1e-7 H, additional branch C=1e-20 F and my isolated interpreter; preserve
 all logs and report the numerical checks without claiming EM validation.”
 No callable CLI/MCP equivalent exists yet; do not invent one.
+
+
+### SQcircuit CLI (2026-10-13)
+
+`textlayout sqcircuit-lc REQUEST.json --python INTERPRETER --out NEW_DIRECTORY
+[--timeout SECONDS]` exposes the typed ideal LC wrapper. All three SI request
+fields are required: capacitance_f (8e-14–1e-13 F), inductance_h (6e-8–1e-7 H),
+and additional branch_capacitance_f (1e-20–1e-15 F). No physical defaults.
+Timeout defaults to 120 seconds and must be finite/positive. The external
+interpreter must provide the audited SQcircuit 1.0.0 runtime; no base dependency
+is added. The command writes the wrapper's evidence packet and prints typed
+result JSON. Exit 0 means SIMULATION_EXECUTED with fixed numerical checks
+passed; all other result states exit 1, including missing solver. Invalid
+request or existing output directory produces JSON error on stderr, exit 1.
+This supersedes the earlier pending CLI mapping. Dedicated solver runs on
+Windows/Linux, MCP mapping and entry 006 acceptance remain pending. No UI,
+screenshot, nonlinear/EM extraction or measurement claim is added.
+
+CLI walkthrough (verified locally with both audited LC cases):
+
+1. Save `lc.json` containing
+   `{"capacitance_f":1e-13,"inductance_h":1e-7,"branch_capacitance_f":1e-20}`.
+2. Run from the installed repository environment:
+
+   ```sh
+   uv run --no-sync textlayout sqcircuit-lc lc.json --python /private/tmp/textlayout-sqcircuit-100/bin/python --out /private/tmp/sqc-cli-example
+   ```
+
+   The interpreter path names the tested local isolated runtime; replace it
+   with your audited runtime. The output directory must not already exist.
+3. Expect SIMULATION_EXECUTED, numerical_checks_passed=true, one frequency
+   in Hz and process exit 0. Inspect result.json, raw.json and manifest.json.
+   Local paired CLI runs produced identical raw bytes, maximum reference error
+   9.5367431640625e-7 Hz under the fixed 1 Hz limit.
+4. On nonzero exit, inspect failure_reason and stdout/stderr files, or the JSON
+   error on stderr for invalid inputs. Correct the input/runtime and choose a
+   fresh directory; do not overwrite evidence or treat skipped as successful.
+
+AI prompt: “Run textlayout sqcircuit-lc for this explicit SI request using my
+isolated SQcircuit interpreter. Retain the packet, check the exit status and
+report frequency/reference error without claiming EM validation.” MCP method
+and graphical screenshots remain unavailable; this is a CLI workflow.

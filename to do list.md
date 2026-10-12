@@ -533,3 +533,11 @@ then received runner shutdown/exit 143 at 3,366,845 elements. Last OOM counters
 were zero; cause unproven. Full reduced/convergence/reference evidence absent.
 See `docs/progress/2026-10-12-221735.md`; review resource bounds and retention
 before a smallest faithful repeated diagnostic. Palace branch merge remains blocked.
+
+### 2026-10-13 SQcircuit CLI slice
+
+The typed LC wrapper is now exposed as `textlayout sqcircuit-lc` with explicit
+SI request, interpreter, fresh output directory and timeout. Two local cases
+ran twice; no checklist promotion. Next: dedicated repeated solver platform
+benchmark and independent downloaded-packet verification before entry 006
+acceptance. See `docs/progress/2026-10-13-042014.md`.
