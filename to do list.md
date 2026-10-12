@@ -525,3 +525,11 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 Three.js geometry preview replaces the static3D placeholder; source/validation
 and remaining physical-stack/accessibility gaps are recorded in
 `docs/progress/2026-09-29-011521.md`. Native Qt delivery is still pending.
+
+### 2026-10-12 latest Palace diagnostic
+
+Scheduled run 38238001763 on d85c9dc passed installation and official smoke,
+then received runner shutdown/exit 143 at 3,366,845 elements. Last OOM counters
+were zero; cause unproven. Full reduced/convergence/reference evidence absent.
+See `docs/progress/2026-10-12-221735.md`; review resource bounds and retention
+before a smallest faithful repeated diagnostic. Palace branch merge remains blocked.

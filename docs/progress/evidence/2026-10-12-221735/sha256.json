@@ -1,0 +1,23 @@
+{
+  "palace-38238001763.log": "43083deba918cd0dc118796882d54183c4211e2dc0f3273de3ab5c84ca7a4818",
+  "palace-38238001763-artifacts.json": "f764b02e6a6a3a1b5615ffd7396557ef302dec3d98a5d3d8c32bae809f53e530",
+  ".gitattributes": "48747480eddba024928d03be9bf83dc579e5515768647507a767e8187a85c9ab",
+  "palace-38238001763-run.json": "e40da6b1ccd2b89720617ae6edda1ddbe201cc09960acd81ed787985807790d8",
+  "diagnosis.json": "a835fa732742c3f5fcf581bb0809f8b15bad92217cd711345de3c50fdcb268e9",
+  "pre-benchmark/out/toolchain/runner_resources.txt": "c1bca0ec7afe5ebcdc98d6e46f966b5a8ea7cf5a00b364a78f39df683f8710f1",
+  "pre-benchmark/out/toolchain/palace_install.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pre-benchmark/out/toolchain/palace_install.json": "f99c0b19afcd2915ce3fe9f1061ca3e67bcafad9f1874a8a9b3c8faa4e3c9d2c",
+  "pre-benchmark/out/toolchain/palace_install.stdout.txt": "012d6195671dc92403d1fab7be3902a0fe45f06064d9481e4b063499229c9ab8",
+  "pre-benchmark/out/toolchain/palace_check.json": "831ee94e612eb69236af9f5ac66737486f4c4557c78794853af56383a8e10d98",
+  "pre-benchmark/out/toolchain/palace_smoke/palace.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pre-benchmark/out/toolchain/palace_smoke/result.json": "ce7ae471f7ee07418c8a4975310039fc7731e971d2603ffb5c5cdb524df6f9ae",
+  "pre-benchmark/out/toolchain/palace_smoke/cavity2d.json": "a606f861b4ac7dfefdd180dd2b00321f46abb85e08f84227e6f0b2b242a6a75d",
+  "pre-benchmark/out/toolchain/palace_smoke/palace.stdout.txt": "3e47d1d910dabb3555c0bf8f7385ba0b18be54283667f5e38b9af76d9dc2f219",
+  "pre-benchmark/out/toolchain/palace_smoke/command.json": "d477eaf1d67e5a7e862850ff42351100f16d713a96861c0938d2de9b7ea2585d",
+  "pre-benchmark/out/toolchain/palace_smoke/environment.json": "78c8665d560916d7804b0e443be9613ede6a48128cef80c7489cfb8ac89017ec",
+  "pre-benchmark/out/toolchain/palace_smoke/canonical_evidence.json": "5cd6638e3b4275b4d6c4f65bfaeaf8cff17c0d1810a73c17bb311c145ae81145",
+  "pre-benchmark/out/toolchain/palace_smoke/postpro/eigenmode/error-indicators.csv": "5da5318f3211760f12a6d24d474a12adedebbe3b0f9256827816f69e1f5b6e6a",
+  "pre-benchmark/out/toolchain/palace_smoke/postpro/eigenmode/domain-E.csv": "e8add3ae8857ef006be55020772397e073df2e3f1fce26bb27dc79f737598bb3",
+  "pre-benchmark/out/toolchain/palace_smoke/postpro/eigenmode/eig.csv": "1b62a763df4f64b585e58304396e67fc1005c657ee395bfa3686a06ec21811aa",
+  "pre-benchmark/.tools/palace/install.json": "f99c0b19afcd2915ce3fe9f1061ca3e67bcafad9f1874a8a9b3c8faa4e3c9d2c"
+}

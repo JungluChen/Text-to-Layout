@@ -1,0 +1,39 @@
+{
+  "observations": 29,
+  "last_timestamp": "2026-10-12T12:06:57.668636+00:00",
+  "last_cgroup_memory": {
+    "memory.current": {
+      "size_bytes": 0,
+      "tail": "15870435328\n",
+      "truncated": false
+    },
+    "memory.peak": {
+      "size_bytes": 0,
+      "tail": "15892905984\n",
+      "truncated": false
+    },
+    "memory.max": {
+      "size_bytes": 0,
+      "tail": "max\n",
+      "truncated": false
+    },
+    "memory.events": {
+      "size_bytes": 0,
+      "tail": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "truncated": false
+    }
+  },
+  "largest_processes": [
+    " 689964  689907 7887312 9850216 99.0 palace-x86_64.b",
+    " 689968  689907 7216428 9395248 99.2 palace-x86_64.b"
+  ],
+  "smoke_hash_checks": {
+    "cavity2d.json": true,
+    "mesh/cavity2d.msh": "not retained",
+    "postpro/eigenmode/eig.csv": true,
+    "postpro/eigenmode/domain-E.csv": true
+  },
+  "smoke_status": "SMOKE_TEST_PASSED",
+  "reduced_benchmark_convergence": "not established",
+  "shutdown_cause": "unproven; last OOM event counters zero"
+}
