@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/private/tmp/textlayout-sqcircuit-100/bin/python",
+    "/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/external/_sqcircuit_lc_worker.py",
+    "/private/tmp/sqc-product-1-repeat/request.json",
+    "/private/tmp/sqc-product-1-repeat/raw.json"
+  ],
+  "request_sha256": "29fa79be23c5f95f1236d991ccb8d73c27942fc98a66ce9be52913ab93a2a20c",
+  "worker_sha256": "54b835f4928bf6da464dade928149f4649de2c5620ca7fe05aef9c326b28dc2a",
+  "artifact_sha256": {
+    "request.json": "29fa79be23c5f95f1236d991ccb8d73c27942fc98a66ce9be52913ab93a2a20c",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result.json": "7c3265eea84cb36d3e377938639cc1a3a9845f40e0478b020b0cb0a643e86eb1",
+    "raw.json": "b6c8dc29426a29be371556fc357eb13456c690eb53c8f57f9ffc87157777825b",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

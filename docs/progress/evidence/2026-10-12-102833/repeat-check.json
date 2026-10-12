@@ -1,0 +1,12 @@
+[
+  {
+    "case": 0,
+    "raw_byte_identical": true,
+    "sha256": "e6a0ba45b225972027c2fc425da59cb85ddfbfd6f7796aaff0127bdc8bc34412"
+  },
+  {
+    "case": 1,
+    "raw_byte_identical": true,
+    "sha256": "b6c8dc29426a29be371556fc357eb13456c690eb53c8f57f9ffc87157777825b"
+  }
+]

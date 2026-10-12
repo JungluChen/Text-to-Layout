@@ -1,0 +1,51 @@
+{
+  "status": "SIMULATION_EXECUTED",
+  "return_code": 0,
+  "execution_completed": true,
+  "failure_reason": null,
+  "output_dir": "/private/tmp/sqc-product-0-first",
+  "assessment": {
+    "numerical_checks_passed": true,
+    "max_reference_error_hz": 9.5367431640625e-7,
+    "last_refinement_hz": 0.0,
+    "max_scaled_residual": 0.0,
+    "max_relative_hermiticity": 0.0,
+    "max_orthonormality_error": 0.0,
+    "capacitance_matches": true
+  },
+  "quantities": [
+    {
+      "public_reference": null,
+      "quantity": "frequency",
+      "target_value": null,
+      "target_unit": null,
+      "extracted_value": 1591549351.341488,
+      "extracted_unit": "Hz",
+      "analytical_value": null,
+      "analytical_model": null,
+      "error_percent": null,
+      "tolerance_percent": 5.0,
+      "status": "SIMULATION_EXECUTED",
+      "solver": "SQcircuit 1.0.0 Hamiltonian + NumPy dense eigh",
+      "command": "[\"/private/tmp/textlayout-sqcircuit-100/bin/python\", \"/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/external/_sqcircuit_lc_worker.py\", \"/private/tmp/sqc-product-0-first/request.json\", \"/private/tmp/sqc-product-0-first/raw.json\"]",
+      "input_files": [
+        "/private/tmp/sqc-product-0-first/request.json"
+      ],
+      "output_files": [
+        "/private/tmp/sqc-product-0-first/raw.json"
+      ],
+      "parser": "textlayout.external.sqcircuit_runner.run_sqcircuit_lc",
+      "measured_value": null,
+      "measured_unit": null,
+      "measurement_uncertainty": null,
+      "calibration_version": null,
+      "blocking_reason": null,
+      "timestamp": "2026-10-12T02:25:22+00:00",
+      "notes": [
+        "Specified ideal parallel LC with explicit additional branch capacitance",
+        "Exact LC reference; no EM extraction, nonlinear or measurement validation",
+        "Harmonic-basis truncation check is not spatial convergence"
+      ]
+    }
+  ]
+}

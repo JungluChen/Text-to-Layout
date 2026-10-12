@@ -56,6 +56,11 @@ wrapper are next; raw NOT_EVALUATED output does not complete entry 006.
 Raw eigenpair assessment is now implemented with malformed/corrupted-packet
 rejection. Product process/identity verification and canonical result conversion
 remain next; no checklist promotion from the assessment alone.
+Typed product execution now verifies packet identity, retains failures/timeouts
+and emits canonical frequency evidence only after fixed numerical checks pass.
+Two local LC cases passed twice with byte-identical raw pairs; see
+`docs/progress/2026-10-12-102833.md`. Next: CLI and dedicated repeated
+Windows/macOS/Linux benchmark evidence; entry 006 remains unchecked.
 Windows lifecycle CI 37208006683 had late successful finalization and passed
 unchanged on attempt 2; preserve evidence, investigate timing before any fix.
 Recurrence 38148751846 on 5419cda: Windows 3.11 observed running at the

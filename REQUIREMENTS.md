@@ -268,3 +268,31 @@ are both the predeclared 1 Hz numerical resolution, not experimental error.
 This assessment emits no canonical quantities and verifies no process/source
 identity. Product orchestration, canonical result conversion, CLI/MCP and
 three-platform execution remain pending. No screenshot or UI claim is added.
+
+
+### SQcircuit typed execution wrapper (2026-10-12)
+
+`textlayout.external.sqcircuit_runner.run_sqcircuit_lc(request, *, python,
+output_dir, timeout_seconds=120)` runs the bounded prepared LC plan in an
+explicit isolated Python interpreter. Request fields and SI bounds remain as
+above; output_dir must be new and timeout finite and positive. The wrapper
+retains request.json, raw.json when available, stdout/stderr, typed result.json
+and a SHA256 manifest containing command and worker identity. It verifies the
+request hash, pinned SQcircuit source hashes/version, method and runtime
+provenance before assessing matrices and eigenpairs. Only passing packets
+produce a canonical SIMULATION_EXECUTED frequency in Hz. This is an ideal LC
+calculation, not EM extraction, measurement validation or spatial convergence.
+Missing interpreter is SKIPPED_SOLVER_ABSENT; worker errors/timeouts are FAILED;
+malformed or mismatched output is SIMULATION_INVALID; rejected numerical checks
+are CONVERGENCE_FAILED. These states contain no accepted quantities. Inspect
+failure_reason and retained logs, repair the environment/input, then use a new
+output directory; timed-out jobs cannot resume.
+
+Two explicit LC cases executed twice locally with identical raw packets in each
+pair. Maximum reference error was 9.5367431640625e-7 Hz (fixed limit 1 Hz);
+last-truncation change, scaled residual, Hermiticity and orthonormality errors
+were zero for these diagonal harmonic-basis cases. Evidence:
+`docs/progress/evidence/2026-10-12-102833/`. This supersedes the pending product
+orchestration/result-conversion work above. CLI/MCP mapping, dedicated
+Windows/Linux execution and checklist acceptance remain pending. Base
+installation stays lean; no UI or screenshot is delivered.

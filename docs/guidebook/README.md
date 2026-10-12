@@ -553,3 +553,56 @@ On ValueError, preserve the raw packet and compare shapes/units/input identity;
 on failed checks, repeat the original solver before diagnosis. Do not change
 limits or edit the failed packet. AI prompt: “Recompute these raw numerical
 checks and report missing execution identity and platform evidence separately.”
+
+
+### SQcircuit typed execution wrapper (2026-10-12)
+
+`textlayout.external.sqcircuit_runner.run_sqcircuit_lc(request, *, python,
+output_dir, timeout_seconds=120)` runs the bounded prepared LC plan in an
+explicit isolated Python interpreter. Request fields and SI bounds remain as
+above; output_dir must be new and timeout finite and positive. The wrapper
+retains request.json, raw.json when available, stdout/stderr, typed result.json
+and a SHA256 manifest containing command and worker identity. It verifies the
+request hash, pinned SQcircuit source hashes/version, method and runtime
+provenance before assessing matrices and eigenpairs. Only passing packets
+produce a canonical SIMULATION_EXECUTED frequency in Hz. This is an ideal LC
+calculation, not EM extraction, measurement validation or spatial convergence.
+Missing interpreter is SKIPPED_SOLVER_ABSENT; worker errors/timeouts are FAILED;
+malformed or mismatched output is SIMULATION_INVALID; rejected numerical checks
+are CONVERGENCE_FAILED. These states contain no accepted quantities. Inspect
+failure_reason and retained logs, repair the environment/input, then use a new
+output directory; timed-out jobs cannot resume.
+
+Two explicit LC cases executed twice locally with identical raw packets in each
+pair. Maximum reference error was 9.5367431640625e-7 Hz (fixed limit 1 Hz);
+last-truncation change, scaled residual, Hermiticity and orthonormality errors
+were zero for these diagonal harmonic-basis cases. Evidence:
+`docs/progress/evidence/2026-10-12-102833/`. This supersedes the pending product
+orchestration/result-conversion work above. CLI/MCP mapping, dedicated
+Windows/Linux execution and checklist acceptance remain pending. Base
+installation stays lean; no UI or screenshot is delivered.
+
+Developer Python workflow (run from the repository's installed environment):
+
+```python
+from pathlib import Path
+from textlayout.external.sqcircuit_lc import SQcircuitLCRequest
+from textlayout.external.sqcircuit_runner import run_sqcircuit_lc
+
+result = run_sqcircuit_lc(
+    SQcircuitLCRequest(capacitance_f=1e-13, inductance_h=1e-7,
+                      branch_capacitance_f=1e-20),
+    python=Path('/private/tmp/textlayout-sqcircuit-100/bin/python'),
+    output_dir=Path('/private/tmp/sqc-product-example'),
+)
+print(result.model_dump_json(indent=2))
+```
+
+The interpreter path is the tested local isolated runtime, not a portable
+installation command. Substitute an explicitly provisioned SQcircuit 1.0.0
+runtime matching the audit. Expected successful output includes
+SIMULATION_EXECUTED, numerical_checks_passed=true and one frequency in Hz.
+AI prompt: “Run the typed SQcircuit ideal LC wrapper with C=1e-13 F,
+L=1e-7 H, additional branch C=1e-20 F and my isolated interpreter; preserve
+all logs and report the numerical checks without claiming EM validation.”
+No callable CLI/MCP equivalent exists yet; do not invent one.
