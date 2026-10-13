@@ -1,0 +1,13 @@
+{
+  "url": "https://github.com/LFL-Lab/SQuADDS/blob/beace3e52ceb491b8ef85b7e3f5439cb8273f248/squadds_mcp/server.py",
+  "sha256": "5cfe4d383ed4b96c29aeafb2117dda7425e2c1847abb6a012d2ff66af99f8187",
+  "scope": "Static server wiring only; no live tools/list or host installation verified",
+  "registrations": [
+    "database",
+    "analysis",
+    "interpolation",
+    "contribution",
+    "generation"
+  ],
+  "startup": "app_lifespan imports SQuADDS_DB; source comments identify HuggingFace API calls"
+}

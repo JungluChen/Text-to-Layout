@@ -565,3 +565,12 @@ harmonic truncation does not demonstrate nontrivial spatial convergence.
 
 Next ordered item: audit entry 007 source/license/version, existing adapters and
 numerical evidence before defining a bounded implementation.
+
+### 2026-10-13 entry 007 inventory
+
+SQuADDS source/dependency/existing-adapter audit retained in
+`docs/integrations/squadds.md`. Tag v0.4.5 declares 0.4.4 while PyPI reports
+0.4.5; reconcile artifact identity before installation. Reuse existing prior
+and WM1 geometry boundaries; next specify an offline typed prior slice with
+explicit units/provenance. Electrical reproduction remains NOT_EVALUATED;
+entry 007 unchecked. See `docs/progress/2026-10-13-162826.md`.
