@@ -582,3 +582,10 @@ tag. Only pyproject version differs, 0.4.4 to 0.4.5. No installation or numerica
 acceptance; entry 007 remains unchecked. Next specify the offline prior data
 contract and independently verify its dataset provenance/units. See
 `docs/progress/2026-10-13-235906.md`.
+
+### Windows lifecycle recurrence (2026-10-14-043935)
+
+30660f3 CI 38426799625 failed Windows 3.11 lifecycle wait; retained artifact
+shows successful finalization after 20 seconds. Unchanged failed-job retry
+dispatched; no fix or timeout change. Compare retry and collect phase timings
+before implementation. See `docs/progress/2026-10-14-043935.md`.
