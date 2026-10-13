@@ -1,1 +1,3 @@
 platforms/** -text
+
+*.log -text
