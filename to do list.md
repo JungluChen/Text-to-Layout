@@ -574,3 +574,11 @@ SQuADDS source/dependency/existing-adapter audit retained in
 and WM1 geometry boundaries; next specify an offline typed prior slice with
 explicit units/provenance. Electrical reproduction remains NOT_EVALUATED;
 entry 007 unchecked. See `docs/progress/2026-10-13-162826.md`.
+
+### SQuADDS package identity reconciled (2026-10-13-235906)
+
+Published wheel/sdist hashes verified twice; 107 package files match the pinned
+tag. Only pyproject version differs, 0.4.4 to 0.4.5. No installation or numerical
+acceptance; entry 007 remains unchecked. Next specify the offline prior data
+contract and independently verify its dataset provenance/units. See
+`docs/progress/2026-10-13-235906.md`.

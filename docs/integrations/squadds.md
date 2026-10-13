@@ -67,3 +67,21 @@ selection/provenance, platform evidence and implementation commit. Electrical
 validation additionally needs matched fabricated variant, stack/materials,
 ports/junctions and converged extraction paired with measurements. Entry 007
 remains unchecked until a bounded scope satisfies those criteria.
+
+## Published artifact identity reconciliation (2026-10-13-235906)
+
+Two downloads of each PyPI 0.4.5 archive matched the published SHA256:
+wheel b0b9ef9dcff843c26577bab9dd57801aaa533dcc388535392c09b9d0646e7c2f;
+sdist 906dc94b8aa98954c0b37a55fc07b077c7e9fc2639614428890c8f25fa4e9695.
+All 107 package files present in the sdist match the wheel and pinned tag
+byte-for-byte. The tag and sdist LICENSE match. The complete pyproject diff
+is the version change 0.4.4 to 0.4.5; wheel METADATA, sdist PKG-INFO and the
+static package __version__ declaration all say 0.4.5. This resolves the
+observed metadata discrepancy without assuming tag packaging is identical.
+Retained member hashes, requirements, archive URLs and comparison results:
+../progress/evidence/2026-10-13-235906/identity.json. Archives remain outside Git.
+No package import, install or upstream execution was performed. Runtime
+compatibility remains untested. A future isolated runtime should pin the
+published wheel hash above and verify installed metadata separately.
+Next define the offline dataset-prior scope, explicit units and provenance;
+keep upstream-package execution distinct from a local dataset importer.
