@@ -1,0 +1,110 @@
+[
+  {
+    "platform": "sqcircuit-lc-macos-14",
+    "case": "a",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-macos-14",
+    "case": "a",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-macos-14",
+    "case": "b",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-macos-14",
+    "case": "b",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-ubuntu-latest",
+    "case": "a",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-ubuntu-latest",
+    "case": "a",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-ubuntu-latest",
+    "case": "b",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-ubuntu-latest",
+    "case": "b",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-windows-latest",
+    "case": "a",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-windows-latest",
+    "case": "a",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 0.0,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-windows-latest",
+    "case": "b",
+    "repeat": "first",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  },
+  {
+    "platform": "sqcircuit-lc-windows-latest",
+    "case": "b",
+    "repeat": "repeat",
+    "hashes_verified": true,
+    "reference_error_hz": 9.5367431640625e-07,
+    "scaled_residual": 0.0,
+    "raw_repeat_identical": true
+  }
+]

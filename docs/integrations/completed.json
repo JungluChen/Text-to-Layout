@@ -78,6 +78,22 @@
         "EM extraction and measured-device comparison",
         "Installed desktop and GUI/MCP surfaces"
       ]
+    },
+    "6": {
+      "name": "SQcircuit",
+      "scope": "two specified ideal parallel LC cases with explicit additional branch capacitance via public Hamiltonian and NumPy dense eigh; no nonlinear, EM, noise or measurement claim",
+      "implementation_commit": "e2f75ad56b00972530a9a1bbe9990f54e8476b97",
+      "source_license_evidence": "docs/integrations/sqcircuit.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-13-102945/platforms/sqcircuit-lc-ubuntu-latest/sqcircuit-a-first/raw.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-13-102945/platform-verification.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-13-102945/platform-run.json",
+      "acceptance": "Two CLI cases executed twice on Windows/macOS/Linux (38337411823); all twelve downloaded packets independently hash-checked and re-evaluated against exact LC references and raw eigenpairs. Fixed 1 Hz reference/truncation and residual/Hermiticity/orthonormality gates passed. Worst reference error 9.5367431640625e-7 Hz; same-platform raw repeats identical. Exact implementation CI/test passed.",
+      "remaining_scope": [
+        "Nonlinear, coupled and arbitrary circuits",
+        "Noise and measurement validation",
+        "EM extraction and nontrivial convergence",
+        "Broader parameter-domain and MCP/GUI support"
+      ]
     }
   }
 }

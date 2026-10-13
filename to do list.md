@@ -37,7 +37,7 @@ implementation 577471cd62e616facafbdea4a2e81e07a0c253e3. Dedicated run
 38032886016 passed repeated cutoff/reference/residual checks on all three OSs;
 six packets and 36 typed adapter calls independently verified. Exact CI/test
 38032885443/38032885403 passed. No noise, EM or measurement claim.
-See docs/progress/2026-10-10-150004.md. Current item: **006 SQcircuit** — audit source,
+See docs/progress/2026-10-10-150004.md. Historical item: **006 SQcircuit** — audit source,
 license, version, dependencies and existing adapter before defining acceptance.
 Source/license audit and repeated local LC probes retained in
 `docs/progress/2026-10-10-211726.md`. Default inductor adds 1e-20 F; original
@@ -548,3 +548,20 @@ Dedicated manual sqcircuit-integration workflow now provisions isolated pinned
 runtimes and runs two cases twice on Windows/macOS/Linux, retaining packets and
 repeat checks. Actual platform execution and downloaded-packet review pending;
 entry 006 remains unchecked. See `docs/progress/2026-10-13-102945.md`.
+
+
+### SQcircuit bounded acceptance (2026-10-13)
+
+Entry 006 is accepted only for the two specified ideal parallel LC cases with
+explicit additional branch capacitance, public SQcircuit Hamiltonian and NumPy
+dense eigh. Implementation e2f75ad56b00972530a9a1bbe9990f54e8476b97 passed
+repeated solver workflow 38337411823 on all three OSs; all twelve downloaded
+packets independently verified. Exact CI 38337385997 and test 38337385977
+passed. Worst reference error 9.5367431640625e-7 Hz; raw repeats identical
+within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
+supersedes earlier pending platform/checklist statements for this narrow scope.
+Nonlinear/noise/EM/measurement and broader domain support remain pending;
+harmonic truncation does not demonstrate nontrivial spatial convergence.
+
+Next ordered item: audit entry 007 source/license/version, existing adapters and
+numerical evidence before defining a bounded implementation.

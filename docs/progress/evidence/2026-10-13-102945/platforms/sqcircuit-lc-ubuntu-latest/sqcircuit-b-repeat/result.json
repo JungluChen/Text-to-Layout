@@ -1,0 +1,51 @@
+{
+  "status": "SIMULATION_EXECUTED",
+  "return_code": 0,
+  "execution_completed": true,
+  "failure_reason": null,
+  "output_dir": "/home/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat",
+  "assessment": {
+    "numerical_checks_passed": true,
+    "max_reference_error_hz": 9.5367431640625e-7,
+    "last_refinement_hz": 0.0,
+    "max_scaled_residual": 0.0,
+    "max_relative_hermiticity": 0.0,
+    "max_orthonormality_error": 0.0,
+    "capacitance_matches": true
+  },
+  "quantities": [
+    {
+      "public_reference": null,
+      "quantity": "frequency",
+      "target_value": null,
+      "target_unit": null,
+      "extracted_value": 2282979422.4499993,
+      "extracted_unit": "Hz",
+      "analytical_value": null,
+      "analytical_model": null,
+      "error_percent": null,
+      "tolerance_percent": 5.0,
+      "status": "SIMULATION_EXECUTED",
+      "solver": "SQcircuit 1.0.0 Hamiltonian + NumPy dense eigh",
+      "command": "[\"/home/runner/work/Text-to-Layout/Text-to-Layout/.sqcircuit-env/bin/python\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_sqcircuit_lc_worker.py\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/request.json\", \"/home/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/raw.json\"]",
+      "input_files": [
+        "/home/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/request.json"
+      ],
+      "output_files": [
+        "/home/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/raw.json"
+      ],
+      "parser": "textlayout.external.sqcircuit_runner.run_sqcircuit_lc",
+      "measured_value": null,
+      "measured_unit": null,
+      "measurement_uncertainty": null,
+      "calibration_version": null,
+      "blocking_reason": null,
+      "timestamp": "2026-10-13T02:33:57+00:00",
+      "notes": [
+        "Specified ideal parallel LC with explicit additional branch capacitance",
+        "Exact LC reference; no EM extraction, nonlinear or measurement validation",
+        "Harmonic-basis truncation check is not spatial convergence"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+from pathlib import Path
+import json,hashlib,math
+import numpy as np
+from textlayout.external.sqcircuit_runner import SOURCE_SHA256
+root=Path('/private/tmp/sqc-platform-38337411823');records=[]
+for platform in sorted(root.iterdir()):
+ for case,expected in [('a',{'capacitance_f':1e-13,'inductance_h':1e-7,'branch_capacitance_f':1e-20}),('b',{'capacitance_f':8e-14,'inductance_h':6e-8,'branch_capacitance_f':1e-15})]:
+  assert (platform/f'sqcircuit-{case}-first/raw.json').read_bytes()==(platform/f'sqcircuit-{case}-repeat/raw.json').read_bytes()
+  for repeat in ['first','repeat']:
+   p=platform/f'sqcircuit-{case}-{repeat}';m=json.loads((p/'manifest.json').read_text());raw=json.loads((p/'raw.json').read_text());result=json.loads((p/'result.json').read_text());plan=json.loads((p/'request.json').read_text())
+   for name,digest in m['artifact_sha256'].items():assert hashlib.sha256((p/name).read_bytes()).hexdigest()==digest
+   assert raw['source_sha256']==SOURCE_SHA256
+   assert raw['request_sha256']==m['request_sha256']==hashlib.sha256((p/'request.json').read_bytes()).hexdigest()
+   assert raw['inputs']==plan['request']==expected
+   assert raw['versions']['SQcircuit']=='1.0.0'
+   assert raw['method']=='SQcircuit Hamiltonian + numpy.linalg.eigh'
+   assert result['status']=='SIMULATION_EXECUTED' and result['return_code']==0
+   spectra=[];errors=[];residuals=[]
+   c=expected['capacitance_f']+expected['branch_capacitance_f'];ref=1/(2*math.pi*math.sqrt(c*expected['inductance_h']))
+   for row,n in zip(raw['rows'],[10,20,30],strict=True):
+    assert row['truncation']==n and row['resolved_capacitance_f']==c
+    h=np.array(row['hamiltonian_rad_s_real'])+1j*np.array(row['hamiltonian_rad_s_imag']);v=np.array(row['eigenvectors_real'])+1j*np.array(row['eigenvectors_imag']);e=np.array(row['eigenvalues_rad_s'])
+    assert h.shape==(n,n) and v.shape==(n,6) and e.shape==(6,)
+    assert np.isfinite(h).all() and np.isfinite(v).all() and np.isfinite(e).all()
+    assert np.linalg.norm(h-h.conj().T)/np.linalg.norm(h)<=1e-14
+    assert np.max(np.abs(v.conj().T@v-np.eye(6)))<=1e-12
+    res=max(np.linalg.norm(h@v[:,i]-e[i]*v[:,i])/(np.linalg.norm(h)*np.linalg.norm(v[:,i])) for i in range(6));assert res<=1e-12
+    freq=(e-e[0])/(2*math.pi);error=float(np.max(np.abs(freq-np.arange(6)*ref)));assert error<=1
+    spectra.append(freq);errors.append(error);residuals.append(float(res))
+   assert np.max(np.abs(spectra[-1]-spectra[-2]))<=1
+   q=result['quantities'][0];assert q['extracted_unit']=='Hz' and q['extracted_value']==spectra[-1][1]
+   records.append({'platform':platform.name,'case':case,'repeat':repeat,'hashes_verified':True,'reference_error_hz':max(errors),'scaled_residual':max(residuals),'raw_repeat_identical':True})
+assert len(records)==12
+Path('/private/tmp/sqc-platform-verification.json').write_text(json.dumps(records,indent=2)+'\n')
+print('Verified',len(records),'packets; worst reference Hz',max(x['reference_error_hz'] for x in records))

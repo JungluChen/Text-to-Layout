@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/.sqcircuit-env/bin/python",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_sqcircuit_lc_worker.py",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/request.json",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/sqcircuit-b-repeat/raw.json"
+  ],
+  "request_sha256": "29fa79be23c5f95f1236d991ccb8d73c27942fc98a66ce9be52913ab93a2a20c",
+  "worker_sha256": "54b835f4928bf6da464dade928149f4649de2c5620ca7fe05aef9c326b28dc2a",
+  "artifact_sha256": {
+    "request.json": "29fa79be23c5f95f1236d991ccb8d73c27942fc98a66ce9be52913ab93a2a20c",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result.json": "07d69310f1ec2958c4749c7376a51d4a5a1dc76b2e2b73bb2e8f965722796af6",
+    "raw.json": "b3e50201a4836a7a3c068aff578d1795a7caf99f0e2dc0f673656b6aec2c37bb",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\.sqcircuit-env\\Scripts\\python.exe",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\src\\textlayout\\external\\_sqcircuit_lc_worker.py",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\sqcircuit-a-first\\request.json",
+    "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\sqcircuit-a-first\\raw.json"
+  ],
+  "request_sha256": "844719cdc64cc726ce147c2c034ffea2482e6256fc8a662da1799985b2db62ed",
+  "worker_sha256": "54b835f4928bf6da464dade928149f4649de2c5620ca7fe05aef9c326b28dc2a",
+  "artifact_sha256": {
+    "raw.json": "6da0eec5241e6ca89b9e79e9a93b1ab8fda406ba282edf401773614037143965",
+    "request.json": "844719cdc64cc726ce147c2c034ffea2482e6256fc8a662da1799985b2db62ed",
+    "result.json": "cba0feee409c968be5aa88243c4fff0479cdef32d885b71e65c27ba6cc598e2e",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

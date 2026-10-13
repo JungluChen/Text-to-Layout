@@ -6,7 +6,7 @@ This is the 100-slot user-requested candidate inventory, not a claim
 that 100 distinct open-source projects exist or are installable.
 Source hints in `targets.json` remain unverified until audited.
 
-**Completed with full evidence: 5/100.**
+**Completed with full evidence: 6/100.**
 
 Check a target only after source/license/version review, a typed adapter
 using the shared evidence contract, an actual solver or tool execution,
@@ -23,7 +23,7 @@ probe alone does not satisfy this checklist.
 - [x] 003 pyEPR — implementation `4cd88ee4390d9f1353fdcca5dd036e1ef1acbba2`; scope: specified ideal one-mode full-cosine circuit diagonalization, two charge-insensitive benchmarks; no EM/HFSS extraction or measurement validation; evidence in `completed.json`.
 - [x] 004 CircuitQ — implementation `0cc02e3b9b3639b38a3ef5046db7d352b550ab7f`; scope: specified ideal parallel LC circuit with SI/natural matrix equivalence and two repeated numerical benchmarks; no nonlinear/noise, EM or measurement claim; evidence in `completed.json`.
 - [x] 005 scqubits — implementation `577471cd62e616facafbdea4a2e81e07a0c253e3`; scope: two fixed ideal ng=0 transmon spectra via the typed SI adapter, with cutoff/residual/Mathieu checks; no noise, EM, measurement or full-toolkit claim; evidence in `completed.json`.
-- [ ] 006 SQcircuit — source/license, adapter, execution, comparison and platform acceptance pending.
+- [x] 006 SQcircuit — implementation `e2f75ad56b00972530a9a1bbe9990f54e8476b97`; scope: two specified ideal parallel LC cases with explicit additional branch capacitance via public Hamiltonian and NumPy dense eigh; no nonlinear, EM, noise or measurement claim; evidence in `completed.json`.
 - [ ] 007 SQuADDS — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 008 QEDA — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 009 pycqed — source/license, adapter, execution, comparison and platform acceptance pending.

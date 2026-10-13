@@ -1,0 +1,14 @@
+[
+  {
+    "case": "a",
+    "identical": true,
+    "first_sha256": "73ddc92aead796fd0b432db583844e2b5d9267846569c2eb2e2921e70cd13995",
+    "repeat_sha256": "73ddc92aead796fd0b432db583844e2b5d9267846569c2eb2e2921e70cd13995"
+  },
+  {
+    "case": "b",
+    "identical": true,
+    "first_sha256": "b3e50201a4836a7a3c068aff578d1795a7caf99f0e2dc0f673656b6aec2c37bb",
+    "repeat_sha256": "b3e50201a4836a7a3c068aff578d1795a7caf99f0e2dc0f673656b6aec2c37bb"
+  }
+]

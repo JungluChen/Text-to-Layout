@@ -176,3 +176,17 @@ independent hash, source identity, eigenpair and reference review; green generic
 CI or workflow configuration alone does not establish platform acceptance.
 Entry 006 stays unchecked until actual solver execution and review are complete.
 No MCP, UI/screenshot or measurement validation is added.
+
+
+### SQcircuit bounded acceptance (2026-10-13)
+
+Entry 006 is accepted only for the two specified ideal parallel LC cases with
+explicit additional branch capacitance, public SQcircuit Hamiltonian and NumPy
+dense eigh. Implementation e2f75ad56b00972530a9a1bbe9990f54e8476b97 passed
+repeated solver workflow 38337411823 on all three OSs; all twelve downloaded
+packets independently verified. Exact CI 38337385997 and test 38337385977
+passed. Worst reference error 9.5367431640625e-7 Hz; raw repeats identical
+within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
+supersedes earlier pending platform/checklist statements for this narrow scope.
+Nonlinear/noise/EM/measurement and broader domain support remain pending;
+harmonic truncation does not demonstrate nontrivial spatial convergence.
