@@ -1,0 +1,60 @@
+name: sqcircuit-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sqcircuit-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  circuit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - name: Install core and isolated audited numerical runtime
+        run: |
+          uv sync --frozen --dev
+          uv venv .sqcircuit-env --python 3.12
+          uv pip install --python .sqcircuit-env SQcircuit==1.0.0 numpy==2.5.3 scipy==1.18.1 qutip==5.3.1 torch==2.14.1 sympy==1.14.0
+      - name: Execute both specified LC circuits twice through the CLI
+        shell: bash
+        env:
+          SQC_PYTHON: ${{ runner.os == 'Windows' && '.sqcircuit-env/Scripts/python.exe' || '.sqcircuit-env/bin/python' }}
+        run: |
+          mkdir -p out/sqcircuit-runtime
+          uv pip freeze --python .sqcircuit-env > out/sqcircuit-runtime/freeze.txt
+          uv run --no-sync textlayout sqcircuit-lc examples/integrations/sqcircuit-lc-a.json --python "$SQC_PYTHON" --out out/sqcircuit-a-first
+          uv run --no-sync textlayout sqcircuit-lc examples/integrations/sqcircuit-lc-a.json --python "$SQC_PYTHON" --out out/sqcircuit-a-repeat
+          uv run --no-sync textlayout sqcircuit-lc examples/integrations/sqcircuit-lc-b.json --python "$SQC_PYTHON" --out out/sqcircuit-b-first
+          uv run --no-sync textlayout sqcircuit-lc examples/integrations/sqcircuit-lc-b.json --python "$SQC_PYTHON" --out out/sqcircuit-b-repeat
+      - name: Require unchanged raw numerical packets
+        shell: bash
+        run: |
+          uv run --no-sync python - <<'PYTHON'
+          from pathlib import Path
+          import hashlib, json
+          checks = []
+          for case in ('a', 'b'):
+              first = Path(f'out/sqcircuit-{case}-first/raw.json').read_bytes()
+              repeat = Path(f'out/sqcircuit-{case}-repeat/raw.json').read_bytes()
+              checks.append({'case': case, 'identical': first == repeat,
+                             'first_sha256': hashlib.sha256(first).hexdigest(),
+                             'repeat_sha256': hashlib.sha256(repeat).hexdigest()})
+          Path('out/sqcircuit-runtime/repeat-check.json').write_text(json.dumps(checks, indent=2))
+          assert all(row['identical'] for row in checks), checks
+          PYTHON
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sqcircuit-lc-${{ matrix.os }}
+          path: out/sqcircuit-*
+          if-no-files-found: error
+          retention-days: 30

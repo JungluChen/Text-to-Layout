@@ -356,3 +356,18 @@ request or existing output directory produces JSON error on stderr, exit 1.
 This supersedes the earlier pending CLI mapping. Dedicated solver runs on
 Windows/Linux, MCP mapping and entry 006 acceptance remain pending. No UI,
 screenshot, nonlinear/EM extraction or measurement claim is added.
+
+
+### SQcircuit platform benchmark workflow (2026-10-13)
+
+The manually dispatched `sqcircuit-integration` workflow runs the two explicit
+LC requests in examples/integrations/sqcircuit-lc-{a,b}.json twice through the
+product CLI on Windows, macOS and Linux. It provisions an isolated SQcircuit
+1.0.0 runtime with the locally tested numerical pins (NumPy 2.5.3, SciPy 1.18.1,
+QuTiP 5.3.1, Torch 2.14.1, stable SymPy 1.14.0), retains resolved dependency
+versions and all CLI packets, and requires byte-identical raw repeats per case.
+No packages are added to the base install. Uploaded packets still require
+independent hash, source identity, eigenpair and reference review; green generic
+CI or workflow configuration alone does not establish platform acceptance.
+Entry 006 stays unchecked until actual solver execution and review are complete.
+No MCP, UI/screenshot or measurement validation is added.

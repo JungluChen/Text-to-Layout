@@ -541,3 +541,10 @@ SI request, interpreter, fresh output directory and timeout. Two local cases
 ran twice; no checklist promotion. Next: dedicated repeated solver platform
 benchmark and independent downloaded-packet verification before entry 006
 acceptance. See `docs/progress/2026-10-13-042014.md`.
+
+### 2026-10-13 SQcircuit platform workflow
+
+Dedicated manual sqcircuit-integration workflow now provisions isolated pinned
+runtimes and runs two cases twice on Windows/macOS/Linux, retaining packets and
+repeat checks. Actual platform execution and downloaded-packet review pending;
+entry 006 remains unchecked. See `docs/progress/2026-10-13-102945.md`.

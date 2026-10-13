@@ -1,0 +1,5 @@
+{
+  "capacitance_f": 1e-13,
+  "inductance_h": 1e-07,
+  "branch_capacitance_f": 1e-20
+}

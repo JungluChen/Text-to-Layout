@@ -648,3 +648,28 @@ AI prompt: “Run textlayout sqcircuit-lc for this explicit SI request using my
 isolated SQcircuit interpreter. Retain the packet, check the exit status and
 report frequency/reference error without claiming EM validation.” MCP method
 and graphical screenshots remain unavailable; this is a CLI workflow.
+
+
+### SQcircuit platform benchmark workflow (2026-10-13)
+
+The manually dispatched `sqcircuit-integration` workflow runs the two explicit
+LC requests in examples/integrations/sqcircuit-lc-{a,b}.json twice through the
+product CLI on Windows, macOS and Linux. It provisions an isolated SQcircuit
+1.0.0 runtime with the locally tested numerical pins (NumPy 2.5.3, SciPy 1.18.1,
+QuTiP 5.3.1, Torch 2.14.1, stable SymPy 1.14.0), retains resolved dependency
+versions and all CLI packets, and requires byte-identical raw repeats per case.
+No packages are added to the base install. Uploaded packets still require
+independent hash, source identity, eigenpair and reference review; green generic
+CI or workflow configuration alone does not establish platform acceptance.
+Entry 006 stays unchecked until actual solver execution and review are complete.
+No MCP, UI/screenshot or measurement validation is added.
+
+Benchmark operator steps: first inspect active runs with
+`gh run list --workflow sqcircuit-integration.yml`. Dispatch once with
+`gh workflow run sqcircuit-integration.yml --ref main`, record its exact SHA,
+and inspect each platform job before downloading `sqcircuit-lc-*` artifacts.
+If installation fails, retain its log and rerun the same job unchanged before
+changing pins. If numerical checks fail, preserve the packet and predeclared
+limits. Do not mark the checklist complete from installation or process exit.
+AI prompt: “Review the retained SQcircuit platform packets, verify hashes and
+recompute the LC reference and eigenpair checks before proposing acceptance.”
