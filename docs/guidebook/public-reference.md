@@ -48,3 +48,39 @@ integer confidence values.
 Pinned reference JSON is decoded as UTF-8 explicitly on every platform,
 including Windows with a legacy default locale. A decoding failure produces
 a failed mask check; it never becomes a successful electrical comparison.
+
+## Read one offline frequency prior
+
+From the repository with the pinned dataset cached by the reference command:
+
+```python
+from pathlib import Path
+from textlayout.external.squadds_mcp import load_wm1_prior
+
+prior = load_wm1_prior(
+    Path.home() / ".cache/textlayout/squadds/measured_device_database.json",
+    "qubit_1",
+)
+print(prior.to_dict())
+```
+
+Expected: resonator_frequency_hz=6116000000, qubit_frequency_hz=4216000000,
+anharmonicity_hz=-153000000, PRIOR_ONLY and physics_verified=false. The
+frequency unit is Hz, not rad/s. Original fields (including the upstream
+Anharmocity_MHz spelling), units and scale factors remain in dataset_metadata.
+Local repeated API execution checked all six records against independently
+transcribed Hz values. No package installation or numerical simulation occurs.
+
+This API needs only the database file; it neither fetches nor requires the GDS.
+On missing data, obtain the pinned asset using the earlier reference workflow
+or its documented source URL. On a hash mismatch preserve the file for diagnosis
+and restore the exact pinned revision; do not edit the expected hash. Select
+qubit_1 through qubit_6 explicitly; nearest-neighbour search is not provided.
+No geometry, capacitance, junction value or uncertainty is inferred. Estimated
+and extracted fields outside these three frequency fields are not imported.
+
+AI prompt: “Read the pinned WM1 qubit_1 prior with load_wm1_prior; show original
+units, source revision and converted Hz. Keep PRIOR_ONLY and explain the missing
+device-to-layout mapping before using the values as design inputs.”
+
+CLI/MCP integration and GUI screenshots for this loader remain pending.

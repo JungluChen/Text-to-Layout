@@ -85,3 +85,13 @@ compatibility remains untested. A future isolated runtime should pin the
 published wheel hash above and verify installed metadata separately.
 Next define the offline dataset-prior scope, explicit units and provenance;
 keep upstream-package execution distinct from a local dataset importer.
+
+## Offline WM1 frequency loader
+
+The existing prior boundary now exposes load_wm1_prior for exact device selection
+from hash-pinned local bytes. It imports only F_res_GHz, F_01_GHz and signed
+Anharmocity_MHz into Hz, retaining the original fields and conversion metadata.
+Repeated local execution on all six published records matched independently
+transcribed values exactly. This is data-conversion evidence, not prediction,
+SQuADDS package execution or electrical agreement. Entry 007 remains unchecked;
+CLI, upstream tool execution where required and platform acceptance are pending.

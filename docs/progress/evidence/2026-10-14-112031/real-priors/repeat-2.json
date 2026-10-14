@@ -1,0 +1,314 @@
+[
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_1",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6116000000.0,
+      "qubit_frequency_hz": 4216000000.0,
+      "anharmonicity_hz": -153000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_1",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.116,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 4.216,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -153,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  },
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_2",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6353000000.0,
+      "qubit_frequency_hz": 3896000000.0,
+      "anharmonicity_hz": -154000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_2",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.353,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 3.896,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -154,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  },
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_3",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6472000000.0,
+      "qubit_frequency_hz": 4451000000.0,
+      "anharmonicity_hz": -189000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_3",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.472,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 4.451,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -189,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  },
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_4",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6568000000.0,
+      "qubit_frequency_hz": 3586000000.0,
+      "anharmonicity_hz": -164000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_4",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.568,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 3.586,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -164,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  },
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_5",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6655000000.0,
+      "qubit_frequency_hz": 4101000000.0,
+      "anharmonicity_hz": -210000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_5",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.655,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 4.101,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -210,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  },
+  {
+    "schema": "textlayout.squadds-prior.v1",
+    "source": "SQuADDS",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false,
+    "design_id": "WM1/qubit_6",
+    "hamiltonian_parameters": {
+      "resonator_frequency_hz": 6704000000.0,
+      "qubit_frequency_hz": 3881000000.0,
+      "anharmonicity_hz": -176000000.0
+    },
+    "geometry_priors": {},
+    "dataset_metadata": {
+      "source_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+      "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+      "source_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+      "license": "MIT (SQuADDS_DB dataset card)",
+      "selection": {
+        "contribution": "WM1",
+        "device_id": "qubit_6",
+        "measured_results_index": 0,
+        "H_params_index": 0
+      },
+      "fields": {
+        "resonator_frequency_hz": {
+          "source_field": "F_res_GHz",
+          "source_value": 6.704,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "qubit_frequency_hz": {
+          "source_field": "F_01_GHz",
+          "source_value": 3.881,
+          "source_unit": "GHz",
+          "scale_to_hz": 1000000000.0,
+          "unit": "Hz"
+        },
+        "anharmonicity_hz": {
+          "source_field": "Anharmocity_MHz",
+          "source_value": -176,
+          "source_unit": "MHz",
+          "scale_to_hz": 1000000.0,
+          "unit": "Hz"
+        }
+      },
+      "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
+      "device_to_top_variant_mapping": null,
+      "electrical_reproduction_status": "NOT_EVALUATED",
+      "upstream_package_executed": false
+    }
+  }
+]

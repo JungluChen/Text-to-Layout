@@ -1,0 +1,7 @@
+{
+  "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+  "dataset_card_url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/raw/0e25705f54c343fb96571ff15b6fd8375ca899aa/README.md",
+  "dataset_card_sha256": "5cd6223728901398b6dd96567da5c1798a9e6d04bf9d642801766acebb165a37",
+  "license_declaration": "mit",
+  "scope": "Three published ordinary-frequency fields, no upstream package execution"
+}

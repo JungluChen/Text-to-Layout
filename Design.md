@@ -385,3 +385,10 @@ within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
 supersedes earlier pending platform/checklist statements for this narrow scope.
 Nonlinear/noise/EM/measurement and broader domain support remain pending;
 harmonic truncation does not demonstrate nontrivial spatial convergence.
+
+### Offline WM1 prior boundary
+
+The Python API can now select a published WM1 frequency prior from pinned local
+bytes. A future UI must display source/revision, device ID, original units and
+converted Hz, and retain PRIOR_ONLY. Geometry mapping is missing; no UI or
+screenshot is delivered by this API slice.

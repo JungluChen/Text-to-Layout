@@ -342,3 +342,11 @@ within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
 supersedes earlier pending platform/checklist statements for this narrow scope.
 Nonlinear/noise/EM/measurement and broader domain support remain pending;
 harmonic truncation does not demonstrate nontrivial spatial convergence.
+
+### INT-15 — offline WM1 prior selection
+
+The bounded SQuADDS API must read only the pinned local dataset, select an
+explicit qubit_1 through qubit_6, and preserve source identity and original
+unit fields alongside ordinary-Hz values. Reject changed bytes and ambiguous
+records. Return PRIOR_ONLY with no geometry inference or electrical promotion.
+Upstream package execution, CLI/MCP/GUI and platform acceptance are separate.

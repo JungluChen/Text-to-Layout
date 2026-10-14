@@ -458,3 +458,16 @@ within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
 supersedes earlier pending platform/checklist statements for this narrow scope.
 Nonlinear/noise/EM/measurement and broader domain support remain pending;
 harmonic truncation does not demonstrate nontrivial spatial convergence.
+
+## Offline SQuADDS WM1 prior API
+
+`textlayout.external.squadds_mcp.load_wm1_prior(database: str | Path, device_id: str)`
+returns the existing `SquaddsPrior`; serialize with `to_dict()`. No defaults:
+provide a local pinned measured_device_database.json and qubit_1 through qubit_6.
+Returns resonator_frequency_hz, qubit_frequency_hz and signed anharmonicity_hz
+with source fields/units/scale, selection and SHA256/revision metadata. Reads at
+most 1 MiB plus a sentinel byte; no writes, network, upstream import or solver.
+Changed bytes/invalid selection raise ValueError; filesystem errors propagate.
+Status PRIOR_ONLY; geometry_priors empty, electrical reproduction NOT_EVALUATED.
+CLI equivalent and live MCP schema pending; this is not a callable host tool.
+See [the guidebook](guidebook/public-reference.md) for a verified Python example.

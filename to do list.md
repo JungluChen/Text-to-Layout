@@ -589,3 +589,12 @@ contract and independently verify its dataset provenance/units. See
 shows successful finalization after 20 seconds. Unchanged failed-job retry
 dispatched; no fix or timeout change. Compare retry and collect phase timings
 before implementation. See `docs/progress/2026-10-14-043935.md`.
+
+### Offline SQuADDS WM1 slice
+
+The prior boundary now selects an exact device from the pinned offline dataset,
+retains source/units and converts three frequency fields to Hz. All six real
+records checked twice locally; no electrical or checklist promotion. Next add
+CLI and repeated platform data-provenance checks; upstream package execution
+remains distinct. Windows retry 38426799625 attempt 2 and checkpoint CI
+38464627633/38464627332 passed unchanged; the lifecycle cause is still unresolved.
