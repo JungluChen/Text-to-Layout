@@ -115,6 +115,17 @@ def _cmd_circuitq_lc(args: argparse.Namespace) -> int:
     return 0 if result.numerical_checks_passed else 1
 
 
+def _cmd_squadds_prior(args: argparse.Namespace) -> int:
+    from textlayout.external.squadds_mcp import load_wm1_prior
+    try:
+        prior = load_wm1_prior(Path(args.database), args.device)
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
+        return 1
+    print(json.dumps(prior.to_dict(), indent=2, allow_nan=False))
+    return 0
+
+
 def _cmd_sqcircuit_lc(args: argparse.Namespace) -> int:
     from textlayout.evidence.contract import EvidenceStatus
     from textlayout.external.sqcircuit_lc import SQcircuitLCRequest
@@ -1566,6 +1577,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_sqc.add_argument("--out", required=True, help="Fresh evidence directory; existing runs are preserved.")
     p_sqc.add_argument("--timeout", type=float, default=120.0, help="Finite positive worker timeout in seconds (default: 120); no resume.")
     p_sqc.set_defaults(func=_cmd_sqcircuit_lc)
+
+    p_prior = sub.add_parser("squadds-prior", help="Read a pinned offline WM1 frequency prior; no simulation or network.")
+    p_prior.add_argument("database", type=Path, help="Local pinned measured_device_database.json.")
+    p_prior.add_argument("--device", required=True, choices=[f"qubit_{i}" for i in range(1, 7)], help="Exact WM1 device; no inferred geometry mapping.")
+    p_prior.set_defaults(func=_cmd_squadds_prior)
 
     return parser
 

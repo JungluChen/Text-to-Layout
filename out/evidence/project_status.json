@@ -45,7 +45,8 @@
     "quantum-metal-mask": [],
     "pyepr-circuit": [],
     "circuitq-lc": [],
-    "sqcircuit-lc": []
+    "sqcircuit-lc": [],
+    "squadds-prior": []
   },
   "showcase": {
     "total_examples": 6,

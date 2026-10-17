@@ -350,3 +350,7 @@ explicit qubit_1 through qubit_6, and preserve source identity and original
 unit fields alongside ordinary-Hz values. Reject changed bytes and ambiguous
 records. Return PRIOR_ONLY with no geometry inference or electrical promotion.
 Upstream package execution, CLI/MCP/GUI and platform acceptance are separate.
+
+Offline WM1 priors are also accessible through `textlayout squadds-prior DATABASE
+--device qubit_N`. The CLI prints JSON, preserves PRIOR_ONLY and performs no
+network access or file writes. GUI and MCP delivery remain pending.

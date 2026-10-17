@@ -598,3 +598,10 @@ records checked twice locally; no electrical or checklist promotion. Next add
 CLI and repeated platform data-provenance checks; upstream package execution
 remains distinct. Windows retry 38426799625 attempt 2 and checkpoint CI
 38464627633/38464627332 passed unchanged; the lifecycle cause is still unresolved.
+
+### WM1 offline CLI
+
+Thin squadds-prior CLI now exposes the verified loader with exact device
+selection, stdout JSON and explicit failure exits. Repeated local real-data
+output matches; platform benchmark acceptance and upstream toolkit execution
+remain pending. Entry 007 stays unchecked.

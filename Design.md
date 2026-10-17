@@ -392,3 +392,7 @@ The Python API can now select a published WM1 frequency prior from pinned local
 bytes. A future UI must display source/revision, device ID, original units and
 converted Hz, and retain PRIOR_ONLY. Geometry mapping is missing; no UI or
 screenshot is delivered by this API slice.
+
+Offline WM1 priors are also accessible through `textlayout squadds-prior DATABASE
+--device qubit_N`. The CLI prints JSON, preserves PRIOR_ONLY and performs no
+network access or file writes. GUI and MCP delivery remain pending.

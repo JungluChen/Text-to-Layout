@@ -70,3 +70,39 @@ def test_ambiguous_contribution_and_missing_device_rejected(dataset):
     del rows[0]["measured_results"][0]["H_params"][0]["qubit_6"]
     with pytest.raises(ValueError, match="six WM1"):
         load_wm1_prior(write(rows), "qubit_1")
+
+
+def test_cli_json_and_read_only_source(dataset, capsys):
+    from textlayout.cli import main
+    rows, write = dataset
+    path = write(rows)
+    before = path.read_bytes()
+    assert main(["squadds-prior", str(path), "--device", "qubit_2"]) == 0
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert json.loads(captured.out) == load_wm1_prior(path, "qubit_2").to_dict()
+    assert path.read_bytes() == before
+
+
+def test_cli_missing_and_changed_source(dataset, capsys, tmp_path):
+    from textlayout.cli import main
+    assert main(["squadds-prior", str(tmp_path / "missing"), "--device", "qubit_1"]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert json.loads(captured.err)["error"] == "FileNotFoundError"
+    rows, write = dataset
+    path = write(rows)
+    path.write_bytes(b"changed")
+    assert main(["squadds-prior", str(path), "--device", "qubit_1"]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "SHA-256" in json.loads(captured.err)["message"]
+
+
+def test_cli_requires_explicit_valid_device():
+    from textlayout.cli import main
+    for args in (["squadds-prior", "unused"],
+                 ["squadds-prior", "unused", "--device", "qubit_7"]):
+        with pytest.raises(SystemExit) as caught:
+            main(args)
+        assert caught.value.code == 2

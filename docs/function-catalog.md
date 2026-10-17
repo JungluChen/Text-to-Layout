@@ -469,5 +469,7 @@ with source fields/units/scale, selection and SHA256/revision metadata. Reads at
 most 1 MiB plus a sentinel byte; no writes, network, upstream import or solver.
 Changed bytes/invalid selection raise ValueError; filesystem errors propagate.
 Status PRIOR_ONLY; geometry_priors empty, electrical reproduction NOT_EVALUATED.
-CLI equivalent and live MCP schema pending; this is not a callable host tool.
+CLI: `textlayout squadds-prior DATABASE --device qubit_N`; prints JSON to stdout.
+Exit 0 means prior read, 1 means source/hash failure (JSON stderr), 2 means
+argument error. No writes or network. Live MCP schema remains pending.
 See [the guidebook](guidebook/public-reference.md) for a verified Python example.

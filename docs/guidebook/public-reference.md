@@ -83,4 +83,21 @@ AI prompt: “Read the pinned WM1 qubit_1 prior with load_wm1_prior; show origin
 units, source revision and converted Hz. Keep PRIOR_ONLY and explain the missing
 device-to-layout mapping before using the values as design inputs.”
 
-CLI/MCP integration and GUI screenshots for this loader remain pending.
+MCP integration and GUI screenshots for this loader remain pending.
+
+### Offline CLI
+
+From the repository, after caching the pinned database:
+
+```sh
+uv run textlayout squadds-prior ~/.cache/textlayout/squadds/measured_device_database.json --device qubit_1
+```
+
+The expected values and provenance are identical to the Python example above.
+The command prints the prior JSON to stdout and does not write files. Exit 0
+means the prior was read; it does not mean physics validation. Missing files
+or changed hashes produce JSON on stderr and exit 1. A missing or invalid
+--device produces argparse usage and exit 2. All six qubit IDs are explicit;
+there is no default or closest-match selection. Repeat the command against
+the same bytes for identical output. Never redirect stdout onto the source
+database; use a different file if saving the result.

@@ -1,0 +1,2 @@
+::error::stale generated project status: /Users/ludko/Desktop/text2layout/Text-to-Layout/out/evidence/project_status.json
+::error::stale generated project status: /Users/ludko/Desktop/text2layout/Text-to-Layout/PROJECT_STATUS.md
