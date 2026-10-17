@@ -101,3 +101,15 @@ or changed hashes produce JSON on stderr and exit 1. A missing or invalid
 there is no default or closest-match selection. Repeat the command against
 the same bytes for identical output. Never redirect stdout onto the source
 database; use a different file if saving the result.
+
+### Dedicated prior-data platform benchmark
+
+The manual `squadds-prior-integration` workflow uses Python 3.12 and the frozen
+core environment on Windows, macOS and Linux. It downloads only the pinned
+dataset, executes all six CLI selections twice, and checks expected Hz, source
+identity, PRIOR_ONLY and identical repeats. It retains source bytes, command
+records, stdout/stderr, runtime identity and hashes. No upstream SQuADDS package
+or solver runs. Workflow existence is not platform acceptance: download and
+independently inspect all packets after a successful exact-SHA run. On failure,
+preserve the artifact and rerun unchanged before editing; never promote a
+partial packet or omit a failed platform.

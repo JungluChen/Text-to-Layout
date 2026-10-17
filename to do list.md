@@ -605,3 +605,6 @@ Thin squadds-prior CLI now exposes the verified loader with exact device
 selection, stdout JSON and explicit failure exits. Repeated local real-data
 output matches; platform benchmark acceptance and upstream toolkit execution
 remain pending. Entry 007 stays unchecked.
+
+Manual WM1 platform benchmark added; actual exact-SHA execution and downloaded
+packet review pending. No entry-007 checklist promotion from workflow code.

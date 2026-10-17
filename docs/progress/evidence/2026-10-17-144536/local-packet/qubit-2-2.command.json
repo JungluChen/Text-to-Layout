@@ -1,0 +1,1 @@
+{"command": ["/Users/ludko/Desktop/text2layout/Text-to-Layout/.venv/bin/python3", "-m", "textlayout.cli", "squadds-prior", "out/wm1-prior-platform/source/measured_device_database.json", "--device", "qubit_2"], "return_code": 0}

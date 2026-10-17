@@ -1,0 +1,84 @@
+name: squadds-prior-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: squadds-prior-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  prior:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - run: uv sync --frozen --dev
+      - name: Execute all six pinned priors twice and verify provenance
+        shell: bash
+        run: |
+          uv run --no-sync python - <<'PYTHON'
+          import hashlib, json, os, platform, subprocess, sys
+          from pathlib import Path
+          from textlayout.verification.squadds_reference import ASSETS, verified_asset
+
+          root = Path('out/wm1-prior-platform')
+          root.mkdir(parents=True, exist_ok=False)
+          asset = ASSETS['measured_device_database.json']
+          database = verified_asset('measured_device_database.json', root / 'source', offline=False)
+          original = database.read_bytes()
+          expected = json.loads(Path('docs/progress/evidence/2026-10-14-112031/real-priors/expected-hz.json').read_text())
+          runtime = {'python': sys.version, 'executable': sys.executable,
+                     'platform': platform.platform(), 'commit': os.environ['GITHUB_SHA'],
+                     'source': asset, 'upstream_package_executed': False}
+          (root / 'runtime.json').write_text(json.dumps(runtime, indent=2), encoding='utf-8')
+          checks = []
+          for i, values in enumerate(expected, 1):
+              outputs = []
+              for repeat in (1, 2):
+                  command = [sys.executable, '-m', 'textlayout.cli', 'squadds-prior',
+                             str(database), '--device', f'qubit_{i}']
+                  run = subprocess.run(command, capture_output=True, timeout=60)
+                  prefix = root / f'qubit-{i}-{repeat}'
+                  prefix.with_suffix('.json').write_bytes(run.stdout)
+                  prefix.with_suffix('.stderr.txt').write_bytes(run.stderr)
+                  prefix.with_suffix('.command.json').write_text(json.dumps(
+                      {'command': command, 'return_code': run.returncode}), encoding='utf-8')
+                  assert run.returncode == 0, run.stderr
+                  row = json.loads(run.stdout)
+                  assert row['design_id'] == f'WM1/qubit_{i}'
+                  assert row['hamiltonian_parameters'] == dict(zip(
+                      ('resonator_frequency_hz', 'qubit_frequency_hz', 'anharmonicity_hz'), values))
+                  assert row['evidence_status'] == 'PRIOR_ONLY' and row['physics_verified'] is False
+                  assert row['geometry_priors'] == {}
+                  meta = row['dataset_metadata']
+                  assert meta['source_sha256'] == asset['sha256']
+                  assert meta['source_revision'] == asset['revision']
+                  assert meta['source_url'] == asset['url']
+                  assert meta['selection']['device_id'] == f'qubit_{i}'
+                  assert meta['electrical_reproduction_status'] == 'NOT_EVALUATED'
+                  assert meta['device_to_top_variant_mapping'] is None
+                  assert meta['upstream_package_executed'] is False
+                  outputs.append(run.stdout)
+              assert outputs[0] == outputs[1]
+              checks.append({'device': i, 'repeat_identical': True})
+          assert database.read_bytes() == original
+          assert hashlib.sha256(original).hexdigest() == asset['sha256']
+          (root / 'checks.json').write_text(json.dumps(checks, indent=2), encoding='utf-8')
+          hashes = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in root.rglob('*') if p.is_file()}
+          (root / 'sha256.json').write_text(json.dumps(hashes, indent=2), encoding='utf-8')
+          PYTHON
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wm1-prior-${{ matrix.os }}
+          path: out/wm1-prior-platform
+          if-no-files-found: error
+          retention-days: 30
