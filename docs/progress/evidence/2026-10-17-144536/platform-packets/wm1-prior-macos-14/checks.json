@@ -1,0 +1,26 @@
+[
+  {
+    "device": 1,
+    "repeat_identical": true
+  },
+  {
+    "device": 2,
+    "repeat_identical": true
+  },
+  {
+    "device": 3,
+    "repeat_identical": true
+  },
+  {
+    "device": 4,
+    "repeat_identical": true
+  },
+  {
+    "device": 5,
+    "repeat_identical": true
+  },
+  {
+    "device": 6,
+    "repeat_identical": true
+  }
+]

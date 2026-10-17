@@ -1,0 +1,13 @@
+{
+  "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "executable": "/Users/runner/work/Text-to-Layout/Text-to-Layout/.venv/bin/python",
+  "platform": "macOS-14.8.9-arm64-arm-64bit",
+  "commit": "0b20def4384cfe292b0dd6a4083bf4ff300f5384",
+  "source": {
+    "url": "https://huggingface.co/datasets/SQuADDS/SQuADDS_DB/resolve/0e25705f54c343fb96571ff15b6fd8375ca899aa/measured_device_database.json",
+    "sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+    "revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
+    "license": "MIT (SQuADDS_DB dataset card)"
+  },
+  "upstream_package_executed": false
+}

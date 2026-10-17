@@ -1,0 +1,1 @@
+{"command": ["D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Scripts\\python.exe", "-m", "textlayout.cli", "squadds-prior", "out\\wm1-prior-platform\\source\\measured_device_database.json", "--device", "qubit_6"], "return_code": 0}

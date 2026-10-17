@@ -1,0 +1,47 @@
+import hashlib, json
+from pathlib import Path
+root=Path('/private/tmp/wm1-platform-39011118059')
+sha='0b20def4384cfe292b0dd6a4083bf4ff300f5384'
+reports=[]
+outputs={}
+for packet in sorted(root.iterdir()):
+    hashes={name.replace(chr(92), '/'): digest for name,digest in json.loads((packet/'sha256.json').read_text()).items()}
+    actual={str(p.relative_to(packet)) for p in packet.rglob('*') if p.is_file() and p.name!='sha256.json'}
+    assert set(hashes)==actual
+    for name,digest in hashes.items():
+        assert hashlib.sha256((packet/name).read_bytes()).hexdigest()==digest
+    runtime=json.loads((packet/'runtime.json').read_text())
+    assert runtime['commit']==sha and runtime['upstream_package_executed'] is False
+    source=(packet/'source/measured_device_database.json').read_bytes()
+    assert hashlib.sha256(source).hexdigest()=='898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069'
+    wm1=[r for r in json.loads(source) if r['contrib_info']['name']=='WM1']
+    assert len(wm1)==1
+    devices=wm1[0]['measured_results'][0]['H_params'][0]
+    for i in range(1,7):
+        raw=devices[f'qubit_{i}']
+        expected=dict(zip(['resonator_frequency_hz','qubit_frequency_hz','anharmonicity_hz'],[raw['F_res_GHz']*10**9,raw['F_01_GHz']*10**9,raw['Anharmocity_MHz']*10**6]))
+        pair=[]
+        for repeat in (1,2):
+            prefix=packet/f'qubit-{i}-{repeat}'
+            row=json.loads(prefix.with_suffix('.json').read_bytes())
+            assert row['hamiltonian_parameters']==expected
+            assert row['design_id']==f'WM1/qubit_{i}'
+            assert row['evidence_status']=='PRIOR_ONLY' and row['physics_verified'] is False
+            assert row['geometry_priors']=={}
+            meta=row['dataset_metadata']
+            assert meta['source_sha256']==hashlib.sha256(source).hexdigest()
+            assert meta['selection']['device_id']==f'qubit_{i}'
+            assert meta['device_to_top_variant_mapping'] is None
+            assert meta['electrical_reproduction_status']=='NOT_EVALUATED'
+            assert meta['upstream_package_executed'] is False
+            assert json.loads(prefix.with_suffix('.command.json').read_text())['return_code']==0
+            assert prefix.with_suffix('.stderr.txt').read_bytes()==b''
+            pair.append(prefix.with_suffix('.json').read_bytes())
+        assert pair[0]==pair[1]
+        if i in outputs: assert json.loads(outputs[i])==json.loads(pair[0])
+        outputs[i]=pair[0]
+    reports.append({'artifact':packet.name,'platform':runtime['platform'],'files_verified':len(hashes),'calls_verified':12,'unit_conversions':'recomputed from retained source','unchanged_repeat_identical':True})
+assert len(reports)==3
+result={'run_id':39011118059,'commit':sha,'platforms':reports,'cross_platform_json_equal':True,'cross_platform_stdout_identical':False,'byte_difference':'Windows CRLF versus POSIX LF','scope':'PRIOR_ONLY; no upstream package execution or electrical reproduction'}
+Path('/private/tmp/wm1-platform-audit.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))
