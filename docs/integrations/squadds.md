@@ -107,3 +107,33 @@ or solver runs. Workflow existence is not platform acceptance: download and
 independently inspect all packets after a successful exact-SHA run. On failure,
 preserve the artifact and rerun unchanged before editing; never promote a
 partial packet or omit a failed platform.
+
+## Upstream helper execution audit (2026-10-18)
+
+Pinned wheel member `squadds/core/db_devices.py` executed unchanged in a
+standalone namespace against the pinned dataset twice, with identical output.
+All three measured-device metadata projections match an independent direct
+projection; WM1 simulation configuration identifiers match source strings.
+These are identifiers, not numerical simulation results. Package import,
+SQuADDS_DB construction and MCP were not executed. This narrowly establishes
+helper execution only, not installed-package or platform acceptance.
+
+Observed provenance discrepancy reproduced unchanged: WM1 top-level foundry
+and find_reference_device_info report SQUILL, while
+find_device_contributor_info reports N/A because it reads contrib_info.foundry.
+Preserve source-level placement rather than treating N/A as absent fabrication
+provenance. No upstream or product code was patched.
+
+Static constructor audit: SQuADDS_DB.__init__ invokes supported_config_names,
+which calls load_supported_config_names. That calls delete_HF_cache and
+get_dataset_config_names with force_redownload. Cache deletion uses a path
+built from expanduser('~') (and a distinct Windows path), so HF_HOME alone
+is insufficient isolation. Normal package import eagerly imports Analyzer
+and database code despite the lazy AnsysSimulator export.
+
+Next: resolve a pinned optional runtime separately, then run normal package
+import and constructor with a disposable OS user/home and explicit dataset
+revision policy. Do not monkeypatch constructor/network calls and describe
+that as normal package execution. Retain failures, versions and cache effects;
+repeat unchanged before adding a typed upstream execution adapter. Entry 007
+remains unchecked. Evidence: ../progress/evidence/2026-10-18-224826/.

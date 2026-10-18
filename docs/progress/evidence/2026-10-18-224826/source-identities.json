@@ -1,0 +1,7 @@
+{
+  "squadds/__init__.py": "e87340363f30967a8cbca7bd7013beafc0b04bd0fea41cff0bab6c9c4261b02c",
+  "squadds/core/db.py": "d9320467c9c9733cae8ba47fad93491891eb2b39391dc608ed478e52ccf7add7",
+  "squadds/core/db_devices.py": "dea8dd7f2a7c949c21794a7fbe333253f2a6f9f310f4d2e1f99e35623e3f760c",
+  "squadds/core/db_catalog.py": "88d568c184e053e85a437997ab224cb21ac31235e27e1a0557ac04132d97eba2",
+  "squadds/core/utils_hf.py": "74c2bc9a03b5099d8fba682ce7016edc4e1f3f05892e64f1949bf4a74cd7c8f1"
+}

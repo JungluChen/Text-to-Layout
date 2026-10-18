@@ -1,0 +1,24 @@
+import hashlib,json,sys,zipfile,platform
+from pathlib import Path
+wheel,database,output=map(Path,sys.argv[1:])
+wbytes=wheel.read_bytes(); dbytes=database.read_bytes()
+assert hashlib.sha256(wbytes).hexdigest()=='b0b9ef9dcff843c26577bab9dd57801aaa533dcc388535392c09b9d0646e7c2f'
+assert hashlib.sha256(dbytes).hexdigest()=='898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069'
+z=zipfile.ZipFile(wheel); member='squadds/core/db_devices.py'; source=z.read(member)
+namespace={'__name__':'isolated_squadds_db_devices_probe'}
+exec(compile(source,member,'exec'),namespace)
+rows=json.loads(dbytes); columns={key:[row[key] for row in rows] for key in rows[0]}
+records=namespace['build_measured_device_records'](columns)
+expected=[{'Name':r['contrib_info']['name'],**{label:r[key] for label,key in [('Design Code','design_code'),('Paper Link','paper_link'),('Image','image'),('Foundry','foundry'),('Substrate','substrate'),('Materials','materials'),('Junction Style','junction_style'),('Junction Materials','junction_material')]}} for r in rows]
+assert records==expected
+wm1=rows[0]; config=wm1['sim_results'][0]
+results=namespace['find_simulation_results_for_device'](columns,'WM1')
+assert results==wm1['sim_results']
+reference=namespace['find_reference_device_info'](columns,config)
+assert reference['Foundry']==wm1['foundry']=='SQUILL'
+contributor=namespace['find_device_contributor_info'](columns,config)
+assert contributor['Foundry']=='N/A' # observed upstream nested lookup, not a correction
+assert namespace['find_simulation_results_for_device'](columns,'absent')=={}
+assert namespace['find_reference_device_info'](columns,'absent') is None
+report={'scope':'Executed unchanged wheel member only; package import, SQuADDS_DB initialization and MCP not executed','wheel_sha256':hashlib.sha256(wbytes).hexdigest(),'source_member':member,'source_sha256':hashlib.sha256(source).hexdigest(),'dataset_sha256':hashlib.sha256(dbytes).hexdigest(),'python':sys.version,'platform':platform.platform(),'records':records,'wm1_config_identifiers':results,'reference':reference,'contributor':contributor,'foundry_disagreement':{'record_level':wm1['foundry'],'reference_helper':reference['Foundry'],'contributor_helper':contributor['Foundry']},'exact_projection_check':True,'electrical_reproduction':'NOT_EVALUATED'}
+output.write_text(json.dumps(report,indent=2)+'\n')

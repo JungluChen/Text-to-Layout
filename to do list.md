@@ -608,3 +608,10 @@ remain pending. Entry 007 stays unchecked.
 
 Manual WM1 platform benchmark added; actual exact-SHA execution and downloaded
 packet review pending. No entry-007 checklist promotion from workflow code.
+
+Entry 007 follow-up (2026-10-18): three-platform WM1 prior run and exact-SHA
+CI passed. Unchanged upstream metadata helper executed twice locally; foundry
+lookup discrepancy and constructor cache-deletion/forced-fetch effects audited.
+Normal installed-package execution remains pending; isolate home as well as
+environment before constructor probes. See docs/integrations/squadds.md and
+docs/progress/2026-10-18-224826.md. Checklist remains 6/100.
