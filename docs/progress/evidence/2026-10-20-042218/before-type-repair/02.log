@@ -1,0 +1,3 @@
+src/textlayout/external/_squadds_metadata_worker.py:36: error: Argument 1 to "Path" has incompatible type "SimplePath[Any]"; expected "str | PathLike[str]"  [arg-type]
+src/textlayout/external/_squadds_metadata_worker.py:42: error: Argument 1 to "Path" has incompatible type "str | None"; expected "str | PathLike[str]"  [arg-type]
+Found 2 errors in 1 file (checked 199 source files)

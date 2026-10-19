@@ -637,3 +637,8 @@ packet in docs/progress/2026-10-19-221501.md. No automatic solver rerun or
 branch merge. Windows Python 3.12 CI 39220790303 observed running, then
 finalized return 0 at 16 seconds from creation; unchanged failed-job retry
 attempt 2 pending. Retain phase timings before any lifecycle fix.
+
+Entry 007 raw metadata worker now executes pinned installed helpers offline.
+Two local packets match the retained independent projections. Next typed
+product-side assessment/runner, retained failures and platform execution;
+raw NOT_EVALUATED output does not complete the checklist.

@@ -184,3 +184,23 @@ upstream discrepancy rather than silently filling fields. Before acceptance,
 retain repeated normal-package execution on Windows/Linux as well as macOS.
 Live database retrieval still needs a separately specified revision/cache
 contract; it need not be invoked for this offline helper scope. Entry stays open.
+
+### Offline SQuADDS metadata worker
+
+Developer interface: run `src/textlayout/external/_squadds_metadata_worker.py
+DATABASE NEW_OUTPUT.json` with the explicitly selected isolated Python runtime.
+Requires SQuADDS 0.4.5, datasets 5.0.1, PyArrow 21.0.0, NumPy 1.26.4 and
+pandas 2.3.3 (complete audited runtime pins retained in the integration audit).
+It checks dataset SHA256/1 MiB bound and installed helper hash, uses normal
+upstream imports with offline dataset flags, and writes a new raw JSON packet.
+Existing outputs are refused. No base dependency is added, no SQuADDS_DB
+constructor or remote retrieval is invoked. Optional imports may create library
+caches; use the isolated runtime/cache configuration documented in the audit.
+
+Output is PRIOR_ONLY, physics_verified=false, assessment_status=NOT_EVALUATED.
+Configuration names are identifiers, not simulation values. The observed
+SQUILL/N/A foundry discrepancy is preserved. This raw worker is not a typed
+public runner, CLI command, MCP endpoint or electrical validation; product-side
+assessment, timeout/log retention and Windows/Linux execution remain pending.
+No UI or screenshot delivered. On errors retain stderr, repair the explicit
+runtime/input and retry with a new output path; do not promote partial results.
