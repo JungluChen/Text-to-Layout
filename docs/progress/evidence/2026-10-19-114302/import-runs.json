@@ -1,0 +1,29 @@
+{
+  "runs": [
+    {
+      "command": [
+        "/private/tmp/squadds-resolution/venv/bin/python",
+        "/private/tmp/squadds-resolution/probe.py"
+      ],
+      "return_code": 1,
+      "elapsed_seconds": 57.542558083
+    },
+    {
+      "command": [
+        "/private/tmp/squadds-resolution/venv/bin/python",
+        "/private/tmp/squadds-resolution/probe.py"
+      ],
+      "return_code": 1,
+      "elapsed_seconds": 1.6149440420000047
+    }
+  ],
+  "environment": {
+    "MPLCONFIGDIR": "/private/tmp/squadds-resolution/mpl",
+    "XDG_CACHE_HOME": "/private/tmp/squadds-resolution/cache",
+    "HF_HOME": "/private/tmp/squadds-resolution/hf",
+    "HF_HUB_OFFLINE": "1",
+    "HF_DATASETS_OFFLINE": "1",
+    "QT_QPA_PLATFORM": "offscreen",
+    "PYTHONNOUSERSITE": "1"
+  }
+}

@@ -1,0 +1,17 @@
+Matplotlib is building the font cache; this may take a moment.
+SyntaxWarning: invalid escape sequence '\ '
+ /private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/scqubits/core/circuit_routines.py: 2700Traceback (most recent call last):
+  File "/private/tmp/squadds-resolution/probe.py", line 2, in <module>
+    import squadds
+  File "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/squadds/__init__.py", line 11, in <module>
+    from squadds.core.db import SQuADDS_DB
+  File "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/squadds/core/db.py", line 12, in <module>
+    from datasets import load_dataset
+  File "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/datasets/__init__.py", line 17, in <module>
+    from .arrow_dataset import Column, Dataset
+  File "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 59, in <module>
+    import pyarrow as pa
+  File "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/pyarrow/__init__.py", line 59, in <module>
+    from pyarrow.lib import (BuildInfo, CppBuildInfo, RuntimeInfo, set_timezone_db_path,
+  File "pyarrow/lib.pyx", line 42, in init pyarrow.lib
+ImportError: pyarrow requires NumPy 2.0 or newer, found 1.26.4

@@ -1,0 +1,3 @@
+import importlib.metadata as md, json, platform, sys
+import squadds
+print(json.dumps({"python":sys.version,"platform":platform.platform(),"package_version":md.version("squadds"),"import_version":squadds.__version__,"module_file":squadds.__file__,"database_class":squadds.SQuADDS_DB.__name__,"database_constructed":False,"simulation_executed":False},indent=2))

@@ -1,0 +1,10 @@
+{
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "package_version": "0.4.5",
+  "import_version": "0.4.5",
+  "module_file": "/private/tmp/squadds-resolution/venv/lib/python3.12/site-packages/squadds/__init__.py",
+  "database_class": "SQuADDS_DB",
+  "database_constructed": false,
+  "simulation_executed": false
+}

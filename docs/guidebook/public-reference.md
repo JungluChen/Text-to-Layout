@@ -113,3 +113,16 @@ or solver runs. Workflow existence is not platform acceptance: download and
 independently inspect all packets after a successful exact-SHA run. On failure,
 preserve the artifact and rerun unchanged before editing; never promote a
 partial packet or omit a failed platform.
+
+### Optional SQuADDS runtime audit
+
+The offline `squadds-prior` CLI does not require the upstream SQuADDS package.
+Do not add its full dependency stack to the base environment merely to read
+pinned priors. An audited macOS import failure occurs with SQuADDS 0.4.5,
+NumPy 1.26.4 and PyArrow 26.0.0 despite a passing metadata check. A separately
+resolved PyArrow-21-constrained environment imported successfully twice; see
+[the runtime audit](../integrations/squadds.md). This is an experimental
+macOS import result, not a supported full SQuADDS installation or solver result.
+Keep the standalone environment and failed logs for diagnosis; use the existing
+offline prior CLI for its documented scope. Windows/Linux runtime and database
+initialization remain pending. No GUI screenshot applies to this import probe.

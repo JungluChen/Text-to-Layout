@@ -137,3 +137,25 @@ revision policy. Do not monkeypatch constructor/network calls and describe
 that as normal package execution. Retain failures, versions and cache effects;
 repeat unchanged before adding a typed upstream execution adapter. Entry 007
 remains unchecked. Evidence: ../progress/evidence/2026-10-18-224826/.
+
+## macOS normal-import compatibility probe (2026-10-19)
+
+A binary-only Python 3.12 macOS ARM64 resolution of the pinned 0.4.5 wheel
+installed 135 distributions and passed uv pip check, but normal import failed
+twice: PyArrow 26.0.0 requires NumPy >=2 at runtime, whereas SQuADDS requires
+NumPy <2 (resolved 1.26.4). Metadata compatibility is insufficient.
+
+Adding explicit pyarrow==21.0.0 produced a 134-distribution candidate and
+normal import passed twice on macOS 26.6.2 ARM64/Python 3.12.14. Installed and
+imported SQuADDS versions both equal 0.4.5; stdout matched byte-for-byte.
+This constraint also changes datasets (5.1.0 to 5.0.1), Hugging Face Hub
+(2.2.0 to 1.33.0), fsspec and HTTP dependencies. The entire resolved set,
+not PyArrow alone, is the tested environment. Hash manifests, both failed
+traces, both successful probes and dependency differences are retained in
+../progress/evidence/2026-10-19-114302/. No base dependency was changed.
+
+This is normal package import evidence only. SQuADDS_DB was not constructed;
+no dataset retrieval, electrical computation or MCP call was performed.
+Windows/Linux runtime compatibility remains untested. Next use a disposable
+user home for constructor/cache effects and define a revision-pinned dataset
+execution contract. Entry 007 remains unchecked.

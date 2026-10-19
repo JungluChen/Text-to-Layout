@@ -615,3 +615,10 @@ lookup discrepancy and constructor cache-deletion/forced-fetch effects audited.
 Normal installed-package execution remains pending; isolate home as well as
 environment before constructor probes. See docs/integrations/squadds.md and
 docs/progress/2026-10-18-224826.md. Checklist remains 6/100.
+
+2026-10-19 entry 007: normal SQuADDS 0.4.5 import failed twice with
+PyArrow 26/NumPy 1.26.4 despite passing dependency metadata checks. A separately
+hash-pinned set constrained to PyArrow 21 passed normal import twice on macOS;
+related dataset/network versions also changed. No base install changes or
+checklist promotion. Next controlled constructor/data execution with disposable
+user home; retain Windows/Linux as untested. See docs/progress/2026-10-19-114302.md.
