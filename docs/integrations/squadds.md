@@ -159,3 +159,28 @@ no dataset retrieval, electrical computation or MCP call was performed.
 Windows/Linux runtime compatibility remains untested. Next use a disposable
 user home for constructor/cache effects and define a revision-pinned dataset
 execution contract. Entry 007 remains unchecked.
+
+## Installed-package offline data execution (2026-10-19 follow-up)
+
+Normal `squadds.core.db_devices` import in the retained compatible runtime now
+executes against a real `datasets.Dataset.from_list` built from the hash-pinned
+local source. The installed helper bytes match the pinned wheel member exactly.
+Two unchanged runs passed independent projection checks for all three measured
+device metadata records, WM1 configuration-identifier lookup, reference lookup
+and absent-name behavior. Output JSON is byte-identical, with empty logs.
+The SQUILL/N/A foundry discrepancy reproduces through normal package imports.
+
+Evidence: ../progress/evidence/2026-10-19-160828/. Versions: SQuADDS 0.4.5,
+datasets 5.0.1, PyArrow 21.0.0, NumPy 1.26.4 and pandas 2.3.3. Full resolved
+runtime remains pinned in the preceding 114302 packet. No constructor override
+or fake module was used. SQuADDS_DB was not constructed; its forced retrieval
+and cache deletion were not invoked. Simulation configuration strings remain
+identifiers, not numerical results or electrical evidence.
+
+Next bounded implementation can expose this offline metadata projection via an
+isolated typed adapter, requiring explicit pinned local input and verifying
+installed source identity. Reject changed source/schema and preserve the
+upstream discrepancy rather than silently filling fields. Before acceptance,
+retain repeated normal-package execution on Windows/Linux as well as macOS.
+Live database retrieval still needs a separately specified revision/cache
+contract; it need not be invoked for this offline helper scope. Entry stays open.

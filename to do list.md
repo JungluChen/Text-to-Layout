@@ -622,3 +622,10 @@ hash-pinned set constrained to PyArrow 21 passed normal import twice on macOS;
 related dataset/network versions also changed. No base install changes or
 checklist promotion. Next controlled constructor/data execution with disposable
 user home; retain Windows/Linux as untested. See docs/progress/2026-10-19-114302.md.
+
+2026-10-19 installed-helper follow-up: normal SQuADDS imports and real local
+datasets.Dataset now pass repeated metadata/lookup checks against pinned bytes.
+Evidence docs/progress/2026-10-19-160828.md. Next implement the isolated typed
+offline metadata boundary with source/schema checks and repeated platform
+execution; no constructor or remote retrieval required for that narrow scope.
+Entry 007 remains unchecked; no electrical claim.

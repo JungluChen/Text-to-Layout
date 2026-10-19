@@ -1,0 +1,92 @@
+{
+  "scope": "Installed SQuADDS normal import and db_devices helpers on datasets.Dataset; constructor and MCP not executed",
+  "wheel_sha256": "b0b9ef9dcff843c26577bab9dd57801aaa533dcc388535392c09b9d0646e7c2f",
+  "source_member": "squadds/core/db_devices.py",
+  "source_sha256": "dea8dd7f2a7c949c21794a7fbe333253f2a6f9f310f4d2e1f99e35623e3f760c",
+  "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+  "dependency_versions": {
+    "squadds": "0.4.5",
+    "datasets": "5.0.1",
+    "pyarrow": "21.0.0",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3"
+  },
+  "dataset_type": "Dataset",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "records": [
+    {
+      "Name": "WM1",
+      "Design Code": "https://github.com/LFL-Lab/design_schema_WM1",
+      "Paper Link": "https://arxiv.org/pdf/2312.13483",
+      "Image": "https://github.com/LFL-Lab/design_schema_WM1/blob/main/assets/WM1_qiskit_metal.png",
+      "Foundry": "SQUILL",
+      "Substrate": "Silicon",
+      "Materials": "Aluminium",
+      "Junction Style": "Dolan",
+      "Junction Materials": "Al-AlOx-Al"
+    },
+    {
+      "Name": "\u201cdissipator\u201d",
+      "Design Code": "https://github.com/LFL-Lab/design_schema_dissipator",
+      "Paper Link": "https://journals.aps.org/prxquantum/abstract/10.1103/PRXQuantum.5.020321",
+      "Image": "https://github.com/LFL-Lab/design_schema_dissipator/blob/main/Assets/dissipator1.png",
+      "Foundry": "USC Nanofab",
+      "Substrate": "Silicon 111",
+      "Materials": "Aluminium",
+      "Junction Style": "Manhattan",
+      "Junction Materials": "Al-AlOx-Al"
+    },
+    {
+      "Name": "MUNNIN",
+      "Design Code": "https://github.com/LFL-Lab/design_schema_MUNNIN",
+      "Paper Link": "https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.200401",
+      "Image": "https://github.com/LFL-Lab/design_schema_MUNNIN/blob/main/Assets/muninn.png",
+      "Foundry": "SQUILL",
+      "Substrate": "Silicon",
+      "Materials": "Aluminium",
+      "Junction Style": "Dolan",
+      "Junction Materials": "Al-AlOx-Al"
+    }
+  ],
+  "wm1_config_identifiers": [
+    "cavity_claw-RouteMeander-eigenmode",
+    "coupler-CapNInterdigitalTee-cap_matrix",
+    "coupler-NCap-cap_matrix",
+    "qubit-TransmonCross-cap_matrix"
+  ],
+  "reference": {
+    "Design Code": "https://github.com/LFL-Lab/design_schema_WM1",
+    "Paper Link": "https://arxiv.org/pdf/2312.13483",
+    "Image": "https://github.com/LFL-Lab/design_schema_WM1/blob/main/assets/WM1_qiskit_metal.png",
+    "Foundry": "SQUILL",
+    "Fabrication Recipe": "Confidential",
+    "PI": "Eli Levenson-Falk, PhD",
+    "date_created": "2023-09-20-142547",
+    "group": "LFL",
+    "institution": "USC",
+    "measured_by": [
+      "Sadman Ahmed Shanto",
+      "Malinda Hecht",
+      "Evangelos Vlachos"
+    ],
+    "name": "WM1",
+    "uploader": "Elizabeth Kunz"
+  },
+  "contributor": {
+    "Foundry": "N/A",
+    "PI": "Eli Levenson-Falk, PhD",
+    "Group": "LFL",
+    "Institution": "USC",
+    "Measured By": "Sadman Ahmed Shanto, Malinda Hecht, Evangelos Vlachos",
+    "Reference Device Name": "WM1",
+    "Uploader": "Elizabeth Kunz"
+  },
+  "foundry_disagreement": {
+    "record_level": "SQUILL",
+    "reference_helper": "SQUILL",
+    "contributor_helper": "N/A"
+  },
+  "exact_projection_check": true,
+  "electrical_reproduction": "NOT_EVALUATED"
+}
