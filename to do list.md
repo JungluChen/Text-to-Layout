@@ -629,3 +629,11 @@ Evidence docs/progress/2026-10-19-160828.md. Next implement the isolated typed
 offline metadata boundary with source/schema checks and repeated platform
 execution; no constructor or remote retrieval required for that narrow scope.
 Entry 007 remains unchecked; no electrical claim.
+
+2026-10-19 failure audit: latest Palace 39225214993 again shut down at
+3,366,845 elements/4,044,674 ND unknowns; smoke passed but full reduced
+convergence/reference absent. Retained logs, memory observations and smoke
+packet in docs/progress/2026-10-19-221501.md. No automatic solver rerun or
+branch merge. Windows Python 3.12 CI 39220790303 observed running, then
+finalized return 0 at 16 seconds from creation; unchanged failed-job retry
+attempt 2 pending. Retain phase timings before any lifecycle fix.

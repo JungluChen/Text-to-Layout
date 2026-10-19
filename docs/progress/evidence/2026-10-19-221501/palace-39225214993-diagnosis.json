@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-10-19T10:16:13.759332+00:00",
+  "cgroup_memory": {
+    "memory.current": {
+      "size_bytes": 0,
+      "tail": "15897116672\n",
+      "truncated": false
+    },
+    "memory.peak": {
+      "size_bytes": 0,
+      "tail": "15897378816\n",
+      "truncated": false
+    },
+    "memory.max": {
+      "size_bytes": 0,
+      "tail": "max\n",
+      "truncated": false
+    },
+    "memory.events": {
+      "size_bytes": 0,
+      "tail": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "truncated": false
+    }
+  },
+  "largest_processes": [
+    " 690049  689998 7963036 9850384 97.1 palace-x86_64.b",
+    " 690052  689998 7040796 9395916 97.2 palace-x86_64.b",
+    "   2147    2126 128728 274487304 0.4 Runner.Worker",
+    "   2062    2059 111104 1431640 0.2 provjobd6100475",
+    "   2126    2036 72180 274346500 0.0 Runner.Listener",
+    " 689737  689734 49888 1295304 1.1 textlayout",
+    "    221       1 43716 305388  0.0 multipathd",
+    "   1807     968 32040 454664  0.0 python3",
+    "    953       1 31864 295296  0.0 php-fpm8.3",
+    "   1242       1 27328 2045424 0.0 dockerd",
+    "   1047       1 18052 2043720 0.0 containerd",
+    "    951       1 17164  32548  0.0 networkd-dispat"
+  ],
+  "observations": 32,
+  "shutdown_cause": "unproven; runner shutdown signal; last OOM counters zero",
+  "convergence": "not established"
+}

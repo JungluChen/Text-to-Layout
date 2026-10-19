@@ -103,3 +103,11 @@ was not uploaded. [The retained runtime report](../progress/2026-10-01-011559.md
 separates observed memory pressure from an unproven OOM diagnosis. Do not
 interpret this interrupted run as a validated resonance or repeat the same
 unbounded workload before reviewing resource limits and evidence retention.
+
+The latest retained [run 39225214993](https://github.com/JungluChen/Text-to-Layout/actions/runs/39225214993)
+on 4fb7238 also passed official smoke before runner shutdown during refinement
+at 3,366,845 elements. Only pre-benchmark evidence survived; reduced convergence
+and matching-reference checks remain absent. Last observed memory peak was
+15,897,378,816 bytes with zero OOM counters; the shutdown cause is unproven.
+See [the diagnostic checkpoint](../progress/2026-10-19-221501.md). Do not repeat
+the unbounded workload or treat successful smoke as resonator validation.

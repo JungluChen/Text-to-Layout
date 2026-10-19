@@ -1,0 +1,6 @@
+{
+  "cavity2d.json": true,
+  "mesh/cavity2d.msh": "not retained",
+  "postpro/eigenmode/eig.csv": true,
+  "postpro/eigenmode/domain-E.csv": true
+}
