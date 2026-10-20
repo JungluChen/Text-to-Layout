@@ -517,3 +517,14 @@ No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
 ### Metadata process runner
 
 `textlayout.external.squadds_metadata_runner.run_metadata(database: Path, *, python: Path, output_dir: Path, timeout_seconds: float = 120) -> MetadataRun` requires pinned local source and the audited optional environment. Timeout is finite positive seconds. It creates a fresh directory, runs a child, writes logs/raw/result/manifest and library caches. Returns output_dir, return_code, optional assessment and failure_reason. Invalid input/timeout or reused output raises before execution. No CLI/MCP equivalent is delivered yet.
+
+### Metadata CLI
+
+`textlayout squadds-metadata DATABASE --python PYTHON --out NEW_DIRECTORY
+[--timeout SECONDS]` calls the existing typed metadata runner, prints its JSON
+result and exits zero only for successful metadata assessment. Timeout defaults
+to 120 finite positive seconds. Pinned local data and the audited optional
+SQuADDS environment are required. Inputs, logs, raw output and hashes are written
+in the fresh directory; invalid inputs or existing output return nonzero.
+Results remain PRIOR_ONLY; no electrical validation, MCP method or GUI is added.
+Repeated Windows/Linux execution of this new command remains pending.

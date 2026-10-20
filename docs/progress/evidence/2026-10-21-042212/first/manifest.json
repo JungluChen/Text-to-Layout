@@ -1,0 +1,33 @@
+{
+  "schema": "textlayout.squadds-metadata-process.v1",
+  "command": [
+    "/private/tmp/squadds-resolution/venv/bin/python",
+    "-I",
+    "/Users/ludko/Desktop/text2layout/Text-to-Layout/src/textlayout/external/_squadds_metadata_worker.py",
+    "/private/tmp/squadds-cli-checks/first/database.json",
+    "/private/tmp/squadds-cli-checks/first/raw.json"
+  ],
+  "timeout_seconds": 120.0,
+  "elapsed_seconds": 10.278139667003416,
+  "environment_overrides": {
+    "HF_HUB_OFFLINE": "1",
+    "HF_DATASETS_OFFLINE": "1",
+    "QT_QPA_PLATFORM": "offscreen",
+    "PYTHONNOUSERSITE": "1",
+    "MPLCONFIGDIR": "/private/tmp/squadds-cli-checks/first/cache/mplconfigdir",
+    "XDG_CACHE_HOME": "/private/tmp/squadds-cli-checks/first/cache/xdg_cache_home",
+    "HF_HOME": "/private/tmp/squadds-cli-checks/first/cache/hf_home"
+  },
+  "worker_sha256": "e6648dbea4417c49d0917ca8f8fef5cc7d4ca18546c4a3478af728a9009965ef",
+  "interpreter_sha256": "30b2a6bf9706029b609327ca5db722cd458239df96efc87e1f8e37beed49db2e",
+  "return_code": 0,
+  "physics_verified": false,
+  "electrical_reproduction_status": "NOT_EVALUATED",
+  "artifact_sha256": {
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result.json": "c51dce02ff8d1ba5fad099803889ff049e177f3d7cbc9af8859df6d5f5fe6d80",
+    "raw.json": "be6fd505af19180fbe133aca19b90c53fe874e6c10e3f13b965a4565219bf36f",
+    "stderr.txt": "cace1071573ef725e762e8856427937617c8c67e5d0784c45c0e854e56a803a8",
+    "database.json": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069"
+  }
+}

@@ -115,6 +115,22 @@ def _cmd_circuitq_lc(args: argparse.Namespace) -> int:
     return 0 if result.numerical_checks_passed else 1
 
 
+def _cmd_squadds_metadata(args: argparse.Namespace) -> int:
+    from dataclasses import asdict
+
+    from textlayout.external.squadds_metadata_runner import run_metadata
+    try:
+        result = run_metadata(
+            Path(args.database), python=Path(args.python), output_dir=Path(args.out),
+            timeout_seconds=args.timeout,
+        )
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
+        return 1
+    print(json.dumps(asdict(result), indent=2, allow_nan=False))
+    return 0 if result.assessment is not None and result.failure_reason is None else 1
+
+
 def _cmd_squadds_prior(args: argparse.Namespace) -> int:
     from textlayout.external.squadds_mcp import load_wm1_prior
     try:
@@ -1582,6 +1598,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_prior.add_argument("database", type=Path, help="Local pinned measured_device_database.json.")
     p_prior.add_argument("--device", required=True, choices=[f"qubit_{i}" for i in range(1, 7)], help="Exact WM1 device; no inferred geometry mapping.")
     p_prior.set_defaults(func=_cmd_squadds_prior)
+
+    p_metadata = sub.add_parser("squadds-metadata", help="Execute pinned local metadata helpers; PRIOR_ONLY, no electrical validation.")
+    p_metadata.add_argument("database", type=Path, help="Local pinned measured_device_database.json.")
+    p_metadata.add_argument("--python", required=True, help="Audited isolated SQuADDS 0.4.5 Python executable.")
+    p_metadata.add_argument("--out", required=True, help="Fresh evidence directory; existing runs are preserved.")
+    p_metadata.add_argument("--timeout", type=float, default=120.0, help="Finite positive worker timeout in seconds (default: 120); no resume.")
+    p_metadata.set_defaults(func=_cmd_squadds_metadata)
 
     return parser
 

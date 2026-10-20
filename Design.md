@@ -440,3 +440,14 @@ No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
 ### Metadata process runner
 
 The metadata runner invokes the audited worker with isolated Python (-I), copied pinned input and per-run library cache directories. Offline flags are library policy, not an OS network sandbox. Interpreter/worker hashes describe the selected files, not a trust attestation. Timeout reaps the direct child; no descendant-tree supervision is claimed.
+
+### Metadata CLI
+
+`textlayout squadds-metadata DATABASE --python PYTHON --out NEW_DIRECTORY
+[--timeout SECONDS]` calls the existing typed metadata runner, prints its JSON
+result and exits zero only for successful metadata assessment. Timeout defaults
+to 120 finite positive seconds. Pinned local data and the audited optional
+SQuADDS environment are required. Inputs, logs, raw output and hashes are written
+in the fresh directory; invalid inputs or existing output return nonzero.
+Results remain PRIOR_ONLY; no electrical validation, MCP method or GUI is added.
+Repeated Windows/Linux execution of this new command remains pending.

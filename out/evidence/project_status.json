@@ -46,7 +46,8 @@
     "pyepr-circuit": [],
     "circuitq-lc": [],
     "sqcircuit-lc": [],
-    "squadds-prior": []
+    "squadds-prior": [],
+    "squadds-metadata": []
   },
   "showcase": {
     "total_examples": 6,

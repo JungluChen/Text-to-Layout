@@ -192,3 +192,20 @@ retains partial logs and does not resume. Offline flags are not a network sandbo
 No CLI/MCP command or GUI screenshot exists for this new API.
 AI prompt: “Run the pinned metadata helpers in the audited interpreter, retain
 logs and hashes, assess both repeat packets, and keep electrical status pending.”
+
+### Run metadata from the CLI
+
+After installing the separately audited SQuADDS runtime, run:
+
+```sh
+textlayout squadds-metadata measured_device_database.json --python /absolute/path/to/optional-environment/bin/python --out metadata-cli-1 --timeout 120
+```
+
+Use Scripts/python.exe for a Windows environment. Expected successful JSON has
+return_code=0, assessment.records_checked=3, evidence_status=PRIOR_ONLY and
+physics_verified=false. Repeat with a fresh --out directory and compare raw.json.
+On failure inspect failure_reason, stderr.txt and manifest.json; repair the
+pinned input/runtime, then retry in a new directory. A timeout does not resume.
+The new command has local execution evidence only; Windows/Linux remain pending.
+No matching MCP tool or GUI screenshot exists. AI prompt: “Run squadds-metadata
+twice with the audited interpreter, compare raw packets and retain PRIOR_ONLY.”

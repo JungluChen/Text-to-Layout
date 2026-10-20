@@ -650,3 +650,6 @@ process-verifying product runner and repeated platform execution remain next.
 Entry 007 metadata process runner now retains local child provenance, logs,
 timeouts and independently assessed packets. Local unchanged repeats pass;
 next add the CLI and repeated three-platform evidence before scoped acceptance.
+
+Entry 007 metadata CLI now exposes the typed runner; next repeat the exact
+pinned optional stack on all three OSs and review downloaded evidence.

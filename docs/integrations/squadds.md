@@ -228,3 +228,14 @@ No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
 ### Metadata process runner
 
 The product metadata runner now records actual child completion plus independent packet assessment. Local unchanged repeats passed with the audited runtime. Entry 007 remains pending repeated Windows/Linux execution and the final scoped acceptance review. This metadata capability performs no solver convergence or electrical reference comparison.
+
+### Metadata CLI
+
+`textlayout squadds-metadata DATABASE --python PYTHON --out NEW_DIRECTORY
+[--timeout SECONDS]` calls the existing typed metadata runner, prints its JSON
+result and exits zero only for successful metadata assessment. Timeout defaults
+to 120 finite positive seconds. Pinned local data and the audited optional
+SQuADDS environment are required. Inputs, logs, raw output and hashes are written
+in the fresh directory; invalid inputs or existing output return nonzero.
+Results remain PRIOR_ONLY; no electrical validation, MCP method or GUI is added.
+Repeated Windows/Linux execution of this new command remains pending.
