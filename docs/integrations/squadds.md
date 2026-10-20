@@ -224,3 +224,7 @@ make it pass. AI prompt: “Assess this raw metadata packet against pinned local
 source bytes, report discrepancies, and keep process verification separate.”
 Product runner, timeout/log retention and Windows/Linux execution remain next.
 No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
+
+### Metadata process runner
+
+The product metadata runner now records actual child completion plus independent packet assessment. Local unchanged repeats passed with the audited runtime. Entry 007 remains pending repeated Windows/Linux execution and the final scoped acceptance review. This metadata capability performs no solver convergence or electrical reference comparison.

@@ -513,3 +513,7 @@ make it pass. AI prompt: “Assess this raw metadata packet against pinned local
 source bytes, report discrepancies, and keep process verification separate.”
 Product runner, timeout/log retention and Windows/Linux execution remain next.
 No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
+
+### Metadata process runner
+
+`textlayout.external.squadds_metadata_runner.run_metadata(database: Path, *, python: Path, output_dir: Path, timeout_seconds: float = 120) -> MetadataRun` requires pinned local source and the audited optional environment. Timeout is finite positive seconds. It creates a fresh directory, runs a child, writes logs/raw/result/manifest and library caches. Returns output_dir, return_code, optional assessment and failure_reason. Invalid input/timeout or reused output raises before execution. No CLI/MCP equivalent is delivered yet.

@@ -1,0 +1,77 @@
+[
+  {
+    "command": "uv run --no-sync pytest",
+    "exit_code": 0,
+    "elapsed_seconds": 54.521352125
+  },
+  {
+    "command": "uv run --no-sync ruff check .",
+    "exit_code": 0,
+    "elapsed_seconds": 0.033318084000001136
+  },
+  {
+    "command": "uv run --no-sync mypy",
+    "exit_code": 0,
+    "elapsed_seconds": 0.37300974999999426
+  },
+  {
+    "command": "uv build",
+    "exit_code": 0,
+    "elapsed_seconds": 8.165132374999999
+  },
+  {
+    "command": "uv run --no-sync python scripts/check_benchmarks.py --strict",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04137591599999979
+  },
+  {
+    "command": "uv run --no-sync python scripts/validate_readme_claims.py",
+    "exit_code": 0,
+    "elapsed_seconds": 0.5576399999999992
+  },
+  {
+    "command": "uv run --no-sync python scripts/check_namespace_boundary.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 0.6096782500000018
+  },
+  {
+    "command": "uv run --no-sync python scripts/generate_project_status.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 0.39091820900000585
+  },
+  {
+    "command": "uv run --no-sync python scripts/generate_integration_checklist.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04771583299999804
+  },
+  {
+    "command": "uv run --no-sync python scripts/build_canonical_evidence.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 1.5800187920000042
+  },
+  {
+    "command": "uv run --no-sync python scripts/render_showcase_artifacts.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 0.3366925830000014
+  },
+  {
+    "command": "uv run --no-sync python scripts/audit_evidence_consistency.py",
+    "exit_code": 0,
+    "elapsed_seconds": 0.3983901250000059
+  },
+  {
+    "command": "uv run --no-sync python scripts/check_palace_amr_benchmark.py",
+    "exit_code": 0,
+    "elapsed_seconds": 0.4475642090000065
+  },
+  {
+    "command": "uv run --no-sync python scripts/build_palace_benchmark_evidence.py --check",
+    "exit_code": 0,
+    "elapsed_seconds": 0.44498245799999836
+  },
+  {
+    "command": "uv run --no-sync python scripts/generate_acceptance.py",
+    "exit_code": 0,
+    "elapsed_seconds": 1.9130335419999938
+  }
+]

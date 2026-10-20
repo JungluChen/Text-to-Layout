@@ -166,3 +166,29 @@ make it pass. AI prompt: “Assess this raw metadata packet against pinned local
 source bytes, report discrepancies, and keep process verification separate.”
 Product runner, timeout/log retention and Windows/Linux execution remain next.
 No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
+
+### Run and assess installed metadata helpers
+
+With the audited optional runtime installed separately, use this Python API:
+
+```python
+from pathlib import Path
+from textlayout.external.squadds_metadata_runner import run_metadata
+result = run_metadata(
+    Path("measured_device_database.json"),
+    python=Path("/absolute/path/to/optional-environment/bin/python"),
+    output_dir=Path("metadata-run-1"), timeout_seconds=120,
+)
+print(result)
+```
+
+On Windows supply the environment's Scripts/python.exe path. Platform execution
+for this new runner is pending. Expected local result: return_code=0,
+records_checked=3, PRIOR_ONLY and physics_verified=false. Inspect manifest.json
+for command, input/worker/interpreter/output hashes and environment overrides.
+Existing directories are refused. For failures inspect stderr.txt/result.json,
+repair the explicit runtime or pinned input, then use a new directory. A timeout
+retains partial logs and does not resume. Offline flags are not a network sandbox.
+No CLI/MCP command or GUI screenshot exists for this new API.
+AI prompt: “Run the pinned metadata helpers in the audited interpreter, retain
+logs and hashes, assess both repeat packets, and keep electrical status pending.”

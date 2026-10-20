@@ -436,3 +436,7 @@ make it pass. AI prompt: “Assess this raw metadata packet against pinned local
 source bytes, report discrepancies, and keep process verification separate.”
 Product runner, timeout/log retention and Windows/Linux execution remain next.
 No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
+
+### Metadata process runner
+
+The metadata runner invokes the audited worker with isolated Python (-I), copied pinned input and per-run library cache directories. Offline flags are library policy, not an OS network sandbox. Interpreter/worker hashes describe the selected files, not a trust attestation. Timeout reaps the direct child; no descendant-tree supervision is claimed.

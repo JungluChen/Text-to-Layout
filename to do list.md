@@ -646,3 +646,7 @@ raw NOT_EVALUATED output does not complete the checklist.
 Entry 007 independent raw metadata assessment now rejects corrupted source,
 records and identity/status claims. It establishes data agreement only;
 process-verifying product runner and repeated platform execution remain next.
+
+Entry 007 metadata process runner now retains local child provenance, logs,
+timeouts and independently assessed packets. Local unchanged repeats pass;
+next add the CLI and repeated three-platform evidence before scoped acceptance.

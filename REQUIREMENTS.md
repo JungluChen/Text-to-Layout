@@ -394,3 +394,7 @@ make it pass. AI prompt: “Assess this raw metadata packet against pinned local
 source bytes, report discrepancies, and keep process verification separate.”
 Product runner, timeout/log retention and Windows/Linux execution remain next.
 No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.
+
+### Metadata process runner
+
+The SQuADDS metadata runner requires an explicit optional-runtime interpreter and a fresh output directory. It must retain input, raw output, logs, return code and hashes on attempted execution, and must never promote metadata agreement to electrical validation.
