@@ -493,3 +493,23 @@ public runner, CLI command, MCP endpoint or electrical validation; product-side
 assessment, timeout/log retention and Windows/Linux execution remain pending.
 No UI or screenshot delivered. On errors retain stderr, repair the explicit
 runtime/input and retry with a new output path; do not promote partial results.
+
+### SQuADDS metadata packet assessment
+
+`textlayout.external.squadds_metadata_assessment.assess_metadata(database: bytes,
+packet: dict)` checks raw worker records, lookup results, pinned hashes/revision,
+versions and status flags against an independent projection of the pinned local
+dataset. No defaults, filesystem writes, optional imports or processes. Returns
+frozen MetadataAssessment(records_checked, dataset_sha256, PRIOR_ONLY, false);
+malformed or mismatched data raises ValueError. Runtime strings are required
+but are self-reported: data agreement does not prove execution identity.
+The upstream foundry discrepancy is preserved. Boolean/numeric substitutions
+and extra fields are rejected. No electrical or measurement promotion.
+
+Example: read the pinned database bytes and raw JSON packet, call assess_metadata,
+and expect records_checked=3 for the retained example. On rejection retain both
+inputs and inspect source/identity differences; do not rewrite the evidence to
+make it pass. AI prompt: “Assess this raw metadata packet against pinned local
+source bytes, report discrepancies, and keep process verification separate.”
+Product runner, timeout/log retention and Windows/Linux execution remain next.
+No public CLI/MCP tool or GUI/screenshot is added by this pure assessment API.

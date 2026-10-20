@@ -642,3 +642,7 @@ Entry 007 raw metadata worker now executes pinned installed helpers offline.
 Two local packets match the retained independent projections. Next typed
 product-side assessment/runner, retained failures and platform execution;
 raw NOT_EVALUATED output does not complete the checklist.
+
+Entry 007 independent raw metadata assessment now rejects corrupted source,
+records and identity/status claims. It establishes data agreement only;
+process-verifying product runner and repeated platform execution remain next.
