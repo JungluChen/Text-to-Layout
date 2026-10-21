@@ -1,0 +1,90 @@
+[
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-manylinux_2_34",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-manylinux_2_34.txt"
+    ],
+    "repeat": 1,
+    "return_code": 0,
+    "seconds": 0.5133354170000001
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-manylinux_2_34",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-manylinux_2_34.txt"
+    ],
+    "repeat": 2,
+    "return_code": 0,
+    "seconds": 0.03450949999999997
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-pc-windows-msvc",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-pc-windows-msvc.txt"
+    ],
+    "repeat": 1,
+    "return_code": 0,
+    "seconds": 0.025321124999999944
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-pc-windows-msvc",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-pc-windows-msvc.txt"
+    ],
+    "repeat": 2,
+    "return_code": 0,
+    "seconds": 0.023284042000000005
+  }
+]

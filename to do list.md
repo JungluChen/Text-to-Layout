@@ -653,3 +653,7 @@ next add the CLI and repeated three-platform evidence before scoped acceptance.
 
 Entry 007 metadata CLI now exposes the typed runner; next repeat the exact
 pinned optional stack on all three OSs and review downloaded evidence.
+
+Entry 007 platform locks preflighted: Windows and explicit Linux glibc 2.34
+resolve twice with unchanged shared versions. Next install on actual target
+runners, retain failures and repeat CLI packets; resolution is not acceptance.

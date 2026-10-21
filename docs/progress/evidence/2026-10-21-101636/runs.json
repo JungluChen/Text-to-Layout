@@ -1,0 +1,44 @@
+[
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-pc-windows-msvc",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-pc-windows-msvc.txt"
+    ],
+    "return_code": 0,
+    "elapsed_seconds": 1.043605875
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/private/tmp/squadds-platform-resolution/input.in",
+      "-c",
+      "/private/tmp/squadds-platform-resolution/constraints.txt",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "x86_64-unknown-linux-gnu",
+      "--only-binary",
+      ":all:",
+      "--generate-hashes",
+      "-o",
+      "/private/tmp/squadds-platform-resolution/x86_64-unknown-linux-gnu.txt"
+    ],
+    "return_code": 1,
+    "elapsed_seconds": 0.3416010839999999
+  }
+]

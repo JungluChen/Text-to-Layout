@@ -1,0 +1,20 @@
+{
+  "x86_64-manylinux_2_34": {
+    "added": {
+      "watchdog": "6.0.0"
+    },
+    "removed": {},
+    "changed": {}
+  },
+  "x86_64-pc-windows-msvc": {
+    "added": {
+      "colorama": "0.4.6",
+      "watchdog": "6.0.0"
+    },
+    "removed": {
+      "pexpect": "4.9.0",
+      "ptyprocess": "0.7.0"
+    },
+    "changed": {}
+  }
+}

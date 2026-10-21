@@ -239,3 +239,13 @@ SQuADDS environment are required. Inputs, logs, raw output and hashes are writte
 in the fresh directory; invalid inputs or existing output return nonzero.
 Results remain PRIOR_ONLY; no electrical validation, MCP method or GUI is added.
 Repeated Windows/Linux execution of this new command remains pending.
+
+### Cross-platform dependency preflight
+
+The macOS audited versions resolve for Windows x86_64 and explicit Linux
+manylinux_2_34 twice (evidence: ../progress/2026-10-21-101636.md). Generic
+Linux resolution uses a 2.28 baseline and fails on pinned PySide6 wheels;
+this was reproduced unchanged. Shared dependency versions did not change.
+These hash manifests are preparation only: target-host installation, imports
+and repeated CLI execution remain pending. Do not use the macOS lock as a
+universal installation claim.

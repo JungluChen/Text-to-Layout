@@ -209,3 +209,12 @@ pinned input/runtime, then retry in a new directory. A timeout does not resume.
 The new command has local execution evidence only; Windows/Linux remain pending.
 No matching MCP tool or GUI screenshot exists. AI prompt: “Run squadds-metadata
 twice with the audited interpreter, compare raw packets and retain PRIOR_ONLY.”
+
+Platform setup preparation: separate hashed Windows and Linux dependency
+manifests are retained in ../progress/evidence/2026-10-21-101636/. Linux requires
+a verified glibc 2.34-or-newer target for these pinned wheels. Install only in
+a separate optional runtime using --require-hashes --only-binary :all:, retain
+installation logs and run pip check before the CLI. Actual Windows/Linux
+installation and execution are still pending; a successful resolution alone
+is not a working installation. If wheel selection fails, retain the unchanged
+retry log and inspect platform/ABI requirements before modifying versions.
