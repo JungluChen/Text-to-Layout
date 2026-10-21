@@ -657,3 +657,6 @@ pinned optional stack on all three OSs and review downloaded evidence.
 Entry 007 platform locks preflighted: Windows and explicit Linux glibc 2.34
 resolve twice with unchanged shared versions. Next install on actual target
 runners, retain failures and repeat CLI packets; resolution is not acceptance.
+
+Entry 007 manual metadata platform benchmark prepared; dispatch once, inspect
+all actual jobs and independently verify artifacts before any acceptance.

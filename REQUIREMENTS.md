@@ -409,3 +409,19 @@ SQuADDS environment are required. Inputs, logs, raw output and hashes are writte
 in the fresh directory; invalid inputs or existing output return nonzero.
 Results remain PRIOR_ONLY; no electrical validation, MCP method or GUI is added.
 Repeated Windows/Linux execution of this new command remains pending.
+
+### Metadata platform benchmark
+
+Manual workflow `squadds-metadata-integration.yml` installs the retained
+platform hash manifests into isolated Python 3.12 environments, checks Linux
+glibc >=2.34/macOS ARM64, retains install/check/freeze logs and runs the metadata
+CLI twice. It requires matching raw bytes and verifies artifact hashes and
+PRIOR_ONLY status. Failed runs upload available evidence; caches are excluded.
+Before dispatch inspect `gh run list --workflow squadds-metadata-integration.yml`,
+then dispatch once with `gh workflow run squadds-metadata-integration.yml --ref main`.
+Retain the exact SHA/run ID and download all three artifacts for independent
+review. On failure retain logs and rerun unchanged before modifying pins.
+Workflow configuration is not platform acceptance; entry 007 remains pending.
+AI prompt: “Review these repeated metadata packets, verify source and output
+hashes, and distinguish package execution from electrical validation.”
+No MCP method, GUI screenshot or physical comparison is added.

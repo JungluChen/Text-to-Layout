@@ -1,0 +1,88 @@
+name: squadds-metadata-integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: squadds-metadata-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  metadata:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+      - run: uv sync --frozen --dev
+      - name: Install pinned isolated runtime and repeat metadata CLI
+        shell: bash
+        run: |
+          uv run --no-sync python - <<'PYTHON'
+          import hashlib, json, os, platform, subprocess, sys
+          from pathlib import Path
+
+          root = Path('out/squadds-metadata')
+          root.mkdir(parents=True, exist_ok=False)
+          system = platform.system()
+          manifests = {
+              'Darwin': 'docs/progress/evidence/2026-10-19-114302/requirements-compatible-candidate.txt',
+              'Linux': 'docs/progress/evidence/2026-10-21-101636/x86_64-manylinux_2_34.txt',
+              'Windows': 'docs/progress/evidence/2026-10-21-101636/x86_64-pc-windows-msvc.txt',
+          }
+          lock = Path(manifests[system])
+          runtime = {'commit': os.environ['GITHUB_SHA'], 'platform': platform.platform(),
+                     'machine': platform.machine(), 'python': sys.version,
+                     'libc': platform.libc_ver(), 'lock': str(lock),
+                     'lock_sha256': hashlib.sha256(lock.read_bytes()).hexdigest()}
+          (root / 'runtime.json').write_text(json.dumps(runtime, indent=2), encoding='utf-8')
+          if system == 'Linux':
+              assert platform.libc_ver()[0] == 'glibc'
+              assert tuple(map(int, platform.libc_ver()[1].split('.'))) >= (2, 34)
+          if system == 'Darwin':
+              assert platform.machine() == 'arm64', 'Audited macOS runtime requires ARM64'
+          commands = []
+          def run(label, command):
+              with (root / (label + '.stdout')).open('wb') as stdout, (root / (label + '.stderr')).open('wb') as stderr:
+                  result = subprocess.run(command, stdout=stdout, stderr=stderr, timeout=1200)
+              commands.append({'command': command, 'return_code': result.returncode})
+              (root / 'commands.json').write_text(json.dumps(commands, indent=2), encoding='utf-8')
+              assert result.returncode == 0, label
+          run('venv', ['uv', 'venv', '.squadds-env', '--python', '3.12'])
+          python = str(Path('.squadds-env') / ('Scripts/python.exe' if system == 'Windows' else 'bin/python'))
+          run('install', ['uv', 'pip', 'sync', '--python', python, '--require-hashes', '--only-binary', ':all:', str(lock)])
+          run('check', ['uv', 'pip', 'check', '--python', python])
+          run('freeze', ['uv', 'pip', 'freeze', '--python', python])
+          source = 'docs/progress/evidence/2026-10-17-144536/local-packet/source/measured_device_database.json'
+          for repeat in ('first', 'repeat'):
+              run(repeat, [sys.executable, '-m', 'textlayout.cli', 'squadds-metadata', source,
+                           '--python', python, '--out', str(root / repeat), '--timeout', '120'])
+          first = (root / 'first/raw.json').read_bytes()
+          repeated = (root / 'repeat/raw.json').read_bytes()
+          checks = {'identical': first == repeated, 'raw_sha256': hashlib.sha256(first).hexdigest()}
+          for repeat in ('first', 'repeat'):
+              folder = root / repeat
+              result = json.loads((folder / 'result.json').read_text())
+              assert result['return_code'] == 0 and result['failure_reason'] is None
+              assert result['assessment']['records_checked'] == 3
+              assert result['assessment']['evidence_status'] == 'PRIOR_ONLY'
+              assert result['assessment']['physics_verified'] is False
+              for name, expected in json.loads((folder / 'manifest.json').read_text())['artifact_sha256'].items():
+                  assert hashlib.sha256((folder / name).read_bytes()).hexdigest() == expected
+          (root / 'checks.json').write_text(json.dumps(checks, indent=2), encoding='utf-8')
+          assert checks['identical']
+          PYTHON
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: squadds-metadata-${{ matrix.os }}
+          path: |
+            out/squadds-metadata
+            !out/squadds-metadata/**/cache/**
+          if-no-files-found: error
+          retention-days: 30
