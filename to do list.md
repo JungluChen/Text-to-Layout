@@ -671,3 +671,8 @@ repeats are identical; metadata agrees across platforms and with pinned source.
 Results remain PRIOR_ONLY. Numerical convergence is not applicable to metadata
 lookup; no electrical reconstruction, measurement agreement or full-toolkit
 acceptance is implied. Evidence: docs/progress/2026-10-21-221821.md.
+
+Entry 008 QEDA audit pins qeda/qeda at 8a8f890362e6099deef460457cd236d1d14fdca8
+(package declares 0.4.7, MIT): a PCB library generator, not a quantum solver.
+Next verify npm archive/source identity and an isolated lock, then define a
+local two-pin geometric reference before adapter work. See docs/integrations/qeda.md.
