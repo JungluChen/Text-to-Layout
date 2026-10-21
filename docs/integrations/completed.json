@@ -94,6 +94,22 @@
         "EM extraction and nontrivial convergence",
         "Broader parameter-domain and MCP/GUI support"
       ]
+    },
+    "7": {
+      "name": "SQuADDS",
+      "scope": "pinned offline measured-device metadata helpers and WM1 lookup only; PRIOR_ONLY data, no electrical reconstruction or solver validation",
+      "implementation_commit": "1249e11bf067e98162f1c7c99869b10ac9864c6d",
+      "source_license_evidence": "docs/integrations/squadds.md",
+      "solver_evidence": "docs/progress/evidence/2026-10-21-221821/platforms/squadds-metadata-ubuntu-24.04/first/manifest.json",
+      "reference_evidence": "docs/progress/evidence/2026-10-21-221821/verification.json",
+      "platform_evidence": "docs/progress/evidence/2026-10-21-221821/run.json",
+      "acceptance": "Two actual installed-helper CLI executions on each of Windows/macOS/Linux at run 39568673901; all six downloaded packets and 30 artifact hashes verified twice. Exact pinned source projection agrees; same-platform raw repeats identical and metadata equal across platforms. Numerical convergence is not applicable to this metadata-only scope. solver_evidence is a legacy field, not an EM execution claim.",
+      "remaining_scope": [
+        "Electrical reconstruction and reference/convergence validation",
+        "Remote database retrieval and full SQuADDS toolkit",
+        "Measured-device geometry mapping",
+        "MCP/GUI and installed desktop delivery"
+      ]
     }
   }
 }

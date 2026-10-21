@@ -1,0 +1,33 @@
+{
+  "schema": "textlayout.squadds-metadata-process.v1",
+  "command": [
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/.squadds-env/bin/python",
+    "-I",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/external/_squadds_metadata_worker.py",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/squadds-metadata/repeat/database.json",
+    "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/squadds-metadata/repeat/raw.json"
+  ],
+  "timeout_seconds": 120.0,
+  "elapsed_seconds": 11.730901792000012,
+  "environment_overrides": {
+    "HF_HUB_OFFLINE": "1",
+    "HF_DATASETS_OFFLINE": "1",
+    "QT_QPA_PLATFORM": "offscreen",
+    "PYTHONNOUSERSITE": "1",
+    "MPLCONFIGDIR": "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/squadds-metadata/repeat/cache/mplconfigdir",
+    "XDG_CACHE_HOME": "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/squadds-metadata/repeat/cache/xdg_cache_home",
+    "HF_HOME": "/Users/runner/work/Text-to-Layout/Text-to-Layout/out/squadds-metadata/repeat/cache/hf_home"
+  },
+  "worker_sha256": "e6648dbea4417c49d0917ca8f8fef5cc7d4ca18546c4a3478af728a9009965ef",
+  "interpreter_sha256": "d4f152f2a753c94e0e7935c8ebbe6b2609979e1df7898422b577d0076383d08b",
+  "return_code": 0,
+  "physics_verified": false,
+  "electrical_reproduction_status": "NOT_EVALUATED",
+  "artifact_sha256": {
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result.json": "2ddb765afc8868cd4523a16e80eac91fc2431813030d599737a8fc33f82ef32b",
+    "raw.json": "d61f947db30226d56cde3a2c71f3dfcd46e08d396b55264fdca14fecbade96dc",
+    "stderr.txt": "cace1071573ef725e762e8856427937617c8c67e5d0784c45c0e854e56a803a8",
+    "database.json": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069"
+  }
+}

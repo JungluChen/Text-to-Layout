@@ -1,0 +1,2 @@
+SyntaxWarning: invalid escape sequence '\ '
+ /home/runner/work/Text-to-Layout/Text-to-Layout/.squadds-env/lib/python3.12/site-packages/scqubits/core/circuit_routines.py: 2700

@@ -1,0 +1,3 @@
+Using CPython 3.12.10 interpreter at: /usr/local/bin/python3.12
+Creating virtual environment at: .squadds-env
+Activate with: source .squadds-env/bin/activate

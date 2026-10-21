@@ -1,0 +1,85 @@
+{
+  "packets": [
+    {
+      "platform": "squadds-metadata-macos-14",
+      "repeat": "first",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "56cd0b6306a4f1134487c977b660c592d155ec0ba64675b2fa77aea9efd315e2",
+      "lock_matches_local_bytes": true
+    },
+    {
+      "platform": "squadds-metadata-macos-14",
+      "repeat": "repeat",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "56cd0b6306a4f1134487c977b660c592d155ec0ba64675b2fa77aea9efd315e2",
+      "lock_matches_local_bytes": true
+    },
+    {
+      "platform": "squadds-metadata-ubuntu-24.04",
+      "repeat": "first",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "286454f393756fa80b67f795e3eae222ed2b832f3720f39c823d466db1ef5282",
+      "lock_matches_local_bytes": true
+    },
+    {
+      "platform": "squadds-metadata-ubuntu-24.04",
+      "repeat": "repeat",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "286454f393756fa80b67f795e3eae222ed2b832f3720f39c823d466db1ef5282",
+      "lock_matches_local_bytes": true
+    },
+    {
+      "platform": "squadds-metadata-windows-latest",
+      "repeat": "first",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "24a1916d69c88d385aad51bdd82a0ed182b63f89e83233f142bf397a07bd36da",
+      "lock_matches_local_bytes": true
+    },
+    {
+      "platform": "squadds-metadata-windows-latest",
+      "repeat": "repeat",
+      "artifact_hashes_verified": 5,
+      "assessment": {
+        "records_checked": 3,
+        "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": false
+      },
+      "lock_sha256": "24a1916d69c88d385aad51bdd82a0ed182b63f89e83233f142bf397a07bd36da",
+      "lock_matches_local_bytes": true
+    }
+  ],
+  "same_platform_raw_repeat_identical": true,
+  "cross_platform_metadata_equal": true,
+  "electrical_validation": false
+}

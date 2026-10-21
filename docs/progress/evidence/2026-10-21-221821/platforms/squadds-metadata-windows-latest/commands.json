@@ -1,0 +1,78 @@
+[
+  {
+    "command": [
+      "uv",
+      "venv",
+      ".squadds-env",
+      "--python",
+      "3.12"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "sync",
+      "--python",
+      ".squadds-env\\Scripts\\python.exe",
+      "--require-hashes",
+      "--only-binary",
+      ":all:",
+      "docs\\progress\\evidence\\2026-10-21-101636\\x86_64-pc-windows-msvc.txt"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      ".squadds-env\\Scripts\\python.exe"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "freeze",
+      "--python",
+      ".squadds-env\\Scripts\\python.exe"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Scripts\\python.exe",
+      "-m",
+      "textlayout.cli",
+      "squadds-metadata",
+      "docs/progress/evidence/2026-10-17-144536/local-packet/source/measured_device_database.json",
+      "--python",
+      ".squadds-env\\Scripts\\python.exe",
+      "--out",
+      "out\\squadds-metadata\\first",
+      "--timeout",
+      "120"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "D:\\a\\Text-to-Layout\\Text-to-Layout\\.venv\\Scripts\\python.exe",
+      "-m",
+      "textlayout.cli",
+      "squadds-metadata",
+      "docs/progress/evidence/2026-10-17-144536/local-packet/source/measured_device_database.json",
+      "--python",
+      ".squadds-env\\Scripts\\python.exe",
+      "--out",
+      "out\\squadds-metadata\\repeat",
+      "--timeout",
+      "120"
+    ],
+    "return_code": 0
+  }
+]

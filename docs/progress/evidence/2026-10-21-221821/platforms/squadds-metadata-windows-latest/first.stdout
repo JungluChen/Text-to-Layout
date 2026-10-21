@@ -1,0 +1,11 @@
+{
+  "output_dir": "D:\\a\\Text-to-Layout\\Text-to-Layout\\out\\squadds-metadata\\first",
+  "return_code": 0,
+  "assessment": {
+    "records_checked": 3,
+    "dataset_sha256": "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069",
+    "evidence_status": "PRIOR_ONLY",
+    "physics_verified": false
+  },
+  "failure_reason": null
+}

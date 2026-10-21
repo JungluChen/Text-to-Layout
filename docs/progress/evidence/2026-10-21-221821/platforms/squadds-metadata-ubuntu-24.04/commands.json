@@ -1,0 +1,78 @@
+[
+  {
+    "command": [
+      "uv",
+      "venv",
+      ".squadds-env",
+      "--python",
+      "3.12"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "sync",
+      "--python",
+      ".squadds-env/bin/python",
+      "--require-hashes",
+      "--only-binary",
+      ":all:",
+      "docs/progress/evidence/2026-10-21-101636/x86_64-manylinux_2_34.txt"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      ".squadds-env/bin/python"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "freeze",
+      "--python",
+      ".squadds-env/bin/python"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/bin/python",
+      "-m",
+      "textlayout.cli",
+      "squadds-metadata",
+      "docs/progress/evidence/2026-10-17-144536/local-packet/source/measured_device_database.json",
+      "--python",
+      ".squadds-env/bin/python",
+      "--out",
+      "out/squadds-metadata/first",
+      "--timeout",
+      "120"
+    ],
+    "return_code": 0
+  },
+  {
+    "command": [
+      "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/bin/python",
+      "-m",
+      "textlayout.cli",
+      "squadds-metadata",
+      "docs/progress/evidence/2026-10-17-144536/local-packet/source/measured_device_database.json",
+      "--python",
+      ".squadds-env/bin/python",
+      "--out",
+      "out/squadds-metadata/repeat",
+      "--timeout",
+      "120"
+    ],
+    "return_code": 0
+  }
+]

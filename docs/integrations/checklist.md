@@ -6,7 +6,7 @@ This is the 100-slot user-requested candidate inventory, not a claim
 that 100 distinct open-source projects exist or are installable.
 Source hints in `targets.json` remain unverified until audited.
 
-**Completed with full evidence: 6/100.**
+**Completed with full evidence: 7/100.**
 
 Check a target only after source/license/version review, a typed adapter
 using the shared evidence contract, an actual solver or tool execution,
@@ -24,7 +24,7 @@ probe alone does not satisfy this checklist.
 - [x] 004 CircuitQ — implementation `0cc02e3b9b3639b38a3ef5046db7d352b550ab7f`; scope: specified ideal parallel LC circuit with SI/natural matrix equivalence and two repeated numerical benchmarks; no nonlinear/noise, EM or measurement claim; evidence in `completed.json`.
 - [x] 005 scqubits — implementation `577471cd62e616facafbdea4a2e81e07a0c253e3`; scope: two fixed ideal ng=0 transmon spectra via the typed SI adapter, with cutoff/residual/Mathieu checks; no noise, EM, measurement or full-toolkit claim; evidence in `completed.json`.
 - [x] 006 SQcircuit — implementation `e2f75ad56b00972530a9a1bbe9990f54e8476b97`; scope: two specified ideal parallel LC cases with explicit additional branch capacitance via public Hamiltonian and NumPy dense eigh; no nonlinear, EM, noise or measurement claim; evidence in `completed.json`.
-- [ ] 007 SQuADDS — source/license, adapter, execution, comparison and platform acceptance pending.
+- [x] 007 SQuADDS — implementation `1249e11bf067e98162f1c7c99869b10ac9864c6d`; scope: pinned offline measured-device metadata helpers and WM1 lookup only; PRIOR_ONLY data, no electrical reconstruction or solver validation; evidence in `completed.json`.
 - [ ] 008 QEDA — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 009 pycqed — source/license, adapter, execution, comparison and platform acceptance pending.
 - [ ] 010 Qiskit Dynamics — source/license, adapter, execution, comparison and platform acceptance pending.

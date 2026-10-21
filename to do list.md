@@ -660,3 +660,14 @@ runners, retain failures and repeat CLI packets; resolution is not acceptance.
 
 Entry 007 manual metadata platform benchmark prepared; dispatch once, inspect
 all actual jobs and independently verify artifacts before any acceptance.
+
+### Accepted metadata-only scope (2026-10-21)
+
+Entry 007 is accepted only for pinned offline measured-device metadata helpers
+and WM1 lookup, implementation 1249e11bf067e98162f1c7c99869b10ac9864c6d.
+Run 39568673901 executed twice on Windows/macOS/Linux; six downloaded packets
+and 30 artifact hashes were independently checked twice. Same-platform raw
+repeats are identical; metadata agrees across platforms and with pinned source.
+Results remain PRIOR_ONLY. Numerical convergence is not applicable to metadata
+lookup; no electrical reconstruction, measurement agreement or full-toolkit
+acceptance is implied. Evidence: docs/progress/2026-10-21-221821.md.

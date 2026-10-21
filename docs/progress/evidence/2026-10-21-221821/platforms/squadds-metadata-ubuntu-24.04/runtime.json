@@ -1,0 +1,12 @@
+{
+  "commit": "1249e11bf067e98162f1c7c99869b10ac9864c6d",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "libc": [
+    "glibc",
+    "2.39"
+  ],
+  "lock": "docs/progress/evidence/2026-10-21-101636/x86_64-manylinux_2_34.txt",
+  "lock_sha256": "286454f393756fa80b67f795e3eae222ed2b832f3720f39c823d466db1ef5282"
+}

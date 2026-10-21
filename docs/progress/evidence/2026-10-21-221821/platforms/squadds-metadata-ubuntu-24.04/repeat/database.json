@@ -1,0 +1,225 @@
+[
+  {
+    "design_code": "https://github.com/LFL-Lab/design_schema_WM1",
+    "contrib_info": {
+      "group": "LFL",
+      "PI": "Eli Levenson-Falk, PhD",
+      "institution": "USC",
+      "uploader": "Elizabeth Kunz",
+      "measured_by": [
+        "Sadman Ahmed Shanto",
+        "Malinda Hecht",
+        "Evangelos Vlachos"
+      ],
+      "date_created": "2023-09-20-142547",
+      "name": "WM1"
+    },
+    "measured_results": [
+      {
+        "H_params": [
+          {
+            "qubit_1": {
+              "F_res_GHz": 6.116,
+              "F_01_GHz": 4.216,
+              "Anharmocity_MHz": -153,
+              "punchout_shift_MHz": 1.6672,
+              "Extracted_g_MHz": 61,
+              "Estimated_Dispersive_shift_KHz": 303,
+              "L_j_nH": 9.686
+            },
+            "qubit_2": {
+              "F_res_GHz": 6.353,
+              "F_01_GHz": 3.896,
+              "Anharmocity_MHz": -154,
+              "Punchout_shift_MHz": 1.4,
+              "Extracted_g_MHz": 67,
+              "Estimated_Dispersive_shift_KHz": 230,
+              "L_j_nH": 11.268
+            },
+            "qubit_3": {
+              "F_res_GHz": 6.472,
+              "F_01_GHz": 4.451,
+              "Anharmocity_MHz": -189,
+              "Punchout_shift_MHz": 1.8,
+              "Extracted_g_MHz": 67,
+              "Estimated_Dispersive_shift_KHz": 392,
+              "L_j_nH": 10.471
+            },
+            "qubit_4": {
+              "F_res_GHz": 6.568,
+              "F_01_GHz": 3.586,
+              "Anharmocity_MHz": -164,
+              "Punchout_shift_MHz": 1.05,
+              "Extracted_g_MHz": 66,
+              "Estimated_Dispersive_shift_KHz": 170,
+              "L_j_nH": 13.816
+            },
+            "qubit_5": {
+              "F_res_GHz": 6.655,
+              "F_01_GHz": 4.101,
+              "Anharmocity_MHz": -210,
+              "Punchout_shift_MHz": 0.7,
+              "Extracted_g_MHz": 48,
+              "Estimated_Dispersive_shift_KHz": 150,
+              "L_j_nH": 13.235
+            },
+            "qubit_6": {
+              "F_res_GHz": 6.704,
+              "F_01_GHz": 3.881,
+              "Anharmocity_MHz": -176,
+              "Punchout_shift_MHz": 0.4,
+              "Extracted_g_MHz": 39,
+              "Estimated_Dispersive_shift_KHz": 70,
+              "L_j_nH": 12.679
+            }
+          }
+        ]
+      }
+    ],
+    "sim_results": [
+      "cavity_claw-RouteMeander-eigenmode",
+      "coupler-CapNInterdigitalTee-cap_matrix",
+      "coupler-NCap-cap_matrix",
+      "qubit-TransmonCross-cap_matrix"
+    ],
+    "notes": "The WM1 device was the original device in SQUADDS.",
+    "image": "https://github.com/LFL-Lab/design_schema_WM1/blob/main/assets/WM1_qiskit_metal.png",
+    "paper_link": "https://arxiv.org/pdf/2312.13483",
+    "foundry": "SQUILL",
+    "fabrication_recipe": "Confidential",
+    "substrate": "Silicon",
+    "materials": "Aluminium",
+    "junction_style": "Dolan",
+    "junction_material": "Al-AlOx-Al"
+  },
+  {
+    "design_code": "https://github.com/LFL-Lab/design_schema_dissipator",
+    "contrib_info": {
+      "group": "LFL",
+      "PI": "Eli Levenson-Falk, PhD",
+      "institution": "USC",
+      "uploader": "Elizabeth Kunz",
+      "measured_by": [
+        "Vivek Mayura",
+        "Haimeng Zhang",
+        "Daria Kowsari",
+        "Jocelyn Liu"
+      ],
+      "date_created": "2023-09-20-142547",
+      "name": "“dissipator”"
+    },
+    "measured_results": [
+      {
+        "H_params": [
+          {
+            "qubit": {
+              "frequency_GHz": 3.368,
+              "anharmocity_MHz": -175,
+              "dispersive_shift_kHz": 200,
+              "kappa_MHz": null,
+              "dissapator_coupling_MHz": 53.9,
+              "T1": 27,
+              "T2*": 4
+            },
+            "cavity": {
+              "frequency_GHz": 5.594,
+              "anharmocity_MHz": null,
+              "dispersive_shift_kHz": 200,
+              "kappa_MHz": 0.477,
+              "dissapator_coupling_MHz": 145,
+              "T1": null,
+              "T2*": null
+            },
+            "dissipator": {
+              "frequency_GHz": [4.2, 15.3],
+              "anharmocity_MHz": -350,
+              "dispersive_shift_kHz": null,
+              "kappa_MHz": null,
+              "dissapator_coupling_MHz": null,
+              "T1_": "<0.05",
+              "T2*": "<0.1"
+            },
+            "filter": {
+              "frequency_GHz": 8.6,
+              "anharmocity_MHz": null,
+              "dispersive_shift_kHz": null,
+              "kappa_MHz": 120,
+              "dissapator_coupling_MHz": 535,
+              "T1": null,
+              "T2*": null
+            }
+          }
+        ]
+      }
+    ],
+    "sim_results": [],
+    "notes": "",
+    "image": "https://github.com/LFL-Lab/design_schema_dissipator/blob/main/Assets/dissipator1.png",
+    "paper_link": "https://journals.aps.org/prxquantum/abstract/10.1103/PRXQuantum.5.020321",
+    "foundry": "USC Nanofab",
+    "fabrication_recipe": "https://www.fabublox.com/process-editor/31f56fb8-05c3-4f83-a5d8-8a2963a2a5e3",
+    "substrate": "Silicon 111",
+    "materials": "Aluminium",
+    "junction_style": "Manhattan",
+    "junction_material": "Al-AlOx-Al"
+  },
+  {
+    "design_code": "https://github.com/LFL-Lab/design_schema_MUNNIN",
+    "contrib_info": {
+      "group": "LFL",
+      "PI": "Eli Levenson-Falk, PhD",
+      "institution": "USC",
+      "uploader": "Elizabeth Kunz",
+      "measured_by": ["Daria Kowsari", "Chandrashekhar Gaikwad"],
+      "date_created": "2023-09-20-142547",
+      "name": "MUNNIN"
+    },
+    "measured_results": [
+      {
+        "H_params": [
+          {
+            "ancilla": [
+              {
+                "qubit_frequency_GHz": 4.2,
+                "anharmocity_MHz": -212,
+                "dispersive_shift_kHz": 230,
+                "cavity_frequency_GHz": 6.94,
+                "kappa": 270,
+                "t1": 32,
+                "t2*": 41
+              }
+            ],
+            "qubit": {
+              "qubit_frequency_GHz": 4.65,
+              "anharmocity_MHz": -180,
+              "dispersive_shift_kHz": 250,
+              "cavity_frequency_GHz": 7.09,
+              "kappa": 206,
+              "t1": 31,
+              "t2*": 39
+            },
+            "env": {
+              "qubit_frequency_GHz": 5.37,
+              "anharmocity_MHz": -140,
+              "dispersive_shift_kHz": 265,
+              "cavity_frequency_GHz": 7.21,
+              "kappa": 170,
+              "t1": 28,
+              "t2*": 38
+            }
+          }
+        ]
+      }
+    ],
+    "sim_results": [],
+    "notes": "",
+    "image": "https://github.com/LFL-Lab/design_schema_MUNNIN/blob/main/Assets/muninn.png",
+    "paper_link": "https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.132.200401",
+    "foundry": "SQUILL",
+    "fabrication_recipe": "Confidential",
+    "substrate": "Silicon",
+    "materials": "Aluminium",
+    "junction_style": "Dolan",
+    "junction_material": "Al-AlOx-Al"
+  }
+]

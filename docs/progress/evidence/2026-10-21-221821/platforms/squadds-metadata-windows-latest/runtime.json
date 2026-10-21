@@ -1,0 +1,12 @@
+{
+  "commit": "1249e11bf067e98162f1c7c99869b10ac9864c6d",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "machine": "AMD64",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "libc": [
+    "",
+    ""
+  ],
+  "lock": "docs\\progress\\evidence\\2026-10-21-101636\\x86_64-pc-windows-msvc.txt",
+  "lock_sha256": "24a1916d69c88d385aad51bdd82a0ed182b63f89e83233f142bf397a07bd36da"
+}

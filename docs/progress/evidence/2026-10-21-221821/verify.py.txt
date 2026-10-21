@@ -1,0 +1,29 @@
+from pathlib import Path
+import hashlib,json
+from dataclasses import asdict
+from textlayout.external.squadds_metadata_assessment import assess_metadata
+root=Path('/private/tmp/squadds-platform-review');results=[];canonical=[]
+worker=hashlib.sha256(Path('src/textlayout/external/_squadds_metadata_worker.py').read_bytes()).hexdigest()
+for platform in sorted((root/'artifacts').iterdir()):
+ runtime=json.loads((platform/'runtime.json').read_text());assert runtime['commit']=='1249e11bf067e98162f1c7c99869b10ac9864c6d'
+ lock=Path(runtime['lock'].replace('\\','/'))
+ # Windows checkout can use CRLF: test the actual declared bytes without rewriting artifacts.
+ data=lock.read_bytes(); hashes=[hashlib.sha256(data).hexdigest(),hashlib.sha256(data.replace(b'\r\n',b'\n').replace(b'\n',b'\r\n')).hexdigest()]
+ assert runtime['lock_sha256'] in hashes
+ commands=json.loads((platform/'commands.json').read_text());assert len(commands)==6 and all(c['return_code']==0 for c in commands)
+ for repeat in ('first','repeat'):
+  folder=platform/repeat;manifest=json.loads((folder/'manifest.json').read_text());count=0
+  assert manifest['worker_sha256']==worker
+  for name,sha in manifest['artifact_sha256'].items():
+   assert hashlib.sha256((folder/name).read_bytes()).hexdigest()==sha,(platform,name)
+   count+=1
+  raw=json.loads((folder/'raw.json').read_text());assessment=assess_metadata((folder/'database.json').read_bytes(),raw)
+  result=json.loads((folder/'result.json').read_text());assert result['assessment']==asdict(assessment)
+  assert result['return_code']==0 and result['failure_reason'] is None
+  assert raw['reference']['Foundry']=='SQUILL' and raw['contributor']['Foundry']=='N/A'
+  canonical.append({k:v for k,v in raw.items() if k not in ('python','platform')})
+  results.append({'platform':platform.name,'repeat':repeat,'artifact_hashes_verified':count,'assessment':asdict(assessment),'lock_sha256':runtime['lock_sha256'],'lock_matches_local_bytes':runtime['lock_sha256']==hashes[0]})
+ assert (platform/'first/raw.json').read_bytes()==(platform/'repeat/raw.json').read_bytes()
+assert all(row==canonical[0] for row in canonical)
+(root/'verification.json').write_text(json.dumps({'packets':results,'same_platform_raw_repeat_identical':True,'cross_platform_metadata_equal':True,'electrical_validation':False},indent=2))
+print('Verified',len(results),'packets and',sum(r['artifact_hashes_verified'] for r in results),'artifact hashes')
