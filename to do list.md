@@ -676,3 +676,10 @@ Entry 008 QEDA audit pins qeda/qeda at 8a8f890362e6099deef460457cd236d1d14fdca8
 (package declares 0.4.7, MIT): a PCB library generator, not a quantum solver.
 Next verify npm archive/source identity and an isolated lock, then define a
 local two-pin geometric reference before adapter work. See docs/integrations/qeda.md.
+
+Entry 008 npm audit (2026-10-22): declared source 0.4.7 is not published
+at the npm version endpoint (404 twice); registry latest 0.4.1 maps to a
+different source commit. Archive integrity and 38 shared files match; 85
+compiled files still need reproducible compilation. Next pin CoffeeScript
+2.3.2 and inspect local-only behavior before selecting runtime/adapter scope.
+Evidence: docs/progress/2026-10-22-101637.md. No acceptance or numerical claim added.

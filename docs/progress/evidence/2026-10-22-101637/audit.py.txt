@@ -1,0 +1,17 @@
+import json, urllib.request, hashlib, base64, tarfile, io
+from pathlib import Path
+p=Path('/private/tmp/qeda-package-audit')
+r=json.loads((p/'registry.json').read_text());v=r['versions']['0.4.1']
+def get(name,url):
+ b=urllib.request.urlopen(url,timeout=60).read();(p/name).write_bytes(b);return b
+pkg=get('qeda-0.4.1.tgz',v['dist']['tarball'])
+source=get('source-0.4.1.tgz','https://codeload.github.com/qeda/qeda/tar.gz/'+v['gitHead'])
+def files(b):
+ with tarfile.open(fileobj=io.BytesIO(b),mode='r:gz') as t:
+  return {'/'.join(m.name.split('/')[1:]):t.extractfile(m).read() for m in t if m.isfile()}
+a,b=files(pkg),files(source)
+common=sorted(a.keys()&b.keys())
+report={'version':'0.4.1','gitHead':v['gitHead'],'integrity_match':'sha512-'+base64.b64encode(hashlib.sha512(pkg).digest()).decode()==v['dist']['integrity'],'sha1_match':hashlib.sha1(pkg).hexdigest()==v['dist']['shasum'],'archive_sha256':hashlib.sha256(pkg).hexdigest(),'source_archive_sha256':hashlib.sha256(source).hexdigest(),'identical':[k for k in common if a[k]==b[k]],'different':[k for k in common if a[k]!=b[k]],'package_only':sorted(a.keys()-b.keys()),'source_only':sorted(b.keys()-a.keys())}
+(p/'comparison.json').write_text(json.dumps(report,indent=2)+'\n')
+(p/'published-package.json').write_bytes(a['package.json']);(p/'published-LICENSE').write_bytes(a['LICENSE'])
+print(json.dumps({k:v for k,v in report.items() if k!='identical'},indent=2));print('identical files',len(report['identical']))

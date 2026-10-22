@@ -38,3 +38,32 @@ explicit geometric reference and do not infer electrical accuracy.
 Acceptance remains pending: typed adapter, real execution, independent geometric
 comparison, repeated three-platform evidence and implementation commit. No CLI,
 MCP method, screenshot, native-app feature or numerical result is delivered.
+
+## Published-package audit (2026-10-22)
+
+The npm endpoint https://registry.npmjs.org/qeda/0.4.7 returned HTTP 404
+on the original request and unchanged repeat. The retained registry snapshot
+reports latest 0.4.1, associated gitHead
+aa7f41673f82143cc105cb5c6980685a0644c1ea. This is distinct from the
+previously audited source declaring 0.4.7; do not label that source an npm release.
+
+The 0.4.1 archive matches registry SHA-512 integrity and SHA-1. SHA-256 is
+de4b48943a0350fd428727ee67552f30b8e51a021db07c87197191ab853bdb4a.
+All 38 shared archive/source files match byte-for-byte, including package.json
+and LICENSE. The package contains 85 additional compiled lib JavaScript files;
+the source archive has 100 source-only files. No compiled/source equivalence is
+claimed: lib/qeda.js identifies CoffeeScript 2.3.2, and reproduction is pending.
+The audit reads archive members in memory and executes no upstream code.
+
+Published 0.4.1 runtime ranges differ from the 0.4.7 source: crc ^3.8.0,
+js-yaml ^3.12.0, mkdirp ^0.5.1, nopt ^4.0.1, sprintf-js ^1.1.1,
+svg-path-parser ^1.1.0 and sync-request ^6.0.0; dev CoffeeScript ^2.3.1.
+Neither set is a resolved lock or an installed compatible runtime.
+Evidence and retrieval/comparison script: ../progress/evidence/2026-10-22-101637/.
+Archives remain outside the repository; URLs and hashes support retrieval.
+
+Next: reproduce the 85 generated files using pinned CoffeeScript 2.3.2 in a
+disposable environment with scripts disabled during dependency installation;
+inspect local-input/network behavior and choose explicitly between published
+0.4.1 and a source build of the 0.4.7 pin. Retain the full lock and Node version
+before the local two-pin reference experiment. Entry 008 remains unchecked.
