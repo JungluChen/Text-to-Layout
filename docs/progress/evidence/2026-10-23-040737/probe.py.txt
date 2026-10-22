@@ -1,0 +1,16 @@
+import json,math,hashlib,platform,sys
+from pathlib import Path
+import numpy as np
+from textlayout._legacy.jtwpa import gaydamachenko_reference_config,_unit_cell_abcd,jtwpa_stop_bands
+c=gaydamachenko_reference_config();freq=[1.,6.7,12.92,25.84,39.]
+v=_unit_cell_abcd(np.array(freq),c);rows=[]
+for i,f in enumerate(freq):
+ w=2*math.pi*f*1e9;l=c.squid_inductance_ph*1e-12;cj=c.junction_capacitance_ff*1e-15;den=1-w*w*cj*l
+ A,B,C,D=1+0j,0j,0j,1+0j
+ for cap in c.capacitance_profile_ff:
+  cap*=1e-15;a=1-.5*w*w*l*cap/den;b=1j*w*l/den;cc=1j*w*cap-.25j*w*w*w*l*cap*cap/den
+  A,B,C,D=A*a+B*cc,A*b+B*a,C*a+D*cc,C*b+D*a
+ scalar=[A,B,C,D];array=[complex(x[i]) for x in v]
+ rows.append({'frequency_ghz':f,'scalar':[[x.real,x.imag] for x in scalar],'vector':[[x.real,x.imag] for x in array],'max_absolute_difference':max(abs(x-y) for x,y in zip(scalar,array))})
+source=Path('src/textlayout/_legacy/jtwpa.py')
+print(json.dumps({'python':sys.version,'platform':platform.platform(),'numpy':np.__version__,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'omega_cubed':[float(x) for x in (2*math.pi*np.array(freq)*1e9)**3],'rows':rows,'bands':jtwpa_stop_bands(c)},indent=2,allow_nan=False))

@@ -694,3 +694,9 @@ pending. Paper benchmark run 39747389879 failed on Python 3.14.4 with overflow
 and bands[1] IndexError; local unchanged command passes twice. Remote unchanged
 attempt 2 queued; investigate environment discrepancy before edits. Evidence:
 docs/progress/2026-10-22-220849.md. No numerical acceptance or tolerance change.
+
+Paper diagnostic update: unchanged Linux attempt2 of 39747389879 fails again.
+Local scalar/vector unit-cell probe repeats identically and finds three bands;
+Linux equivalent probe remains needed before attributing cause to Python/NumPy.
+Retained evidence and exact next experiment: docs/progress/2026-10-23-040737.md. No numerical
+fix, relaxed tolerance or checklist promotion.
