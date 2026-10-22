@@ -1,0 +1,7 @@
+npm install --prefix /private/tmp/qeda-runtime-audit/runtime --ignore-scripts --no-audit --no-fund --save-exact qeda@0.4.1 (failed twice EACCES)
+Retry with --cache /private/tmp/qeda-runtime-audit/cache succeeded.
+npm ci --cache /private/tmp/qeda-runtime-audit/cache --prefix /private/tmp/qeda-runtime-audit/runtime --ignore-scripts --no-audit --no-fund
+npm ls --prefix /private/tmp/qeda-runtime-audit/runtime --all --json
+node -e "const p='/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda'; const q=require(p); console.log(JSON.stringify({node:process.version,version:require(p+'/package.json').version,exports:Object.keys(q)}))" (twice)
+uv run --no-sync pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q (twice)
+gh run rerun 39747389879 -R JungluChen/Text-to-Layout --failed

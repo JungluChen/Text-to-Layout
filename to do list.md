@@ -688,3 +688,9 @@ Entry 008 compilation audit: all 85 published 0.4.1 JavaScript files match
 pinned source compiled twice with CoffeeScript 2.3.2. Next isolated runtime lock
 and closed local YAML/base inputs before geometric reference execution.
 Evidence: docs/progress/2026-10-22-161039.md; no acceptance promotion.
+
+Entry 008 runtime lock and repeated imports verified locally; geometry remains
+pending. Paper benchmark run 39747389879 failed on Python 3.14.4 with overflow
+and bands[1] IndexError; local unchanged command passes twice. Remote unchanged
+attempt 2 queued; investigate environment discrepancy before edits. Evidence:
+docs/progress/2026-10-22-220849.md. No numerical acceptance or tolerance change.

@@ -89,3 +89,15 @@ Evidence: ../progress/evidence/2026-10-22-161039/. Next resolve the complete pub
 0.4.1 runtime in isolation, inspect every local input/base dependency and define
 an independent two-pin geometric reference before real repeated execution.
 Entry 008 remains unchecked; no source-0.4.7 or platform acceptance is implied.
+
+## Isolated runtime (2026-10-22)
+
+Published qeda 0.4.1 installed with scripts disabled in disposable space using
+Node v24.20.0/npm 11.19.0; 73 packages installed, full lock retained. npm ci
+reinstalled successfully from that lock. Two imports return version 0.4.1 and
+Library export identically. This establishes import availability only, not
+geometry correctness, offline execution or platform acceptance. Existing npm
+cache permissions caused EACCES twice; a separate temporary cache resolved it
+without ownership changes. npm warned osenv 0.1.5 is deprecated.
+Evidence: ../progress/evidence/2026-10-22-220849/. Next define a closed local two-pin YAML
+input and independent dimensions/pin-map reference before executing generation.
