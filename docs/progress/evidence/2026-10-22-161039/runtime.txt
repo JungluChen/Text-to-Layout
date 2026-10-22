@@ -1,0 +1,3 @@
+Node v24.20.0 (/usr/local/bin/node); npm 11.19.0
+Compiler install: npm install --prefix /private/tmp/qeda-compile-audit/compiler --ignore-scripts --no-audit --no-fund --save-exact coffeescript@2.3.2
+Comparison: python3 /private/tmp/qeda-compile-audit/compare.py

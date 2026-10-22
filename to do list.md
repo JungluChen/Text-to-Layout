@@ -683,3 +683,8 @@ different source commit. Archive integrity and 38 shared files match; 85
 compiled files still need reproducible compilation. Next pin CoffeeScript
 2.3.2 and inspect local-only behavior before selecting runtime/adapter scope.
 Evidence: docs/progress/2026-10-22-101637.md. No acceptance or numerical claim added.
+
+Entry 008 compilation audit: all 85 published 0.4.1 JavaScript files match
+pinned source compiled twice with CoffeeScript 2.3.2. Next isolated runtime lock
+and closed local YAML/base inputs before geometric reference execution.
+Evidence: docs/progress/2026-10-22-161039.md; no acceptance promotion.

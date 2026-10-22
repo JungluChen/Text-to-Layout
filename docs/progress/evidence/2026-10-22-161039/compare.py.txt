@@ -1,0 +1,23 @@
+from pathlib import Path
+import tarfile,subprocess,json,hashlib
+p=Path('/private/tmp/qeda-compile-audit');a=Path('/private/tmp/qeda-package-audit')
+with tarfile.open(a/'source-0.4.1.tgz') as t:
+ for m in t:
+  parts=m.name.split('/')[1:]
+  if m.isfile() and parts and parts[0]=='src':
+   assert '..' not in parts
+   dest=p/'source'/Path(*parts);dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(t.extractfile(m).read())
+with tarfile.open(a/'qeda-0.4.1.tgz') as t:
+ expected={'/'.join(m.name.split('/')[2:]):t.extractfile(m).read() for m in t if m.isfile() and m.name.startswith('package/lib/')}
+reports=[]
+for i in [1,2]:
+ out=p/f'compiled-{i}'
+ cmd=['/usr/local/bin/node',str(p/'compiler/node_modules/coffeescript/bin/coffee'),'-o',str(out),'-c',str(p/'source/src')]
+ r=subprocess.run(cmd,capture_output=True,text=True)
+ (p/f'compile-{i}.log').write_text(r.stdout+r.stderr)
+ actual={str(f.relative_to(out)):f.read_bytes() for f in out.rglob('*.js')}
+ report={'command':cmd,'returncode':r.returncode,'expected_count':len(expected),'actual_count':len(actual),'missing':sorted(expected.keys()-actual.keys()),'extra':sorted(actual.keys()-expected.keys()),'different':[k for k in expected.keys()&actual.keys() if expected[k]!=actual[k]],'hashes':{k:hashlib.sha256(v).hexdigest() for k,v in sorted(actual.items())}}
+ reports.append(report)
+(p/'compilation.json').write_text(json.dumps(reports,indent=2)+'\n')
+for r in reports: print({k:v for k,v in r.items() if k not in ['hashes','command']})
+print('repeat hashes identical',reports[0]['hashes']==reports[1]['hashes'])

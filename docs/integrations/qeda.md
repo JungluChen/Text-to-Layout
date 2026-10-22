@@ -67,3 +67,25 @@ disposable environment with scripts disabled during dependency installation;
 inspect local-input/network behavior and choose explicitly between published
 0.4.1 and a source build of the 0.4.7 pin. Retain the full lock and Node version
 before the local two-pin reference experiment. Entry 008 remains unchecked.
+
+## Repeated compilation audit (2026-10-22)
+
+Published 0.4.1 source at aa7f41673f82143cc105cb5c6980685a0644c1ea
+compiled with CoffeeScript 2.3.2 on Node v24.20.0 twice. All 85 generated
+JavaScript files match the published archive byte-for-byte in both runs;
+no missing or extra files. The compiler-only npm lock includes registry integrity;
+installation used --ignore-scripts. This establishes compilation correspondence,
+not QEDA runtime compatibility or geometric accuracy. No QEDA runtime dependencies
+were installed and no component generator was executed.
+
+Source loadYaml uses ./library/<lowercase-name>.yaml, fetching from the unpinned
+qeda/library master branch if missing or force=true. Base definitions are loaded
+recursively. A local-only adapter therefore needs a validated finite dependency
+closure, no forced refresh and bounded component names; merely supplying the top
+YAML does not establish offline operation. This is static source inspection,
+not a network isolation test.
+
+Evidence: ../progress/evidence/2026-10-22-161039/. Next resolve the complete published
+0.4.1 runtime in isolation, inspect every local input/base dependency and define
+an independent two-pin geometric reference before real repeated execution.
+Entry 008 remains unchecked; no source-0.4.7 or platform acceptance is implied.
