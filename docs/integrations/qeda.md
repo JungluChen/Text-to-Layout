@@ -101,3 +101,24 @@ cache permissions caused EACCES twice; a separate temporary cache resolved it
 without ownership changes. npm warned osenv 0.1.5 is deprecated.
 Evidence: ../progress/evidence/2026-10-22-220849/. Next define a closed local two-pin YAML
 input and independent dimensions/pin-map reference before executing generation.
+
+## Local custom-pad probe (2026-10-23)
+
+Two initial executions using A/B pin groups emitted exact custom pads but no
+symbol pin records. Source two-sided resistor handling expects L/R groups;
+corrected input ran twice with L pin1 and R pin2. Both corrected runs emitted
+pads centred at (-1.5,0)/(1.5,0) mm, sized 1 by 1.5 mm, with zero readback error
+against the reference written before execution (tolerance 1e-6 mm). This checks
+explicit custom geometry, not IPC-derived land patterns or electrical accuracy.
+
+Sandbox execution failed twice because sync-rpc performs local port discovery
+on import (listen EPERM); permitted execution succeeded. Existing local YAML
+with no base was used, but no network trace or OS-enforced offline isolation
+was established. No claim of zero network activity follows from local inputs.
+
+Raw library output contains a wall-clock Date field and an undefined_ footprint
+prefix from omitted group metadata. Assessment keeps acceptance REJECTED for
+all runs: rudimentary pad/pin checks are not full KiCad validation or a product
+adapter. Next specify group identity and timestamp provenance policy, validate
+with a real parser and test corruption/extra-pad rejection before typed adapter
+work. Retained original failures and corrected outputs: ../progress/evidence/2026-10-23-100753/.

@@ -1,0 +1,28 @@
+from pathlib import Path
+import json,subprocess,hashlib
+p=Path('/private/tmp/qeda-geometry-probe')
+reference={'units':'mm','pads':{'1':{'x':-1.5,'y':0.,'width':1.,'height':1.5},'2':{'x':1.5,'y':0.,'width':1.,'height':1.5}},'absolute_tolerance_mm':1e-6,'rationale':'Explicit custom geometry uses exactly representable values at default 0.001 mm output resolution; 1e-6 mm permits only floating parsing roundoff, not a quantization shift.','scope':'Pad geometry and numbering only; no IPC, fabrication or electrical claim.'}
+(p/'reference.json').write_text(json.dumps(reference,indent=2)+'\n')
+yaml='''name: ProbeResistor
+keywords: resistor
+pinout:
+  L: 1
+  R: 2
+schematic:
+  symbol: resistor
+housing:
+  pattern: custom
+  bodyWidth: 2
+  bodyLength: 1
+  height: 0.5
+  padWidth: 1
+  padHeight: 1.5
+  padPosition: -1.5, 0, 1.5, 0
+'''
+js="const Qeda=require('/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda');const lib=new Qeda.Library();lib.add('probe');lib.generate('probe');\n"
+(p/'generate.js').write_text(js)
+for i in [3,4]:
+ d=p/f'run-{i}';(d/'library').mkdir(parents=True,exist_ok=True);(d/'library/probe.yaml').write_text(yaml)
+ r=subprocess.run(['/usr/local/bin/node',str(p/'generate.js')],cwd=d,capture_output=True,timeout=30)
+ (d/'stdout.txt').write_bytes(r.stdout);(d/'stderr.txt').write_bytes(r.stderr);(d/'execution.json').write_text(json.dumps({'returncode':r.returncode,'command':['/usr/local/bin/node',str(p/'generate.js')],'cwd':str(d)}));print(i,r.returncode,r.stderr.decode()[-500:])
+ print([str(f.relative_to(d)) for f in d.rglob('*') if f.is_file()])

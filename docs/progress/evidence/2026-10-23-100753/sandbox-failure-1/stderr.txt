@@ -1,0 +1,39 @@
+/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/index.js:66
+    throw new Error(
+    ^
+
+Error: /private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/find-port.js:9
+      throw err;
+      ^
+
+Error: listen EPERM: operation not permitted 0.0.0.0
+    at Server.setupListenHandle [as _listen2] (node:net:2302:21)
+    at listenInCluster (node:net:2433:12)
+    at Server.listen (node:net:2558:7)
+    at /private/tmp/qeda-runtime-audit/runtime/node_modules/get-port/index.js:18:9
+    at new Promise (<anonymous>)
+    at getPort (/private/tmp/qeda-runtime-audit/runtime/node_modules/get-port/index.js:4:28)
+    at module.exports (/private/tmp/qeda-runtime-audit/runtime/node_modules/get-port/index.js:28:2)
+    at Object.<anonymous> (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/find-port.js:5:1)
+    at Module._compile (node:internal/modules/cjs/loader:1929:14)
+    at Object..js (node:internal/modules/cjs/loader:2060:10) {
+  code: 'EPERM',
+  errno: -1,
+  syscall: 'listen',
+  address: '0.0.0.0'
+}
+
+Node.js v24.20.0
+
+    at findPort (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/index.js:66:11)
+    at start (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/index.js:35:16)
+    at sendMessage (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/index.js:136:17)
+    at createClient (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-rpc/lib/index.js:177:27)
+    at Object.<anonymous> (/private/tmp/qeda-runtime-audit/runtime/node_modules/sync-request/lib/index.js:16:14)
+    at Module._compile (node:internal/modules/cjs/loader:1929:14)
+    at Object..js (node:internal/modules/cjs/loader:2060:10)
+    at Module.load (node:internal/modules/cjs/loader:1651:32)
+    at Module._load (node:internal/modules/cjs/loader:1443:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+
+Node.js v24.20.0

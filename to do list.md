@@ -700,3 +700,9 @@ Local scalar/vector unit-cell probe repeats identically and finds three bands;
 Linux equivalent probe remains needed before attributing cause to Python/NumPy.
 Retained evidence and exact next experiment: docs/progress/2026-10-23-040737.md. No numerical
 fix, relaxed tolerance or checklist promotion.
+
+Entry008 local QEDA custom-pad probe now executed twice after correcting A/B to
+upstream L/R resistor pin groups. Pad readback zero error, pins1/2 present;
+full acceptance remains rejected pending parser/identity/timestamp and platform
+evidence. See docs/progress/2026-10-23-100753.md. Linux paper diagnostic remains blocked
+locally: no docker/podman/orb command available; controlled CI probe still needed.

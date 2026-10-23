@@ -1,0 +1,80 @@
+[
+  {
+    "run": 1,
+    "pad_count": 2,
+    "pad_max_error_mm": 0.0,
+    "pad_reference_pass": true,
+    "sexpr_final_depth": 0,
+    "sexpr_min_depth": 0,
+    "sexpr_root_count": 1,
+    "sexpr_balance_pass": true,
+    "symbol_pin_records": [],
+    "acceptance": "REJECTED",
+    "hashes": {
+      "kicad/probe.3dshapes/undefined_PROBERESISTOR.wrl": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+      "kicad/probe.dcm": "78c517c1267f9fd00181fd464603f2509a03b13e897bb4e39f11dddba75814a8",
+      "kicad/probe.lib": "d94cd36556549c0057b3d9b380f28c2aa469d2884d629830db683548cefd2950",
+      "kicad/probe.pretty/undefined_PROBERESISTOR.kicad_mod": "b4415199717f17d03483c3e38de6bf112da77884ebf324cb4ac628ce780cd2f8"
+    }
+  },
+  {
+    "run": 2,
+    "pad_count": 2,
+    "pad_max_error_mm": 0.0,
+    "pad_reference_pass": true,
+    "sexpr_final_depth": 0,
+    "sexpr_min_depth": 0,
+    "sexpr_root_count": 1,
+    "sexpr_balance_pass": true,
+    "symbol_pin_records": [],
+    "acceptance": "REJECTED",
+    "hashes": {
+      "kicad/probe.3dshapes/undefined_PROBERESISTOR.wrl": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+      "kicad/probe.dcm": "78c517c1267f9fd00181fd464603f2509a03b13e897bb4e39f11dddba75814a8",
+      "kicad/probe.lib": "d94cd36556549c0057b3d9b380f28c2aa469d2884d629830db683548cefd2950",
+      "kicad/probe.pretty/undefined_PROBERESISTOR.kicad_mod": "b4415199717f17d03483c3e38de6bf112da77884ebf324cb4ac628ce780cd2f8"
+    }
+  },
+  {
+    "run": 3,
+    "pad_count": 2,
+    "pad_max_error_mm": 0.0,
+    "pad_reference_pass": true,
+    "sexpr_final_depth": 0,
+    "sexpr_min_depth": 0,
+    "sexpr_root_count": 1,
+    "sexpr_balance_pass": true,
+    "symbol_pin_records": [
+      "X L 1 -150 0 50 R 50 50 1 1 P",
+      "X R 2 150 0 50 L 50 50 1 1 P"
+    ],
+    "acceptance": "REJECTED",
+    "hashes": {
+      "kicad/probe.3dshapes/undefined_PROBERESISTOR.wrl": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+      "kicad/probe.dcm": "9015bc150bc12cfe5efc73ee66ee75cf053df0f9303a3dfa4c677efdffe5c987",
+      "kicad/probe.lib": "cd8507e18d97e3845fb09219d3017574b60febf407d103b5986f0dfc7e3e60b1",
+      "kicad/probe.pretty/undefined_PROBERESISTOR.kicad_mod": "b4415199717f17d03483c3e38de6bf112da77884ebf324cb4ac628ce780cd2f8"
+    }
+  },
+  {
+    "run": 4,
+    "pad_count": 2,
+    "pad_max_error_mm": 0.0,
+    "pad_reference_pass": true,
+    "sexpr_final_depth": 0,
+    "sexpr_min_depth": 0,
+    "sexpr_root_count": 1,
+    "sexpr_balance_pass": true,
+    "symbol_pin_records": [
+      "X L 1 -150 0 50 R 50 50 1 1 P",
+      "X R 2 150 0 50 L 50 50 1 1 P"
+    ],
+    "acceptance": "REJECTED",
+    "hashes": {
+      "kicad/probe.3dshapes/undefined_PROBERESISTOR.wrl": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+      "kicad/probe.dcm": "9015bc150bc12cfe5efc73ee66ee75cf053df0f9303a3dfa4c677efdffe5c987",
+      "kicad/probe.lib": "cd8507e18d97e3845fb09219d3017574b60febf407d103b5986f0dfc7e3e60b1",
+      "kicad/probe.pretty/undefined_PROBERESISTOR.kicad_mod": "b4415199717f17d03483c3e38de6bf112da77884ebf324cb4ac628ce780cd2f8"
+    }
+  }
+]

@@ -1,0 +1,18 @@
+EESchema-LIBRARY Version 2.3 Date: 23/10/2026 10:05:49
+#encoding utf-8
+#
+# ProbeResistor
+#
+DEF ProbeResistor R 0 0 Y Y 1 L N
+F0 "R" 150 30 50 H V C BNN
+F1 "ProbeResistor" 150 -230 50 H V C TNN
+F2 "probe:undefined_PROBERESISTOR" 0 0 0 H I C CNN
+$FPLIST
+  undefined_PROBERESISTOR
+$ENDFPLIST
+DRAW
+S 0 0 300 -200 1 1 12 f
+S 50 -60 250 -140 1 1 12 f
+ENDDRAW
+ENDDEF
+# End Library

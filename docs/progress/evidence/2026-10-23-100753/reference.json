@@ -1,0 +1,20 @@
+{
+  "units": "mm",
+  "pads": {
+    "1": {
+      "x": -1.5,
+      "y": 0.0,
+      "width": 1.0,
+      "height": 1.5
+    },
+    "2": {
+      "x": 1.5,
+      "y": 0.0,
+      "width": 1.0,
+      "height": 1.5
+    }
+  },
+  "absolute_tolerance_mm": 1e-06,
+  "rationale": "Explicit custom geometry uses exactly representable values at default 0.001 mm output resolution; 1e-6 mm permits only floating parsing roundoff, not a quantization shift.",
+  "scope": "Pad geometry and numbering only; no IPC, fabrication or electrical claim."
+}

@@ -1,0 +1,15 @@
+name: ProbeResistor
+keywords: resistor
+pinout:
+  A: 1
+  B: 2
+schematic:
+  symbol: resistor
+housing:
+  pattern: custom
+  bodyWidth: 2
+  bodyLength: 1
+  height: 0.5
+  padWidth: 1
+  padHeight: 1.5
+  padPosition: -1.5, 0, 1.5, 0
