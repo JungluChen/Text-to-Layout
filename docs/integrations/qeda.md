@@ -140,3 +140,18 @@ KiCad installation found here; native import remains untested. Evidence:
 ../progress/evidence/2026-10-23-160519/. Next deliver a bounded typed assessment API with raw
 provenance and explicit geometry-only status, then process wrapper/platform
 checks; entry008 remains unchecked.
+
+## Counterexample audit (2026-10-23)
+
+The prior fixture parser is insufficient for acceptance: extra F.Cu geometry,
+B.Cu module placement, an unterminated quoted field and a drill on an SMD pad
+were each accepted twice unchanged. Prior pad checks remain true only for the
+specified fields; they do not establish total conductive geometry or valid syntax.
+Do not promote the earlier fixture checker directly into a typed adapter.
+
+A developer prototype using an anchored lexer, explicit module layer and pad
+field allowlists, and rejection of copper graphics accepts the baseline and
+rejects all four counterexamples twice. It remains incomplete: full symbol
+structure, finite numeric/size/depth bounds, all nested fields and native KiCad
+validation still require implementation/tests. Retained counterexamples and
+before/after results: ../progress/evidence/2026-10-23-220348/. Entry008 stays unchecked.

@@ -1,0 +1,13 @@
+from pathlib import Path
+import json,hashlib
+p=Path('/private/tmp/qeda-negative-audit');source=Path('/Users/ludko/Desktop/text2layout/Text-to-Layout/docs/progress/evidence/2026-10-23-160519/validate.py.txt')
+ns={};exec(source.read_text().split('results=[]')[0],ns)
+t=Path('/private/tmp/qeda-identity-audit/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_text()
+mutations={'baseline':t,'extra_copper':t[:-2]+'(fp_line (start -2 0) (end 2 0) (layer F.Cu) (width 1))\n)\n','backside_module':t.replace('(layer F.Cu)','(layer B.Cu)',1),'unclosed_quote':t.replace('REF**','"REF**',1),'pad_drill':t.replace('(pad 1 smd rect','(pad 1 smd rect (drill 0.8)',1)}
+results=[]
+for name,body in mutations.items():
+ (p/(name+'.kicad_mod')).write_text(body)
+ try:ns['check'](body);accepted=True
+ except Exception:accepted=False
+ results.append({'case':name,'accepted_by_previous_probe':accepted,'sha256':hashlib.sha256(body.encode()).hexdigest()})
+print(json.dumps({'previous_probe_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'cases':results},indent=2))

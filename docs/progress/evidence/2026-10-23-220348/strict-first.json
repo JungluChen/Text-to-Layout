@@ -1,0 +1,25 @@
+{
+  "scope": "Developer prototype only, not complete KiCad schema or product API",
+  "cases": [
+    {
+      "case": "baseline",
+      "accepted": true
+    },
+    {
+      "case": "extra_copper",
+      "accepted": false
+    },
+    {
+      "case": "backside_module",
+      "accepted": false
+    },
+    {
+      "case": "unclosed_quote",
+      "accepted": false
+    },
+    {
+      "case": "pad_drill",
+      "accepted": false
+    }
+  ]
+}

@@ -712,3 +712,8 @@ fixture parser checks two pads/pins and rejects five corruption classes; native
 KiCad import untested. Next typed geometry assessment preserving raw provenance.
 Evidence: docs/progress/2026-10-23-160519.md. Windows lifecycle recurrence retained and
 unchanged failed-job retry39887929239 dispatched; no timeout change.
+
+Entry008 acceptance audit found four repeatable false accepts in the earlier
+fixture checker (extra copper, backside module, malformed quote, SMD drill).
+Strict prototype rejects them twice; no product API promoted. Carry these exact
+counterexamples into typed assessment regressions; see docs/progress/2026-10-23-220348.md.

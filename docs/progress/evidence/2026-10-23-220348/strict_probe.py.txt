@@ -1,0 +1,52 @@
+from pathlib import Path
+import json,re
+p=Path('/private/tmp/qeda-negative-audit')
+source=Path('/Users/ludko/Desktop/text2layout/Text-to-Layout/docs/progress/evidence/2026-10-23-160519/validate.py.txt');ns={};exec(source.read_text().split('results=[]')[0],ns)
+# Anchored lexer must consume every character, including malformed quote prefixes.
+TOKEN=re.compile(r'\s+|\(|\)|"(?:\\["\\]|[^"\\])*"|[^\s()"\\]+')
+def parse(t):
+ stack=[];roots=[];pos=0
+ while pos<len(t):
+  m=TOKEN.match(t,pos)
+  if m is None:raise ValueError('invalid token at '+str(pos))
+  tok=m.group();pos=m.end()
+  if tok.isspace():continue
+  if tok=='(':
+   if len(stack)>=32:raise ValueError('depth')
+   node=[]
+   if stack:stack[-1].append(node)
+   else:roots.append(node)
+   stack.append(node)
+  elif tok==')':
+   if not stack:raise ValueError('close')
+   stack.pop()
+  else:
+   if not stack:raise ValueError('atom outside root')
+   stack[-1].append(tok)
+ if stack or len(roots)!=1:raise ValueError('root')
+ return roots[0]
+ns['parse']=parse
+allowed={'layer','attr','pad','fp_text','fp_line','fp_circle','model'}
+def check(t):
+ root=parse(t);ns['check'](t)
+ fields=root[2:]
+ assert all(isinstance(x,list) and x and x[0] in allowed for x in fields)
+ assert [x for x in fields if x[0]=='layer']==[['layer','F.Cu']]
+ assert [x for x in fields if x[0]=='attr']==[['attr','smd']]
+ for x in fields:
+  if x[0]=='pad':
+   sub=x[4:];keys=[v[0] for v in sub if isinstance(v,list) and v]
+   assert len(keys)==len(sub) and len(set(keys))==len(keys)
+   assert set(keys)=={'at','size','layers','solder_mask_margin'}
+   assert next(v for v in sub if v[0]=='solder_mask_margin')==['solder_mask_margin','0.050']
+  if x[0] in {'fp_line','fp_circle','fp_text'}:
+   layer=[v for v in x if isinstance(v,list) and v and v[0]=='layer']
+   assert len(layer)==1 and layer[0] in [['layer','F.SilkS'],['layer','F.Fab'],['layer','F.CrtYd']]
+ return True
+out=[]
+for name in ['baseline','extra_copper','backside_module','unclosed_quote','pad_drill']:
+ try:check((p/(name+'.kicad_mod')).read_text());accepted=True
+ except (AssertionError,ValueError):accepted=False
+ assert accepted==(name=='baseline')
+ out.append({'case':name,'accepted':accepted})
+print(json.dumps({'scope':'Developer prototype only, not complete KiCad schema or product API','cases':out},indent=2))
