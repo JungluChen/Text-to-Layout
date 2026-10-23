@@ -717,3 +717,7 @@ Entry008 acceptance audit found four repeatable false accepts in the earlier
 fixture checker (extra copper, backside module, malformed quote, SMD drill).
 Strict prototype rejects them twice; no product API promoted. Carry these exact
 counterexamples into typed assessment regressions; see docs/progress/2026-10-23-220348.md.
+
+Entry008 bounded typed syntax reader implemented; semantic pad/pin assessment,
+raw provenance, execution wrapper and platform acceptance remain next. Parsing
+alone must never promote geometry or numerical evidence.

@@ -155,3 +155,14 @@ rejects all four counterexamples twice. It remains incomplete: full symbol
 structure, finite numeric/size/depth bounds, all nested fields and native KiCad
 validation still require implementation/tests. Retained counterexamples and
 before/after results: ../progress/evidence/2026-10-23-220348/. Entry008 stays unchecked.
+
+### QEDA bounded syntax reader
+
+`textlayout.external.qeda_syntax.parse_footprint_syntax(data: bytes)` returns an
+immutable `Expression`/`Atom` tree or raises `ValueError`. UTF-8 input is bounded
+to 1 MiB, 20,000 nodes, depth 32 and 4,096 decoded characters per atom. Quotes
+and escaped quote/backslash are explicit; malformed/trailing tokens and control
+characters in atoms fail closed. It has no optional dependencies, file writes,
+network access or execution side effects. This is syntax parsing only: numeric
+finiteness, units, geometry, pin identity, solver provenance and KiCad schema
+acceptance are not evaluated. No CLI/MCP equivalent or GUI is delivered yet.

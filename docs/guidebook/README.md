@@ -687,3 +687,28 @@ within each platform. Evidence: docs/progress/2026-10-13-102945.md. This
 supersedes earlier pending platform/checklist statements for this narrow scope.
 Nonlinear/noise/EM/measurement and broader domain support remain pending;
 harmonic truncation does not demonstrate nontrivial spatial convergence.
+
+### QEDA bounded syntax reader
+
+`textlayout.external.qeda_syntax.parse_footprint_syntax(data: bytes)` returns an
+immutable `Expression`/`Atom` tree or raises `ValueError`. UTF-8 input is bounded
+to 1 MiB, 20,000 nodes, depth 32 and 4,096 decoded characters per atom. Quotes
+and escaped quote/backslash are explicit; malformed/trailing tokens and control
+characters in atoms fail closed. It has no optional dependencies, file writes,
+network access or execution side effects. This is syntax parsing only: numeric
+finiteness, units, geometry, pin identity, solver provenance and KiCad schema
+acceptance are not evaluated. No CLI/MCP equivalent or GUI is delivered yet.
+
+Developer example (from an installed source checkout):
+
+```python
+from textlayout.external.qeda_syntax import Atom, parse_footprint_syntax
+tree = parse_footprint_syntax(b'(module example (layer F.Cu))')
+assert tree.children[:2] == (Atom('module'), Atom('example'))
+```
+
+Expected: a syntax tree, not an accepted layout. On `ValueError`, preserve the
+original bytes and error, then inspect encoding, quotes, parentheses and bounds;
+do not truncate input to make it pass. AI prompt: “Parse these retained footprint
+bytes and report syntax errors; do not infer geometric validity.” A schema-valid
+MCP example and screenshots remain pending because no such interface exists.
