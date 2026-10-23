@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "pad_geometry_pass": true,
+      "pin_map_pass": true
+    },
+    {
+      "run": 2,
+      "pad_geometry_pass": true,
+      "pin_map_pass": true
+    }
+  ],
+  "rejected_corruptions": [
+    "missing_close",
+    "wrong_number",
+    "wrong_position",
+    "wrong_size",
+    "extra_pad"
+  ],
+  "scope": "Independent fixture-specific structural and pad/pin checks only; not native KiCad or general schema validation."
+}

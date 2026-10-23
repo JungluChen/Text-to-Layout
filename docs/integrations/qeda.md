@@ -122,3 +122,21 @@ all runs: rudimentary pad/pin checks are not full KiCad validation or a product
 adapter. Next specify group identity and timestamp provenance policy, validate
 with a real parser and test corruption/extra-pad rejection before typed adapter
 work. Retained original failures and corrected outputs: ../progress/evidence/2026-10-23-100753/.
+
+## Identity and timestamp separation (2026-10-23)
+
+Explicit group Resistor produces Resistor_PROBERESISTOR. Two runs separated by
+two seconds emit byte-identical footprint/VRML files; symbol and documentation
+raw bytes differ in Date headers only, with identical bodies. Preserve raw
+headers/hashes as execution provenance; deterministic comparison must use parsed
+geometry/pins separately, never silently replace raw timestamps.
+
+A standalone structural parser checks the module identity, exactly two unique
+SMD rectangular pads, positions, sizes and layers plus L1/R2 symbol mapping.
+Both outputs pass twice; malformed closing syntax, duplicate numbering, shifted
+position, wrong size and extra pad are rejected. This is fixture-specific
+validation, not a general KiCad schema validator. No kicad-cli or /Applications/
+KiCad installation found here; native import remains untested. Evidence:
+../progress/evidence/2026-10-23-160519/. Next deliver a bounded typed assessment API with raw
+provenance and explicit geometry-only status, then process wrapper/platform
+checks; entry008 remains unchecked.

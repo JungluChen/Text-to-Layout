@@ -706,3 +706,9 @@ upstream L/R resistor pin groups. Pad readback zero error, pins1/2 present;
 full acceptance remains rejected pending parser/identity/timestamp and platform
 evidence. See docs/progress/2026-10-23-100753.md. Linux paper diagnostic remains blocked
 locally: no docker/podman/orb command available; controlled CI probe still needed.
+
+Entry008 explicit group identity and timestamp separation verified. Independent
+fixture parser checks two pads/pins and rejects five corruption classes; native
+KiCad import untested. Next typed geometry assessment preserving raw provenance.
+Evidence: docs/progress/2026-10-23-160519.md. Windows lifecycle recurrence retained and
+unchanged failed-job retry39887929239 dispatched; no timeout change.

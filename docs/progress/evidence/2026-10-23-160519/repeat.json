@@ -1,0 +1,32 @@
+[
+  {
+    "path": "probe.3dshapes/Resistor_PROBERESISTOR.wrl",
+    "raw_equal": true,
+    "first_sha256": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+    "second_sha256": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa"
+  },
+  {
+    "path": "probe.dcm",
+    "raw_equal": false,
+    "first_sha256": "a2bb92319fd2249898e29292fa9276497b94f295eb07247f3622061a440b6f4e",
+    "second_sha256": "bb015961c89d3dab6912262639dc97cf7b50ae0cfbe48b3142ab73f21a18e551",
+    "first_header": "EESchema-DOCLIB  Version 2.0 Date: 23/10/2026 16:03:25",
+    "second_header": "EESchema-DOCLIB  Version 2.0 Date: 23/10/2026 16:03:27",
+    "body_equal": true
+  },
+  {
+    "path": "probe.lib",
+    "raw_equal": false,
+    "first_sha256": "ef0c0e5ff7be8552a8ccabb96315f305e56a7e16007392c6853a57b991a66a3f",
+    "second_sha256": "a7adb073cc2219facc69f555af1e03b33ff88dccea310d208c75cc113f6095fe",
+    "first_header": "EESchema-LIBRARY Version 2.3 Date: 23/10/2026 16:03:25",
+    "second_header": "EESchema-LIBRARY Version 2.3 Date: 23/10/2026 16:03:27",
+    "body_equal": true
+  },
+  {
+    "path": "probe.pretty/Resistor_PROBERESISTOR.kicad_mod",
+    "raw_equal": true,
+    "first_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+    "second_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef"
+  }
+]

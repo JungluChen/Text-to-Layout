@@ -1,0 +1,46 @@
+from pathlib import Path
+import re,json
+p=Path('/private/tmp/qeda-identity-audit')
+def parse(t):
+ tokens=re.findall(r'"(?:\\.|[^"\\])*"|[()]|[^\s()]+',t);stack=[];roots=[]
+ for token in tokens:
+  if token=='(':
+   node=[]
+   if stack:stack[-1].append(node)
+   else:roots.append(node)
+   stack.append(node)
+  elif token==')':
+   if not stack:raise ValueError('unmatched close')
+   stack.pop()
+  else:
+   if not stack:raise ValueError('outside root')
+   stack[-1].append(token)
+ if stack or len(roots)!=1:raise ValueError('invalid root count/balance')
+ return roots[0]
+def check(t):
+ root=parse(t)
+ assert root[:2]==['module','Resistor_PROBERESISTOR']
+ pads=[x for x in root[2:] if isinstance(x,list) and x and x[0]=='pad'];assert len(pads)==2
+ seen=set()
+ for pad in pads:
+  assert pad[1] in ['1','2'] and pad[1] not in seen;seen.add(pad[1]);assert pad[2:4]==['smd','rect']
+  at=[x for x in pad if isinstance(x,list) and x[0]=='at'];size=[x for x in pad if isinstance(x,list) and x[0]=='size'];layers=[x for x in pad if isinstance(x,list) and x[0]=='layers']
+  assert len(at)==len(size)==len(layers)==1
+  expected=-1.5 if pad[1]=='1' else 1.5
+  assert len(at[0])==3 and abs(float(at[0][1])-expected)<=1e-6 and abs(float(at[0][2]))<=1e-6
+  assert size[0]==['size','1.000','1.500'];assert layers[0]==['layers','F.Cu','F.Mask','F.Paste']
+ return pads
+results=[]
+for i in [1,2]:
+ t=(p/f'run-{i}/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_text();check(t)
+ pins=[line.split() for line in (p/f'run-{i}/kicad/probe.lib').read_text().splitlines() if line.startswith('X ')]
+ assert [(x[1],x[2]) for x in pins]==[('L','1'),('R','2')]
+ results.append({'run':i,'pad_geometry_pass':True,'pin_map_pass':True})
+mutations={'missing_close':t[:-2],'wrong_number':t.replace('(pad 2 ','(pad 1 '),'wrong_position':t.replace('(at -1.500 0.000)','(at -1.400 0.000)'),'wrong_size':t.replace('(size 1.000 1.500)','(size 1.100 1.500)'),'extra_pad':t[:-2]+'(pad 3 smd rect (at 0 0) (size 1 1))\n)\n'}
+rejected=[]
+for name,m in mutations.items():
+ try:check(m)
+ except (AssertionError,ValueError):rejected.append(name)
+ else:raise AssertionError(name+' was accepted')
+out={'runs':results,'rejected_corruptions':rejected,'scope':'Independent fixture-specific structural and pad/pin checks only; not native KiCad or general schema validation.'}
+(p/'validation.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out))

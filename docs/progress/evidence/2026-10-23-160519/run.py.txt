@@ -1,0 +1,17 @@
+from pathlib import Path
+import subprocess,json,time,hashlib
+p=Path('/private/tmp/qeda-identity-audit')
+yaml=Path('/private/tmp/qeda-geometry-probe/run-3/library/probe.yaml').read_text().replace('name: ProbeResistor','name: ProbeResistor\ngroup: Resistor')
+for i in [1,2]:
+ d=p/f'run-{i}';(d/'library').mkdir(parents=True,exist_ok=True);(d/'library/probe.yaml').write_text(yaml)
+ r=subprocess.run(['/usr/local/bin/node','/private/tmp/qeda-geometry-probe/generate.js'],cwd=d,capture_output=True,timeout=30)
+ (d/'stdout.txt').write_bytes(r.stdout);(d/'stderr.txt').write_bytes(r.stderr);(d/'execution.json').write_text(json.dumps({'returncode':r.returncode,'node':'v24.20.0','qeda':'0.4.1','command':['/usr/local/bin/node','/private/tmp/qeda-geometry-probe/generate.js']}));print(i,r.returncode)
+ if i==1:time.sleep(2)
+a=p/'run-1/kicad';b=p/'run-2/kicad';report=[]
+for f in sorted(a.rglob('*')):
+ if not f.is_file():continue
+ other=b/f.relative_to(a);x=f.read_bytes();y=other.read_bytes();row={'path':str(f.relative_to(a)),'raw_equal':x==y,'first_sha256':hashlib.sha256(x).hexdigest(),'second_sha256':hashlib.sha256(y).hexdigest()}
+ if f.suffix in ['.lib','.dcm']:
+  row['first_header']=x.decode().splitlines()[0];row['second_header']=y.decode().splitlines()[0];row['body_equal']=x.split(b'\n',1)[1]==y.split(b'\n',1)[1]
+ report.append(row)
+(p/'repeat.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
