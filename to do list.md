@@ -721,3 +721,7 @@ counterexamples into typed assessment regressions; see docs/progress/2026-10-23-
 Entry008 bounded typed syntax reader implemented; semantic pad/pin assessment,
 raw provenance, execution wrapper and platform acceptance remain next. Parsing
 alone must never promote geometry or numerical evidence.
+
+QEDA syntax reader implementation 48b589dfb936213305364739dd331e563f436c5b
+passed full local gates (isolated-cache build recovery retained). Semantic
+assessment and platform evidence remain pending; syntax is not acceptance.

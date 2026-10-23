@@ -1,0 +1,8 @@
+[OK  ] 01_idc_0p6pf
+[OK  ] 02_cpw_50ohm
+[OK  ] 03_idc_cpw_test_structure
+[OK  ] 04_spiral_inductor_3nh
+[OK  ] 05_quarter_wave_resonator_6ghz
+[OK  ] 06_research_test_chip
+
+6/6 showcases consistent.

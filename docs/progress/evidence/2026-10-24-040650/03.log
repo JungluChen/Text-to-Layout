@@ -1,0 +1,6 @@
+Building source distribution...
+error: Failed to build `/Users/ludko/Desktop/text2layout/Text-to-Layout`
+  Caused by: Failed to install requirements from `build-system.requires`
+  Caused by: Failed to install build dependencies
+  Caused by: Failed to install: packaging-26.3-py3-none-any.whl (packaging==26.3)
+  Caused by: failed to open file `/private/tmp/uv-cache-textlayout/archive-v0/5HDzC1gh0dO2QThJ/packaging-26.3.dist-info/WHEEL`: No such file or directory (os error 2)

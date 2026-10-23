@@ -1,0 +1,97 @@
+F.......................                                                 [100%]
+=================================== FAILURES ===================================
+________________ test_retained_output_and_quote_counterexample _________________
+
+    def test_retained_output_and_quote_counterexample():
+        tree = parse_footprint_syntax((EVIDENCE / 'baseline.kicad_mod').read_bytes())
+        assert tree.children[:2] == (Atom('module'), Atom('Resistor_PROBERESISTOR'))
+        with pytest.raises(ValueError, match='unterminated string'):
+>           parse_footprint_syntax((EVIDENCE / 'unclosed_quote.kicad_mod').read_bytes())
+
+tests/textlayout_suite/test_qeda_syntax.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = b'(module Resistor_PROBERESISTOR (layer F.Cu)\n  (attr smd)\n  (pad 1 smd rect (at -1.500 0.000) (size 1.000 1.500) (l...r_PROBERESISTOR.wrl\n    (at (xyz 0 0 0))\n    (scale (xyz 0.3937 0.3937 0.3937))\n    (rotate (xyz 0 0 0 ))\n  )\n)\n'
+
+    def parse_footprint_syntax(data: bytes) -> Expression:
+        """Read exactly one list, raising ValueError on syntax/resource violations.
+    
+        No imports of QEDA, file writes, subprocesses or network access. Quoted
+        strings allow only escaped quote/backslash; all other escapes fail closed.
+        Quotedness is preserved so consumers need not confuse names with numbers.
+        """
+        if len(data) > MAX_BYTES:
+            raise ValueError("footprint exceeds byte limit")
+        try:
+            text = data.decode("utf-8", errors="strict")
+        except UnicodeDecodeError as exc:
+            raise ValueError("footprint must be UTF-8") from exc
+        stack: list[list[Atom | Expression]] = []
+        root: Expression | None = None
+        nodes = 0
+        pos = 0
+        while pos < len(text):
+            char = text[pos]
+            if char in _WHITESPACE:
+                pos += 1
+                continue
+            if root is not None:
+                raise ValueError("trailing content after root")
+            if char == "(":
+                nodes += 1
+                if nodes > MAX_NODES or len(stack) >= MAX_DEPTH:
+                    raise ValueError("footprint node/depth limit exceeded")
+                stack.append([])
+                pos += 1
+                continue
+            if char == ")":
+                if not stack:
+                    raise ValueError("unmatched closing parenthesis")
+                expression = Expression(tuple(stack.pop()))
+                if stack:
+                    stack[-1].append(expression)
+                else:
+                    root = expression
+                pos += 1
+                continue
+            if not stack:
+                raise ValueError("atom outside root")
+            nodes += 1
+            if nodes > MAX_NODES:
+                raise ValueError("footprint node limit exceeded")
+            quoted = char == '"'
+            if quoted:
+                pos += 1
+            value: list[str] = []
+            closed = False
+            while pos < len(text):
+                char = text[pos]
+                if quoted and char == '"':
+                    pos += 1
+                    closed = True
+                    if pos < len(text) and text[pos] not in _WHITESPACE + "()":
+                        raise ValueError("missing separator after string")
+                    break
+                if not quoted and char in _WHITESPACE + "()":
+                    break
+                if ord(char) < 32 or ord(char) == 127:
+>                   raise ValueError("control character in atom")
+E                   ValueError: control character in atom
+
+src/textlayout/external/qeda_syntax.py:90: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_retained_output_and_quote_counterexample():
+        tree = parse_footprint_syntax((EVIDENCE / 'baseline.kicad_mod').read_bytes())
+        assert tree.children[:2] == (Atom('module'), Atom('Resistor_PROBERESISTOR'))
+>       with pytest.raises(ValueError, match='unterminated string'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'unterminated string'
+E         Actual message: 'control character in atom'
+
+tests/textlayout_suite/test_qeda_syntax.py:16: AssertionError
+=========================== short test summary info ============================
+FAILED tests/textlayout_suite/test_qeda_syntax.py::test_retained_output_and_quote_counterexample
+1 failed, 23 passed in 0.33s
