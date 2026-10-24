@@ -1,0 +1,17 @@
+from pathlib import Path
+from dataclasses import asdict
+import hashlib,json
+from textlayout.external.qeda_pad import decode_rectangular_pad
+p=Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod')
+b=p.read_bytes();records=[]
+for number in [1,2]:
+ start=b.index(f'(pad {number} '.encode());depth=0;end=start
+ for end in range(start,len(b)):
+  if b[end]==40:depth+=1
+  elif b[end]==41:
+   depth-=1
+   if depth==0:break
+ pad=decode_rectangular_pad(b[start:end+1]);records.append(asdict(pad))
+ assert pad.number==number and pad.x_mm==(-1.5 if number==1 else 1.5)
+ assert pad.y_mm==0 and pad.width_mm==1 and pad.height_mm==1.5
+print(json.dumps({'source_file':str(p),'source_sha256':hashlib.sha256(b).hexdigest(),'pads':records,'scope':'Developer readback of two retained pad slices, not full footprint acceptance.'},indent=2))

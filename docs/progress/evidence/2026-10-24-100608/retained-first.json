@@ -1,0 +1,25 @@
+{
+  "source_file": "docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod",
+  "source_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+  "pads": [
+    {
+      "number": 1,
+      "x_mm": -1.5,
+      "y_mm": 0.0,
+      "width_mm": 1.0,
+      "height_mm": 1.5,
+      "solder_mask_margin_mm": 0.05,
+      "raw_sha256": "a70747eeba0b647981fa36e82706f66bae0fe1aa787fc3f2b0d5fb84eef37147"
+    },
+    {
+      "number": 2,
+      "x_mm": 1.5,
+      "y_mm": 0.0,
+      "width_mm": 1.0,
+      "height_mm": 1.5,
+      "solder_mask_margin_mm": 0.05,
+      "raw_sha256": "a0e9bf5c0d483b9e416c6b9ee7e9c41345fdbd205b7de362179236ad97f1f718"
+    }
+  ],
+  "scope": "Developer readback of two retained pad slices, not full footprint acceptance."
+}

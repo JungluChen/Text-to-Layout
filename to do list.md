@@ -729,3 +729,6 @@ assessment and platform evidence remain pending; syntax is not acceptance.
 Entry008 single-pad typed decoding now rejects unsupported fields and numeric
 forms. Whole-footprint semantics, reference comparison and provenance remain
 next; one decoded pad cannot establish integration acceptance.
+
+Single-pad implementation c303ceef3e8b41e82090784fb15fafabca0d3542 verified;
+see docs/progress/2026-10-24-100608.md. Entry008 remains pending.
