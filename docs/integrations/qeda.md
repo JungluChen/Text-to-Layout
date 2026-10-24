@@ -210,3 +210,15 @@ The existing planar fixture tolerance remains 1e-6 mm; syntax limits and node
 counts cannot replace that reference comparison. Symbol pin mapping, raw hashes,
 input closure, generator identity, process results and three-platform execution
 must be assessed separately. No new CLI/MCP entry or completion promotion.
+
+### QEDA planar graphic decoder
+
+`textlayout.external.qeda_graphic.decode_planar_graphic(data: bytes)` decodes
+one fp_line or fp_circle into frozen PlanarGraphic: kind, layer, origin_mm,
+end_mm, width_mm and raw_sha256. Origin is line start or circle centre; end is
+line endpoint or a point on the circle. Required fields are unique and explicit;
+only F.SilkS/F.Fab/F.CrtYd are supported. Copper/unknown layers, extra or nested
+fields, nonpositive width and degenerate shapes raise ValueError. Coordinates
+use the pad decoder's bounded decimal mm domain. No defaults, dependencies,
+I/O or execution side effects. No whole-footprint, clearance, reference, 3D or
+fabrication acceptance; no CLI/MCP/GUI equivalent yet.

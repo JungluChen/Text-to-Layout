@@ -737,3 +737,6 @@ Entry008 whole-footprint structure audited twice (2026-10-24-161926): syntax
 accepts three semantic corruptions. Implement complete nested field checks from
 docs/integrations/qeda.md next; audit VRML scale units before 3D claims.
 Latest nightly40076116740 repeats JTWPA band-index failure; no numerical fix claimed.
+
+Entry008 line/circle typed decoding implemented; full-module composition, text/model
+validation, planar reference and provenance remain next. No acceptance promotion.

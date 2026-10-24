@@ -741,3 +741,28 @@ Expected: typed dimensions and a raw-byte hash, not an accepted footprint. On
 duplicates; do not strip unsupported geometry to obtain success. AI prompt:
 “Decode this single retained QEDA pad and report its mm dimensions and raw hash;
 do not infer reference agreement.” MCP examples/screenshots remain pending.
+
+### QEDA planar graphic decoder
+
+`textlayout.external.qeda_graphic.decode_planar_graphic(data: bytes)` decodes
+one fp_line or fp_circle into frozen PlanarGraphic: kind, layer, origin_mm,
+end_mm, width_mm and raw_sha256. Origin is line start or circle centre; end is
+line endpoint or a point on the circle. Required fields are unique and explicit;
+only F.SilkS/F.Fab/F.CrtYd are supported. Copper/unknown layers, extra or nested
+fields, nonpositive width and degenerate shapes raise ValueError. Coordinates
+use the pad decoder's bounded decimal mm domain. No defaults, dependencies,
+I/O or execution side effects. No whole-footprint, clearance, reference, 3D or
+fabrication acceptance; no CLI/MCP/GUI equivalent yet.
+
+```python
+from textlayout.external.qeda_graphic import decode_planar_graphic
+line = decode_planar_graphic(
+    b'(fp_line (start -1 0) (end 1 0) (layer F.SilkS) (width 0.12))'
+)
+assert line.origin_mm == (-1, 0) and line.width_mm == 0.12
+```
+Expected: a typed non-copper drawing record and raw-byte hash. On ValueError,
+retain the original record and inspect unsupported fields/layers; never remove
+copper to force success. AI prompt: “Decode this single QEDA drawing record,
+report mm coordinates and limitations without claiming footprint acceptance.”
+MCP walkthrough and GUI screenshots remain pending.
