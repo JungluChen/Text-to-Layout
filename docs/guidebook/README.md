@@ -712,3 +712,32 @@ original bytes and error, then inspect encoding, quotes, parentheses and bounds;
 do not truncate input to make it pass. AI prompt: “Parse these retained footprint
 bytes and report syntax errors; do not infer geometric validity.” A schema-valid
 MCP example and screenshots remain pending because no such interface exists.
+
+### QEDA rectangular-pad decoder
+
+`textlayout.external.qeda_pad.decode_rectangular_pad(data: bytes)` returns a frozen
+`RectangularPad` with number, x/y/width/height/mask-margin in mm and SHA-256 of
+the original bytes. It accepts one unrotated F.Cu/F.Mask/F.Paste SMD rectangle
+numbered 1 or 2; required fields appear exactly once. Extra/drill/rotation fields,
+quoted numbers, exponents and non-finite values fail with `ValueError`. Decimal
+coordinates are bounded to +/-1000 mm with at most nine fractional digits; sizes
+are positive, mask margin nonnegative. These are supported input limits, not
+scientific tolerances. No defaults, optional dependencies or side effects.
+This decodes one pad only: whole-footprint identity, extra conductive geometry,
+symbol mapping, reference comparison and execution provenance remain pending.
+No CLI/MCP/GUI equivalent or solver/geometry acceptance is implied.
+
+```python
+from textlayout.external.qeda_pad import decode_rectangular_pad
+pad = decode_rectangular_pad(
+    b'(pad 1 smd rect (at -1.5 0) (size 1 1.5) '
+    b'(layers F.Cu F.Mask F.Paste) (solder_mask_margin 0.05))'
+)
+assert pad.x_mm == -1.5 and pad.width_mm == 1
+```
+
+Expected: typed dimensions and a raw-byte hash, not an accepted footprint. On
+`ValueError`, retain original input/error and inspect units, supported fields and
+duplicates; do not strip unsupported geometry to obtain success. AI prompt:
+“Decode this single retained QEDA pad and report its mm dimensions and raw hash;
+do not infer reference agreement.” MCP examples/screenshots remain pending.

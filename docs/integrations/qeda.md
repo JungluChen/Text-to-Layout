@@ -166,3 +166,17 @@ characters in atoms fail closed. It has no optional dependencies, file writes,
 network access or execution side effects. This is syntax parsing only: numeric
 finiteness, units, geometry, pin identity, solver provenance and KiCad schema
 acceptance are not evaluated. No CLI/MCP equivalent or GUI is delivered yet.
+
+### QEDA rectangular-pad decoder
+
+`textlayout.external.qeda_pad.decode_rectangular_pad(data: bytes)` returns a frozen
+`RectangularPad` with number, x/y/width/height/mask-margin in mm and SHA-256 of
+the original bytes. It accepts one unrotated F.Cu/F.Mask/F.Paste SMD rectangle
+numbered 1 or 2; required fields appear exactly once. Extra/drill/rotation fields,
+quoted numbers, exponents and non-finite values fail with `ValueError`. Decimal
+coordinates are bounded to +/-1000 mm with at most nine fractional digits; sizes
+are positive, mask margin nonnegative. These are supported input limits, not
+scientific tolerances. No defaults, optional dependencies or side effects.
+This decodes one pad only: whole-footprint identity, extra conductive geometry,
+symbol mapping, reference comparison and execution provenance remain pending.
+No CLI/MCP/GUI equivalent or solver/geometry acceptance is implied.

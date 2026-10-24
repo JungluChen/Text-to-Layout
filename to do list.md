@@ -725,3 +725,7 @@ alone must never promote geometry or numerical evidence.
 QEDA syntax reader implementation 48b589dfb936213305364739dd331e563f436c5b
 passed full local gates (isolated-cache build recovery retained). Semantic
 assessment and platform evidence remain pending; syntax is not acceptance.
+
+Entry008 single-pad typed decoding now rejects unsupported fields and numeric
+forms. Whole-footprint semantics, reference comparison and provenance remain
+next; one decoded pad cannot establish integration acceptance.
