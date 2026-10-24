@@ -743,3 +743,6 @@ validation, planar reference and provenance remain next. No acceptance promotion
 
 Graphic decoder d18002ef3f81546c9d3abb725bf47fad2bea7e10 verified;
 see docs/progress/2026-10-24-222509.md. Entry008 remains pending.
+
+Entry008 model-reference record validation added; no VRML file/unit validation.
+Next: text records, full-module composition, planar reference and provenance.

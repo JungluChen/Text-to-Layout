@@ -504,3 +504,17 @@ fields, nonpositive width and degenerate shapes raise ValueError. Coordinates
 use the pad decoder's bounded decimal mm domain. No defaults, dependencies,
 I/O or execution side effects. No whole-footprint, clearance, reference, 3D or
 fabrication acceptance; no CLI/MCP/GUI equivalent yet.
+
+### QEDA model-reference record
+
+`textlayout.external.qeda_model.decode_model_reference(data: bytes,
+expected_basename: str)` requires an explicit keyword basename: ASCII letter,
+digit or underscore first, up to128 stem characters from letters/digits/_/-,
+then `.wrl`. No paths, quoted names or implicit defaults. Returns frozen
+ModelReference (basename, dimensionless scale triple, zero_translation,
+zero_rotation, raw_sha256). Exactly one at/scale/rotate field with xyz triples
+is required, matching the audited 0.4.1 emitter's zero/0.3937/zero values.
+Bounded decimal equality rejects changed, non-finite, exponent or nested values
+with ValueError. No file/network access, dependency or side effect. This checks
+record identity only: VRML existence, units, geometry, full-footprint/reference
+acceptance and execution provenance remain unverified. CLI/MCP/GUI pending.

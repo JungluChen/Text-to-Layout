@@ -766,3 +766,32 @@ retain the original record and inspect unsupported fields/layers; never remove
 copper to force success. AI prompt: “Decode this single QEDA drawing record,
 report mm coordinates and limitations without claiming footprint acceptance.”
 MCP walkthrough and GUI screenshots remain pending.
+
+### QEDA model-reference record
+
+`textlayout.external.qeda_model.decode_model_reference(data: bytes,
+expected_basename: str)` requires an explicit keyword basename: ASCII letter,
+digit or underscore first, up to128 stem characters from letters/digits/_/-,
+then `.wrl`. No paths, quoted names or implicit defaults. Returns frozen
+ModelReference (basename, dimensionless scale triple, zero_translation,
+zero_rotation, raw_sha256). Exactly one at/scale/rotate field with xyz triples
+is required, matching the audited 0.4.1 emitter's zero/0.3937/zero values.
+Bounded decimal equality rejects changed, non-finite, exponent or nested values
+with ValueError. No file/network access, dependency or side effect. This checks
+record identity only: VRML existence, units, geometry, full-footprint/reference
+acceptance and execution provenance remain unverified. CLI/MCP/GUI pending.
+
+```python
+from textlayout.external.qeda_model import decode_model_reference
+model = decode_model_reference(
+    b'(model Probe.wrl (at (xyz 0 0 0)) '
+    b'(scale (xyz 0.3937 0.3937 0.3937)) (rotate (xyz 0 0 0)))',
+    expected_basename='Probe.wrl',
+)
+assert model.zero_translation and model.zero_rotation
+```
+Expected: an identity-checked record, even if Probe.wrl does not exist. Retain
+original bytes on ValueError and check explicit basename and generator version;
+do not rewrite transforms to force success. AI prompt: “Check this QEDA model
+record against the explicit expected basename; report missing VRML unit and
+geometry evidence separately.” Native import/screenshots and MCP remain pending.
