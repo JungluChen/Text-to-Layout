@@ -740,3 +740,6 @@ Latest nightly40076116740 repeats JTWPA band-index failure; no numerical fix cla
 
 Entry008 line/circle typed decoding implemented; full-module composition, text/model
 validation, planar reference and provenance remain next. No acceptance promotion.
+
+Graphic decoder d18002ef3f81546c9d3abb725bf47fad2bea7e10 verified;
+see docs/progress/2026-10-24-222509.md. Entry008 remains pending.

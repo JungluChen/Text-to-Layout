@@ -1,0 +1,187 @@
+{
+  "artifact_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+  "records": [
+    {
+      "kind": "fp_line",
+      "layer": "F.SilkS",
+      "origin_mm": [
+        -0.74,
+        -0.56
+      ],
+      "end_mm": [
+        0.74,
+        -0.56
+      ],
+      "width_mm": 0.12,
+      "raw_sha256": "e3eaf60861637445dab95717286337f6b2b2629f96bcdcfc36e00f47528e35d2"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.SilkS",
+      "origin_mm": [
+        -0.74,
+        0.56
+      ],
+      "end_mm": [
+        0.74,
+        0.56
+      ],
+      "width_mm": 0.12,
+      "raw_sha256": "88b83f224db96948c5791392a98580235836acc89e896813760fcbdd81703dc2"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.Fab",
+      "origin_mm": [
+        -1.0,
+        -0.5
+      ],
+      "end_mm": [
+        1.0,
+        -0.5
+      ],
+      "width_mm": 0.1,
+      "raw_sha256": "a90729a9cda03749b3af12142cf7b1cf8e99e275778ac73cc642a7e551cf859c"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.Fab",
+      "origin_mm": [
+        1.0,
+        -0.5
+      ],
+      "end_mm": [
+        1.0,
+        0.5
+      ],
+      "width_mm": 0.1,
+      "raw_sha256": "8ad7fe14984ced7c5155a77e103202692e63985d651e5ddfcc4b2e277fbcaadc"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.Fab",
+      "origin_mm": [
+        1.0,
+        0.5
+      ],
+      "end_mm": [
+        -1.0,
+        0.5
+      ],
+      "width_mm": 0.1,
+      "raw_sha256": "decda00731cb801f131ea14d21fd21bc0c9fda1eab623256df40ca54bbf2a0da"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.Fab",
+      "origin_mm": [
+        -1.0,
+        0.5
+      ],
+      "end_mm": [
+        -1.0,
+        -0.5
+      ],
+      "width_mm": 0.1,
+      "raw_sha256": "59917545fb9309bfd722f362f2bc3fc56d3e0fc8e8ec214cfb0bfe5ef0947db7"
+    },
+    {
+      "kind": "fp_circle",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        0.0,
+        0.0
+      ],
+      "end_mm": [
+        0.0,
+        0.5
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "c35cafdaab4e26b339a5aaef3fd8fa4d2d3314b5361f304b80a630a1a6168f7c"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        -0.7,
+        0.0
+      ],
+      "end_mm": [
+        0.7,
+        0.0
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "5956faef7246283b2f7ffbf8dfc6fead57a9284f939137066232f86da0850ad4"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        0.0,
+        -0.7
+      ],
+      "end_mm": [
+        0.0,
+        0.7
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "ab9052dbdca9bc1aa1f929ad719dabf0a2b1c725fbaf701196b80957855fda56"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        -2.25,
+        -1.0
+      ],
+      "end_mm": [
+        2.25,
+        -1.0
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "bba4fc773a3f2d457815b21f9a6569d5186b7eabf20e41f02662efa448b17ea8"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        2.25,
+        -1.0
+      ],
+      "end_mm": [
+        2.25,
+        1.0
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "65f2e954fff85ba0af2b06682709482ecf53477f346641f32c770efabcddfbc6"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        2.25,
+        1.0
+      ],
+      "end_mm": [
+        -2.25,
+        1.0
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "15c6eca10ee99167049845a72b7fd3fefca3df091672014b2dcda1a3d13afb88"
+    },
+    {
+      "kind": "fp_line",
+      "layer": "F.CrtYd",
+      "origin_mm": [
+        -2.25,
+        1.0
+      ],
+      "end_mm": [
+        -2.25,
+        -1.0
+      ],
+      "width_mm": 0.05,
+      "raw_sha256": "13b0d8533d8aca42d506a9fd2ce34571b0b0ef4daa709dc600b34bd998cec4ad"
+    }
+  ]
+}

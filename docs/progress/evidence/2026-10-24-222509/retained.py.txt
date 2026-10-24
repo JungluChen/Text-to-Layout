@@ -1,0 +1,10 @@
+from pathlib import Path
+from dataclasses import asdict
+import json,hashlib
+from textlayout.external.qeda_graphic import decode_planar_graphic
+p=Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod')
+raw=p.read_bytes()
+rows=[asdict(decode_planar_graphic(line.strip())) for line in raw.splitlines() if line.strip().startswith((b'(fp_line ',b'(fp_circle '))]
+assert len(rows)==13
+assert sum(r['kind']=='fp_line' for r in rows)==12
+print(json.dumps({'artifact_sha256':hashlib.sha256(raw).hexdigest(),'records':rows},indent=2))
