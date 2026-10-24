@@ -1,0 +1,14 @@
+{
+  "artifact_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+  "record": {
+    "basename": "Resistor_PROBERESISTOR.wrl",
+    "scale": [
+      0.3937,
+      0.3937,
+      0.3937
+    ],
+    "zero_translation": true,
+    "zero_rotation": true,
+    "raw_sha256": "be53b1f8d1e1b0a6001347aa67fb61ae2b63c9ab69ba0c59b21449ec7ab075fa"
+  }
+}

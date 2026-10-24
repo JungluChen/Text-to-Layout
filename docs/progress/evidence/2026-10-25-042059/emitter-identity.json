@@ -1,0 +1,7 @@
+{
+  "source_file": "/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda/lib/kicad-generator.js",
+  "sha256": "8c2ff0bb6ed8d1883fb81906ce99bc7290d63beb6e4ad7db188a9fcabd13215f",
+  "package": "qeda@0.4.1",
+  "audited_lines": "166-170",
+  "prior_reproducible_compilation_evidence": "docs/progress/2026-10-22-161039.md"
+}
