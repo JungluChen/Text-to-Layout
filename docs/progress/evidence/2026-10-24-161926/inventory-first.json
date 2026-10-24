@@ -1,0 +1,3676 @@
+{
+  "scope": "Structural inventory only; no semantic acceptance",
+  "cases": [
+    {
+      "file": "docs/progress/evidence/2026-10-23-220348/backside_module.kicad_mod",
+      "sha256": "aa1c1779f8c908d14d9d06697ebda0ba3baf86fca5215efae4e01a5ac3d219cf",
+      "syntax": "parsed",
+      "top_level_counts": {
+        "layer": 1,
+        "attr": 1,
+        "pad": 2,
+        "fp_text": 3,
+        "fp_line": 12,
+        "fp_circle": 1,
+        "model": 1
+      },
+      "structure": [
+        {
+          "path": "/module",
+          "atoms": [
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "layer",
+            "attr",
+            "pad",
+            "pad",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_text",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_circle",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "model"
+          ]
+        },
+        {
+          "path": "/module/layer",
+          "atoms": [
+            "B.Cu"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/attr",
+          "atoms": [
+            "smd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "1",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "-1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "2",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "reference",
+            "REF**"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "1.200",
+            "1.200"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "value",
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "user",
+            "REF**",
+            "hide"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle",
+          "atoms": [],
+          "children": [
+            "center",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_circle/center",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/end",
+          "atoms": [
+            "0.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "0.000",
+            "-0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.000",
+            "0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model",
+          "atoms": [
+            "Resistor_PROBERESISTOR.wrl"
+          ],
+          "children": [
+            "at",
+            "scale",
+            "rotate"
+          ]
+        },
+        {
+          "path": "/module/model/at",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/at/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/scale",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/scale/xyz",
+          "atoms": [
+            "0.3937",
+            "0.3937",
+            "0.3937"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/rotate",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/rotate/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "file": "docs/progress/evidence/2026-10-23-220348/baseline.kicad_mod",
+      "sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+      "syntax": "parsed",
+      "top_level_counts": {
+        "layer": 1,
+        "attr": 1,
+        "pad": 2,
+        "fp_text": 3,
+        "fp_line": 12,
+        "fp_circle": 1,
+        "model": 1
+      },
+      "structure": [
+        {
+          "path": "/module",
+          "atoms": [
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "layer",
+            "attr",
+            "pad",
+            "pad",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_text",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_circle",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "model"
+          ]
+        },
+        {
+          "path": "/module/layer",
+          "atoms": [
+            "F.Cu"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/attr",
+          "atoms": [
+            "smd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "1",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "-1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "2",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "reference",
+            "REF**"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "1.200",
+            "1.200"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "value",
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "user",
+            "REF**",
+            "hide"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle",
+          "atoms": [],
+          "children": [
+            "center",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_circle/center",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/end",
+          "atoms": [
+            "0.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "0.000",
+            "-0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.000",
+            "0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model",
+          "atoms": [
+            "Resistor_PROBERESISTOR.wrl"
+          ],
+          "children": [
+            "at",
+            "scale",
+            "rotate"
+          ]
+        },
+        {
+          "path": "/module/model/at",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/at/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/scale",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/scale/xyz",
+          "atoms": [
+            "0.3937",
+            "0.3937",
+            "0.3937"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/rotate",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/rotate/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "file": "docs/progress/evidence/2026-10-23-220348/extra_copper.kicad_mod",
+      "sha256": "6736ba4bc2dd1cccc6ff9bb8d9575bc182581f8a6684e493aab13d3b75ed69a4",
+      "syntax": "parsed",
+      "top_level_counts": {
+        "layer": 1,
+        "attr": 1,
+        "pad": 2,
+        "fp_text": 3,
+        "fp_line": 13,
+        "fp_circle": 1,
+        "model": 1
+      },
+      "structure": [
+        {
+          "path": "/module",
+          "atoms": [
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "layer",
+            "attr",
+            "pad",
+            "pad",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_text",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_circle",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "model",
+            "fp_line"
+          ]
+        },
+        {
+          "path": "/module/layer",
+          "atoms": [
+            "F.Cu"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/attr",
+          "atoms": [
+            "smd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "1",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "-1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "2",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "reference",
+            "REF**"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "1.200",
+            "1.200"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "value",
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "user",
+            "REF**",
+            "hide"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle",
+          "atoms": [],
+          "children": [
+            "center",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_circle/center",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/end",
+          "atoms": [
+            "0.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "0.000",
+            "-0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.000",
+            "0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model",
+          "atoms": [
+            "Resistor_PROBERESISTOR.wrl"
+          ],
+          "children": [
+            "at",
+            "scale",
+            "rotate"
+          ]
+        },
+        {
+          "path": "/module/model/at",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/at/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/scale",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/scale/xyz",
+          "atoms": [
+            "0.3937",
+            "0.3937",
+            "0.3937"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/rotate",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/rotate/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Cu"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "1"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "file": "docs/progress/evidence/2026-10-23-220348/pad_drill.kicad_mod",
+      "sha256": "94378967f1d703d63aec5266f9edca436af4ce1986aeeea126c9fdd83057ccc6",
+      "syntax": "parsed",
+      "top_level_counts": {
+        "layer": 1,
+        "attr": 1,
+        "pad": 2,
+        "fp_text": 3,
+        "fp_line": 12,
+        "fp_circle": 1,
+        "model": 1
+      },
+      "structure": [
+        {
+          "path": "/module",
+          "atoms": [
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "layer",
+            "attr",
+            "pad",
+            "pad",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_text",
+            "fp_text",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_circle",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "fp_line",
+            "model"
+          ]
+        },
+        {
+          "path": "/module/layer",
+          "atoms": [
+            "F.Cu"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/attr",
+          "atoms": [
+            "smd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "1",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "drill",
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/drill",
+          "atoms": [
+            "0.8"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "-1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad",
+          "atoms": [
+            "2",
+            "smd",
+            "rect"
+          ],
+          "children": [
+            "at",
+            "size",
+            "layers",
+            "solder_mask_margin"
+          ]
+        },
+        {
+          "path": "/module/pad/at",
+          "atoms": [
+            "1.500",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/size",
+          "atoms": [
+            "1.000",
+            "1.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/layers",
+          "atoms": [
+            "F.Cu",
+            "F.Mask",
+            "F.Paste"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/pad/solder_mask_margin",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "reference",
+            "REF**"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "1.200",
+            "1.200"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "-0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.740",
+            "0.560"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.SilkS"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.120"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "value",
+            "Resistor_PROBERESISTOR"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text",
+          "atoms": [
+            "user",
+            "REF**",
+            "hide"
+          ],
+          "children": [
+            "at",
+            "layer",
+            "effects"
+          ]
+        },
+        {
+          "path": "/module/fp_text/at",
+          "atoms": [
+            "0.000",
+            "0.000",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects",
+          "atoms": [],
+          "children": [
+            "font"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font",
+          "atoms": [],
+          "children": [
+            "size",
+            "thickness"
+          ]
+        },
+        {
+          "path": "/module/fp_text/effects/font/size",
+          "atoms": [
+            "0.660",
+            "0.660"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_text/effects/font/thickness",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-1.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-1.000",
+            "-0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.Fab"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.100"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle",
+          "atoms": [],
+          "children": [
+            "center",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_circle/center",
+          "atoms": [
+            "0.000",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/end",
+          "atoms": [
+            "0.000",
+            "0.500"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_circle/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.700",
+            "0.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "0.000",
+            "-0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "0.000",
+            "0.700"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line",
+          "atoms": [],
+          "children": [
+            "start",
+            "end",
+            "layer",
+            "width"
+          ]
+        },
+        {
+          "path": "/module/fp_line/start",
+          "atoms": [
+            "-2.250",
+            "1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/end",
+          "atoms": [
+            "-2.250",
+            "-1.000"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/layer",
+          "atoms": [
+            "F.CrtYd"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/fp_line/width",
+          "atoms": [
+            "0.050"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model",
+          "atoms": [
+            "Resistor_PROBERESISTOR.wrl"
+          ],
+          "children": [
+            "at",
+            "scale",
+            "rotate"
+          ]
+        },
+        {
+          "path": "/module/model/at",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/at/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/scale",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/scale/xyz",
+          "atoms": [
+            "0.3937",
+            "0.3937",
+            "0.3937"
+          ],
+          "children": []
+        },
+        {
+          "path": "/module/model/rotate",
+          "atoms": [],
+          "children": [
+            "xyz"
+          ]
+        },
+        {
+          "path": "/module/model/rotate/xyz",
+          "atoms": [
+            "0",
+            "0",
+            "0"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "file": "docs/progress/evidence/2026-10-23-220348/unclosed_quote.kicad_mod",
+      "sha256": "f23f773ebe11ecf6a9ca76d82d08a68078715b4359f307548d1c866ed015e448",
+      "syntax": "rejected",
+      "error": "control character in atom"
+    }
+  ]
+}

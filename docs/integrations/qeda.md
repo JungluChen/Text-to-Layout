@@ -180,3 +180,33 @@ scientific tolerances. No defaults, optional dependencies or side effects.
 This decodes one pad only: whole-footprint identity, extra conductive geometry,
 symbol mapping, reference comparison and execution provenance remain pending.
 No CLI/MCP/GUI equivalent or solver/geometry acceptance is implied.
+
+### Whole-footprint semantic contract audit (2026-10-24)
+
+**Planned, not implemented or accepted.** Repeated structural traversal of the
+retained 0.4.1 output and four corruption cases is recorded in
+[the audit checkpoint](../progress/2026-10-24-161926.md). Syntax success alone
+accepts the backside-module, extra-copper and pad-drill mutations; the broken
+quote rejects. The single-pad decoder does not traverse a complete footprint.
+
+The retained baseline contains one module layer, one attribute, two pads, three
+text records, twelve lines, one circle and one model. These counts describe this
+fixture only; they are not general KiCad validity rules. Proposed next validator
+must consume every node and reject unknown, duplicate or misplaced fields:
+
+| Node | Required semantic checks before scoped acceptance |
+| --- | --- |
+| module | Explicit expected name, exactly one F.Cu layer and smd attribute; only supported direct children; no ignored trailing atoms. |
+| pad | Exactly identities 1 and 2, unique; reuse supported rectangular-pad field checks and compare dimensions against the predeclared reference in mm. |
+| fp_line | Exactly start/end/layer/width; two finite coordinates at each endpoint and positive width. Allow only F.SilkS, F.Fab or F.CrtYd for this scope. Reject copper regardless of count. |
+| fp_circle | Exactly center/end/layer/width; finite coordinates, positive radius and width; same nonconductive-layer restriction. |
+| fp_text | Explicit supported reference/value/user roles, expected identity text; finite position and supported angle, optional hide only where specified; allowed layer; exactly effects/font/size/thickness nesting, positive dimensions. Never ignore unexpected nested geometry. |
+| model | Expected basename only, no path traversal; exactly at/scale/rotate with xyz triples and supported finite transforms. A filename is not evidence that the model exists or matches. |
+
+The model's observed scale is 0.3937 on all axes. Its physical unit convention
+and relationship to the VRML artifact must be audited before claiming 3D
+agreement; it must not be interpreted as a millimetre dimension by default.
+The existing planar fixture tolerance remains 1e-6 mm; syntax limits and node
+counts cannot replace that reference comparison. Symbol pin mapping, raw hashes,
+input closure, generator identity, process results and three-platform execution
+must be assessed separately. No new CLI/MCP entry or completion promotion.
