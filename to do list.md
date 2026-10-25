@@ -767,3 +767,7 @@ Nightly40175667537 repeats retained JTWPA failure; controlled runtime diagnosis 
 Entry008 fixed pad position/size assessment implemented at unchanged1e-6mm
 tolerance. Next symbol mapping and execution provenance; mask/outline/VRML
 and full integration acceptance remain outside the pad comparison.
+
+Fixed pad assessment b8f588f714be5ded9f184456c7c948d494d80618 verified;
+see docs/progress/2026-10-25-222014.md. Eight actual errors0mm; symbol mapping
+and execution provenance remain next, entry008 incomplete.

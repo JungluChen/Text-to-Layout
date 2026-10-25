@@ -1,0 +1,8 @@
+from pathlib import Path
+from dataclasses import asdict
+import json
+from textlayout.external.qeda_reference import assess_probe_pad_reference
+p=Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod')
+r=assess_probe_pad_reference(p.read_bytes())
+assert r.pad_reference_matches and r.max_absolute_error_mm==0
+print(json.dumps(asdict(r),indent=2))
