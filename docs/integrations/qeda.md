@@ -250,3 +250,20 @@ duplicate, nested extra fields and copper layers raise ValueError. No I/O,
 optional dependencies or defaults for missing required fields. Full-module,
 placement reference, text clearance/readability and provenance remain pending;
 no CLI/MCP/GUI equivalent or integration acceptance.
+
+### QEDA whole-module structural decoding
+
+`textlayout.external.qeda_module.decode_footprint_module(data: bytes,
+expected_name: str)` requires keyword ASCII identifier (1–128 stem characters)
+and returns frozen FootprintModule: name, pad/graphic/annotation tuples,
+model record and raw_sha256. Requires matching module/value/model identity,
+F.Cu+smd metadata, unique pads1/2, one reference/value/user annotation each and
+one model. Every child is dispatched to its strict record decoder; unknown
+atoms/lists, duplicates, missing required records and unsupported geometry reject
+with ValueError. Original child byte slices are checked against the parsed tree
+before decoding; hashes do not describe reserialized text. All syntax resource
+limits apply. No dependencies, I/O or execution side effects. Supported graphics
+may vary in count: shape/reference agreement, required outline completeness,
+clearance, symbol mapping, VRML units and execution provenance remain pending.
+A successful decode is structural evidence only, not integration acceptance.
+CLI/MCP/GUI delivery remains pending.

@@ -824,3 +824,34 @@ input/error and check supported role/layer/nesting; never remove unknown content
 to force success. AI prompt: “Decode this QEDA annotation using the explicit text
 identity; report dimensions and missing placement-reference evidence separately.”
 MCP walkthrough and GUI screenshots remain pending.
+
+### QEDA whole-module structural decoding
+
+`textlayout.external.qeda_module.decode_footprint_module(data: bytes,
+expected_name: str)` requires keyword ASCII identifier (1–128 stem characters)
+and returns frozen FootprintModule: name, pad/graphic/annotation tuples,
+model record and raw_sha256. Requires matching module/value/model identity,
+F.Cu+smd metadata, unique pads1/2, one reference/value/user annotation each and
+one model. Every child is dispatched to its strict record decoder; unknown
+atoms/lists, duplicates, missing required records and unsupported geometry reject
+with ValueError. Original child byte slices are checked against the parsed tree
+before decoding; hashes do not describe reserialized text. All syntax resource
+limits apply. No dependencies, I/O or execution side effects. Supported graphics
+may vary in count: shape/reference agreement, required outline completeness,
+clearance, symbol mapping, VRML units and execution provenance remain pending.
+A successful decode is structural evidence only, not integration acceptance.
+CLI/MCP/GUI delivery remains pending.
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_module import decode_footprint_module
+raw = Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_bytes()
+module = decode_footprint_module(raw, expected_name='Resistor_PROBERESISTOR')
+assert [pad.number for pad in module.pads] == [1, 2]
+```
+Run from the repository root. Expected: two pads, three annotations, thirteen
+non-copper graphics and one model for this retained fixture. These counts alone
+do not establish correct geometry. On ValueError retain raw input and diagnostic;
+do not filter unsupported records to obtain success. AI prompt: “Decode this
+whole QEDA module with explicit expected identity and report missing reference
+and execution evidence.” Native-import screenshots and MCP walkthrough pending.

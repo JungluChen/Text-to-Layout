@@ -755,3 +755,7 @@ identity/cardinality checks, then fixed reference and execution provenance.
 
 Text decoder 9037611998c2cf68b64966c730812a9f32a40e58 verified;
 see docs/progress/2026-10-25-101631.md. Whole-module acceptance remains pending.
+
+Entry008 whole-module structural composition now consumes every child and rejects
+retained corruptions. Next fixed planar reference, symbol mapping and provenance;
+graphics completeness and geometry agreement are not established by decoding.
