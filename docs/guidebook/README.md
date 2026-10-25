@@ -855,3 +855,34 @@ do not establish correct geometry. On ValueError retain raw input and diagnostic
 do not filter unsupported records to obtain success. AI prompt: “Decode this
 whole QEDA module with explicit expected identity and report missing reference
 and execution evidence.” Native-import screenshots and MCP walkthrough pending.
+
+### Fixed QEDA custom-pad reference assessment
+
+`textlayout.external.qeda_reference.assess_probe_pad_reference(data: bytes)`
+first decodes the complete Resistor_PROBERESISTOR module, then compares pad1/2
+x/y/width/height to the pre-execution reference (centres(-1.5,0)/(1.5,0)mm,
+size1x1.5mm). Returns frozen PadReferenceAssessment with eight PadComparison
+records (actual/expected/error in mm and within_tolerance), maximum error,
+pad_reference_matches, module raw hash and fixed reference ID/hash. Absolute
+1e-6mm tolerance is fixed with no caller override: it permits parsing roundoff,
+not the generator's0.001mm quantization shift. Decimal decisions use an isolated
+32-digit context. Invalid structure raises ValueError; valid out-of-tolerance
+geometry returns a mismatch. No dependencies/I/O/side effects. This is pad
+position/size agreement only; mask margins, graphics completeness, symbol pins,
+VRML, execution provenance and whole-integration acceptance remain pending.
+No CLI/MCP/GUI equivalent yet; no electrical or fabrication claim.
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_reference import assess_probe_pad_reference
+raw = Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_bytes()
+assessment = assess_probe_pad_reference(raw)
+assert assessment.pad_reference_matches
+assert assessment.max_absolute_error_mm == 0
+```
+Run from repository root. Expected: eight zero-error pad comparisons for this
+retained artifact. On mismatch inspect per-quantity errors and input identity;
+never enlarge tolerance or change the independent reference to obtain a match.
+On ValueError preserve the raw structural failure. AI prompt: “Compare these
+QEDA pad dimensions to the fixed custom-pad reference and report all remaining
+provenance and geometry gaps.” MCP and GUI screenshots remain pending.

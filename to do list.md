@@ -763,3 +763,7 @@ graphics completeness and geometry agreement are not established by decoding.
 Module decoder 73036faf1fd8e53dfe14898ad12a8c70f1b1edea verified;
 see docs/progress/2026-10-25-161834.md. Next fixed reference and symbol mapping.
 Nightly40175667537 repeats retained JTWPA failure; controlled runtime diagnosis pending.
+
+Entry008 fixed pad position/size assessment implemented at unchanged1e-6mm
+tolerance. Next symbol mapping and execution provenance; mask/outline/VRML
+and full integration acceptance remain outside the pad comparison.

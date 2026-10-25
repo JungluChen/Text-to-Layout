@@ -507,3 +507,19 @@ may vary in count: shape/reference agreement, required outline completeness,
 clearance, symbol mapping, VRML units and execution provenance remain pending.
 A successful decode is structural evidence only, not integration acceptance.
 CLI/MCP/GUI delivery remains pending.
+
+### Fixed QEDA custom-pad reference assessment
+
+`textlayout.external.qeda_reference.assess_probe_pad_reference(data: bytes)`
+first decodes the complete Resistor_PROBERESISTOR module, then compares pad1/2
+x/y/width/height to the pre-execution reference (centres(-1.5,0)/(1.5,0)mm,
+size1x1.5mm). Returns frozen PadReferenceAssessment with eight PadComparison
+records (actual/expected/error in mm and within_tolerance), maximum error,
+pad_reference_matches, module raw hash and fixed reference ID/hash. Absolute
+1e-6mm tolerance is fixed with no caller override: it permits parsing roundoff,
+not the generator's0.001mm quantization shift. Decimal decisions use an isolated
+32-digit context. Invalid structure raises ValueError; valid out-of-tolerance
+geometry returns a mismatch. No dependencies/I/O/side effects. This is pad
+position/size agreement only; mask margins, graphics completeness, symbol pins,
+VRML, execution provenance and whole-integration acceptance remain pending.
+No CLI/MCP/GUI equivalent yet; no electrical or fabrication claim.
