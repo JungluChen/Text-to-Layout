@@ -771,3 +771,7 @@ and full integration acceptance remain outside the pad comparison.
 Fixed pad assessment b8f588f714be5ded9f184456c7c948d494d80618 verified;
 see docs/progress/2026-10-25-222014.md. Eight actual errors0mm; symbol mapping
 and execution provenance remain next, entry008 incomplete.
+
+Entry008 fixed-probe symbol identity now checks complete template and L1/R2
+mapping while retaining raw timestamps/hashes. Next input/tool/output provenance
+and actual process/CLI/platform evidence; general symbol geometry remains pending.

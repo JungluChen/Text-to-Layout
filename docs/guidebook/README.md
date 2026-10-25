@@ -886,3 +886,32 @@ never enlarge tolerance or change the independent reference to obtain a match.
 On ValueError preserve the raw structural failure. AI prompt: “Compare these
 QEDA pad dimensions to the fixed custom-pad reference and report all remaining
 provenance and geometry gaps.” MCP and GUI screenshots remain pending.
+
+### QEDA fixed-probe symbol identity
+
+`textlayout.external.qeda_symbol.decode_probe_symbol(data: bytes)` returns frozen
+ProbeSymbol: name, footprint_reference, pin_mapping, raw_date, raw_sha256 and
+body_sha256. It checks every token/record of the audited ProbeResistor legacy2.3
+symbol template, including passive L1/R2 pins and probe:Resistor_PROBERESISTOR
+association; no caller defaults/options. A valid calendar Date header is retained
+with no timezone assertion. Input limit16KiB, ASCII template only; LF/CRLF and
+horizontal whitespace may vary, but raw hashes never normalize them. Unexpected,
+missing/extra records, changed identity or malformed timestamps raise ValueError.
+No I/O/dependencies/process effects. Pin mapping is checked against the retained
+input YAML in tests; drawing-template equality is not independent geometry proof.
+General KiCad/native import, electrical accuracy, fresh execution/provenance and
+integration acceptance remain pending. No CLI/MCP/GUI equivalent yet.
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_symbol import decode_probe_symbol
+raw = Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.lib').read_bytes()
+symbol = decode_probe_symbol(raw)
+assert symbol.pin_mapping == (('L', 1), ('R', 2))
+```
+Run from repository root. Expected: fixed symbol/footprint identity and retained
+local timestamp/hash. Date-only differences between executions are not pin-map
+changes. On ValueError retain original bytes and inspect identity/version/records;
+do not remove unknown content to match the template. AI prompt: “Validate this
+fixed QEDA probe symbol, compare L1/R2 with its input YAML, and keep raw timestamp
+provenance distinct from deterministic identity.” MCP/screenshots pending.

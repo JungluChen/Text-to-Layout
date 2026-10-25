@@ -523,3 +523,18 @@ geometry returns a mismatch. No dependencies/I/O/side effects. This is pad
 position/size agreement only; mask margins, graphics completeness, symbol pins,
 VRML, execution provenance and whole-integration acceptance remain pending.
 No CLI/MCP/GUI equivalent yet; no electrical or fabrication claim.
+
+### QEDA fixed-probe symbol identity
+
+`textlayout.external.qeda_symbol.decode_probe_symbol(data: bytes)` returns frozen
+ProbeSymbol: name, footprint_reference, pin_mapping, raw_date, raw_sha256 and
+body_sha256. It checks every token/record of the audited ProbeResistor legacy2.3
+symbol template, including passive L1/R2 pins and probe:Resistor_PROBERESISTOR
+association; no caller defaults/options. A valid calendar Date header is retained
+with no timezone assertion. Input limit16KiB, ASCII template only; LF/CRLF and
+horizontal whitespace may vary, but raw hashes never normalize them. Unexpected,
+missing/extra records, changed identity or malformed timestamps raise ValueError.
+No I/O/dependencies/process effects. Pin mapping is checked against the retained
+input YAML in tests; drawing-template equality is not independent geometry proof.
+General KiCad/native import, electrical accuracy, fresh execution/provenance and
+integration acceptance remain pending. No CLI/MCP/GUI equivalent yet.
