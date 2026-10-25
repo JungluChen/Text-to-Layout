@@ -1,0 +1,11 @@
+from pathlib import Path
+from dataclasses import asdict
+import json
+from textlayout.external.qeda_module import decode_footprint_module
+base=Path('docs/progress/evidence/2026-10-23-220348'); rows=[]
+for p in sorted(base.glob('*.kicad_mod')):
+ try: result={'status':'decoded','module':asdict(decode_footprint_module(p.read_bytes(),expected_name='Resistor_PROBERESISTOR'))}
+ except ValueError as e: result={'status':'rejected','error':str(e)}
+ rows.append({'file':str(p),**result})
+assert sum(r['status']=='decoded' for r in rows)==1
+print(json.dumps(rows,indent=2))

@@ -1,0 +1,100 @@
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	﻿2026-10-25T08:15:09.1402265Z ##[group]Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:09.1402867Z ^[[36;1muv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q^[[0m
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:09.1443905Z shell: /usr/bin/bash -e {0}
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:09.1444204Z env:
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:09.1444471Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:09.1444786Z ##[endgroup]
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1776389Z F...                                                                     [100%]
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1777238Z =================================== FAILURES ===================================
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1777940Z ________________________ test_paper_reproduction_suite _________________________
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1778395Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1778830Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_paper_reproduction_suite0')
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1779637Z capsys = <_pytest.capture.CaptureFixture object at 0x7dfe89fc23c0>
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1780206Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1781042Z     def test_paper_reproduction_suite(tmp_path, capsys):
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1782101Z >       suite = run_paper_benchmark_suite(
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1783022Z             ROOT / "benchmarks" / "papers",
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1784356Z             report_path=tmp_path / "paper-benchmarks.json",
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1785320Z         )
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1785666Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1786002Z tests/test_paper_benchmarks.py:10: 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1786970Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1788412Z src/textlayout/_legacy/paper_benchmarks.py:50: in run_paper_benchmark_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1789725Z     result = _run_one(parameters, expected)
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1790569Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1791522Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1792270Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1793792Z parameters = {'arxiv': '2209.11052v2', 'model': 'gaydamachenko_tmm', 'paper_id': 'Gaydamachenko_2022', 'parameters': {'pump_frequency_ghz': 12.92}, ...}
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1797457Z expected = {'coherence_length_cells': 2186, 'coherence_tolerance_fraction': 0.15, 'minimum_gain_3_to_9_ghz_db': 18.0, 'second_harmonic_stop_band': True}
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1799161Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1799890Z     def _run_one(parameters: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1801178Z         model = parameters["model"]
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1801939Z         if model == "planat_linear_gap":
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1803154Z             result = planat_linear_gap(parameters.get("parameters", {}).get("sample", "A"))
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1804853Z             computed = result["computed"]["gap_center_ghz"]
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1805865Z             target = float(expected["gap_center_ghz"])
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1806795Z             error = abs(computed - target) / target
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1807887Z             passed = error <= float(expected["gap_center_tolerance_fraction"])
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1810079Z             return {"status": "passed" if passed else "failed", "computed": {"gap_center_ghz": computed}, "expected": expected, "relative_error": error}
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1811981Z         if model == "gaydamachenko_tmm":
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1812832Z             config = gaydamachenko_reference_config(
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1814153Z                 pump_frequency_ghz=float(parameters["parameters"]["pump_frequency_ghz"])
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1815358Z             )
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1815949Z             gain = jtwpa_reduced_3wm_gain(config)
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1816799Z             bands = jtwpa_stop_bands(config)
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1818697Z             coherence_error = abs(gain["coherence_length_cells_at_6p7ghz"] - expected["coherence_length_cells"]) / expected["coherence_length_cells"]
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1820558Z             checks = {
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1821548Z                 "coherence": coherence_error <= expected["coherence_tolerance_fraction"],
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1823713Z                 "gain": gain["gain_3_to_9_ghz"]["minimum_db"] >= expected["minimum_gain_3_to_9_ghz_db"],
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1825634Z >               "second_harmonic_gap": bands[1]["lower_ghz"] < 2.0 * config.pump_frequency_ghz < bands[1]["upper_ghz"],
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1827083Z                                        ^^^^^^^^
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1827808Z             }
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1828378Z E           IndexError: list index out of range
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1828953Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1829389Z src/textlayout/_legacy/paper_benchmarks.py:34: IndexError
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1830438Z =============================== warnings summary ===============================
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1831370Z tests/test_paper_benchmarks.py:3
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1833453Z   /home/runner/work/Text-to-Layout/Text-to-Layout/tests/test_paper_benchmarks.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1836066Z     from text_to_gds.paper_benchmarks import run_paper_benchmark_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1836933Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1837676Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1839643Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:120: RuntimeWarning: overflow encountered in power
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1841446Z     0.25j * omega**3 * inductance * capacitance**2 / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1842121Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1842571Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1844637Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:120: RuntimeWarning: invalid value encountered in multiply
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1846591Z     0.25j * omega**3 * inductance * capacitance**2 / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1847234Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1847758Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1849614Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:99: RuntimeWarning: overflow encountered in multiply
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1851771Z     return a * e + b * g, a * f + b * h, c * e + d * g, c * f + d * h
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1852392Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1852847Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1854848Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:117: RuntimeWarning: overflow encountered in square
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1856734Z     a = 1.0 - 0.5 * omega**2 * inductance * capacitance / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1857435Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1857880Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1859820Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:118: RuntimeWarning: invalid value encountered in multiply
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1861657Z     b = 1j * omega * inductance / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1862189Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1862637Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1864787Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:119: RuntimeWarning: invalid value encountered in multiply
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1866726Z     c = 1j * omega * capacitance - (
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1867232Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1867709Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1869779Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:99: RuntimeWarning: invalid value encountered in multiply
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1871777Z     return a * e + b * g, a * f + b * h, c * e + d * g, c * f + d * h
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1872420Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1872880Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1875000Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:157: RuntimeWarning: invalid value encountered in divide
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1876844Z     s11 = (a + b / z0 - c * z0 - d) / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1877734Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1878201Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1880110Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:158: RuntimeWarning: invalid value encountered in divide
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1881878Z     s21 = 2.0 / denominator
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1882335Z 
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1882922Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1884301Z =========================== short test summary info ============================
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1885841Z FAILED tests/test_paper_benchmarks.py::test_paper_reproduction_suite - IndexError: list index out of range
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.1887198Z 1 failed, 3 passed, 10 warnings in 0.86s
+benchmark	Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q	2026-10-25T08:15:12.3727039Z ##[error]Process completed with exit code 1.
