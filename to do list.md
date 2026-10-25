@@ -752,3 +752,6 @@ see docs/progress/2026-10-25-042059.md. No VRML or integration acceptance.
 
 Entry008 text annotation decoding added. Next full-module composition and
 identity/cardinality checks, then fixed reference and execution provenance.
+
+Text decoder 9037611998c2cf68b64966c730812a9f32a40e58 verified;
+see docs/progress/2026-10-25-101631.md. Whole-module acceptance remains pending.

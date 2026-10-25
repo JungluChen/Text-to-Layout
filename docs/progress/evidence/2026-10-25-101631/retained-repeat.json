@@ -1,0 +1,53 @@
+{
+  "artifact_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+  "records": [
+    {
+      "role": "reference",
+      "text": "REF**",
+      "layer": "F.SilkS",
+      "hidden": false,
+      "position_mm": [
+        0.0,
+        0.0
+      ],
+      "font_size_mm": [
+        1.2,
+        1.2
+      ],
+      "thickness_mm": 0.12,
+      "raw_sha256": "9f08a5f50672dc00a628be76275670eaa2f7ce2932f3e7fc17c61140947641bf"
+    },
+    {
+      "role": "value",
+      "text": "Resistor_PROBERESISTOR",
+      "layer": "F.Fab",
+      "hidden": false,
+      "position_mm": [
+        0.0,
+        0.0
+      ],
+      "font_size_mm": [
+        0.66,
+        0.66
+      ],
+      "thickness_mm": 0.1,
+      "raw_sha256": "50d46841e8310f5b252032fe0f348e6a9a402b2d1f915c1814df0f280ee055fa"
+    },
+    {
+      "role": "user",
+      "text": "REF**",
+      "layer": "F.Fab",
+      "hidden": true,
+      "position_mm": [
+        0.0,
+        0.0
+      ],
+      "font_size_mm": [
+        0.66,
+        0.66
+      ],
+      "thickness_mm": 0.1,
+      "raw_sha256": "e031a50e871918b25b62c143d7bdefca11fcc4b81ce67aa251333a00a8d4f2f2"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+from pathlib import Path
+from dataclasses import asdict
+import json,hashlib
+from textlayout.external.qeda_text import decode_text_annotation
+p=Path('docs/progress/evidence/2026-10-23-160519/run-1/kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod')
+raw=p.read_bytes(); offset=0;rows=[]
+for expected in ['REF**','Resistor_PROBERESISTOR','REF**']:
+ start=raw.index(b'(fp_text ',offset);depth=0
+ for i in range(start,len(raw)):
+  if raw[i]==40:depth+=1
+  elif raw[i]==41:depth-=1
+  if depth==0:break
+ rows.append(asdict(decode_text_annotation(raw[start:i+1],expected_text=expected)));offset=i+1
+assert [r['role'] for r in rows]==['reference','value','user']
+print(json.dumps({'artifact_sha256':hashlib.sha256(raw).hexdigest(),'records':rows},indent=2))
