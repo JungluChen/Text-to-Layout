@@ -476,3 +476,17 @@ Bounded decimal equality rejects changed, non-finite, exponent or nested values
 with ValueError. No file/network access, dependency or side effect. This checks
 record identity only: VRML existence, units, geometry, full-footprint/reference
 acceptance and execution provenance remain unverified. CLI/MCP/GUI pending.
+
+### QEDA text-annotation decoder
+
+`textlayout.external.qeda_text.decode_text_annotation(data: bytes,
+expected_text: str)` requires keyword text identity and returns frozen
+TextAnnotation: role, text, layer, hidden, position_mm, font_size_mm,
+thickness_mm and raw_sha256. Supported forms: visible reference REF** on
+F.SilkS, visible ASCII-identifier value on F.Fab, hidden user REF** on F.Fab.
+Only zero or omitted angle; explicit unique at/layer/effects/font/size/thickness
+fields, bounded decimal mm coordinates and positive font metrics. Unknown,
+duplicate, nested extra fields and copper layers raise ValueError. No I/O,
+optional dependencies or defaults for missing required fields. Full-module,
+placement reference, text clearance/readability and provenance remain pending;
+no CLI/MCP/GUI equivalent or integration acceptance.

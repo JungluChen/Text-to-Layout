@@ -795,3 +795,32 @@ original bytes on ValueError and check explicit basename and generator version;
 do not rewrite transforms to force success. AI prompt: “Check this QEDA model
 record against the explicit expected basename; report missing VRML unit and
 geometry evidence separately.” Native import/screenshots and MCP remain pending.
+
+### QEDA text-annotation decoder
+
+`textlayout.external.qeda_text.decode_text_annotation(data: bytes,
+expected_text: str)` requires keyword text identity and returns frozen
+TextAnnotation: role, text, layer, hidden, position_mm, font_size_mm,
+thickness_mm and raw_sha256. Supported forms: visible reference REF** on
+F.SilkS, visible ASCII-identifier value on F.Fab, hidden user REF** on F.Fab.
+Only zero or omitted angle; explicit unique at/layer/effects/font/size/thickness
+fields, bounded decimal mm coordinates and positive font metrics. Unknown,
+duplicate, nested extra fields and copper layers raise ValueError. No I/O,
+optional dependencies or defaults for missing required fields. Full-module,
+placement reference, text clearance/readability and provenance remain pending;
+no CLI/MCP/GUI equivalent or integration acceptance.
+
+```python
+from textlayout.external.qeda_text import decode_text_annotation
+annotation = decode_text_annotation(
+    b'(fp_text reference REF** (at 0 0) (layer F.SilkS) '
+    b'(effects (font (size 1.2 1.2) (thickness 0.12))))',
+    expected_text='REF**',
+)
+assert annotation.font_size_mm == (1.2, 1.2)
+```
+Expected: one typed annotation, not an accepted footprint. On ValueError retain
+input/error and check supported role/layer/nesting; never remove unknown content
+to force success. AI prompt: “Decode this QEDA annotation using the explicit text
+identity; report dimensions and missing placement-reference evidence separately.”
+MCP walkthrough and GUI screenshots remain pending.

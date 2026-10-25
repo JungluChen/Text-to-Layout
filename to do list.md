@@ -749,3 +749,6 @@ Next: text records, full-module composition, planar reference and provenance.
 
 Model-record implementation bc517ae943d56e7966d8d90ef87c17a86bca2ad1 verified;
 see docs/progress/2026-10-25-042059.md. No VRML or integration acceptance.
+
+Entry008 text annotation decoding added. Next full-module composition and
+identity/cardinality checks, then fixed reference and execution provenance.
