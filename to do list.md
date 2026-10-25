@@ -775,3 +775,7 @@ and execution provenance remain next, entry008 incomplete.
 Entry008 fixed-probe symbol identity now checks complete template and L1/R2
 mapping while retaining raw timestamps/hashes. Next input/tool/output provenance
 and actual process/CLI/platform evidence; general symbol geometry remains pending.
+
+Symbol identity implementation 06f2ea8e55a93650ac3cb49039bd9df792c292fb verified;
+see docs/progress/2026-10-26-041826.md. Next input/tool/output provenance and
+bounded real process execution; entry008 remains incomplete.

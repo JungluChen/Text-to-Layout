@@ -1,0 +1,36 @@
+[
+  {
+    "name": "ProbeResistor",
+    "footprint_reference": "probe:Resistor_PROBERESISTOR",
+    "pin_mapping": [
+      [
+        "L",
+        1
+      ],
+      [
+        "R",
+        2
+      ]
+    ],
+    "raw_date": "23/10/2026 16:03:25",
+    "raw_sha256": "ef0c0e5ff7be8552a8ccabb96315f305e56a7e16007392c6853a57b991a66a3f",
+    "body_sha256": "1d0dc79e5aa24278fc3d31039c0681fd9f355840852f39d8fedda6791f9e4807"
+  },
+  {
+    "name": "ProbeResistor",
+    "footprint_reference": "probe:Resistor_PROBERESISTOR",
+    "pin_mapping": [
+      [
+        "L",
+        1
+      ],
+      [
+        "R",
+        2
+      ]
+    ],
+    "raw_date": "23/10/2026 16:03:27",
+    "raw_sha256": "a7adb073cc2219facc69f555af1e03b33ff88dccea310d208c75cc113f6095fe",
+    "body_sha256": "1d0dc79e5aa24278fc3d31039c0681fd9f355840852f39d8fedda6791f9e4807"
+  }
+]

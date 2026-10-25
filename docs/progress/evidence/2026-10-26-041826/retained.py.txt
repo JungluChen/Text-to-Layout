@@ -1,0 +1,10 @@
+from pathlib import Path
+from dataclasses import asdict
+import json
+from textlayout.external.qeda_symbol import decode_probe_symbol
+base=Path('docs/progress/evidence/2026-10-23-160519')
+rows=[asdict(decode_probe_symbol((base/f'run-{i}/kicad/probe.lib').read_bytes())) for i in (1,2)]
+assert rows[0]['pin_mapping']==rows[1]['pin_mapping']
+assert rows[0]['raw_sha256']!=rows[1]['raw_sha256']
+assert rows[0]['body_sha256']==rows[1]['body_sha256']
+print(json.dumps(rows,indent=2))
