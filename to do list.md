@@ -790,3 +790,9 @@ artifact retained, CSV/config hashes checked twice. Cause unknown; no full
 convergence/reference or merge approval. See docs/progress/2026-10-26-224026.md
 (repository-relative path). Next bounded diagnostics/earlier artifact retention;
 nightly40293610707 repeats the unresolved JTWPA band-index failure.
+
+Palace next-step correction: existing bounded profile/resource watcher/atomic
+stages already exist but scheduled CPW invocation does not enable the policy.
+Reuse and verify these in a separate staged diagnostic; do not scaffold duplicates
+or substitute its changed domain/two-state result for scientific acceptance.
+See docs/progress/2026-10-27-043843.md; 14 control tests passed twice.

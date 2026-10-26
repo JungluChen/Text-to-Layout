@@ -1,0 +1,77 @@
+usage: textlayout simulate palace-resonator [-h] --out OUT [--status]
+                                            [--background] [--job-status]
+                                            [--cancel] [--job-root JOB_ROOT]
+                                            [--resume]
+                                            [--stage {preflight,base_mesh,base_amr,mode_tracking,numerical_sweeps,physical_sensitivity,evidence_promotion,packet_generation}]
+                                            [--from-stage {preflight,base_mesh,base_amr,mode_tracking,numerical_sweeps,physical_sensitivity,evidence_promotion,packet_generation}]
+                                            [--processes PROCESSES]
+                                            [--timeout TIMEOUT]
+                                            [--mesh-scale MESH_SCALE]
+                                            [--amr-iterations AMR_ITERATIONS]
+                                            [--amr-update-fraction AMR_UPDATE_FRACTION]
+                                            [--sweep-amr-iterations SWEEP_AMR_ITERATIONS]
+                                            [--mode-count MODE_COUNT]
+                                            [--solved-states SOLVED_STATES]
+                                            [--max-rss-gib MAX_RSS_GIB]
+                                            [--max-runtime-seconds MAX_RUNTIME_SECONDS]
+                                            [--save-final-mesh]
+                                            [--bounded-validation-profile]
+
+options:
+  -h, --help            show this help message and exit
+  --out OUT             Benchmark artifact directory.
+  --status              Inspect persisted Palace stage records and active
+                        Palace/MPI processes.
+  --background          Start the Palace resonator workflow under persistent
+                        job control. The managed command always uses --resume
+                        so matching completed stages are reused.
+  --job-status          Inspect the persistent job record linked to this
+                        Palace output directory.
+  --cancel              Cancel the persistent Palace job linked to this output
+                        directory.
+  --job-root JOB_ROOT   Persistent job directory for --background/--job-
+                        status/--cancel. Default: <out>/jobs.
+  --resume              Reuse completed stages whose output hashes validate;
+                        do not rerun base AMR.
+  --stage {preflight,base_mesh,base_amr,mode_tracking,numerical_sweeps,physical_sensitivity,evidence_promotion,packet_generation}
+                        Run only through the named resumable stage.
+  --from-stage {preflight,base_mesh,base_amr,mode_tracking,numerical_sweeps,physical_sensitivity,evidence_promotion,packet_generation}
+                        Resume from the named stage, reusing prior stage
+                        artifacts when hashes match.
+  --processes PROCESSES
+                        Palace MPI process count.
+  --timeout TIMEOUT     Timeout per Palace solve in seconds.
+  --mesh-scale MESH_SCALE
+                        Base-mesh density factor for the validated simplex
+                        mesh AMR refines from. The element count is U-shaped
+                        in this factor (fine local refinement dominates at low
+                        values, extreme grading at high values), with a
+                        practical minimum near 3.0 (~1e5 tets); values far
+                        from 3 produce much larger meshes.
+  --amr-iterations AMR_ITERATIONS
+                        Palace AMR MaxIts for the main study; at least 4
+                        accepted iterations are required by the gates.
+  --amr-update-fraction AMR_UPDATE_FRACTION
+                        Fraction of the Palace ZZ indicator norm marked per
+                        adaptation.
+  --sweep-amr-iterations SWEEP_AMR_ITERATIONS
+                        Palace AMR MaxIts for the domain/physical sweeps. 0
+                        skips the sweeps entirely (a reduced preflight running
+                        only the base AMR study). A lower positive value keeps
+                        the many sweep solves tractable.
+  --mode-count MODE_COUNT
+                        Number of Palace eigenmodes to solve and retain per
+                        iteration.
+  --solved-states SOLVED_STATES
+                        Enable bounded AMR with this exact number of solved
+                        states.
+  --max-rss-gib MAX_RSS_GIB
+                        Hard process-group RSS limit for a bounded Palace run.
+  --max-runtime-seconds MAX_RUNTIME_SECONDS
+                        Hard solver runtime limit for a bounded Palace run.
+  --save-final-mesh     Explicitly request adaptation and serialization after
+                        the final solved state.
+  --bounded-validation-profile
+                        Run the one-rank, two-mode, two-state coarse
+                        operational validation profile with one refinement, no
+                        sweeps, and no final mesh serialization.
