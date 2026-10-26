@@ -1,0 +1,14 @@
+[
+  {
+    "run": 1,
+    "output_hashes_verified": 4,
+    "pad_max_error_mm": 0.0,
+    "symbol_hash": "62bbbb57c2beedfb4a14d454feebabcbda83b4550ca4ea8f0f12bdf8ac3fb681"
+  },
+  {
+    "run": 2,
+    "output_hashes_verified": 4,
+    "pad_max_error_mm": 0.0,
+    "symbol_hash": "0453e71024e901fcf2294f53f263cb35c557bf16dcafd912a40953a601193332"
+  }
+]

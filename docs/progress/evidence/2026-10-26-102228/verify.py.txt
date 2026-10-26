@@ -1,0 +1,14 @@
+from pathlib import Path
+import hashlib,json
+from textlayout.external.qeda_reference import assess_probe_pad_reference
+from textlayout.external.qeda_symbol import decode_probe_symbol
+root=Path('/private/tmp/qeda-execution-audit');results=[]
+for number in (1,2):
+ work=root/f'run-{number}';record=json.loads((work/'assessment.json').read_text())
+ for relative,expected in record['output_hashes'].items():
+  assert hashlib.sha256((work/relative).read_bytes()).hexdigest()==expected
+ pad=assess_probe_pad_reference((work/'kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_bytes())
+ symbol=decode_probe_symbol((work/'kicad/probe.lib').read_bytes())
+ assert pad.pad_reference_matches and symbol.pin_mapping==(('L',1),('R',2))
+ results.append({'run':number,'output_hashes_verified':4,'pad_max_error_mm':pad.max_absolute_error_mm,'symbol_hash':symbol.raw_sha256})
+print(json.dumps(results,indent=2))

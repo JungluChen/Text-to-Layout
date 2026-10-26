@@ -298,3 +298,16 @@ No I/O/dependencies/process effects. Pin mapping is checked against the retained
 input YAML in tests; drawing-template equality is not independent geometry proof.
 General KiCad/native import, electrical accuracy, fresh execution/provenance and
 integration acceptance remain pending. No CLI/MCP/GUI equivalent yet.
+
+### Fresh execution/provenance audit (2026-10-26)
+
+Two new real qeda0.4.1 executions under Node24.20.0 completed within a30-second
+bound, with identical fixed inputs and unchanged audited runtime (1078 files,
+6 symlinks). Lock bytes match the prior installed-runtime audit. Both four-file
+output sets passed current structural, fixed-pad-reference and symbol checks;
+pad errors0mm, symbol L1/R2, raw dates preserved. All8 output hashes independently
+verified twice. See [checkpoint](../progress/2026-10-26-102228.md).
+This is a developer probe, not the product wrapper: output caps, process-tree
+cleanup, cross-platform execution and stronger identity/input closure remain
+pending. Local YAML and minimal environment do not establish network isolation;
+VRML geometry/native import remain untested. Entry008 is not complete.

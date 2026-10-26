@@ -1,0 +1,53 @@
+from pathlib import Path
+import hashlib,json,subprocess,time,platform,sys,os
+from dataclasses import asdict
+from datetime import datetime,timezone
+from textlayout.external.qeda_reference import assess_probe_pad_reference
+from textlayout.external.qeda_symbol import decode_probe_symbol
+ROOT=Path('/private/tmp/qeda-execution-audit')
+REPO=Path.cwd()
+RUNTIME=Path('/private/tmp/qeda-runtime-audit/runtime')
+NODE=Path('/usr/local/bin/node')
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def inventory():
+ rows=[]
+ for p in sorted((RUNTIME/'node_modules').rglob('*')):
+  if p.is_symlink():rows.append({'path':p.relative_to(RUNTIME).as_posix(),'symlink':os.readlink(p)})
+  elif p.is_file():rows.append({'path':p.relative_to(RUNTIME).as_posix(),'sha256':sha(p.read_bytes())})
+ return rows
+lock=(RUNTIME/'package-lock.json').read_bytes()
+prior=(REPO/'docs/progress/evidence/2026-10-22-220849/runtime-lock.json').read_bytes()
+assert lock==prior,'runtime lock differs from retained audit'
+before=inventory();(ROOT/'runtime-before.json').write_text(json.dumps(before,indent=2))
+identity={'node_version':subprocess.check_output([str(NODE),'--version'],text=True).strip(),'node_sha256':sha(NODE.read_bytes()),'node_path':str(NODE),'platform':platform.platform(),'python':sys.version,'lock_sha256':sha(lock),'runtime_tree_sha256':sha(json.dumps(before,sort_keys=True).encode()),'package':json.loads((RUNTIME/'node_modules/qeda/package.json').read_bytes())['version'],'network_isolation':'NOT_ESTABLISHED'}
+(ROOT/'identity.json').write_text(json.dumps(identity,indent=2))
+fixture=(REPO/'docs/progress/evidence/2026-10-23-160519/run-1/library/probe.yaml').read_bytes()
+script=b"const Qeda = require('/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda');\nconst lib = new Qeda.Library();\nlib.add('probe');\nlib.generate('probe');\n"
+results=[]
+for number in (1,2):
+ work=ROOT/f'run-{number}';work.mkdir(exist_ok=False);(work/'library').mkdir()
+ (work/'library/probe.yaml').write_bytes(fixture);(work/'generate.js').write_bytes(script)
+ started=datetime.now(timezone.utc).isoformat();start=time.monotonic()
+ command=[str(NODE),'generate.js'];env={'PATH':'/usr/local/bin:/usr/bin:/bin'}
+ with (work/'stdout.log').open('wb') as out,(work/'stderr.log').open('wb') as err:
+  try:
+   process=subprocess.run(command,cwd=work,env=env,stdout=out,stderr=err,timeout=30)
+   execution={'returncode':process.returncode,'timed_out':False}
+  except subprocess.TimeoutExpired:
+   execution={'returncode':None,'timed_out':True}
+ execution.update(command=command,cwd=str(work),environment=env,timeout_seconds=30,started_utc=started,elapsed_seconds=time.monotonic()-start,input_sha256=sha(fixture),script_sha256=sha(script))
+ (work/'execution.json').write_text(json.dumps(execution,indent=2))
+ assert execution['returncode']==0,execution
+ assert (work/'library/probe.yaml').read_bytes()==fixture,'input mutated'
+ files={p.relative_to(work).as_posix():sha(p.read_bytes()) for p in sorted((work/'kicad').rglob('*')) if p.is_file()}
+ assert set(files)=={'kicad/probe.lib','kicad/probe.dcm','kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod','kicad/probe.3dshapes/Resistor_PROBERESISTOR.wrl'}
+ assessment=assess_probe_pad_reference((work/'kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod').read_bytes())
+ symbol=decode_probe_symbol((work/'kicad/probe.lib').read_bytes())
+ result={'execution':execution,'output_hashes':files,'pad_reference':asdict(assessment),'symbol':asdict(symbol),'scope':'LOCAL_PROBE_ONLY; provenance wrapper and platform acceptance pending'}
+ (work/'assessment.json').write_text(json.dumps(result,indent=2));results.append(result)
+ assert assessment.pad_reference_matches
+ print(number,execution['elapsed_seconds'],assessment.max_absolute_error_mm,symbol.raw_date,flush=True)
+ if number==1:time.sleep(2)
+after=inventory();(ROOT/'runtime-after.json').write_text(json.dumps(after,indent=2));assert before==after
+summary={'runtime_unchanged':before==after,'input_unchanged':True,'pad_errors_mm':[r['pad_reference']['max_absolute_error_mm'] for r in results],'symbol_mapping_equal':results[0]['symbol']['pin_mapping']==results[1]['symbol']['pin_mapping'],'symbol_body_hash_equal':results[0]['symbol']['body_sha256']==results[1]['symbol']['body_sha256'],'footprint_hash_equal':results[0]['pad_reference']['module_sha256']==results[1]['pad_reference']['module_sha256'],'vrml_geometry_validated':False,'network_isolation_established':False}
+(ROOT/'summary.json').write_text(json.dumps(summary,indent=2));print(summary)

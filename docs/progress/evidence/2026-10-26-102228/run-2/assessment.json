@@ -1,0 +1,117 @@
+{
+  "execution": {
+    "returncode": 0,
+    "timed_out": false,
+    "command": [
+      "/usr/local/bin/node",
+      "generate.js"
+    ],
+    "cwd": "/private/tmp/qeda-execution-audit/run-2",
+    "environment": {
+      "PATH": "/usr/local/bin:/usr/bin:/bin"
+    },
+    "timeout_seconds": 30,
+    "started_utc": "2026-10-26T02:20:12.869410+00:00",
+    "elapsed_seconds": 0.15556462504900992,
+    "input_sha256": "08b3ef5631656e4edc789fb9daab958994dd59501fcec827b6ee3e639472f974",
+    "script_sha256": "725cab1b07aed3190fe18a5c5e89e3e6c8de8ab501a323cdf67cd410da7d8cc3"
+  },
+  "output_hashes": {
+    "kicad/probe.3dshapes/Resistor_PROBERESISTOR.wrl": "26b6a87de5c758a1217e5041d4e8083e13aef7e5670de8b7bc4e09c10439d0aa",
+    "kicad/probe.dcm": "71be36eb0b5c003107fe51ad5aef0f3ba198f1cf725b7aa7d8a44f7fea6cb9b7",
+    "kicad/probe.lib": "0453e71024e901fcf2294f53f263cb35c557bf16dcafd912a40953a601193332",
+    "kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef"
+  },
+  "pad_reference": {
+    "reference_id": "qeda-custom-two-pad-2026-10-23",
+    "reference_sha256": "1f3ec346e676c97d09691845b71b34bbf3263d008671014f28fef9e5b1c7e427",
+    "module_sha256": "311077e2c4a7e744b4dbbe64096a92bfce5f2eebe0087fa86b77c7f9650996ef",
+    "absolute_tolerance_mm": 1e-06,
+    "comparisons": [
+      {
+        "pad_number": 1,
+        "quantity": "x",
+        "actual_mm": -1.5,
+        "expected_mm": -1.5,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 1,
+        "quantity": "y",
+        "actual_mm": 0.0,
+        "expected_mm": 0.0,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 1,
+        "quantity": "width",
+        "actual_mm": 1.0,
+        "expected_mm": 1.0,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 1,
+        "quantity": "height",
+        "actual_mm": 1.5,
+        "expected_mm": 1.5,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 2,
+        "quantity": "x",
+        "actual_mm": 1.5,
+        "expected_mm": 1.5,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 2,
+        "quantity": "y",
+        "actual_mm": 0.0,
+        "expected_mm": 0.0,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 2,
+        "quantity": "width",
+        "actual_mm": 1.0,
+        "expected_mm": 1.0,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "pad_number": 2,
+        "quantity": "height",
+        "actual_mm": 1.5,
+        "expected_mm": 1.5,
+        "absolute_error_mm": 0.0,
+        "within_tolerance": true
+      }
+    ],
+    "max_absolute_error_mm": 0.0,
+    "pad_reference_matches": true
+  },
+  "symbol": {
+    "name": "ProbeResistor",
+    "footprint_reference": "probe:Resistor_PROBERESISTOR",
+    "pin_mapping": [
+      [
+        "L",
+        1
+      ],
+      [
+        "R",
+        2
+      ]
+    ],
+    "raw_date": "26/10/2026 10:20:13",
+    "raw_sha256": "0453e71024e901fcf2294f53f263cb35c557bf16dcafd912a40953a601193332",
+    "body_sha256": "1d0dc79e5aa24278fc3d31039c0681fd9f355840852f39d8fedda6791f9e4807"
+  },
+  "scope": "LOCAL_PROBE_ONLY; provenance wrapper and platform acceptance pending"
+}

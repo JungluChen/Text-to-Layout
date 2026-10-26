@@ -1,0 +1,11 @@
+{
+  "node_version": "v24.20.0",
+  "node_sha256": "548184f094643cb7d49f04e7a2944daa48898dcf954d4228b42499345d0f1e6d",
+  "node_path": "/usr/local/bin/node",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "lock_sha256": "c5a36c6ae2f9b7c2b2f31f1a83c25b4f6e31c8987247e9fa001b8d6ee088a8b0",
+  "runtime_tree_sha256": "31c0dcab8a57aa102c456699f605870b546420ece4fb3e4a3c55d917482bfa1c",
+  "package": "0.4.1",
+  "network_isolation": "NOT_ESTABLISHED"
+}

@@ -915,3 +915,10 @@ changes. On ValueError retain original bytes and inspect identity/version/record
 do not remove unknown content to match the template. AI prompt: “Validate this
 fixed QEDA probe symbol, compare L1/R2 with its input YAML, and keep raw timestamp
 provenance distinct from deterministic identity.” MCP/screenshots pending.
+
+Fresh QEDA developer execution evidence is retained in
+[the2026-10-26 checkpoint](../progress/2026-10-26-102228.md). Both real outputs pass the
+Python decoder examples above and fixed pad/symbol checks. Use the retained
+raw output paths from that checkpoint for reassessment. This does not provide a
+supported execution CLI/MCP command; those workflows and platform recovery tests
+remain pending. Never infer offline execution or VRML validity from exit0.

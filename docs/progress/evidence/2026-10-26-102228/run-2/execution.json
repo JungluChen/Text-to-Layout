@@ -1,0 +1,17 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "command": [
+    "/usr/local/bin/node",
+    "generate.js"
+  ],
+  "cwd": "/private/tmp/qeda-execution-audit/run-2",
+  "environment": {
+    "PATH": "/usr/local/bin:/usr/bin:/bin"
+  },
+  "timeout_seconds": 30,
+  "started_utc": "2026-10-26T02:20:12.869410+00:00",
+  "elapsed_seconds": 0.15556462504900992,
+  "input_sha256": "08b3ef5631656e4edc789fb9daab958994dd59501fcec827b6ee3e639472f974",
+  "script_sha256": "725cab1b07aed3190fe18a5c5e89e3e6c8de8ab501a323cdf67cd410da7d8cc3"
+}

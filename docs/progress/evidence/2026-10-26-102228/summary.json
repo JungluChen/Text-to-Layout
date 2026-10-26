@@ -1,0 +1,13 @@
+{
+  "runtime_unchanged": true,
+  "input_unchanged": true,
+  "pad_errors_mm": [
+    0.0,
+    0.0
+  ],
+  "symbol_mapping_equal": true,
+  "symbol_body_hash_equal": true,
+  "footprint_hash_equal": true,
+  "vrml_geometry_validated": false,
+  "network_isolation_established": false
+}
