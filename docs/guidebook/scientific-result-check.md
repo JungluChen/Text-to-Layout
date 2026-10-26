@@ -111,3 +111,10 @@ and matching-reference checks remain absent. Last observed memory peak was
 15,897,378,816 bytes with zero OOM counters; the shutdown cause is unproven.
 See [the diagnostic checkpoint](../progress/2026-10-19-221501.md). Do not repeat
 the unbounded workload or treat successful smoke as resonator validation.
+
+Latest Palace40294909083 on e974082: official smoke passed, reduced CPW step
+cancelled; job log unavailable twice and direct API404. Only pre-benchmark
+artifact retained, CSV/config hashes checked twice. Cause unknown; no full
+convergence/reference or merge approval. See docs/progress/2026-10-26-224026.md
+(repository-relative path). Next bounded diagnostics/earlier artifact retention;
+nightly40293610707 repeats the unresolved JTWPA band-index failure.

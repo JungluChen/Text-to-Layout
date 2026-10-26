@@ -1,0 +1,472 @@
+benchmark	UNKNOWN STEP	﻿2026-10-26T08:38:00.3041030Z Current runner version: '2.338.0'
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3060672Z ##[group]Runner Image Provisioner
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3061449Z Hosted Compute Agent
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3061998Z Version: 20261021.618
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3062562Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3063161Z Build Date: 2026-10-21T00:45:21Z
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3063775Z Worker ID: {ebe9aa8d-0422-4915-9d4c-6169a59f60f7}
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3064585Z Region: centralus
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3065036Z Cloud: Azure
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3065463Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3066583Z ##[group]Operating System
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3067097Z Ubuntu
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3067535Z 26.04.1
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3068053Z LTS
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3068506Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3068986Z ##[group]Runner Image
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3069487Z Image: ubuntu-26.04
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3069943Z Version: 20261012.163.1
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3070957Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261012.163/images/ubuntu/Ubuntu2604-Readme.md
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3072177Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261012.163
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3073028Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3074134Z ##[group]GITHUB_TOKEN Permissions
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3076075Z Contents: read
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3076560Z Metadata: read
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3077042Z Packages: read
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3077485Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3079179Z Secret source: Actions
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3079940Z Cache mode: write
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3080577Z Prepare workflow directory
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3378265Z Prepare all required actions
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.3418146Z Getting action download info
+benchmark	UNKNOWN STEP	2026-10-26T08:38:00.5637432Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:01.3485496Z Download action repository 'astral-sh/setup-uv@v5' (SHA:d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:01.8383765Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4073726Z Complete job name: benchmark
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4853510Z ##[group]Run actions/checkout@v4
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4854952Z with:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4855812Z   repository: JungluChen/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4862774Z   token: ***
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4863584Z   ssh-strict: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4864564Z   ssh-user: git
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4865431Z   persist-credentials: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4866324Z   clean: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4867218Z   sparse-checkout-cone-mode: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4868180Z   fetch-depth: 1
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4868964Z   fetch-tags: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4869808Z   show-progress: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4870640Z   lfs: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4871410Z   submodules: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4872268Z   set-safe-directory: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4873211Z   allow-unsafe-pr-checkout: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.4874469Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5770009Z Syncing repository: JungluChen/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5772439Z ##[group]Getting Git version info
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5774083Z Working directory is '/home/runner/work/Text-to-Layout/Text-to-Layout'
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5776196Z [command]/usr/bin/git version
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5777106Z git version 2.55.0
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5779913Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5785474Z Temporarily overriding HOME='/home/runner/work/_temp/ae4c3572-403c-4e87-83a1-5733dd7fd711' before making global git config changes
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5787819Z Adding repository directory to the temporary git global config as a safe directory
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.5789828Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Text-to-Layout/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.6264041Z Deleting the contents of '/home/runner/work/Text-to-Layout/Text-to-Layout'
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.6267996Z ##[group]Initializing the repository
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.6272113Z [command]/usr/bin/git init /home/runner/work/Text-to-Layout/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7655134Z hint: Using 'master' as the name for the initial branch. This default branch name
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7657229Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7658885Z hint: to use in all of your new repositories, which will suppress this warning,
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7660198Z hint: call:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7660963Z hint:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7661891Z hint: 	git config --global init.defaultBranch <name>
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7662955Z hint:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7664170Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7666174Z hint: 'development'. The just-created branch can be renamed via this command:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7667471Z hint:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7668302Z hint: 	git branch -m <name>
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7669138Z hint:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7670311Z hint: Disable this message with "git config set advice.defaultBranchName false"
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7676713Z Initialized empty Git repository in /home/runner/work/Text-to-Layout/Text-to-Layout/.git/
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.7684448Z [command]/usr/bin/git remote add origin https://github.com/JungluChen/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8502967Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8505107Z ##[group]Disabling automatic garbage collection
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8506468Z [command]/usr/bin/git config --local gc.auto 0
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8590459Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8592339Z ##[group]Setting up auth
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8595735Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+benchmark	UNKNOWN STEP	2026-10-26T08:38:02.8619368Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5282289Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5306988Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5502860Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5531299Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5717479Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5747292Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5748132Z ##[group]Fetching the repository
+benchmark	UNKNOWN STEP	2026-10-26T08:38:03.5755139Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e974082e78bd4a51f0fd493e5fd726929003bb0e:refs/remotes/origin/main
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6275036Z From https://github.com/JungluChen/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6276030Z  * [new ref]         e974082e78bd4a51f0fd493e5fd726929003bb0e -> origin/main
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6279225Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6280010Z ##[group]Determining the checkout info
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6281408Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6288316Z [command]/usr/bin/git sparse-checkout disable
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.6760270Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.7045164Z ##[group]Checking out the ref
+benchmark	UNKNOWN STEP	2026-10-26T08:38:05.7049008Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0359610Z Switched to a new branch 'main'
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0360560Z branch 'main' set up to track 'origin/main'.
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0372917Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0421918Z [command]/usr/bin/git log -1 --format=%H
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0442128Z e974082e78bd4a51f0fd493e5fd726929003bb0e
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0634210Z ##[group]Run astral-sh/setup-uv@v5
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0634572Z with:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0636578Z   github-token: ***
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0636844Z   enable-cache: auto
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0637331Z   cache-dependency-glob: **/uv.lock
+benchmark	UNKNOWN STEP	**/requirements*.txt
+benchmark	UNKNOWN STEP	
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0637921Z   prune-cache: true
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0638195Z   ignore-nothing-to-cache: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0638532Z   ignore-empty-workdir: false
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.0638805Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.2078704Z (node:2137) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.2079632Z (Use `node --trace-deprecation ...` to show where the warning was created)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.5148756Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.13.5/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+benchmark	UNKNOWN STEP	2026-10-26T08:38:06.8547455Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/36d6f935-c98f-4f05-bac5-0094ba8ea3d6 -f /home/runner/work/_temp/8724ce57-364e-49e3-8c04-ea4201726ad1
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.2553309Z Added /home/runner/.local/bin to the path
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.2555522Z Added /opt/hostedtoolcache/uv/0.13.5/x86_64 to the path
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.2574275Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.2574983Z Successfully installed uv version 0.13.5
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.2575707Z Searching files using cache dependency glob: **/uv.lock,**/requirements*.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.3076838Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-after-1.log.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.3089313Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-after-2.log.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.3096780Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-before-1.log.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.3102551Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-09-15-051619/commands/requirements-consistency-before-2.log.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.4712876Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-10-19-114302/requirements-compatible-candidate.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.4724900Z /home/runner/work/Text-to-Layout/Text-to-Layout/docs/progress/evidence/2026-10-19-114302/requirements-incompatible.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.5499602Z /home/runner/work/Text-to-Layout/Text-to-Layout/requirements.txt
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.6010291Z /home/runner/work/Text-to-Layout/Text-to-Layout/uv.lock
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.6041856Z Found 8 files to hash.
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.6589811Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.14.4-3991f3858eb97f75e7fe1ca38da47a86f1dc124a72c0d19a7601dc3fbf66b592
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.9152267Z No GitHub Actions cache found for key: setup-uv-1-x86_64-unknown-linux-gnu-3.14.4-3991f3858eb97f75e7fe1ca38da47a86f1dc124a72c0d19a7601dc3fbf66b592
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.9423200Z ##[group]Run uv sync --dev
+benchmark	UNKNOWN STEP	2026-10-26T08:38:07.9423603Z ^[[36;1muv sync --dev^[[0m
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0086927Z shell: /usr/bin/bash -e {0}
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0087344Z env:
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0087664Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0088005Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0239664Z Using CPython 3.14.4 interpreter at: /usr/bin/python3
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0240205Z Creating virtual environment at: .venv
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0300318Z Resolved 230 packages in 1ms
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.0424154Z    Building text-to-gds @ file:///home/runner/work/Text-to-Layout/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1273420Z Downloading networkx (2.0MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1274846Z Downloading widgetsnbextension (2.1MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1276223Z Downloading pydantic-core (2.0MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1284833Z Downloading pygments (1.2MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1285236Z Downloading ast-serialize (1.2MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1285786Z Downloading cryptography (4.5MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1452531Z Downloading ipytree (1.2MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1516873Z Downloading rapidfuzz (3.0MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1517868Z Downloading scikit-image (13.1MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1519051Z Downloading pygit2 (5.5MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1519629Z Downloading klayout (26.0MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1520151Z Downloading pandas (11.8MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1521022Z Downloading shapely (2.9MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1521490Z Downloading ruff (10.9MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1522290Z Downloading pillow (6.8MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1524741Z Downloading scipy (33.6MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1525727Z Downloading mypy (14.3MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1527270Z Downloading jedi (4.7MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1528284Z Downloading fonttools (4.7MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1529723Z Downloading zstandard (5.3MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1530767Z Downloading debugpy (3.7MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1532111Z Downloading kiwisolver (1.4MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.1534070Z Downloading matplotlib (9.4MiB)
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.5133410Z  Downloaded ast-serialize
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.5134516Z  Downloaded ipytree
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.5142302Z  Downloaded pygments
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.5269729Z  Downloaded kiwisolver
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.5969665Z    Building rectpack==0.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.6067300Z  Downloaded networkx
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.6469578Z  Downloaded pydantic-core
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.6516537Z  Downloaded widgetsnbextension
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.7068536Z  Downloaded shapely
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.7185867Z  Downloaded rapidfuzz
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.8787928Z  Downloaded debugpy
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.9255450Z  Downloaded cryptography
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.9345031Z  Downloaded jedi
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.9414456Z  Downloaded fonttools
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.9554374Z  Downloaded zstandard
+benchmark	UNKNOWN STEP	2026-10-26T08:38:08.9609155Z  Downloaded pygit2
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.0284643Z  Downloaded pillow
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.1154509Z  Downloaded matplotlib
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.1560975Z  Downloaded ruff
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.2185239Z  Downloaded scikit-image
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.2234497Z  Downloaded pandas
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.2804577Z  Downloaded mypy
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.4495537Z  Downloaded klayout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.4570288Z       Built text-to-gds @ file:///home/runner/work/Text-to-Layout/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.4629863Z  Downloaded scipy
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.6186899Z       Built rectpack==0.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:38:09.6805158Z    Building numpy==1.26.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.0660239Z       Built numpy==1.26.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.1152949Z Prepared 154 packages in 2m 37s
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2291313Z Installed 154 packages in 113ms
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2292361Z  + aenum==3.1.17
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2292638Z  + annotated-doc==0.0.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2292913Z  + annotated-types==0.7.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2293171Z  + anyio==4.13.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2293408Z  + ast-serialize==0.5.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2293667Z  + asttokens==3.0.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2294019Z  + attrs==26.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2294263Z  + build==1.5.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2294463Z  + cachetools==7.1.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2300403Z  + certifi==2026.5.20
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2300839Z  + cffi==2.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2301105Z  + charset-normalizer==3.4.7
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2301413Z  + click==8.4.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2301642Z  + comm==0.2.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2301875Z  + contourpy==1.3.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2302135Z  + coverage==7.14.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2302412Z  + cryptography==48.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2302670Z  + cycler==0.12.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2302905Z  + debugpy==1.8.21
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2303140Z  + decorator==5.3.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2303376Z  + distro==1.9.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2303608Z  + executing==2.2.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2303971Z  + fastapi==0.138.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2304245Z  + fonttools==4.63.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2304497Z  + freetype-py==2.5.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2304753Z  + gdsfactory==9.43.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2305021Z  + graphviz==0.21
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2305259Z  + h11==0.16.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2305498Z  + hatchling==1.31.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2305748Z  + httpcore==1.0.9
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2305988Z  + httpx==0.28.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2306248Z  + httpx-sse==0.4.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2306604Z  + idna==3.18
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2306968Z  + imageio==2.37.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2307205Z  + iniconfig==2.3.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2307446Z  + ipyevents==2.0.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2307687Z  + ipykernel==7.2.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2307954Z  + ipython==9.14.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2308232Z  + ipython-pygments-lexers==1.1.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2308535Z  + ipytree==0.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2308772Z  + ipywidgets==8.1.8
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2309011Z  + jedi==0.20.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2309259Z  + jinja2==3.1.6
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2309513Z  + jsonpatch==1.33
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2309771Z  + jsonpointer==3.1.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2310032Z  + jsonschema==4.26.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2310348Z  + jsonschema-specifications==2025.9.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2310678Z  + jupyter-client==8.8.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2310958Z  + jupyter-core==5.9.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2311227Z  + jupyterlab-widgets==3.0.16
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2311513Z  + kfactory==2.5.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2311777Z  + kiwisolver==1.5.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2312018Z  + klayout==0.30.9
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2312272Z  + langchain-core==1.4.8
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2312556Z  + langchain-protocol==0.0.18
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2312836Z  + langgraph==1.2.7
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2313095Z  + langgraph-checkpoint==4.1.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2313399Z  + langgraph-prebuilt==1.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2313684Z  + langgraph-sdk==0.4.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2314050Z  + langsmith==0.9.7
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2314318Z  + lazy-loader==0.5
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2314587Z  + librt==0.11.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2314812Z  + loguru==0.7.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2315056Z  + mapbox-earcut==2.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2315328Z  + markdown-it-py==4.2.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2315592Z  + markupsafe==3.0.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2315841Z  + matplotlib==3.10.9
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2316116Z  + matplotlib-inline==0.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2316386Z  + mcp==1.27.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2316646Z  + mdurl==0.1.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2316879Z  + meshio==5.3.5
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2317111Z  + mypy==2.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2317349Z  + mypy-extensions==1.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2317619Z  + natsort==8.4.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2317860Z  + nest-asyncio==1.6.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2318102Z  + networkx==3.6.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2318334Z  + numpy==1.26.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2318558Z  + orjson==3.11.9
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2318759Z  + ormsgpack==1.12.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2318940Z  + packaging==26.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319110Z  + pandas==2.3.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319276Z  + parso==0.8.7
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319442Z  + pathspec==1.1.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319616Z  + pexpect==4.9.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319781Z  + pillow==12.2.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2319950Z  + platformdirs==4.10.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2320206Z  + pluggy==1.6.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2320516Z  + prompt-toolkit==3.0.52
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2320786Z  + psutil==7.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2320954Z  + ptyprocess==0.7.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2321129Z  + pure-eval==0.2.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2321431Z  + pycparser==3.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2321647Z  + pydantic==2.12.5
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2321829Z  + pydantic-core==2.41.5
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322046Z  + pydantic-extra-types==2.11.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322284Z  + pydantic-settings==2.14.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322479Z  + pygit2==1.19.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322642Z  + pyglet==2.1.14
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322808Z  + pygments==2.20.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2322974Z  + pyjwt==2.13.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2323142Z  + pyparsing==3.3.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2323321Z  + pyproject-hooks==1.2.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2323510Z  + pytest==9.0.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2323676Z  + pytest-cov==7.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2323987Z  + python-dateutil==2.9.0.post0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2324247Z  + python-dotenv==1.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2324451Z  + python-multipart==0.0.30
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2324651Z  + pytz==2026.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2324823Z  + pyyaml==6.0.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2324986Z  + pyzmq==27.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2325149Z  + qrcode==8.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2325314Z  + rapidfuzz==3.14.5
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2325503Z  + rectangle-packer==2.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2325694Z  + rectpack==0.2.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2325875Z  + referencing==0.37.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2326125Z  + requests==2.34.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2326302Z  + requests-toolbelt==1.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2326486Z  + rich==15.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2326650Z  + rpds-py==2026.5.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2326822Z  + ruamel-yaml==0.19.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327011Z  + ruamel-yaml-string==0.1.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327204Z  + ruff==0.15.15
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327374Z  + scikit-image==0.26.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327551Z  + scipy==1.17.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327712Z  + semver==3.0.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2327880Z  + shapely==2.1.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328046Z  + shellingham==1.5.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328217Z  + six==1.17.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328377Z  + sniffio==1.3.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328547Z  + sse-starlette==3.4.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328726Z  + stack-data==0.6.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2328898Z  + starlette==1.2.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2329069Z  + tenacity==9.1.4
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2329377Z  + text-to-gds==0.3.1 (from file:///home/runner/work/Text-to-Layout/Text-to-Layout)
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2329700Z  + tifffile==2026.3.3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2329881Z  + toolz==1.1.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330046Z  + tornado==6.5.6
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330214Z  + traitlets==5.15.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330384Z  + trimesh==4.12.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330563Z  + trove-classifiers==2026.6.1.19
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330762Z  + typer==0.24.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2330937Z  + types-pyyaml==6.0.12.20260518
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2331139Z  + typing-extensions==4.15.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2331335Z  + typing-inspection==0.4.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2331520Z  + tzdata==2026.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2331685Z  + urllib3==2.7.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2331862Z  + uuid-utils==0.16.2
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332035Z  + uvicorn==0.48.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332200Z  + watchdog==6.0.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332363Z  + wcwidth==0.7.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332531Z  + websockets==15.0.1
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332723Z  + widgetsnbextension==4.0.15
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2332915Z  + xxhash==3.8.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2333077Z  + zstandard==0.25.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2872777Z ##[group]Run uv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2873262Z ^[[36;1muv run pytest tests/test_paper_benchmarks.py tests/test_em_solvers.py -q^[[0m
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2909036Z shell: /usr/bin/bash -e {0}
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2909276Z env:
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2909497Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+benchmark	UNKNOWN STEP	2026-10-26T08:40:45.2909752Z ##[endgroup]
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6988950Z F...                                                                     [100%]
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6989616Z =================================== FAILURES ===================================
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6990281Z ________________________ test_paper_reproduction_suite _________________________
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6990702Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6991083Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_paper_reproduction_suite0')
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6991830Z capsys = <_pytest.capture.CaptureFixture object at 0x7cb867d263c0>
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6992741Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6993108Z     def test_paper_reproduction_suite(tmp_path, capsys):
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6994158Z >       suite = run_paper_benchmark_suite(
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6994863Z             ROOT / "benchmarks" / "papers",
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6995642Z             report_path=tmp_path / "paper-benchmarks.json",
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6996378Z         )
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6996610Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6996855Z tests/test_paper_benchmarks.py:10: 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6997617Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6998726Z src/textlayout/_legacy/paper_benchmarks.py:50: in run_paper_benchmark_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.6999780Z     result = _run_one(parameters, expected)
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7000444Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7001186Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7001778Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7002925Z parameters = {'arxiv': '2209.11052v2', 'model': 'gaydamachenko_tmm', 'paper_id': 'Gaydamachenko_2022', 'parameters': {'pump_frequency_ghz': 12.92}, ...}
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7005950Z expected = {'coherence_length_cells': 2186, 'coherence_tolerance_fraction': 0.15, 'minimum_gain_3_to_9_ghz_db': 18.0, 'second_harmonic_stop_band': True}
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7007322Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7007920Z     def _run_one(parameters: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7008963Z         model = parameters["model"]
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7009609Z         if model == "planat_linear_gap":
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7010619Z             result = planat_linear_gap(parameters.get("parameters", {}).get("sample", "A"))
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7011763Z             computed = result["computed"]["gap_center_ghz"]
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7012582Z             target = float(expected["gap_center_ghz"])
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7013357Z             error = abs(computed - target) / target
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7014462Z             passed = error <= float(expected["gap_center_tolerance_fraction"])
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7016217Z             return {"status": "passed" if passed else "failed", "computed": {"gap_center_ghz": computed}, "expected": expected, "relative_error": error}
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7017737Z         if model == "gaydamachenko_tmm":
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7018449Z             config = gaydamachenko_reference_config(
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7019546Z                 pump_frequency_ghz=float(parameters["parameters"]["pump_frequency_ghz"])
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7020525Z             )
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7021017Z             gain = jtwpa_reduced_3wm_gain(config)
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7021727Z             bands = jtwpa_stop_bands(config)
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7023282Z             coherence_error = abs(gain["coherence_length_cells_at_6p7ghz"] - expected["coherence_length_cells"]) / expected["coherence_length_cells"]
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7025048Z             checks = {
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7026165Z                 "coherence": coherence_error <= expected["coherence_tolerance_fraction"],
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7027482Z                 "gain": gain["gain_3_to_9_ghz"]["minimum_db"] >= expected["minimum_gain_3_to_9_ghz_db"],
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7029070Z >               "second_harmonic_gap": bands[1]["lower_ghz"] < 2.0 * config.pump_frequency_ghz < bands[1]["upper_ghz"],
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7030266Z                                        ^^^^^^^^
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7030867Z             }
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7031349Z E           IndexError: list index out of range
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7031822Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7032158Z src/textlayout/_legacy/paper_benchmarks.py:34: IndexError
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7033012Z =============================== warnings summary ===============================
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7033966Z tests/test_paper_benchmarks.py:3
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7035579Z   /home/runner/work/Text-to-Layout/Text-to-Layout/tests/test_paper_benchmarks.py:3: DeprecationWarning: text_to_gds is deprecated; import from textlayout instead.
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7037519Z     from text_to_gds.paper_benchmarks import run_paper_benchmark_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7038173Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7038586Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7040119Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:120: RuntimeWarning: overflow encountered in power
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7041638Z     0.25j * omega**3 * inductance * capacitance**2 / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7042180Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7042564Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7044355Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:120: RuntimeWarning: invalid value encountered in multiply
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7045988Z     0.25j * omega**3 * inductance * capacitance**2 / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7046573Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7046973Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7048582Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:99: RuntimeWarning: overflow encountered in multiply
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7050400Z     return a * e + b * g, a * f + b * h, c * e + d * g, c * f + d * h
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7050929Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7051318Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7052875Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:117: RuntimeWarning: overflow encountered in square
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7054532Z     a = 1.0 - 0.5 * omega**2 * inductance * capacitance / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7055109Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7055494Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7057111Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:118: RuntimeWarning: invalid value encountered in multiply
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7058588Z     b = 1j * omega * inductance / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7059033Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7059461Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7061123Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:119: RuntimeWarning: invalid value encountered in multiply
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7062664Z     c = 1j * omega * capacitance - (
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7063027Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7063359Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7065105Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:99: RuntimeWarning: invalid value encountered in multiply
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7066667Z     return a * e + b * g, a * f + b * h, c * e + d * g, c * f + d * h
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7067201Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7067523Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7068396Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:157: RuntimeWarning: invalid value encountered in divide
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7069447Z     s11 = (a + b / z0 - c * z0 - d) / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7069771Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7070019Z tests/test_paper_benchmarks.py::test_paper_reproduction_suite
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7070978Z   /home/runner/work/Text-to-Layout/Text-to-Layout/src/textlayout/_legacy/jtwpa.py:158: RuntimeWarning: invalid value encountered in divide
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7071868Z     s21 = 2.0 / denominator
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7072081Z 
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7072405Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7072976Z =========================== short test summary info ============================
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7073709Z FAILED tests/test_paper_benchmarks.py::test_paper_reproduction_suite - IndexError: list index out of range
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.7074558Z 1 failed, 3 passed, 10 warnings in 0.71s
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.8384910Z ##[error]Process completed with exit code 1.
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.8501505Z Post job cleanup.
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9203325Z [command]/usr/bin/git version
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9234727Z git version 2.55.0
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9261647Z Temporarily overriding HOME='/home/runner/work/_temp/986e07f8-a03e-4080-8e85-b13b3e587300' before making global git config changes
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9262664Z Adding repository directory to the temporary git global config as a safe directory
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9266585Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Text-to-Layout/Text-to-Layout
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9297740Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9324154Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9547366Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9563688Z http.https://github.com/.extraheader
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9572537Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9598120Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9824018Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+benchmark	UNKNOWN STEP	2026-10-26T08:40:47.9849756Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+benchmark	UNKNOWN STEP	2026-10-26T08:40:48.0187108Z Cleaning up orphan processes
+benchmark	UNKNOWN STEP	2026-10-26T08:40:48.0417419Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, astral-sh/setup-uv@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

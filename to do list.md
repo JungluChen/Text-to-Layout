@@ -783,3 +783,10 @@ bounded real process execution; entry008 remains incomplete.
 Fresh QEDA execution audit docs/progress/2026-10-26-102228.md: two actual bounded
 runs, unchanged input/runtime, eight output hashes verified twice, pad errors0mm.
 Next typed preparation/provenance and bounded product execution; entry008 incomplete.
+
+Latest Palace40294909083 on e974082: official smoke passed, reduced CPW step
+cancelled; job log unavailable twice and direct API404. Only pre-benchmark
+artifact retained, CSV/config hashes checked twice. Cause unknown; no full
+convergence/reference or merge approval. See docs/progress/2026-10-26-224026.md
+(repository-relative path). Next bounded diagnostics/earlier artifact retention;
+nightly40293610707 repeats the unresolved JTWPA band-index failure.

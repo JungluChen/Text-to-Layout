@@ -1,0 +1,9 @@
+{
+  "verified_output_hashes": {
+    "postpro/eigenmode/eig.csv": "7b74abb202b74abc0e1accd01099b7393cd641161a83d2e85611fb1db1942a37",
+    "postpro/eigenmode/domain-E.csv": "7874a53818ac648407c2275451826d524922a7f8b643439cd260cd7e27b4f550"
+  },
+  "config_hash_verified": true,
+  "mesh_retained": false,
+  "scope": "smoke only; CPW and convergence unavailable"
+}

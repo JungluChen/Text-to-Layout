@@ -1,0 +1,11 @@
+import hashlib,json
+from pathlib import Path
+root=Path('/private/tmp/palace-40294909083/pre-benchmark/out/toolchain/palace_smoke')
+r=json.loads((root/'result.json').read_text())
+checks={}
+for name,expected in r['output_file_hashes'].items():
+ actual=hashlib.sha256((root/name).read_bytes()).hexdigest()
+ assert actual==expected,(name,actual,expected)
+ checks[name]=actual
+assert hashlib.sha256((root/'cavity2d.json').read_bytes()).hexdigest()==r['input_file_hashes']['cavity2d.json']
+print(json.dumps({'verified_output_hashes':checks,'config_hash_verified':True,'mesh_retained':(root/'mesh/cavity2d.msh').exists(),'scope':'smoke only; CPW and convergence unavailable'},indent=2))
