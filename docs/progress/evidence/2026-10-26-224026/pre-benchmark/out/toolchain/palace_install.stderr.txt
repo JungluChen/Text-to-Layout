@@ -1,0 +1,15 @@
+gpg: keybox '/home/runner/.cache/textlayout-palace/spack/opt/spack/gpg/pubring.kbx' created
+gpg: Signature made Sun Oct 25 23:39:31 2026 UTC
+gpg:                using RSA key D2C7EB3F2B05FA86590D293C04001B2E3DB0C723
+gpg: Can't check signature: No public key
+gpg: Signature made Sun Oct 25 23:38:16 2026 UTC
+gpg:                using RSA key D2C7EB3F2B05FA86590D293C04001B2E3DB0C723
+gpg: Can't check signature: No public key
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    version
+But I couldn't open the help file:
+    /usr/lib/x86_64-linux-gnu/pmix2/share/pmix/help-schizo-ompi.txt: No such file or directory
+    /usr/lib/x86_64-linux-gnu/prrte3/share/prte/help-schizo-ompi.txt: No such file or directory.
+Sorry!
+--------------------------------------------------------------------------
