@@ -1,0 +1,7 @@
+{
+  "scope": "synthetic orchestration only; no real mesh or solver",
+  "first": "STAGE_COMPLETE",
+  "resume": "SIMULATION_INVALID",
+  "reason": "palace_output_invalid: completed base AMR cannot be reused; missing artifact(s): /private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/palace-stage-control-ie5y_yvj/base_mesh/palace_amr.json, /private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/palace-stage-control-ie5y_yvj/base_mesh/postpro/eig.csv, /private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/palace-stage-control-ie5y_yvj/base_mesh/postpro/domain-E.csv, /private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/palace-stage-control-ie5y_yvj/base_mesh/postpro/error-indicators.csv, /private/var/folders/hf/21twzwpx5nlfl3x1wm4mng500000gn/T/palace-stage-control-ie5y_yvj/base_mesh/postpro/palace.json",
+  "solver_calls": 0
+}

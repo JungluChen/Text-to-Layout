@@ -1,0 +1,18 @@
+import json,tempfile
+from pathlib import Path
+from unittest.mock import patch
+from textlayout.solvers.palace import benchmark_v017 as b
+from textlayout.solvers.palace.backend import DEFAULT_LAYOUT
+from textlayout.solvers.palace.models import PalaceCapability
+from textlayout.fem.gmsh_physical import GmshMeshResult
+
+def mesh(geometry,params,model,output_path,**kwargs):
+ p=Path(output_path);p.parent.mkdir(parents=True,exist_ok=True)
+ p.write_text('SYNTHETIC CONTROL FLOW FIXTURE; NOT A MESH\n')
+ return GmshMeshResult(p,0,1,1,1)
+with tempfile.TemporaryDirectory(prefix='palace-stage-control-') as tmp:
+ with patch.object(b,'mesh_quarter_wave',mesh),patch.object(b,'_run_palace_once',side_effect=AssertionError('unexpected solver call')) as solver:
+  args=dict(layout_path=DEFAULT_LAYOUT,capability=PalaceCapability(executable='/synthetic/not-executed',version='0.17.0',executable_sha256='0'*64),processes=1)
+  first=b.run_quarter_wave_benchmark_v017(tmp,stop_after_stage='base_mesh',**args)
+  second=b.run_quarter_wave_benchmark_v017(tmp,from_stage='base_amr',stop_after_stage='base_amr',**args)
+  print(json.dumps({'scope':'synthetic orchestration only; no real mesh or solver','first':first.status,'resume':second.status,'reason':second.reason,'solver_calls':solver.call_count},indent=2))

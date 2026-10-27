@@ -796,3 +796,9 @@ stages already exist but scheduled CPW invocation does not enable the policy.
 Reuse and verify these in a separate staged diagnostic; do not scaffold duplicates
 or substitute its changed domain/two-state result for scientific acceptance.
 See docs/progress/2026-10-27-043843.md; 14 control tests passed twice.
+
+Staged Palace diagnostic blocked by reproduced resume selection defect:
+base_mesh completion followed by from_stage=base_amr demands already-completed
+AMR files and never launches the stage (two synthetic probes agree). Preserve
+strict output checks; add never-started/completed/partial state distinction before
+workflow wiring. Evidence and acceptance cases: docs/progress/2026-10-27-103608.md.
