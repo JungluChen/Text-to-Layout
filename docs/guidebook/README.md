@@ -922,3 +922,43 @@ Python decoder examples above and fixed pad/symbol checks. Use the retained
 raw output paths from that checkpoint for reassessment. This does not provide a
 supported execution CLI/MCP command; those workflows and platform recovery tests
 remain pending. Never infer offline execution or VRML validity from exit0.
+
+### QEDA fixed-probe preparation
+
+`textlayout.external.qeda_prepare.prepare_probe(output_dir: Path, *,
+runtime_package: Path) -> PreparedQedaProbe` creates a new directory containing
+fixed library/probe.yaml (geometry in mm), generate.cjs and preparation.json.
+Parent must exist and be trusted; existing paths are refused. Runtime package
+path must be absolute, bounded and control-free; JSON encoding preserves it as
+a JavaScript string. No runtime import/discovery/download or process is invoked.
+The returned frozen record provides paths, input/script/manifest SHA256 values
+and input_files_prepared status. Manifest explicitly reports runtime NOT_VERIFIED,
+execution NOT_EXECUTED and reference NOT_EVALUATED. Required version0.4.1 is a
+requirement, not an observed version. Expected output names are a plan only.
+I/O failures propagate and may leave a partial directory for inspection; use a
+new directory after recovery. No hostile-parent/concurrent-writer guarantee.
+Optional dependencies and base install are unchanged. Runtime identity checks,
+bounded execution, CLI/MCP, platform acceptance and GUI captures remain pending.
+
+Preparation-only Python walkthrough (no Node installation needed):
+
+```python
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from textlayout.external.qeda_prepare import prepare_probe
+
+with TemporaryDirectory() as parent:
+    root = Path(parent)
+    prepared = prepare_probe(root / "probe", runtime_package=root / "unverified-qeda")
+    assert prepared.status == "input_files_prepared"
+    print(prepared.manifest_path.read_text())
+```
+
+Expected: three prepared files, no kicad output directory and no executed result.
+The temporary example is deleted when the block exits; use a new directory under
+an existing trusted parent to retain files. Inspect partial files after an I/O
+error; never reuse a directory or treat preparation as a numerical pass. Runtime
+must be independently audited before a future executor uses the generated script.
+AI prompt: “Prepare the fixed QEDA probe, report input hashes, and distinguish
+unverified runtime configuration from execution evidence.” No callable MCP or
+supported solver-execution CLI equivalent is delivered by this API.

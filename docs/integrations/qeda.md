@@ -311,3 +311,20 @@ This is a developer probe, not the product wrapper: output caps, process-tree
 cleanup, cross-platform execution and stronger identity/input closure remain
 pending. Local YAML and minimal environment do not establish network isolation;
 VRML geometry/native import remain untested. Entry008 is not complete.
+
+### QEDA fixed-probe preparation
+
+`textlayout.external.qeda_prepare.prepare_probe(output_dir: Path, *,
+runtime_package: Path) -> PreparedQedaProbe` creates a new directory containing
+fixed library/probe.yaml (geometry in mm), generate.cjs and preparation.json.
+Parent must exist and be trusted; existing paths are refused. Runtime package
+path must be absolute, bounded and control-free; JSON encoding preserves it as
+a JavaScript string. No runtime import/discovery/download or process is invoked.
+The returned frozen record provides paths, input/script/manifest SHA256 values
+and input_files_prepared status. Manifest explicitly reports runtime NOT_VERIFIED,
+execution NOT_EXECUTED and reference NOT_EVALUATED. Required version0.4.1 is a
+requirement, not an observed version. Expected output names are a plan only.
+I/O failures propagate and may leave a partial directory for inspection; use a
+new directory after recovery. No hostile-parent/concurrent-writer guarantee.
+Optional dependencies and base install are unchanged. Runtime identity checks,
+bounded execution, CLI/MCP, platform acceptance and GUI captures remain pending.

@@ -802,3 +802,7 @@ base_mesh completion followed by from_stage=base_amr demands already-completed
 AMR files and never launches the stage (two synthetic probes agree). Preserve
 strict output checks; add never-started/completed/partial state distinction before
 workflow wiring. Evidence and acceptance cases: docs/progress/2026-10-27-103608.md.
+
+Entry008 preparation-only API now writes fixed audited inputs and explicit
+NOT_VERIFIED/NOT_EXECUTED provenance in a fresh directory. Next runtime identity
+verification and bounded execution; preparation does not complete the integration.
