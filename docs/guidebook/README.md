@@ -968,3 +968,41 @@ reconstruct into a new directory from the audited lock with lifecycle scripts
 disabled. Compare file inventory and lock bytes before executing; version strings
 alone are insufficient. See [runtime audit](../progress/2026-10-27-223410.md).
 Reconstruction is installation/file-identity evidence, not numerical acceptance.
+
+### QEDA supplied-inventory comparison
+
+`textlayout.external.qeda_inventory.decode_inventory(data: bytes)` returns a
+sorted immutable tuple of InventoryEntry records (path and exactly one SHA256 or
+relative symlink target). UTF-8 JSON is bounded to2MiB/20000entries; duplicate
+keys/paths, unknown fields, malformed hashes, non-normalized/absolute paths and
+lexically escaping links raise ValueError. No links are followed or files read.
+`compare_inventories(expected: bytes, observed: bytes)` returns frozen
+InventoryComparison with both raw snapshot hashes and sorted missing/added/changed
+paths plus matches_supplied_inventory. Empty expected snapshots are rejected;
+empty observed snapshots report all entries missing. Ordering/JSON whitespace
+can differ while records match; raw hashes preserve those differences.
+No dependencies, filesystem/process/network side effects, units or defaults.
+This compares caller-supplied records, NOT installations: snapshot authority,
+freshness, actual file hashing, lock/root-package coverage, executable identity,
+symlink resolution and concurrent mutation require separate capture/probe logic.
+Matching does not establish installed/ready/executed status or numerical validity.
+No CLI/MCP/GUI endpoint yet; entry008 remains pending.
+
+Snapshot-only example from the repository root:
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_inventory import compare_inventories
+raw = Path("docs/progress/evidence/2026-10-26-102228/runtime-before.json").read_bytes()
+result = compare_inventories(raw, raw)
+assert result.matches_supplied_inventory
+```
+
+Expected: empty discrepancy tuples; this self-comparison is an API demonstration,
+not an installation check. For real verification, capture a new inventory and
+compare to an independently audited expected snapshot. On malformed input,
+retain raw bytes and repair the capture source; do not drop offending records.
+On mismatches, preserve the changed runtime and reconstruct separately. AI prompt:
+“Compare these audited and observed snapshots, list every discrepancy, and do not
+infer runtime readiness or solver execution.” Filesystem capture and host UI
+screenshots remain pending; no callable MCP equivalent is claimed.

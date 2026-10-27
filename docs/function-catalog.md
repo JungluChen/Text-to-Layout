@@ -674,3 +674,22 @@ I/O failures propagate and may leave a partial directory for inspection; use a
 new directory after recovery. No hostile-parent/concurrent-writer guarantee.
 Optional dependencies and base install are unchanged. Runtime identity checks,
 bounded execution, CLI/MCP, platform acceptance and GUI captures remain pending.
+
+### QEDA supplied-inventory comparison
+
+`textlayout.external.qeda_inventory.decode_inventory(data: bytes)` returns a
+sorted immutable tuple of InventoryEntry records (path and exactly one SHA256 or
+relative symlink target). UTF-8 JSON is bounded to2MiB/20000entries; duplicate
+keys/paths, unknown fields, malformed hashes, non-normalized/absolute paths and
+lexically escaping links raise ValueError. No links are followed or files read.
+`compare_inventories(expected: bytes, observed: bytes)` returns frozen
+InventoryComparison with both raw snapshot hashes and sorted missing/added/changed
+paths plus matches_supplied_inventory. Empty expected snapshots are rejected;
+empty observed snapshots report all entries missing. Ordering/JSON whitespace
+can differ while records match; raw hashes preserve those differences.
+No dependencies, filesystem/process/network side effects, units or defaults.
+This compares caller-supplied records, NOT installations: snapshot authority,
+freshness, actual file hashing, lock/root-package coverage, executable identity,
+symlink resolution and concurrent mutation require separate capture/probe logic.
+Matching does not establish installed/ready/executed status or numerical validity.
+No CLI/MCP/GUI endpoint yet; entry008 remains pending.

@@ -815,3 +815,7 @@ Runtime audit2026-10-27-223410 found seven missing QEDA runtime files plus absen
 root package/lock despite73matchingversions. New isolated npm-ci reconstruction
 matches all1084retained entries twice. Next doctor must check file identity and
 completeness, not versions alone; original changed runtime preserved.
+
+Entry008 typed supplied-inventory comparison now reports missing/added/changed
+records with strict schema/path/size checks. This is not filesystem capture or
+runtime readiness. Next bounded real-file capture plus explicit audited identity.
