@@ -819,3 +819,8 @@ completeness, not versions alone; original changed runtime preserved.
 Entry008 typed supplied-inventory comparison now reports missing/added/changed
 records with strict schema/path/size checks. This is not filesystem capture or
 runtime readiness. Next bounded real-file capture plus explicit audited identity.
+
+Inventory comparison247f799d8dd47986d315eefe10d14e0db17a3a78 passed all local
+gates; evidence docs/progress/2026-10-28-043708.md. Actual old runtime now218missing
+entries, reconstruction matches twice. Next bounded filesystem capture/authority
+binding; snapshot comparison is not installation or scientific acceptance.
