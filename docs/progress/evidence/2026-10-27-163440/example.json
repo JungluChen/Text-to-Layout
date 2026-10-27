@@ -1,0 +1,14 @@
+[
+  {
+    "status": "input_files_prepared",
+    "manifest_sha256": "21e3d63819350fb4a6019fd3a29228f3c2e522b3fb669f36300fcbee6cdafa93",
+    "input_sha256": "08b3ef5631656e4edc789fb9daab958994dd59501fcec827b6ee3e639472f974",
+    "script_sha256": "d0cde35438cd2a26eb05bbf6b691a6fa0a1a74ce8219025efed6748d56508da5"
+  },
+  {
+    "status": "input_files_prepared",
+    "manifest_sha256": "21e3d63819350fb4a6019fd3a29228f3c2e522b3fb669f36300fcbee6cdafa93",
+    "input_sha256": "08b3ef5631656e4edc789fb9daab958994dd59501fcec827b6ee3e639472f974",
+    "script_sha256": "d0cde35438cd2a26eb05bbf6b691a6fa0a1a74ce8219025efed6748d56508da5"
+  }
+]

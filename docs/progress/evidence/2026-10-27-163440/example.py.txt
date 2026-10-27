@@ -1,0 +1,14 @@
+from pathlib import Path
+from textlayout.external.qeda_prepare import prepare_probe
+import hashlib,json
+root=Path('/private/tmp/qeda-prepare-checks')
+records=[]
+for name in ['prepared-first','prepared-repeat']:
+ p=prepare_probe(root/name,runtime_package=Path('/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda'))
+ data=json.loads(p.manifest_path.read_bytes())
+ for file,digest in data['input_hashes'].items():
+  assert hashlib.sha256((p.output_dir/file).read_bytes()).hexdigest()==digest
+ assert not (p.output_dir/'kicad').exists()
+ records.append({'status':p.status,'manifest_sha256':p.manifest_sha256,'input_sha256':p.input_sha256,'script_sha256':p.script_sha256})
+assert records[0]==records[1]
+print(json.dumps(records,indent=2))

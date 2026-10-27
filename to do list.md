@@ -806,3 +806,7 @@ workflow wiring. Evidence and acceptance cases: docs/progress/2026-10-27-103608.
 Entry008 preparation-only API now writes fixed audited inputs and explicit
 NOT_VERIFIED/NOT_EXECUTED provenance in a fresh directory. Next runtime identity
 verification and bounded execution; preparation does not complete the integration.
+
+QEDA preparation implementation3d4117e46a8773325d5a2783825fa7be469f1724 passed
+full local gates; evidence docs/progress/2026-10-27-163440.md. Runtime verification,
+bounded execution and platform acceptance remain pending; entry008 unchecked.

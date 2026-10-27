@@ -1,0 +1,20 @@
+{
+  "execution_status": "NOT_EXECUTED",
+  "expected_outputs": [
+    "kicad/probe.lib",
+    "kicad/probe.dcm",
+    "kicad/probe.pretty/Resistor_PROBERESISTOR.kicad_mod",
+    "kicad/probe.3dshapes/Resistor_PROBERESISTOR.wrl"
+  ],
+  "geometry_units": "mm",
+  "input_hashes": {
+    "generate.cjs": "d0cde35438cd2a26eb05bbf6b691a6fa0a1a74ce8219025efed6748d56508da5",
+    "library/probe.yaml": "08b3ef5631656e4edc789fb9daab958994dd59501fcec827b6ee3e639472f974"
+  },
+  "reference_status": "NOT_EVALUATED",
+  "required_qeda_version": "0.4.1",
+  "runtime_identity_status": "NOT_VERIFIED",
+  "runtime_package": "/private/tmp/qeda-runtime-audit/runtime/node_modules/qeda",
+  "schema": "textlayout.qeda-preparation.v1",
+  "status": "input_files_prepared"
+}
