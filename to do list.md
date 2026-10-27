@@ -810,3 +810,8 @@ verification and bounded execution; preparation does not complete the integratio
 QEDA preparation implementation3d4117e46a8773325d5a2783825fa7be469f1724 passed
 full local gates; evidence docs/progress/2026-10-27-163440.md. Runtime verification,
 bounded execution and platform acceptance remain pending; entry008 unchecked.
+
+Runtime audit2026-10-27-223410 found seven missing QEDA runtime files plus absent
+root package/lock despite73matchingversions. New isolated npm-ci reconstruction
+matches all1084retained entries twice. Next doctor must check file identity and
+completeness, not versions alone; original changed runtime preserved.

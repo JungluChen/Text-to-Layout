@@ -1,0 +1,17 @@
+from pathlib import Path
+import hashlib,json,os
+root=Path('/private/tmp/qeda-runtime-audit/runtime')
+prior=json.loads(Path('docs/progress/evidence/2026-10-26-102228/runtime-before.json').read_text())
+rows=[]
+for p in sorted((root/'node_modules').rglob('*')):
+ if p.is_symlink():rows.append({'path':p.relative_to(root).as_posix(),'symlink':os.readlink(p)})
+ elif p.is_file():rows.append({'path':p.relative_to(root).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+expected={x['path']:x for x in prior};actual={x['path']:x for x in rows}
+lock=json.loads(Path('docs/progress/evidence/2026-10-22-220849/runtime-lock.json').read_bytes())
+packages=[]
+for name,pinned in lock['packages'].items():
+ if not name:continue
+ p=root/name/'package.json'
+ installed=json.loads(p.read_bytes()) if p.is_file() else {}
+ packages.append({'path':name,'pinned_version':pinned['version'],'installed_version':installed.get('version'),'version_matches':installed.get('version')==pinned['version'],'integrity_present':bool(pinned.get('integrity'))})
+print(json.dumps({'scope':'read-only local inventory; no imports/execution/install','lock_present':(root/'package-lock.json').is_file(),'root_package_present':(root/'package.json').is_file(),'tree_count':len(rows),'prior_tree_count':len(prior),'missing':sorted(set(expected)-set(actual)),'added':sorted(set(actual)-set(expected)),'changed':[n for n in sorted(set(actual)&set(expected)) if actual[n]!=expected[n]],'packages':packages,'runtime_tree_sha256':hashlib.sha256(json.dumps(rows,sort_keys=True).encode()).hexdigest()},indent=2))

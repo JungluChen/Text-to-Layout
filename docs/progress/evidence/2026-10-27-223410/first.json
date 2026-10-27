@@ -1,0 +1,532 @@
+{
+  "scope": "read-only local inventory; no imports/execution/install",
+  "lock_present": false,
+  "root_package_present": false,
+  "tree_count": 1077,
+  "prior_tree_count": 1084,
+  "missing": [
+    "node_modules/esprima/bin/esparse.js",
+    "node_modules/esprima/bin/esvalidate.js",
+    "node_modules/js-yaml/bin/js-yaml.js",
+    "node_modules/mkdirp/bin/cmd.js",
+    "node_modules/nopt/bin/nopt.js",
+    "node_modules/qeda/bin/qeda",
+    "node_modules/sync-request/lib/worker.d.ts"
+  ],
+  "added": [],
+  "changed": [],
+  "packages": [
+    {
+      "path": "node_modules/@types/concat-stream",
+      "pinned_version": "1.6.1",
+      "installed_version": "1.6.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/@types/form-data",
+      "pinned_version": "0.0.33",
+      "installed_version": "0.0.33",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/@types/node",
+      "pinned_version": "10.17.60",
+      "installed_version": "10.17.60",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/@types/qs",
+      "pinned_version": "6.15.1",
+      "installed_version": "6.15.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/abbrev",
+      "pinned_version": "1.1.1",
+      "installed_version": "1.1.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/argparse",
+      "pinned_version": "1.0.10",
+      "installed_version": "1.0.10",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/argparse/node_modules/sprintf-js",
+      "pinned_version": "1.0.3",
+      "installed_version": "1.0.3",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/asap",
+      "pinned_version": "2.0.6",
+      "installed_version": "2.0.6",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/asynckit",
+      "pinned_version": "0.4.0",
+      "installed_version": "0.4.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/base64-js",
+      "pinned_version": "1.5.1",
+      "installed_version": "1.5.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/buffer",
+      "pinned_version": "5.7.1",
+      "installed_version": "5.7.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/buffer-from",
+      "pinned_version": "1.1.2",
+      "installed_version": "1.1.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/call-bind-apply-helpers",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/call-bound",
+      "pinned_version": "1.0.4",
+      "installed_version": "1.0.4",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/caseless",
+      "pinned_version": "0.12.0",
+      "installed_version": "0.12.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/combined-stream",
+      "pinned_version": "1.0.8",
+      "installed_version": "1.0.8",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/concat-stream",
+      "pinned_version": "1.6.2",
+      "installed_version": "1.6.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/core-util-is",
+      "pinned_version": "1.0.3",
+      "installed_version": "1.0.3",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/crc",
+      "pinned_version": "3.8.0",
+      "installed_version": "3.8.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/delayed-stream",
+      "pinned_version": "1.0.0",
+      "installed_version": "1.0.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/dunder-proto",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/es-define-property",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/es-errors",
+      "pinned_version": "1.3.0",
+      "installed_version": "1.3.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/es-object-atoms",
+      "pinned_version": "1.1.2",
+      "installed_version": "1.1.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/es-set-tostringtag",
+      "pinned_version": "2.1.0",
+      "installed_version": "2.1.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/esprima",
+      "pinned_version": "4.0.1",
+      "installed_version": "4.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/form-data",
+      "pinned_version": "2.5.6",
+      "installed_version": "2.5.6",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/function-bind",
+      "pinned_version": "1.1.2",
+      "installed_version": "1.1.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/get-intrinsic",
+      "pinned_version": "1.3.0",
+      "installed_version": "1.3.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/get-port",
+      "pinned_version": "3.2.0",
+      "installed_version": "3.2.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/get-proto",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/gopd",
+      "pinned_version": "1.2.0",
+      "installed_version": "1.2.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/has-symbols",
+      "pinned_version": "1.1.0",
+      "installed_version": "1.1.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/has-tostringtag",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/hasown",
+      "pinned_version": "2.0.4",
+      "installed_version": "2.0.4",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/http-basic",
+      "pinned_version": "8.1.3",
+      "installed_version": "8.1.3",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/http-response-object",
+      "pinned_version": "3.0.2",
+      "installed_version": "3.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/ieee754",
+      "pinned_version": "1.2.1",
+      "installed_version": "1.2.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/inherits",
+      "pinned_version": "2.0.4",
+      "installed_version": "2.0.4",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/isarray",
+      "pinned_version": "1.0.0",
+      "installed_version": "1.0.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/js-yaml",
+      "pinned_version": "3.15.2",
+      "installed_version": "3.15.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/math-intrinsics",
+      "pinned_version": "1.1.0",
+      "installed_version": "1.1.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/mime-db",
+      "pinned_version": "1.52.0",
+      "installed_version": "1.52.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/mime-types",
+      "pinned_version": "2.1.35",
+      "installed_version": "2.1.35",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/minimist",
+      "pinned_version": "1.2.8",
+      "installed_version": "1.2.8",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/mkdirp",
+      "pinned_version": "0.5.6",
+      "installed_version": "0.5.6",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/nopt",
+      "pinned_version": "4.0.3",
+      "installed_version": "4.0.3",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/object-inspect",
+      "pinned_version": "1.13.4",
+      "installed_version": "1.13.4",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/os-homedir",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/os-tmpdir",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/osenv",
+      "pinned_version": "0.1.5",
+      "installed_version": "0.1.5",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/parse-cache-control",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/process-nextick-args",
+      "pinned_version": "2.0.1",
+      "installed_version": "2.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/promise",
+      "pinned_version": "8.3.0",
+      "installed_version": "8.3.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/qeda",
+      "pinned_version": "0.4.1",
+      "installed_version": "0.4.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/qs",
+      "pinned_version": "6.16.1",
+      "installed_version": "6.16.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/readable-stream",
+      "pinned_version": "2.3.8",
+      "installed_version": "2.3.8",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/readable-stream/node_modules/safe-buffer",
+      "pinned_version": "5.1.2",
+      "installed_version": "5.1.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/safe-buffer",
+      "pinned_version": "5.2.1",
+      "installed_version": "5.2.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/side-channel",
+      "pinned_version": "1.1.1",
+      "installed_version": "1.1.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/side-channel-list",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/side-channel-map",
+      "pinned_version": "1.0.1",
+      "installed_version": "1.0.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/side-channel-weakmap",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/sprintf-js",
+      "pinned_version": "1.1.3",
+      "installed_version": "1.1.3",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/string_decoder",
+      "pinned_version": "1.1.1",
+      "installed_version": "1.1.1",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/string_decoder/node_modules/safe-buffer",
+      "pinned_version": "5.1.2",
+      "installed_version": "5.1.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/svg-path-parser",
+      "pinned_version": "1.1.0",
+      "installed_version": "1.1.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/sync-request",
+      "pinned_version": "6.1.0",
+      "installed_version": "6.1.0",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/sync-rpc",
+      "pinned_version": "1.3.7",
+      "installed_version": "1.3.7",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/then-request",
+      "pinned_version": "6.0.2",
+      "installed_version": "6.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/then-request/node_modules/@types/node",
+      "pinned_version": "8.10.66",
+      "installed_version": "8.10.66",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/typedarray",
+      "pinned_version": "0.0.6",
+      "installed_version": "0.0.6",
+      "version_matches": true,
+      "integrity_present": true
+    },
+    {
+      "path": "node_modules/util-deprecate",
+      "pinned_version": "1.0.2",
+      "installed_version": "1.0.2",
+      "version_matches": true,
+      "integrity_present": true
+    }
+  ],
+  "runtime_tree_sha256": "5035e9d77d4de28a3e86dc48b392453676930394748492dde38a5061821b6431"
+}

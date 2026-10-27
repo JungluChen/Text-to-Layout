@@ -328,3 +328,11 @@ I/O failures propagate and may leave a partial directory for inspection; use a
 new directory after recovery. No hostile-parent/concurrent-writer guarantee.
 Optional dependencies and base install are unchanged. Runtime identity checks,
 bounded execution, CLI/MCP, platform acceptance and GUI captures remain pending.
+
+### Runtime completeness audit
+
+[2026-10-27 audit](../progress/2026-10-27-223410.md) found all73package versions
+still matching while seven files and root package/lock were missing in the prior
+temporary runtime. An isolated exact-lock npm-ci reconstruction matches every
+retained inventory entry twice. Runtime probes must reject incomplete trees,
+not infer readiness from version strings. No new execution or acceptance claim.

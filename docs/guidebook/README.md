@@ -962,3 +962,9 @@ must be independently audited before a future executor uses the generated script
 AI prompt: “Prepare the fixed QEDA probe, report input hashes, and distinguish
 unverified runtime configuration from execution evidence.” No callable MCP or
 supported solver-execution CLI equivalent is delivered by this API.
+
+QEDA recovery: if runtime files disappear, preserve the changed directory and
+reconstruct into a new directory from the audited lock with lifecycle scripts
+disabled. Compare file inventory and lock bytes before executing; version strings
+alone are insufficient. See [runtime audit](../progress/2026-10-27-223410.md).
+Reconstruction is installation/file-identity evidence, not numerical acceptance.
