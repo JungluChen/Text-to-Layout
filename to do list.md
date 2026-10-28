@@ -6,8 +6,8 @@ in the repository's generated evidence and retained solver artifacts.
 
 Latest checkpoint: [Windows inventory-test ID portability](docs/progress/2026-10-28-104500.md).
 Repeated baseline Windows failures traced to a multi-megabyte pytest node ID;
-compact IDs preserve all rejection inputs. Local gates pass; actual pushed-SHA
-Windows validation and unchanged repeat pending. Entry008 remains unchecked.
+compact IDs preserve all rejection inputs. Local gates pass; Windows workflow40622784886 passed twice unchanged and
+matrix40622784832 passed on SHA9d3da5a. Entry008 remains unchecked.
 
 ## Highest user-directed priority — complete the integration checklist (2026-10-03)
 
