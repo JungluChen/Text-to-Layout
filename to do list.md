@@ -834,3 +834,9 @@ Entry008 audited baseline binding now rejects substituted/reformatted expected
 snapshots before comparing observed records. No runtime filesystem capture or
 readiness claim. Next implement bounded capture without symlink traversal or
 special-file reads, then bind root lock/package and executable identity separately.
+
+Entry008 bounded filesystem capture now reads trusted quiescent node_modules,
+records links without traversal and rejects special/reparse entries and limits.
+Fresh macOS captures twice: old runtime218missing; reconstructed runtime matches
+all1084audit entries. Root lock/package, executable identity, Windows reparse
+validation and bounded product execution remain next; entry008 unchecked.

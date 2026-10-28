@@ -1048,3 +1048,50 @@ and investigate/reconstruct separately. AI prompt: “Compare my snapshot agains
 the pinned QEDA audit, report discrepancies and excluded identity checks, and do
 not call the runtime installed or executed.” Fresh bounded capture, CLI/MCP
 walkthroughs and real GUI screenshots remain pending.
+
+
+### QEDA bounded filesystem capture
+
+`textlayout.external.qeda_capture.capture_inventory(root: pathlib.Path) -> bytes`
+reads node_modules below an explicit absolute runtime root and returns sorted
+JSON compatible with compare_audited_inventory. Root and node_modules must be
+real directories; ancestors and tree must be trusted and quiescent. Limits:
+20,000 visited entries including directories, depth64,16MiB per regular file,
+256MiB aggregate file data,2MiB final snapshot. Symlinks are recorded without
+traversal; lexical escape is rejected by inventory decoding. Other reparse
+points and special files are rejected. Missing/unreadable paths raise OSError;
+unsupported/oversized trees or detected file changes raise ValueError. No partial
+snapshot is returned. Ordinary files are read in bounded chunks with identity
+checks before/after; no atomic snapshot or hostile concurrent-writer guarantee.
+Directory mutations, ancestor replacement and metadata-preserving writes are not
+proven absent. This is not an execution-time integrity guarantee.
+
+There are no optional dependencies, writes, network calls or runtime imports/
+execution. Root package/lock and Node executable remain outside coverage.
+A successful capture plus pinned comparison is snapshot evidence only, never
+installed/ready/executed or scientific acceptance. Windows symlink/reparse
+fixtures remain pending; POSIX fixture coverage must not imply Windows coverage.
+No CLI/MCP/GUI equivalent or screenshot is delivered.
+
+For an existing, independently prepared quiescent runtime, use the Python API
+from the repository root (substitute its actual absolute path):
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_capture import capture_inventory
+from textlayout.external.qeda_baseline import compare_audited_inventory
+expected = Path("docs/progress/evidence/2026-10-26-102228/runtime-before.json").read_bytes()
+observed = capture_inventory(Path("/private/tmp/qeda-closure-audit/reconstructed"))
+result = compare_audited_inventory(expected, observed)
+print(result.comparison)
+```
+
+The path above was used for retained macOS validation; it is not created by this
+command and may be unavailable on another host. Expected: discrepancies for the
+actual tree, with a match only if every audited record agrees. On OSError retain
+the error and check existence/permissions; on ValueError preserve the tree and
+inspect limits, special entries or changes. Do not silently drop files or follow
+links to force success. AI prompt: “Capture this trusted quiescent runtime,
+compare against the pinned audit and list exclusions; do not execute QEDA or
+claim installation readiness.” Root/executable verification, actual Windows
+reparse evidence and runtime execution wrapper remain pending.

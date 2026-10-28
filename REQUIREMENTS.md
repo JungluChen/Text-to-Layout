@@ -597,3 +597,27 @@ unverified for freshness and filesystem correspondence. A match establishes only
 agreement with that audited snapshot; installation readiness, execution and
 scientific acceptance remain pending. General compare_inventories stays available
 for arbitrary supplied snapshots. No CLI/MCP equivalent or GUI is implemented.
+
+
+### QEDA bounded filesystem capture
+
+`textlayout.external.qeda_capture.capture_inventory(root: pathlib.Path) -> bytes`
+reads node_modules below an explicit absolute runtime root and returns sorted
+JSON compatible with compare_audited_inventory. Root and node_modules must be
+real directories; ancestors and tree must be trusted and quiescent. Limits:
+20,000 visited entries including directories, depth64,16MiB per regular file,
+256MiB aggregate file data,2MiB final snapshot. Symlinks are recorded without
+traversal; lexical escape is rejected by inventory decoding. Other reparse
+points and special files are rejected. Missing/unreadable paths raise OSError;
+unsupported/oversized trees or detected file changes raise ValueError. No partial
+snapshot is returned. Ordinary files are read in bounded chunks with identity
+checks before/after; no atomic snapshot or hostile concurrent-writer guarantee.
+Directory mutations, ancestor replacement and metadata-preserving writes are not
+proven absent. This is not an execution-time integrity guarantee.
+
+There are no optional dependencies, writes, network calls or runtime imports/
+execution. Root package/lock and Node executable remain outside coverage.
+A successful capture plus pinned comparison is snapshot evidence only, never
+installed/ready/executed or scientific acceptance. Windows symlink/reparse
+fixtures remain pending; POSIX fixture coverage must not imply Windows coverage.
+No CLI/MCP/GUI equivalent or screenshot is delivered.
