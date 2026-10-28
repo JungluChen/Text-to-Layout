@@ -574,3 +574,26 @@ freshness, actual file hashing, lock/root-package coverage, executable identity,
 symlink resolution and concurrent mutation require separate capture/probe logic.
 Matching does not establish installed/ready/executed status or numerical validity.
 No CLI/MCP/GUI endpoint yet; entry008 remains pending.
+
+
+### QEDA audited inventory binding
+
+Python API `textlayout.external.qeda_baseline.compare_audited_inventory(expected:
+bytes, observed: bytes)` requires the exact retained baseline bytes with SHA256
+`0d3354e18cb8aec1ac647fcfaed646273651c607d959be944b39121f86582002`.
+Returns frozen AuditedInventoryComparison (audit_id and InventoryComparison).
+Audit ID is `qeda-0.4.1-node-modules-2026-10-26`; provenance is
+`docs/progress/evidence/2026-10-26-102228/runtime-before.json`.
+Expected bytes are limited to2MiB before hashing; observed decoding uses the
+existing2MiB/20000-entry contract. Wrong or reformatted expected bytes raise
+ValueError, even when they describe equivalent records. Observed record order
+and JSON whitespace may differ. There are no defaults, units, dependencies,
+filesystem reads/writes, imports of QEDA, processes or network calls.
+
+The pin identifies this repository's retained node_modules audit, not publisher
+attestation or a universal cross-platform installation layout. It excludes root
+package/lock and Node executable identity. Caller-supplied observations remain
+unverified for freshness and filesystem correspondence. A match establishes only
+agreement with that audited snapshot; installation readiness, execution and
+scientific acceptance remain pending. General compare_inventories stays available
+for arbitrary supplied snapshots. No CLI/MCP equivalent or GUI is implemented.

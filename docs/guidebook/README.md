@@ -1006,3 +1006,45 @@ On mismatches, preserve the changed runtime and reconstruct separately. AI promp
 “Compare these audited and observed snapshots, list every discrepancy, and do not
 infer runtime readiness or solver execution.” Filesystem capture and host UI
 screenshots remain pending; no callable MCP equivalent is claimed.
+
+
+### QEDA audited inventory binding
+
+Python API `textlayout.external.qeda_baseline.compare_audited_inventory(expected:
+bytes, observed: bytes)` requires the exact retained baseline bytes with SHA256
+`0d3354e18cb8aec1ac647fcfaed646273651c607d959be944b39121f86582002`.
+Returns frozen AuditedInventoryComparison (audit_id and InventoryComparison).
+Audit ID is `qeda-0.4.1-node-modules-2026-10-26`; provenance is
+`docs/progress/evidence/2026-10-26-102228/runtime-before.json`.
+Expected bytes are limited to2MiB before hashing; observed decoding uses the
+existing2MiB/20000-entry contract. Wrong or reformatted expected bytes raise
+ValueError, even when they describe equivalent records. Observed record order
+and JSON whitespace may differ. There are no defaults, units, dependencies,
+filesystem reads/writes, imports of QEDA, processes or network calls.
+
+The pin identifies this repository's retained node_modules audit, not publisher
+attestation or a universal cross-platform installation layout. It excludes root
+package/lock and Node executable identity. Caller-supplied observations remain
+unverified for freshness and filesystem correspondence. A match establishes only
+agreement with that audited snapshot; installation readiness, execution and
+scientific acceptance remain pending. General compare_inventories stays available
+for arbitrary supplied snapshots. No CLI/MCP equivalent or GUI is implemented.
+
+From the repository root, this executable Python example checks baseline binding
+only (the observation deliberately reuses the snapshot; it is not a fresh probe):
+
+```python
+from pathlib import Path
+from textlayout.external.qeda_baseline import compare_audited_inventory
+raw = Path("docs/progress/evidence/2026-10-26-102228/runtime-before.json").read_bytes()
+result = compare_audited_inventory(raw, raw)
+assert result.comparison.matches_supplied_inventory
+```
+
+Expected: audit ID above and empty discrepancy tuples. On a pin mismatch, retain
+the supplied bytes and obtain the exact retained artifact; do not change the pin
+to make an unknown baseline pass. On observed differences, preserve the runtime
+and investigate/reconstruct separately. AI prompt: “Compare my snapshot against
+the pinned QEDA audit, report discrepancies and excluded identity checks, and do
+not call the runtime installed or executed.” Fresh bounded capture, CLI/MCP
+walkthroughs and real GUI screenshots remain pending.

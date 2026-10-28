@@ -829,3 +829,8 @@ Inventory comparison247f799d8dd47986d315eefe10d14e0db17a3a78 passed all local
 gates; evidence docs/progress/2026-10-28-043708.md. Actual old runtime now218missing
 entries, reconstruction matches twice. Next bounded filesystem capture/authority
 binding; snapshot comparison is not installation or scientific acceptance.
+
+Entry008 audited baseline binding now rejects substituted/reformatted expected
+snapshots before comparing observed records. No runtime filesystem capture or
+readiness claim. Next implement bounded capture without symlink traversal or
+special-file reads, then bind root lock/package and executable identity separately.
