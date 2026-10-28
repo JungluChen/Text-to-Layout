@@ -1,0 +1,106 @@
+[
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_reports_all_discrepancy_categories",
+    "length": 86
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_audited_tree_and_retained_missing_file_case",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row0]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row1]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row2]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row3]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row4]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row5]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row6]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row7]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row8]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row9]",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row10]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row11]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row12]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row13]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row14]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_ambiguous_or_escaping_records[row15]",
+    "length": 96
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_duplicate_keys_and_paths_rejected",
+    "length": 85
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_missing_observed_tree_is_not_a_match",
+    "length": 88
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_symlink_type_and_target_change_are_reported",
+    "length": 95
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_invalid_or_oversized_json[object]",
+    "length": 93
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_invalid_or_oversized_json[null]",
+    "length": 91
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_invalid_or_oversized_json[invalid-utf8]",
+    "length": 99
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_invalid_or_oversized_json[deep-nesting]",
+    "length": 99
+  },
+  {
+    "prefix": "tests/textlayout_suite/test_qeda_inventory.py::test_rejects_invalid_or_oversized_json[over-byte-limit]",
+    "length": 102
+  }
+]

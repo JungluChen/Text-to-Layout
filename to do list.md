@@ -4,6 +4,11 @@
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
 
+Latest checkpoint: [Windows inventory-test ID portability](docs/progress/2026-10-28-104500.md).
+Repeated baseline Windows failures traced to a multi-megabyte pytest node ID;
+compact IDs preserve all rejection inputs. Local gates pass; actual pushed-SHA
+Windows validation and unchanged repeat pending. Entry008 remains unchecked.
+
 ## Highest user-directed priority — complete the integration checklist (2026-10-03)
 
 Work on `docs/integrations/checklist.md` before native app, landing-page or
