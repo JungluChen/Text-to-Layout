@@ -1,0 +1,14 @@
+from pathlib import Path
+from dataclasses import asdict
+import json
+from textlayout.external.qeda_capture import capture_inventory
+from textlayout.external.qeda_baseline import compare_audited_inventory
+expected=Path('docs/progress/evidence/2026-10-26-102228/runtime-before.json').read_bytes()
+results=[]
+for root in ['/private/tmp/qeda-runtime-audit/runtime','/private/tmp/qeda-closure-audit/reconstructed']:
+ try:
+  observed=capture_inventory(Path(root))
+  results.append({'root':root,'result':asdict(compare_audited_inventory(expected,observed))})
+ except (ValueError,OSError) as exc:
+  results.append({'root':root,'error_type':type(exc).__name__,'error':str(exc)})
+print(json.dumps(results,indent=2))
