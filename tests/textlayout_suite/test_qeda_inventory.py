@@ -69,7 +69,13 @@ def test_symlink_type_and_target_change_are_reported():
     assert compare_inventories(first, second).changed == ('node_modules/.bin/qeda',)
 
 
-@pytest.mark.parametrize('raw', [b'{}', b'null', b'\xff', b'[' * 2000, b' ' * (2 * 1024**2 + 1)])
+# pytest exports node IDs through PYTEST_CURRENT_TEST; raw multi-megabyte IDs
+# exceed Windows environment-variable limits before the rejection test runs.
+@pytest.mark.parametrize(
+    'raw',
+    [b'{}', b'null', b'\xff', b'[' * 2000, b' ' * (2 * 1024**2 + 1)],
+    ids=['object', 'null', 'invalid-utf8', 'deep-nesting', 'over-byte-limit'],
+)
 def test_rejects_invalid_or_oversized_json(raw):
     with pytest.raises(ValueError):
         decode_inventory(raw)
