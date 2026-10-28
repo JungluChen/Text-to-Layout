@@ -1,0 +1,10 @@
+from pathlib import Path
+from dataclasses import asdict
+import json
+from textlayout.external.qeda_baseline import compare_audited_inventory
+raw=Path('docs/progress/evidence/2026-10-26-102228/runtime-before.json').read_bytes()
+drift=json.loads(Path('docs/progress/evidence/2026-10-27-223410/first.json').read_bytes())
+observed=json.dumps([r for r in json.loads(raw) if r['path'] not in drift['missing']]).encode()
+result=compare_audited_inventory(raw,observed)
+assert result.comparison.missing == tuple(drift['missing'])
+print(json.dumps(asdict(result),indent=2))

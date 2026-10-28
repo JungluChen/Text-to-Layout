@@ -1,0 +1,19 @@
+{
+  "audit_id": "qeda-0.4.1-node-modules-2026-10-26",
+  "comparison": {
+    "expected_sha256": "0d3354e18cb8aec1ac647fcfaed646273651c607d959be944b39121f86582002",
+    "observed_sha256": "5035e9d77d4de28a3e86dc48b392453676930394748492dde38a5061821b6431",
+    "missing": [
+      "node_modules/esprima/bin/esparse.js",
+      "node_modules/esprima/bin/esvalidate.js",
+      "node_modules/js-yaml/bin/js-yaml.js",
+      "node_modules/mkdirp/bin/cmd.js",
+      "node_modules/nopt/bin/nopt.js",
+      "node_modules/qeda/bin/qeda",
+      "node_modules/sync-request/lib/worker.d.ts"
+    ],
+    "added": [],
+    "changed": [],
+    "matches_supplied_inventory": false
+  }
+}
