@@ -1,0 +1,21 @@
+import tempfile,os,json
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
+from textlayout.external.qeda_capture import capture_inventory
+original=os.scandir
+class Child:
+ def __init__(self,entry): self.path=entry.path; self.entry=entry
+ def stat(self,**kwargs):
+  info=self.entry.stat(**kwargs)
+  return SimpleNamespace(**{name:(0 if name in ('st_ino','st_dev','st_nlink') else getattr(info,name)) for name in dir(info) if name.startswith('st_')})
+class Scan:
+ def __init__(self,path):self.inner=original(path)
+ def __enter__(self):return (Child(e) for e in self.inner)
+ def __exit__(self,*args):self.inner.close()
+with tempfile.TemporaryDirectory() as temp:
+ root=Path(temp);(root/'node_modules').mkdir();(root/'node_modules'/'regular').write_bytes(b'unchanged')
+ try:
+  with patch('os.scandir',Scan):data=capture_inventory(root)
+  print(json.dumps({'result':'captured','entries':json.loads(data)}))
+ except ValueError as exc: print(json.dumps({'result':'rejected','error':str(exc),'scope':'simulated documented Windows DirEntry identity zeros on macOS'}))
