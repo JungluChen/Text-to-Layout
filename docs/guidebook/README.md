@@ -1095,3 +1095,11 @@ links to force success. AI prompt: “Capture this trusted quiescent runtime,
 compare against the pinned audit and list exclusions; do not execute QEDA or
 claim installation readiness.” Root/executable verification, actual Windows
 reparse evidence and runtime execution wrapper remain pending.
+
+Capture portability diagnostic: a Windows “inventory file changed before read”
+error on an unchanged regular file occurred in implementation9859eae because
+DirEntry.stat reports zero device/inode fields there. Capture now obtains fresh
+non-following path metadata before comparing to the opened handle. Preserve real
+identity-change errors; do not disable those checks to force a successful capture.
+See Python's [DirEntry.stat documentation](https://docs.python.org/3.12/library/os.html#os.DirEntry.stat).
+Windows reparse/symlink acceptance remains separate and pending.

@@ -99,3 +99,42 @@ def test_directory_link_is_recorded_without_recursion(tmp_path):
     rows = json.loads(capture.capture_inventory(root))
     assert len(rows) == 2
     assert {'path': 'node_modules/sub/back', 'symlink': '..'} in rows
+
+
+def test_cached_directory_entry_identity_is_not_used(tmp_path, monkeypatch):
+    root = tree(tmp_path)
+    original = os.scandir
+
+    class Entry:
+        def __init__(self, entry):
+            self.path = entry.path
+
+        def stat(self, **kwargs):
+            raise AssertionError('cached DirEntry identity is not portable')
+
+    class Scan:
+        def __init__(self, path):
+            self.inner = original(path)
+
+        def __enter__(self):
+            return (Entry(entry) for entry in self.inner)
+
+        def __exit__(self, *args):
+            self.inner.close()
+
+    monkeypatch.setattr(capture.os, 'scandir', Scan)
+    assert len(json.loads(capture.capture_inventory(root))) == 1
+
+
+def test_replacement_before_open_is_still_rejected(tmp_path, monkeypatch):
+    root = tree(tmp_path)
+    original = os.open
+
+    def replace_then_open(path, flags):
+        path.unlink()
+        path.write_bytes(b'different size')
+        return original(path, flags)
+
+    monkeypatch.setattr(capture.os, 'open', replace_then_open)
+    with pytest.raises(ValueError, match='changed before read'):
+        capture.capture_inventory(root)

@@ -55,7 +55,9 @@ def capture_inventory(root: Path) -> bytes:
                     raise ValueError('inventory exceeds entry limit')
                 path = Path(child.path)
                 relative = path.relative_to(root).as_posix()
-                before = child.stat(follow_symlinks=False)
+                # DirEntry.stat caches zero device/inode fields on Windows.
+                # Use fresh non-following metadata comparable with fstat instead.
+                before = path.lstat()
                 if stat.S_ISLNK(before.st_mode):
                     rows.append({'path': relative, 'symlink': os.readlink(path)})
                 elif _reparse(before):

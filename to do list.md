@@ -840,3 +840,8 @@ records links without traversal and rejects special/reparse entries and limits.
 Fresh macOS captures twice: old runtime218missing; reconstructed runtime matches
 all1084audit entries. Root lock/package, executable identity, Windows reparse
 validation and bounded product execution remain next; entry008 unchecked.
+
+Capture Windows regression: DirEntry.stat device/inode zeros conflict with fstat;
+reproduced twice with documented metadata simulation. Use fresh lstat and retain
+identity-change rejection. Exact-SHA Windows verification pending; entry008 remains
+unchecked and runtime root/executable checks remain the next feature slice.
