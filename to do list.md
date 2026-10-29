@@ -864,3 +864,7 @@ versus API metadata differences before editing. No tolerance relaxation.
 Windows capture checkpoint2026-10-29-104700: unchanged attempt3 passed after
 attempt2 failed; pass/fail/pass does not resolve nondeterminism. No product edit.
 Next obtain actual Windows metadata tuples with the retained diagnostic.
+
+QEDA Windows metadata diagnostic now has a bounded developer script and manual
+Python3.11/3.12 workflow. Run twice on the exact pushed SHA, download artifacts,
+and compare path/handle identity fields before changing production capture.

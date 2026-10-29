@@ -63,3 +63,25 @@ identity, convergence, and resource-limit evidence. Installation, discovery,
 input preparation, process exit, output parsing, convergence, independent
 validation, and measurement correlation remain distinct states.
 
+
+
+### Windows QEDA identity diagnostic
+
+Developer command: `uv run --no-sync python scripts/diagnose_qeda_capture_identity.py
+--out out/qeda-identity/local.json`. Requires the development environment; output
+must not exist. Creates and removes1000temporary regular-file trees, attempting
+two unchanged captures each. Writes platform/Python/source hash, failure count
+and up to20failure samples with named device/inode/size/mtime_ns/ctime_ns fields.
+The identity wrapper returns original values unchanged. No solver/runtime
+execution, network or capture acceptance decision is added. Status is
+ANOMALY_OBSERVED or NOT_REPRODUCED; neither is installation/scientific acceptance.
+Unexpected infrastructure errors fail the command. Existing output raises
+FileExistsError; preserve it and choose a new output path.
+
+Manual workflow `qeda-identity-diagnostic.yml` runs first/repeat on Windows
+Python3.11/3.12 with15minute job limits and retained JSON artifacts. A green job
+means collection completed, not that capture is fixed. Inspect failure_count and
+identity_events, compare same source hashes, and retain both runs before editing.
+AI prompt: “Compare the diagnostic metadata fields and identify observations
+without inferring the cause from a green workflow.” No CLI product/MCP method,
+GUI or screenshot is introduced. Entry008 remains pending.

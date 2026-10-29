@@ -1,0 +1,30 @@
+name: QEDA identity diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  metadata:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --frozen --dev
+      - name: First unchanged diagnostic
+        run: uv run --no-sync python scripts/diagnose_qeda_capture_identity.py --out out/qeda-identity/first.json
+      - name: Repeat unchanged diagnostic
+        run: uv run --no-sync python scripts/diagnose_qeda_capture_identity.py --out out/qeda-identity/repeat.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qeda-identity-${{ matrix.python }}-${{ github.run_attempt }}
+          path: out/qeda-identity/*.json
+          if-no-files-found: error
+          retention-days: 30
