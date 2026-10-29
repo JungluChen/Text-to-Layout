@@ -1,0 +1,23 @@
+import hashlib,json,platform,sys,tempfile
+from pathlib import Path
+from textlayout.external import qeda_capture as capture
+original=capture._identity
+events=[]
+def record(info):
+ value=original(info)
+ events.append({'identity':value,'mode':info.st_mode})
+ return value
+capture._identity=record
+failures=[]
+for i in range(1000):
+ events.clear()
+ with tempfile.TemporaryDirectory() as name:
+  root=Path(name);(root/'node_modules').mkdir()
+  (root/'node_modules'/'z').write_bytes(b'payload')
+  (root/'package.json').write_text('excluded')
+  try:
+   first=capture.capture_inventory(root)
+   assert first==capture.capture_inventory(root)
+  except Exception as exc:
+   failures.append({'iteration':i,'type':type(exc).__name__,'error':str(exc),'identity_events':list(events)})
+print(json.dumps({'scope':'local diagnostic; not Windows evidence unless host is Windows','platform':platform.platform(),'python':sys.version,'iterations':1000,'captures_per_iteration':2,'failures':failures,'source_sha256':hashlib.sha256(Path(capture.__file__).read_bytes()).hexdigest()},indent=2))

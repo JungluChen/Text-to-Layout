@@ -402,3 +402,13 @@ A successful capture plus pinned comparison is snapshot evidence only, never
 installed/ready/executed or scientific acceptance. Windows symlink/reparse
 fixtures remain pending; POSIX fixture coverage must not imply Windows coverage.
 No CLI/MCP/GUI equivalent or screenshot is delivered.
+
+
+Windows capture status (2026-10-29): the fresh-lstat correction is not yet
+repeatably verified. Exact SHA3e1b292 passed workflow40768426028 attempt1, then
+failed attempt2 on an unchanged ordinary-file capture with “changed before
+read.” Both used Windows image20261021.278.1/Python3.12.10/pytest9.0.3.
+The differing identity field is not retained in those logs. Do not suppress the
+error or remove identity checks; retain path/fstat identity tuples on a real
+Windows diagnostic before another correction. Green matrix runs do not resolve
+this inconsistent repeat. Entry008 and Windows capture acceptance remain pending.

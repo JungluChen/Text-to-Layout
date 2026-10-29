@@ -845,3 +845,22 @@ Capture Windows regression: DirEntry.stat device/inode zeros conflict with fstat
 reproduced twice with documented metadata simulation. Use fresh lstat and retain
 identity-change rejection. Exact-SHA Windows verification pending; entry008 remains
 unchecked and runtime root/executable checks remain the next feature slice.
+
+
+Windows capture status (2026-10-29): the fresh-lstat correction is not yet
+repeatably verified. Exact SHA3e1b292 passed workflow40768426028 attempt1, then
+failed attempt2 on an unchanged ordinary-file capture with “changed before
+read.” Both used Windows image20261021.278.1/Python3.12.10/pytest9.0.3.
+The differing identity field is not retained in those logs. Do not suppress the
+error or remove identity checks; retain path/fstat identity tuples on a real
+Windows diagnostic before another correction. Green matrix runs do not resolve
+this inconsistent repeat. Entry008 and Windows capture acceptance remain pending.
+
+Next: finish unchanged attempt3 of40768426028, then run the retained non-mutating
+identity diagnostic on Windows and capture device/inode/size/mtime_ns/ctime_ns
+before open, from the opened handle and after reading. Classify actual mutation
+versus API metadata differences before editing. No tolerance relaxation.
+
+Windows capture checkpoint2026-10-29-104700: unchanged attempt3 passed after
+attempt2 failed; pass/fail/pass does not resolve nondeterminism. No product edit.
+Next obtain actual Windows metadata tuples with the retained diagnostic.
