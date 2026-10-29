@@ -1,0 +1,11 @@
+import subprocess,json,time
+from pathlib import Path
+root=Path("/private/tmp/qeda-windows-diag")
+results=[]
+for i,command in enumerate(['uv run --no-sync pytest', 'uv run --no-sync ruff check .', 'uv run --no-sync mypy', 'uv build', 'uv run --no-sync python scripts/check_benchmarks.py --strict', 'uv run --no-sync python scripts/validate_readme_claims.py', 'uv run --no-sync python scripts/check_namespace_boundary.py --check', 'uv run --no-sync python scripts/generate_project_status.py --check', 'uv run --no-sync python scripts/generate_integration_checklist.py --check', 'uv run --no-sync python scripts/build_canonical_evidence.py --check', 'uv run --no-sync python scripts/render_showcase_artifacts.py --check', 'uv run --no-sync python scripts/audit_evidence_consistency.py', 'uv run --no-sync python scripts/check_palace_amr_benchmark.py', 'uv run --no-sync python scripts/build_palace_benchmark_evidence.py --check', 'uv run --no-sync python scripts/generate_acceptance.py']):
+ start=time.monotonic()
+ with (root/f"{i:02}.log").open("w") as log:
+  r=subprocess.run(command,shell=True,stdout=log,stderr=subprocess.STDOUT)
+ results.append({"command":command,"exit_code":r.returncode,"elapsed_seconds":time.monotonic()-start})
+ (root/"checks.json").write_text(json.dumps(results,indent=2))
+ print(i,r.returncode,flush=True)

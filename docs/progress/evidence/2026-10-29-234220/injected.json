@@ -1,0 +1,134 @@
+{
+  "schema": "textlayout.qeda-identity-diagnostic.v1",
+  "status": "ANOMALY_OBSERVED",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "iterations": 1000,
+  "captures_per_successful_iteration": 2,
+  "failure_count": 1000,
+  "retained_failure_limit": 20,
+  "failures": [
+    {
+      "iteration": 0,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 1,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 2,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 3,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 4,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 5,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 6,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 7,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 8,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 9,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 10,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 11,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 12,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 13,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 14,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 15,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 16,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 17,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 18,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    },
+    {
+      "iteration": 19,
+      "type": "ValueError",
+      "error": "injected diagnostic test",
+      "identity_events": []
+    }
+  ],
+  "source_sha256": "3c97dbb808819a70a2a23106552b332270462b27f3d2abdc637fb84d481e4e9a",
+  "limitations": "Temporary regular-file diagnostic only; no runtime or scientific acceptance."
+}

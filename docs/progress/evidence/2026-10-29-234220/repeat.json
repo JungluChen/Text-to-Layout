@@ -1,0 +1,13 @@
+{
+  "schema": "textlayout.qeda-identity-diagnostic.v1",
+  "status": "NOT_REPRODUCED",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Aug 12 2026, 13:57:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "iterations": 1000,
+  "captures_per_successful_iteration": 2,
+  "failure_count": 0,
+  "retained_failure_limit": 20,
+  "failures": [],
+  "source_sha256": "3c97dbb808819a70a2a23106552b332270462b27f3d2abdc637fb84d481e4e9a",
+  "limitations": "Temporary regular-file diagnostic only; no runtime or scientific acceptance."
+}
