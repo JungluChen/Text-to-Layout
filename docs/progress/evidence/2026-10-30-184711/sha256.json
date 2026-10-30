@@ -1,4 +1,5 @@
 {
+  ".gitattributes": "b84725677b1cf6b697ec19dd4cd3f97fba7973c885e66eb5b8f04b4fc8a68d6c",
   "00.log.gz": "3a786c848ae56937e2e948b658742b028e24cc5c494b5c666c9fb865d67638dc",
   "01.log.gz": "f3af4d142827f5aad2eb0c72d556d325488a57fb6219aac10afeb51085667d53",
   "02.log.gz": "7375ce1207f943b38e49bd1e2646dab41c5a57263175a0510824c378eaaf1cbf",
@@ -16,7 +17,14 @@
   "14.log.gz": "2dd41ad7792752aa37908906828e82f8867c41a6c303e1153834be0e72ea5191",
   "checks.json": "047307402dc1a7e1178bcd9b3cecb68c2b3cb2a7a818e75aa3a33acdf9bfc484",
   "first.log.gz": "04ca552d277849c6804138f5195522c6a8255a21f8784c36e20afcfa895d8f17",
+  "full-windows.json": "91f1e8d2faced03d82dad94b8d05c2a0693047a49e4c60c9800d12e0e8c2e31f",
+  "matrix.json": "196dfdfbc749edb2e379e31e7d8367e36c239fa1f17ff17b46e90fcb4cedfb95",
+  "platforms/qeda-identity-3.11-1/first.json": "77889a6feea812bfc9de6148e5ac0899f2ce9eb9f2d4b3a783d4995739729e08",
+  "platforms/qeda-identity-3.11-1/repeat.json": "77889a6feea812bfc9de6148e5ac0899f2ce9eb9f2d4b3a783d4995739729e08",
+  "platforms/qeda-identity-3.12-1/first.json": "a48235d09c39bd3a78a26914cc2f8430578c58ca59ead2f96a39c1143ef55841",
+  "platforms/qeda-identity-3.12-1/repeat.json": "a48235d09c39bd3a78a26914cc2f8430578c58ca59ead2f96a39c1143ef55841",
   "repeat.log.gz": "078c40f02004d6b5fcd1255272f40ae0ed1462414e7418473ed5bb5de74e5710",
   "replay.json": "f7ff2f2fdaddb06c8148a7078f35979aed82fd7495f0cdff3f7348f738376483",
-  "run.py.txt": "fc1439cce31b3fbc9881d2bc26f24297ec14c542bcfd1fc2235d78ad7cf68b0e"
+  "run.py.txt": "fc1439cce31b3fbc9881d2bc26f24297ec14c542bcfd1fc2235d78ad7cf68b0e",
+  "windows-run.json": "f05becfda15b4877cc651d40d94eaf7fb5e19995c680a6b9aae93a3649ef2c00"
 }

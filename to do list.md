@@ -888,3 +888,8 @@ https://github.com/python/cpython/blob/v3.12.10/Modules/posixmodule.c
 https://github.com/python/cpython/blob/v3.12.10/Python/fileutils.c
 (_Py_attribute_data_to_stat); upstream issue157671. Actual post-fix Windows
 diagnostic and full matrix results remain required before closing the defect.
+
+Timestamp correction a156e3e verified on6f508aa: Windows diagnostic41043300309
+has0failures across8000first/repeat captures; full Windows41043300446 and full
+matrix41043300497 passed. Root/executable checks and Windows reparse fixtures
+remain next; entry008 unchecked.
