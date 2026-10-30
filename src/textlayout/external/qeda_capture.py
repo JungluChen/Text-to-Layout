@@ -9,6 +9,8 @@ from pathlib import Path
 
 from textlayout.external.qeda_inventory import decode_inventory
 
+_WINDOWS = os.name == 'nt'
+
 MAX_ENTRIES = 20000
 MAX_DEPTH = 64
 MAX_FILE_BYTES = 16 * 1024**2
@@ -18,6 +20,13 @@ MAX_SNAPSHOT_BYTES = 2 * 1024**2
 
 def _identity(info: os.stat_result) -> tuple[int, int, int, int, int]:
     return info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns
+
+
+def _path_matches_handle(path_info: os.stat_result, handle_info: os.stat_result) -> bool:
+    # Windows path ctime can mean creation time while fstat ctime means change
+    # time (CPython #157671). Compare ctime only within the same API below.
+    left, right = _identity(path_info), _identity(handle_info)
+    return left[:4] == right[:4] if _WINDOWS else left == right
 
 
 def _reparse(info: os.stat_result) -> bool:
@@ -74,7 +83,7 @@ def capture_inventory(root: Path) -> bytes:
                     fd = os.open(path, flags)
                     with os.fdopen(fd, 'rb') as stream:
                         opened = os.fstat(stream.fileno())
-                        if not stat.S_ISREG(opened.st_mode) or _identity(opened) != _identity(before):
+                        if not stat.S_ISREG(opened.st_mode) or not _path_matches_handle(before, opened):
                             raise ValueError('inventory file changed before read')
                         digest = hashlib.sha256()
                         count = 0
@@ -84,7 +93,7 @@ def capture_inventory(root: Path) -> bytes:
                             if count > MAX_FILE_BYTES or total_bytes > MAX_TOTAL_BYTES:
                                 raise ValueError('inventory exceeds read byte limit')
                             digest.update(block)
-                        if count != before.st_size or _identity(os.fstat(stream.fileno())) != _identity(before):
+                        if count != before.st_size or _identity(os.fstat(stream.fileno())) != _identity(opened):
                             raise ValueError('inventory file changed during read')
                     if _identity(path.lstat()) != _identity(before):
                         raise ValueError('inventory file changed after read')

@@ -138,3 +138,40 @@ def test_replacement_before_open_is_still_rejected(tmp_path, monkeypatch):
     monkeypatch.setattr(capture.os, 'open', replace_then_open)
     with pytest.raises(ValueError, match='changed before read'):
         capture.capture_inventory(root)
+
+
+def test_windows_cross_api_timestamp_semantics(monkeypatch):
+    from types import SimpleNamespace
+    base = dict(st_dev=1, st_ino=2, st_size=7, st_mtime_ns=30, st_ctime_ns=10)
+    path = SimpleNamespace(**base)
+    handle = SimpleNamespace(**dict(base, st_ctime_ns=20))
+    monkeypatch.setattr(capture, '_WINDOWS', True)
+    assert capture._path_matches_handle(path, handle)
+    for key in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns'):
+        assert not capture._path_matches_handle(path, SimpleNamespace(**dict(base, **{key: 99})))
+    monkeypatch.setattr(capture, '_WINDOWS', False)
+    assert not capture._path_matches_handle(path, handle)
+
+
+def test_handle_ctime_change_during_read_rejected(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    root = tree(tmp_path)
+    original = os.fstat
+    calls = 0
+
+    def changing(fd):
+        nonlocal calls
+        info = original(fd)
+        calls += 1
+        if calls == 1:
+            return info
+        values = {key: getattr(info, key) for key in (
+            'st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns', 'st_mode',
+        )}
+        values['st_ctime_ns'] += 1
+        return SimpleNamespace(**values)
+
+    monkeypatch.setattr(capture.os, 'fstat', changing)
+    monkeypatch.setattr(capture, '_WINDOWS', True)
+    with pytest.raises(ValueError, match='changed during read'):
+        capture.capture_inventory(root)

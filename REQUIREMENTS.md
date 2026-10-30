@@ -621,3 +621,18 @@ A successful capture plus pinned comparison is snapshot evidence only, never
 installed/ready/executed or scientific acceptance. Windows symlink/reparse
 fixtures remain pending; POSIX fixture coverage must not imply Windows coverage.
 No CLI/MCP/GUI equivalent or screenshot is delivered.
+
+
+Capture timestamp correction: Windows path/handle comparisons now require equal
+device, inode, size and mtime_ns. ctime_ns is compared within path-to-path and
+handle-to-handle before/after checks, not across APIs: CPython3.12.10 path stat
+copies birthtime into ctime whereas fstat can expose change time. POSIX retains
+the full cross-API comparison. This preserves same-API change detection without
+treating distinct timestamp meanings as file mutation. No atomicity or hostile
+writer guarantee is added. Evidence: repeated Windows samples in
+2026-10-29-234220; source
+https://github.com/python/cpython/blob/v3.12.10/Modules/posixmodule.c
+(win32_xstat) and
+https://github.com/python/cpython/blob/v3.12.10/Python/fileutils.c
+(_Py_attribute_data_to_stat); upstream issue157671. Actual post-fix Windows
+diagnostic and full matrix results remain required before closing the defect.
