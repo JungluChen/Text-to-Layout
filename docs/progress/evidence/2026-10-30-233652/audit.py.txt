@@ -1,0 +1,23 @@
+from pathlib import Path
+import hashlib,json
+from textlayout.external.qeda_capture import capture_inventory
+from textlayout.external.qeda_baseline import compare_audited_inventory
+root=Path.cwd()
+e=root/'docs/progress/evidence/2026-10-30-184711'
+manifest=json.loads((e/'sha256.json').read_text())
+assert all(hashlib.sha256((e/p).read_bytes()).hexdigest()==h for p,h in manifest.items())
+source=hashlib.sha256((root/'src/textlayout/external/qeda_capture.py').read_bytes()).hexdigest()
+packets=[]
+for p in sorted((e/'platforms').rglob('*.json')):
+ d=json.loads(p.read_text()); assert d['source_sha256']==source and d['failure_count']==0
+ packets.append({'path':str(p.relative_to(e)),'iterations':d['iterations'],'failures':d['failure_count']})
+baseline=(root/'docs/progress/evidence/2026-10-26-102228/runtime-before.json').read_bytes()
+runtime=Path('/private/tmp/qeda-closure-audit/reconstructed')
+observed=capture_inventory(runtime)
+c=compare_audited_inventory(baseline,observed).comparison
+files={}
+for p in [runtime/'package.json',runtime/'package-lock.json',Path('/usr/local/bin/node')]:
+ try:
+  data=p.read_bytes(); files[str(p)]={'size':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+ except OSError as exc: files[str(p)]={'error':str(exc)}
+print(json.dumps({'verified_manifest_files':len(manifest),'windows_packets':packets,'runtime_inventory_match':c.matches_supplied_inventory,'missing':c.missing,'added':c.added,'changed':c.changed,'root_and_node_read_only_observations':files,'limitations':'No Node execution, readiness, reparse or scientific acceptance; root and executable hashes are observations only.'},indent=2))

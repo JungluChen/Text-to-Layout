@@ -1105,8 +1105,8 @@ See Python's [DirEntry.stat documentation](https://docs.python.org/3.12/library/
 Windows reparse/symlink acceptance remains separate and pending.
 
 
-Windows capture status (2026-10-29): the fresh-lstat correction is not yet
-repeatably verified. Exact SHA3e1b292 passed workflow40768426028 attempt1, then
+Historical Windows capture status (2026-10-29), superseded by the post-fix
+verification below: the fresh-lstat correction was not yet repeatably verified. Exact SHA3e1b292 passed workflow40768426028 attempt1, then
 failed attempt2 on an unchanged ordinary-file capture with “changed before
 read.” Both used Windows image20261021.278.1/Python3.12.10/pytest9.0.3.
 The differing identity field is not retained in those logs. Do not suppress the
@@ -1148,5 +1148,15 @@ writer guarantee is added. Evidence: repeated Windows samples in
 https://github.com/python/cpython/blob/v3.12.10/Modules/posixmodule.c
 (win32_xstat) and
 https://github.com/python/cpython/blob/v3.12.10/Python/fileutils.c
-(_Py_attribute_data_to_stat); upstream issue157671. Actual post-fix Windows
-diagnostic and full matrix results remain required before closing the defect.
+(_Py_attribute_data_to_stat); upstream issue157671.
+
+Post-fix verification on exact SHA `6f508aa0fdff669c1bf9ad95f0871f144e7d77bd`
+is retained in [the timestamp correction checkpoint](../progress/2026-10-30-184711.md).
+[Windows diagnostic 41043300309](https://github.com/JungluChen/Text-to-Layout/actions/runs/41043300309)
+recorded zero failures across 8,000 captures, with unchanged first/repeat runs
+on Python 3.11 and 3.12 and matching source hashes.
+[Full Windows tests](https://github.com/JungluChen/Text-to-Layout/actions/runs/41043300446)
+and the [platform matrix](https://github.com/JungluChen/Text-to-Layout/actions/runs/41043300497)
+passed. This verifies the scoped timestamp correction only. Actual Windows
+reparse fixtures, root package/lock and Node identity verification, bounded
+product execution and QEDA entry 008 acceptance remain pending.

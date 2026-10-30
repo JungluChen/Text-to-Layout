@@ -4,10 +4,11 @@
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
 
-Latest checkpoint: [Windows inventory-test ID portability](docs/progress/2026-10-28-104500.md).
-Repeated baseline Windows failures traced to a multi-megabyte pytest node ID;
-compact IDs preserve all rejection inputs. Local gates pass; Windows workflow40622784886 passed twice unchanged and
-matrix40622784832 passed on SHA9d3da5a. Entry008 remains unchecked.
+Latest checkpoint: [QEDA evidence and runtime identity audit](docs/progress/2026-10-30-233652.md).
+The Windows timestamp correction is verified by 8,000 repeated diagnostic
+captures and the full platform matrix. Seven entries have scoped acceptance;
+entry 008 remains unchecked. Next: typed root package/lock and Node identity
+verification, actual Windows reparse fixtures, then bounded execution.
 
 ## Highest user-directed priority — complete the integration checklist (2026-10-03)
 
@@ -150,7 +151,7 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
 
 ### Priority 0. Whole-project Quantum/RF EDA integration architecture
 
-- **Current continuation (2026-10-03 01:18):** Palace observer's missing
+- **Historical continuation (2026-10-03 01:18):** Palace observer's missing
   `/proc/meminfo` is reproduced and repaired with a bounded non-seeking read;
   no solver behavior or scientific gate changed. CI `36900147878` failed the
   Windows job-status assertion then passed unchanged; extend diagnostic
@@ -158,7 +159,8 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
   recorded host sleep, then passed unchanged (2034 passed, 8 skipped).
   See `docs/progress/2026-10-03-011837.md`. Palace convergence/branch merge,
   native releases and publisher setup remain pending. Source reviews 22/100;
-  accepted integrations 0/100. No new solver job was dispatched.
+  accepted integrations were 0/100 at that checkpoint (now 7/100 with scoped
+  evidence in the generated checklist). No new solver job was dispatched.
 
 - **Status:** IN PROGRESS as the first task in this queue (added 2026-09-25).
   The revised 100-target mission supersedes the 50-target list as a roadmap,
@@ -228,7 +230,7 @@ claiming desktop delivery. Windows/Linux desktop remain pending.
   `10fc549f44e201165e278c6d50a2c0395955e5a9`; its exact-SHA CI is
   recorded in `docs/progress/2026-09-26-085000.md`.
   `docs/integrations/checklist.md` now shows all 100 slots with completion
-  evidence requirements; it currently claims **0/100 accepted integrations**,
+  evidence requirements; it currently records **7/100 scoped accepted integrations**,
   not 0 existing adapters. The generator rejects missing evidence and unknown
   IDs. This checklist/release preparation was implemented in `8833ec9`; its
   exact-SHA CI passed. Audit and accept each target independently before
