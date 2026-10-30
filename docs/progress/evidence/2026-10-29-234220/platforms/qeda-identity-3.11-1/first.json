@@ -1,0 +1,13 @@
+{
+  "schema": "textlayout.qeda-identity-diagnostic.v1",
+  "status": "NOT_REPRODUCED",
+  "platform": "Windows-10-10.0.26100-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "iterations": 1000,
+  "captures_per_successful_iteration": 2,
+  "failure_count": 0,
+  "retained_failure_limit": 20,
+  "failures": [],
+  "source_sha256": "3c97dbb808819a70a2a23106552b332270462b27f3d2abdc637fb84d481e4e9a",
+  "limitations": "Temporary regular-file diagnostic only; no runtime or scientific acceptance."
+}

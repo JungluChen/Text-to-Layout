@@ -1,0 +1,148 @@
+[
+  {
+    "artifact": "platforms/qeda-identity-3.11-1/first.json",
+    "failure_count": 0,
+    "retained_samples": 0,
+    "differing_fields": []
+  },
+  {
+    "artifact": "platforms/qeda-identity-3.11-1/repeat.json",
+    "failure_count": 0,
+    "retained_samples": 0,
+    "differing_fields": []
+  },
+  {
+    "artifact": "platforms/qeda-identity-3.12-1/first.json",
+    "failure_count": 106,
+    "retained_samples": 20,
+    "differing_fields": [
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ]
+    ]
+  },
+  {
+    "artifact": "platforms/qeda-identity-3.12-1/repeat.json",
+    "failure_count": 124,
+    "retained_samples": 20,
+    "differing_fields": [
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ],
+      [
+        "ctime_ns"
+      ]
+    ]
+  }
+]

@@ -868,3 +868,8 @@ Next obtain actual Windows metadata tuples with the retained diagnostic.
 QEDA Windows metadata diagnostic now has a bounded developer script and manual
 Python3.11/3.12 workflow. Run twice on the exact pushed SHA, download artifacts,
 and compare path/handle identity fields before changing production capture.
+
+Actual Windows diagnostic40953873081: Python3.12 failures106/124; all40retained
+samples differ only in ctime_ns between path/handle metadata. Python3.11 zero
+failures. Source hashes verified. Next investigate timestamp API semantics before
+a correction; full CI40953844247 still fails. See2026-10-29-234220 progress.

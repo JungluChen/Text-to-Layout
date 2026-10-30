@@ -1,0 +1,474 @@
+{
+  "schema": "textlayout.qeda-identity-diagnostic.v1",
+  "status": "ANOMALY_OBSERVED",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "iterations": 1000,
+  "captures_per_successful_iteration": 2,
+  "failure_count": 124,
+  "retained_failure_limit": 20,
+  "failures": [
+    {
+      "iteration": 3,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 283726776524630827,
+          "size": 7,
+          "mtime_ns": 1793307608285307200,
+          "ctime_ns": 1793307608285307200,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 283726776524630827,
+          "size": 7,
+          "mtime_ns": 1793307608285307200,
+          "ctime_ns": 1793307608284188100,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 4,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 284008251501341483,
+          "size": 7,
+          "mtime_ns": 1793307608287063500,
+          "ctime_ns": 1793307608287063500,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 284008251501341483,
+          "size": 7,
+          "mtime_ns": 1793307608287063500,
+          "ctime_ns": 1793307608286206400,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 6,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 284571201454762795,
+          "size": 7,
+          "mtime_ns": 1793307608291079400,
+          "ctime_ns": 1793307608291079400,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 284571201454762795,
+          "size": 7,
+          "mtime_ns": 1793307608291079400,
+          "ctime_ns": 1793307608289071500,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 10,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 285697101361605419,
+          "size": 7,
+          "mtime_ns": 1793307608299114300,
+          "ctime_ns": 1793307608299114300,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 285697101361605419,
+          "size": 7,
+          "mtime_ns": 1793307608299114300,
+          "ctime_ns": 1793307608297106200,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 36,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 293015450756082475,
+          "size": 7,
+          "mtime_ns": 1793307608354320900,
+          "ctime_ns": 1793307608354320900,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 293015450756082475,
+          "size": 7,
+          "mtime_ns": 1793307608354320900,
+          "ctime_ns": 1793307608353074000,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 40,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 294141350662925099,
+          "size": 7,
+          "mtime_ns": 1793307608362372400,
+          "ctime_ns": 1793307608362372400,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 294141350662925099,
+          "size": 7,
+          "mtime_ns": 1793307608362372400,
+          "ctime_ns": 1793307608361114500,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 42,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 294704300616346411,
+          "size": 7,
+          "mtime_ns": 1793307608366142300,
+          "ctime_ns": 1793307608366142300,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 294704300616346411,
+          "size": 7,
+          "mtime_ns": 1793307608366142300,
+          "ctime_ns": 1793307608365133500,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 61,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 300052325173848875,
+          "size": 7,
+          "mtime_ns": 1793307608405928800,
+          "ctime_ns": 1793307608405928800,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 300052325173848875,
+          "size": 7,
+          "mtime_ns": 1793307608405928800,
+          "ctime_ns": 1793307608403913000,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 87,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 307370674568325931,
+          "size": 7,
+          "mtime_ns": 1793307608465363100,
+          "ctime_ns": 1793307608465363100,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 307370674568325931,
+          "size": 7,
+          "mtime_ns": 1793307608465363100,
+          "ctime_ns": 1793307608463346200,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 89,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 307933624521747243,
+          "size": 7,
+          "mtime_ns": 1793307608469390000,
+          "ctime_ns": 1793307608469390000,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 307933624521747243,
+          "size": 7,
+          "mtime_ns": 1793307608469390000,
+          "ctime_ns": 1793307608467378200,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 104,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 312155749172407083,
+          "size": 7,
+          "mtime_ns": 1793307608507151700,
+          "ctime_ns": 1793307608507151700,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 312155749172407083,
+          "size": 7,
+          "mtime_ns": 1793307608507151700,
+          "ctime_ns": 1793307608505138200,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 117,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 315814923869645611,
+          "size": 7,
+          "mtime_ns": 1793307608534872600,
+          "ctime_ns": 1793307608534872600,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 315814923869645611,
+          "size": 7,
+          "mtime_ns": 1793307608534872600,
+          "ctime_ns": 1793307608532863400,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 136,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 321162948427148075,
+          "size": 7,
+          "mtime_ns": 1793307608616197000,
+          "ctime_ns": 1793307608616197000,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 321162948427148075,
+          "size": 7,
+          "mtime_ns": 1793307608616197000,
+          "ctime_ns": 1793307608614177700,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 137,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 321444423403858731,
+          "size": 7,
+          "mtime_ns": 1793307608618209200,
+          "ctime_ns": 1793307608618209200,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 321444423403858731,
+          "size": 7,
+          "mtime_ns": 1793307608618209200,
+          "ctime_ns": 1793307608616197000,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 139,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 322007373357280043,
+          "size": 7,
+          "mtime_ns": 1793307608622510500,
+          "ctime_ns": 1793307608622510500,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 322007373357280043,
+          "size": 7,
+          "mtime_ns": 1793307608622510500,
+          "ctime_ns": 1793307608621999900,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 173,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 331577522565442347,
+          "size": 7,
+          "mtime_ns": 1793307608695325500,
+          "ctime_ns": 1793307608695325500,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 331577522565442347,
+          "size": 7,
+          "mtime_ns": 1793307608695325500,
+          "ctime_ns": 1793307608694087600,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 190,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 336362597169523499,
+          "size": 7,
+          "mtime_ns": 1793307608730706100,
+          "ctime_ns": 1793307608730706100,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 336362597169523499,
+          "size": 7,
+          "mtime_ns": 1793307608730706100,
+          "ctime_ns": 1793307608728951300,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 195,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 337769972053076779,
+          "size": 7,
+          "mtime_ns": 1793307608740747100,
+          "ctime_ns": 1793307608740747100,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 337769972053076779,
+          "size": 7,
+          "mtime_ns": 1793307608740747100,
+          "ctime_ns": 1793307608739553500,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 201,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 339458821913340715,
+          "size": 7,
+          "mtime_ns": 1793307608753041700,
+          "ctime_ns": 1793307608753041700,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 339458821913340715,
+          "size": 7,
+          "mtime_ns": 1793307608753041700,
+          "ctime_ns": 1793307608752686800,
+          "mode": 33206
+        }
+      ]
+    },
+    {
+      "iteration": 203,
+      "type": "ValueError",
+      "error": "inventory file changed before read",
+      "identity_events": [
+        {
+          "device": 7363010505313276667,
+          "inode": 340021771866762027,
+          "size": 7,
+          "mtime_ns": 1793307608757058200,
+          "ctime_ns": 1793307608757058200,
+          "mode": 33206
+        },
+        {
+          "device": 7363010505313276667,
+          "inode": 340021771866762027,
+          "size": 7,
+          "mtime_ns": 1793307608757058200,
+          "ctime_ns": 1793307608756715200,
+          "mode": 33206
+        }
+      ]
+    }
+  ],
+  "source_sha256": "3c97dbb808819a70a2a23106552b332270462b27f3d2abdc637fb84d481e4e9a",
+  "limitations": "Temporary regular-file diagnostic only; no runtime or scientific acceptance."
+}
