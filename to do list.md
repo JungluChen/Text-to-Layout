@@ -7,8 +7,8 @@ in the repository's generated evidence and retained solver artifacts.
 Latest checkpoint: [QEDA evidence and runtime identity audit](docs/progress/2026-10-30-233652.md).
 The Windows timestamp correction is verified by 8,000 repeated diagnostic
 captures and the full platform matrix. Seven entries have scoped acceptance;
-entry 008 remains unchecked. Next: typed root package/lock and Node identity
-verification, actual Windows reparse fixtures, then bounded execution.
+entry 008 remains unchecked. Root package/lock comparison is now implemented; Node identity verification,
+actual Windows reparse fixtures and bounded execution remain next.
 
 ## Highest user-directed priority — complete the integration checklist (2026-10-03)
 
@@ -895,3 +895,8 @@ Timestamp correction a156e3e verified on6f508aa: Windows diagnostic41043300309
 has0failures across8000first/repeat captures; full Windows41043300446 and full
 matrix41043300497 passed. Root/executable checks and Windows reparse fixtures
 remain next; entry008 unchecked.
+
+QEDA root metadata comparison now hashes bounded regular package/lock files
+against the retained reconstruction, rejecting links and detected mutations.
+Repeated actual local metadata matches; this does not verify Node or runtime
+readiness. Entry008 remains unchecked. See docs/progress/2026-10-31-001718.md.

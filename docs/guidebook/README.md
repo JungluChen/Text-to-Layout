@@ -1160,3 +1160,43 @@ and the [platform matrix](https://github.com/JungluChen/Text-to-Layout/actions/r
 passed. This verifies the scoped timestamp correction only. Actual Windows
 reparse fixtures, root package/lock and Node identity verification, bounded
 product execution and QEDA entry 008 acceptance remain pending.
+
+
+### QEDA root metadata comparison
+
+`textlayout.external.qeda_root.compare_root_metadata(root: pathlib.Path)` returns
+frozen `RootMetadataComparison(package_sha256, lock_sha256)` with the derived
+`matches_audited_metadata` boolean. The absolute runtime root and ancestors must
+be trusted and quiescent. It reads only package.json and package-lock.json,
+with a 1 MiB per-file bound and before/after identity checks, rejecting links,
+other reparse points and special files. Missing/unreadable files raise OSError;
+invalid paths, oversized files or detected changes raise ValueError. Different
+bytes, including whitespace, return a nonmatch. No defaults or physical units.
+
+Pins identify the retained QEDA 0.4.1 reconstruction: package SHA256
+`c2f7b0bf023cdbedf93cdd4e38f5c341ef893e20118e7b9def23ce9e0820ec66` and lock SHA256
+`c5a36c6ae2f9b7c2b2f31f1a83c25b4f6e31c8987247e9fa001b8d6ee088a8b0`.
+The lock is retained in docs/progress/evidence/2026-10-22-220849/runtime-lock.json;
+root bytes/hashes were independently observed twice in the 2026-10-30-233652 audit.
+This is exact byte comparison, not publisher attestation or semantic JSON validation.
+No optional dependencies, writes, processes, network calls or QEDA imports occur.
+The result excludes Node and node_modules; it does not prove atomicity, absence
+of concurrent/ancestor changes, execution-time integrity, installation readiness
+or scientific validity. Actual Windows reparse tests and product execution remain
+pending. No CLI/MCP/GUI endpoint is added; entry 008 remains unchecked.
+
+From the repository root, with the audited reconstruction still present:
+
+```sh
+uv run python -c 'from pathlib import Path; from textlayout.external.qeda_root import compare_root_metadata; print(compare_root_metadata(Path("/private/tmp/qeda-closure-audit/reconstructed")))'
+```
+
+This explicit local audit path is not a portable installation default. Expect
+both recorded hashes; inspect `matches_audited_metadata` before combining this
+with a separately captured node_modules inventory. If the directory is absent,
+retain the OSError and reconstruct from the audited lock in a new directory;
+do not silently choose a different runtime. On a nonmatch preserve the files
+and hashes, then investigate the change before execution. Node verification is
+still required. AI prompt: “Compare the two root metadata files with the retained
+QEDA audit; report nonmatches and missing evidence without claiming readiness.”
+No desktop screenshot exists for this Python-only function.
