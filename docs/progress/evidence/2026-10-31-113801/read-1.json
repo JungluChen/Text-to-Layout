@@ -1,0 +1,14 @@
+{
+  "command": [
+    "gh",
+    "run",
+    "list",
+    "--status",
+    "in_progress",
+    "--json",
+    "databaseId,headSha,workflowName"
+  ],
+  "exit_code": 0,
+  "stdout": "[]\n",
+  "stderr": ""
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "gh",
+    "run",
+    "view",
+    "41142572194",
+    "--log-failed"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}
