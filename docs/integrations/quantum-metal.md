@@ -2,9 +2,11 @@
 
 Document class: MANUAL_DOCUMENTATION.
 
-The maintained upstream package is `quantum-metal`; this repository still locks
-older `qiskit-metal` 0.1.2. No core dependency migration is made here. Exploratory
-execution uses a separate Python 3.12 environment with quantum-metal 0.9.0.
+The maintained upstream package is `quantum-metal`. The `metal`, `layout`,
+`research` and `all` extras now select audited `quantum-metal==0.9.0` with
+`gdstk==1.0.1`, replacing archived `qiskit-metal` 0.1.2 and its incompatible
+PySide2 dependency. The base dependency list is unchanged. Separate external
+Python environments remain supported; selecting an extra does not execute a solver.
 Upstream tag v0.9.0 is revision
 [15587c1284a95354d427540864de4206daa2f064](https://github.com/qiskit-community/qiskit-metal/tree/15587c1284a95354d427540864de4206daa2f064),
 with Apache-2.0 licensing. Installation and in-memory QComponent checks do not

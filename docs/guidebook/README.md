@@ -1200,3 +1200,29 @@ and hashes, then investigate the change before execution. Node verification is
 still required. AI prompt: “Compare the two root metadata files with the retained
 QEDA audit; report nonmatches and missing evidence without claiming readiness.”
 No desktop screenshot exists for this Python-only function.
+
+## Checking all declared Python extras
+
+Use a fresh environment when auditing packages so existing solver environments
+remain available. From the checkout, with Python3.12 selected:
+
+```sh
+uv sync --frozen --all-extras --python 3.12
+uv pip check
+uv run --no-sync python scripts/check_python_packages.py --out out/packages-first
+uv run --no-sync python scripts/check_python_packages.py --out out/packages-repeat
+```
+
+Sync modifies the selected project environment. For an isolated audit, set
+`UV_PROJECT_ENVIRONMENT` to a new absolute directory before running these commands.
+Expected result: all30 distribution imports pass with no unmapped dependency;
+retain both reports. On failure inspect the named package log, confirm Python
+and platform, and reproduce unchanged before modifying versions. An existing
+output directory is deliberately refused; choose a fresh path. Linux Gmsh needs
+its system GLU library (`libglu1-mesa` on the Ubuntu CI image).
+
+The `metal`, `layout`, `research` and `all` extras use headless Quantum Metal0.9.0
+and gdstk1.0.1. They do not install the legacy PySide2 GUI. Python metadata is
+>=3.11,<3.15; tests on other versions remain separate evidence. External native
+solvers and all100 candidate projects are not installed by `--all-extras`.
+No GUI capture or numerical acceptance follows from import success.

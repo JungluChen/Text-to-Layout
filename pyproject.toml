@@ -7,7 +7,7 @@ name = "text-to-gds"
 version = "0.3.1"
 description = "Local-first evidence-driven cQED layout and simulation platform. The `textlayout` package (CLI: textlayout) is the supported product path: NL prompt -> typed DSL -> verified GDS -> EPR/coherence -> JJ yield -> chip-collision analysis -> measurement calibration. `text_to_gds` (CLI: text-to-gds) is a frozen legacy MCP-tool surface, kept for compatibility only -- see ARCHITECTURE.md."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 license = { text = "MIT" }
 authors = [{ name = "Text-to-GDS contributors" }]
 dependencies = [
@@ -42,7 +42,7 @@ api = ["fastapi>=0.110", "uvicorn>=0.30"]  # also in core deps; named for clarit
 solvers = ["scikit-rf>=1.0"]  # open-source Touchstone / S-parameter post-processing
 docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
 
-layout = ["kqcircuits", "qiskit-metal; sys_platform != 'win32'"]
+layout = ["kqcircuits", "quantum-metal==0.9.0", "gdstk==1.0.1"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
 # Phase-1 integration groups are explicit without silently installing native
@@ -56,7 +56,7 @@ ai = []  # LangGraph is currently a core dependency; migration needs its own gat
 all = [
   "kqcircuits",
   "optuna>=4.0",
-  "qiskit-metal; sys_platform != 'win32'",
+  "quantum-metal==0.9.0", "gdstk==1.0.1",
   "scikit-rf>=1.0",
   "qcodes>=0.50",
   "scqubits>=4.0",
@@ -67,12 +67,12 @@ all = [
 squid = []  # JoSIM is an optional external executable; no Python package is vendored.
 measurement = ["qcodes>=0.50"]
 quantum = ["scqubits>=4.0"]
-metal = ["qiskit-metal; sys_platform != 'win32'"]
+metal = ["quantum-metal==0.9.0", "gdstk==1.0.1"]
 mesh = ["gmsh>=4.11", "meshio>=5.3", "scipy>=1.12"]
 research = [
   "kqcircuits",
   "optuna>=4.0",
-  "qiskit-metal; sys_platform != 'win32'",
+  "quantum-metal==0.9.0", "gdstk==1.0.1",
   "scikit-rf>=1.0",
   "qcodes>=0.50",
   "scqubits>=4.0",

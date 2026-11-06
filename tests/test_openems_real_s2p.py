@@ -121,13 +121,14 @@ def test_openems_no_octave_returns_skipped_with_explanation(
 
     """If openEMS binary exists but octave is not installed, return skipped with octave reason."""
 
-    import text_to_gds.openems_runner as runner_mod
+    import textlayout._legacy.openems_runner as runner_mod
 
     from text_to_gds.openems_runner import run_openems
 
 
 
-    # Patch _find_octave to simulate no octave
+    # Patch the implementation owner: the compatibility module re-exports
+    # run_openems, whose globals belong to this module. Keep the public call.
 
     monkeypatch.setattr(runner_mod, "_find_octave", lambda: None)
 

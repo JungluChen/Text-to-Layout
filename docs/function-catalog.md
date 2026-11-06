@@ -799,3 +799,16 @@ The result excludes Node and node_modules; it does not prove atomicity, absence
 of concurrent/ancestor changes, execution-time integrity, installation readiness
 or scientific validity. Actual Windows reparse tests and product execution remain
 pending. No CLI/MCP/GUI endpoint is added; entry 008 remains unchecked.
+
+## Developer Python package check
+
+`uv run --no-sync python scripts/check_python_packages.py --out out/packages-first`
+requires a synced `--all-extras` checkout. `--out` is a new directory; existing
+paths are refused. Each of30 direct distributions is imported in a separate
+process with a90second timeout, headless Matplotlib/Quantum Metal settings,
+retained stdout/stderr and installed version. `report.json` records platform,
+Python, per-package exit codes and missing distribution mappings. Exit0 means
+metadata/import success only. Run `uv pip check` separately for dependency
+constraints. This is a developer script, not a product/MCP callable method.
+AI prompt: “Read each failed import log and distinguish installation, import,
+execution and numerical-validation evidence; do not infer solver readiness.”

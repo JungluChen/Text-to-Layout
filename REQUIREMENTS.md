@@ -670,3 +670,12 @@ The result excludes Node and node_modules; it does not prove atomicity, absence
 of concurrent/ancestor changes, execution-time integrity, installation readiness
 or scientific validity. Actual Windows reparse tests and product execution remain
 pending. No CLI/MCP/GUI endpoint is added; entry 008 remains unchecked.
+
+## Python dependency compatibility
+
+The declared interpreter range is Python >=3.11,<3.15, matching the upper bound
+of the audited Quantum Metal runtime. This range is metadata eligibility, not
+certification of every Python version. The existing CI matrix tests3.11/3.12;
+Python3.12 additionally installs every declared extra, checks dependency metadata
+and imports all30 direct distributions twice. Imports do not prove numerical
+accuracy, native solver availability or all100 candidate integrations.

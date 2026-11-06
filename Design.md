@@ -712,3 +712,10 @@ The result excludes Node and node_modules; it does not prove atomicity, absence
 of concurrent/ancestor changes, execution-time integrity, installation readiness
 or scientific validity. Actual Windows reparse tests and product execution remain
 pending. No CLI/MCP/GUI endpoint is added; entry 008 remains unchecked.
+
+## Package health evidence
+
+Package import reports are developer diagnostics, distinct from solver execution
+and scientific acceptance. Show the distribution/version, interpreter/platform
+and failed import log when presenting these reports in any future UI. The new
+Python package check has no GUI or MCP surface and supplies no screenshots.
