@@ -112,9 +112,31 @@ and matching-reference checks remain absent. Last observed memory peak was
 See [the diagnostic checkpoint](../progress/2026-10-19-221501.md). Do not repeat
 the unbounded workload or treat successful smoke as resonator validation.
 
-Latest Palace40294909083 on e974082: official smoke passed, reduced CPW step
+Historical Palace40294909083 on e974082: official smoke passed, reduced CPW step
 cancelled; job log unavailable twice and direct API404. Only pre-benchmark
 artifact retained, CSV/config hashes checked twice. Cause unknown; no full
 convergence/reference or merge approval. See docs/progress/2026-10-26-224026.md
 (repository-relative path). Next bounded diagnostics/earlier artifact retention;
 nightly40293610707 repeats the unresolved JTWPA band-index failure.
+
+
+## Current resume and execution checkpoint (2026-11-06)
+
+The newer [Palace run 41432800702](https://github.com/JungluChen/Text-to-Layout/actions/runs/41432800702)
+on `8de22b95514b0ca8eb6df15a0600ee04a316bf4e` ended with exit 143
+while assembling the third solve after refinement to 3,366,845 elements
+(4,044,674 ND unknowns). The last observer records a cgroup memory peak of
+15,847,993,344 bytes and zero OOM counters. These observations do not establish
+the termination cause. Final resource summary and convergence were not present
+in that observation. Do not use this run as a validated resonator frequency.
+
+The committed stage-resume path still rejects a completed base mesh when AMR
+has never started, because it requires future AMR outputs. A local unpublished
+repair has synthetic regression coverage, including refusal of partial state
+without rewriting evidence. It is not yet an operational solver guarantee.
+Preserve existing run directories; do not bypass the refusal by overwriting them.
+Native installation, official smoke and a separately retained bounded diagnostic
+with an unchanged repeat are required before adopting that repair. Full reduced
+convergence and reference comparison remain separate acceptance requirements.
+
+See [the audit and retained log](../progress/2026-11-06-155206.md).

@@ -35,3 +35,11 @@ For the 100 candidate integrations, use the generated
 already have exploratory code; it is not accepted until the listed provenance,
 execution, numerical and platform evidence is retained. The guidebook
 tracks real UI captures and paper-backed result walkthroughs separately.
+
+
+The macOS CI/release matrices now select the explicit `macos-15` arm64 label.
+GitHub retired `macos-14` on November 2, 2026; the cancelled jobs and unchanged
+retry are diagnosed in [the runner migration audit](../progress/2026-11-06-155206.md).
+This runner configuration change is not a release rehearsal, installed-app test
+or scientific acceptance. The gated release workflow still requires its existing
+version, trusted-publisher and platform checks before publication.
