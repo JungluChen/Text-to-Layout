@@ -1,5 +1,14 @@
 # To do list
 
+## Package compatibility checkpoint (2026-11-07)
+
+All-extras installation repaired with pinned Quantum Metal 0.9.0/gdstk 1.0.1;
+30 declared Python imports and the full local suite passed twice. Platform CI
+and external native solver acceptance remain pending. See
+[retained evidence](docs/progress/2026-11-07-034448.md). Implementation: `31fffe40433814669a0e635b32ace5fb0f42902b`.
+Next: inspect exact-SHA all-extras matrix artifacts before claiming portability.
+
+
 **Document class: MANUAL_DOCUMENTATION.** This is the ordered queue for the
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
