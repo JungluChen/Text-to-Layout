@@ -140,3 +140,23 @@ with an unchanged repeat are required before adopting that repair. Full reduced
 convergence and reference comparison remain separate acceptance requirements.
 
 See [the audit and retained log](../progress/2026-11-06-155206.md).
+
+
+## Diagnosing the retained openEMS invalid result
+
+The historical showcase05 port traces reveal an earlier failure than the
+Touchstone NaNs: each requested six-micrometre voltage integration line snapped
+to a single mesh point. All four retained voltage/current traces contain364
+zero-valued samples. The solver also reports unused excitation geometry and a
+PML-to-PEC fallback. Both independent grid inspection and solver headers agree;
+see [the repeated artifact audit](../progress/2026-11-06-222005.md).
+
+Current source already adds mesh lines through the requested port endpoints.
+Rewriting the generator again is not justified by the historical packet alone.
+Prepared drivers are not proof that the solver rasterizes the ports correctly.
+On a configured host, use a fresh directory, validate a simple line first, then
+retain the actual snapped coordinates, time traces and incident/reflected
+spectra for the resonator. Reject collapsed ports, unusable incident energy,
+non-finite S values and unexpected boundary substitution. Establish mesh/time/
+domain sensitivity and reference criteria before treating a result as accurate.
+The retained failed packet remains SIMULATION_INVALID; no new result is claimed.
