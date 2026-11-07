@@ -183,11 +183,14 @@ def size_parameters(
         from textlayout.optimization.cpw import size_cpw
 
         parameters = size_cpw(
-            intent.target.get("impedance_ohm", 50.0), technology.substrate_epsilon_r,
-            min_width_um=max(technology.min_width_for("M1"),
-                             intent.constraints.get("min_width_um", 0.0)),
-            min_gap_um=max(technology.min_spacing_for("M1"),
-                           intent.constraints.get("min_gap_um", 0.0)),
+            intent.target.get("impedance_ohm", 50.0),
+            technology.substrate_epsilon_r,
+            min_width_um=max(
+                technology.min_width_for("M1"), intent.constraints.get("min_width_um", 0.0)
+            ),
+            min_gap_um=max(
+                technology.min_spacing_for("M1"), intent.constraints.get("min_gap_um", 0.0)
+            ),
         )
         if "length_um" in intent.parameters:
             parameters["length_um"] = float(intent.parameters["length_um"])
@@ -210,10 +213,12 @@ def size_parameters(
             frequency, F.cpw_eps_eff(technology.substrate_epsilon_r)
         )
         parameters = {
-            "center_width_um": max(10.0, technology.min_width_for("M1"),
-                                   intent.constraints.get("min_width_um", 0.0)),
-            "gap_um": max(6.0, technology.min_spacing_for("M1"),
-                          intent.constraints.get("min_gap_um", 0.0)),
+            "center_width_um": max(
+                10.0, technology.min_width_for("M1"), intent.constraints.get("min_width_um", 0.0)
+            ),
+            "gap_um": max(
+                6.0, technology.min_spacing_for("M1"), intent.constraints.get("min_gap_um", 0.0)
+            ),
             "length_um": round(length, 4),
             "coupling_gap_um": 4.0,
         }

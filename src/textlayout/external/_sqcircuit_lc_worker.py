@@ -65,14 +65,18 @@ def execute(input_path: Path, output_path: Path) -> None:
     np = importlib.import_module("numpy")
     sq.set_unit_freq("GHz")
     rows = []
-    c, inductance, branch = (request[k] for k in (
-        "capacitance_f", "inductance_h", "branch_capacitance_f"
-    ))
+    c, inductance, branch = (
+        request[k] for k in ("capacitance_f", "inductance_h", "branch_capacitance_f")
+    )
     for size in plan["truncations"]:
-        circuit = sq.Circuit({(0, 1): [
-            sq.Capacitor(c, "F"),
-            sq.Inductor(inductance, "H", cap=sq.Capacitor(branch, "F")),
-        ]})
+        circuit = sq.Circuit(
+            {
+                (0, 1): [
+                    sq.Capacitor(c, "F"),
+                    sq.Inductor(inductance, "H", cap=sq.Capacitor(branch, "F")),
+                ]
+            }
+        )
         circuit.set_trunc_nums([size])
         matrix = circuit.hamiltonian().full()
         if matrix.shape != (size, size) or not np.isfinite(matrix).all():
@@ -81,15 +85,17 @@ def execute(input_path: Path, output_path: Path) -> None:
         values, vectors = values[:6], vectors[:, :6]
         if not np.isfinite(values).all() or not np.isfinite(vectors).all():
             raise ValueError("Nonfinite eigenpair data")
-        rows.append({
-            "truncation": size,
-            "resolved_capacitance_f": float(circuit.C[0, 0]),
-            "hamiltonian_rad_s_real": matrix.real.tolist(),
-            "hamiltonian_rad_s_imag": matrix.imag.tolist(),
-            "eigenvalues_rad_s": values.tolist(),
-            "eigenvectors_real": vectors.real.tolist(),
-            "eigenvectors_imag": vectors.imag.tolist(),
-        })
+        rows.append(
+            {
+                "truncation": size,
+                "resolved_capacitance_f": float(circuit.C[0, 0]),
+                "hamiltonian_rad_s_real": matrix.real.tolist(),
+                "hamiltonian_rad_s_imag": matrix.imag.tolist(),
+                "eigenvalues_rad_s": values.tolist(),
+                "eigenvectors_real": vectors.real.tolist(),
+                "eigenvectors_imag": vectors.imag.tolist(),
+            }
+        )
     if sq.__file__ is None:
         raise ValueError("SQcircuit source path unavailable")
     source = Path(sq.__file__).parent
@@ -101,11 +107,14 @@ def execute(input_path: Path, output_path: Path) -> None:
         "platform": platform.platform(),
         "python_version": platform.python_version(),
         "python_executable": sys.executable,
-        "versions": {name: importlib.metadata.version(name) for name in (
-            "SQcircuit", "numpy", "scipy", "qutip", "torch", "sympy"
-        )},
-        "source_sha256": {name: hashlib.sha256((source / name).read_bytes()).hexdigest()
-                          for name in ("circuit.py", "elements.py", "units.py")},
+        "versions": {
+            name: importlib.metadata.version(name)
+            for name in ("SQcircuit", "numpy", "scipy", "qutip", "torch", "sympy")
+        },
+        "source_sha256": {
+            name: hashlib.sha256((source / name).read_bytes()).hexdigest()
+            for name in ("circuit.py", "elements.py", "units.py")
+        },
         "rows": rows,
         "numerical_acceptance": "NOT_EVALUATED",
     }

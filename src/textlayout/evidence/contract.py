@@ -89,7 +89,11 @@ SOLVER_BACKED_STATUSES = frozenset(
 
 #: Statuses asserting the value agreed with its target inside tolerance.
 VERIFIED_STATUSES = frozenset(
-    {EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED, EvidenceStatus.MEASUREMENT_CORRELATED}
+    {
+        EvidenceStatus.PHYSICS_VERIFIED,
+        EvidenceStatus.REFERENCE_AGREED,
+        EvidenceStatus.MEASUREMENT_CORRELATED,
+    }
 )
 
 _SOLVER_OUTPUT_STATUSES = SOLVER_BACKED_STATUSES
@@ -256,10 +260,14 @@ class PublicReferenceComparison(BaseModel):
     @model_validator(mode="after")
     def check_provenance(self) -> PublicReferenceComparison:
         if self.published_value == 0:
-            raise EvidenceError("reference relative-error comparison requires a nonzero published value")
-        for name, digest in ((self.source_file, self.source_sha256),
-                             (self.execution_output, self.execution_sha256),
-                             (self.tolerance_source, self.tolerance_source_sha256)):
+            raise EvidenceError(
+                "reference relative-error comparison requires a nonzero published value"
+            )
+        for name, digest in (
+            (self.source_file, self.source_sha256),
+            (self.execution_output, self.execution_sha256),
+            (self.tolerance_source, self.tolerance_source_sha256),
+        ):
             path = Path(name)
             if not path.is_file() or not path.stat().st_size:
                 raise EvidenceError(f"missing reference provenance file: {name}")
@@ -268,15 +276,20 @@ class PublicReferenceComparison(BaseModel):
         # The numerical tolerance and rationale must occur in the retained source
         # declaration, not merely in the result written after the solve.
         import json
+
         declaration = json.loads(Path(self.tolerance_source).read_text())
-        if (declaration.get("tolerance_percent") != self.tolerance_percent or
-                declaration.get("justification") != self.tolerance_justification):
+        if (
+            declaration.get("tolerance_percent") != self.tolerance_percent
+            or declaration.get("justification") != self.tolerance_justification
+        ):
             raise EvidenceError("reference tolerance disagrees with its source declaration")
         return self
 
     def require_agreement(self, value: float | None, unit: str | None) -> None:
         if value is None or not math.isfinite(value) or unit != self.unit:
-            raise EvidenceError("reference comparison requires a finite library value in matching units")
+            raise EvidenceError(
+                "reference comparison requires a finite library value in matching units"
+            )
         error = abs(value - self.published_value) / abs(self.published_value) * 100
         if error > self.tolerance_percent:
             raise EvidenceError(f"reference mismatch: {error}% exceeds {self.tolerance_percent}%")
@@ -390,7 +403,9 @@ class QuantityEvidence(BaseModel):
                 )
         if status is EvidenceStatus.REFERENCE_AGREED:
             if self.public_reference is None:
-                raise EvidenceError("REFERENCE_AGREED requires pinned public reference and library evidence")
+                raise EvidenceError(
+                    "REFERENCE_AGREED requires pinned public reference and library evidence"
+                )
             self.public_reference.require_agreement(self.extracted_value, self.extracted_unit)
             if self.public_reference.execution_output not in self.output_files:
                 raise EvidenceError("reference execution output must be part of solver evidence")

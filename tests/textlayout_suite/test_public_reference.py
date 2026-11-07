@@ -1,4 +1,5 @@
 """Reference promotion rejects missing, modified and mismatched evidence."""
+
 import hashlib
 import json
 from pathlib import Path
@@ -16,25 +17,52 @@ def proof(tmp_path):
     output = tmp_path / "execution.json"
     output.write_text('{"value": 10.01}')
     declaration = tmp_path / "tolerance.json"
-    declaration.write_text(json.dumps({"tolerance_percent": 1.0,
-        "justification": "Synthetic contract test only; not a production numerical tolerance"}))
+    declaration.write_text(
+        json.dumps(
+            {
+                "tolerance_percent": 1.0,
+                "justification": "Synthetic contract test only; not a production numerical tolerance",
+            }
+        )
+    )
+
     def digest(path):
         return hashlib.sha256(path.read_bytes()).hexdigest()
-    return dict(source_url="https://example.org/pinned", source_revision="a"*40,
-        source_file=str(source), source_sha256=digest(source), source_selection="value",
-        published_value=10, unit="GHz", library="synthetic-test", library_version="1",
-        execution_output=str(output), execution_sha256=digest(output),
+
+    return dict(
+        source_url="https://example.org/pinned",
+        source_revision="a" * 40,
+        source_file=str(source),
+        source_sha256=digest(source),
+        source_selection="value",
+        published_value=10,
+        unit="GHz",
+        library="synthetic-test",
+        library_version="1",
+        execution_output=str(output),
+        execution_sha256=digest(output),
         tolerance_percent=1.0,
         tolerance_justification="Synthetic contract test only; not a production numerical tolerance",
-        tolerance_source=str(declaration), tolerance_source_sha256=digest(declaration))
+        tolerance_source=str(declaration),
+        tolerance_source_sha256=digest(declaration),
+    )
 
 
 def record(data, **changes):
-    kwargs = dict(quantity="frequency", target_value=10, target_unit="GHz",
-        extracted_value=10.01, extracted_unit="GHz", error_percent=0.1,
-        tolerance_percent=1, status=EvidenceStatus.REFERENCE_AGREED,
-        solver="synthetic-test", parser="json", output_files=[data["execution_output"]],
-        public_reference=data)
+    kwargs = dict(
+        quantity="frequency",
+        target_value=10,
+        target_unit="GHz",
+        extracted_value=10.01,
+        extracted_unit="GHz",
+        error_percent=0.1,
+        tolerance_percent=1,
+        status=EvidenceStatus.REFERENCE_AGREED,
+        solver="synthetic-test",
+        parser="json",
+        output_files=[data["execution_output"]],
+        public_reference=data,
+    )
     kwargs.update(changes)
     return QuantityEvidence(**kwargs)
 
@@ -84,10 +112,18 @@ def test_reference_database_is_utf8_with_windows_default_codec(tmp_path, monkeyp
     from textlayout.verification import squadds_reference as reference
 
     database = tmp_path / "database.json"
-    database.write_text(json.dumps([{
-        "contrib_info": {"name": "WM1", "note": "Synthetic parser fixture: \u201d"},
-        "measured_results": [{"H_params": [{f"qubit_{i}": {} for i in range(1, 7)}]}],
-    }], ensure_ascii=False), encoding="utf-8")
+    database.write_text(
+        json.dumps(
+            [
+                {
+                    "contrib_info": {"name": "WM1", "note": "Synthetic parser fixture: \u201d"},
+                    "measured_results": [{"H_params": [{f"qubit_{i}": {} for i in range(1, 7)}]}],
+                }
+            ],
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
     original = Path.read_text
 
     def windows_default(path, encoding=None, errors=None):

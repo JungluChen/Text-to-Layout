@@ -812,3 +812,24 @@ metadata/import success only. Run `uv pip check` separately for dependency
 constraints. This is a developer script, not a product/MCP callable method.
 AI prompt: “Read each failed import log and distinguish installation, import,
 execution and numerical-validation evidence; do not infer solver readiness.”
+
+## Research container execution
+
+`docker compose -f compose.research.yaml run --rm research <command>` runs the
+existing CLI in linux/amd64 by default. Requires a running Docker engine and
+built image; commands can write persistent output/tool/cache volumes. Override
+TEXTLAYOUT_PLATFORM only with a separately tested image tag. No new MCP method
+is introduced. See [Apple Silicon guide](guidebook/docker-apple-silicon.md).
+
+## Official Palace smoke retention and comparison
+
+Developer scripts: `scripts/external/run_palace_smoke.py --out <fresh-directory>`
+runs the existing pinned official example with verified Palace installation.
+Writes solver inputs/outputs/logs and canonical evidence; refuses existing explicit
+destinations. The default destination remains compatible with the legacy workflow.
+`check_palace_smoke_repeat.py --first <dir> --repeat <dir> --out <new-json>`
+rehashes retained files and reparses eigenvalues, checks matching binary/input
+identity and mode indices, and requires relative drift strictly below 1e-6.
+Returns nonzero for invalid evidence or excessive drift. Writes only the new
+comparison JSON; no solver invocation, MCP tool or convergence promotion.
+Scientific execution evidence is pending.

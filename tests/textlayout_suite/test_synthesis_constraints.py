@@ -34,7 +34,9 @@ def test_spiral_exports_one_connected_full_width_conductor(tmp_path):
 
     result = build_from_text_workflow().run(
         "Create a 1 nH spiral inductor with 2 turns, 4 um trace width and 2 um spacing",
-        tmp_path, execute_solver=False)
+        tmp_path,
+        execute_solver=False,
+    )
     assert result.ok
     readback = json.loads((tmp_path / "klayout_readback.json").read_text())
     assert readback["status"] == "pass"
@@ -48,12 +50,12 @@ def test_spiral_exports_one_connected_full_width_conductor(tmp_path):
 
 def test_independent_readback_failure_reaches_final_verdict(tmp_path, monkeypatch):
     def fail_readback(path, *_args):
-        return ReadbackResult(str(path), checks=[ReadbackCheck(
-            "drawn_min_width", False, "Injected sub-rule feature")])
+        return ReadbackResult(
+            str(path), checks=[ReadbackCheck("drawn_min_width", False, "Injected sub-rule feature")]
+        )
 
     monkeypatch.setattr("textlayout.workflow.nodes.read_back_gds", fail_readback)
-    result = build_from_text_workflow().run("Create a 50 ohm CPW", tmp_path,
-                                            execute_solver=False)
+    result = build_from_text_workflow().run("Create a 50 ohm CPW", tmp_path, execute_solver=False)
     assert not result.ok
     assert "Injected sub-rule feature" in result.generate.report.errors
     assert json.loads((tmp_path / "verification.json").read_text())["status"] == "fail"

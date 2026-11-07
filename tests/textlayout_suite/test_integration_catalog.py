@@ -28,5 +28,13 @@ def test_doctor_reports_candidates_without_implying_execution(tmp_path: Path) ->
     assert all(not entry["execution_verified"] for entry in candidates)
     assert candidates[10]["probe_status"] == report["external_solvers"]["Palace"]["status"]
     assert candidates[10]["probe_scope"] == "solver identity/version probe"
-    assert candidates[27]["probe_status"] == "NOT_PROBED"
-    assert candidates[42]["probe_status"] == "NOT_PROBED"  # grouped SPICE check is ambiguous
+    # Targets without a deterministic install surface are never guessed.
+    assert candidates[26]["probe_status"] == "NOT_PROBED"  # FilterSolutions-Clone
+    assert candidates[81]["probe_status"] == "NOT_PROBED"  # CST bridge needs a licence
+    # WRspice has its own catalog probe now; the grouped "WRspice / ngspice"
+    # doctor check is no longer borrowed for it.
+    assert candidates[42]["probe_status"] in {"FOUND", "MISSING", "BROKEN"}
+    assert candidates[42]["probe_scope"].startswith("catalog executable probe")
+    summary = report["integration_inventory"]
+    assert summary["total"] == 100
+    assert sum(summary["by_status"].values()) == 100

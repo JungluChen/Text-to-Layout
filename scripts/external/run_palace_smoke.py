@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import shutil
@@ -43,7 +44,7 @@ from textlayout.evidence.contract import EvidenceStatus  # noqa: E402
 from textlayout.solvers.palace.parser import parse_domain_energy, parse_eigenmodes  # noqa: E402
 
 
-def _prepare_inputs() -> tuple[Path, Path, dict[str, object]]:
+def _prepare_inputs(smoke_root: Path = SMOKE_ROOT) -> tuple[Path, Path, dict[str, object]]:
     manifest = read_json(SMOKE_MANIFEST)
     if manifest is None:
         raise RuntimeError(f"invalid smoke manifest: {SMOKE_MANIFEST}")
@@ -54,35 +55,49 @@ def _prepare_inputs() -> tuple[Path, Path, dict[str, object]]:
     config_source = SMOKE_MANIFEST.parent / str(config_info["path"])
     if sha256_file(config_source) != config_info["sha256"]:
         raise RuntimeError("committed official Palace config hash mismatch")
-    config = SMOKE_ROOT / "cavity2d.json"
-    mesh = SMOKE_ROOT / "mesh" / "cavity2d.msh"
-    SMOKE_ROOT.mkdir(parents=True, exist_ok=True)
+    config = smoke_root / "cavity2d.json"
+    mesh = smoke_root / "mesh" / "cavity2d.msh"
+    smoke_root.mkdir(parents=True, exist_ok=True)
     shutil.copy2(config_source, config)
     download(str(mesh_info["upstream_url"]), mesh, str(mesh_info["sha256"]))
     return config, mesh, manifest
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--out", type=Path, help="Fresh evidence directory; never overwrite a prior run"
+    )
+    args = parser.parse_args(argv)
+    smoke_root = args.out.resolve() if args.out is not None else SMOKE_ROOT
+    # Explicit run directories are immutable inputs to later repeat comparisons.
+    # Keep the legacy default for existing installer/checker workflow consumers.
+    if args.out is not None:
+        try:
+            smoke_root.mkdir(parents=True, exist_ok=False)
+        except FileExistsError:
+            print(f"Refusing to overwrite smoke evidence: {smoke_root}", file=sys.stderr)
+            return 2
     record = palace_install_identity()
     if record is None:
         print("Palace 0.17.0 is not installed; run install_palace.py", file=sys.stderr)
         return 1
     try:
-        config, mesh, manifest = _prepare_inputs()
-        write_json(SMOKE_ROOT / "environment.json", capture_environment())
-        output = SMOKE_ROOT / "postpro" / "eigenmode"
-        if output.is_dir() and SMOKE_ROOT.resolve() in output.resolve().parents:
+        config, mesh, manifest = _prepare_inputs(smoke_root)
+        write_json(smoke_root / "environment.json", capture_environment())
+        output = smoke_root / "postpro" / "eigenmode"
+        if output.is_dir() and smoke_root.resolve() in output.resolve().parents:
             shutil.rmtree(output)
         executable = str(record["palace_executable"]).removeprefix("wsl:")
         command = shell_command(
-            f"cd {shlex_quote(windows_to_wsl(SMOKE_ROOT))} && "
+            f"cd {shlex_quote(windows_to_wsl(smoke_root))} && "
             f"{shlex_quote(executable)} -np 2 cavity2d.json"
         )
         write_json(
-            SMOKE_ROOT / "command.json",
+            smoke_root / "command.json",
             {
                 "command": command,
-                "cwd": str(SMOKE_ROOT),
+                "cwd": str(smoke_root),
                 "palace_version": PALACE_VERSION,
                 "palace_commit": PALACE_COMMIT,
                 "input_file_hashes": {
@@ -103,8 +118,8 @@ def main() -> int:
             check=False,
         )
         runtime = time.perf_counter() - started
-        stdout_path = SMOKE_ROOT / "palace.stdout.txt"
-        stderr_path = SMOKE_ROOT / "palace.stderr.txt"
+        stdout_path = smoke_root / "palace.stdout.txt"
+        stderr_path = smoke_root / "palace.stderr.txt"
         stdout_path.write_text(completed.stdout, encoding="utf-8")
         stderr_path.write_text(completed.stderr, encoding="utf-8")
         if completed.returncode != 0:
@@ -117,10 +132,12 @@ def main() -> int:
             not math.isfinite(mode.frequency_ghz) or mode.frequency_ghz <= 0 for mode in modes
         ):
             raise RuntimeError("Palace smoke eigenfrequencies are not finite and positive")
-        if not energies or any(not math.isfinite(value) or value <= 0 for value in energies.values()):
+        if not energies or any(
+            not math.isfinite(value) or value <= 0 for value in energies.values()
+        ):
             raise RuntimeError("Palace smoke domain energies are not finite and positive")
         outputs = {
-            str(path.relative_to(SMOKE_ROOT)).replace("\\", "/"): sha256_file(path)
+            str(path.relative_to(smoke_root)).replace("\\", "/"): sha256_file(path)
             for path in (eig, domain)
         }
         inputs = {
@@ -144,7 +161,7 @@ def main() -> int:
             "output_file_hashes": outputs,
             "completed_at": timestamp(),
         }
-        write_json(SMOKE_ROOT / "result.json", result)
+        write_json(smoke_root / "result.json", result)
         extraction = {"parser": "textlayout.solvers.palace.parser.parse_eigenmodes", "mode": 1}
         extraction_hash = sha256_json(extraction)
         evidence_id = compute_evidence_id(
@@ -183,7 +200,7 @@ def main() -> int:
             timestamp=str(result["completed_at"]),
             warnings=["Installation smoke test is solver-backed but is not physics verification."],
         )
-        write_canonical(evidence, SMOKE_ROOT / "canonical_evidence.json")
+        write_canonical(evidence, smoke_root / "canonical_evidence.json")
         print(json.dumps(result, indent=2))
         return 0
     except Exception as exc:  # noqa: BLE001
@@ -194,7 +211,7 @@ def main() -> int:
             "error": str(exc),
             "completed_at": timestamp(),
         }
-        write_json(SMOKE_ROOT / "result.json", failure)
+        write_json(smoke_root / "result.json", failure)
         print(json.dumps(failure, indent=2), file=sys.stderr)
         return 1
 

@@ -211,7 +211,11 @@ class TestIllegalPromotionsNamedExplicitly:
 
     @pytest.mark.parametrize(
         "old",
-        [s for s in ALL_STATUSES if s not in (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED)],
+        [
+            s
+            for s in ALL_STATUSES
+            if s not in (EvidenceStatus.PHYSICS_VERIFIED, EvidenceStatus.REFERENCE_AGREED)
+        ],
     )
     def test_only_a_verified_claim_may_be_measurement_correlated(self, old: EvidenceStatus) -> None:
         """Agreement with a fabricated chip cannot rescue an unconverged model."""

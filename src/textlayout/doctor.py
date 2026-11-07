@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from textlayout.integrations import load_targets
+from textlayout.integrations.inventory import ToolProbe, probe_inventory, summarize_inventory
 from textlayout.platform_support import PlatformSupportState, SolverEvidenceStage
 
 DOCTOR_SCHEMA = "textlayout.doctor.v2"
@@ -83,6 +84,9 @@ class DoctorReport:
     checks: list[DoctorCheck] = field(default_factory=list)
     system: dict[str, Any] = field(default_factory=dict)
     physics_capabilities: dict[str, str] = field(default_factory=dict)
+    #: Lightweight FOUND/MISSING/BROKEN/NOT_PROBED probes for all 100 catalog
+    #: targets. Locating a module or binary is not execution evidence.
+    tool_probes: list[ToolProbe] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -119,8 +123,10 @@ class DoctorReport:
             "wsl": self.system["wsl"],
             "core_dependencies": core,
             "external_solvers": external,
-            "integration_targets": _integration_target_inventory(self.checks),
+            "integration_targets": _integration_target_inventory(self.checks, self.tool_probes),
+            "integration_inventory": summarize_inventory(self.tool_probes),
             "capabilities": _capability_report(self.checks, core_ok=self.ok),
+            "audit_table": build_unified_audit_table(self),
             # Compatibility views retained for existing consumers.
             "system": self.system,
             "physics_capabilities": self.physics_capabilities,
@@ -158,13 +164,29 @@ _TARGET_PROBES: dict[int, tuple[str, str]] = {
 }
 
 
-def _integration_target_inventory(checks: list[DoctorCheck]) -> list[dict[str, Any]]:
-    """Attach existing probe evidence to candidates without inferring support."""
+def _integration_target_inventory(
+    checks: list[DoctorCheck], probes: list[ToolProbe] | None = None
+) -> list[dict[str, Any]]:
+    """Attach probe evidence to candidates without inferring support.
+
+    A dedicated doctor check (which launches the executable) wins over the
+    lightweight catalog probe (which only locates a module spec or binary).
+    """
     by_name = {check.name: check for check in checks}
+    by_id = {probe.target_id: probe for probe in probes or ()}
     inventory: list[dict[str, Any]] = []
     for target in load_targets():
         probe = _TARGET_PROBES.get(target.id)
         check = by_name.get(probe[0]) if probe else None
+        located = by_id.get(target.id)
+        if check is not None and probe:
+            status, scope = check.status, probe[1]
+            path, version, sha = check.path, check.version, check.executable_sha256
+        elif located is not None:
+            status, scope = located.status, f"catalog {located.kind} probe: {located.detail}"
+            path, version, sha = located.path, located.version, None
+        else:
+            status, scope, path, version, sha = "NOT_PROBED", None, None, None, None
         inventory.append(
             {
                 "id": target.id,
@@ -173,11 +195,11 @@ def _integration_target_inventory(checks: list[DoctorCheck]) -> list[dict[str, A
                 "source_hint": target.source_hint,
                 "source_verified": False,
                 "license_verified": False,
-                "probe_status": check.status if check is not None else "NOT_PROBED",
-                "probe_scope": probe[1] if check is not None and probe else None,
-                "probe_path": check.path if check is not None else None,
-                "probe_version": check.version if check is not None else None,
-                "probe_sha256": check.executable_sha256 if check is not None else None,
+                "probe_status": status,
+                "probe_scope": scope,
+                "probe_path": path,
+                "probe_version": version,
+                "probe_sha256": sha,
                 "execution_verified": False,
             }
         )
@@ -706,8 +728,14 @@ def run_doctor(
     strict: bool = False,
     strict_em: bool = False,
     strict_fullchip: bool = False,
+    probe_catalog: bool = True,
 ) -> DoctorReport:
-    """Run every environment check and return the structured report."""
+    """Run every environment check and return the structured report.
+
+    ``probe_catalog`` additionally locates (without importing or executing)
+    every target of the 100-tool integration catalog. Catalog probes are
+    informational and never affect :attr:`DoctorReport.ok`.
+    """
     report = DoctorReport(system=_system_report())
     report.checks.append(_check_python())
     for name, module in _REQUIRED_IMPORTS:
@@ -718,12 +746,71 @@ def run_doctor(
         _optional_solver_checks(strict=strict, strict_em=strict_em, strict_fullchip=strict_fullchip)
     )
     report.physics_capabilities = _physics_capabilities(report.checks)
+    if probe_catalog:
+        report.tool_probes = probe_inventory(import_modules=False)
     return report
+
+
+def build_unified_audit_table(report: DoctorReport) -> list[dict[str, str]]:
+    """Build unified audit table listing INSTALLED, EXECUTABLE, and VERIFIED statuses."""
+    by_name = {c.name: c for c in report.checks}
+    tools = [
+        ("Python", "Python", True),
+        ("KLayout", "klayout.db", True),
+        ("Gmsh", "Gmsh", False),
+        ("Palace", "Palace", False),
+        ("FasterCap", "FasterCap/FastCap", False),
+        ("FastHenry2", "FastHenry/FastHenry2", False),
+        ("JoSIM", "JoSIM", False),
+        ("openEMS", "openEMS", False),
+        ("scqubits", "scqubits", False),
+        ("scikit-rf", "scikit-rf", False),
+        ("gdsfactory", "gdsfactory", True),
+        ("Octave", "Octave", False),
+    ]
+    table: list[dict[str, str]] = []
+    for tool_name, check_name, is_core in tools:
+        check = by_name.get(check_name)
+        if check is not None:
+            installed = (
+                "YES" if (check.status in {FOUND, CONTAINER_AVAILABLE} or check.path) else "NO"
+            )
+            executable = "YES" if check.status in {FOUND, CONTAINER_AVAILABLE} else "NO"
+            verified = (
+                "YES"
+                if (check.status == FOUND and (check.smoke_test == "PASSED" or is_core))
+                else ("PARTIAL" if check.status in {FOUND, CONTAINER_AVAILABLE} else "NO")
+            )
+            details = check.version or (check.detail if check.status == FOUND else "N/A")
+        else:
+            probe = next(
+                (p for p in report.tool_probes if p.name.lower() == tool_name.lower()), None
+            )
+            if probe is not None:
+                installed = "YES" if probe.status == FOUND else "NO"
+                executable = "YES" if probe.status == FOUND else "NO"
+                verified = "NO"
+                details = probe.version or probe.detail
+            else:
+                installed = "NO"
+                executable = "NO"
+                verified = "NO"
+                details = "Not detected"
+        table.append(
+            {
+                "tool": tool_name,
+                "installed": installed,
+                "executable": executable,
+                "verified": verified,
+                "details": details,
+            }
+        )
+    return table
 
 
 def render_text(report: DoctorReport) -> str:
     structured = report.to_dict()
-    lines = ["TEXT-TO-LAYOUT DOCTOR 2.0", "", "[Host]"]
+    lines = ["TEXT-TO-LAYOUT DOCTOR 3.0", "", "[Host]"]
     lines.extend(
         (
             f"OS: {report.system['os']} {report.system['os_release']}",
@@ -755,6 +842,40 @@ def render_text(report: DoctorReport) -> str:
     width = max(len(name) for name in structured["capabilities"])
     for name, record in structured["capabilities"].items():
         lines.append(f"{name.ljust(width)}  {record['state']}")
+
+    audit_table = build_unified_audit_table(report)
+    lines.extend(
+        (
+            "",
+            "[Unified Tool Audit Table: Doctor 3.0]",
+            f"+{'-' * 18}+{'-' * 13}+{'-' * 14}+{'-' * 12}+{'-' * 25}+",
+            f"| {'Tool'.ljust(16)} | {'INSTALLED'.ljust(11)} | {'EXECUTABLE'.ljust(12)} | {'VERIFIED'.ljust(10)} | {'Details'.ljust(23)} |",
+            f"+{'-' * 18}+{'-' * 13}+{'-' * 14}+{'-' * 12}+{'-' * 25}+",
+        )
+    )
+    for row in audit_table:
+        tool_str = row["tool"][:16].ljust(16)
+        inst_str = row["installed"][:11].ljust(11)
+        exec_str = row["executable"][:12].ljust(12)
+        ver_str = row["verified"][:10].ljust(10)
+        det_str = row["details"][:23].ljust(23)
+        lines.append(f"| {tool_str} | {inst_str} | {exec_str} | {ver_str} | {det_str} |")
+    lines.append(f"+{'-' * 18}+{'-' * 13}+{'-' * 14}+{'-' * 12}+{'-' * 25}+")
+
+    if report.tool_probes:
+        summary = structured["integration_inventory"]
+        counts = summary["by_status"]
+        lines.extend(
+            (
+                "",
+                "[Integration catalog: 100 targets, located only -- not execution evidence]",
+                f"FOUND={counts['FOUND']} MISSING={counts['MISSING']} "
+                f"BROKEN={counts['BROKEN']} NOT_PROBED={counts['NOT_PROBED']}",
+            )
+        )
+        for probe in report.tool_probes:
+            if probe.status in {FOUND, BROKEN}:
+                lines.append(f"[{probe.status}] #{probe.target_id} {probe.name}: {probe.detail}")
     lines.append("")
     lines.append(
         "Environment OK." if report.ok else "Environment has failures; see [FAIL] lines above."

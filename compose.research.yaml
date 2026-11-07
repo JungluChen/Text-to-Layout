@@ -1,0 +1,26 @@
+name: textlayout-research
+services:
+  research:
+    # Apple Silicon host; x86-64 Linux userspace for consistent solver ABI.
+    platform: ${TEXTLAYOUT_PLATFORM:-linux/amd64}
+    image: textlayout/research:${TEXTLAYOUT_IMAGE_TAG:-local-amd64}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.research
+      args:
+        SOURCE_REVISION: ${SOURCE_REVISION:-DEVELOPMENT_UNSET}
+    init: true
+    working_dir: /workspace
+    environment:
+      OMP_NUM_THREADS: ${TEXTLAYOUT_THREADS:-2}
+      OPENBLAS_NUM_THREADS: ${TEXTLAYOUT_THREADS:-2}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - research-output:/workspace/out
+      - research-tools:/workspace/.tools
+      - research-cache:/home/appuser/.cache
+volumes:
+  research-output:
+  research-tools:
+  research-cache:

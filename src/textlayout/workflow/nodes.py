@@ -173,25 +173,42 @@ class PromptPipeline:
         result = _required(state.generate, "generate result")
         out = Path(state.output_dir)
         readback_ok = state.readback.passed if state.readback is not None else False
-        failures = ([c.detail or c.name for c in state.readback.checks if not c.passed]
-                    if state.readback is not None else ["GDS readback is missing"])
+        failures = (
+            [c.detail or c.name for c in state.readback.checks if not c.passed]
+            if state.readback is not None
+            else ["GDS readback is missing"]
+        )
         checks = [c for c in result.report.checks if c.name != "independent_gds_readback"]
-        checks.append(Check("independent_gds_readback",
-                            CheckStatus.PASS if readback_ok else CheckStatus.FAIL,
-                            "; ".join(failures)))
+        checks.append(
+            Check(
+                "independent_gds_readback",
+                CheckStatus.PASS if readback_ok else CheckStatus.FAIL,
+                "; ".join(failures),
+            )
+        )
         intent = _required(state.intent, "parsed intent")
         bbox = result.geometry.bbox() if not result.geometry.is_empty else None
-        for name, dimension in (("max_bbox_width_um", bbox.width if bbox else None),
-                                ("max_bbox_height_um", bbox.height if bbox else None)):
+        for name, dimension in (
+            ("max_bbox_width_um", bbox.width if bbox else None),
+            ("max_bbox_height_um", bbox.height if bbox else None),
+        ):
             limit = intent.constraints.get(name)
             if limit is not None:
                 fits = dimension is not None and dimension <= limit
-                checks.append(Check(name, CheckStatus.PASS if fits else CheckStatus.FAIL,
-                                    "" if fits else
-                                    f"{name}: generated extent {dimension!r} um; limit {limit:g} um",
-                                    value=dimension, limit=limit))
-        result = replace(result, report=VerificationReport.from_checks(
-            result.report.component, checks))
+                checks.append(
+                    Check(
+                        name,
+                        CheckStatus.PASS if fits else CheckStatus.FAIL,
+                        ""
+                        if fits
+                        else f"{name}: generated extent {dimension!r} um; limit {limit:g} um",
+                        value=dimension,
+                        limit=limit,
+                    )
+                )
+        result = replace(
+            result, report=VerificationReport.from_checks(result.report.component, checks)
+        )
         verification = result.report.to_dict()
         if state.readback is not None:
             verification["klayout_readback"] = state.readback.to_dict()

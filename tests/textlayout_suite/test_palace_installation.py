@@ -180,15 +180,22 @@ def test_native_record_does_not_override_caller_choice(native_discovery, monkeyp
     if override == "environment":
         monkeypatch.setenv("TEXTLAYOUT_PALACE", str(chosen))
     detected = capability.detect_palace(
-        explicit=str(chosen) if override == "explicit" else None, probe_version=False)
+        explicit=str(chosen) if override == "explicit" else None, probe_version=False
+    )
     assert detected.executable == str(chosen)
 
 
-@pytest.mark.parametrize("record_text", [
-    "[]", "null", "{broken", '{"palace_executable": 42}',
-    '{"palace_executable": "/missing/spack/palace"}',
-    '{"palace_executable": "relative/palace"}',
-])
+@pytest.mark.parametrize(
+    "record_text",
+    [
+        "[]",
+        "null",
+        "{broken",
+        '{"palace_executable": 42}',
+        '{"palace_executable": "/missing/spack/palace"}',
+        '{"palace_executable": "relative/palace"}',
+    ],
+)
 def test_unusable_native_record_keeps_normal_discovery(native_discovery, monkeypatch, record_text):
     capability, record, executable = native_discovery
     record.write_text(record_text, encoding="utf-8")

@@ -135,13 +135,25 @@ def create_app(
     async def from_goal(request: FromGoalRequest) -> dict[str, Any]:
         from textlayout.requirements import run_requirements
 
-        output = (Path(request.output_dir) if request.output_dir else
-                  settings.workspace / "from_goal" / uuid.uuid4().hex)
-        result = await run_in_threadpool(run_requirements, request.requirements, output,
-                                         workflow=workflow, execute_solver=request.execute_solver)
-        return {**result.to_dict(), "requirements": request.requirements.model_dump(mode="json"),
-                "intent": result.intent.model_dump(mode="json"),
-                "verification": result.generate.report.to_dict(), "files": dict(result.files)}
+        output = (
+            Path(request.output_dir)
+            if request.output_dir
+            else settings.workspace / "from_goal" / uuid.uuid4().hex
+        )
+        result = await run_in_threadpool(
+            run_requirements,
+            request.requirements,
+            output,
+            workflow=workflow,
+            execute_solver=request.execute_solver,
+        )
+        return {
+            **result.to_dict(),
+            "requirements": request.requirements.model_dump(mode="json"),
+            "intent": result.intent.model_dump(mode="json"),
+            "verification": result.generate.report.to_dict(),
+            "files": dict(result.files),
+        }
 
     @app.post("/layout/from-text", response_model=FromTextResponse, tags=["layout"])
     async def from_text(request: FromTextRequest) -> FromTextResponse:

@@ -1,4 +1,5 @@
 """CLI failure paths exercise the actual typed boundary without optional imports."""
+
 import json
 from pathlib import Path
 
@@ -9,10 +10,17 @@ from textlayout.cli import main
 
 def test_missing_interpreter_reports_skip_as_nonzero(tmp_path: Path, capsys) -> None:
     request = tmp_path / "input.json"
-    request.write_text(json.dumps({"capacitance_f": 1e-13, "inductance_h": 1e-7,
-                                   "branch_capacitance_f": 1e-20}))
-    args = ["sqcircuit-lc", str(request), "--python", str(tmp_path / "absent"),
-            "--out", str(tmp_path / "job")]
+    request.write_text(
+        json.dumps({"capacitance_f": 1e-13, "inductance_h": 1e-7, "branch_capacitance_f": 1e-20})
+    )
+    args = [
+        "sqcircuit-lc",
+        str(request),
+        "--python",
+        str(tmp_path / "absent"),
+        "--out",
+        str(tmp_path / "job"),
+    ]
     assert main(args) == 1
     report = json.loads(capsys.readouterr().out)
     assert report["status"] == "SKIPPED_SOLVER_ABSENT"

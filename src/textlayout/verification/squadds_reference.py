@@ -78,7 +78,9 @@ def validate(cache: Path, out: Path, *, offline: bool) -> dict[str, Any]:
     for index, cell in enumerate(TOPS):
         folder = out / f"variant_{index}"
         result = roundtrip_reference_gds(gds, folder / "output.gds", cell=cell)
-        (folder / "comparison.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        (folder / "comparison.json").write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8"
+        )
         comparisons.append(result)
     return {
         "schema": "textlayout.squadds-reference.v1",
@@ -86,14 +88,17 @@ def validate(cache: Path, out: Path, *, offline: bool) -> dict[str, Any]:
         "paper": "https://doi.org/10.22331/q-2024-09-09-1465",
         "implementation_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "comparison_code_sha256": hashlib.sha256(
-            Path(str(sys.modules[roundtrip_reference_gds.__module__].__file__)).read_bytes()).hexdigest(),
+            Path(str(sys.modules[roundtrip_reference_gds.__module__].__file__)).read_bytes()
+        ).hexdigest(),
         "mask_geometry_passed": all(row["geometry_equivalent"] for row in comparisons),
         "variants_evaluated": len(comparisons),
         "variants": comparisons,
         "measurement_source": "Published SQuADDS WM1 records, not measurements made by this project",
         "measured_device_count": len(values),
         "published_measurements": values,
-        "process": {key: wm1[key] for key in ("foundry", "substrate", "materials", "fabrication_recipe")},
+        "process": {
+            key: wm1[key] for key in ("foundry", "substrate", "materials", "fabrication_recipe")
+        },
         "device_to_top_variant_mapping": None,
         "electrical_reproduction_status": "NOT_EVALUATED",
         "electrical_error_percent": None,
@@ -103,7 +108,7 @@ def validate(cache: Path, out: Path, *, offline: bool) -> dict[str, Any]:
             "Run converged open-source field extraction and pair every prediction with its measurement",
         ],
         "scope": "Original mask import/export equivalence for every published GDS top variant; "
-                 "no regenerated prompt geometry or electrical parity claim",
+        "no regenerated prompt geometry or electrical parity claim",
     }
 
 
@@ -117,13 +122,28 @@ def main() -> int:
     try:
         result = validate(args.cache, args.out, offline=args.offline)
     except (OSError, ValueError, RuntimeError, KeyError, StopIteration) as exc:
-        result = {"mask_geometry_passed": False, "error": str(exc),
-                  "electrical_reproduction_status": "NOT_EVALUATED"}
+        result = {
+            "mask_geometry_passed": False,
+            "error": str(exc),
+            "electrical_reproduction_status": "NOT_EVALUATED",
+        }
     report = args.out / "results.json"
     report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({key: result.get(key) for key in (
-        "mask_geometry_passed", "variants_evaluated", "measured_device_count",
-        "electrical_reproduction_status", "error")}, indent=2))
+    print(
+        json.dumps(
+            {
+                key: result.get(key)
+                for key in (
+                    "mask_geometry_passed",
+                    "variants_evaluated",
+                    "measured_device_count",
+                    "electrical_reproduction_status",
+                    "error",
+                )
+            },
+            indent=2,
+        )
+    )
     print(f"Full evidence: {report}")
     return 0 if result["mask_geometry_passed"] else 1
 

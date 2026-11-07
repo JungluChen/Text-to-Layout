@@ -123,7 +123,9 @@ def test_fake_physics_verified_showcase_claim_fails_validation(tmp_path: Path) -
     # The archived invalid case must still be rejected if reintroduced as a
     # fabricated public success. Do not remove its scientific validation tests.
     row = "| 5 | forged | prompt | [output](examples/showcase/05_quarter_wave_resonator_6ghz/output.svg) | report | **PHYSICS_VERIFIED** **NOT_FABRICATION_READY** |\n"
-    doctored = real.replace("<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->")
+    doctored = real.replace(
+        "<!-- END GENERATED: showcase-table -->", row + "<!-- END GENERATED: showcase-table -->"
+    )
     fake_readme = tmp_path / "README.md"
     fake_readme.write_text(doctored, encoding="utf-8")
     errors = module.validate(fake_readme, root=ROOT)

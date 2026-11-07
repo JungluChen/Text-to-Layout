@@ -122,6 +122,7 @@ from textlayout.solvers.palace.retention import (
 )
 from textlayout.solvers.palace.stages import (
     StageName,
+    StageRecord,
     relative_hashes,
     status_report,
     write_stage_record,
@@ -490,6 +491,53 @@ def _load_existing_base_mesh(base_dir: Path) -> GmshMeshResult | None:
         minimum_quality=float(metrics["minimum_quality"]),
         mean_quality=float(metrics["mean_quality"]),
     )
+
+
+def _resume_base_amr(root: Path, profile: dict[str, Any]) -> bool:
+    """Return whether AMR may be reused; validate before mutating retained evidence.
+
+    A completed mesh plus an untouched solver directory permits the next stage.
+    Any started/partial solve is refused, including a crash before solver output.
+    Legacy directories without the pinned profile need a fresh diagnostic run.
+    """
+    profile_path = root / "resume_profile.json"
+    if not profile_path.is_file():
+        raise PalaceOutputError("resume profile missing; use a fresh output directory")
+    if json.loads(profile_path.read_text(encoding="utf-8")) != profile:
+        raise PalaceOutputError(
+            "resume profile differs from retained inputs/settings/tool identity"
+        )
+    for stage in ("preflight", "base_mesh", "base_amr"):
+        record_path = root / "stages" / f"{stage}.json"
+        if not record_path.is_file():
+            if stage == "base_amr":
+                break
+            raise PalaceOutputError(f"resume requires completed {stage} evidence")
+        record = StageRecord.model_validate_json(record_path.read_text(encoding="utf-8"))
+        if record.stage != stage or record.status not in {"complete", "reused"}:
+            raise PalaceOutputError(f"resume refuses partial/inconsistent {stage} state")
+        if stage == "base_amr" and record.return_code != 0:
+            raise PalaceOutputError("resume refuses unsuccessful base_amr state")
+        required = {
+            "preflight": {"fem_model.json"},
+            "base_mesh": {"base_mesh/quarter_wave_base.msh", "base_mesh/mesh_metrics.json"},
+            "base_amr": set(),
+        }[stage]
+        if not record.output_hashes or not required.issubset(record.output_hashes):
+            raise PalaceOutputError(f"resume lacks required {stage} output hashes")
+        for name, digest in {**record.input_hashes, **record.output_hashes}.items():
+            path = root / name
+            if not path.is_file() or sha256_file(path) != digest:
+                raise PalaceOutputError(f"resume {stage} artifact missing or changed: {name}")
+        if stage == "base_amr":
+            return True
+    allowed = {"quarter_wave_base.msh", "mesh_metrics.json"}
+    if any(path.name not in allowed for path in (root / "base_mesh").iterdir()):
+        raise PalaceOutputError("resume refuses unrecorded/partial base_amr artifacts")
+    for stage in ("solve_state_0", "adapt_mesh_0", "solve_state_1"):
+        if (root / "atomic_stages" / stage).exists():
+            raise PalaceOutputError("resume refuses partial atomic AMR state")
+    return False
 
 
 def _runtime_from_stdout(stdout_path: Path) -> float | None:
@@ -1445,8 +1493,6 @@ def run_quarter_wave_benchmark_v017(
     sweep_settings = sweep_amr or settings
     bounded = settings.bounded_policy
     atomic_two_state = bounded is not None and bounded.solved_states == 2
-    if atomic_two_state:
-        start_atomic_stage(root, "preflight", inputs=[Path(layout_path).resolve()])
     numerical_requested = dict(
         numerical_sweep_values
         if numerical_sweep_values is not None
@@ -1476,6 +1522,55 @@ def run_quarter_wave_benchmark_v017(
         "git_commit": _git_commit(repo_root),
         "generated_at": _timestamp(),
     }
+    profile = {
+        "schema": "textlayout.palace-resume-profile.v1",
+        "layout_sha256": sha256_file(layout),
+        "capability": toolchain["capability"],
+        "gmsh": toolchain["gmsh"],
+        "mesh_scale": mesh_scale,
+        "mode_count": mode_count,
+        "extents": base_extents.model_dump(mode="json"),
+        "amr": settings.model_dump(mode="json"),
+        "sweep_amr": sweep_settings.model_dump(mode="json"),
+        "numerical_sweeps": {key: list(value) for key, value in numerical_requested.items()},
+        "physical_sweeps": {key: list(value) for key, value in physical_requested.items()},
+        "requested_processes": processes,
+        "timeout_seconds": timeout_seconds,
+    }
+    reuse_base_amr = False
+    completed: CompletedBaseAMR | None = None
+    if resume:
+        try:
+            reuse_base_amr = _resume_base_amr(root, profile)
+            if reuse_base_amr:
+                completed = validate_completed_base_amr(
+                    root,
+                    capability=detected,
+                    processes=processes,
+                    require_adapted_mesh=(
+                        settings.bounded_policy is None
+                        or settings.bounded_policy.retain_final_adapted_mesh
+                    ),
+                )
+            if (
+                from_stage not in {None, "preflight", "base_mesh", "base_amr"}
+                and not reuse_base_amr
+            ):
+                raise PalaceOutputError("requested stage requires a completed base_amr")
+        except (OSError, ValueError, PalaceOutputError) as exc:
+            return V017BenchmarkResult(
+                status="SIMULATION_INVALID", output_dir=root, reason=f"resume rejected: {exc}"
+            )
+    else:
+        if (root / "resume_profile.json").exists() or (root / "base_mesh").exists():
+            return V017BenchmarkResult(
+                status="SIMULATION_INVALID",
+                output_dir=root,
+                reason="existing benchmark artifacts; resume or use a fresh output directory",
+            )
+        write_json(profile, root / "resume_profile.json")
+    if atomic_two_state:
+        start_atomic_stage(root, "preflight", inputs=[layout])
     if not resume or not (root / "toolchain.json").is_file():
         write_json(toolchain, root / "toolchain.json")
     if not resume or not (root / "environment.json").is_file():
@@ -1505,7 +1600,7 @@ def run_quarter_wave_benchmark_v017(
         )
         if not resume or not (root / "hard_resource_budget.json").is_file():
             write_json(hard_budget.model_dump(mode="json"), root / "hard_resource_budget.json")
-        if not resume and not hard_budget.allowed:
+        if not reuse_base_amr and not hard_budget.allowed:
             if atomic_two_state:
                 fail_atomic_stage(root, "preflight", reason="; ".join(hard_budget.blockers))
             return V017BenchmarkResult(
@@ -1556,6 +1651,7 @@ def run_quarter_wave_benchmark_v017(
                 root / "environment.json",
                 root / "resource_decision.json",
                 root / "fem_model.json",
+                root / "resume_profile.json",
             ],
             root,
         ),
@@ -1650,21 +1746,20 @@ def run_quarter_wave_benchmark_v017(
         if stop_after_stage == "base_mesh":
             return V017BenchmarkResult(status="STAGE_COMPLETE", output_dir=root)
 
-        if resume:
-            completed = validate_completed_base_amr(
-                root,
-                capability=detected,
-                processes=processes,
-                require_adapted_mesh=(
-                    settings.bounded_policy is None
-                    or settings.bounded_policy.retain_final_adapted_mesh
-                ),
-            )
+        if completed is not None:
             config_path = completed.config_path
             postpro = completed.postpro
             amr_run = completed.run
             amr_peak = completed.peak_memory
         else:
+            write_stage_record(
+                root,
+                stage="base_amr",
+                status="started",
+                input_hashes=relative_hashes([base_mesh.path, root / "resume_profile.json"], root),
+                capability=detected,
+                upstream_stage_evidence_ids=list(stage_ids),
+            )
             if atomic_two_state:
                 start_atomic_stage(root, "solve_state_0", inputs=[base_mesh.path])
                 start_atomic_stage(root, "adapt_mesh_0", inputs=[base_mesh.path])
@@ -1687,8 +1782,10 @@ def run_quarter_wave_benchmark_v017(
         base_amr_record = write_stage_record(
             root,
             stage="base_amr",
-            status="reused" if resume else "complete",
-            input_hashes=relative_hashes([config_path, base_mesh.path], root),
+            status="reused" if reuse_base_amr else "complete",
+            input_hashes=relative_hashes(
+                [config_path, base_mesh.path, root / "resume_profile.json"], root
+            ),
             output_hashes=amr_run.output_file_hashes,
             command=amr_run.command,
             return_code=amr_run.return_code,
@@ -1697,7 +1794,7 @@ def run_quarter_wave_benchmark_v017(
             upstream_stage_evidence_ids=list(stage_ids),
             notes=(
                 ["return code reconstructed from completed stdout and parseable Palace outputs"]
-                if resume
+                if reuse_base_amr
                 else []
             ),
         )

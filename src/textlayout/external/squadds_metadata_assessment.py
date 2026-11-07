@@ -1,4 +1,5 @@
 """Independent local-data assessment; no optional imports or execution claims."""
+
 from __future__ import annotations
 
 import hashlib
@@ -29,33 +30,56 @@ def assess_metadata(database: bytes, packet: dict[str, Any]) -> MetadataAssessme
         raise ValueError("Expected pinned dataset bytes")
     rows = json.loads(database)
     columns = {
-        "Design Code": "design_code", "Paper Link": "paper_link", "Image": "image",
-        "Foundry": "foundry", "Substrate": "substrate", "Materials": "materials",
-        "Junction Style": "junction_style", "Junction Materials": "junction_material",
+        "Design Code": "design_code",
+        "Paper Link": "paper_link",
+        "Image": "image",
+        "Foundry": "foundry",
+        "Substrate": "substrate",
+        "Materials": "materials",
+        "Junction Style": "junction_style",
+        "Junction Materials": "junction_material",
     }
-    records = [{"Name": row["contrib_info"]["name"],
-                **{label: row[key] for label, key in columns.items()}} for row in rows]
+    records = [
+        {"Name": row["contrib_info"]["name"], **{label: row[key] for label, key in columns.items()}}
+        for row in rows
+    ]
     wm1 = next(row for row in rows if row["contrib_info"]["name"] == "WM1")
     info = wm1["contrib_info"]
-    reference = {label: wm1[key] for label, key in {
-        "Design Code": "design_code", "Paper Link": "paper_link", "Image": "image",
-        "Foundry": "foundry", "Fabrication Recipe": "fabrication_recipe",
-    }.items()}
+    reference = {
+        label: wm1[key]
+        for label, key in {
+            "Design Code": "design_code",
+            "Paper Link": "paper_link",
+            "Image": "image",
+            "Foundry": "foundry",
+            "Fabrication Recipe": "fabrication_recipe",
+        }.items()
+    }
     reference.update(info)
     contributor = {
-        "Foundry": info.get("foundry", "N/A"), "PI": info["PI"], "Group": info["group"],
-        "Institution": info["institution"], "Measured By": ", ".join(info["measured_by"]),
-        "Reference Device Name": info["name"], "Uploader": info["uploader"],
+        "Foundry": info.get("foundry", "N/A"),
+        "PI": info["PI"],
+        "Group": info["group"],
+        "Institution": info["institution"],
+        "Measured By": ", ".join(info["measured_by"]),
+        "Reference Device Name": info["name"],
+        "Uploader": info["uploader"],
     }
     expected: dict[str, Any] = {
-        "schema": "textlayout.squadds-metadata-raw.v1", "evidence_status": "PRIOR_ONLY",
-        "physics_verified": False, "assessment_status": "NOT_EVALUATED",
+        "schema": "textlayout.squadds-metadata-raw.v1",
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": False,
+        "assessment_status": "NOT_EVALUATED",
         "method": "installed SQuADDS db_devices helpers on local datasets.Dataset",
-        "dataset_sha256": DATA_SHA256, "helper_sha256": HELPER_SHA256,
+        "dataset_sha256": DATA_SHA256,
+        "helper_sha256": HELPER_SHA256,
         "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
-        "dependency_versions": VERSIONS, "records": records,
-        "wm1_config_identifiers": wm1["sim_results"], "reference": reference,
-        "contributor": contributor, "database_constructed": False,
+        "dependency_versions": VERSIONS,
+        "records": records,
+        "wm1_config_identifiers": wm1["sim_results"],
+        "reference": reference,
+        "contributor": contributor,
+        "database_constructed": False,
         "electrical_reproduction_status": "NOT_EVALUATED",
     }
     if not isinstance(packet, dict) or set(packet) != set(expected) | {"python", "platform"}:

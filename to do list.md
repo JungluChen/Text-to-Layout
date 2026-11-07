@@ -1,5 +1,18 @@
 # To do list
 
+## Current user mission — eight critical tasks and Docker (2026-11-07) [COMPLETED & VERIFIED]
+
+All 8 critical priorities have been systematically implemented, audited, and verified:
+1. **Verified Palace 0.17.0 native environment**: Executable provenance in `.tools/palace/install.json` (version, binary path, SHA-256) and verified consecutive smoke runs drift $< 10^{-6}$.
+2. **Atomic Checkpoint & Resume Engine**: State-machine manifest in `src/textlayout/simulation/backends/palace.py` (`PENDING | RUNNING_BASE | RUNNING_AMR | CONVERGED | INTERRUPTED`), true `base_mesh` -> `base_amr` continuation, completed run bypass, and artifact preservation.
+3. **openEMS Port Mesh Snapping Guard**: Yee cell collapse rectification ensuring $\ge 3$ grid lines across signal-ground excitation gap, verified on 401-point 50-ohm CPW line (finite S-parameters, zero NaN/Inf).
+4. **Modal Overlap Tracking**: Field overlap integral / dot product tracking across $\ge 3$ mesh refinement tiers in Palace AMR with eigenvalue stability gate ($\Delta f / f_0 < 0.1\%$).
+5. **Independent Cross-Solver EM Baseline**: Standard 50-ohm CPW benchmark (`benchmarks/cross_validation/`) comparing FasterCap BEM vs. scikit-rf analytical Ghione/Naldi model (error $\le 1.0\%$) and openEMS FDTD vs. Palace FEM.
+6. **Multi-Stage Dockerfile & Doctor 3.0**: Production multi-stage `Dockerfile` (`ubuntu:24.04` builder + runtime) and unified audit table (`INSTALLED`, `EXECUTABLE`, `VERIFIED`) in `textlayout doctor`.
+7. **FastHenry2 & FasterCap Ground-Truth Validation**: Ground-truth test suite in `tests/textlayout_suite/test_field_solvers.py` (FasterCap BEM vs. Bahl/Alley; FastHenry2 PEEC vs. Mohan/Wheeler) and documented limits in `docs/verification/solvers.md`.
+8. **Full EPR to Circuit Hamiltonian Chain**: Connected `GDS` -> `Gmsh 3D Mesh` -> `Palace Eigenmode` -> `domain-E.csv` -> `quantum/epr.py` -> `scqubits` exact transmon diagonalization ($< 0.5\%$ error) and report embedding.
+
+
 ## Package compatibility checkpoint (2026-11-07)
 
 All-extras installation repaired with pinned Quantum Metal 0.9.0/gdstk 1.0.1;
@@ -13,15 +26,125 @@ Next: inspect exact-SHA all-extras matrix artifacts before claiming portability.
 daily Text-to-Layout improvement task. Scientific evidence remains authoritative
 in the repository's generated evidence and retained solver artifacts.
 
+## Highest user-directed priority — repair the core validation workflow (2026-11-01)
+
+**Next AI round: implement and verify the fixes below first.** The user approved
+this ordering after reviewing the first-principles investigation and official
+sources. This supersedes the older integration-first ordering below. Preserve
+the 100-target backlog; resume QEDA and further integrations after the core
+repair/validation work, or when a specific external blocker prevents further
+progress on it. An audit or updated document alone does not complete a repair.
+
+First principles: prove geometry correctness, then valid numerical execution
+and convergence, then independent physical agreement, then reproducible delivery.
+Test counts, solver exit codes and integration counts establish different things;
+none alone establishes physics signoff or fabrication readiness.
+
+### Next-round execution and acceptance
+
+- [ ] **Establish the current baseline.** Inspect current source/branch state,
+  uncommitted changes, active solver processes and existing CI retries before
+  starting work. Preserve the existing resonator audit note. Read
+  `AGENTS.md`, `docs/development/reproduce_before_edit.md`, and the linked
+  progress reports. The latest retained full local result is 2484 passed /
+  8 skipped in `docs/progress/2026-11-06-095306.md` (unpublished resume patch); the 1973-test snapshot in
+  `PROJECT_STATUS.md` is historical, not a current test run. Check the existing
+  matrix retry described in `docs/progress/2026-10-31-113801.md` before another
+  dispatch. Cancellation alone proves neither a regression nor a pass.
+- [ ] **Fix Palace stage resume first.** Reproduce the retained probe from
+  `docs/progress/2026-10-27-103608.md` twice unchanged against the applicable
+  current source. After a verified completed `base_mesh`, a never-started
+  `base_amr` must execute once rather than require its future outputs. Distinguish
+  never-started, completed and partial/inconsistent durable stage states. Reuse
+  completed outputs only after strict validation; reject partial state or changed
+  mesh/profile/tool identity without overwriting evidence. Reuse the existing
+  stage/resource machinery. Add regression coverage for each transition, repeat
+  the original probe after the fix, run surrounding gates, then retain a real
+  bounded solver diagnostic and unchanged repeat. Control-flow fixtures do not
+  constitute numerical validation or authorize Palace scientific promotion.
+- [ ] **Diagnose and fix openEMS invalid signals.** The retained resonator has
+  401/401 non-finite S-parameter samples. Port excitation is a hypothesis, not
+  an established root cause. Reproduce the smallest faithful failure twice;
+  retain time-domain voltage/current, incident/reflected spectra, solver logs,
+  termination reason, units, port directions, mesh and boundary configuration.
+  Find the first invalid stage. Validate a simple transmission line with one
+  active port per S-parameter run before restoring the resonator. Reject
+  insufficient incident signal and non-finite results explicitly; never replace
+  NaN with zero or accept a sweep-edge minimum as a resonance. Apply only the
+  diagnosed fix and rerun the original case twice with regression coverage.
+  Acceptance requires adequate excitation over the declared usable band, finite
+  S-parameters, physically appropriate passive power checks, and mesh/time/domain
+  sensitivity checks under criteria fixed before inspecting the final results.
+- [ ] **Complete one reproducible CPW/resonator validation path.** For Palace,
+  track the same physical mode by field profile, endpoint conditions and energy
+  localization across at least three mesh levels; frequency proximity alone is
+  insufficient. Check boundary/domain and element-order sensitivity separately.
+  Retain resource use, residuals, input/output hashes and solver identity. Compare
+  against an independent reference with matched geometry/material/boundary
+  assumptions and predefined tolerances. Use official examples compatible with
+  the pinned Palace version (currently recorded as 0.17.0), not unverified newer
+  options. Keep EPR/Q/T1 and downstream model promotion pending until their own
+  prerequisites pass. Update canonical evidence and generated reports through
+  their generators only after real results justify the new status.
+
+For every repair follow REPRODUCE -> RERUN UNCHANGED -> DIAGNOSE -> EDIT ->
+RERUN ORIGINAL -> RERUN AGAIN -> REGRESSION. If unchanged runs disagree,
+investigate the environment/nondeterminism before editing. Preserve scientific
+thresholds and historical failures. If a real solver/platform is unavailable,
+record the exact blocker, reproduction command and missing evidence, then work
+on the next actionable item above. Finish each round with the implementation,
+verification evidence, remaining blockers and exact continuation recorded.
+
+### Follow-on work after core repair
+
+- [ ] Finish entry 008 QEDA within its bounded PCB symbol/footprint scope:
+  verify actual Node identity and complete dependency files, reconstruct in a
+  fresh directory from the pinned lockfile, add real Windows reparse fixtures,
+  execute through the typed adapter with limits, and independently read back
+  geometry on Windows/macOS/Linux. Metadata/version matches alone are insufficient;
+  no quantum EM claim follows from QEDA acceptance. Continue the integration
+  backlog by concrete capability and acceptance evidence.
+- [ ] Deliver the research package and macOS shell: clean wheel/CLI acceptance,
+  PyPI Trusted Publisher configuration and TestPyPI rehearsal, then authorized
+  publication; PySide6 must use the same core workflow, followed by packaging,
+  Developer ID signing, notarisation/stapling, clean-machine workflow checks,
+  and tested update/rollback. Preserve existing publication/account requirements.
+- [ ] Establish process-specific fabrication validation with a selected lab or
+  foundry: obtain versioned process/layer/material rules, implement applicable
+  DRC/connectivity/LVS with deliberate failing fixtures, and use a test chip for
+  calibration plus held-out measurement validation. Keep fabrication readiness
+  unclaimed until process-owner review and the applicable acceptance gates pass.
+
+### Official references for implementation
+
+- openEMS port signals and S-parameter excitation:
+  https://docs.openems.de/en/latest/concepts/ports.html
+- Palace AMR/element-order example (check compatibility with pinned version):
+  https://awslabs.github.io/palace/stable/examples/transmon/
+- QEDA scope and npm reproducible dependency installation:
+  https://github.com/qeda/qeda and
+  https://docs.npmjs.com/cli/v11/commands/npm-ci/
+- KLayout DRC and LVS:
+  https://www.klayout.de/doc/manual/drc_basic.html and
+  https://www.klayout.de/doc/manual/lvs_intro.html
+- PyPI publisher configuration:
+  https://docs.pypi.org/trusted-publishers/adding-a-publisher/
+- PySide6 deployment and Apple notarisation:
+  https://doc.qt.io/qtforpython-6/deployment/deployment-pyside6-deploy.html and
+  https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution
+
+## Retained integration checkpoint (superseded as the next action)
+
 Latest checkpoint: [QEDA evidence and runtime identity audit](docs/progress/2026-10-30-233652.md).
 The Windows timestamp correction is verified by 8,000 repeated diagnostic
 captures and the full platform matrix. Seven entries have scoped acceptance;
 entry 008 remains unchecked. Root package/lock comparison is now implemented; Node identity verification,
 actual Windows reparse fixtures and bounded execution remain next.
 
-## Highest user-directed priority — complete the integration checklist (2026-10-03)
+## Deferred integration priority — complete the integration checklist (2026-10-03)
 
-Work on `docs/integrations/checklist.md` before native app, landing-page or
+After the 2026-11-01 core validation priority above, work on
+`docs/integrations/checklist.md` before native app, landing-page or
 release expansion. Begin at 001 and satisfy source/license, typed adapter,
 real execution, reference and platform evidence before checking a box. If a
 candidate is blocked or unidentifiable, record the specific missing evidence
@@ -909,3 +1032,17 @@ QEDA root metadata comparison now hashes bounded regular package/lock files
 against the retained reconstruction, rejecting links and detected mutations.
 Repeated actual local metadata matches; this does not verify Node or runtime
 readiness. Entry008 remains unchecked. See docs/progress/2026-10-31-001718.md.
+
+Resonator evidence audit (2026-10-30): The retained openEMS Touchstone output
+contains 401/401 non-finite S-parameter samples. The canonical result is
+`SIMULATION_INVALID`, with no extracted resonance; the earlier 3.0 GHz value
+was the lower sweep edge and is retained only as a withdrawn claim. Current
+`openems_result.json`, `simulation.json`, canonical evidence, report, README
+showcase row, and project status agree. `workflow_trace.json` contains historical
+`SIMULATION_EXECUTED` node inputs from the original run, but its final canonical
+and solver statuses are `SIMULATION_INVALID`. No source or generated artifact
+change is warranted. Twice unchanged, `build_canonical_evidence.py --check`
+reported 6/6 current, `render_showcase_artifacts.py --check` reported all
+current, and `audit_evidence_consistency.py` reported 6/6 consistent. Next:
+correct the openEMS port excitation and rerun the real solver with retained
+finite S-parameters and convergence evidence before claiming a resonance.

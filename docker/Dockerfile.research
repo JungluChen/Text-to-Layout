@@ -1,5 +1,39 @@
-FROM python:3.12-slim
-WORKDIR /app
+# syntax=docker/dockerfile:1.7
+# Build with compose.research.yaml; target architecture is selected by Compose.
+FROM python:3.12.10-slim-bookworm@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db
+ARG SOURCE_REVISION=DEVELOPMENT_UNSET
+LABEL org.opencontainers.image.title="Textlayout research environment" \
+      org.opencontainers.image.source="https://github.com/JungluChen/Text-to-Layout" \
+      org.opencontainers.image.revision="${SOURCE_REVISION}" \
+      org.opencontainers.image.licenses="MIT"
+ENV DEBIAN_FRONTEND=noninteractive \
+    UV_PROJECT_ENVIRONMENT=/opt/textlayout-venv \
+    UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never \
+    PATH=/opt/textlayout-venv/bin:$PATH \
+    MPLBACKEND=Agg QISKIT_METAL_HEADLESS=1 \
+    OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
+# Fixed Debian snapshot: record installed versions below; do not track apt latest.
+RUN rm -f /etc/apt/sources.list.d/debian.sources \
+    && printf 'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20261001T000000Z bookworm main\n' > /etc/apt/sources.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
+       ca-certificates git build-essential cmake ninja-build gfortran pkg-config \
+       libglu1-mesa libxrender1 libxcursor1 libxft2 libxinerama1 \
+       openmpi-bin libopenmpi-dev octave ngspice \
+    && rm -rf /var/lib/apt/lists/* \
+    && python -m pip install --no-cache-dir uv==0.12.13
+WORKDIR /workspace
+COPY pyproject.toml uv.lock README.md ./
+RUN uv sync --frozen --all-extras --no-install-project
 COPY . .
-RUN pip install uv && uv sync --frozen --extra research
-CMD ["uv", "run", "text-to-gds"]
+RUN uv sync --frozen --all-extras \
+    && uv pip check --python /opt/textlayout-venv/bin/python \
+    && useradd --create-home --uid 10001 appuser \
+    && mkdir -p /workspace/out /workspace/.tools /opt/textlayout \
+    && dpkg-query -W > /opt/textlayout/debian-packages.txt \
+    && uv pip freeze --python /opt/textlayout-venv/bin/python > /opt/textlayout/python-packages.txt \
+    && printf '%s\n' "${SOURCE_REVISION}" > /opt/textlayout/source-revision.txt \
+    && chown -R appuser:appuser /workspace /opt/textlayout-venv /opt/textlayout
+USER appuser
+RUN python scripts/check_python_packages.py --out /opt/textlayout/imports-first \
+    && python scripts/check_python_packages.py --out /opt/textlayout/imports-repeat
+CMD ["textlayout", "doctor", "--json"]

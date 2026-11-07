@@ -67,9 +67,13 @@ def load_wm1_prior(database: str | Path, device_id: str) -> SquaddsPrior:
     rows = json.loads(payload.decode("utf-8"))
     if not isinstance(rows, list):
         raise ValueError("WM1 database must contain a list of records")
-    matches = [row for row in rows if isinstance(row, dict)
-               and isinstance(row.get("contrib_info"), dict)
-               and row["contrib_info"].get("name") == "WM1"]
+    matches = [
+        row
+        for row in rows
+        if isinstance(row, dict)
+        and isinstance(row.get("contrib_info"), dict)
+        and row["contrib_info"].get("name") == "WM1"
+    ]
     if len(matches) != 1:
         raise ValueError("Expected exactly one WM1 record")
     try:
@@ -92,8 +96,13 @@ def load_wm1_prior(database: str | Path, device_id: str) -> SquaddsPrior:
             if name != "anharmonicity_hz" and value <= 0:
                 raise ValueError(f"Non-positive WM1 frequency: {field_name}")
             converted[name] = value
-            fields[name] = {"source_field": field_name, "source_value": raw,
-                            "source_unit": unit, "scale_to_hz": scale, "unit": "Hz"}
+            fields[name] = {
+                "source_field": field_name,
+                "source_value": raw,
+                "source_unit": unit,
+                "scale_to_hz": scale,
+                "unit": "Hz",
+            }
     except (KeyError, TypeError, IndexError) as exc:
         raise ValueError("Malformed WM1 measurement structure") from exc
     return SquaddsPrior(
@@ -101,10 +110,16 @@ def load_wm1_prior(database: str | Path, device_id: str) -> SquaddsPrior:
         hamiltonian_parameters=converted,
         geometry_priors={},
         dataset_metadata={
-            "source_url": asset["url"], "source_revision": asset["revision"],
-            "source_sha256": digest, "license": asset["license"],
-            "selection": {"contribution": "WM1", "device_id": device_id,
-                          "measured_results_index": 0, "H_params_index": 0},
+            "source_url": asset["url"],
+            "source_revision": asset["revision"],
+            "source_sha256": digest,
+            "license": asset["license"],
+            "selection": {
+                "contribution": "WM1",
+                "device_id": device_id,
+                "measured_results_index": 0,
+                "H_params_index": 0,
+            },
             "fields": fields,
             "measurement_source": "Published SQuADDS WM1 records; not measured by Text-to-Layout",
             "device_to_top_variant_mapping": None,

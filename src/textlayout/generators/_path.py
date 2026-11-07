@@ -20,8 +20,15 @@ def orthogonal_path_rectangles(
             raise ValueError(f"Path segment must be non-zero and orthogonal: {start} -> {end}")
         # Sort the centerline endpoints BEFORE expanding them. Expanding first
         # shortens a reversed segment and disconnects its corner joins.
-        polygons.append(rectangle(layer, min(x0, x1) - half, min(y0, y1) - half,
-                                  max(x0, x1) + half, max(y0, y1) + half))
+        polygons.append(
+            rectangle(
+                layer,
+                min(x0, x1) - half,
+                min(y0, y1) - half,
+                max(x0, x1) + half,
+                max(y0, y1) + half,
+            )
+        )
     return tuple(polygons)
 
 

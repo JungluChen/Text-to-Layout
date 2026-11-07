@@ -68,9 +68,7 @@ def test_job_start_collect_records_return_code_and_outputs(tmp_path: Path) -> No
     assert finalization["sample_count"] >= 1
 
 
-def test_terminal_job_status_survives_concurrent_stale_writer(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_terminal_job_status_survives_concurrent_stale_writer(tmp_path: Path, monkeypatch) -> None:
     job_dir = tmp_path / "job-race"
     job_dir.mkdir()
     running = JobRecord(

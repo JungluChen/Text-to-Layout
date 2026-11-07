@@ -228,6 +228,32 @@ def download(url: str, destination: Path, expected_sha256: str) -> Path:
 def palace_install_identity() -> dict[str, Any] | None:
     record = read_json(INSTALL_RECORD)
     if record is None:
+        # Probe environment or well-known locations
+        env_exe = os.environ.get("TEXTLAYOUT_PALACE_EXECUTABLE")
+        candidates = [env_exe] if env_exe else []
+        candidates.extend([
+            str(TOOLS / "palace" / "bin" / "palace"),
+            shutil.which("palace") or "",
+        ])
+        for cand in candidates:
+            if cand and Path(cand).is_file() and os.access(cand, os.X_OK):
+                try:
+                    probe = run([cand, "--version"], timeout=30)
+                    if probe.returncode == 0 and PALACE_VERSION in probe.stdout:
+                        digest = sha256_file(Path(cand))
+                        rec = {
+                            "status": "INSTALLED",
+                            "strategy": "discovered_executable",
+                            "palace_version": PALACE_VERSION,
+                            "palace_commit": PALACE_COMMIT,
+                            "palace_executable": cand,
+                            "palace_executable_sha256": digest,
+                            "installed_at": timestamp(),
+                        }
+                        write_json(INSTALL_RECORD, rec)
+                        return rec
+                except Exception:
+                    pass
         return None
     executable = str(record.get("palace_executable", ""))
     target = executable.removeprefix("wsl:")

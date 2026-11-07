@@ -679,3 +679,10 @@ certification of every Python version. The existing CI matrix tests3.11/3.12;
 Python3.12 additionally installs every declared extra, checks dependency metadata
 and imports all30 direct distributions twice. Imports do not prove numerical
 accuracy, native solver availability or all100 candidate integrations.
+
+## Apple Silicon Docker environment
+
+The owner uses Apple Silicon. Provide an explicit linux/amd64 research image
+with locked Python extras, persistent Linux volumes and retained architecture
+checks. Never mix host macOS environments with Linux binaries. Native solver
+execution and Rosetta performance require separate measured evidence.

@@ -357,7 +357,10 @@ class CanonicalEvidence(BaseModel):
                 self.extraction_config.get("public_reference")
             )
             reference.require_agreement(self.extracted_value, self.extracted_unit)
-            if self.output_file_hashes.get(reference.execution_output) != reference.execution_sha256:
+            if (
+                self.output_file_hashes.get(reference.execution_output)
+                != reference.execution_sha256
+            ):
                 raise EvidenceError("reference execution output must match canonical solver hashes")
 
         if self.status is EvidenceStatus.MEASUREMENT_CORRELATED and self.measurement is None:
@@ -444,9 +447,13 @@ class CanonicalEvidence(BaseModel):
 
         measurement = self.measurement
         return QuantityEvidence(
-            public_reference=(PublicReferenceComparison.model_validate(
-                self.extraction_config.get("public_reference"))
-                if self.status is EvidenceStatus.REFERENCE_AGREED else None),
+            public_reference=(
+                PublicReferenceComparison.model_validate(
+                    self.extraction_config.get("public_reference")
+                )
+                if self.status is EvidenceStatus.REFERENCE_AGREED
+                else None
+            ),
             quantity=self.target_quantity,
             target_value=self.target_value,
             target_unit=self.target_unit,

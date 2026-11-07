@@ -53,8 +53,7 @@ def test_csv_fallback_and_resonance_dip(tmp_path: Path) -> None:
         ("# GHz S RI R 50\n5 0.1 0 0.7 0\n", "9 values"),
         ("# GHz Z RI R 50\n5 0.1 0 0.7 0 0.7 0 0.1 0\n", "S-parameters"),
         (
-            "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n"
-            "5 0.1 0 0.7 0 0.7 0 0.1 0\n",
+            "# GHz S RI R 50\n6 0.1 0 0.7 0 0.7 0 0.1 0\n5 0.1 0 0.7 0 0.7 0 0.1 0\n",
             "increasing",
         ),
     ],

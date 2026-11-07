@@ -1,4 +1,5 @@
 """Fail closed before optional imports; real runtime evidence is retained separately."""
+
 from pathlib import Path
 
 import pytest

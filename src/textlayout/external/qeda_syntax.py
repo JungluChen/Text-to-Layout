@@ -3,6 +3,7 @@
 This intentionally supports a narrow S-expression dialect, not all KiCad files.
 Numbers remain atoms; semantic validation belongs to a separate assessment.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

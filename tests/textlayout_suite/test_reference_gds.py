@@ -30,8 +30,9 @@ def test_hierarchical_reference_roundtrip_preserves_all_geometry(tmp_path):
     assert all(row["xor_area_um2"] == 0 for row in result["layers"])
 
 
-@pytest.mark.parametrize("change", [{"offset": 1}, {"extra_layer": True},
-                                   {"label": "WRONG"}, {"dbu": 0.002}])
+@pytest.mark.parametrize(
+    "change", [{"offset": 1}, {"extra_layer": True}, {"label": "WRONG"}, {"dbu": 0.002}]
+)
 def test_changed_geometry_or_units_never_pass(tmp_path, change):
     source, candidate = tmp_path / "source.gds", tmp_path / "candidate.gds"
     sample(source)
@@ -44,4 +45,6 @@ def test_multiple_top_cells_require_explicit_selection(tmp_path):
     sample(source, second_top=True)
     with pytest.raises(ValueError, match="explicit cell"):
         roundtrip_reference_gds(source, tmp_path / "output.gds")
-    assert roundtrip_reference_gds(source, tmp_path / "output.gds", cell="TOP")["geometry_equivalent"]
+    assert roundtrip_reference_gds(source, tmp_path / "output.gds", cell="TOP")[
+        "geometry_equivalent"
+    ]

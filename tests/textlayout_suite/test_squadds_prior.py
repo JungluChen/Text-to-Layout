@@ -1,4 +1,5 @@
 """Synthetic parser fixtures only; real pinned-data execution is retained separately."""
+
 import hashlib
 import json
 
@@ -10,19 +11,39 @@ from textlayout.verification.squadds_reference import ASSETS
 
 @pytest.fixture
 def dataset(tmp_path, monkeypatch):
-    rows = [{"contrib_info": {"name": "WM1"}, "measured_results": [{"H_params": [{
-        f"qubit_{i}": {"F_res_GHz": 6.1, "F_01_GHz": 4.2, "Anharmocity_MHz": -153}
-        for i in range(1, 7)
-    }]}]}]
+    rows = [
+        {
+            "contrib_info": {"name": "WM1"},
+            "measured_results": [
+                {
+                    "H_params": [
+                        {
+                            f"qubit_{i}": {
+                                "F_res_GHz": 6.1,
+                                "F_01_GHz": 4.2,
+                                "Anharmocity_MHz": -153,
+                            }
+                            for i in range(1, 7)
+                        }
+                    ]
+                }
+            ],
+        }
+    ]
 
     def write(data):
         path = tmp_path / "synthetic.json"
         path.write_text(json.dumps(data), encoding="utf-8")
-        monkeypatch.setitem(ASSETS, "measured_device_database.json", {
-            **ASSETS["measured_device_database.json"],
-            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-        })
+        monkeypatch.setitem(
+            ASSETS,
+            "measured_device_database.json",
+            {
+                **ASSETS["measured_device_database.json"],
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            },
+        )
         return path
+
     return rows, write
 
 
@@ -74,6 +95,7 @@ def test_ambiguous_contribution_and_missing_device_rejected(dataset):
 
 def test_cli_json_and_read_only_source(dataset, capsys):
     from textlayout.cli import main
+
     rows, write = dataset
     path = write(rows)
     before = path.read_bytes()
@@ -86,6 +108,7 @@ def test_cli_json_and_read_only_source(dataset, capsys):
 
 def test_cli_missing_and_changed_source(dataset, capsys, tmp_path):
     from textlayout.cli import main
+
     assert main(["squadds-prior", str(tmp_path / "missing"), "--device", "qubit_1"]) == 1
     captured = capsys.readouterr()
     assert captured.out == ""
@@ -101,8 +124,8 @@ def test_cli_missing_and_changed_source(dataset, capsys, tmp_path):
 
 def test_cli_requires_explicit_valid_device():
     from textlayout.cli import main
-    for args in (["squadds-prior", "unused"],
-                 ["squadds-prior", "unused", "--device", "qubit_7"]):
+
+    for args in (["squadds-prior", "unused"], ["squadds-prior", "unused", "--device", "qubit_7"]):
         with pytest.raises(SystemExit) as caught:
             main(args)
         assert caught.value.code == 2

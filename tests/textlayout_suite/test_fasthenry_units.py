@@ -11,13 +11,21 @@ from textlayout.simulation.runners import find_executable
 
 
 def prepared_spiral(tmp_path):
-    spec = LayoutSpec(component="SpiralInductor", parameters={
-        "turns": 4, "outer_dimension_um": 100, "trace_width_um": 4,
-        "spacing_um": 2, "thickness_um": 0.2})
+    spec = LayoutSpec(
+        component="SpiralInductor",
+        parameters={
+            "turns": 4,
+            "outer_dimension_um": 100,
+            "trace_width_um": 4,
+            "spacing_um": 2,
+            "thickness_um": 0.2,
+        },
+    )
     workflow = build_default_workflow()
     result = workflow.run(spec, formats=())
-    prepared = prepare_spiral_fasthenry(spec, result.geometry,
-                                      workflow.technology(spec.technology), tmp_path)
+    prepared = prepare_spiral_fasthenry(
+        spec, result.geometry, workflow.technology(spec.technology), tmp_path
+    )
     return prepared, result.geometry
 
 

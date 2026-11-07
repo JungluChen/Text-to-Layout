@@ -45,14 +45,18 @@ docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
 layout = ["kqcircuits", "quantum-metal==0.9.0", "gdstk==1.0.1"]
 optimization = ["optuna>=4.0"]
 rf = ["scikit-rf>=1.0"]
-# Phase-1 integration groups are explicit without silently installing native
-# solvers or unverified bindings. `all` covers the currently declared research
-# Python stack; it does not claim all 100 candidate tools are installable.
+# Modular integration groups. Each group installs only the Python side of a
+# pillar; compiled solvers (Palace, openEMS, FasterCap, JoSIM, OpenROAD, ...)
+# are discovered under `.tools/` or `$HOME/.cache/textlayout-*` and reported by
+# `textlayout doctor` -- never pulled in by `pip`. `all` covers the declared
+# research Python stack only; it does not claim all 100 candidate tools are
+# installable, and a missing binary always yields SKIPPED_SOLVER_ABSENT.
 fem = ["gmsh>=4.11", "meshio>=5.3"]
-spice = []  # JoSIM/WRspice/ngspice/Xyce are external CLIs until bindings are vetted.
+spice = ["PySpice>=1.5"]  # Python binding only; ngspice/Xyce/JoSIM/WRspice stay external CLIs.
 vlsi = []  # OpenROAD/Magic/Netgen remain separately installed native tools.
 commercial = []  # A license and audited PyAEDT/CST/ADS bridge are not assumed.
 ai = []  # LangGraph is currently a core dependency; migration needs its own gate.
+viz = ["pyvista>=0.43", "plotly>=5.20", "h5py>=3.10", "rich>=13.0"]
 all = [
   "kqcircuits",
   "optuna>=4.0",
@@ -63,12 +67,21 @@ all = [
   "gmsh>=4.11",
   "meshio>=5.3",
   "scipy>=1.12",
+  "PySpice>=1.5",
+  "pyvista>=0.43",
+  "plotly>=5.20",
+  "h5py>=3.10",
+  "rich>=13.0",
 ]
 squid = []  # JoSIM is an optional external executable; no Python package is vendored.
 measurement = ["qcodes>=0.50"]
+# pyEPR-quantum is deliberately NOT declared here: it pins an incompatible
+# scientific stack and is exercised in an isolated environment by
+# scripts/check_pyepr_charge_insensitive.py. textlayout.quantum.epr detects it
+# lazily and degrades to the documented analytical EPR formulas when absent.
 quantum = ["scqubits>=4.0"]
 metal = ["quantum-metal==0.9.0", "gdstk==1.0.1"]
-mesh = ["gmsh>=4.11", "meshio>=5.3", "scipy>=1.12"]
+mesh = ["gmsh>=4.11", "meshio>=5.3", "scipy>=1.12", "shapely>=2.0"]
 research = [
   "kqcircuits",
   "optuna>=4.0",
@@ -158,7 +171,10 @@ plugins = ["pydantic.mypy"]
 # skrf and gmsh ship no py.typed marker and are optional extras: depending on
 # the environment each import is either untyped or missing entirely. One
 # override covers both states, so inline ignores do not have to guess which.
-module = ["gdsfactory.*", "uvicorn.*", "skrf.*", "gmsh", "gmsh.*"]
+module = [
+  "gdsfactory.*", "uvicorn.*", "skrf.*", "gmsh", "gmsh.*",
+  "meshio", "meshio.*", "scqubits", "scqubits.*", "pyEPR", "pyEPR.*",
+]
 ignore_missing_imports = true
 
 [tool.coverage.run]

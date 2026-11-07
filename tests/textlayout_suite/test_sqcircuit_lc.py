@@ -42,12 +42,15 @@ def test_preparation_is_repeatable_and_preserves_existing_evidence(tmp_path: Pat
     assert Path(first.input_path).read_bytes() == raw
 
 
-@pytest.mark.parametrize("change", [
-    {"truncations": [10, 20, 300000]},
-    {"reference_limit_hz": 1000.0},
-    {"levels": True},
-    {"extra": "ignored"},
-])
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"truncations": [10, 20, 300000]},
+        {"reference_limit_hz": 1000.0},
+        {"levels": True},
+        {"extra": "ignored"},
+    ],
+)
 def test_worker_rejects_modified_plan(change: dict[str, object]) -> None:
     from textlayout.external._sqcircuit_lc_worker import validate_plan
     from textlayout.external.sqcircuit_lc import SQcircuitLCPlan

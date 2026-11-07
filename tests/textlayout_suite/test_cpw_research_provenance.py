@@ -1,4 +1,5 @@
 """Different analytical CPW estimates must expose their own model assumptions."""
+
 import pytest
 
 from textlayout import build_default_workflow
@@ -7,8 +8,16 @@ from textlayout.research import formulas
 
 
 def report():
-    return build_default_workflow().run(LayoutSpec(component="CPW", parameters={
-        "center_width_um": 10, "gap_um": 6, "length_um": 1000}), formats=()).research
+    return (
+        build_default_workflow()
+        .run(
+            LayoutSpec(
+                component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 1000}
+            ),
+            formats=(),
+        )
+        .research
+    )
 
 
 def test_actual_optional_model_does_not_relabel_primary_estimate():

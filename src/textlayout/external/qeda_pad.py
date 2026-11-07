@@ -1,4 +1,5 @@
 """Decode one supported QEDA pad; not footprint or reference acceptance."""
+
 from __future__ import annotations
 
 import hashlib

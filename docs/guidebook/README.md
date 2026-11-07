@@ -1226,3 +1226,9 @@ and gdstk1.0.1. They do not install the legacy PySide2 GUI. Python metadata is
 >=3.11,<3.15; tests on other versions remain separate evidence. External native
 solvers and all100 candidate projects are not installed by `--all-extras`.
 No GUI capture or numerical acceptance follows from import success.
+
+## Shared Docker environment on Apple Silicon
+
+See [the x86-64 Docker walkthrough](docker-apple-silicon.md) for locked package
+installation, architecture verification, CLI/API/MCP commands, output export and
+recovery. Native solver installation and actual runtime evidence remain explicit.

@@ -1,4 +1,5 @@
 """Gate regressions use synthetic tables, never counted as solver evidence."""
+
 from __future__ import annotations
 
 import copy
@@ -21,11 +22,21 @@ PLAN = json.loads(bench.PLAN.read_text())
 
 def table() -> dict:
     return {
-        "fock": [dict(cutoff=n, f01_hz=6e9, alpha_hz=-150e6,
-                      hamiltonian_f01_hz=6e9, hamiltonian_alpha_hz=-150e6)
-                 for n in PLAN["fock_truncations"]],
-        "reference": [dict(ng=ng, cutoff=n, f01_hz=6e9, alpha_hz=-150e6)
-                      for ng in PLAN["charge_offsets"] for n in PLAN["charge_cutoffs"]],
+        "fock": [
+            dict(
+                cutoff=n,
+                f01_hz=6e9,
+                alpha_hz=-150e6,
+                hamiltonian_f01_hz=6e9,
+                hamiltonian_alpha_hz=-150e6,
+            )
+            for n in PLAN["fock_truncations"]
+        ],
+        "reference": [
+            dict(ng=ng, cutoff=n, f01_hz=6e9, alpha_hz=-150e6)
+            for ng in PLAN["charge_offsets"]
+            for n in PLAN["charge_cutoffs"]
+        ],
     }
 
 
@@ -37,8 +48,9 @@ def test_plan_immutable_and_integer_inputs() -> None:
     assert bench.derived_inputs(integer)[0] == 6.0
 
 
-@pytest.mark.parametrize("value", [float("nan"), float("inf"), complex(6e9, 1),
-                                   complex(1, float("nan"))])
+@pytest.mark.parametrize(
+    "value", [float("nan"), float("inf"), complex(6e9, 1), complex(1, float("nan"))]
+)
 def test_reject_nonfinite_and_material_imaginary(value: complex) -> None:
     with pytest.raises(ValueError):
         bench.finite_real(value)

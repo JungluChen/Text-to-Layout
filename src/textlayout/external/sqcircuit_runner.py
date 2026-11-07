@@ -36,7 +36,10 @@ class SQcircuitLCResult(BaseModel):
 
 
 def run_sqcircuit_lc(
-    request: SQcircuitLCRequest, *, python: Path, output_dir: Path,
+    request: SQcircuitLCRequest,
+    *,
+    python: Path,
+    output_dir: Path,
     timeout_seconds: float = 120,
 ) -> SQcircuitLCResult:
     """Run one bounded ideal LC diagnostic, retaining rejected/partial evidence.
@@ -58,8 +61,13 @@ def run_sqcircuit_lc(
     stderr: str | bytes = ""
     try:
         process = subprocess.run(
-            command, capture_output=True, text=True, encoding="utf-8", errors="replace",
-            timeout=timeout_seconds, check=False,
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout_seconds,
+            check=False,
         )
         stdout, stderr = process.stdout, process.stderr
         result.execution_completed = True
@@ -93,10 +101,13 @@ def run_sqcircuit_lc(
             values = report["rows"][-1]["eigenvalues_rad_s"]
             frequency = (values[1] - values[0]) / (2 * math.pi)
             quantity = QuantityEvidence(
-                quantity="frequency", status=EvidenceStatus.SIMULATION_EXECUTED,
-                extracted_value=frequency, extracted_unit="Hz",
+                quantity="frequency",
+                status=EvidenceStatus.SIMULATION_EXECUTED,
+                extracted_value=frequency,
+                extracted_unit="Hz",
                 solver="SQcircuit 1.0.0 Hamiltonian + NumPy dense eigh",
-                command=json.dumps(command), input_files=[str(input_path)],
+                command=json.dumps(command),
+                input_files=[str(input_path)],
                 output_files=[str(output_path)],
                 parser="textlayout.external.sqcircuit_runner.run_sqcircuit_lc",
                 notes=[
@@ -112,7 +123,8 @@ def run_sqcircuit_lc(
         result.failure_reason = "SQcircuit worker timed out; partial logs retained; no resume"
     except FileNotFoundError as exc:
         result.status = (
-            EvidenceStatus.SKIPPED_SOLVER_ABSENT if result.return_code is None
+            EvidenceStatus.SKIPPED_SOLVER_ABSENT
+            if result.return_code is None
             else EvidenceStatus.SIMULATION_INVALID
         )
         result.failure_reason = f"Missing interpreter or output: {exc}"
@@ -123,13 +135,21 @@ def run_sqcircuit_lc(
         result.failure_reason = f"{type(exc).__name__}: {exc}"
         result.quantities = []
     for name, content in (("stdout.txt", stdout), ("stderr.txt", stderr)):
-        (directory / name).write_bytes(content.encode("utf-8") if isinstance(content, str) else content)
-    (directory / "result.json").write_text(result.model_dump_json(indent=2) + "\n", encoding="utf-8")
+        (directory / name).write_bytes(
+            content.encode("utf-8") if isinstance(content, str) else content
+        )
+    (directory / "result.json").write_text(
+        result.model_dump_json(indent=2) + "\n", encoding="utf-8"
+    )
     manifest = {
-        "command": command, "request_sha256": prepared.input_sha256,
+        "command": command,
+        "request_sha256": prepared.input_sha256,
         "worker_sha256": hashlib.sha256(worker.read_bytes()).hexdigest(),
-        "artifact_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                            for p in directory.iterdir() if p.is_file()},
+        "artifact_sha256": {
+            p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in directory.iterdir()
+            if p.is_file()
+        },
     }
     (directory / "manifest.json").write_text(
         json.dumps(manifest, indent=2) + "\n", encoding="utf-8"

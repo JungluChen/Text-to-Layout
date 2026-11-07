@@ -28,9 +28,7 @@ def load_targets() -> tuple[IntegrationTarget, ...]:
     if payload.get("schema") != "textlayout.integration-candidates.v1":
         raise ValueError("integration candidate catalog schema mismatch")
     pillars = payload.get("pillars")
-    if not isinstance(pillars, list) or [p.get("id") for p in pillars] != list(
-        range(1, 11)
-    ):
+    if not isinstance(pillars, list) or [p.get("id") for p in pillars] != list(range(1, 11)):
         raise ValueError("integration candidate pillars must be 1..10")
     raw = payload.get("targets")
     if not isinstance(raw, list):

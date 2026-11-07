@@ -1,4 +1,5 @@
 """CPW analytical model selection never upgrades evidence confidence."""
+
 import pytest
 
 from textlayout import build_default_workflow
@@ -8,8 +9,16 @@ from textlayout.research.formulas import cpw_skrf_z0, cpw_z0
 
 
 def generate():
-    return build_default_workflow().run(LayoutSpec(component="CPW", parameters={
-        "center_width_um": 10, "gap_um": 6, "length_um": 1000}), formats=()).geometry
+    return (
+        build_default_workflow()
+        .run(
+            LayoutSpec(
+                component="CPW", parameters={"center_width_um": 10, "gap_um": 6, "length_um": 1000}
+            ),
+            formats=(),
+        )
+        .geometry
+    )
 
 
 def test_prefers_actual_skrf_model():

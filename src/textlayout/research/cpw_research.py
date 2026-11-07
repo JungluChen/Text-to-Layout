@@ -92,8 +92,12 @@ def research_cpw(
         if skrf_estimate is not None:
             estimates["scikit_rf_z0_ohm"] = round(skrf_estimate[0], 4)
             estimates["scikit_rf_eps_eff"] = round(skrf_estimate[1], 6)
-            estimates["analytical_backend"] = "built-in Simons/Hilberg (primary estimate and proposed parameters)"
-            estimates["scikit_rf_backend"] = "scikit-rf CPW (Ghione/Naldi), separate analytical comparison"
+            estimates["analytical_backend"] = (
+                "built-in Simons/Hilberg (primary estimate and proposed parameters)"
+            )
+            estimates["scikit_rf_backend"] = (
+                "scikit-rf CPW (Ghione/Naldi), separate analytical comparison"
+            )
             estimates["scikit_rf_substrate_height_um"] = 500.0
             estimates["scikit_rf_frequency_ghz"] = 1.0
             assumptions.append(

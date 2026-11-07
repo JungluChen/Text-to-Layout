@@ -1,4 +1,5 @@
 """Optional-runtime offline SQuADDS metadata worker; no electrical acceptance."""
+
 from __future__ import annotations
 
 import hashlib
@@ -13,8 +14,13 @@ from typing import Any
 
 DATA_SHA256 = "898a27f0eadaf687129a7bb85971f891c967515764dc7d27f684e669edea1069"
 HELPER_SHA256 = "dea8dd7f2a7c949c21794a7fbe333253f2a6f9f310f4d2e1f99e35623e3f760c"
-VERSIONS = {"squadds": "0.4.5", "datasets": "5.0.1", "pyarrow": "21.0.0",
-            "numpy": "1.26.4", "pandas": "2.3.3"}
+VERSIONS = {
+    "squadds": "0.4.5",
+    "datasets": "5.0.1",
+    "pyarrow": "21.0.0",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+}
 
 
 def execute(database: Path, output: Path) -> None:
@@ -49,17 +55,22 @@ def execute(database: Path, output: Path) -> None:
     config = "cavity_claw-RouteMeander-eigenmode"
     packet: dict[str, Any] = {
         "schema": "textlayout.squadds-metadata-raw.v1",
-        "evidence_status": "PRIOR_ONLY", "physics_verified": False,
+        "evidence_status": "PRIOR_ONLY",
+        "physics_verified": False,
         "assessment_status": "NOT_EVALUATED",
         "method": "installed SQuADDS db_devices helpers on local datasets.Dataset",
-        "dataset_sha256": DATA_SHA256, "helper_sha256": HELPER_SHA256,
+        "dataset_sha256": DATA_SHA256,
+        "helper_sha256": HELPER_SHA256,
         "source_revision": "0e25705f54c343fb96571ff15b6fd8375ca899aa",
-        "dependency_versions": versions, "python": sys.version,
-        "platform": platform.platform(), "records": records,
+        "dependency_versions": versions,
+        "python": sys.version,
+        "platform": platform.platform(),
+        "records": records,
         "wm1_config_identifiers": upstream.find_simulation_results_for_device(dataset, "WM1"),
         "reference": upstream.find_reference_device_info(dataset, config),
         "contributor": upstream.find_device_contributor_info(dataset, config),
-        "database_constructed": False, "electrical_reproduction_status": "NOT_EVALUATED",
+        "database_constructed": False,
+        "electrical_reproduction_status": "NOT_EVALUATED",
     }
     encoded = json.dumps(packet, indent=2, allow_nan=False) + "\n"
     with output.open("x", encoding="utf-8", newline="\n") as stream:

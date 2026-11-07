@@ -29,12 +29,15 @@ def test_process_failure_retains_no_quantities(tmp_path: Path, monkeypatch, faul
     out = tmp_path / "job"
     result = run_sqcircuit_lc(REQUEST, python=Path("fake-python"), output_dir=out)
     assert not result.quantities
-    assert result.status == {
-        "absent": EvidenceStatus.SKIPPED_SOLVER_ABSENT,
-        "timeout": EvidenceStatus.FAILED,
-        "exit": EvidenceStatus.FAILED,
-        "missing_output": EvidenceStatus.SIMULATION_INVALID,
-    }[fault]
+    assert (
+        result.status
+        == {
+            "absent": EvidenceStatus.SKIPPED_SOLVER_ABSENT,
+            "timeout": EvidenceStatus.FAILED,
+            "exit": EvidenceStatus.FAILED,
+            "missing_output": EvidenceStatus.SIMULATION_INVALID,
+        }[fault]
+    )
     assert (out / "manifest.json").is_file()
     if fault == "timeout":
         assert (out / "stdout.txt").read_bytes() == b"partial"
@@ -65,13 +68,18 @@ def test_packet_assessment_boundary(tmp_path: Path, monkeypatch, fault: str) -> 
     else:
         assert not result.quantities
         assert result.status == (
-            EvidenceStatus.CONVERGENCE_FAILED if fault == "numerical"
+            EvidenceStatus.CONVERGENCE_FAILED
+            if fault == "numerical"
             else EvidenceStatus.SIMULATION_INVALID
         )
 
 
 def test_invalid_timeout_creates_nothing(tmp_path: Path) -> None:
     with pytest.raises(ValueError):
-        run_sqcircuit_lc(REQUEST, python=Path("absent"), output_dir=tmp_path / "job",
-                        timeout_seconds=float("nan"))
+        run_sqcircuit_lc(
+            REQUEST,
+            python=Path("absent"),
+            output_dir=tmp_path / "job",
+            timeout_seconds=float("nan"),
+        )
     assert not (tmp_path / "job").exists()

@@ -9,36 +9,44 @@ from textlayout.external import qeda_capture as capture
 
 
 def tree(tmp_path):
-    modules = tmp_path / 'node_modules'
+    modules = tmp_path / "node_modules"
     modules.mkdir()
-    (modules / 'z').write_bytes(b'payload')
+    (modules / "z").write_bytes(b"payload")
     return tmp_path
 
 
 def test_deterministic_regular_files_excluding_root_metadata(tmp_path):
     root = tree(tmp_path)
-    (root / 'package.json').write_text('excluded')
+    (root / "package.json").write_text("excluded")
     first = capture.capture_inventory(root)
     assert first == capture.capture_inventory(root)
-    assert json.loads(first) == [{
-        'path': 'node_modules/z', 'sha256': hashlib.sha256(b'payload').hexdigest(),
-    }]
+    assert json.loads(first) == [
+        {
+            "path": "node_modules/z",
+            "sha256": hashlib.sha256(b"payload").hexdigest(),
+        }
+    ]
 
 
 def test_missing_relative_and_non_directory_roots(tmp_path):
     with pytest.raises(ValueError):
-        capture.capture_inventory(Path('relative'))
+        capture.capture_inventory(Path("relative"))
     with pytest.raises(FileNotFoundError):
         capture.capture_inventory(tmp_path)
-    (tmp_path / 'node_modules').write_text('file')
+    (tmp_path / "node_modules").write_text("file")
     with pytest.raises(ValueError):
         capture.capture_inventory(tmp_path)
 
 
-@pytest.mark.parametrize('limit,value', [
-    ('MAX_ENTRIES', 0), ('MAX_FILE_BYTES', 1), ('MAX_TOTAL_BYTES', 1),
-    ('MAX_SNAPSHOT_BYTES', 1),
-])
+@pytest.mark.parametrize(
+    "limit,value",
+    [
+        ("MAX_ENTRIES", 0),
+        ("MAX_FILE_BYTES", 1),
+        ("MAX_TOTAL_BYTES", 1),
+        ("MAX_SNAPSHOT_BYTES", 1),
+    ],
+)
 def test_limits_fail_without_partial_snapshot(tmp_path, monkeypatch, limit, value):
     root = tree(tmp_path)
     monkeypatch.setattr(capture, limit, value)
@@ -48,32 +56,37 @@ def test_limits_fail_without_partial_snapshot(tmp_path, monkeypatch, limit, valu
 
 def test_depth_limit_counts_empty_directories(tmp_path, monkeypatch):
     root = tree(tmp_path)
-    (root / 'node_modules' / 'deep').mkdir()
-    monkeypatch.setattr(capture, 'MAX_DEPTH', 0)
-    with pytest.raises(ValueError, match='depth'):
+    (root / "node_modules" / "deep").mkdir()
+    monkeypatch.setattr(capture, "MAX_DEPTH", 0)
+    with pytest.raises(ValueError, match="depth"):
         capture.capture_inventory(root)
 
 
-@pytest.mark.skipif(os.name == 'nt', reason='POSIX symlink/FIFO fixture; Windows reparse validation pending')
+@pytest.mark.skipif(
+    os.name == "nt", reason="POSIX symlink/FIFO fixture; Windows reparse validation pending"
+)
 def test_links_recorded_not_followed_and_special_files_rejected(tmp_path):
     root = tree(tmp_path)
-    modules = root / 'node_modules'
-    (modules / 'link').symlink_to('z')
+    modules = root / "node_modules"
+    (modules / "link").symlink_to("z")
     assert json.loads(capture.capture_inventory(root))[0] == {
-        'path': 'node_modules/link', 'symlink': 'z',
+        "path": "node_modules/link",
+        "symlink": "z",
     }
-    os.mkfifo(modules / 'fifo')
-    with pytest.raises(ValueError, match='special'):
+    os.mkfifo(modules / "fifo")
+    with pytest.raises(ValueError, match="special"):
         capture.capture_inventory(root)
 
 
-@pytest.mark.skipif(os.name == 'nt', reason='POSIX symlink fixture; Windows reparse validation pending')
+@pytest.mark.skipif(
+    os.name == "nt", reason="POSIX symlink fixture; Windows reparse validation pending"
+)
 def test_escaping_link_and_symlink_root_rejected(tmp_path):
     root = tree(tmp_path)
-    (root / 'node_modules' / 'link').symlink_to('../../outside')
-    with pytest.raises(ValueError, match='escapes'):
+    (root / "node_modules" / "link").symlink_to("../../outside")
+    with pytest.raises(ValueError, match="escapes"):
         capture.capture_inventory(root)
-    alias = tmp_path / 'alias'
+    alias = tmp_path / "alias"
     alias.symlink_to(root, target_is_directory=True)
     with pytest.raises(ValueError):
         capture.capture_inventory(alias)
@@ -83,22 +96,22 @@ def test_unreadable_file_aborts(tmp_path, monkeypatch):
     root = tree(tmp_path)
 
     def denied(*args, **kwargs):
-        raise PermissionError('fixture denied')
+        raise PermissionError("fixture denied")
 
-    monkeypatch.setattr(capture.os, 'open', denied)
-    with pytest.raises(PermissionError, match='fixture denied'):
+    monkeypatch.setattr(capture.os, "open", denied)
+    with pytest.raises(PermissionError, match="fixture denied"):
         capture.capture_inventory(root)
 
 
-@pytest.mark.skipif(os.name == 'nt', reason='POSIX directory symlink fixture')
+@pytest.mark.skipif(os.name == "nt", reason="POSIX directory symlink fixture")
 def test_directory_link_is_recorded_without_recursion(tmp_path):
     root = tree(tmp_path)
-    directory = root / 'node_modules' / 'sub'
+    directory = root / "node_modules" / "sub"
     directory.mkdir()
-    (directory / 'back').symlink_to('..', target_is_directory=True)
+    (directory / "back").symlink_to("..", target_is_directory=True)
     rows = json.loads(capture.capture_inventory(root))
     assert len(rows) == 2
-    assert {'path': 'node_modules/sub/back', 'symlink': '..'} in rows
+    assert {"path": "node_modules/sub/back", "symlink": ".."} in rows
 
 
 def test_cached_directory_entry_identity_is_not_used(tmp_path, monkeypatch):
@@ -110,7 +123,7 @@ def test_cached_directory_entry_identity_is_not_used(tmp_path, monkeypatch):
             self.path = entry.path
 
         def stat(self, **kwargs):
-            raise AssertionError('cached DirEntry identity is not portable')
+            raise AssertionError("cached DirEntry identity is not portable")
 
     class Scan:
         def __init__(self, path):
@@ -122,7 +135,7 @@ def test_cached_directory_entry_identity_is_not_used(tmp_path, monkeypatch):
         def __exit__(self, *args):
             self.inner.close()
 
-    monkeypatch.setattr(capture.os, 'scandir', Scan)
+    monkeypatch.setattr(capture.os, "scandir", Scan)
     assert len(json.loads(capture.capture_inventory(root))) == 1
 
 
@@ -132,29 +145,31 @@ def test_replacement_before_open_is_still_rejected(tmp_path, monkeypatch):
 
     def replace_then_open(path, flags):
         path.unlink()
-        path.write_bytes(b'different size')
+        path.write_bytes(b"different size")
         return original(path, flags)
 
-    monkeypatch.setattr(capture.os, 'open', replace_then_open)
-    with pytest.raises(ValueError, match='changed before read'):
+    monkeypatch.setattr(capture.os, "open", replace_then_open)
+    with pytest.raises(ValueError, match="changed before read"):
         capture.capture_inventory(root)
 
 
 def test_windows_cross_api_timestamp_semantics(monkeypatch):
     from types import SimpleNamespace
+
     base = dict(st_dev=1, st_ino=2, st_size=7, st_mtime_ns=30, st_ctime_ns=10)
     path = SimpleNamespace(**base)
     handle = SimpleNamespace(**dict(base, st_ctime_ns=20))
-    monkeypatch.setattr(capture, '_WINDOWS', True)
+    monkeypatch.setattr(capture, "_WINDOWS", True)
     assert capture._path_matches_handle(path, handle)
-    for key in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns'):
+    for key in ("st_dev", "st_ino", "st_size", "st_mtime_ns"):
         assert not capture._path_matches_handle(path, SimpleNamespace(**dict(base, **{key: 99})))
-    monkeypatch.setattr(capture, '_WINDOWS', False)
+    monkeypatch.setattr(capture, "_WINDOWS", False)
     assert not capture._path_matches_handle(path, handle)
 
 
 def test_handle_ctime_change_during_read_rejected(tmp_path, monkeypatch):
     from types import SimpleNamespace
+
     root = tree(tmp_path)
     original = os.fstat
     calls = 0
@@ -165,13 +180,21 @@ def test_handle_ctime_change_during_read_rejected(tmp_path, monkeypatch):
         calls += 1
         if calls == 1:
             return info
-        values = {key: getattr(info, key) for key in (
-            'st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns', 'st_mode',
-        )}
-        values['st_ctime_ns'] += 1
+        values = {
+            key: getattr(info, key)
+            for key in (
+                "st_dev",
+                "st_ino",
+                "st_size",
+                "st_mtime_ns",
+                "st_ctime_ns",
+                "st_mode",
+            )
+        }
+        values["st_ctime_ns"] += 1
         return SimpleNamespace(**values)
 
-    monkeypatch.setattr(capture.os, 'fstat', changing)
-    monkeypatch.setattr(capture, '_WINDOWS', True)
-    with pytest.raises(ValueError, match='changed during read'):
+    monkeypatch.setattr(capture.os, "fstat", changing)
+    monkeypatch.setattr(capture, "_WINDOWS", True)
+    with pytest.raises(ValueError, match="changed during read"):
         capture.capture_inventory(root)

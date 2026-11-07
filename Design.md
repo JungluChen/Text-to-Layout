@@ -719,3 +719,10 @@ Package import reports are developer diagnostics, distinct from solver execution
 and scientific acceptance. Show the distribution/version, interpreter/platform
 and failed import log when presenting these reports in any future UI. The new
 Python package check has no GUI or MCP surface and supplies no screenshots.
+
+## Shared research container
+
+compose.research.yaml selects x86-64 Linux explicitly on the Apple Silicon host.
+CLI, API and legacy MCP use one baked environment; tool caches/output persist
+in named volumes. Container availability is distinct from solver validation.
+See docs/guidebook/docker-apple-silicon.md; runtime screenshots remain pending.

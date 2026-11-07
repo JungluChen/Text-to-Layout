@@ -70,7 +70,9 @@ def _cmd_kqcircuits(args: argparse.Namespace) -> int:
     from textlayout.external.kqcircuits_bridge import StraightCPWRequest, generate_straight_cpw
 
     try:
-        request = StraightCPWRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
+        request = StraightCPWRequest.model_validate_json(
+            Path(args.request).read_text(encoding="utf-8")
+        )
         result = generate_straight_cpw(request, python=Path(args.python), output_dir=Path(args.out))
     except (OSError, ValueError, ValidationError) as exc:
         print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
@@ -81,9 +83,14 @@ def _cmd_kqcircuits(args: argparse.Namespace) -> int:
 
 def _cmd_quantum_metal_mask(args: argparse.Namespace) -> int:
     from textlayout.external.quantum_metal_mask import TransmonMaskRequest, generate_transmon_mask
+
     try:
-        request = TransmonMaskRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
-        result = generate_transmon_mask(request, python=Path(args.python), output_dir=Path(args.out))
+        request = TransmonMaskRequest.model_validate_json(
+            Path(args.request).read_text(encoding="utf-8")
+        )
+        result = generate_transmon_mask(
+            request, python=Path(args.python), output_dir=Path(args.out)
+        )
     except (OSError, ValueError) as exc:
         print(json.dumps({"error": type(exc).__name__, "message": str(exc)}), file=sys.stderr)
         return 1
@@ -93,6 +100,7 @@ def _cmd_quantum_metal_mask(args: argparse.Namespace) -> int:
 
 def _cmd_pyepr_circuit(args: argparse.Namespace) -> int:
     from textlayout.external.pyepr_circuit import CircuitRequest, run_circuit
+
     try:
         request = CircuitRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
         result = run_circuit(request, python=Path(args.python), output_dir=Path(args.out))
@@ -105,6 +113,7 @@ def _cmd_pyepr_circuit(args: argparse.Namespace) -> int:
 
 def _cmd_circuitq_lc(args: argparse.Namespace) -> int:
     from textlayout.external.circuitq_lc import LCRequest, run_lc
+
     try:
         request = LCRequest.model_validate_json(Path(args.request).read_text(encoding="utf-8"))
         result = run_lc(request, python=Path(args.python), output_dir=Path(args.out))
@@ -119,9 +128,12 @@ def _cmd_squadds_metadata(args: argparse.Namespace) -> int:
     from dataclasses import asdict
 
     from textlayout.external.squadds_metadata_runner import run_metadata
+
     try:
         result = run_metadata(
-            Path(args.database), python=Path(args.python), output_dir=Path(args.out),
+            Path(args.database),
+            python=Path(args.python),
+            output_dir=Path(args.out),
             timeout_seconds=args.timeout,
         )
     except (OSError, ValueError) as exc:
@@ -133,6 +145,7 @@ def _cmd_squadds_metadata(args: argparse.Namespace) -> int:
 
 def _cmd_squadds_prior(args: argparse.Namespace) -> int:
     from textlayout.external.squadds_mcp import load_wm1_prior
+
     try:
         prior = load_wm1_prior(Path(args.database), args.device)
     except (OSError, ValueError) as exc:
@@ -146,12 +159,15 @@ def _cmd_sqcircuit_lc(args: argparse.Namespace) -> int:
     from textlayout.evidence.contract import EvidenceStatus
     from textlayout.external.sqcircuit_lc import SQcircuitLCRequest
     from textlayout.external.sqcircuit_runner import run_sqcircuit_lc
+
     try:
         request = SQcircuitLCRequest.model_validate_json(
             Path(args.request).read_text(encoding="utf-8")
         )
         result = run_sqcircuit_lc(
-            request, python=Path(args.python), output_dir=Path(args.out),
+            request,
+            python=Path(args.python),
+            output_dir=Path(args.out),
             timeout_seconds=args.timeout,
         )
     except (OSError, ValueError) as exc:
@@ -239,8 +255,11 @@ def _cmd_verify(args: argparse.Namespace) -> int:
         try:
             payload = validate(Path(args.cache), out, offline=args.offline)
         except (OSError, ValueError, RuntimeError, KeyError, StopIteration) as exc:
-            payload = {"mask_geometry_passed": False, "error": str(exc),
-                       "electrical_reproduction_status": "NOT_EVALUATED"}
+            payload = {
+                "mask_geometry_passed": False,
+                "error": str(exc),
+                "electrical_reproduction_status": "NOT_EVALUATED",
+            }
         (out / "results.json").write_text(json.dumps(payload, indent=2) + "\n")
         print(json.dumps(payload, indent=2))
         return 0 if payload["mask_geometry_passed"] else 2
@@ -972,14 +991,20 @@ def _cmd_design(args: argparse.Namespace) -> int:
 
     try:
         requirements = DesignRequirements.model_validate_json(
-            Path(args.requirements).read_text(encoding="utf-8"))
+            Path(args.requirements).read_text(encoding="utf-8")
+        )
     except (OSError, ValidationError) as exc:
-        print(json.dumps({"error": "InvalidDesignRequirements", "message": str(exc)}),
-              file=sys.stderr)
+        print(
+            json.dumps({"error": "InvalidDesignRequirements", "message": str(exc)}), file=sys.stderr
+        )
         return 1
-    result = run_requirements(requirements, args.out, workflow=build_default_workflow(),
-                              execute_solver=not args.no_solver,
-                              solver_executable=args.executable)
+    result = run_requirements(
+        requirements,
+        args.out,
+        workflow=build_default_workflow(),
+        execute_solver=not args.no_solver,
+        solver_executable=args.executable,
+    )
     payload = result.to_dict()
     payload["requirements"] = requirements.model_dump(mode="json")
     payload["intent"] = result.intent.model_dump(mode="json")
@@ -997,7 +1022,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--version", action="version", version=f"textlayout {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p_design = sub.add_parser("design", help="Choose and build a device from a typed electrical goal.")
+    p_design = sub.add_parser(
+        "design", help="Choose and build a device from a typed electrical goal."
+    )
     p_design.add_argument("requirements", help="JSON file matching DesignRequirements")
     p_design.add_argument("--out", default="out/design", help="Artifact directory")
     p_design.add_argument("--no-solver", action="store_true")
@@ -1046,10 +1073,16 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_ver = sub.add_parser("verify", help="Verify a DSL file (no export).")
     p_ver.add_argument("spec", nargs="?", help="Path to a Layout DSL JSON file.")
-    p_ver.add_argument("--reference", action="store_true", help="Check pinned SQuADDS mask geometry; electrical agreement is not inferred.")
+    p_ver.add_argument(
+        "--reference",
+        action="store_true",
+        help="Check pinned SQuADDS mask geometry; electrical agreement is not inferred.",
+    )
     p_ver.add_argument("--cache", default=str(Path.home() / ".cache" / "textlayout" / "squadds"))
     p_ver.add_argument("--out", default="out/squadds_reference")
-    p_ver.add_argument("--offline", action="store_true", help="Require hash-verified cached reference assets.")
+    p_ver.add_argument(
+        "--offline", action="store_true", help="Require hash-verified cached reference assets."
+    )
     p_ver.add_argument(
         "--include-epr",
         action="store_true",
@@ -1563,47 +1596,101 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_meas_calibrate.set_defaults(func=_cmd_measurement_calibrate)
 
-    p_kqc = sub.add_parser("kqcircuits-cpw", help="Generate verified straight CPW gap masks via an isolated KQCircuits runtime; no EM simulation.")
+    p_kqc = sub.add_parser(
+        "kqcircuits-cpw",
+        help="Generate verified straight CPW gap masks via an isolated KQCircuits runtime; no EM simulation.",
+    )
     p_kqc.add_argument("request", help="JSON: length_um, width_um, gap_um.")
-    p_kqc.add_argument("--python", required=True, help="Python executable in the pinned external environment.")
-    p_kqc.add_argument("--out", required=True, help="Fresh output directory; existing runs are preserved.")
+    p_kqc.add_argument(
+        "--python", required=True, help="Python executable in the pinned external environment."
+    )
+    p_kqc.add_argument(
+        "--out", required=True, help="Fresh output directory; existing runs are preserved."
+    )
     p_kqc.set_defaults(func=_cmd_kqcircuits)
 
-    p_qm = sub.add_parser("quantum-metal-mask", help="Generate independently checked charge-pad/ground masks; no junction or EM simulation.")
+    p_qm = sub.add_parser(
+        "quantum-metal-mask",
+        help="Generate independently checked charge-pad/ground masks; no junction or EM simulation.",
+    )
     p_qm.add_argument("request", help="JSON dimensions in micrometres.")
     p_qm.add_argument("--python", required=True, help="Pinned external Python executable.")
     p_qm.add_argument("--out", required=True, help="New output directory.")
     p_qm.set_defaults(func=_cmd_quantum_metal_mask)
 
-    p_epr = sub.add_parser("pyepr-circuit", help="Run an ideal one-mode circuit with convergence/reference checks; no EM extraction.")
+    p_epr = sub.add_parser(
+        "pyepr-circuit",
+        help="Run an ideal one-mode circuit with convergence/reference checks; no EM extraction.",
+    )
     p_epr.add_argument("request", help="JSON: ej_over_h_hz, ec_over_h_hz.")
     p_epr.add_argument("--python", required=True, help="External pyEPR-quantum 1.0.2 interpreter.")
     p_epr.add_argument("--out", required=True, help="Fresh evidence directory.")
     p_epr.set_defaults(func=_cmd_pyepr_circuit)
 
-    p_cq = sub.add_parser("circuitq-lc", help="Run ideal LC with fixed grid/domain/reference checks; no EM extraction.")
+    p_cq = sub.add_parser(
+        "circuitq-lc",
+        help="Run ideal LC with fixed grid/domain/reference checks; no EM extraction.",
+    )
     p_cq.add_argument("request", help="JSON: capacitance_f, inductance_h.")
-    p_cq.add_argument("--python", required=True, help="Audited external CircuitQ 1.2.1 interpreter.")
+    p_cq.add_argument(
+        "--python", required=True, help="Audited external CircuitQ 1.2.1 interpreter."
+    )
     p_cq.add_argument("--out", required=True, help="Fresh evidence directory.")
     p_cq.set_defaults(func=_cmd_circuitq_lc)
 
-    p_sqc = sub.add_parser("sqcircuit-lc", help="Run specified ideal LC with fixed eigenpair/reference checks; no EM extraction.")
-    p_sqc.add_argument("request", help="JSON SI fields: capacitance_f, inductance_h, branch_capacitance_f (additional parallel capacitance).")
-    p_sqc.add_argument("--python", required=True, help="Audited isolated SQcircuit 1.0.0 Python executable.")
-    p_sqc.add_argument("--out", required=True, help="Fresh evidence directory; existing runs are preserved.")
-    p_sqc.add_argument("--timeout", type=float, default=120.0, help="Finite positive worker timeout in seconds (default: 120); no resume.")
+    p_sqc = sub.add_parser(
+        "sqcircuit-lc",
+        help="Run specified ideal LC with fixed eigenpair/reference checks; no EM extraction.",
+    )
+    p_sqc.add_argument(
+        "request",
+        help="JSON SI fields: capacitance_f, inductance_h, branch_capacitance_f (additional parallel capacitance).",
+    )
+    p_sqc.add_argument(
+        "--python", required=True, help="Audited isolated SQcircuit 1.0.0 Python executable."
+    )
+    p_sqc.add_argument(
+        "--out", required=True, help="Fresh evidence directory; existing runs are preserved."
+    )
+    p_sqc.add_argument(
+        "--timeout",
+        type=float,
+        default=120.0,
+        help="Finite positive worker timeout in seconds (default: 120); no resume.",
+    )
     p_sqc.set_defaults(func=_cmd_sqcircuit_lc)
 
-    p_prior = sub.add_parser("squadds-prior", help="Read a pinned offline WM1 frequency prior; no simulation or network.")
+    p_prior = sub.add_parser(
+        "squadds-prior", help="Read a pinned offline WM1 frequency prior; no simulation or network."
+    )
     p_prior.add_argument("database", type=Path, help="Local pinned measured_device_database.json.")
-    p_prior.add_argument("--device", required=True, choices=[f"qubit_{i}" for i in range(1, 7)], help="Exact WM1 device; no inferred geometry mapping.")
+    p_prior.add_argument(
+        "--device",
+        required=True,
+        choices=[f"qubit_{i}" for i in range(1, 7)],
+        help="Exact WM1 device; no inferred geometry mapping.",
+    )
     p_prior.set_defaults(func=_cmd_squadds_prior)
 
-    p_metadata = sub.add_parser("squadds-metadata", help="Execute pinned local metadata helpers; PRIOR_ONLY, no electrical validation.")
-    p_metadata.add_argument("database", type=Path, help="Local pinned measured_device_database.json.")
-    p_metadata.add_argument("--python", required=True, help="Audited isolated SQuADDS 0.4.5 Python executable.")
-    p_metadata.add_argument("--out", required=True, help="Fresh evidence directory; existing runs are preserved.")
-    p_metadata.add_argument("--timeout", type=float, default=120.0, help="Finite positive worker timeout in seconds (default: 120); no resume.")
+    p_metadata = sub.add_parser(
+        "squadds-metadata",
+        help="Execute pinned local metadata helpers; PRIOR_ONLY, no electrical validation.",
+    )
+    p_metadata.add_argument(
+        "database", type=Path, help="Local pinned measured_device_database.json."
+    )
+    p_metadata.add_argument(
+        "--python", required=True, help="Audited isolated SQuADDS 0.4.5 Python executable."
+    )
+    p_metadata.add_argument(
+        "--out", required=True, help="Fresh evidence directory; existing runs are preserved."
+    )
+    p_metadata.add_argument(
+        "--timeout",
+        type=float,
+        default=120.0,
+        help="Finite positive worker timeout in seconds (default: 120); no resume.",
+    )
     p_metadata.set_defaults(func=_cmd_squadds_metadata)
 
     return parser

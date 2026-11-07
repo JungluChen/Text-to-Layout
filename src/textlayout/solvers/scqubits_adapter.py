@@ -100,9 +100,13 @@ def execute_scqubits(prepared: SimulationResult) -> SimulationResult:
             warnings.append("f12 ≈ f01: accidental degeneracy — check EJ/EC and inputs")
         valid = abs(alpha) >= 10.0
         quantities = {
-            "ej_ghz": ej, "ec_ghz": ec, "ej_ec_ratio": ratio,
+            "ej_ghz": ej,
+            "ec_ghz": ec,
+            "ej_ec_ratio": ratio,
             "transmon_regime": ratio >= 10.0,
-            "f01_ghz": f01, "f12_ghz": f12, "anharmonicity_mhz": alpha,
+            "f01_ghz": f01,
+            "f12_ghz": f12,
+            "anharmonicity_mhz": alpha,
             "energy_levels_ghz": levels,
         }
         payload = {
@@ -112,13 +116,24 @@ def execute_scqubits(prepared: SimulationResult) -> SimulationResult:
             "solver_version": str(scqubits.__version__),
             "input_sha256": hashlib.sha256(input_path.read_bytes()).hexdigest(),
             "parameters": inputs.model_dump(),
-            "solver_inputs": {"EJ_GHz": ej, "EC_GHz": ec, "ng": inputs.ng,
-                              "ncut": inputs.ncut, "n_evals": inputs.n_evals},
-            "lineage": {"EJ": "Phi0 * ic_a / (2*pi*h), GHz",
-                        "EC": "e^2 / (2*capacitance_f*h), GHz",
-                        "source": "explicit SI inputs; extraction provenance is caller-owned",
-                        "constants": {"h_j_s": planck_j_s, "e_c": electron_charge_c,
-                                      "phi0_wb": phi0_weber, "phi0_definition": "h/(2e)"}},
+            "solver_inputs": {
+                "EJ_GHz": ej,
+                "EC_GHz": ec,
+                "ng": inputs.ng,
+                "ncut": inputs.ncut,
+                "n_evals": inputs.n_evals,
+            },
+            "lineage": {
+                "EJ": "Phi0 * ic_a / (2*pi*h), GHz",
+                "EC": "e^2 / (2*capacitance_f*h), GHz",
+                "source": "explicit SI inputs; extraction provenance is caller-owned",
+                "constants": {
+                    "h_j_s": planck_j_s,
+                    "e_c": electron_charge_c,
+                    "phi0_wb": phi0_weber,
+                    "phi0_definition": "h/(2e)",
+                },
+            },
             "quantities": quantities,
             "warnings": warnings,
             "convergence": "NOT_EVALUATED",
@@ -128,19 +143,28 @@ def execute_scqubits(prepared: SimulationResult) -> SimulationResult:
         output.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
         artifacts["result"] = str(output)
         return SimulationResult(
-            status="executed" if valid else "failed", solver="scqubits",
+            status="executed" if valid else "failed",
+            solver="scqubits",
             readiness_level=3 if valid else prepared.readiness_level,
-            reason=("Transmon spectrum from real scqubits diagonalization; not independently validated."
-                    if valid else f"Spectrum is harmonic, not transmon: |α|={abs(alpha):.3f} MHz < 10 MHz"),
-            output_dir=prepared.output_dir, artifacts=artifacts,
-            extracted_quantities=quantities if valid else {}, warnings=tuple(warnings),
+            reason=(
+                "Transmon spectrum from real scqubits diagonalization; not independently validated."
+                if valid
+                else f"Spectrum is harmonic, not transmon: |α|={abs(alpha):.3f} MHz < 10 MHz"
+            ),
+            output_dir=prepared.output_dir,
+            artifacts=artifacts,
+            extracted_quantities=quantities if valid else {},
+            warnings=tuple(warnings),
             solver_version=str(scqubits.__version__),
             runtime_seconds=time.perf_counter() - started,
         )
     except (OSError, ValueError, KeyError, ImportError, RuntimeError) as exc:
         return SimulationResult(
-            status="failed", solver="scqubits", readiness_level=prepared.readiness_level,
+            status="failed",
+            solver="scqubits",
+            readiness_level=prepared.readiness_level,
             reason=f"scqubits transmon execution failed: {exc}",
-            output_dir=prepared.output_dir, artifacts=artifacts,
+            output_dir=prepared.output_dir,
+            artifacts=artifacts,
             warnings=prepared.warnings,
         )

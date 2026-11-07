@@ -30,9 +30,7 @@ def _array(value: Any, shape: tuple[int, ...]) -> NDArray[np.float64]:
     return np.asarray(array, dtype=np.float64)
 
 
-def assess_sqcircuit_lc(
-    plan: SQcircuitLCPlan, rows: list[dict[str, Any]]
-) -> SQcircuitLCAssessment:
+def assess_sqcircuit_lc(plan: SQcircuitLCPlan, rows: list[dict[str, Any]]) -> SQcircuitLCAssessment:
     """Check raw arrays, never trusting precomputed worker pass flags.
 
     Malformed/nonfinite/zero-norm input raises ValueError. Finite numerical
@@ -44,9 +42,7 @@ def assess_sqcircuit_lc(
         raise ValueError("Exactly three ordered truncation rows required")
     request = plan.request
     total_c = request.capacitance_f + request.branch_capacitance_f
-    reference = np.arange(plan.levels) / (
-        2 * math.pi * math.sqrt(total_c * request.inductance_h)
-    )
+    reference = np.arange(plan.levels) / (2 * math.pi * math.sqrt(total_c * request.inductance_h))
     errors, residuals, hermiticities, orthogonalities, spectra = [], [], [], [], []
     capacitance_matches = True
     for size, row in zip(plan.truncations, rows):
@@ -80,13 +76,18 @@ def assess_sqcircuit_lc(
             raise ValueError("LC eigenvalues must be strictly increasing")
         excitation = (values - values[0]) / (2 * math.pi)
         errors.append(float(np.max(np.abs(excitation - reference))))
-        residuals.append(float(np.max(
-            np.linalg.norm(matrix @ vectors - vectors * values, axis=0) / (norm * vector_norms)
-        )))
+        residuals.append(
+            float(
+                np.max(
+                    np.linalg.norm(matrix @ vectors - vectors * values, axis=0)
+                    / (norm * vector_norms)
+                )
+            )
+        )
         hermiticities.append(float(np.linalg.norm(matrix - matrix.conj().T) / norm))
-        orthogonalities.append(float(np.max(np.abs(
-            vectors.conj().T @ vectors - np.eye(plan.levels)
-        ))))
+        orthogonalities.append(
+            float(np.max(np.abs(vectors.conj().T @ vectors - np.eye(plan.levels))))
+        )
         spectra.append(excitation)
         capacitance_matches = capacitance_matches and capacitance == total_c
     metrics = {

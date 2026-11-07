@@ -336,7 +336,7 @@ def test_oci_integration_requires_current_runtime(
     monkeypatch.setattr(audit_module, "REPO", tmp_path)
     monkeypatch.setattr(audit_module, "git_stdout", lambda *args: "a" * 40)
     (tmp_path / "compose.yaml").write_text("services: {}\n")
-    (tmp_path / "docker-bake.hcl").write_text("group \"default\" {}\n")
+    (tmp_path / "docker-bake.hcl").write_text('group "default" {}\n')
     image = tmp_path / "out/audit/klayout_image.json"
     if image_exists:
         image.parent.mkdir(parents=True)
@@ -350,8 +350,9 @@ def test_oci_integration_requires_current_runtime(
     assert not oci["consistency_errors"]
     assert bool(oci["blocked_gates"]) is blocked
     if image_exists:
-        retained = next(row for row in oci["evidence_hashes"]
-                        if row["path"] == "out/audit/klayout_image.json")
+        retained = next(
+            row for row in oci["evidence_hashes"] if row["path"] == "out/audit/klayout_image.json"
+        )
         assert retained["exists"] and retained["sha256"]
 
 

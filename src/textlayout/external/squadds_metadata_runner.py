@@ -1,4 +1,5 @@
 """Run the audited optional metadata worker with retained process evidence."""
+
 from __future__ import annotations
 
 import hashlib
@@ -25,7 +26,11 @@ class MetadataRun:
 
 
 def run_metadata(
-    database: Path, *, python: Path, output_dir: Path, timeout_seconds: float = 120,
+    database: Path,
+    *,
+    python: Path,
+    output_dir: Path,
+    timeout_seconds: float = 120,
 ) -> MetadataRun:
     """Run once in a fresh directory; retain failures and never resume implicitly.
 
@@ -50,8 +55,12 @@ def run_metadata(
     worker_hash = hashlib.sha256(worker.read_bytes()).hexdigest()
     interpreter_hash = None
     environment = os.environ.copy()
-    overrides = {"HF_HUB_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1",
-                 "QT_QPA_PLATFORM": "offscreen", "PYTHONNOUSERSITE": "1"}
+    overrides = {
+        "HF_HUB_OFFLINE": "1",
+        "HF_DATASETS_OFFLINE": "1",
+        "QT_QPA_PLATFORM": "offscreen",
+        "PYTHONNOUSERSITE": "1",
+    }
     for name in ("MPLCONFIGDIR", "XDG_CACHE_HOME", "HF_HOME"):
         overrides[name] = str(directory / "cache" / name.lower())
     environment.update(overrides)
@@ -59,11 +68,21 @@ def run_metadata(
     assessment = None
     failure = None
     started = time.monotonic()
-    with (directory / "stdout.txt").open("wb") as stdout, (directory / "stderr.txt").open("wb") as stderr:
+    with (
+        (directory / "stdout.txt").open("wb") as stdout,
+        (directory / "stderr.txt").open("wb") as stderr,
+    ):
         try:
             interpreter_hash = hashlib.sha256(interpreter.read_bytes()).hexdigest()
-            process = subprocess.run(command, cwd=directory, env=environment, stdout=stdout,
-                                     stderr=stderr, timeout=timeout_seconds, check=False)
+            process = subprocess.run(
+                command,
+                cwd=directory,
+                env=environment,
+                stdout=stdout,
+                stderr=stderr,
+                timeout=timeout_seconds,
+                check=False,
+            )
             code = process.returncode
             if code != 0:
                 raise ValueError("Worker failed; inspect stderr.txt")
@@ -83,15 +102,27 @@ def run_metadata(
         except (OSError, ValueError, TypeError) as exc:
             failure = f"{type(exc).__name__}: {exc}"
     result = MetadataRun(str(directory), code, assessment, failure)
-    (directory / "result.json").write_text(json.dumps(asdict(result), indent=2) + "\n", encoding="utf-8")
+    (directory / "result.json").write_text(
+        json.dumps(asdict(result), indent=2) + "\n", encoding="utf-8"
+    )
     manifest = {
-        "schema": "textlayout.squadds-metadata-process.v1", "command": command,
-        "timeout_seconds": timeout_seconds, "elapsed_seconds": time.monotonic() - started,
-        "environment_overrides": overrides, "worker_sha256": worker_hash,
-        "interpreter_sha256": interpreter_hash, "return_code": code,
-        "physics_verified": False, "electrical_reproduction_status": "NOT_EVALUATED",
-        "artifact_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                            for p in directory.iterdir() if p.is_file()},
+        "schema": "textlayout.squadds-metadata-process.v1",
+        "command": command,
+        "timeout_seconds": timeout_seconds,
+        "elapsed_seconds": time.monotonic() - started,
+        "environment_overrides": overrides,
+        "worker_sha256": worker_hash,
+        "interpreter_sha256": interpreter_hash,
+        "return_code": code,
+        "physics_verified": False,
+        "electrical_reproduction_status": "NOT_EVALUATED",
+        "artifact_sha256": {
+            p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in directory.iterdir()
+            if p.is_file()
+        },
     }
-    (directory / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (directory / "manifest.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+    )
     return result
