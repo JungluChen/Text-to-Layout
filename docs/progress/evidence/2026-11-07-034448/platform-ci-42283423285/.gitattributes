@@ -1,0 +1,2 @@
+# Preserve downloaded CI evidence byte-for-byte, including Windows CRLF.
+* -text
