@@ -1,0 +1,221 @@
+{
+  "schema": "textlayout.python-package-imports.v1",
+  "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "executable": "/home/runner/work/Text-to-Layout/Text-to-Layout/.venv/bin/python",
+  "results": [
+    {
+      "distribution": "gdsfactory",
+      "module": "gdsfactory",
+      "version": "9.43.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "klayout",
+      "module": "klayout.db",
+      "version": "0.30.9",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "langgraph",
+      "module": "langgraph",
+      "version": "1.2.7",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "matplotlib",
+      "module": "matplotlib",
+      "version": "3.10.9",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "mcp",
+      "module": "mcp",
+      "version": "1.27.2",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "numpy",
+      "module": "numpy",
+      "version": "1.26.4",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "scipy",
+      "module": "scipy",
+      "version": "1.17.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "pillow",
+      "module": "PIL",
+      "version": "12.2.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "pydantic",
+      "module": "pydantic",
+      "version": "2.12.5",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "pyyaml",
+      "module": "yaml",
+      "version": "6.0.3",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "trimesh",
+      "module": "trimesh",
+      "version": "4.12.2",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "fastapi",
+      "module": "fastapi",
+      "version": "0.138.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "uvicorn",
+      "module": "uvicorn",
+      "version": "0.48.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "kqcircuits",
+      "module": "kqcircuits",
+      "version": "4.9.11",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "quantum-metal",
+      "module": "qiskit_metal",
+      "version": "0.9.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "gdstk",
+      "module": "gdstk",
+      "version": "1.0.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "optuna",
+      "module": "optuna",
+      "version": "4.9.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "scikit-rf",
+      "module": "skrf",
+      "version": "1.12.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "qcodes",
+      "module": "qcodes",
+      "version": "0.58.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "scqubits",
+      "module": "scqubits",
+      "version": "4.3.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "gmsh",
+      "module": "gmsh",
+      "version": "4.15.2",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "meshio",
+      "module": "meshio",
+      "version": "5.3.5",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "mkdocs",
+      "module": "mkdocs",
+      "version": "1.6.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "mkdocs-material",
+      "module": "material",
+      "version": "9.7.6",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "pytest",
+      "module": "pytest",
+      "version": "9.0.3",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "ruff",
+      "module": "ruff",
+      "version": "0.15.15",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "mypy",
+      "module": "mypy",
+      "version": "2.1.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "pytest-cov",
+      "module": "pytest_cov",
+      "version": "7.1.0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "build",
+      "module": "build",
+      "version": "1.5.1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "distribution": "hatchling",
+      "module": "hatchling",
+      "version": "1.31.0",
+      "exit_code": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "unmapped_distributions": [],
+  "scope": "package metadata and imports only; no solver acceptance"
+}
