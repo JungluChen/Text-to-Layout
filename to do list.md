@@ -12,10 +12,11 @@ The pending gates are:
 1. **Palace native environment — pending.** Run 42608792208 retained one
    solver-backed official smoke with Palace 0.17.0; its ZIP omitted the mesh
    and the reduced solve was cancelled after reaching 3,366,845 elements.
-   The workflow now requests a second fresh smoke, strict drift check and both
-   meshes before the costly benchmark. Execute this changed workflow and retain
-   its output before claiming repeatability. Full reduced benchmark,
-   convergence and reference comparison remain separate pending gates.
+   The changed workflow ran on exact SHA `f2aaf7138b1282d1ad964a6e0f9a49237212936a`
+   in run 43432426498: both official cavity2d smokes and their retained meshes
+   passed the strict same-input frequency drift check. This is operational
+   repeatability only. Full reduced CPW benchmark, convergence, mode identity
+   and independent reference comparison remain separate pending gates.
 2. **Atomic Palace resume — code present, real restart acceptance pending.**
    Repeat the original stage probe twice and retain exact stage artifacts and a
    bounded actual Palace restart. Never treat state-machine tests as numerical proof.

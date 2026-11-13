@@ -4,7 +4,7 @@
 - **GitHub Actions Run ID:** [`43432426498`](https://github.com/JungluChen/Text-to-Layout/actions/runs/43432426498) (Job: `131908984951`)
 - **Status / Conclusion:** `completed` / `success`
 - **Workflow:** `palace-integration.yml`
-- **Source Commit:** `f2aaf71f9cfd0c1598b0f803c516f8ef256e297f`
+- **Source Commit:** `f2aaf7138b1282d1ad964a6e0f9a49237212936a`
 - **Palace Version:** `0.17.0` (commit: `12d8069afb5aa9e169a17e303d735e120968e9f2`)
 - **Palace Binary SHA-256:** `ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f`
 - **Gmsh Version:** `4.15.2` (module SHA-256: `f4b0935cebde899750293d87a643090e5ea33c9b18d249267f507db68a0e01c3`)
@@ -20,6 +20,13 @@ Downloaded artifact `palace-pre-benchmark-1` (ID: `14046344969`) containing the 
 | **Run 2 (Repeat)** | `out/toolchain/palace_smoke_repeat/mesh/cavity2d.msh` | 451,217 | `4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1` |
 
 **Mesh Identity Assertion:** `SHA256(Mesh 1) == SHA256(Mesh 2) -> TRUE`
+
+The original `palace-pre-benchmark-1` ZIP is retained at
+`docs/progress/evidence/2026-11-14-025845/palace-pre-benchmark-1.zip`
+(SHA-256 `bc566d0ccf93884e33291bf5b8ef293aeca23a952ac8e97539201e98573cfd8f`).
+The independent reparse/rehash result is beside it. This evidence proves
+same-input smoke repeatability only; it does not validate the reduced CPW mode,
+mesh convergence, reference agreement or EPR quantities.
 
 ---
 

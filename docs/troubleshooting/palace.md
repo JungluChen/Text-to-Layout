@@ -63,7 +63,9 @@ The workflow now uploads `palace-pre-benchmark-<attempt>` after smoke succeeds
 and before the reduced benchmark starts. It contains installation and smoke
 records, smoke CSVs/logs and starting runner resources. The revised workflow
 also retains the downloaded official mesh for both fresh smoke runs and a
-same-input frequency-drift comparison. Its actual CI execution is pending;
+same-input frequency-drift comparison. Smoke-only CI run 43432426498 passed
+and the retained artifact was independently rehashed; the reduced CPW benchmark
+was deliberately skipped, so this is not convergence or reference evidence.
 the older artifact from run 42608792208 contains only the first smoke and omits
 the mesh, so its input hash cannot be independently rechecked from that ZIP.
 Real Linux run

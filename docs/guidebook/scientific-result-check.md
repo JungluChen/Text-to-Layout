@@ -57,8 +57,10 @@ the solver input; the illustration alone cannot supply them.
    JSON, mesh metrics and eigenvalue files. Record exact commands and hashes.
    The revised workflow runs the official cavity smoke in two fresh directories,
    checks the same input/binary and strict relative frequency drift below 1e-6,
-   then uploads both meshes and output CSVs before the reduced benchmark. This
-   sequence is pending an actual CI run. The 2026-11-09 retained packet from
+   then uploads both meshes and output CSVs before the reduced benchmark. The
+   [smoke-only run 43432426498](https://github.com/JungluChen/Text-to-Layout/actions/runs/43432426498)
+   passed and its retained meshes and CSVs were rehashed; this verifies
+   repeatability, not the reduced CPW result. The 2026-11-09 retained packet from
    [run 42608792208](https://github.com/JungluChen/Text-to-Layout/actions/runs/42608792208)
    contains one successful smoke only; its reduced solve was cancelled after
    reaching 3,366,845 elements. Its failure cause is unproven.

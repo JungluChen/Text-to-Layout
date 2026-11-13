@@ -1,0 +1,17 @@
+{
+  "schema": "textlayout.palace-smoke-repeat.v1",
+  "status": "REPEATABLE_SMOKE",
+  "passed": true,
+  "relative_frequency_drifts": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "strict_relative_drift_limit": 1e-06,
+  "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+  "first_result_sha256": "ded25a891407943f5b86d4f9c345564416e78797c071f58330772f2ab010048a",
+  "repeat_result_sha256": "cb8798312c21c83a3e2d983d4392b11dca627848c3353b7d3fab79e78032d2b8",
+  "scope": "same-input official smoke repeatability; not mesh convergence or physics verification"
+}

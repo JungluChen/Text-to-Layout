@@ -7,7 +7,7 @@
     "html_url": "https://github.com/JungluChen/Text-to-Layout/actions/runs/43432426498/job/131908984951",
     "conclusion": "success",
     "workflow": "palace-integration.yml",
-    "commit_sha": "f2aaf71f9cfd0c1598b0f803c516f8ef256e297f"
+    "commit_sha": "f2aaf7138b1282d1ad964a6e0f9a49237212936a"
   },
   "artifacts": {
     "palace_pre_benchmark_1_zip_id": 14046344969,
