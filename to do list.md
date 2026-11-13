@@ -1,16 +1,39 @@
 # To do list
 
-## Current user mission — eight critical tasks and Docker (2026-11-07) [COMPLETED & VERIFIED]
+## Current user mission — eight critical tasks and Docker (2026-11-07) [IN PROGRESS]
 
-All 8 critical priorities have been systematically implemented, audited, and verified:
-1. **Verified Palace 0.17.0 native environment**: Executable provenance in `.tools/palace/install.json` (version, binary path, SHA-256) and verified consecutive smoke runs drift $< 10^{-6}$.
-2. **Atomic Checkpoint & Resume Engine**: State-machine manifest in `src/textlayout/simulation/backends/palace.py` (`PENDING | RUNNING_BASE | RUNNING_AMR | CONVERGED | INTERRUPTED`), true `base_mesh` -> `base_amr` continuation, completed run bypass, and artifact preservation.
-3. **openEMS Port Mesh Snapping Guard**: Yee cell collapse rectification ensuring $\ge 3$ grid lines across signal-ground excitation gap, verified on 401-point 50-ohm CPW line (finite S-parameters, zero NaN/Inf).
-4. **Modal Overlap Tracking**: Field overlap integral / dot product tracking across $\ge 3$ mesh refinement tiers in Palace AMR with eigenvalue stability gate ($\Delta f / f_0 < 0.1\%$).
-5. **Independent Cross-Solver EM Baseline**: Standard 50-ohm CPW benchmark (`benchmarks/cross_validation/`) comparing FasterCap BEM vs. scikit-rf analytical Ghione/Naldi model (error $\le 1.0\%$) and openEMS FDTD vs. Palace FEM.
-6. **Multi-Stage Dockerfile & Doctor 3.0**: Production multi-stage `Dockerfile` (`ubuntu:24.04` builder + runtime) and unified audit table (`INSTALLED`, `EXECUTABLE`, `VERIFIED`) in `textlayout doctor`.
-7. **FastHenry2 & FasterCap Ground-Truth Validation**: Ground-truth test suite in `tests/textlayout_suite/test_field_solvers.py` (FasterCap BEM vs. Bahl/Alley; FastHenry2 PEEC vs. Mohan/Wheeler) and documented limits in `docs/verification/solvers.md`.
-8. **Full EPR to Circuit Hamiltonian Chain**: Connected `GDS` -> `Gmsh 3D Mesh` -> `Palace Eigenmode` -> `domain-E.csv` -> `quantum/epr.py` -> `scqubits` exact transmon diagonalization ($< 0.5\%$ error) and report embedding.
+The 2026-11-07 completion claim was premature. Code and passing control-flow
+tests are distinct from solver execution and scientific validation. The
+2026-11-13 audit found fixed factors posing as FasterCap, openEMS and Palace
+outputs in `benchmarks/cross_validation/`, plus synthetic convergence tests in
+`test_field_solvers.py`; these are withdrawn and the benchmark now fails closed.
+The pending gates are:
+
+1. **Palace native environment — pending.** Retain install/version/binary hash,
+   official smoke twice, full reduced benchmark, convergence and reference
+   comparison; inspect failed CI run 42608792208 before dispatching another job.
+2. **Atomic Palace resume — code present, real restart acceptance pending.**
+   Repeat the original stage probe twice and retain exact stage artifacts and a
+   bounded actual Palace restart. Never treat state-machine tests as numerical proof.
+3. **openEMS port mesh — code present, numerical acceptance pending.** Reproduce
+   the 401-sample non-finite case unchanged twice, diagnose raw port signals,
+   then test a physical transmission line with one excited port per run.
+4. **Modal overlap — implementation needs solver field audit.** Establish matching
+   modes over at least three mesh tiers with field overlap, residuals and
+   endpoint/energy checks; frequency proximity alone is insufficient.
+5. **Cross-solver CPW — analytical reference only.** Acquire real, same-geometry
+   FasterCap/openEMS/Palace outputs with identity, raw files, convergence and
+   predefined tolerances before any comparison or pass status.
+6. **Docker and doctor — implementation present, full acceptance pending.**
+   Build and run the pinned image on Apple Silicon as linux/amd64; verify every
+   included native executable and a solver-owned smoke, plus package imports.
+   Rosetta acceleration and an image build alone do not certify numerical work.
+7. **FasterCap/FastHenry2 — analytical formulas only.** Run actual binaries with
+   valid inputs at three refinements; retain raw output and compare matching
+   observables to independent references. See `docs/verification/solvers.md`.
+8. **EPR chain — code present, end-to-end validation pending.** Require a
+   converged Palace field, correct electric and junction-energy integrals, mode
+   identity, and independent Hamiltonian comparison before reporting accuracy.
 
 
 ## Package compatibility checkpoint (2026-11-07)

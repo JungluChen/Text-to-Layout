@@ -1232,3 +1232,7 @@ No GUI capture or numerical acceptance follows from import success.
 See [the x86-64 Docker walkthrough](docker-apple-silicon.md) for locked package
 installation, architecture verification, CLI/API/MCP commands, output export and
 recovery. Native solver installation and actual runtime evidence remain explicit.
+
+The [scientific result checklist](scientific-result-check.md) records the
+withdrawn synthetic CPW/FasterCap/FastHenry2 comparison claims. Passing package
+or formula tests does not restore those numerical results.

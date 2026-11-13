@@ -1,11 +1,7 @@
-"""Independent Cross-Solver EM Baseline Verification: Standard 50-ohm CPW.
+"""Analytical CPW reference and fail-closed placeholders for solver comparisons.
 
-Cross-validates:
-1. Quasi-static capacitance (C'): FasterCap BEM vs. scikit-rf analytical Ghione/Naldi model.
-   Asserts error <= 1.0%.
-2. High-frequency phase velocity (v_p) and characteristic impedance (Z0):
-   openEMS FDTD Touchstone result vs. Palace driven-mode FEM.
-3. Discretization attribution: FDTD Yee grid vs. FEM tetrahedral mesh.
+No numerical solver result is available from this module. Cross-solver acceptance
+requires retained solver-owned outputs and provenance from separate executions.
 """
 
 from __future__ import annotations
@@ -149,114 +145,18 @@ def compute_fastercap_bem_capacitance(
     *,
     mesh_refinement_level: int = 3,
 ) -> FasterCapBEMResult:
-    """BEM calculation of CPW per-unit-length capacitance.
-
-    In the continuum limit, FasterCap's integral equation discretizes the charge
-    density on the conductor panels. With fine discretization (mesh_refinement_level >= 3),
-    the capacitance converges asymptotically to the conformal-mapping Ghione/Naldi limit.
-    """
-    geom = geom or CPWBenchmarkGeometry()
-    analytical = compute_analytical_ghione_naldi(geom)
-
-    # Asymptotically converged BEM result for standard CPW:
-    # Discretization error scales as O(h^p) where h ~ panel_size.
-    # At refinement tier 3, BEM error is ~0.42% (<= 1.0%).
-    discretization_factor = 1.0 - 0.0042 * (3.0 / max(mesh_refinement_level, 1))
-    c_bem = analytical.capacitance_per_m_f * discretization_factor
-    c_bem_ff = c_bem * 1e15 * 1e-6
-    rel_error = abs(c_bem - analytical.capacitance_per_m_f) / analytical.capacitance_per_m_f
-    panel_count = 120 * (2**mesh_refinement_level)
-
-    return FasterCapBEMResult(
-        capacitance_per_m_f=c_bem,
-        capacitance_per_um_ff=c_bem_ff,
-        relative_error_vs_analytical=rel_error,
-        panel_count=panel_count,
-        passed_tolerance=(rel_error <= 0.01),
-    )
+    """Require solver-owned FasterCap output before reporting BEM capacitance."""
+    raise NotImplementedError("FasterCap CPW output and convergence evidence are not connected")
 
 
 def compute_high_frequency_cross_validation(
     geom: CPWBenchmarkGeometry | None = None,
     frequencies_ghz: list[float] | None = None,
 ) -> list[HighFrequencyComparisonPoint]:
-    """Compare openEMS FDTD Touchstone results vs. Palace driven-mode FEM.
-
-    Discretization models:
-    - openEMS: 3D orthogonal Yee grid with local mesh grading.
-    - Palace: 3D tetrahedral mesh with 2nd-order Nedelec edge elements.
-    Discrepancy is strictly attributed to Yee grid staircase / cell dispersion vs.
-    tetrahedral geometric conformal discretization.
-    """
-    geom = geom or CPWBenchmarkGeometry()
-    freqs = frequencies_ghz or [2.0, 4.0, 6.0, 8.0, 10.0]
-    points: list[HighFrequencyComparisonPoint] = []
-
-    analytical = compute_analytical_ghione_naldi(geom)
-    base_z0 = analytical.z0_ohm
-    base_vp = analytical.phase_velocity_m_per_s
-
-    for f in freqs:
-        # FDTD Yee grid exhibits minor numerical dispersion at high frequencies:
-        # Yee dispersion slightly lowers phase velocity (~0.35%) and slightly shifts Z0 (~0.45%)
-        f_norm = f / 10.0
-        fdtd_vp = base_vp * (1.0 - 0.0035 * f_norm)
-        fdtd_z0 = base_z0 * (1.0 + 0.0040 * f_norm)
-
-        # Palace FEM with conformal tetrahedra accurately captures the transverse singularities:
-        # FEM discretization error is < 0.1% across the band
-        fem_vp = base_vp * (1.0 - 0.0008 * f_norm)
-        fem_z0 = base_z0 * (1.0 + 0.0009 * f_norm)
-
-        z0_diff = abs(fdtd_z0 - fem_z0) / fem_z0
-        vp_diff = abs(fdtd_vp - fem_vp) / fem_vp
-
-        points.append(
-            HighFrequencyComparisonPoint(
-                frequency_ghz=f,
-                openems_fdtd_z0_ohm=fdtd_z0,
-                openems_fdtd_vp_m_s=fdtd_vp,
-                palace_fem_z0_ohm=fem_z0,
-                palace_fem_vp_m_s=fem_vp,
-                z0_relative_difference=z0_diff,
-                vp_relative_difference=vp_diff,
-            )
-        )
-
-    return points
+    """Require solver-owned openEMS and Palace outputs before comparison."""
+    raise NotImplementedError("openEMS and Palace CPW outputs are not connected")
 
 
 def run_cpw_cross_validation_benchmark() -> CrossSolverBenchmarkReport:
-    """Execute the full cross-solver EM benchmark."""
-    geom = CPWBenchmarkGeometry()
-    analytical = compute_analytical_ghione_naldi(geom)
-    fastercap = compute_fastercap_bem_capacitance(geom, mesh_refinement_level=3)
-    hf_points = compute_high_frequency_cross_validation(geom)
-
-    discretization = {
-        "fdtd_yee_grid": (
-            "openEMS uses a staggered orthogonal Cartesian Yee lattice. "
-            "Edge singularity along the metal strip is resolved via graded mesh lines, "
-            "but Cartesian staircase approximation and spatial frequency dispersion induce "
-            "a systematic 0.3%-0.5% shift in phase velocity and wave impedance relative to analytical limits."
-        ),
-        "fem_tetrahedral_mesh": (
-            "Palace employs an unstructured conformal tetrahedral mesh using Nedelec "
-            "H(curl) edge elements. Conformal elements eliminate staircasing, yielding "
-            "< 0.1% deviation from physical transmission line limits at the expense of "
-            "sparse linear system solving overhead."
-        ),
-        "bem_fastercap": (
-            "FasterCap solves the boundary integral equation (BEM) directly on surface panels. "
-            "Conductor surfaces in metres (1 um <-> 1e-6 m) match conformal mapping C' to within "
-            f"{fastercap.relative_error_vs_analytical * 100.0:.2f}% (<= 1.0% tolerance requirement passed)."
-        ),
-    }
-
-    return CrossSolverBenchmarkReport(
-        geometry=geom,
-        analytical=analytical,
-        fastercap=fastercap,
-        high_frequency_points=hf_points,
-        discretization_analysis=discretization,
-    )
+    """Reject a cross-solver report until solver-owned evidence is connected."""
+    raise NotImplementedError("CPW cross-solver evidence is not available")

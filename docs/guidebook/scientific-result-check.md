@@ -5,6 +5,14 @@ Palace CI evidence to show how a failed result is rejected. It does **not**
 claim that the quarter-wave benchmark is already accurate. A versioned desktop
 screenshot is pending until an installed app exists.
 
+**2026-11-13 cross-solver correction:** The former CPW cross-validation table
+and FasterCap/FastHenry2 mesh-convergence tests used fixed factors applied to
+analytical formulas; no native solver produced those values. The claims were
+withdrawn. See the [CPW benchmark status](../../benchmarks/cross_validation/README.md)
+and [field-solver status](../verification/solvers.md). Treat the analytical CPW
+calculation as a reference estimate only; the cross-solver report now refuses
+to run until solver-owned outputs are connected.
+
 ![Existing CPW geometry illustration; this is a layout image, not a solver result or desktop screenshot](../../assets/fabrication_real_cpw_resonator.layout.png)
 
 The image helps identify the center trace, two ground gaps and resonator path.

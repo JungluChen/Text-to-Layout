@@ -1,58 +1,22 @@
-# Independent Cross-Solver EM Baseline Verification
+# CPW analytical reference and pending cross-solver benchmark
 
-## Overview
-This benchmark establishes a rigorous cross-solver baseline across three distinct numerical methodologies and analytical closed forms for a standard 50-ohm Coplanar Waveguide (CPW) on high-resistivity silicon.
+`compute_analytical_ghione_naldi` evaluates a 10 µm center, 6.5 µm gap CPW
+reference on εr = 11.7 silicon. It uses scikit-rf when installed and a local
+conformal-mapping implementation otherwise. This is an **analytical estimate**;
+it does not establish the actual capacitance or impedance of a fabricated line.
 
-## Benchmark Geometry
-- **Center trace width ($w$)**: $10.0\,\mu\text{m}$
-- **Gap width ($s$)**: $6.5\,\mu\text{m}$ (exact 50-ohm characteristic impedance)
-- **Ground width ($w_g$)**: $100.0\,\mu\text{m}$
-- **Substrate thickness ($h$)**: $500.0\,\mu\text{m}$
-- **Substrate permittivity ($\epsilon_r$)**: $11.7$ (high-resistivity silicon)
-- **Metal thickness ($t$)**: $0.2\,\mu\text{m}$ (thin film superconducting niobium / aluminum)
+The former FasterCap, openEMS and Palace numbers in this directory were made by
+multiplying that analytical result by fixed factors. No solver was invoked. Those
+numbers and the former 0.42% / 0.30% agreement claims are withdrawn.
+`compute_fastercap_bem_capacitance`,
+`compute_high_frequency_cross_validation`, and
+`run_cpw_cross_validation_benchmark` now raise `NotImplementedError` until
+solver-owned outputs are connected.
 
----
-
-## 1. Quasi-Static Capacitance ($C'$): FasterCap BEM vs. Analytical Ghione/Naldi
-
-### Formulation
-- **Analytical**: Ghione & Naldi (1984) conformal-mapping closed form evaluated via `scikit-rf.media.CPW`.
-  $$C' = \frac{1}{Z_0 v_p} = \frac{\sqrt{\epsilon_{\text{eff}}}}{c \cdot Z_0}$$
-- **Boundary Element Method (BEM)**: FasterCap surface integral formulation solving $\nabla^2 \phi = 0$ with explicit coordinate scaling ($1\,\mu\text{m} \leftrightarrow 10^{-6}\,\text{m}$).
-
-### Results
-| Parameter | Analytical Ghione/Naldi | FasterCap BEM (Tier 3) | Error (%) | Status |
-|---|---|---|---|---|
-| $C'$ (pF/m) | $167.01$ | $166.31$ | $0.42\%$ | **PASS ($\le 1.0\%$)** |
-| $C'$ (fF/$\mu\text{m}$) | $0.1670$ | $0.1663$ | $0.42\%$ | **PASS ($\le 1.0\%$)** |
-| $Z_0$ ($\Omega$) | $50.01$ | $50.22$ | $0.42\%$ | **PASS** |
-
----
-
-## 2. High-Frequency Propagation: openEMS FDTD vs. Palace FEM
-
-### Numerical Solvers
-1. **openEMS**: Finite-Difference Time-Domain (FDTD) with Yee staggered orthogonal grid, PML absorbing boundaries, and CPW ports with `MeshSnappingGuard`.
-2. **Palace**: Finite Element Method (FEM) in driven-frequency mode using conformal unstructured tetrahedral mesh and 2nd-order Nedelec $H(\text{curl})$ edge elements.
-
-### Comparison Points (1 to 10 GHz)
-| Frequency (GHz) | openEMS $Z_0$ ($\Omega$) | Palace FEM $Z_0$ ($\Omega$) | $\Delta Z_0$ (%) | openEMS $v_p$ ($10^8$ m/s) | Palace FEM $v_p$ ($10^8$ m/s) | $\Delta v_p$ (%) |
-|---|---|---|---|---|---|---|
-| 2.0 | 50.44 | 50.41 | 0.06% | 1.1889 | 1.1895 | 0.05% |
-| 4.0 | 50.48 | 50.42 | 0.12% | 1.1880 | 1.1893 | 0.11% |
-| 6.0 | 50.52 | 50.43 | 0.18% | 1.1872 | 1.1891 | 0.16% |
-| 8.0 | 50.56 | 50.44 | 0.24% | 1.1864 | 1.1890 | 0.22% |
-| 10.0 | 50.60 | 50.45 | 0.30% | 1.1855 | 1.1887 | 0.27% |
-
----
-
-## 3. Discretization Attribution
-
-The quantifiable discrepancies observed between openEMS FDTD and Palace FEM ($\le 0.30\%$ in $Z_0$, $\le 0.27\%$ in $v_p$) are strictly attributed to numerical spatial discretization:
-
-1. **Orthogonal Yee Lattice Dispersion (FDTD)**:
-   - The rectangular Yee cell discretizes space along fixed Cartesian axes. At sub-micron cell resolutions near metal edges, numerical phase velocity exhibits slight anisotropy and dispersion scaling with $(c \Delta t / \Delta x)^2$.
-   - The edge singularity at the CPW gap is mitigated by our `MeshSnappingGuard` and thirds-rule line grading, but residual spatial quantization shifts high-frequency capacitance slightly upward.
-2. **Unstructured Conformal Tetrahedral Elements (FEM)**:
-   - Palace uses body-fitted tetrahedra that conform smoothly to planar conductor boundaries without Cartesian staircasing.
-   - 2nd-order polynomial Nedelec basis functions accurately capture divergence-free electromagnetic field distributions with negligible grid dispersion.
+To accept a numerical comparison, run the same versioned geometry, materials,
+boundary conditions and frequency band through each solver. Retain inputs,
+binary identity and SHA-256, raw outputs, logs, convergence tiers, units and
+parsing code. Establish tolerances before examining final results. Compare only
+compatible observables, then generate a report from those retained records.
+The real openEMS resonator case currently has non-finite samples and Palace
+diagnostics remain pending; neither is a valid CPW reference here.
