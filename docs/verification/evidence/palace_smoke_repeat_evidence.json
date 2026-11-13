@@ -1,0 +1,77 @@
+{
+  "schema": "textlayout.palace-smoke-repeat-evidence.v1",
+  "verified_at": "2026-11-13T14:49:49Z",
+  "github_action_run": {
+    "run_id": 43432426498,
+    "job_id": 131908984951,
+    "html_url": "https://github.com/JungluChen/Text-to-Layout/actions/runs/43432426498/job/131908984951",
+    "conclusion": "success",
+    "workflow": "palace-integration.yml",
+    "commit_sha": "f2aaf71f9cfd0c1598b0f803c516f8ef256e297f"
+  },
+  "artifacts": {
+    "palace_pre_benchmark_1_zip_id": 14046344969,
+    "palace_integration_evidence_zip_id": 14046984261
+  },
+  "solver_provenance": {
+    "palace_version": "0.17.0",
+    "palace_commit": "12d8069afb5aa9e169a17e303d735e120968e9f2",
+    "palace_executable": "/home/runner/.cache/textlayout-palace/spack-opt/linux-x86_64_v3/palace-0.17.0-335nobhdrttyodzyww7dycut5ypn7cre/bin/palace",
+    "palace_executable_sha256": "ad43ec030f51435f32150a5c72cb324ca03083d2ffc2f91405bbf41c6bc2240f",
+    "gmsh_version": "4.15.2",
+    "spack_version": "1.1.0",
+    "spack_commit": "0c2be44e4ece21eb091ad5de4c97716b7c6d4c87",
+    "installed_at": "2026-11-13T14:47:50.272013+00:00"
+  },
+  "dual_mesh_verification": {
+    "mesh1_path": "out/toolchain/palace_smoke/mesh/cavity2d.msh",
+    "mesh1_sha256": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1",
+    "mesh1_bytes": 451217,
+    "mesh2_path": "out/toolchain/palace_smoke_repeat/mesh/cavity2d.msh",
+    "mesh2_sha256": "4ab22f7051abb00e881a9a098d5dcda082dd1fcfde7784f8c2ff3a7c2a95d6f1",
+    "mesh2_bytes": 451217,
+    "meshes_identical": true
+  },
+  "consecutive_eigenmodes_verification": {
+    "strict_relative_drift_limit": 1e-06,
+    "status": "REPEATABLE_SMOKE",
+    "passed": true,
+    "modes": [
+      {
+        "mode_index": 1,
+        "f_run1_ghz": 0.103934328377,
+        "f_run2_ghz": 0.103934328377,
+        "relative_drift": 0.0,
+        "drift_passed": true
+      },
+      {
+        "mode_index": 2,
+        "f_run1_ghz": 0.2078686586235,
+        "f_run2_ghz": 0.2078686586235,
+        "relative_drift": 0.0,
+        "drift_passed": true
+      },
+      {
+        "mode_index": 3,
+        "f_run1_ghz": 0.2078686591775,
+        "f_run2_ghz": 0.2078686591775,
+        "relative_drift": 0.0,
+        "drift_passed": true
+      },
+      {
+        "mode_index": 4,
+        "f_run1_ghz": 0.2324042265491,
+        "f_run2_ghz": 0.2324042265491,
+        "relative_drift": 0.0,
+        "drift_passed": true
+      },
+      {
+        "mode_index": 5,
+        "f_run1_ghz": 0.2939706870914,
+        "f_run2_ghz": 0.2939706870914,
+        "relative_drift": 0.0,
+        "drift_passed": true
+      }
+    ]
+  }
+}
