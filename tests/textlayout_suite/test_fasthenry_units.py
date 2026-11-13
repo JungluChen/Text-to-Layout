@@ -7,7 +7,7 @@ import pytest
 from textlayout import build_default_workflow
 from textlayout.schemas.dsl import LayoutSpec
 from textlayout.simulation import prepare_spiral_fasthenry, run_fasthenry
-from textlayout.simulation.runners import find_executable
+from textlayout.simulation.runners import _FASTHENRY_NAMES, find_executable
 
 
 def prepared_spiral(tmp_path):
@@ -43,7 +43,7 @@ def test_normal_metal_conductivity_is_converted_to_micrometre_units(tmp_path):
 def test_real_fasthenry_resistance_matches_ohms_law(tmp_path):
     from pathlib import Path
 
-    executable = find_executable(("fasthenry",), env_var="TEXTLAYOUT_FASTHENRY")
+    executable = find_executable(_FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY")
     if executable is None:
         pytest.skip("Real FastHenry is optional")
     prepared, geometry = prepared_spiral(tmp_path)
@@ -55,3 +55,18 @@ def test_real_fasthenry_resistance_matches_ohms_law(tmp_path):
     length_m = geometry.metadata["centerline_length_um"] * 1e-6
     expected = length_m / (5.8e7 * 4e-6 * 0.2e-6)
     assert resistance == pytest.approx(expected, rel=1e-4)
+
+
+def test_real_fasthenry_inductance_matches_mohan_formula(tmp_path):
+    executable = find_executable(_FASTHENRY_NAMES, env_var="TEXTLAYOUT_FASTHENRY")
+    if executable is None:
+        pytest.skip("Real FastHenry is optional")
+    prepared, _ = prepared_spiral(tmp_path)
+    result = run_fasthenry(prepared, executable=executable)
+    assert result.status == "executed"
+    extracted_nh = result.extracted_quantities.get("inductance_nh")
+    assert extracted_nh is not None
+    # For Dout=100 um, N=4, w=4 um, s=2 um:
+    # Mohan Current Sheet formula gives ~1.85-2.0 nH
+    assert 1.5 < extracted_nh < 2.5
+

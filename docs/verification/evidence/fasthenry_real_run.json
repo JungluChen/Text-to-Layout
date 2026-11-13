@@ -1,0 +1,185 @@
+{
+  "schema": "textlayout.fasthenry-verification-evidence.v1",
+  "created_at": "2026-11-13T14:24:35.240421+00:00",
+  "system_info": {
+    "os": "darwin",
+    "architecture": "arm64",
+    "python_version": "3.12.14",
+    "hostname": "Ludkos-MacBook-Air.local"
+  },
+  "solver_provenance": {
+    "executable_path": "/Users/ludko/Desktop/text2layout/Text-to-Layout/.tools/FastHenry2/bin/fasthenry",
+    "sha256": "007a93526fa931ecea0e86fe37eb43a9b5b88523325c644072fec6392563c3ce",
+    "solver_banner": "Running FastHenry 3.0.1 (28May12)"
+  },
+  "benchmarks": {
+    "single_turn_square_loop": {
+      "geometry": {
+        "side_um": 100.0,
+        "trace_width_um": 4.0,
+        "thickness_um": 0.2,
+        "conductivity_s_per_m": 58000000.0
+      },
+      "analytical_reference": {
+        "model": "Grover rectangular cross-section square loop formula",
+        "formula": "L = (2*mu0*a/pi) * [ln(a/r_equiv) - 0.7740 + r_equiv/a]",
+        "r_equiv_um": 0.9387,
+        "analytical_inductance_nh": 0.3123
+      },
+      "refinements": [
+        {
+          "pid": 99800,
+          "started_at": "2026-11-13T14:24:35.145690+00:00",
+          "completed_at": "2026-11-13T14:24:35.153974+00:00",
+          "runtime_seconds": 0.0083,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 8.53448,
+          "reactance_ohm": 0.00194191,
+          "inductance_nh": 0.309065,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n5\nImpedance matrix for frequency = 1e+06 1 x 1\n       8.53448   +0.00194191j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   9.7e-05\n        Multipole setup 0.000224\n        Scanning graph  6e-06\n        Form A M and Z  3e-06\n        form M'ZM       1e-06\n        Form precond    6e-06\n        GMRES time      2.7e-05\n   Total:               0.000364",
+          "nwinc": 1,
+          "nhinc": 1,
+          "relative_error_vs_grover_pct": 1.038
+        },
+        {
+          "pid": 99801,
+          "started_at": "2026-11-13T14:24:35.155133+00:00",
+          "completed_at": "2026-11-13T14:24:35.160788+00:00",
+          "runtime_seconds": 0.0057,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 8.53448,
+          "reactance_ohm": 0.00194192,
+          "inductance_nh": 0.309066,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n5\nImpedance matrix for frequency = 1e+06 1 x 1\n       8.53448   +0.00194192j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   8.8e-05\n        Multipole setup 0.000382\n        Scanning graph  6e-06\n        Form A M and Z  4e-06\n        form M'ZM       0\n        Form precond    1.8e-05\n        GMRES time      6.5e-05\n   Total:               0.000563",
+          "nwinc": 2,
+          "nhinc": 1,
+          "relative_error_vs_grover_pct": 1.037
+        },
+        {
+          "pid": 99802,
+          "started_at": "2026-11-13T14:24:35.161836+00:00",
+          "completed_at": "2026-11-13T14:24:35.167925+00:00",
+          "runtime_seconds": 0.0061,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 8.53448,
+          "reactance_ohm": 0.00194203,
+          "inductance_nh": 0.309084,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n5\nImpedance matrix for frequency = 1e+06 1 x 1\n       8.53448   +0.00194203j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   8.8e-05\n        Multipole setup 0.000584\n        Scanning graph  5e-06\n        Form A M and Z  6e-06\n        form M'ZM       0\n        Form precond    8.9e-05\n        GMRES time      0.00025\n   Total:               0.001022",
+          "nwinc": 4,
+          "nhinc": 1,
+          "relative_error_vs_grover_pct": 1.031
+        }
+      ]
+    },
+    "four_turn_square_spiral": {
+      "geometry": {
+        "turns": 4,
+        "outer_dimension_um": 150.0,
+        "trace_width_um": 4.0,
+        "spacing_um": 4.0,
+        "thickness_um": 0.2,
+        "inner_dimension_um": 94.0,
+        "average_dimension_um": 122.0,
+        "fill_ratio_rho": 0.22951,
+        "centerline_nodes_count": 19,
+        "conductivity_s_per_m": 58000000.0
+      },
+      "analytical_references": {
+        "mohan_current_sheet": {
+          "formula": "L = (mu0*n^2*davg*c1/2) * [ln(c2/rho) + c3*rho + c4*rho^2]",
+          "c_coefficients": [
+            1.27,
+            2.07,
+            0.18,
+            0.13
+          ],
+          "analytical_inductance_nh": 3.5008
+        },
+        "mohan_modified_wheeler": {
+          "formula": "L = K1*mu0*n^2*davg / (1 + K2*rho)",
+          "k_coefficients": {
+            "k1": 2.34,
+            "k2": 2.75
+          },
+          "analytical_inductance_nh": 3.5189
+        }
+      },
+      "refinements": [
+        {
+          "pid": 99803,
+          "started_at": "2026-11-13T14:24:35.211221+00:00",
+          "completed_at": "2026-11-13T14:24:35.217616+00:00",
+          "runtime_seconds": 0.0064,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 39.9569,
+          "reactance_ohm": 0.0204834,
+          "inductance_nh": 3.260034,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n19\nImpedance matrix for frequency = 1e+06 1 x 1\n       39.9569    +0.0204834j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   9.9e-05\n        Multipole setup 0.001141\n        Scanning graph  1.1e-05\n        Form A M and Z  1.1e-05\n        form M'ZM       0\n        Form precond    1e-05\n        GMRES time      0.000114\n   Total:               0.001386",
+          "nwinc": 1,
+          "nhinc": 1,
+          "discrepancy_vs_mohan_cs_pct": 6.878,
+          "discrepancy_vs_mohan_mw_pct": 7.358,
+          "mesh_refinement_delta_l_pct": 0.0
+        },
+        {
+          "pid": 99804,
+          "started_at": "2026-11-13T14:24:35.218548+00:00",
+          "completed_at": "2026-11-13T14:24:35.225839+00:00",
+          "runtime_seconds": 0.0073,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 39.9569,
+          "reactance_ohm": 0.0204728,
+          "inductance_nh": 3.258347,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n19\nImpedance matrix for frequency = 1e+06 1 x 1\n       39.9569    +0.0204728j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   9.2e-05\n        Multipole setup 0.00185\n        Scanning graph  1e-05\n        Form A M and Z  1.4e-05\n        form M'ZM       0\n        Form precond    0.000119\n        GMRES time      0.000482\n   Total:               0.002567",
+          "nwinc": 2,
+          "nhinc": 1,
+          "discrepancy_vs_mohan_cs_pct": 6.926,
+          "discrepancy_vs_mohan_mw_pct": 7.406,
+          "mesh_refinement_delta_l_pct": -0.0517
+        },
+        {
+          "pid": 99805,
+          "started_at": "2026-11-13T14:24:35.226797+00:00",
+          "completed_at": "2026-11-13T14:24:35.239718+00:00",
+          "runtime_seconds": 0.0129,
+          "exit_code": 0,
+          "solver_banner": "Running FastHenry 3.0.1 (28May12)",
+          "resistance_ohm": 39.9569,
+          "reactance_ohm": 0.0204644,
+          "inductance_nh": 3.25701,
+          "frequency_hz": 1000000.0,
+          "zc_matrix_raw": "Row 1:  n1  to  n19\nImpedance matrix for frequency = 1e+06 1 x 1\n       39.9569    +0.0204644j",
+          "stdout_tail": "All impedance matrices dumped to file Zc.mat\n\nTimes:  Read geometry   9.5e-05\n        Multipole setup 0.005874\n        Scanning graph  1.1e-05\n        Form A M and Z  2.2e-05\n        form M'ZM       0\n        Form precond    0.000826\n        GMRES time      0.00129\n   Total:               0.008118",
+          "nwinc": 4,
+          "nhinc": 1,
+          "discrepancy_vs_mohan_cs_pct": 6.964,
+          "discrepancy_vs_mohan_mw_pct": 7.444,
+          "mesh_refinement_delta_l_pct": -0.041
+        }
+      ]
+    }
+  },
+  "summary": {
+    "all_runs_succeeded": true,
+    "fasthenry_version_verified": true,
+    "single_turn_agreement_with_grover_pct": 1.031,
+    "spiral_agreement_with_mohan_cs_pct": 6.964,
+    "spiral_agreement_with_mohan_mw_pct": 7.444,
+    "mesh_convergence_verified": true
+  }
+}
