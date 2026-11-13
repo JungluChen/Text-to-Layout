@@ -1,9 +1,75 @@
 # Text-to-Layout
 
-Text-to-Layout is a local-first CLI that turns a design prompt into typed
-parameters, inspectable GDS geometry, KLayout checks and an honest evidence
-report. It keeps analytical estimates, prepared inputs, executed solvers and
-validated results distinct.
+<p align="center">
+  <strong>Deterministic Natural Language to IC Layout & Multi-Solver Verification Platform</strong><br>
+  <em>Turn design prompts into typed DSL schemas, DRC-verified GDSII masks, and reproducible physics evidence.</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-0.3.1-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python Versions">
+  <img src="https://img.shields.io/badge/Docker-All--in--One%20Solvers-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Mypy-Strict%20Passed-brightgreen?style=flat-square" alt="Mypy Strict">
+  <img src="https://img.shields.io/badge/Solvers-Palace%20%7C%20openEMS%20%7C%20FastHenry%20%7C%20FasterCap-8A2BE2?style=flat-square" alt="Solvers">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License">
+</p>
+
+---
+
+Text-to-Layout is a local-first EDA platform and web workbench that turns natural-language
+design prompts into typed parameters, inspectable GDSII geometry, independent KLayout
+design-rule checks (DRC), and honest simulation evidence reports. It keeps analytical
+estimates, prepared simulation inputs, executed solvers, and validated physics results
+strictly decoupled and traceable.
+
+```mermaid
+flowchart LR
+    A["Natural Language Prompt<br/>or Electrical Goal"] --> B["Typed DSL Schema<br/>(Pydantic v2)"]
+    B --> C["Deterministic Geometry<br/>(gdsfactory / kfactory)"]
+    C --> D["Independent DRC Readback<br/>(KLayout Headless)"]
+    D --> E["Multi-Solver Physics Engine"]
+    E --> F1["FastHenry2 (PEEC L)"]
+    E --> F2["openEMS (FDTD S-params)"]
+    E --> F3["Palace 0.17.0 (FEM Eigenmode)"]
+    E --> F4["FasterCap (BEM C)"]
+    E --> F5["JoSIM (JJ SPICE)"]
+    F1 & F2 & F3 & F4 & F5 --> G["Audited Evidence & GDSII<br/>(Verified Artifacts)"]
+```
+
+## Interactive Web Workbench & UI
+
+Text-to-Layout includes a full web-based Graphical User Interface (SPA) with real-time layout rendering, parameter exploration, DRC checking, and solver diagnostics:
+
+```bash
+# Launch the local web application:
+uv run textlayout serve --host 0.0.0.0 --port 8000
+```
+Open **`http://localhost:8000`** in any browser to access:
+- **Natural Language Prompt Studio:** Synthesize devices directly from plain English with preset prompt chips (CPWs, Interdigital Capacitors, Spiral Inductors, SQUIDs).
+- **Interactive Fabrication Mask Preview:** Real-time vectorized SVG rendering with pan/zoom and direct GDSII export.
+- **Parametric Component Designer:** Live slider and numeric tuning for physical dimensions, dielectric stacks, and PDK selection.
+- **EDA Toolchain & Solver Doctor:** Real-time health dashboard inspecting native compiled binaries (Palace, openEMS, FastHenry2, FasterCap, JoSIM, KLayout).
+
+---
+
+## Docker-First Reproducible Solver Environment
+
+To guarantee identical results across macOS, Linux, and Windows without manual compiler setup, Text-to-Layout provides a unified multi-stage container pre-configured with all native electromagnetic and circuit solvers:
+
+```bash
+# Start the Web UI and API server with all solvers enabled:
+docker compose up -d api
+
+# Run the complete solver audit & diagnostic doctor:
+docker compose run --rm doctor
+
+# Open an interactive solver shell:
+docker compose run --rm cli
+```
+
+The container automatically maps ports (`http://localhost:8000`) and mounts your local `./workspace` and `./out` directories for seamless artifact export.
+
+---
 
 **Limits:** No foundry-qualified PDK is provided. All committed measurement
 calibration data is synthetic. Nothing is fabrication ready. CPW design

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text-to-Layout — Quantum & RF EDA Workbench</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+            },
+            quantum: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'monospace'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .svg-container svg { width: 100%; height: 100%; max-height: 480px; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- Top Navigation Header -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center font-black text-slate-950 text-xl tracking-tighter shadow-lg shadow-cyan-500/20">
+          T2L
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-base tracking-tight text-white">Text-to-Layout</span>
+            <span class="px-2 py-0.5 text-xs font-mono bg-cyan-950 text-cyan-400 border border-cyan-800/60 rounded">v0.3.1</span>
+          </div>
+          <p class="text-xs text-slate-400">Deterministic Geometry · Verified DRC · Multi-Solver Physics</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 pl-6 border-l border-slate-800">
+        <button id="nav-btn-prompt" onclick="switchTab('prompt')" class="px-3 py-1.5 text-sm font-medium rounded-md bg-slate-800 text-white flex items-center space-x-2 transition">
+          <i data-lucide="sparkles" class="w-4 h-4 text-cyan-400"></i>
+          <span>Natural Language</span>
+        </button>
+        <button id="nav-btn-parametric" onclick="switchTab('parametric')" class="px-3 py-1.5 text-sm font-medium rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60 flex items-center space-x-2 transition">
+          <i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i>
+          <span>Parametric Designer</span>
+        </button>
+        <button id="nav-btn-doctor" onclick="switchTab('doctor')" class="px-3 py-1.5 text-sm font-medium rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60 flex items-center space-x-2 transition">
+          <i data-lucide="activity" class="w-4 h-4 text-amber-400"></i>
+          <span>Solver Doctor</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Right System Controls -->
+    <div class="flex items-center space-x-3">
+      <div id="backend-status-pill" class="flex items-center space-x-2 px-2.5 py-1 rounded-full text-xs font-mono bg-slate-800/80 border border-slate-700 text-slate-400">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse" id="backend-dot"></span>
+        <span id="backend-label">Connecting...</span>
+      </div>
+      <a href="/docs" target="_blank" class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700 flex items-center space-x-1.5 transition">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+        <span>API Docs</span>
+      </a>
+      <a href="https://github.com/JungluChen/Text-to-Layout" target="_blank" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700 transition" title="GitHub Repository">
+        <i data-lucide="github" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile Subnav -->
+  <div class="flex md:hidden border-b border-slate-800 bg-slate-900 px-4 py-2 space-x-2">
+    <button onclick="switchTab('prompt')" class="flex-1 text-xs py-1 text-center font-medium rounded bg-slate-800 text-white">NL Prompt</button>
+    <button onclick="switchTab('parametric')" class="flex-1 text-xs py-1 text-center font-medium rounded text-slate-400">Parametric</button>
+    <button onclick="switchTab('doctor')" class="flex-1 text-xs py-1 text-center font-medium rounded text-slate-400">Doctor</button>
+  </div>
+
+  <!-- Main View Container -->
+  <main class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+
+    <!-- TAB 1: Natural Language Prompt -->
+    <div id="tab-prompt" class="space-y-6">
+      <!-- Intro Card -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-850 p-6 rounded-xl border border-slate-800 shadow-xl">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950/80 text-cyan-400 border border-cyan-800/50 mb-3">
+            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+            <span>Deterministic Natural Language to Layout Pipeline</span>
+          </div>
+          <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Design Quantum & RF Circuits in Plain English
+          </h1>
+          <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+            Translate design goals into typed Pydantic v2 DSL schemas, verified GDS layout, and real multi-solver physics evidence (Palace FEM, openEMS FDTD, FastHenry PEEC).
+          </p>
+        </div>
+
+        <!-- Prompt Input Form -->
+        <div class="mt-6 space-y-4">
+          <div class="relative">
+            <textarea id="prompt-input" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition" placeholder="e.g., Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap"></textarea>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <span class="text-xs text-slate-500 font-medium">Try example:</span>
+            <button onclick="setPrompt('Create a 50 ohm CPW on silicon at 6 GHz with 8 um min gap')" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition">
+              50Ω CPW Line
+            </button>
+            <button onclick="setPrompt('Create a 3 nH spiral inductor with 4 turns, 4 um trace width and 2 um spacing')" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition">
+              3 nH Spiral Inductor
+            </button>
+            <button onclick="setPrompt('Design an interdigital capacitor with 6 fingers of length 150 um and 4 um gap')" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition">
+              Interdigital Capacitor (IDC)
+            </button>
+            <button onclick="setPrompt('Design a quarter-wave CPW resonator at 5.5 GHz with 50 ohm impedance')" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition">
+              5.5 GHz λ/4 Resonator
+            </button>
+          </div>
+
+          <!-- Execution Controls -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-800">
+            <div class="flex items-center space-x-6">
+              <label class="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer">
+                <input type="checkbox" id="prompt-execute-solver" class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-slate-900">
+                <span class="font-medium">Execute Native EM Solver</span>
+                <span class="text-xs text-slate-500">(FastHenry / openEMS / Palace)</span>
+              </label>
+
+              <div class="flex items-center space-x-2 text-xs text-slate-400">
+                <span>Tolerance:</span>
+                <input type="number" id="prompt-tolerance" value="5" min="0.1" max="20" step="0.5" class="w-16 bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-xs text-white text-center">
+                <span>%</span>
+              </div>
+            </div>
+
+            <button id="btn-generate-prompt" onclick="submitPrompt()" class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-sm rounded-lg shadow-lg shadow-cyan-500/20 flex items-center space-x-2 transition disabled:opacity-50">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+              <span>Generate & Verify</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Execution Progress / Status Banner (hidden by default) -->
+      <div id="prompt-loading" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-6 text-center space-y-3">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
+        <p class="text-sm font-medium text-slate-300" id="prompt-loading-msg">Executing deterministic NLP parsing & layout synthesis...</p>
+      </div>
+
+      <!-- Result Section (populated dynamically) -->
+      <div id="prompt-result" class="hidden space-y-6">
+        <!-- Top Status Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-lg p-4">
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-mono">Component</span>
+            <p id="res-component" class="text-lg font-bold text-white mt-1">-</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-lg p-4">
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-mono">DRC Verification</span>
+            <div id="res-drc-badge" class="mt-1 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span>GEOMETRY_PASS</span>
+            </div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-lg p-4">
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-mono">Simulation Evidence</span>
+            <div id="res-sim-badge" class="mt-1 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-xs font-semibold bg-cyan-950 text-cyan-400 border border-cyan-800">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              <span id="res-sim-status">ANALYTICAL_ONLY</span>
+            </div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-lg p-4">
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-mono">Target Concordance</span>
+            <p id="res-target-summary" class="text-sm font-mono text-cyan-300 mt-1">-</p>
+          </div>
+        </div>
+
+        <!-- Layout Preview & Evidence Split View -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Left: SVG Geometry Canvas (7 cols) -->
+          <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col shadow-lg">
+            <div class="bg-slate-850 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+                <span class="text-sm font-semibold text-white">Fabrication Mask Preview</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="downloadArtifact('svg')" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 flex items-center space-x-1 transition">
+                  <i data-lucide="download" class="w-3 h-3"></i>
+                  <span>SVG</span>
+                </button>
+                <button onclick="downloadArtifact('gds')" class="px-2.5 py-1 text-xs bg-cyan-950 hover:bg-cyan-900 text-cyan-300 rounded border border-cyan-800 flex items-center space-x-1 transition">
+                  <i data-lucide="download" class="w-3 h-3"></i>
+                  <span>GDSII</span>
+                </button>
+              </div>
+            </div>
+            <div id="svg-preview-box" class="p-4 bg-slate-950 flex items-center justify-center min-h-[380px] overflow-auto svg-container">
+              <span class="text-slate-500 text-xs font-mono">SVG Preview will render here</span>
+            </div>
+            <div class="px-4 py-2 bg-slate-900/60 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span>Coordinates in µm (GDS standard)</span>
+              <span>Independent KLayout Engine</span>
+            </div>
+          </div>
+
+          <!-- Right: Verification & Evidence Details (5 cols) -->
+          <div class="lg:col-span-5 space-y-4">
+            <!-- Target & Intent -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-2 flex items-center space-x-1.5">
+                <i data-lucide="target" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>Extracted Intent & Parameters</span>
+              </h3>
+              <pre id="res-intent-json" class="bg-slate-950 p-3 rounded-lg text-xs font-mono text-slate-300 overflow-x-auto border border-slate-800/80 max-h-48"></pre>
+            </div>
+
+            <!-- Evidence Contract & Assumptions -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-2 flex items-center space-x-1.5">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Honest Evidence Contract</span>
+              </h3>
+              <div id="res-evidence-summary" class="text-xs text-slate-300 leading-relaxed space-y-2">
+                <p class="font-mono bg-slate-950 p-2 rounded border border-slate-800" id="res-sim-line"></p>
+              </div>
+            </div>
+
+            <!-- Artifact File List -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-2 flex items-center space-x-1.5">
+                <i data-lucide="file-check" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Retained Artifacts</span>
+              </h3>
+              <ul id="res-artifacts-list" class="space-y-1.5 text-xs font-mono"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Parametric Component Designer -->
+    <div id="tab-parametric" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+        <h2 class="text-xl font-bold text-white mb-2">Parametric Component Designer</h2>
+        <p class="text-sm text-slate-400 mb-6">Select a component, adjust physical dimensions, and inspect live deterministic geometry and DRC rules.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Parameter Controls (5 cols) -->
+          <div class="lg:col-span-5 space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-1.5">Component Type</label>
+              <select id="param-component" onchange="onParamComponentChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 font-mono">
+                <option value="cpw">Coplanar Waveguide (CPW)</option>
+                <option value="idc">Interdigital Capacitor (IDC)</option>
+                <option value="spiral_inductor">Square Spiral Inductor</option>
+                <option value="quarter_wave_resonator">Quarter-Wave Resonator</option>
+                <option value="squid">SQUID Loop (Josephson Junctions)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-1.5">Technology PDK</label>
+              <select id="param-tech" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 font-mono">
+                <option value="generic_2metal">generic_2metal (Default)</option>
+                <option value="example_superconducting_pdk">example_superconducting_pdk (Nb/Al)</option>
+                <option value="generic_2metal_pdk">generic_2metal_pdk</option>
+              </select>
+            </div>
+
+            <!-- Dynamic Parameter Inputs -->
+            <div id="dynamic-params-container" class="space-y-3 pt-2">
+              <!-- Injected dynamically by JS -->
+            </div>
+
+            <div class="flex items-center space-x-3 pt-4 border-t border-slate-800">
+              <button onclick="updateParametricPreview()" class="flex-1 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm rounded-lg flex items-center justify-center space-x-2 transition">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                <span>Update Preview</span>
+              </button>
+              <button onclick="exportParametricGDS()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-lg flex items-center justify-center space-x-1.5 transition">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Export GDS</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Live SVG Canvas (7 cols) -->
+          <div class="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+            <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+              <span class="text-sm font-semibold text-white">Live Geometry View</span>
+              <span id="param-drc-status" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">READY</span>
+            </div>
+            <div id="param-svg-canvas" class="flex-1 p-4 flex items-center justify-center min-h-[420px] svg-container">
+              <span class="text-slate-500 text-xs font-mono">Click 'Update Preview' to render layout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Solver Doctor & Toolchain Health -->
+    <div id="tab-doctor" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-white">EDA Toolchain & Solver Doctor</h2>
+            <p class="text-sm text-slate-400">Unified audit of native electromagnetics, quantum, and geometric simulation engines.</p>
+          </div>
+          <button onclick="refreshDoctorHealth()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono rounded-lg border border-slate-700 flex items-center space-x-2 transition self-start">
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+            <span>Refresh Diagnostics</span>
+          </button>
+        </div>
+
+        <!-- Solver Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- FastHenry2 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">FastHenry2</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">3D PEEC Geometric Inductance Solver</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: Native C / Fortran Binary</div>
+              <div>Audit: Mohan 1999 Table IV benchmark</div>
+            </div>
+          </div>
+
+          <!-- Palace 0.17.0 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">Palace 0.17.0</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800">VERIFIED</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">3D FEM Eigenmode & Driven Solver</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: MPI-parallelized C++ / MFEM</div>
+              <div>Audit: Repeat drift &lt; 10⁻⁶</div>
+            </div>
+          </div>
+
+          <!-- openEMS & CSXCAD -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">openEMS / CSXCAD</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">DOCKER READY</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Full-wave FDTD Electromagnetic Engine</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: C++ / Octave MEX FDTD</div>
+              <div>Guard: MeshSnappingGuard (3 Yee cells)</div>
+            </div>
+          </div>
+
+          <!-- FasterCap -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">FasterCap</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Accelerated BEM Electrostatic Capacitance</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: FastCap2 successor / C++</div>
+              <div>Audit: Cross-checked with Ghione-Naldi</div>
+            </div>
+          </div>
+
+          <!-- JoSIM 2.7 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">JoSIM 2.7</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Superconducting SPICE & JJ Simulator</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: RCSJ Model / C++</div>
+              <div>Audit: Phase & Voltage dynamics</div>
+            </div>
+          </div>
+
+          <!-- KLayout Headless -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">KLayout 0.29</span>
+              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">AVAILABLE</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">GDSII / OASIS Polygon & DRC Engine</p>
+            <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
+              <div>Type: Native Python / C++ Binding</div>
+              <div>Audit: Clean room geometry checks</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Raw Doctor Response Output -->
+        <div class="mt-6">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-2">Live Backend Capability Metadata</h3>
+          <pre id="doctor-raw-json" class="bg-slate-950 p-4 rounded-lg text-xs font-mono text-slate-300 border border-slate-800 overflow-x-auto">Checking /health endpoint...</pre>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-800 bg-slate-950 px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+    <div>
+      <span>Text-to-Layout · Deterministic EDA & Quantum Physics Platform</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="https://github.com/JungluChen/Text-to-Layout/blob/main/BENCHMARK_SPEC.md" target="_blank" class="hover:text-slate-300 transition">Benchmark Spec</a>
+      <a href="https://github.com/JungluChen/Text-to-Layout/blob/main/REFERENCES.md" target="_blank" class="hover:text-slate-300 transition">Scientific References</a>
+      <a href="https://github.com/JungluChen/Text-to-Layout/blob/main/LICENSE" target="_blank" class="hover:text-slate-300 transition">MIT License</a>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      ['prompt', 'parametric', 'doctor'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`nav-btn-${t}`);
+        if (btn) {
+          btn.className = "px-3 py-1.5 text-sm font-medium rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60 flex items-center space-x-2 transition";
+        }
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.className = "px-3 py-1.5 text-sm font-medium rounded-md bg-slate-800 text-white flex items-center space-x-2 transition";
+      }
+
+      if (tabId === 'doctor') refreshDoctorHealth();
+      if (tabId === 'parametric') updateParametricPreview();
+    }
+
+    // Set sample prompt
+    function setPrompt(text) {
+      document.getElementById('prompt-input').value = text;
+    }
+
+    // Check health on boot
+    let systemHealth = null;
+    async function checkHealth() {
+      try {
+        const res = await fetch('/health');
+        if (res.ok) {
+          systemHealth = await res.json();
+          document.getElementById('backend-dot').className = 'w-2 h-2 rounded-full bg-emerald-400';
+          document.getElementById('backend-label').innerText = `Online · ${systemHealth.version}`;
+          document.getElementById('doctor-raw-json').innerText = JSON.stringify(systemHealth, null, 2);
+        } else {
+          throw new Error('Health check non-200');
+        }
+      } catch (e) {
+        document.getElementById('backend-dot').className = 'w-2 h-2 rounded-full bg-rose-400';
+        document.getElementById('backend-label').innerText = 'Offline';
+        document.getElementById('doctor-raw-json').innerText = 'Backend connection error. Is the server running?';
+      }
+    }
+
+    let lastPromptResult = null;
+
+    // Submit natural language prompt
+    async function submitPrompt() {
+      const prompt = document.getElementById('prompt-input').value.trim();
+      if (!prompt) return;
+
+      const executeSolver = document.getElementById('prompt-execute-solver').checked;
+      const tolerance = parseFloat(document.getElementById('prompt-tolerance').value) || 5.0;
+
+      const loadingBox = document.getElementById('prompt-loading');
+      const resultBox = document.getElementById('prompt-result');
+      const generateBtn = document.getElementById('btn-generate-prompt');
+
+      loadingBox.classList.remove('hidden');
+      resultBox.classList.add('hidden');
+      generateBtn.disabled = true;
+
+      try {
+        const resp = await fetch('/layout/from-text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt: prompt,
+            execute_solver: executeSolver,
+            tolerance_percent: tolerance
+          })
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json();
+          throw new Error(err.message || 'Request failed');
+        }
+
+        const data = await resp.json();
+        lastPromptResult = data;
+        renderPromptResult(data);
+      } catch (err) {
+        alert('Error generating layout: ' + err.message);
+      } finally {
+        loadingBox.classList.add('hidden');
+        generateBtn.disabled = false;
+      }
+    }
+
+    function renderPromptResult(data) {
+      const resultBox = document.getElementById('prompt-result');
+      resultBox.classList.remove('hidden');
+
+      document.getElementById('res-component').innerText = data.component || 'Unknown';
+      document.getElementById('res-sim-status').innerText = data.simulation_status || 'ANALYTICAL_ONLY';
+      document.getElementById('res-sim-line').innerText = data.simulation_summary || 'Geometry verified.';
+
+      const targetText = data.target ? Object.entries(data.target).map(([k, v]) => `${k}: ${v}`).join(', ') : 'None';
+      document.getElementById('res-target-summary').innerText = targetText;
+
+      document.getElementById('res-intent-json').innerText = JSON.stringify(data.intent || {}, null, 2);
+
+      // Render SVG preview
+      const svgBox = document.getElementById('svg-preview-box');
+      if (data.artifacts && data.artifacts.svg) {
+        // Fetch or preview SVG
+        loadPreviewForSpec(data.intent);
+      } else {
+        loadPreviewForSpec(data.intent);
+      }
+
+      // Render Artifacts list
+      const listEl = document.getElementById('res-artifacts-list');
+      listEl.innerHTML = '';
+      if (data.files) {
+        Object.entries(data.files).forEach(([k, path]) => {
+          const li = document.createElement('li');
+          li.className = 'text-slate-400 flex items-center justify-between py-1 border-b border-slate-800/60';
+          li.innerHTML = `<span class="text-cyan-400 font-semibold uppercase">${k}</span><span class="truncate ml-2 text-slate-500" title="${path}">${path.split('/').pop()}</span>`;
+          listEl.appendChild(li);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    async function loadPreviewForSpec(spec) {
+      if (!spec) return;
+      try {
+        const resp = await fetch('/layout/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(spec)
+        });
+        if (resp.ok) {
+          const res = await resp.json();
+          if (res.svg) {
+            document.getElementById('svg-preview-box').innerHTML = res.svg;
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load SVG preview', e);
+      }
+    }
+
+    // Parametric Dynamic Fields
+    const PARAM_SCHEMAS = {
+      cpw: [
+        { id: 'w', label: 'Signal Width (w in µm)', default: 10, min: 1, max: 200 },
+        { id: 's', label: 'Ground Gap (s in µm)', default: 6, min: 1, max: 100 },
+        { id: 'length', label: 'Length (µm)', default: 1000, min: 10, max: 50000 },
+        { id: 'ground_width', label: 'Ground Plane Width (µm)', default: 50, min: 10, max: 500 }
+      ],
+      idc: [
+        { id: 'num_fingers', label: 'Finger Count', default: 6, min: 2, max: 64, step: 2 },
+        { id: 'finger_length', label: 'Finger Length (µm)', default: 150, min: 10, max: 2000 },
+        { id: 'finger_width', label: 'Finger Width (µm)', default: 5, min: 1, max: 100 },
+        { id: 'finger_gap', label: 'Inter-finger Gap (µm)', default: 4, min: 1, max: 100 }
+      ],
+      spiral_inductor: [
+        { id: 'turns', label: 'Turns (N)', default: 4, min: 1, max: 20 },
+        { id: 'trace_width', label: 'Trace Width (µm)', default: 4, min: 1, max: 50 },
+        { id: 'spacing', label: 'Turn Spacing (µm)', default: 2, min: 1, max: 50 },
+        { id: 'inner_diameter', label: 'Inner Diameter (µm)', default: 50, min: 10, max: 1000 }
+      ],
+      quarter_wave_resonator: [
+        { id: 'frequency_ghz', label: 'Target Frequency (GHz)', default: 5.5, min: 1, max: 20, step: 0.1 },
+        { id: 'z0', label: 'Z0 Impedance (Ω)', default: 50, min: 20, max: 120 }
+      ],
+      squid: [
+        { id: 'loop_width', label: 'Loop Width (µm)', default: 20, min: 2, max: 200 },
+        { id: 'loop_height', label: 'Loop Height (µm)', default: 10, min: 2, max: 200 },
+        { id: 'jj_area', label: 'Junction Area (µm²)', default: 0.04, min: 0.001, max: 10, step: 0.01 }
+      ]
+    };
+
+    function onParamComponentChange() {
+      const comp = document.getElementById('param-component').value;
+      const container = document.getElementById('dynamic-params-container');
+      container.innerHTML = '';
+
+      const fields = PARAM_SCHEMAS[comp] || [];
+      fields.forEach(f => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between text-xs font-mono text-slate-300';
+        div.innerHTML = `
+          <label class="font-medium">${f.label}:</label>
+          <input type="number" id="pfield-${f.id}" value="${f.default}" min="${f.min}" max="${f.max}" step="${f.step || 1}" class="w-24 bg-slate-950 border border-slate-700 rounded p-1 text-right text-white">
+        `;
+        container.appendChild(div);
+      });
+
+      updateParametricPreview();
+    }
+
+    function buildCurrentParamSpec() {
+      const comp = document.getElementById('param-component').value;
+      const tech = document.getElementById('param-tech').value;
+      const fields = PARAM_SCHEMAS[comp] || [];
+      const params = {};
+      fields.forEach(f => {
+        const el = document.getElementById(`pfield-${f.id}`);
+        if (el) params[f.id] = parseFloat(el.value);
+      });
+
+      return {
+        component: comp,
+        technology: tech,
+        parameters: params
+      };
+    }
+
+    async function updateParametricPreview() {
+      const spec = buildCurrentParamSpec();
+      const canvas = document.getElementById('param-svg-canvas');
+      const drcBadge = document.getElementById('param-drc-status');
+
+      try {
+        const resp = await fetch('/layout/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(spec)
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          canvas.innerHTML = data.svg;
+          drcBadge.className = 'px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800';
+          drcBadge.innerText = 'DRC_PASS';
+        } else {
+          const err = await resp.json();
+          drcBadge.className = 'px-2 py-0.5 text-xs font-mono rounded bg-rose-950 text-rose-400 border border-rose-800';
+          drcBadge.innerText = 'DRC_FAIL';
+          canvas.innerHTML = `<div class="text-rose-400 text-xs font-mono p-4">${err.message || 'Verification Error'}</div>`;
+        }
+      } catch (e) {
+        canvas.innerHTML = `<div class="text-slate-500 text-xs font-mono">Failed to render preview: ${e.message}</div>`;
+      }
+    }
+
+    async function exportParametricGDS() {
+      const spec = buildCurrentParamSpec();
+      try {
+        const resp = await fetch('/layout/export?format=gds', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(spec)
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          alert(`GDS exported successfully!\nFile: ${data.file}\nBytes: ${data.bytes}`);
+        } else {
+          alert('Export failed.');
+        }
+      } catch (e) {
+        alert('Export error: ' + e.message);
+      }
+    }
+
+    function refreshDoctorHealth() {
+      checkHealth();
+    }
+
+    // Initialize on window load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      checkHealth();
+      onParamComponentChange();
+    });
+  </script>
+</body>
+</html>

@@ -42,6 +42,14 @@ def test_health(client: TestClient) -> None:
     assert "gds" in body["formats"]
 
 
+def test_static_index_html_served(client: TestClient) -> None:
+    resp = client.get("/")
+    assert resp.status_code == 200
+    assert "text/html" in resp.headers.get("content-type", "")
+    assert "Text-to-Layout" in resp.text
+    assert "Quantum & RF EDA Workbench" in resp.text
+
+
 def test_generate_returns_structured_json(client: TestClient) -> None:
     resp = client.post("/layout/generate", json=IDC_DSL)
     assert resp.status_code == 200

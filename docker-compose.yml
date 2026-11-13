@@ -1,0 +1,46 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WITH_SOLVERS: "1"
+    container_name: textlayout-api
+    ports:
+      - "8000:8000"
+    environment:
+      - MPLBACKEND=Agg
+      - QISKIT_METAL_HEADLESS=1
+    volumes:
+      - ./workspace:/workspace
+      - ./out:/workspace/out
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  doctor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WITH_SOLVERS: "1"
+    container_name: textlayout-doctor
+    command: ["uv", "run", "textlayout", "doctor"]
+    profiles: ["tools", "audit"]
+
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: textlayout-cli
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./workspace:/workspace
+      - ./out:/workspace/out
+    command: ["/bin/bash"]
+    profiles: ["cli"]

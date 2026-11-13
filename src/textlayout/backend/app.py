@@ -26,7 +26,9 @@ from typing import Any
 
 from fastapi import FastAPI, Query, Request
 from fastapi.concurrency import run_in_threadpool
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 import textlayout
 from textlayout import build_default_workflow
@@ -110,6 +112,16 @@ def create_app(
         title=settings.title,
         version=textlayout.__version__,
         description=DESCRIPTION,
+    )
+
+    # ── CORS ──────────────────────────────────────────────────────────────
+    # Allow the bundled web UI (or any local dev server) to reach the API.
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     @app.exception_handler(TextLayoutError)
@@ -319,6 +331,11 @@ def create_app(
                 else ""
             ),
         )
+
+    # ── Static Web UI ─────────────────────────────────────────────────────
+    static_dir = Path(__file__).resolve().parent / "static"
+    if static_dir.is_dir() and (static_dir / "index.html").is_file():
+        app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="static")
 
     return app
 

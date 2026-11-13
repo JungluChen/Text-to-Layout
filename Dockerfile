@@ -179,6 +179,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
     UV_PYTHON_DOWNLOADS=never \
     PATH="/opt/palace/bin:/opt/gmsh/bin:/opt/fastercap/bin:/opt/fasthenry2/bin:/opt/josim/bin:/opt/openEMS/bin:/opt/textlayout-venv/bin:${PATH}" \
     LD_LIBRARY_PATH="/opt/palace/lib:/opt/openEMS/lib:/opt/openEMS/lib64" \
+    TEXTLAYOUT_PALACE="/opt/palace/bin/palace" \
+    TEXTLAYOUT_GMSH="/opt/gmsh/bin/gmsh" \
+    TEXTLAYOUT_FASTERCAP="/opt/fastercap/bin/FasterCap" \
+    TEXTLAYOUT_FASTHENRY="/opt/fasthenry2/bin/fasthenry" \
+    TEXTLAYOUT_JOSIM="/opt/josim/bin/josim" \
+    TEXTLAYOUT_OPENEMS_CORE="/opt/openEMS/bin/openEMS" \
     MPLBACKEND=Agg \
     QISKIT_METAL_HEADLESS=1 \
     OMP_NUM_THREADS=2 \
@@ -222,14 +228,21 @@ RUN uv sync --frozen --all-extras --no-install-project
 COPY . .
 RUN uv sync --frozen --all-extras
 
-# Configure Octave paths for openEMS
-RUN mkdir -p /root && printf "addpath('/opt/openEMS/share/openEMS/matlab');\naddpath('/opt/openEMS/share/CSXCAD/matlab');\n" > /root/.octaverc
+# Configure Octave paths for openEMS (system-wide and per-user)
+RUN printf "addpath('/opt/openEMS/share/openEMS/matlab');\naddpath('/opt/openEMS/share/CSXCAD/matlab');\n" > /etc/octaverc \
+    && cp /etc/octaverc /root/.octaverc
 
 # Add non-root user for secure container execution
 RUN useradd --create-home --uid 10001 appuser \
-    && chown -R appuser:appuser /workspace /opt/textlayout-venv /opt
+    && cp /etc/octaverc /home/appuser/.octaverc \
+    && chown -R appuser:appuser /workspace /opt/textlayout-venv /opt /home/appuser
+
+EXPOSE 8000
 
 USER appuser
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["uv", "run", "textlayout", "doctor"]
+CMD ["uv", "run", "textlayout", "serve", "--host", "0.0.0.0", "--port", "8000"]

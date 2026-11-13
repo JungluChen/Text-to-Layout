@@ -776,11 +776,14 @@ def build_unified_audit_table(report: DoctorReport) -> list[dict[str, str]]:
                 "YES" if (check.status in {FOUND, CONTAINER_AVAILABLE} or check.path) else "NO"
             )
             executable = "YES" if check.status in {FOUND, CONTAINER_AVAILABLE} else "NO"
-            verified = (
-                "YES"
-                if (check.status == FOUND and (check.smoke_test == "PASSED" or is_core))
-                else ("PARTIAL" if check.status in {FOUND, CONTAINER_AVAILABLE} else "NO")
+            has_verified = (
+                check.status == FOUND
+                and (
+                    is_core
+                    or (check.smoke_test is not None and check.smoke_test.lower().startswith("pass"))
+                )
             )
+            verified = "YES" if has_verified else ("PARTIAL" if check.status in {FOUND, CONTAINER_AVAILABLE} else "NO")
             details = check.version or (check.detail if check.status == FOUND else "N/A")
         else:
             probe = next(

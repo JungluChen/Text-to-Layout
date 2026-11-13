@@ -37,3 +37,4 @@ Extracted from `postpro/eigenmode/eig.csv` across both independent runs:
 **Repeatability Status:** `REPEATABLE_SMOKE`  
 **Max Relative Drift:** `0.00` (Strictly $< 10^{-6}$)  
 All 5 eigenmodes exhibit zero numerical drift between the two consecutive Palace executions.
+
