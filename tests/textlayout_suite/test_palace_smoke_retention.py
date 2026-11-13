@@ -95,3 +95,26 @@ def test_consecutive_smoke_runs_drift_criterion(tmp_path):
     assert comparison["passed"] is True
     assert comparison["status"] == "REPEATABLE_SMOKE"
     assert all(drift < 1e-6 for drift in comparison["relative_frequency_drifts"])
+
+
+def test_palace_ci_retains_both_smoke_inputs_before_reduced_benchmark():
+    """A failed long solve must not erase the inputs needed to audit its smoke gate."""
+    import yaml
+
+    workflow = yaml.safe_load((ROOT / ".github/workflows/palace-integration.yml").read_text())
+    steps = workflow["jobs"]["palace"]["steps"]
+    named = {step.get("name"): (index, step) for index, step in enumerate(steps)}
+    first = named["Run the official Palace smoke benchmark"][0]
+    repeat, repeat_step = named["Repeat the official Palace smoke in a fresh directory"]
+    comparison, comparison_step = named["Require retained same-input smoke repeatability"]
+    upload, upload_step = named["Preserve installation and smoke evidence before benchmark"]
+    benchmark = named["Run the reduced CPW quarter-wave benchmark"][0]
+    assert first < repeat < comparison < upload < benchmark
+    assert "--out out/toolchain/palace_smoke_repeat" in repeat_step["run"]
+    assert "--first out/toolchain/palace_smoke" in comparison_step["run"]
+    assert "--repeat out/toolchain/palace_smoke_repeat" in comparison_step["run"]
+    retained = upload_step["with"]["path"]
+    assert "out/toolchain/palace_smoke/mesh/*.msh" in retained
+    assert "out/toolchain/palace_smoke_repeat/mesh/*.msh" in retained
+    assert "out/toolchain/palace_smoke_repeat/postpro/eigenmode/*.csv" in retained
+    assert "out/toolchain/*.json" in retained

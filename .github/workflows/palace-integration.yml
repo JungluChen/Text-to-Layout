@@ -68,6 +68,16 @@ jobs:
           sys.exit(0 if state in {"SMOKE_TEST_PASSED", "BENCHMARK_EXECUTED"} else 1)
           EOF
 
+      - name: Repeat the official Palace smoke in a fresh directory
+        run: uv run python scripts/external/run_palace_smoke.py --out out/toolchain/palace_smoke_repeat
+
+      - name: Require retained same-input smoke repeatability
+        run: >-
+          uv run python scripts/external/check_palace_smoke_repeat.py
+          --first out/toolchain/palace_smoke
+          --repeat out/toolchain/palace_smoke_repeat
+          --out out/toolchain/palace_smoke_repeatability.json
+
       # A runner shutdown can skip even always() cleanup. Upload the small
       # installation/smoke packet before starting the expensive benchmark.
       - name: Record pre-benchmark runner resources
@@ -93,7 +103,12 @@ jobs:
             out/toolchain/*.log
             out/toolchain/palace_smoke/*.json
             out/toolchain/palace_smoke/*.txt
+            out/toolchain/palace_smoke/mesh/*.msh
             out/toolchain/palace_smoke/postpro/eigenmode/*.csv
+            out/toolchain/palace_smoke_repeat/*.json
+            out/toolchain/palace_smoke_repeat/*.txt
+            out/toolchain/palace_smoke_repeat/mesh/*.msh
+            out/toolchain/palace_smoke_repeat/postpro/eigenmode/*.csv
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30

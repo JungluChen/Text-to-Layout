@@ -61,7 +61,12 @@ steps may be skipped. Check the attempt-specific job log and artifact listing;
 a cancelled step does not establish an OOM, numerical failure or convergence.
 The workflow now uploads `palace-pre-benchmark-<attempt>` after smoke succeeds
 and before the reduced benchmark starts. It contains installation and smoke
-records, smoke CSVs/logs and starting runner resources. Real Linux run
+records, smoke CSVs/logs and starting runner resources. The revised workflow
+also retains the downloaded official mesh for both fresh smoke runs and a
+same-input frequency-drift comparison. Its actual CI execution is pending;
+the older artifact from run 42608792208 contains only the first smoke and omits
+the mesh, so its input hash cannot be independently rechecked from that ZIP.
+Real Linux run
 `35915053169` verified this upload before a later runner shutdown; its smoke
 hashes were checked. It cannot preserve later benchmark output if the runner
 disappears. The final `palace-integration-evidence` packet remains separate.

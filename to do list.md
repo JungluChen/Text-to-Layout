@@ -9,9 +9,13 @@ outputs in `benchmarks/cross_validation/`, plus synthetic convergence tests in
 `test_field_solvers.py`; these are withdrawn and the benchmark now fails closed.
 The pending gates are:
 
-1. **Palace native environment — pending.** Retain install/version/binary hash,
-   official smoke twice, full reduced benchmark, convergence and reference
-   comparison; inspect failed CI run 42608792208 before dispatching another job.
+1. **Palace native environment — pending.** Run 42608792208 retained one
+   solver-backed official smoke with Palace 0.17.0; its ZIP omitted the mesh
+   and the reduced solve was cancelled after reaching 3,366,845 elements.
+   The workflow now requests a second fresh smoke, strict drift check and both
+   meshes before the costly benchmark. Execute this changed workflow and retain
+   its output before claiming repeatability. Full reduced benchmark,
+   convergence and reference comparison remain separate pending gates.
 2. **Atomic Palace resume — code present, real restart acceptance pending.**
    Repeat the original stage probe twice and retain exact stage artifacts and a
    bounded actual Palace restart. Never treat state-machine tests as numerical proof.
