@@ -33,9 +33,12 @@ The pending gates are:
    Build and run the pinned image on Apple Silicon as linux/amd64; verify every
    included native executable and a solver-owned smoke, plus package imports.
    Rosetta acceleration and an image build alone do not certify numerical work.
-7. **FasterCap/FastHenry2 — analytical formulas only.** Run actual binaries with
-   valid inputs at three refinements; retain raw output and compare matching
-   observables to independent references. See `docs/verification/solvers.md`.
+7. **FasterCap/FastHenry2 — partial native execution, numerical acceptance pending.**
+   FastHenry ran native loop and spiral decks at three width-filament settings;
+   its analytical discrepancies are observations, not validated accuracy or
+   full convergence. Retain raw decks/output and refine height, segment length
+   and frequency under predefined criteria. FasterCap still needs real solver
+   output and a matching independent reference. See `docs/verification/solvers.md`.
 8. **EPR chain — code present, end-to-end validation pending.** Require a
    converged Palace field, correct electric and junction-energy integrals, mode
    identity, and independent Hamiltonian comparison before reporting accuracy.

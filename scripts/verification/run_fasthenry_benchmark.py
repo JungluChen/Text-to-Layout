@@ -111,8 +111,12 @@ def run_fasthenry_deck(
             "reactance_ohm": round(x_val, 8),
             "inductance_nh": round(l_nh, 6),
             "frequency_hz": frequency_hz,
-            "zc_matrix_raw": zc_text.strip(),
-            "stdout_tail": "\n".join(stdout.splitlines()[-10:]),
+            "input_deck": deck_content,
+            "input_deck_sha256": compute_sha256(inp),
+            "zc_matrix_raw": zc_text,
+            "zc_matrix_sha256": compute_sha256(zc_path),
+            "stdout": stdout,
+            "stderr": stderr,
         }
 
 
@@ -321,9 +325,9 @@ def run_benchmark() -> dict[str, Any]:
             "single_turn_agreement_with_grover_pct": loop_refinements[-1]["relative_error_vs_grover_pct"],
             "spiral_agreement_with_mohan_cs_pct": spiral_refinements[-1]["discrepancy_vs_mohan_cs_pct"],
             "spiral_agreement_with_mohan_mw_pct": spiral_refinements[-1]["discrepancy_vs_mohan_mw_pct"],
-            "mesh_convergence_verified": all(
-                abs(r["mesh_refinement_delta_l_pct"]) < 0.1 for r in spiral_refinements
-            ),
+            "filament_refinement_observed": True,
+            "mesh_convergence_verified": False,
+            "convergence_limitations": "Only width filaments changed; nhinc=1 and segment length, frequency, geometry and independent reference were not converged. No acceptance tolerance was predefined.",
         },
     }
 
@@ -333,13 +337,13 @@ def run_benchmark() -> dict[str, Any]:
 
     # Render Markdown report
     md_lines = [
-        "# FastHenry2 Real PEEC Solver Verification Report",
+        "# FastHenry2 native execution and analytical comparison",
         "",
-        f"**Date:** `{evidence['created_at']}`  ",
-        f"**Solver Binary:** `{evidence['solver_provenance']['executable_path']}`  ",
-        f"**Binary SHA-256:** `{evidence['solver_provenance']['sha256']}`  ",
-        f"**Banner:** `{evidence['solver_provenance']['solver_banner']}`  ",
-        f"**Platform:** `{evidence['system_info']['hostname']} ({evidence['system_info']['architecture']}, {evidence['system_info']['os']})`  ",
+        f"**Date:** `{evidence['created_at']}`",
+        f"**Solver Binary:** `{evidence['solver_provenance']['executable_path']}`",
+        f"**Binary SHA-256:** `{evidence['solver_provenance']['sha256']}`",
+        f"**Banner:** `{evidence['solver_provenance']['solver_banner']}`",
+        f"**Platform:** `{evidence['system_info']['hostname']} ({evidence['system_info']['architecture']}, {evidence['system_info']['os']})`",
         "",
         "---",
         "",
@@ -375,12 +379,12 @@ def run_benchmark() -> dict[str, Any]:
     md_lines.extend(
         [
             "",
-            "## 3. Conclusions and Physical Verification",
+            "## 3. Results and limitations",
             "",
-            f"1. **Single-turn Loop:** FastHenry PEEC result `{loop_refinements[-1]['inductance_nh']:.4f} nH` agrees with Grover's analytical formula `{l_grover_nh:.4f} nH` within **{loop_refinements[-1]['relative_error_vs_grover_pct']}%**.",
-            f"2. **4-turn Spiral:** FastHenry PEEC result `{spiral_refinements[-1]['inductance_nh']:.4f} nH` agrees with Mohan's classic Current Sheet formulation within **{spiral_refinements[-1]['discrepancy_vs_mohan_cs_pct']}%** and Modified Wheeler within **{spiral_refinements[-1]['discrepancy_vs_mohan_mw_pct']}%**.",
-            "3. **Filament Refinement Convergence:** Refinement across `nwinc = 1, 2, 4` exhibits monotonic asymptotic behavior with inter-tier variance < 0.05%.",
-            "4. **Honest Evidence Audit:** All runs were executed by the real, native Mach-O binary `.tools/FastHenry2/bin/fasthenry`, logged with real process IDs and ISO timestamps. No analytical values were substituted for solver outputs.",
+            f"1. **Single-turn Loop:** FastHenry PEEC result `{loop_refinements[-1]['inductance_nh']:.4f} nH` differs from the nominal Grover analytical estimate `{l_grover_nh:.4f} nH` by **{loop_refinements[-1]['relative_error_vs_grover_pct']}%**. The deck geometry and formula dimensions require reconciliation before treating this as reference agreement.",
+            f"2. **4-turn Spiral:** FastHenry PEEC result `{spiral_refinements[-1]['inductance_nh']:.4f} nH` differs from the Mohan Current Sheet estimate by **{spiral_refinements[-1]['discrepancy_vs_mohan_cs_pct']}%** and Modified Wheeler by **{spiral_refinements[-1]['discrepancy_vs_mohan_mw_pct']}%**. These are approximate formulas, not an independent same-geometry validation.",
+            "3. **Filament refinement observation:** Width filament counts `nwinc = 1, 2, 4` changed the spiral inductance by -0.0517% and -0.0410% between tiers. This does not establish mesh convergence: height filaments, segment length and frequency were not refined, and no tolerance was predefined.",
+            "4. **Evidence scope:** These were real native FastHenry executions, with the input decks, deck/output hashes, complete stdout/stderr and Zc.mat text retained in JSON. The Grover and Mohan values are analytical estimates; no independently measured or paper-matched geometry is retained. Numerical validation remains pending.",
         ]
     )
 
@@ -392,7 +396,7 @@ def run_benchmark() -> dict[str, Any]:
 
 if __name__ == "__main__":
     evidence = run_benchmark()
-    print("SUCCESS: FastHenry benchmark executed and verified.")
+    print("FastHenry benchmark executed; numerical validation remains pending.")
     print(f"Single-turn loop error vs Grover: {evidence['summary']['single_turn_agreement_with_grover_pct']}%")
     print(f"4-turn spiral discrepancy vs Mohan CS: {evidence['summary']['spiral_agreement_with_mohan_cs_pct']}%")
     print(f"Evidence JSON written to docs/verification/evidence/fasthenry_real_run.json")

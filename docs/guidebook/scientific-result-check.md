@@ -177,3 +177,22 @@ spectra for the resonator. Reject collapsed ports, unusable incident energy,
 non-finite S values and unexpected boundary substitution. Establish mesh/time/
 domain sensitivity and reference criteria before treating a result as accurate.
 The retained failed packet remains SIMULATION_INVALID; no new result is claimed.
+
+## Checking the native FastHenry observation
+
+From the repository root on a host with the native `fasthenry` executable, run
+`uv run python scripts/verification/run_fasthenry_benchmark.py`. This command
+regenerates [the JSON packet](../verification/evidence/fasthenry_real_run.json)
+and [readable report](../verification/evidence/fasthenry_real_run.md); it writes
+tracked files, so inspect the diff before committing. The audited arm64 runs
+reported 0.3091 nH for the loop and 3.2570 nH for the spiral at `nwinc=4`.
+Check that each retained deck and `Zc.mat` hash matches its text and that the
+binary version/hash, units and output impedance are present. If the executable
+is absent or a matrix is missing, keep the status unavailable/failed and retain
+the command's error; do not substitute the analytical formulas.
+
+The three width-filament results do not prove convergence. Reconcile the loop
+deck's first 96 µm side with the nominal 100 µm reference, then establish
+predeclared limits and refine height filaments, segment length and frequency.
+Compare the same physical observable to an independent source before reporting
+accuracy. A versioned GUI screenshot is pending; this is a verified CLI path.

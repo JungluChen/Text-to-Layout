@@ -14,7 +14,7 @@ with a separately sourced analytical or published reference under predefined
 error and convergence limits.
 
 ## FastHenry2 Status
-**Status: VERIFIED AND NUMERICALLY CONVERGED via Native Solver (`fasthenry 3.0.1`).**
+**Status: native solver executed; numerical convergence and independent validation pending (`fasthenry 3.0.1`).**
 The full real execution evidence packet is recorded in:
 - JSON evidence: `docs/verification/evidence/fasthenry_real_run.json`
 - Markdown report: `docs/verification/evidence/fasthenry_real_run.md`
@@ -29,5 +29,5 @@ The full real execution evidence packet is recorded in:
   - Real FastHenry PEEC result: $L = 3.2570\,\text{nH}$ at `nwinc=4`.
   - Mohan Current Sheet formula: $L = 3.5008\,\text{nH}$ (discrepancy: **6.964%**).
   - Mohan Modified Wheeler formula: $L = 3.5189\,\text{nH}$ (discrepancy: **7.444%**).
-  - Filament refinement convergence (`nwinc = 1, 2, 4`): monotonic convergence with $|\Delta L| < 0.05\%$ between stages.
-- **Process ID & Timestamp Tracking:** Each run was dispatched as a separate process with recorded PID and ISO-8601 timestamps, extracting real `Zc.mat` outputs directly. No analytical scaling or simulated metrics were used. Note: Normal-metal conductivity was used ($\sigma = 5.8 \times 10^7\,\text{S/m}$); kinetic inductance is not inferred from classical PEEC.
+  - Width filament changes (`nwinc = 1, 2, 4`) gave successive $\Delta L$ of -0.0517% and -0.0410%. Height filaments, segment length and frequency were not refined; no convergence tolerance was predefined.
+- **Evidence scope:** The rerun packet retains each input deck, output matrix text, hashes and complete process logs. Grover and Mohan are analytical estimates, not independent measurements for this exact geometry. Normal-metal conductivity was used ($\sigma = 5.8 \times 10^7\,\text{S/m}$); kinetic inductance is not inferred from classical PEEC.
