@@ -126,7 +126,7 @@ RUN set -eu; \
       cd /tmp/openEMS-Project; \
       if [ -n "$OPENEMS_COMMIT" ]; then cd openEMS && git checkout "$OPENEMS_COMMIT" && cd ..; fi; \
       test "$(git -C openEMS rev-parse HEAD)" = "$OPENEMS_COMMIT"; \
-      sed -i -E 's/make -j[0-9]+/make -j2/g' update_openEMS.sh; \
+      sed -i -E 's/make -j[0-9]+/make -j1/g' update_openEMS.sh; \
       ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-GUI || (cat build_*.log; exit 1); \
       rm -rf /tmp/openEMS-Project; \
     fi
@@ -151,7 +151,7 @@ RUN set -eu; \
         -DPALACE_WITH_MAGMA=OFF \
         -DPALACE_WITH_GSLIB=OFF \
         -DBLA_VENDOR=OpenBLAS ..; \
-      cmake --build . -j2; \
+      cmake --build . -j1; \
       cp -f bin/palace /opt/textlayout-tools/palace/bin/palace; \
       rm -rf /tmp/palace; \
     fi
