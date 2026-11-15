@@ -46,6 +46,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcursor-dev \
     libxft-dev \
     libxinerama-dev \
+    libwxgtk3.2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -63,12 +64,12 @@ RUN mkdir -p /opt/textlayout-tools/palace/bin \
 # 1. FastHenry2 (PEEC solver)
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      git clone https://github.com/FastFieldSolvers/FastHenry2.git /tmp/fasthenry; \
+      git clone https://github.com/ediloren/FastHenry2.git /tmp/fasthenry; \
       cd /tmp/fasthenry; \
       if [ -n "$FASTHENRY_COMMIT" ]; then git checkout "$FASTHENRY_COMMIT"; fi; \
       git rev-parse HEAD > /tmp/fasthenry.commit; \
       cd src/fasthenry; \
-      make all default; \
+      make CFLAGS="-O -DFOUR -fcommon -m64"; \
       cp -f ../../bin/fasthenry /opt/textlayout-tools/fasthenry2/bin/fasthenry; \
       rm -rf /tmp/fasthenry; \
     fi
@@ -76,28 +77,32 @@ RUN set -eu; \
 # 2. JoSIM 2.7 (Superconducting circuit simulator)
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      git clone --depth 1 --branch v2.7 https://github.com/JoeyDelp/JoSIM.git /tmp/josim; \
-      cd /tmp/josim; \
-      git rev-parse HEAD > /tmp/josim.commit; \
-      mkdir build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release ..; \
-      cmake --build . -j"$(nproc)"; \
-      cp -f josim /opt/textlayout-tools/josim/bin/josim; \
-      rm -rf /tmp/josim; \
+      curl -fsSL https://github.com/JoeyDelp/JoSIM/releases/download/v2.7/JoSIM-v2.7-linux-x64-rhel7.tar.gz -o /tmp/josim.tar.gz; \
+      echo "3ff325ba8884fa9f58b7a2bb2c993b17c60fa51b37e31d2f635361a6bdbc7de1  /tmp/josim.tar.gz" | sha256sum -c -; \
+      mkdir -p /tmp/josim-dist; \
+      tar -xzf /tmp/josim.tar.gz -C /tmp/josim-dist; \
+      cp -f /tmp/josim-dist/bin/josim-cli /opt/textlayout-tools/josim/bin/josim; \
+      cp -f /tmp/josim-dist/bin/josim-cli /opt/textlayout-tools/josim/bin/josim-cli; \
+      echo "v2.7" > /tmp/josim.commit; \
+      rm -rf /tmp/josim*; \
     fi
 
 # 3. FasterCap (BEM capacitance solver)
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      git clone https://github.com/FastFieldSolvers/FasterCap.git /tmp/fastercap; \
+      git clone https://github.com/ediloren/LinAlgebra.git /tmp/LinAlgebra; \
+      git clone https://github.com/ediloren/Geometry.git /tmp/Geometry; \
+      git clone https://github.com/ediloren/FasterCap.git /tmp/fastercap; \
       cd /tmp/fastercap; \
       if [ -n "$FASTERCAP_COMMIT" ]; then git checkout "$FASTERCAP_COMMIT"; fi; \
       git rev-parse HEAD > /tmp/fastercap.commit; \
+      sed -i 's/--version=3.0/--version=3.2/g' CMakeLists.txt; \
+      sed -i 's/COMPONENTS base/COMPONENTS core base/g' CMakeLists.txt; \
       mkdir -p build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release ..; \
-      cmake --build . -j"$(nproc)"; \
+      cmake -DCMAKE_BUILD_TYPE=Release -DFASTFIELDSOLVERS_HEADLESS=ON ..; \
+      cmake --build . -j2; \
       cp -f FasterCap /opt/textlayout-tools/fastercap/bin/FasterCap; \
-      rm -rf /tmp/fastercap; \
+      rm -rf /tmp/fastercap /tmp/LinAlgebra /tmp/Geometry; \
     fi
 
 # 4. Gmsh 4.15.2 (Finite Element Mesh Generator) — checksum from the vendor
@@ -117,25 +122,32 @@ RUN set -eu; \
       git clone --recursive https://github.com/thliebig/openEMS-Project.git /tmp/openEMS-Project; \
       cd /tmp/openEMS-Project; \
       git checkout "$OPENEMS_COMMIT"; \
+      git submodule update --init --recursive; \
       test "$(git rev-parse HEAD)" = "$OPENEMS_COMMIT"; \
-      ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-hyp2mat; \
+      ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-hyp2mat --disable-GUI --njobs=2; \
       rm -rf /tmp/openEMS-Project; \
     fi
 
 # 6. Palace 0.17.0 (3D FEM Eigenmode and Driven solver)
-# The tag must resolve to PALACE_COMMIT; otherwise the build aborts rather than
+# The commit must resolve to PALACE_COMMIT; otherwise the build aborts rather than
 # shipping a binary with unverified provenance.
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      git clone --depth 1 --branch "v${PALACE_VERSION}" https://github.com/awslabs/palace.git /tmp/palace; \
-      cd /tmp/palace; \
+      mkdir -p /tmp/palace; cd /tmp/palace; git init; \
+      git remote add origin https://github.com/awslabs/palace.git; \
       git fetch --depth 1 origin "$PALACE_COMMIT"; \
-      git checkout "$PALACE_COMMIT"; \
+      git checkout FETCH_HEAD; \
       test "$(git rev-parse HEAD)" = "$PALACE_COMMIT"; \
       git rev-parse HEAD > /tmp/palace.commit; \
       mkdir build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release -DPALACE_WITH_OPENMP=ON ..; \
-      cmake --build . -j"$(nproc)"; \
+      cmake -DCMAKE_BUILD_TYPE=Release -DPALACE_WITH_OPENMP=ON \
+        -DPALACE_WITH_ARPACK=ON \
+        -DPALACE_WITH_SLEPC=OFF \
+        -DPALACE_WITH_SUNDIALS=OFF \
+        -DPALACE_WITH_LIBXSMM=OFF \
+        -DPALACE_WITH_MAGMA=OFF \
+        -DPALACE_WITH_GSLIB=OFF ..; \
+      cmake --build . -j2; \
       cp -f bin/palace /opt/textlayout-tools/palace/bin/palace; \
       rm -rf /tmp/palace; \
     fi
@@ -197,6 +209,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     octave \
     octave-control \
     octave-signal \
+    libhdf5-103-1t64 \
+    libtinyxml2.6.2v5 \
+    libfftw3-double3 \
+    libwxbase3.2-1t64 \
+    libwxgtk3.2-1t64 \
+    libgfortran5 \
+    libgomp1 \
     libglu1-mesa \
     libxrender1 \
     libxcursor1 \
