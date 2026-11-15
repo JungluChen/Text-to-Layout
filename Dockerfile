@@ -119,11 +119,10 @@ RUN set -eu; \
 # 5. openEMS & CSXCAD (FDTD EM solver) — exact commit, verified after checkout
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      git clone --recursive https://github.com/thliebig/openEMS-Project.git /tmp/openEMS-Project; \
+      git clone --recursive --branch v0.0.36 https://github.com/thliebig/openEMS-Project.git /tmp/openEMS-Project; \
       cd /tmp/openEMS-Project; \
-      git checkout "$OPENEMS_COMMIT"; \
-      git submodule update --init --recursive; \
-      test "$(git rev-parse HEAD)" = "$OPENEMS_COMMIT"; \
+      if [ -n "$OPENEMS_COMMIT" ]; then cd openEMS && git checkout "$OPENEMS_COMMIT" && cd ..; fi; \
+      test "$(git -C openEMS rev-parse HEAD)" = "$OPENEMS_COMMIT"; \
       ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-hyp2mat --disable-GUI --njobs=2; \
       rm -rf /tmp/openEMS-Project; \
     fi
