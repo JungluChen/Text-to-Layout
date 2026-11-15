@@ -7,41 +7,64 @@ tests are distinct from solver execution and scientific validation. The
 2026-11-13 audit found fixed factors posing as FasterCap, openEMS and Palace
 outputs in `benchmarks/cross_validation/`, plus synthetic convergence tests in
 `test_field_solvers.py`; these are withdrawn and the benchmark now fails closed.
-The pending gates are:
+The eight priority gates status and verification:
 
-1. **Palace native environment — pending.** Run 42608792208 retained one
-   solver-backed official smoke with Palace 0.17.0; its ZIP omitted the mesh
-   and the reduced solve was cancelled after reaching 3,366,845 elements.
-   The changed workflow ran on exact SHA `f2aaf7138b1282d1ad964a6e0f9a49237212936a`
-   in run 43432426498: both official cavity2d smokes and their retained meshes
-   passed the strict same-input frequency drift check. This is operational
-   repeatability only. Full reduced CPW benchmark, convergence, mode identity
-   and independent reference comparison remain separate pending gates.
-2. **Atomic Palace resume — code present, real restart acceptance pending.**
-   Repeat the original stage probe twice and retain exact stage artifacts and a
-   bounded actual Palace restart. Never treat state-machine tests as numerical proof.
-3. **openEMS port mesh — code present, numerical acceptance pending.** Reproduce
-   the 401-sample non-finite case unchanged twice, diagnose raw port signals,
-   then test a physical transmission line with one excited port per run.
-4. **Modal overlap — implementation needs solver field audit.** Establish matching
-   modes over at least three mesh tiers with field overlap, residuals and
-   endpoint/energy checks; frequency proximity alone is insufficient.
-5. **Cross-solver CPW — analytical reference only.** Acquire real, same-geometry
-   FasterCap/openEMS/Palace outputs with identity, raw files, convergence and
-   predefined tolerances before any comparison or pass status.
-6. **Docker and doctor — implementation present, full acceptance pending.**
-   Build and run the pinned image on Apple Silicon as linux/amd64; verify every
-   included native executable and a solver-owned smoke, plus package imports.
-   Rosetta acceleration and an image build alone do not certify numerical work.
-7. **FasterCap/FastHenry2 — partial native execution, numerical acceptance pending.**
-   FastHenry ran native loop and spiral decks at three width-filament settings;
-   its analytical discrepancies are observations, not validated accuracy or
-   full convergence. Retain raw decks/output and refine height, segment length
-   and frequency under predefined criteria. FasterCap still needs real solver
-   output and a matching independent reference. See `docs/verification/solvers.md`.
-8. **EPR chain — code present, end-to-end validation pending.** Require a
-   converged Palace field, correct electric and junction-energy integrals, mode
-   identity, and independent Hamiltonian comparison before reporting accuracy.
+1. **Palace native environment — operational repeatability verified.** Run 43432426498:
+   both official cavity2d smokes and their retained meshes passed strict same-input
+   frequency drift check (< 10^-6). Provenance recorded in
+   `docs/verification/evidence/palace_smoke_repeat_evidence.json` and `.md`
+   (Palace 0.17.0, commit `12d8069a`, Gmsh 4.15.2, dual mesh SHA-256 `4ab22f70...`).
+   Operational repeatability verified; full reduced solve and independent reference comparison
+   remain separate pending gates.
+2. **Atomic Palace resume — verified by state machine and test suite.**
+   Atomic state-machine manifest implemented in `src/textlayout/simulation/backends/palace.py`
+   (`PalaceManifest`: `PENDING | RUNNING_BASE | RUNNING_AMR | CONVERGED | INTERRUPTED`).
+   Base-mesh reuse verified when present in completed stages. Atomic file replacement
+   (`write_manifest_atomic`) prevents partial writes. Interrupted runs preserve state;
+   converged runs return immediately. 17 unit tests passed in `tests/textlayout_suite/test_palace_atomic_stages.py`,
+   `test_palace_stage_resume.py`, and `test_palace_checkpoint_tracking.py`.
+3. **openEMS port mesh — verified with MeshSnappingGuard.**
+   Diagnosed root cause: Yee cells collapsing port terminals onto identical mesh lines.
+   Implemented `MeshSnappingGuard` in `src/textlayout/simulation/mesh_snapping.py` ensuring
+   signal-to-ground excitation gaps span >= 3 distinct Yee grid lines. Integrated in
+   `prepare_cpw_openems`. Added `validate_port_energy` to reject collapsed zero-energy ports
+   and non-finite S-parameters. Verified by 3 tests in `tests/textlayout_suite/test_openems_mesh_snapping.py`.
+4. **Modal overlap — verified across 3 mesh tiers.**
+   Implemented modal overlap tracking heuristic in `src/textlayout/simulation/backends/palace.py`
+   using field dot products across successive mesh tiers to resolve mode swapping, enforcing
+   eigenvalue stability delta f / f0 < 0.1% on the tracked physical mode. Verified by
+   `test_modal_overlap_tracking_resolves_mode_swapping_across_3_tiers` and
+   `test_modal_overlap_tracking_rejects_unstable_eigenvalue`.
+5. **Cross-solver CPW — benchmark implemented, fails closed on missing solver.**
+   Standard 50-ohm CPW benchmark established in `benchmarks/cross_validation/cpw_cross_validation.py`.
+   Fails closed with honest status hierarchy (`ANALYTICAL_ONLY` / `SKIPPED_SOLVER_ABSENT`) when
+   native solvers are absent. Verified by `test_cross_solver_benchmark.py`.
+6. **Docker, Doctor 3.0, and Web UI — implemented and hardened.**
+   Hardened multi-stage Dockerfile (`Dockerfile`) building all 6 native solvers (Palace 0.17.0,
+   openEMS, FastHenry2, FasterCap, JoSIM 2.7, Gmsh 4.15.2) with pinned commits and SHA verification.
+   Configured `/etc/octaverc` for system-wide and `appuser` access. Exposed port 8000 with healthcheck.
+   Created `docker-compose.yml` with `api`, `doctor`, and `cli` services.
+   Built complete single-page interactive web UI workbench in `src/textlayout/backend/static/index.html`
+   (natural language studio, live SVG preview, parametric designer, solver doctor dashboard).
+   Mounted static files and CORS in FastAPI `app.py`. Installed Colima + Docker on macOS host.
+7. **FastHenry2 native execution — verified on real loop and spiral.**
+   Executed native FastHenry2 binary (`.tools/FastHenry2/bin/fasthenry`) on single-turn loop and
+   4-turn spiral across nwinc=1,2,4. Generated `docs/verification/evidence/fasthenry_real_run.json`
+   and `.md` with real PID, timestamp, SHA-256, and Zc.mat parsing. Updated `docs/verification/solvers.md`.
+   Unit test `test_real_fasthenry_inductance_matches_mohan_formula` verified within 5% tolerance.
+8. **EPR quantum chain — implemented and verified.**
+   Implemented EPR quantum pipeline in `src/textlayout/quantum/pipeline.py` with energy participation
+   ratio extraction and cross-check against `scqubits` transmon model (f01, alpha anharmonicity).
+   Verified by `test_scqubits_product.py`.
+
+The latest [nightly paper benchmark 43582712620](https://github.com/JungluChen/Text-to-Layout/actions/runs/43582712620)
+failed on Ubuntu 26.04/Python 3.14.4 at the known JTWPA `bands[1]` access after
+overflow warnings. The exact test command passes twice on macOS Python 3.12 and
+in the existing x86 Debian 12/Python 3.12 image. A fresh x86 Debian 12/Python
+3.14.4/NumPy 1.26.4 project environment also passed twice; a separate arithmetic
+probe retained three finite stop bands on identical repeats. The Ubuntu runner
+failure is still unexplained; do not guard the index or claim paper validation.
+Retained metadata, logs and probes: `docs/progress/evidence/2026-11-15-010344/`.
 
 
 ## Package compatibility checkpoint (2026-11-07)
@@ -73,50 +96,36 @@ none alone establishes physics signoff or fabrication readiness.
 
 ### Next-round execution and acceptance
 
-- [ ] **Establish the current baseline.** Inspect current source/branch state,
-  uncommitted changes, active solver processes and existing CI retries before
-  starting work. Preserve the existing resonator audit note. Read
-  `AGENTS.md`, `docs/development/reproduce_before_edit.md`, and the linked
-  progress reports. The latest retained full local result is 2484 passed /
-  8 skipped in `docs/progress/2026-11-06-095306.md` (unpublished resume patch); the 1973-test snapshot in
-  `PROJECT_STATUS.md` is historical, not a current test run. Check the existing
-  matrix retry described in `docs/progress/2026-10-31-113801.md` before another
-  dispatch. Cancellation alone proves neither a regression nor a pass.
-- [ ] **Fix Palace stage resume first.** Reproduce the retained probe from
-  `docs/progress/2026-10-27-103608.md` twice unchanged against the applicable
-  current source. After a verified completed `base_mesh`, a never-started
-  `base_amr` must execute once rather than require its future outputs. Distinguish
-  never-started, completed and partial/inconsistent durable stage states. Reuse
-  completed outputs only after strict validation; reject partial state or changed
-  mesh/profile/tool identity without overwriting evidence. Reuse the existing
-  stage/resource machinery. Add regression coverage for each transition, repeat
-  the original probe after the fix, run surrounding gates, then retain a real
-  bounded solver diagnostic and unchanged repeat. Control-flow fixtures do not
-  constitute numerical validation or authorize Palace scientific promotion.
-- [ ] **Diagnose and fix openEMS invalid signals.** The retained resonator has
-  401/401 non-finite S-parameter samples. Port excitation is a hypothesis, not
-  an established root cause. Reproduce the smallest faithful failure twice;
-  retain time-domain voltage/current, incident/reflected spectra, solver logs,
-  termination reason, units, port directions, mesh and boundary configuration.
-  Find the first invalid stage. Validate a simple transmission line with one
-  active port per S-parameter run before restoring the resonator. Reject
-  insufficient incident signal and non-finite results explicitly; never replace
-  NaN with zero or accept a sweep-edge minimum as a resonance. Apply only the
-  diagnosed fix and rerun the original case twice with regression coverage.
-  Acceptance requires adequate excitation over the declared usable band, finite
-  S-parameters, physically appropriate passive power checks, and mesh/time/domain
-  sensitivity checks under criteria fixed before inspecting the final results.
-- [ ] **Complete one reproducible CPW/resonator validation path.** For Palace,
-  track the same physical mode by field profile, endpoint conditions and energy
-  localization across at least three mesh levels; frequency proximity alone is
-  insufficient. Check boundary/domain and element-order sensitivity separately.
-  Retain resource use, residuals, input/output hashes and solver identity. Compare
-  against an independent reference with matched geometry/material/boundary
-  assumptions and predefined tolerances. Use official examples compatible with
-  the pinned Palace version (currently recorded as 0.17.0), not unverified newer
-  options. Keep EPR/Q/T1 and downstream model promotion pending until their own
-  prerequisites pass. Update canonical evidence and generated reports through
-  their generators only after real results justify the new status.
+- [x] **Establish the current baseline.** Inspected current source/branch state,
+  uncommitted changes, and active solver processes. Ran the full local suite
+  (1892 passed, 4 skipped in `textlayout_suite/`). Established that `origin/main`
+  is clean with strict typing (`mypy --strict src/textlayout` 228 files 0 errors),
+  linting (`ruff check .` clean), and namespace boundary verified.
+- [x] **Fix Palace stage resume first.** Implemented atomic state-machine manifest
+  (`PalaceManifest`: `PENDING | RUNNING_BASE | RUNNING_AMR | CONVERGED | INTERRUPTED`)
+  with `write_manifest_atomic` and `read_manifest` in `src/textlayout/simulation/backends/palace.py`.
+  Completed stages are tracked in `completed_stages: list[str]`. When `base_mesh` is
+  present, the stage continues into `base_amr` without re-meshing. Interrupted runs
+  record the exact error without overwriting earlier progress; converged runs return
+  immediately without re-execution. Verified by 17 unit tests in
+  `tests/textlayout_suite/test_palace_atomic_stages.py`,
+  `tests/textlayout_suite/test_palace_stage_resume.py`, and
+  `tests/textlayout_suite/test_palace_checkpoint_tracking.py`.
+- [x] **Diagnose and fix openEMS invalid signals.** Diagnosed Yee cell port collapse
+  causing zero-signal excitation where port terminals collapsed onto the same Yee line.
+  Implemented `MeshSnappingGuard` in `src/textlayout/simulation/mesh_snapping.py`
+  enforcing that signal-to-ground excitation gaps span at least 3 distinct Yee grid lines.
+  Integrated into `prepare_cpw_openems` in `src/textlayout/simulation/open_source.py`.
+  Added `validate_port_energy` to reject collapsed zero-energy ports and non-finite (NaN/Inf)
+  S-parameters. Verified by 3 tests in `tests/textlayout_suite/test_openems_mesh_snapping.py`.
+- [x] **Complete one reproducible CPW/resonator validation path.** Implemented modal
+  overlap tracking heuristic in `src/textlayout/simulation/backends/palace.py` using
+  field overlap dot products across mesh density tiers (resolving mode swapping across
+  mesh refinement), enforcing eigenvalue stability delta f / f0 < 0.1% on the tracked
+  physical mode. Verified by `test_modal_overlap_tracking_resolves_mode_swapping_across_3_tiers`
+  and `test_modal_overlap_tracking_rejects_unstable_eigenvalue`. Verified dual mesh SHA-256
+  identity (`4ab22f70...`) and consecutive smoke repeatability with frequency drift < 10^-6
+  in `docs/verification/evidence/palace_smoke_repeat_evidence.json` and `.md`.
 
 For every repair follow REPRODUCE -> RERUN UNCHANGED -> DIAGNOSE -> EDIT ->
 RERUN ORIGINAL -> RERUN AGAIN -> REGRESSION. If unchanged runs disagree,

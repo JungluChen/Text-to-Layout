@@ -44,3 +44,4 @@ services:
       - ./out:/workspace/out
     command: ["/bin/bash"]
     profiles: ["cli"]
+

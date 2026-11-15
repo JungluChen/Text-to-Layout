@@ -75,6 +75,21 @@ smoke/repeat/convergence/reference evidence retained before scientific claims.
 The old compose.yaml tool-identity images are not full solver installations.
 No claim is made that 100 candidate tools can coexist or are all open source.
 
+### Existing image check on 2026-11-15
+
+On the owner's Apple Silicon host, the existing
+`textlayout/research:local-amd64` image (`sha256:f6981b9729b523700c237b8c9741a3563084fc947607366e8ae28cc04263c83f`)
+reported `linux/amd64` and `x86_64`. Its doctor command completed with core
+dependencies found and explicitly reported Palace, openEMS, FasterCap,
+FastHenry2 and JoSIM missing. The selected paper/EM tests passed twice in this
+Debian 12/Python 3.12.10 image. The retained [image identity](../progress/evidence/2026-11-15-010344/docker-image.json)
+and [doctor packet](../progress/evidence/2026-11-15-010344/docker-doctor.json)
+show the image's revision label is `DEVELOPMENT_UNSET` and runtime Git SHA is
+`unknown`. These checks establish that x86 execution works on this Mac; they
+do not establish that the image contains the current source commit or native
+solver installations. Rebuild with `SOURCE_REVISION=$(git rev-parse HEAD)`, then
+record the image digest and rerun the package, CLI and solver-owned checks above.
+
 If Docker cannot connect, finish Docker Desktop startup and repeat `docker version`.
 For exec-format errors inspect image architecture and Compose platform; rebuild
 for linux/amd64. For import failures retain build logs and /opt/textlayout reports;
