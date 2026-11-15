@@ -108,10 +108,10 @@ RUN set -eu; \
 # 4. Gmsh 4.15.2 (Finite Element Mesh Generator) — checksum from the vendor
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
-      curl -fsSL https://gmsh.info/bin/Linux/gmsh-4.15.2-Linux64.tgz -o /tmp/gmsh.tgz; \
+      curl -fsSL https://gmsh.info/bin/Linux/gmsh-4.15.2-Linux64.tgz -o /tmp/gmsh-4.15.2-Linux64.tgz; \
       curl -fsSL https://gmsh.info/bin/Linux/gmsh-4.15.2-Linux64.tgz.sha256 -o /tmp/gmsh.sha256; \
       cd /tmp; sha256sum -c gmsh.sha256; \
-      tar -xzf /tmp/gmsh.tgz -C /tmp; \
+      tar -xzf /tmp/gmsh-4.15.2-Linux64.tgz -C /tmp; \
       cp -f /tmp/gmsh-4.15.2-Linux64/bin/gmsh /opt/textlayout-tools/gmsh/bin/gmsh; \
       rm -rf /tmp/gmsh*; \
     fi
