@@ -196,7 +196,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     MPLBACKEND=Agg \
     QISKIT_METAL_HEADLESS=1 \
     OMP_NUM_THREADS=2 \
-    OPENBLAS_NUM_THREADS=2
+    OPENBLAS_NUM_THREADS=2 \
+    TEXTLAYOUT_FASTHENRY=/opt/fasthenry2/bin/fasthenry \
+    TEXTLAYOUT_FASTERCAP=/opt/fastercap/bin/FasterCap \
+    TEXTLAYOUT_OPENEMS_CORE=/opt/openEMS/bin/openEMS \
+    TEXTLAYOUT_PALACE=/opt/palace/bin/palace \
+    TEXTLAYOUT_GMSH=/opt/gmsh/bin/gmsh \
+    TEXTLAYOUT_JOSIM=/opt/josim/bin/josim
 
 # Install minimal runtime dependencies and headless KLayout
 RUN apt-get update && apt-get install -y --no-install-recommends \
