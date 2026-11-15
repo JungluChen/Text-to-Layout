@@ -1,5 +1,6 @@
 services:
   api:
+    image: textlayout:full
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,6 +24,7 @@ services:
       start_period: 10s
 
   doctor:
+    image: textlayout:full
     build:
       context: .
       dockerfile: Dockerfile
@@ -33,9 +35,12 @@ services:
     profiles: ["tools", "audit"]
 
   cli:
+    image: textlayout:full
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        WITH_SOLVERS: "1"
     container_name: textlayout-cli
     stdin_open: true
     tty: true

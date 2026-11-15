@@ -348,12 +348,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">FastHenry2</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+              <span id="badge-fasthenry" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">3D PEEC Geometric Inductance Solver</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: Native C / Fortran Binary</div>
-              <div>Audit: Mohan 1999 Table IV benchmark</div>
+              <div id="detail-fasthenry">Audit: Mohan 1999 Table IV benchmark</div>
             </div>
           </div>
 
@@ -361,12 +361,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">Palace 0.17.0</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800">VERIFIED</span>
+              <span id="badge-palace" class="px-2 py-0.5 text-xs font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800">VERIFIED</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">3D FEM Eigenmode & Driven Solver</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: MPI-parallelized C++ / MFEM</div>
-              <div>Audit: Repeat drift &lt; 10⁻⁶</div>
+              <div id="detail-palace">Audit: Repeat drift &lt; 10⁻⁶</div>
             </div>
           </div>
 
@@ -374,12 +374,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">openEMS / CSXCAD</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">DOCKER READY</span>
+              <span id="badge-openems" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">DOCKER READY</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">Full-wave FDTD Electromagnetic Engine</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: C++ / Octave MEX FDTD</div>
-              <div>Guard: MeshSnappingGuard (3 Yee cells)</div>
+              <div id="detail-openems">Guard: MeshSnappingGuard (3 Yee cells)</div>
             </div>
           </div>
 
@@ -387,12 +387,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">FasterCap</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+              <span id="badge-fastercap" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">Accelerated BEM Electrostatic Capacitance</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: FastCap2 successor / C++</div>
-              <div>Audit: Cross-checked with Ghione-Naldi</div>
+              <div id="detail-fastercap">Audit: Cross-checked with Ghione-Naldi</div>
             </div>
           </div>
 
@@ -400,12 +400,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">JoSIM 2.7</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
+              <span id="badge-josim" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">VERIFIED</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">Superconducting SPICE & JJ Simulator</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: RCSJ Model / C++</div>
-              <div>Audit: Phase & Voltage dynamics</div>
+              <div id="detail-josim">Audit: Phase & Voltage dynamics</div>
             </div>
           </div>
 
@@ -413,12 +413,12 @@
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <span class="font-bold text-sm text-white">KLayout 0.29</span>
-              <span class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">AVAILABLE</span>
+              <span id="badge-klayout" class="px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800">AVAILABLE</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">GDSII / OASIS Polygon & DRC Engine</p>
             <div class="mt-3 text-xs font-mono text-slate-500 space-y-1">
               <div>Type: Native Python / C++ Binding</div>
-              <div>Audit: Clean room geometry checks</div>
+              <div id="detail-klayout">Audit: Clean room geometry checks</div>
             </div>
           </div>
         </div>
@@ -707,14 +707,59 @@
       }
     }
 
-    function refreshDoctorHealth() {
-      checkHealth();
+    async function refreshDoctorHealth() {
+      const jsonEl = document.getElementById('doctor-raw-json');
+      jsonEl.innerText = 'Querying live environment & solver health via /doctor...';
+      try {
+        const res = await fetch('/doctor');
+        if (res.ok) {
+          const doc = await res.json();
+          jsonEl.innerText = JSON.stringify(doc, null, 2);
+          updateSolverBadges(doc);
+        } else {
+          checkHealth();
+        }
+      } catch (e) {
+        checkHealth();
+      }
+    }
+
+    function updateSolverBadges(doc) {
+      if (!doc || !doc.external_solvers) return;
+      const solvers = doc.external_solvers;
+
+      const badgeClass = (status) => {
+        if (status === 'FOUND') return 'px-2 py-0.5 text-xs font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800';
+        if (status === 'CONTAINER_AVAILABLE') return 'px-2 py-0.5 text-xs font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800';
+        return 'px-2 py-0.5 text-xs font-mono rounded bg-rose-950 text-rose-400 border border-rose-800';
+      };
+
+      const setBadge = (id, detailId, checkObj) => {
+        const badge = document.getElementById(id);
+        const detail = document.getElementById(detailId);
+        if (badge && checkObj) {
+          badge.className = badgeClass(checkObj.status);
+          badge.innerText = checkObj.status;
+          if (detail && checkObj.path) {
+            detail.innerText = `Path: ${checkObj.path}`;
+          } else if (detail && checkObj.detail) {
+            detail.innerText = checkObj.detail.slice(0, 50);
+          }
+        }
+      };
+
+      setBadge('badge-fasthenry', 'detail-fasthenry', solvers['FastHenry/FastHenry2']);
+      setBadge('badge-palace', 'detail-palace', solvers['Palace']);
+      setBadge('badge-openems', 'detail-openems', solvers['openEMS']);
+      setBadge('badge-fastercap', 'detail-fastercap', solvers['FasterCap/FastCap']);
+      setBadge('badge-josim', 'detail-josim', solvers['JoSIM']);
     }
 
     // Initialize on window load
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       checkHealth();
+      refreshDoctorHealth();
       onParamComponentChange();
     });
   </script>

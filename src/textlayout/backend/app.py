@@ -143,6 +143,12 @@ def create_app(
             formats=workflow.export_formats,
         )
 
+    @app.get("/doctor", tags=["meta"])
+    async def doctor(
+        full: bool = Query(default=False, description="Probe full 100-tool catalog"),
+    ) -> dict[str, Any]:
+        return await run_in_threadpool(_run_doctor, full)
+
     @app.post("/layout/from-goal", tags=["layout"])
     async def from_goal(request: FromGoalRequest) -> dict[str, Any]:
         from textlayout.requirements import run_requirements
@@ -358,3 +364,10 @@ def _run(
 def _require_verified(result: GenerateResult) -> None:
     if not result.report.passed:
         raise VerificationFailedError(result.spec.component, result.report.to_dict())
+
+
+def _run_doctor(full: bool) -> dict[str, Any]:
+    from textlayout.doctor import run_doctor
+
+    return run_doctor("out", probe_catalog=full).to_dict()
+

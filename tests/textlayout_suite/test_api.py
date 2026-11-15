@@ -50,6 +50,15 @@ def test_static_index_html_served(client: TestClient) -> None:
     assert "Quantum & RF EDA Workbench" in resp.text
 
 
+def test_doctor_endpoint(client: TestClient) -> None:
+    resp = client.get("/doctor")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert "schema" in body
+    assert "external_solvers" in body
+    assert "FastHenry/FastHenry2" in body["external_solvers"]
+
+
 def test_generate_returns_structured_json(client: TestClient) -> None:
     resp = client.post("/layout/generate", json=IDC_DSL)
     assert resp.status_code == 200

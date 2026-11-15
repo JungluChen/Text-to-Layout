@@ -47,6 +47,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxft-dev \
     libxinerama-dev \
     libwxgtk3.2-dev \
+    libcgal-dev \
+    libvtk9-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -222,6 +224,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxft2 \
     libxinerama1 \
     libfontconfig1 \
+    libvtk9.1t64 \
     klayout \
     && rm -rf /var/lib/apt/lists/*
 
