@@ -90,15 +90,19 @@ def test_mode_match_uses_regional_energy_similarity_names() -> None:
 def test_amr_settings_project_native_palace_refinement_keys() -> None:
     refinement = AMRSettings(max_iterations=5).refinement_config()
     assert refinement["MaxIts"] == 5
+    assert refinement["MaxSize"] == 1_500_000
     assert refinement["SaveAdaptIterations"] is True
     assert set(refinement) == {
         "Tol",
         "MaxIts",
+        "MaxSize",
         "UpdateFraction",
         "Nonconformal",
         "SaveAdaptIterations",
         "SaveAdaptMesh",
     }
+    assert "MaxSize" not in AMRSettings(max_dofs=None).refinement_config()
+    assert AMRSettings(max_dofs=250_000).refinement_config()["MaxSize"] == 250_000
 
 
 def _iteration(

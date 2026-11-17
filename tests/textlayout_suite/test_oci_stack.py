@@ -47,6 +47,9 @@ def test_compose_profiles_cover_solver_stack() -> None:
     compose = yaml.safe_load((REPO_ROOT / "compose.yaml").read_text(encoding="utf-8"))
     services = compose["services"]
     assert set(services) == {
+        "api",
+        "doctor",
+        "cli",
         "core",
         "palace",
         "openems",
@@ -55,7 +58,12 @@ def test_compose_profiles_cover_solver_stack() -> None:
         "josim",
         "paraview",
     }
-    profiles = {profile for service in services.values() for profile in service["profiles"]}
+    assert "profiles" not in services["api"]
+    assert set(services["doctor"]["profiles"]) == {"tools", "audit"}
+    assert services["cli"]["profiles"] == ["cli"]
+    profiles = {
+        profile for service in services.values() for profile in service.get("profiles", [])
+    }
     assert {
         "core",
         "palace",
