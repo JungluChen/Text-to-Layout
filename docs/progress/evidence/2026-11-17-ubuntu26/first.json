@@ -1,0 +1,80 @@
+{
+  "schema": "textlayout.jtwpa-runtime-diagnostic.v1",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "platform": "Linux-6.8.0-117-generic-x86_64-with-glibc2.43",
+  "architecture": "x86_64",
+  "numpy": "1.26.4",
+  "source_sha256": "100aa5e7e3df9270ceed98fca7575cf72acff9cbaba8af0b187bc22a8665ebe8",
+  "frequency_ghz": [
+    1.0,
+    6.7,
+    12.92,
+    25.84,
+    39.0
+  ],
+  "omega_cubed": [
+    2.4805021344239856e+29,
+    7.460432634557614e+31,
+    5.349671886072918e+32,
+    4.2797375088583343e+33,
+    1.4714090611189636e+34
+  ],
+  "matrix_entries_finite": [
+    [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    [
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  ],
+  "scalar_vector_max_absolute_difference": [
+    1.7763568394002505e-15,
+    0.0,
+    5.329070518200751e-15,
+    0.0,
+    5.684341886080802e-14
+  ],
+  "band_count": 3,
+  "bands": [
+    {
+      "number": 1,
+      "lower_ghz": 11.116054897017607,
+      "upper_ghz": 12.320391061433861,
+      "width_ghz": 1.2043361644162545
+    },
+    {
+      "number": 2,
+      "lower_ghz": 19.287362238270887,
+      "upper_ghz": 29.845340786910004,
+      "width_ghz": 10.557978548639117
+    },
+    {
+      "number": 3,
+      "lower_ghz": 34.794610386307305,
+      "upper_ghz": 37.361175250703134,
+      "width_ghz": 2.566564864395829
+    }
+  ]
+}

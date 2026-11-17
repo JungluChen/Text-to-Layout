@@ -143,7 +143,10 @@ RUN set -eu; \
       test "$(git rev-parse HEAD)" = "$PALACE_COMMIT"; \
       git rev-parse HEAD > /tmp/palace.commit; \
       mkdir build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release -DPALACE_WITH_OPENMP=ON \
+      cmake -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS="-O1" -DCMAKE_CXX_FLAGS="-O1" \
+        -DCMAKE_C_FLAGS_RELEASE="-O1 -DNDEBUG" -DCMAKE_CXX_FLAGS_RELEASE="-O1 -DNDEBUG" \
+        -DPALACE_WITH_OPENMP=OFF \
         -DPALACE_WITH_ARPACK=ON \
         -DPALACE_WITH_SLEPC=OFF \
         -DPALACE_WITH_SUNDIALS=OFF \

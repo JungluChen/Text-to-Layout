@@ -106,18 +106,24 @@ def _unit_cell_abcd(
     config.validate()
     frequency = np.asarray(frequency_ghz, dtype=float)
     omega = 2.0 * math.pi * frequency * 1e9
+    omega.flags.writeable = False
+    omega2 = np.square(omega)
+    omega2.flags.writeable = False
+    omega3 = omega2 * omega
+    omega3.flags.writeable = False
     one = np.ones_like(omega, dtype=complex)
     zero = np.zeros_like(omega, dtype=complex)
     result = (one, zero, zero, one)
     inductance = config.squid_inductance_ph * 1e-12
     junction_capacitance = config.junction_capacitance_ff * 1e-15
-    denominator = 1.0 - omega**2 * junction_capacitance * inductance
+    denominator = 1.0 - omega2 * junction_capacitance * inductance
+    denominator.flags.writeable = False
     for capacitance_ff in config.capacitance_profile_ff:
         capacitance = capacitance_ff * 1e-15
-        a = 1.0 - 0.5 * omega**2 * inductance * capacitance / denominator
+        a = 1.0 - 0.5 * omega2 * inductance * capacitance / denominator
         b = 1j * omega * inductance / denominator
         c = 1j * omega * capacitance - (
-            0.25j * omega**3 * inductance * capacitance**2 / denominator
+            0.25j * omega3 * inductance * capacitance**2 / denominator
         )
         result = _multiply_abcd(result, (a, b, c, a))
     return result
@@ -180,7 +186,8 @@ def jtwpa_stop_bands(
     if points < 1001:
         raise ValueError("points must be at least 1001")
     frequency = np.linspace(1e-6, max_frequency_ghz, points)
-    discriminant = jtwpa_linear_response(frequency, config)["discriminant"]
+    unit = _unit_cell_abcd(frequency, config)
+    discriminant = np.real_if_close((unit[0] + unit[3]) / 2.0).real
     blocked = np.abs(discriminant) > 1.0
     starts = np.flatnonzero(blocked & ~np.r_[False, blocked[:-1]])
     ends = np.flatnonzero(blocked & ~np.r_[blocked[1:], False])

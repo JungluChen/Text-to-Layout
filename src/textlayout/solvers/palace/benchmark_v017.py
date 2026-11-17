@@ -184,6 +184,7 @@ class AMRSettings(BaseModel):
     max_iterations: int = Field(default=5, ge=1)
     update_fraction: float = Field(default=0.7, gt=0, lt=1)
     nonconformal: bool = False
+    max_dofs: int | None = Field(default=1_500_000, gt=0)
     bounded_policy: PalaceBoundedAMRPolicy | None = None
 
     def refinement_config(self) -> dict[str, Any]:
@@ -195,6 +196,8 @@ class AMRSettings(BaseModel):
             "SaveAdaptIterations": True,
             "SaveAdaptMesh": True,
         }
+        if self.max_dofs is not None:
+            config["MaxSize"] = self.max_dofs
         if self.bounded_policy is not None:
             config.update(self.bounded_policy.refinement_config())
         return config

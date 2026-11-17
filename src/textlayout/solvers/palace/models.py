@@ -285,11 +285,14 @@ class PalaceBoundedAMRPolicy(BaseModel):
         return int(self.save_final_mesh and self.retain_final_adapted_mesh)
 
     def refinement_config(self) -> dict[str, bool | int]:
-        return {
+        payload: dict[str, bool | int] = {
             "MaxIts": self.effective_refinement_count,
             "SaveAdaptIterations": self.save_intermediate_meshes,
             "SaveAdaptMesh": self.save_final_mesh,
         }
+        if self.max_dofs is not None:
+            payload["MaxSize"] = self.max_dofs
+        return payload
 
 
 class PalaceRun(BaseModel):

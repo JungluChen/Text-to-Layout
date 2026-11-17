@@ -126,7 +126,7 @@ jobs:
           uv run textlayout simulate palace-resonator \
             --out out/palace_resonator_v017 \
             --processes 2 \
-            --mesh-scale 4.0 \
+            --mesh-scale 3.0 \
             --amr-iterations 4
 
       - name: Assert a real Palace process was launched and hashes verify
