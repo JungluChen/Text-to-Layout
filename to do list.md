@@ -1,5 +1,10 @@
 # To do list
 
+**2026-11-18 CI contract checkpoint:** corrected stale Compose service and Palace
+MaxSize test inventories in `ba5984c`; focused repeats and the full local suite
+(2548 passed, 8 skipped) passed. Scientific acceptance is unchanged. See
+[verification and pending platform checks](docs/progress/2026-11-18-010335.md).
+
 ## Current user mission — eight critical tasks and Docker (2026-11-07) [IN PROGRESS]
 
 The 2026-11-07 completion claim was premature. Code and passing control-flow
