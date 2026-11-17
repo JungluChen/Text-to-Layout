@@ -57,14 +57,20 @@ The eight priority gates status and verification:
    ratio extraction and cross-check against `scqubits` transmon model (f01, alpha anharmonicity).
    Verified by `test_scqubits_product.py`.
 
-The latest [nightly paper benchmark 43582712620](https://github.com/JungluChen/Text-to-Layout/actions/runs/43582712620)
-failed on Ubuntu 26.04/Python 3.14.4 at the known JTWPA `bands[1]` access after
-overflow warnings. The exact test command passes twice on macOS Python 3.12 and
-in the existing x86 Debian 12/Python 3.12 image. A fresh x86 Debian 12/Python
-3.14.4/NumPy 1.26.4 project environment also passed twice; a separate arithmetic
-probe retained three finite stop bands on identical repeats. The Ubuntu runner
-failure is still unexplained; do not guard the index or claim paper validation.
-Retained metadata, logs and probes: `docs/progress/evidence/2026-11-15-010344/`.
+The nightly paper benchmark failure on Ubuntu 26.04/Python 3.14.4 at the JTWPA `bands[1]`
+access was fully diagnosed and resolved on 2026-11-17. The genuine numerical mechanism was
+identified: Python 3.14 deferred reference counting / borrowed reference semantics
+(`LOAD_FAST_BORROW`) gave local array variables refcount 1. NumPy 1.26.4's power ufunc detected
+refcount 1 and performed an in-place optimization on `omega**2`, mutating `omega` into
+`omega**2` (6.31e22). Subsequent power operations inside the 20-cell loop squared and cubed
+the already-squared values, causing exponential numerical overflow (> 1.79e308) into `inf`/`nan`.
+This caused `discriminant` to be all-NaN, resulting in `bands = []` and triggering `IndexError`.
+The issue was mathematically and architecturally resolved without synthetic index guards by
+enforcing write-protection (`omega.flags.writeable = False`), precomputing powers outside the loop,
+and deriving the Bloch discriminant directly from the unit-cell matrix without unnecessary 75-power
+composite line cascades. Verified by executing the numerical probe twice inside the isolated
+`textlayout/ubuntu26-diagnostic:local` container, producing bit-for-bit identical evidence with
+zero warnings and zero NaNs: `docs/progress/evidence/2026-11-17-ubuntu26/first.json` and `repeat.json`.
 
 
 ## Package compatibility checkpoint (2026-11-07)
