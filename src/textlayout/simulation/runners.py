@@ -292,9 +292,18 @@ def discover_openems_stack() -> dict[str, str | None]:
 
 def _find_interface_directory(project: str) -> str | None:
     """Locate a repo-local or WSL Octave interface directory."""
+    marker_name = "InitFDTD.m" if project == "openEMS" else "InitCSX.m"
+    for candidate in (
+        Path(f"/opt/openEMS/share/{project}/matlab"),
+        Path(f"/opt/textlayout-tools/openEMS/share/{project}/matlab"),
+        Path(f"/usr/share/{project}/matlab"),
+        Path(f"/usr/local/share/{project}/matlab"),
+        Path(f"/opt/share/{project}/matlab"),
+    ):
+        if (candidate / marker_name).is_file():
+            return str(candidate)
     tools = _ROOT / ".tools"
     if tools.is_dir():
-        marker_name = "InitFDTD.m" if project == "openEMS" else "InitCSX.m"
         preferred = tools / "openems-wsl" / "share" / project / "matlab" / marker_name
         markers = [preferred] if preferred.is_file() else []
         markers.extend(sorted(tools.glob(f"*/share/{project}/matlab/{marker_name}")))

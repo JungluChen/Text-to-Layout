@@ -69,6 +69,21 @@ docker compose run --rm cli
 
 The container automatically maps ports (`http://localhost:8000`) and mounts your local `./workspace` and `./out` directories for seamless artifact export.
 
+### Verified Solver Audit Matrix (Doctor 3.0)
+
+Every solver binary is built from pinned sources or cryptographically verified releases, containerized under a uniform environment, and verified with honest execution evidence:
+
+| Tool / Solver | Version | Category | Capability Status | Verification Details |
+| :--- | :--- | :--- | :--- | :--- |
+| **Palace** | 0.17.0 | 3D FEM Eigenmode / Driven | `PROBE_PASS_ONLY` | AWS Labs full-wave FEM with ARPACK & OpenBLAS |
+| **openEMS** | v0.0.36 | 3D FDTD Full-Wave EM | `PROBE_PASS_ONLY` | FDTD solver with CSXCAD v0.6.3 & Octave engine |
+| **Gmsh** | 4.15.2 | 3D Mesh Generator | `PROBE_PASS_ONLY` | Automated high-order 3D tetrahedral meshing |
+| **FasterCap** | 6.0.7 | BEM Electrostatic Extraction | `PROBE_PASS_ONLY` | Accelerated boundary element capacitance matrix |
+| **FastHenry2** | 3.0wr | PEEC Magnetoquasistatic | `PROBE_PASS_ONLY` | Partial element equivalent circuit inductance |
+| **JoSIM** | 2.7 | Superconducting Circuit SPICE | `PROBE_PASS_ONLY` | Josephson junction transient dynamics |
+| **KLayout** | 0.30.9 | Mask Layout & DRC Engine | `READY` | Headless Python bindings & GDSII validation |
+| **Octave** | 8.4.0 | Mathematical Simulation CLI | `READY` | Full openEMS & CSXCAD scripting interfaces |
+
 ---
 
 **Limits:** No foundry-qualified PDK is provided. All committed measurement

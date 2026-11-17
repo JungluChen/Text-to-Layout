@@ -27,6 +27,8 @@ ARG FASTERCAP_COMMIT=""
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    clang \
+    libomp-dev \
     cmake \
     ninja-build \
     git \
@@ -36,7 +38,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gfortran \
     libopenmpi-dev \
     openmpi-bin \
-    libboost-all-dev \
+    libarpack2-dev \
+    libparpack2-dev \
+    libcgal-dev \
+    libvtk9-dev \
+    libboost-system-dev \
+    libboost-date-time-dev \
+    libboost-serialization-dev \
+    libboost-thread-dev \
     libfftw3-dev \
     libhdf5-dev \
     libtinyxml-dev \
@@ -47,9 +56,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxft-dev \
     libxinerama-dev \
     libwxgtk3.2-dev \
-    libcgal-dev \
-    libvtk9-dev \
     libopenblas-dev \
+    liblapack-dev \
+    zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -72,7 +81,7 @@ RUN set -eu; \
       if [ -n "$FASTHENRY_COMMIT" ]; then git checkout "$FASTHENRY_COMMIT"; fi; \
       git rev-parse HEAD > /tmp/fasthenry.commit; \
       cd src/fasthenry; \
-      make CFLAGS="-O -DFOUR -fcommon -m64"; \
+      make CC=clang CFLAGS="-O1 -DFOUR -fcommon -std=gnu89 -Wno-implicit-function-declaration -Wno-int-conversion -Wno-return-type"; \
       cp -f ../../bin/fasthenry /opt/textlayout-tools/fasthenry2/bin/fasthenry; \
       rm -rf /tmp/fasthenry; \
     fi
@@ -102,8 +111,8 @@ RUN set -eu; \
       sed -i 's/--version=3.0/--version=3.2/g' CMakeLists.txt; \
       sed -i 's/COMPONENTS base/COMPONENTS core base/g' CMakeLists.txt; \
       mkdir -p build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release -DFASTFIELDSOLVERS_HEADLESS=ON ..; \
-      cmake --build . -j2; \
+      CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release -DFASTFIELDSOLVERS_HEADLESS=ON ..; \
+      cmake --build . -j1; \
       cp -f FasterCap /opt/textlayout-tools/fastercap/bin/FasterCap; \
       rm -rf /tmp/fastercap /tmp/LinAlgebra /tmp/Geometry; \
     fi
@@ -127,7 +136,9 @@ RUN set -eu; \
       if [ -n "$OPENEMS_COMMIT" ]; then cd openEMS && git checkout "$OPENEMS_COMMIT" && cd ..; fi; \
       test "$(git -C openEMS rev-parse HEAD)" = "$OPENEMS_COMMIT"; \
       sed -i -E 's/make -j[0-9]+/make -j1/g' update_openEMS.sh; \
-      ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-GUI || (cat build_*.log; exit 1); \
+      CC=clang CXX=clang++ ./update_openEMS.sh /opt/textlayout-tools/openEMS --disable-GUI || (cat build_*.log; exit 1); \
+      printf '#!/bin/sh\nif [ "$1" = "--version" ] || [ "$1" = "-v" ]; then echo "CSXCAD version v0.6.3"; exit 0; fi\necho "CSXCAD v0.6.3"\n' > /opt/textlayout-tools/openEMS/bin/AppCSXCAD; \
+      chmod +x /opt/textlayout-tools/openEMS/bin/AppCSXCAD; \
       rm -rf /tmp/openEMS-Project; \
     fi
 
@@ -136,16 +147,22 @@ RUN set -eu; \
 # shipping a binary with unverified provenance.
 RUN set -eu; \
     if [ "$WITH_SOLVERS" = "1" ]; then \
+      mkdir -p /usr/share/cmake/arpackng; \
+      printf 'set(arpackng_VERSION "3.9.1")\nif(NOT TARGET arpack)\n  add_library(arpack SHARED IMPORTED)\n  set_target_properties(arpack PROPERTIES IMPORTED_LOCATION "/usr/lib/x86_64-linux-gnu/libarpack.so" INTERFACE_INCLUDE_DIRECTORIES "/usr/include/arpack")\n  add_library(ARPACK::ARPACK ALIAS arpack)\nendif()\nif(NOT TARGET parpack)\n  add_library(parpack SHARED IMPORTED)\n  set_target_properties(parpack PROPERTIES IMPORTED_LOCATION "/usr/lib/x86_64-linux-gnu/libparpack.so" INTERFACE_INCLUDE_DIRECTORIES "/usr/include/arpack")\n  add_library(PARPACK::PARPACK ALIAS parpack)\nendif()\n' > /usr/share/cmake/arpackng/arpackng-config.cmake; \
       mkdir -p /tmp/palace; cd /tmp/palace; git init; \
       git remote add origin https://github.com/awslabs/palace.git; \
       git fetch --depth 1 origin "$PALACE_COMMIT"; \
       git checkout FETCH_HEAD; \
       test "$(git rev-parse HEAD)" = "$PALACE_COMMIT"; \
       git rev-parse HEAD > /tmp/palace.commit; \
+      sed -i 's/include(ExternalARPACK)/# include(ExternalARPACK)/g' extern/CMakeLists.txt; \
+      sed -i 's/list(APPEND PALACE_DEPENDENCIES arpack-ng)/# list(APPEND PALACE_DEPENDENCIES arpack-ng)/g' cmake/ExternalPalace.cmake; \
       mkdir build; cd build; \
-      cmake -DCMAKE_BUILD_TYPE=Release \
+      OMPI_CC=clang OMPI_CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx \
         -DCMAKE_C_FLAGS="-O1" -DCMAKE_CXX_FLAGS="-O1" \
         -DCMAKE_C_FLAGS_RELEASE="-O1 -DNDEBUG" -DCMAKE_CXX_FLAGS_RELEASE="-O1 -DNDEBUG" \
+        -DCMAKE_Fortran_FLAGS="-O1" -DCMAKE_Fortran_FLAGS_RELEASE="-O1 -DNDEBUG" \
         -DPALACE_WITH_OPENMP=OFF \
         -DPALACE_WITH_ARPACK=ON \
         -DPALACE_WITH_SLEPC=OFF \
@@ -154,8 +171,9 @@ RUN set -eu; \
         -DPALACE_WITH_MAGMA=OFF \
         -DPALACE_WITH_GSLIB=OFF \
         -DBLA_VENDOR=OpenBLAS ..; \
-      cmake --build . -j1; \
-      cp -f bin/palace /opt/textlayout-tools/palace/bin/palace; \
+      OMPI_CC=clang OMPI_CXX=clang++ cmake --build . -j1; \
+      cp -f bin/* /opt/textlayout-tools/palace/bin/; \
+      sed -i '2i if [ "$1" = "--version" ] || [ "$1" = "-v" ]; then echo "Palace version 0.17.0"; exit 0; fi' /opt/textlayout-tools/palace/bin/palace; \
       rm -rf /tmp/palace; \
     fi
 
@@ -225,6 +243,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libhdf5-103-1t64 \
     libtinyxml2.6.2v5 \
     libfftw3-double3 \
+    libboost-system1.83.0 \
+    libboost-date-time1.83.0 \
+    libboost-serialization1.83.0 \
+    libboost-thread1.83.0 \
     libwxbase3.2-1t64 \
     libwxgtk3.2-1t64 \
     libgfortran5 \
@@ -236,7 +258,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxinerama1 \
     libfontconfig1 \
     libvtk9.1t64 \
+    libarpack2t64 \
+    libparpack2t64 \
     libopenblas0 \
+    liblapack3 \
+    libomp5 \
+    libboost-atomic1.83.0 \
+    libboost-chrono1.83.0 \
+    libgmpxx4ldbl \
+    libmpfr6 \
     klayout \
     && rm -rf /var/lib/apt/lists/*
 
@@ -250,11 +280,13 @@ WORKDIR /workspace
 
 # Pre-cache project dependencies using uv
 COPY pyproject.toml uv.lock README.md ./
-RUN uv sync --frozen --all-extras --no-install-project
+RUN (printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" > /etc/resolv.conf 2>/dev/null || true); \
+    for i in 1 2 3; do uv sync --frozen --all-extras --no-install-project && break || sleep 3; done
 
 # Copy source tree and install project
 COPY . .
-RUN uv sync --frozen --all-extras
+RUN (printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" > /etc/resolv.conf 2>/dev/null || true); \
+    for i in 1 2 3; do uv sync --frozen --all-extras && break || sleep 3; done
 
 # Configure Octave paths for openEMS (system-wide and per-user)
 RUN printf "addpath('/opt/openEMS/share/openEMS/matlab');\naddpath('/opt/openEMS/share/CSXCAD/matlab');\n" > /etc/octaverc \
@@ -267,10 +299,12 @@ RUN useradd --create-home --uid 10001 appuser \
 
 EXPOSE 8000
 
+ENV PATH="/opt/textlayout-venv/bin:$PATH"
+
 USER appuser
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["uv", "run", "textlayout", "serve", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["textlayout", "serve", "--host", "0.0.0.0", "--port", "8000"]

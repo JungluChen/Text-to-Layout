@@ -13,8 +13,9 @@ services:
       - MPLBACKEND=Agg
       - QISKIT_METAL_HEADLESS=1
     volumes:
-      - ./workspace:/workspace
+      - .:/workspace
       - ./out:/workspace/out
+    command: ["textlayout", "serve", "--host", "0.0.0.0", "--port", "8000"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -31,7 +32,7 @@ services:
       args:
         WITH_SOLVERS: "1"
     container_name: textlayout-doctor
-    command: ["uv", "run", "textlayout", "doctor"]
+    command: ["textlayout", "doctor"]
     profiles: ["tools", "audit"]
 
   cli:
@@ -45,7 +46,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./workspace:/workspace
+      - .:/workspace
       - ./out:/workspace/out
     command: ["/bin/bash"]
     profiles: ["cli"]
