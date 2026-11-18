@@ -1,5 +1,10 @@
 # To do list
 
+**2026-11-19 verification:** Ubuntu nightly 44293364721 passed its first attempt
+on `9fbb6ff` (4 tests); its unchanged repeat also passed. CI's macOS jobs lacked
+runner capacity, while Windows/Linux and quality checks passed. See
+[retained evidence and resume commands](docs/progress/2026-11-19-010038.md).
+
 **2026-11-18 CI contract checkpoint:** corrected stale Compose service and Palace
 MaxSize test inventories in `ba5984c`; focused repeats and the full local suite
 (2548 passed, 8 skipped) passed. Scientific acceptance is unchanged. See
