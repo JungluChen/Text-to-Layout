@@ -1,5 +1,10 @@
 # To do list
 
+**2026-11-20 validation:** all platform CI jobs passed on `0b04a58`. Palace
+validation run 44573526540 is active on that SHA; do not duplicate it. The prior
+retained scientific report still fails seven strict gates on unchanged repeats.
+See [evidence and resume commands](docs/progress/2026-11-20-010520.md).
+
 **2026-11-19 verification:** Ubuntu nightly 44293364721 passed its first attempt
 on `9fbb6ff` (4 tests); its unchanged repeat also passed. CI's macOS jobs lacked
 runner capacity, while Windows/Linux and quality checks passed. See
